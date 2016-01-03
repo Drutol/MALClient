@@ -16,6 +16,8 @@ namespace MALClient.Items
     {
         public int Id;
         public int status;
+        public string title;
+        private string ImgUrl;
 
         public AnimeItem(string name,string img,int id,int status)
         {
@@ -25,16 +27,18 @@ namespace MALClient.Items
             Status.Text = Utils.Utils.StatusToString(status);
             Ttile.Text = name;
             this.status = status;
+            title = name;
+            ImgUrl = img;
         }
 
-        private async void PinTile(object sender, SelectionChangedEventArgs e)
+        public async void PinTile(string targetUrl)
         {
 
             var folder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var thumb = await folder.CreateFileAsync("sd.png", CreationCollisionOption.ReplaceExisting);
+            var thumb = await folder.CreateFileAsync($"{Id}.png", CreationCollisionOption.ReplaceExisting);
 
             HttpClient http = new HttpClient();
-            byte[] response = await http.GetByteArrayAsync("http://cdn.myanimelist.net/images/anime/12/76485.jpg"); //get bytes
+            byte[] response = await http.GetByteArrayAsync(ImgUrl); //get bytes
 
             var fs = await thumb.OpenStreamForWriteAsync(); //get stream
 
@@ -44,11 +48,8 @@ namespace MALClient.Items
                 await writer.StoreAsync();
                 await writer.FlushAsync();
             }
-            Uri sth = new Uri("ms-appdata:///local/sd.png");
-
-            var til = new SecondaryTile("1", "1", "1", sth, TileSize.Default);
-
-
+            var til = new SecondaryTile($"{Id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{Id}.png"), TileSize.Default);
+            Utils.Utils.RegisterTile(Id.ToString());
             await til.RequestCreateAsync();
         }
 

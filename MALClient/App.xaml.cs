@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,6 +48,11 @@ namespace MALClient
 
             Frame rootFrame = Window.Current.Content as Frame;
 
+            if (!string.IsNullOrWhiteSpace(e.Arguments.ToString()))
+            {
+                LaunchUri(e.Arguments.ToString());
+            }
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -58,8 +64,10 @@ namespace MALClient
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: Load state from previously suspended application
+
                 }
+
+
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -75,6 +83,13 @@ namespace MALClient
             // Ensure the current window is active
             Window.Current.Activate();
         }
+
+        private async void LaunchUri(string url)
+        {
+            await Launcher.LaunchUriAsync(new Uri(url));
+        }
+
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

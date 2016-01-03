@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
@@ -38,12 +29,17 @@ namespace MALClient
         public MainPage()
         {
             this.InitializeComponent();
-
+            Utils.Utils.CheckTiles();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if(!string.IsNullOrWhiteSpace(e.Parameter.ToString()))
-                User.Text = e.Parameter.ToString();
+                LaunchUri(e.Parameter.ToString());
+        }
+
+        private async void LaunchUri(string url)
+        {
+            await Launcher.LaunchUriAsync(new Uri(url));
         }
 
         private async void FetchData(object sender, RoutedEventArgs e)
@@ -99,9 +95,26 @@ namespace MALClient
             }
         }
 
-        private void PinTile(object sender, RoutedEventArgs e)
+        private async void PinTileMal(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            foreach (var item in Animes.SelectedItems)
+            {
+                var anime = item as AnimeItem;
+                if (SecondaryTile.Exists(anime.Id.ToString()))
+                    continue;
+                    anime.PinTile($"http://www.myanimelist.net/anime/{anime.Id}");                 
+            }
+        }
+        private async void PinTileKiss(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in Animes.SelectedItems)
+            {
+                var anime = item as AnimeItem;
+                if (SecondaryTile.Exists(anime.Id.ToString()))
+                    continue;
+
+                anime.PinTile($"https://kissanime.to/M/Anime/{anime.Name.Replace(' ', '-')}");
+            }
         }
     }
 }

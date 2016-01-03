@@ -14,7 +14,8 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Pin" Label="Pin to start" Click="PinTile"></AppBarButton>
+            <AppBarButton Icon="Pin" Label="Pin to start (Mal)" Click="PinTileMal"></AppBarButton>
+            <AppBarButton Icon="Pin" Label="Pin to start (KissAnime)" Click="PinTileMal"></AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout>
@@ -47,9 +48,8 @@
 
             <TextBox x:Name="User" Text="Drutol" Grid.Column="0" Margin="5,5"/>
             <Button Click="FetchData"  HorizontalAlignment="Center" Margin="1,1" Grid.Column="1">Get Stuff</Button>
-
         </Grid>
-        <ListView Grid.Row="1" x:Name="Animes" Margin="0,5,0,0">
+        <ListView Grid.Row="1" x:Name="Animes" Margin="0,5,0,0" SelectionMode="Multiple">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

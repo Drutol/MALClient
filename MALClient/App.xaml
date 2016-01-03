@@ -1,0 +1,8 @@
+﻿<Application
+    x:Class="MALClient.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient"
+    RequestedTheme="Light">
+
+</Application>

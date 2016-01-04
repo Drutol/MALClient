@@ -3,58 +3,33 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient"
+    xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <xamlConverters:AlternateRowConverter x:Key="AlternateRowConverter"/>
-    </UserControl.Resources>
-
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="Pin" Label="Pin to start (Mal)" Click="PinTileMal"></AppBarButton>
-            <AppBarButton Icon="Pin" Label="Pin to start (KissAnime)" Click="PinTileMal"></AppBarButton>
-            <AppBarButton Icon="Filter" Label="Filter">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <ListView x:Name="StatusSelector" SelectionChanged="ChangeListStatus" SelectedIndex="0" SelectionMode="Single">
-                            <ListView.Items>
-                                <ListViewItem Content="Watching"></ListViewItem>
-                                <ListViewItem Content="Completed"></ListViewItem>
-                                <ListViewItem Content="On hold"></ListViewItem>
-                                <ListViewItem Content="Dropped"></ListViewItem>
-                                <ListViewItem Content="Plan to watch"></ListViewItem>
-                                <ListViewItem Content="All"></ListViewItem>
-                            </ListView.Items>
-                        </ListView>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-        </CommandBar>
-    </Page.BottomAppBar>
-    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid Width="Auto" HorizontalAlignment="Stretch" Background="{Binding ElementName=MainMenu , Path=Background}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-
-            <TextBox x:Name="User" Text="Drutol" Grid.Column="0" Margin="5,5"/>
-            <Button Click="FetchData"  HorizontalAlignment="Center" Margin="1,1" Grid.Column="1">Get Stuff</Button>
+            <Button HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Width="45" Height="45" Background="Transparent" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="ExtraBold" Text="Home" VerticalAlignment="Center"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="Animes" Margin="0,5,0,0" SelectionMode="Multiple">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <SplitView x:Name="MainMenu" CompactPaneLength="50" OpenPaneLength="200" IsPaneOpen="False" DisplayMode="CompactOverlay" Grid.Row="0" Grid.RowSpan="2">
+            <SplitView.Pane>
+                <controls:HamburgerControl x:Name="HamburgerControl"/>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Frame x:Name="MainContent"/>
+            </SplitView.Content>
+        </SplitView>
+        
     </Grid>
 </Page>

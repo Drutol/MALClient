@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MALClient.Comm
 {
-    class AnimeListQuery : Query
+    internal class AnimeListQuery : Query
     {
         public AnimeListQuery(AnimeListParameters args)
         {

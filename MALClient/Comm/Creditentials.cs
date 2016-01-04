@@ -12,5 +12,11 @@ namespace MALClient.Comm
     {
         public static string UserName { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["username"];
         public static string Password { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["password"];
+
+        public static void Update(string name, string passwd)
+        {
+            ApplicationData.Current.LocalSettings.Values["username"] = name;
+            ApplicationData.Current.LocalSettings.Values["password"] = passwd;
+        }
     }
 }

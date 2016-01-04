@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace MALClient.Utils
 {
@@ -60,6 +61,12 @@ namespace MALClient.Utils
                 }
             }
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
+        }
+
+        public static MainPage GetMainPageInstance()
+        {
+            var frame = (Frame)Window.Current.Content;
+            return (MainPage)frame.Content;
         }
 
     }

@@ -8,18 +8,18 @@ namespace MALClient.Comm
 {
     public static class UriBuilder
     {
-        public static string GetUri(UriType type,object parameters)
+        public static string GetUri(UriType type,IParameters parameters)
         {
             string uri;
             switch (type)
             {
-                case UriType.AnimeList:
-                    AnimeListParameters args = parameters as AnimeListParameters;                    
-                    uri = $"http://myanimelist.net/malappinfo.php?u={args.user}&status={args.status}&type={args.type}";
+                case UriType.AnimeList:               
+                    uri = $"http://myanimelist.net/malappinfo.php?";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
+            uri += parameters.GetParamChain();
             return uri;
         }
     }

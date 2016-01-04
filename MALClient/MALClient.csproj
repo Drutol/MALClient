@@ -105,8 +105,9 @@
     </Compile>
     <Compile Include="Comm\AnimeListParameters.cs" />
     <Compile Include="Comm\AnimeListQuery.cs" />
+    <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Creditentials.cs" />
-    <Compile Include="Comm\Parameters.cs" />
+    <Compile Include="Comm\IParameters.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
     <Compile Include="Comm\UriType.cs" />
@@ -116,9 +117,17 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AnimeListPage.xaml.cs">
+      <DependentUpon>AnimeListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LogInPage.xaml.cs">
+      <DependentUpon>LogInPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\HamburgerControl.xaml.cs">
+      <DependentUpon>HamburgerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Utils.cs" />
-    <Compile Include="Utils\Xml.cs" />
     <Compile Include="XamlConverters\AlternateRowConverter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +159,18 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AnimeListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LogInPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\HamburgerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

@@ -18,9 +18,6 @@
                 </Grid.ColumnDefinitions>
                 <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Column="1"/>
                 <StackPanel Grid.Column="0">
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="HamburgerButton" FontWeight="Bold" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Width="50" Height="50" Background="Transparent" FontSize="20" Click="HamburgerButton_Click"/>
-                    </StackPanel>
                     <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnList_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
                         <Grid Width="200" Height="50">
                             <Grid.ColumnDefinitions>

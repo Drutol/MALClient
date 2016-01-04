@@ -8,7 +8,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace MALClient.Utils
+namespace MALClient
 {
     public static class Utils
     {
@@ -26,6 +26,8 @@ namespace MALClient.Utils
                     return "Dropped";
                 case 6:
                     return "Plan to watch";
+                case 7:
+                    return "All";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -45,6 +47,8 @@ namespace MALClient.Utils
                     return 4;
                 case "Plan to watch":
                     return 6;
+                case "All":
+                    return 7;             
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -129,7 +129,7 @@
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Utils.cs" />
-    <Compile Include="XamlConverters\AlternateRowConverter.cs" />
+    <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

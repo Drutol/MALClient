@@ -26,12 +26,12 @@ namespace MALClient.Items
         private bool _imgLoaded = false;
         internal object score;
 
-        public AnimeItem(string name,string img,int id,int status,int watchedEps,int allEps,int score)
+        public AnimeItem(bool auth,string name,string img,int id,int status,int watchedEps,int allEps,int score)
         {
             this.InitializeComponent();
             Id = id;
             
-            Status.Content = Utils.Utils.StatusToString(status);
+            Status.Content = MALClient.Utils.StatusToString(status);
             WatchedEps.Text = $"{watchedEps}/{allEps}";
             Ttile.Text = name;
             this.status = status;
@@ -40,6 +40,13 @@ namespace MALClient.Items
             _imgUrl = img;
             WatchedEpisodes = watchedEps;
             AllEpisodes = allEps;
+
+            if (!auth)
+            {
+                IncrementEps.Visibility = Visibility.Collapsed;
+                DecrementEps.Visibility = Visibility.Collapsed;
+                Status.IsEnabled = false;
+            }
         }
 
         public void ItemLoaded()
@@ -69,7 +76,7 @@ namespace MALClient.Items
                 await writer.FlushAsync();
             }
             var til = new SecondaryTile($"{Id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{Id}.png"), TileSize.Default);
-            Utils.Utils.RegisterTile(Id.ToString());
+            MALClient.Utils.RegisterTile(Id.ToString());
             await til.RequestCreateAsync();
         }
 
@@ -97,11 +104,11 @@ namespace MALClient.Items
         private async void ChangeStatus(object sender, RoutedEventArgs e)
         {
             var item = sender as MenuFlyoutItem;
-            status = Utils.Utils.StatusToInt(item.Text);
+            status = MALClient.Utils.StatusToInt(item.Text);
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response == "Updated")
             {
-                Status.Content = Utils.Utils.StatusToString(status);
+                Status.Content = MALClient.Utils.StatusToString(status);
             }
         }
     }

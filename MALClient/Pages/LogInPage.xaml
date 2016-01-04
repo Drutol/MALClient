@@ -13,7 +13,7 @@
             <TextBox x:Name="UserName"/>
             <TextBlock Text="Password:"/>
             <PasswordBox x:Name="UserPassword"/>
-            <Button Content="Log In" Click="AttemptAuthentication"/>
+            <Button Content="Log In" Click="AttemptAuthentication" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Page>

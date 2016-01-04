@@ -33,17 +33,17 @@
                 </Button.Flyout>
             </Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <Button Background="Transparent" Height="40" Width="40" Click="DecrementWatchedEp">
+                <Button x:Name="IncrementEps" Background="Transparent" VerticalAlignment="Bottom" Height="40" Width="40" Click="DecrementWatchedEp">
                     <SymbolIcon Symbol="Remove"/>
                     <Button.RenderTransform>
-                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="15" CenterY="15"/>
+                        <ScaleTransform ScaleX=".65" ScaleY=".65" CenterX="20" CenterY="40"/>
                     </Button.RenderTransform>
                 </Button>
-                <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Center"/>
-                <Button Background="Transparent" Height="40" Width="40" Click="IncrementWatchedEp">
+                <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                <Button x:Name="DecrementEps" Background="Transparent" Height="40" Width="40" Click="IncrementWatchedEp" Margin="0,15,0,0">
                     <SymbolIcon Symbol="Add"/>
                     <Button.RenderTransform>
-                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="15" CenterY="15"/>
+                        <ScaleTransform ScaleX=".65" ScaleY=".65" CenterX="20" CenterY="40"/>
                     </Button.RenderTransform>
                 </Button>
             </StackPanel>

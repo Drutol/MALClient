@@ -19,11 +19,6 @@ namespace MALClient.UserControls
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
         }
 
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().ReversePane();
-        }
-
         internal void PaneOpened()
         {
             Border1.SetValue(Grid.ColumnSpanProperty, 2);
@@ -100,7 +95,7 @@ namespace MALClient.UserControls
 
         private MainPage GetMainPageInstance()
         {
-            return Utils.Utils.GetMainPageInstance();
+            return MALClient.Utils.GetMainPageInstance();
         }
 
 

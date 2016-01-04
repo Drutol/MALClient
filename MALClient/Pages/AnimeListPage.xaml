@@ -9,8 +9,9 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Pin" Label="Pin to start (Mal)" Click="PinTileMal"></AppBarButton>
-            <AppBarButton Icon="Pin" Label="Pin to start (KissAnime)" Click="PinTileKiss"></AppBarButton>
+            <AppBarButton Icon="Refresh" Label="Reload" Click="RefreshList"/>
+            <AppBarButton Icon="Pin" Label="Pin to start (Mal)" Click="PinTileMal"/>
+            <AppBarButton Icon="Pin" Label="Pin to start (KissAnime)" Click="PinTileKiss"/>
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -47,10 +48,18 @@ namespace MALClient.Pages
                 user = User.Text
             };
             var data = await new AnimeListQuery(args).GetRequestResponse();
-            var anime = data.Root.Elements("anime").ToList();
+            XDocument parsedData = XDocument.Parse(data);
+            var anime = parsedData.Root.Elements("anime").ToList();
             foreach (var item in anime)
             {
-                _allAnimeItems.Add(new AnimeItem(item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_animedb_id").Value), Convert.ToInt32(item.Element("my_status").Value)));
+                _allAnimeItems.Add(new AnimeItem(
+                    item.Element("series_title").Value,
+                    item.Element("series_image").Value,
+                    Convert.ToInt32(item.Element("series_animedb_id").Value),
+                    Convert.ToInt32(item.Element("my_status").Value),
+                    Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                    Convert.ToInt32(item.Element("series_episodes").Value),
+                    Convert.ToInt32(item.Element("my_score").Value)));
             }
 
             RefreshList();
@@ -69,7 +78,10 @@ namespace MALClient.Pages
         {
             _animeItems.Clear();
             foreach (var item in _allAnimeItems.Where(item => GetDesiredStatus() == 7 || item.status == GetDesiredStatus()))
+            {
+                item.ItemLoaded();
                 _animeItems.Add(item);
+            }
             AlternateRowColors();
         }
 
@@ -109,6 +121,11 @@ namespace MALClient.Pages
 
                 anime.PinTile($"https://kissanime.to/M/Anime/{anime.Name.Replace(' ', '-')}");
             }
+        }
+
+        private void RefreshList(object sender, RoutedEventArgs e)
+        {
+            RefreshList();
         }
     }
 }

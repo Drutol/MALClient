@@ -11,7 +11,7 @@ namespace MALClient.Comm
     {
         public AnimeListQuery(AnimeListParameters args)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString(UriBuilder.GetUri(UriType.AnimeList, args)));
+            Request = WebRequest.Create(Uri.EscapeUriString(UriBuilder.GetUri(UriType.AnimeListUpdate, args)));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

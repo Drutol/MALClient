@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="Comm\AnimeListParameters.cs" />
     <Compile Include="Comm\AnimeListQuery.cs" />
+    <Compile Include="Comm\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Creditentials.cs" />
     <Compile Include="Comm\IParameters.cs" />

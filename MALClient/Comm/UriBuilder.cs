@@ -13,7 +13,7 @@ namespace MALClient.Comm
             string uri;
             switch (type)
             {
-                case UriType.AnimeList:               
+                case UriType.AnimeListUpdate:               
                     uri = $"http://myanimelist.net/malappinfo.php?";
                     break;
                 default:

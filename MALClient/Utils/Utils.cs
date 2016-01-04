@@ -31,6 +31,25 @@ namespace MALClient.Utils
             }
         }
 
+        public static int StatusToInt(string status)
+        {
+            switch (status)
+            {
+                case "Watching":
+                    return 1;
+                case "Completed":
+                    return 2;
+                case "On hold":
+                    return 3;
+                case "Dropped":
+                    return 4;
+                case "Plan to watch":
+                    return 6;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public static void RegisterTile(string id)
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
@@ -52,8 +71,15 @@ namespace MALClient.Utils
             {
                 if (!SecondaryTile.Exists(tileId))
                 {
-                    var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
-                    await file.DeleteAsync();
+                    try
+                    {
+                        var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
+                        await file.DeleteAsync();
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
                 }
                 else
                 {

@@ -16,7 +16,7 @@ namespace MALClient.Comm
         protected string HttpQuery;
         protected WebRequest Request;
 
-        public async Task<XDocument> GetRequestResponse()
+        public async Task<string> GetRequestResponse()
         {
             var response = await Request.GetResponseAsync();
 
@@ -26,7 +26,7 @@ namespace MALClient.Comm
                 StreamReader reader = new StreamReader(stream, Encoding.UTF8);
                 responseString = reader.ReadToEnd();
             }
-            return XDocument.Parse(responseString);
+            return responseString;
         }
 
     }

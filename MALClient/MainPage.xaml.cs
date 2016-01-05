@@ -4,6 +4,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Pages;
 
@@ -45,19 +46,39 @@ namespace MALClient
         }
 
         internal void NavigateList()
-        {        
-            SearchToggle.Visibility = Visibility.Visible;
-            if((bool)SearchToggle.IsChecked)
-                SearchInput.Visibility = Visibility.Visible;
+        {
+            _onSearchPage = false;
+            ShowSearchStuff();
             MainContent.Navigate(typeof (Pages.AnimeListPage));
+        }
+
+        private void ShowSearchStuff()
+        {
+            SearchToggle.Visibility = Visibility.Visible;
+            if ((bool)SearchToggle.IsChecked)
+                SearchInput.Visibility = Visibility.Visible;
+        }
+
+        private void HideSearchStuff()
+        {
+            SearchInput.Visibility = Visibility.Collapsed;
+            SearchToggle.Visibility = Visibility.Collapsed;
         }
 
         internal void NavigateLogin()
         {
+            _onSearchPage = false;
             SetStatus("Log In");
-            SearchInput.Visibility = Visibility.Collapsed;
-            SearchToggle.Visibility = Visibility.Collapsed;
+            HideSearchStuff();
             MainContent.Navigate(typeof(Pages.LogInPage));
+        }
+        private bool _onSearchPage = false;
+        internal void NavigateSearch()
+        {
+            _onSearchPage = true;
+            ShowSearchStuff();
+            SetStatus("Search");
+            MainContent.Navigate(typeof (Pages.AnimeSearchPage));
         }
 
         private void ReversePane(object sender, RoutedEventArgs e)
@@ -94,16 +115,28 @@ namespace MALClient
 
         private void SearchQuerySubmitted(object o, TextChangedEventArgs textChangedEventArgs)
         {
-
             var source = MainContent.Content as AnimeListPage;
             _currSearchQuery = SearchInput.Text;
             source.RefreshList();
-
         }
 
         internal string GetSearchQuery()
         {
             return _currSearchQuery;
+        }
+
+        private void SearchInput_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(!_onSearchPage)
+                return;
+           
+            if (e.Key == VirtualKey.Enter)
+            {
+                var txt = sender as TextBox;
+                txt.Focus(FocusState.Unfocused);
+                var source = MainContent.Content as AnimeSearchPage;
+                source.SubmitQuery(txt.Text);
+            }
         }
     }
 }

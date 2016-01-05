@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="MALClient.Pages.AnimeDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/> <!--Img + Details-->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/> <!--Img-->
+                <ColumnDefinition Width="*"/> <!--Details-->
+            </Grid.ColumnDefinitions>
+            <Image x:Name="DetailImage" Grid.Column="0" Stretch="Fill" Width="118" Height="88" Margin="1,1"/>
+            <StackPanel Grid.Column="1">
+                <TextBlock x:Name="DetailTitle" FontWeight="Bold" TextWrapping="WrapWholeWords"/>
+                <StackPanel Orientation="Horizontal" Margin="0,1">
+                    <TextBlock Text="Episodes : " />
+                    <TextBlock x:Name="DetailEpisodes" FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,1">
+                    <TextBlock Text="Score : " />
+                    <TextBlock x:Name="DetailScore" FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,1">
+                    <TextBlock Text="Type : " />
+                    <TextBlock x:Name="DetailType" FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,1">
+                    <TextBlock Text="Status : " />
+                    <TextBlock x:Name="DetailStatus" FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,1">
+                    <TextBlock Text="Broadcasted : " />
+                    <TextBlock x:Name="DetailBroadcast" FontWeight="SemiBold"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <TextBlock x:Name="DetailSynopsis" Grid.Row="1" HorizontalAlignment="Stretch" />
+    </Grid>
+</Page>

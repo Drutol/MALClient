@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
             <Button HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Width="45" Height="45" Background="Transparent" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Click="ReversePane"/>
             <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="Home" VerticalAlignment="Center" Visibility="{Binding ElementName=SearchInput , Path=Visibility , Converter={StaticResource VisiblityInverterConverter}}"/>
-            <TextBox x:Name="SearchInput" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="Collapsed" TextChanged="SearchQuerySubmitted" PlaceholderText="Search..."/>
+            <TextBox x:Name="SearchInput" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="Collapsed" TextChanged="SearchQuerySubmitted" KeyDown="SearchInput_OnKeyDown"   PlaceholderText="Search..."/>
             <ToggleButton x:Name="SearchToggle" HorizontalAlignment="Right" IsThreeState="False" VerticalAlignment="Center" Width="45" Height="45" Grid.Column="2" Background="Transparent" Click="ReverseSearchInput">
                 <SymbolIcon Symbol="Find"/>
             </ToggleButton>

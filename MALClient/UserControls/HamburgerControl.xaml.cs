@@ -23,7 +23,7 @@ namespace MALClient.UserControls
         {
             Border1.SetValue(Grid.ColumnSpanProperty, 2);
             //Border2.SetValue(Grid.ColumnSpanProperty, 2);
-            //Border3.SetValue(Grid.ColumnSpanProperty, 2);
+            Border3.SetValue(Grid.ColumnSpanProperty, 2);
             Border4.SetValue(Grid.ColumnSpanProperty, 2);
         }
 
@@ -31,7 +31,7 @@ namespace MALClient.UserControls
         {
             Border1.SetValue(Grid.ColumnSpanProperty, 1);
             //Border2.SetValue(Grid.ColumnSpanProperty, 1);
-            //Border3.SetValue(Grid.ColumnSpanProperty, 1);
+            Border3.SetValue(Grid.ColumnSpanProperty, 1);
             Border4.SetValue(Grid.ColumnSpanProperty, 1);
         }
 
@@ -49,12 +49,12 @@ namespace MALClient.UserControls
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
         }
 
-        //private void BtnHistory_Click(object sender, RoutedEventArgs e)
-        //{
-        //    GetMainPageInstance().NavigateHistory();
-        //    ResetActiveButton();
-        //    txtHistory.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-        //}
+        private void BtnHistory_Click(object sender, RoutedEventArgs e)
+        {
+            GetMainPageInstance().NavigateSearch();
+            ResetActiveButton();
+            TxtSearch.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+        }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {

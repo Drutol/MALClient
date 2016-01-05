@@ -65,12 +65,18 @@ namespace MALClient.Items
             if (e.IsInertial)
             {
                 Point currentpoint = e.Position;
-                if (currentpoint.X - initialpoint.X >= 200) //left
+                if (currentpoint.X - initialpoint.X >= 70) //left
                 {
                     Utils.GetMainPageInstance().NavigateDetails(item);
                     e.Complete();
                 }
             }
+        }
+
+
+        public void Setbackground(SolidColorBrush brush)
+        {
+            Root.Background = brush;
         }
     }
 }

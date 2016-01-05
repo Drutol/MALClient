@@ -63,7 +63,7 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single">
+        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

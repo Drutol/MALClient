@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -34,6 +35,14 @@ namespace MALClient.Pages
             this.InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if(!string.IsNullOrWhiteSpace((string)e.Parameter))
+                SubmitQuery((string)e.Parameter);
+
+        }
+
         internal async void SubmitQuery(string text)
         {
             SpinnerLoading.Visibility = Visibility.Visible;
@@ -55,7 +64,19 @@ namespace MALClient.Pages
             {
                 EmptyNotice.Visibility = Visibility.Visible;
             }
+            AlternateRowColors();
             SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private void AlternateRowColors()
+        {
+            for (int i = 0; i < _animeSearchItems.Count; i++)
+            {
+                if ((i + 1) % 2 == 0)
+                    _animeSearchItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
+                else
+                    _animeSearchItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));
+            }
         }
     }
 }

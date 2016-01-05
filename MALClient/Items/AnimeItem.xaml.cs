@@ -2,11 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
@@ -90,6 +92,25 @@ namespace MALClient.Items
         public void Setbackground(SolidColorBrush brush)
         {
             Root.Background = brush;
+        }
+
+        private Point _initialPoint ;
+        private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            _initialPoint = e.Position;
+        }
+
+        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (e.IsInertial)
+            {
+                Point currentpoint = e.Position;
+                if (currentpoint.X - _initialPoint.X >= 70) // swipe right
+                {
+                    Utils.GetMainPageInstance().NavigateDetails(null,Id,title);
+                    e.Complete();
+                }
+            }
         }
 
         private async void IncrementWatchedEp(object sender, RoutedEventArgs e)

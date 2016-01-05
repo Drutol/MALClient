@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Windows.Graphics.Printing;
 using Windows.UI;
+using Windows.UI.Input;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -49,27 +50,35 @@ namespace MALClient.Pages
             EmptyNotice.Visibility = Visibility.Collapsed;
             _allAnimeItems.Clear();
             _animeItems.Clear();
-            var args = new AnimeListParameters
+            var possibleData = Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text);
+            if (possibleData != null)
+                _allAnimeItems = possibleData;
+            else
             {
-                status = "all",
-                type = "anime",
-                user = ListSource.Text
-            };
-            var data = await new AnimeListQuery(args).GetRequestResponse();
-            XDocument parsedData = XDocument.Parse(data);
-            var anime = parsedData.Root.Elements("anime").ToList();
-            foreach (var item in anime)
-            {
-                _allAnimeItems.Add(new AnimeItem(
-                    (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
-                    item.Element("series_title").Value,
-                    item.Element("series_image").Value,
-                    Convert.ToInt32(item.Element("series_animedb_id").Value),
-                    Convert.ToInt32(item.Element("my_status").Value),
-                    Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                    Convert.ToInt32(item.Element("series_episodes").Value),
-                    Convert.ToInt32(item.Element("my_score").Value)));
+                var args = new AnimeListParameters
+                {
+                    status = "all",
+                    type = "anime",
+                    user = ListSource.Text
+                };
+                var data = await new AnimeListQuery(args).GetRequestResponse();
+                XDocument parsedData = XDocument.Parse(data);
+                var anime = parsedData.Root.Elements("anime").ToList();
+                foreach (var item in anime)
+                {
+                    _allAnimeItems.Add(new AnimeItem(
+                        (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
+                        item.Element("series_title").Value,
+                        item.Element("series_image").Value,
+                        Convert.ToInt32(item.Element("series_animedb_id").Value),
+                        Convert.ToInt32(item.Element("my_status").Value),
+                        Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                        Convert.ToInt32(item.Element("series_episodes").Value),
+                        Convert.ToInt32(item.Element("my_score").Value)));
+                }
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text,_allAnimeItems);
             }
+
 
             RefreshList();
             Animes.ItemsSource = _animeItems;

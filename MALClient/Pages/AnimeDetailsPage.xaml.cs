@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
@@ -24,17 +17,7 @@ namespace MALClient.Pages
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
 
-    public class AnimeDetailsPageNavigationArgs
-    {
-        public int Id;
-        public XElement AnimeElement;
 
-        public AnimeDetailsPageNavigationArgs(int id,XElement element)
-        {
-            Id = id;
-            AnimeElement = element;
-        }
-    }
 
     public sealed partial class AnimeDetailsPage : Page
     {
@@ -49,21 +32,42 @@ namespace MALClient.Pages
         public string EndDate { get; set; }
         private string _imgUrl;
 
+        private string _origin;
 
-        public AnimeDetailsPage(int id)
+        public AnimeDetailsPage()
         {
             this.InitializeComponent();
-            
+            var currentView = SystemNavigationManager.GetForCurrentView();
+
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+            currentView.BackRequested += (sender, args) =>
+            {
+                args.Handled = true;
+                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                if(_origin == "Search")
+                    Utils.GetMainPageInstance().NavigateSearch(true);
+                else
+                    Utils.GetMainPageInstance().NavigateList();
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             var param = e.Parameter as AnimeDetailsPageNavigationArgs;
-            if(param.AnimeElement != null)
+            if (param == null)
+                return;
+            if (param.AnimeElement != null)
+            {
                 PopulateData(param.AnimeElement);
+                _origin = "Search";
+            }
             else
-                FetchData(param.Id.ToString());
+            {
+                FetchData(param.Id.ToString(), param.Title);
+                _origin = "List";
+            }
         }
 
         private void PopulateData(XElement animeElement)
@@ -74,7 +78,7 @@ namespace MALClient.Pages
             Title = animeElement.Element("title").Value;
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            Synopsis = animeElement.Element("synopsis").Value;
+            Synopsis = Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim(); 
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
@@ -85,18 +89,40 @@ namespace MALClient.Pages
             DetailBroadcast.Text = StartDate;
             DetailStatus.Text = Status;
             DetailType.Text = Type;
-            DetailTitle.Text = Title;
-            DetailSynopsis.Text = Title;
+            DetailSynopsis.Text = Synopsis;
+
+            Utils.GetMainPageInstance().SetStatus(Title);
 
             DetailImage.Source = new BitmapImage(new Uri(_imgUrl));
         }
 
-        private async void FetchData(string id)
+        private async void FetchData(string id,string title)
         {
-            string data = await new AnimeSearchQuery(id).GetRequestResponse();
+            string data = await new AnimeSearchQuery(title.Replace(' ','+')).GetRequestResponse();
+            data = WebUtility.HtmlDecode(data);
+            data = data.Replace("&mdash", "").Replace("&rsquo","").Replace("&","");
+
             XDocument parsedData = XDocument.Parse(data);
-            var elements = parsedData.Elements("entry");
+            var elements = parsedData.Element("anime").Elements("entry");
             PopulateData(elements.First(element => element.Element("id").Value == id));
+        }
+
+
+
+    }
+
+
+    public class AnimeDetailsPageNavigationArgs
+    {
+        public int Id;
+        public string Title;
+        public XElement AnimeElement;
+
+        public AnimeDetailsPageNavigationArgs(int id, string title, XElement element)
+        {
+            Id = id;
+            Title = title;
+            AnimeElement = element;
         }
     }
 }

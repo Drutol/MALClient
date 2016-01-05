@@ -9,39 +9,49 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"/> <!--Img + Details-->
+            <RowDefinition Height="150"/>
+            <!--Img + Details-->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90"/> <!--Img-->
-                <ColumnDefinition Width="*"/> <!--Details-->
+                <ColumnDefinition Width="122"/>
+                <!--Img-->
+                <ColumnDefinition Width="*"/>
+                <!--Details-->
             </Grid.ColumnDefinitions>
-            <Image x:Name="DetailImage" Grid.Column="0" Stretch="Fill" Width="118" Height="88" Margin="1,1"/>
+            <Image x:Name="DetailImage" Grid.Column="0" Stretch="Fill" Width="120" Height="148" Margin="1,1"/>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button>
+                    <SymbolIcon Symbol="Globe"/>
+                </Button>
+            </StackPanel>
             <StackPanel Grid.Column="1">
-                <TextBlock x:Name="DetailTitle" FontWeight="Bold" TextWrapping="WrapWholeWords"/>
                 <StackPanel Orientation="Horizontal" Margin="0,1">
                     <TextBlock Text="Episodes : " />
-                    <TextBlock x:Name="DetailEpisodes" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="DetailEpisodes" Margin="2,0,0,0" FontWeight="SemiBold"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,1">
                     <TextBlock Text="Score : " />
-                    <TextBlock x:Name="DetailScore" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="DetailScore" FontWeight="SemiBold" Margin="2,0,0,0"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,1">
+                <StackPanel Orientation="Horizontal" Margin="0,1" >
                     <TextBlock Text="Type : " />
-                    <TextBlock x:Name="DetailType" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="DetailType" FontWeight="SemiBold" Margin="2,0,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,1">
                     <TextBlock Text="Status : " />
-                    <TextBlock x:Name="DetailStatus" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="DetailStatus" FontWeight="SemiBold" Margin="2,0,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,1">
                     <TextBlock Text="Broadcasted : " />
-                    <TextBlock x:Name="DetailBroadcast" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="DetailBroadcast" FontWeight="SemiBold" Margin="2,0,0,0"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <TextBlock x:Name="DetailSynopsis" Grid.Row="1" HorizontalAlignment="Stretch" />
+        <MenuFlyoutSeparator Grid.Row="1" VerticalAlignment="Top"/>
+        <ScrollViewer  Margin="1,10,1,0" VerticalScrollMode="Auto" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch">
+            <TextBlock x:Name="DetailSynopsis" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords" Margin="1,1" />
+        </ScrollViewer>
     </Grid>
 </Page>

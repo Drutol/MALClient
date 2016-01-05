@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Pages;
 using System.Xml.Linq;
+using MALClient.Items;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -18,7 +19,9 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
-       
+
+        private Dictionary<string,List<AnimeItem>> _allAnimeItemsCache = new Dictionary<string, List<AnimeItem>>();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -82,23 +85,26 @@ namespace MALClient
             MainContent.Navigate(typeof(Pages.LogInPage));
         }
 
-        internal void NavigateDetails(XElement item)
+        internal void NavigateDetails(XElement item,int id = 0,string title = "")
         {
             HideSearchStuff();
             MainMenu.IsPaneOpen = false;
             _onSearchPage = false;
-            MainContent.Navigate(typeof (Pages.AnimeDetailsPage), new AnimeDetailsPageNavigationArgs(0, item));
+            MainContent.Navigate(typeof (Pages.AnimeDetailsPage), new AnimeDetailsPageNavigationArgs(id,title, item));
+            
         }
 
         private bool _onSearchPage = false;
-        internal void NavigateSearch()
+        internal void NavigateSearch(bool autoSearch = false)
         {
             _onSearchPage = true;
+            _currSearchQuery = SearchInput.Text;
             ShowSearchStuff();
             ToggleSearchStuff();
             MainMenu.IsPaneOpen = false;
-            SearchInput.Focus(FocusState.Keyboard);
-            MainContent.Navigate(typeof (Pages.AnimeSearchPage));
+            if(!autoSearch)
+                SearchInput.Focus(FocusState.Keyboard);
+            MainContent.Navigate(typeof (Pages.AnimeSearchPage),autoSearch ? GetSearchQuery() : "");
         }
 
         private void ReversePane(object sender, RoutedEventArgs e)
@@ -114,6 +120,11 @@ namespace MALClient
         private void ReverseSearchInput(object sender, RoutedEventArgs e)
         {
             var btn = sender as ToggleButton;
+            if (_onSearchPage)
+            {
+                btn.IsChecked = true;
+                return;
+            }
             if ((bool) btn.IsChecked)
             {
                 SearchInput.Visibility = Visibility.Visible;
@@ -161,6 +172,19 @@ namespace MALClient
                 var source = MainContent.Content as AnimeSearchPage;
                 source.SubmitQuery(txt.Text);
             }
+        }
+
+        
+        public void SaveAnimeEntries(string source,List<AnimeItem> items)
+        {
+            _allAnimeItemsCache.Add(source,items);
+        }
+
+        public List<AnimeItem> RetrieveAnimeEntries(string source)
+        {
+            List<AnimeItem> data;
+            _allAnimeItemsCache.TryGetValue(source, out data);
+            return data;
         }
     }
 }

@@ -16,6 +16,8 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
+            <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed" Text="No data received from MAL , try searching for something more specific. :(" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
+            <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True" Visibility="Collapsed"/>
         </Grid>
     </Grid>
 </Page>

@@ -17,21 +17,42 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Image x:Name="Img" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
+        <ProgressBar x:Name="SpinnerLoading" Grid.Column="1" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
         <Grid Grid.Column="1" HorizontalAlignment="Stretch">
             <TextBlock x:Name="Ttile" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
-            <Button x:Name="Status" Margin="1" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Bottom" Height="Auto" HorizontalAlignment="Right" >
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyout.Items>
-                            <MenuFlyoutItem Text="Watching" Click="ChangeStatus"/>
-                            <MenuFlyoutItem Text="Completed" Click="ChangeStatus"/>
-                            <MenuFlyoutItem Text="On hold" Click="ChangeStatus"/>
-                            <MenuFlyoutItem Text="Dropped" Click="ChangeStatus"/>
-                            <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus"/>
-                        </MenuFlyout.Items>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
+            <StackPanel  VerticalAlignment="Bottom"  HorizontalAlignment="Right">
+                <Button x:Name="BtnScore" Margin="1" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="10 - Masterpiece" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="9 - Great" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="8 - Very Good" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="7 - Good" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="6 - Fine" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="5 - Average" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="4 - Bad" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="3 - Very Bad" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="2 - Horrible" Click="ChangeScore"/>
+                                <MenuFlyoutItem Text="1 - Appaling" Click="ChangeScore"/>
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                <Button x:Name="Status" Margin="1" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="Watching" Click="ChangeStatus"/>
+                                <MenuFlyoutItem Text="Completed" Click="ChangeStatus"/>
+                                <MenuFlyoutItem Text="On hold" Click="ChangeStatus"/>
+                                <MenuFlyoutItem Text="Dropped" Click="ChangeStatus"/>
+                                <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus"/>
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <Button x:Name="IncrementEps" Background="Transparent" VerticalAlignment="Bottom" Height="40" Width="40" Click="DecrementWatchedEp">
                     <SymbolIcon Symbol="Remove"/>
@@ -39,7 +60,7 @@
                         <ScaleTransform ScaleX=".65" ScaleY=".65" CenterX="20" CenterY="40"/>
                     </Button.RenderTransform>
                 </Button>
-                <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Center"/>
                 <Button x:Name="DecrementEps" Background="Transparent" Height="40" Width="40" Click="IncrementWatchedEp" Margin="0,15,0,0">
                     <SymbolIcon Symbol="Add"/>
                     <Button.RenderTransform>

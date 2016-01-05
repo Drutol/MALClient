@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -35,14 +36,26 @@ namespace MALClient.Pages
 
         internal async void SubmitQuery(string text)
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            EmptyNotice.Visibility = Visibility.Collapsed;
             _animeSearchItems.Clear();
-            string response = await new AnimeSearchQuery(text).GetRequestResponse();
-            XDocument parsedData = XDocument.Parse(response);
-            foreach (var item in parsedData.Elements("entry"))
+            string response = "";
+            await Task.Run(async () => response = await new AnimeSearchQuery(text).GetRequestResponse());
+
+            try
             {
-                _animeSearchItems.Add(new AnimeSearchItem(item));
+                XDocument parsedData = XDocument.Parse(response);
+                foreach (var item in parsedData.Element("anime").Elements("entry"))
+                {
+                    _animeSearchItems.Add(new AnimeSearchItem(item));
+                }
+                Animes.ItemsSource = _animeSearchItems;             
             }
-            Animes.ItemsSource = _animeSearchItems;
+            catch (Exception e)
+            {
+                EmptyNotice.Visibility = Visibility.Visible;
+            }
+            SpinnerLoading.Visibility = Visibility.Collapsed;
         }
     }
 }

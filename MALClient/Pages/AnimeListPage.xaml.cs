@@ -45,6 +45,8 @@ namespace MALClient.Pages
 
         private async void FetchData()
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            EmptyNotice.Visibility = Visibility.Collapsed;
             _allAnimeItems.Clear();
             _animeItems.Clear();
             var args = new AnimeListParameters
@@ -71,7 +73,7 @@ namespace MALClient.Pages
 
             RefreshList();
             Animes.ItemsSource = _animeItems;
-            
+            SpinnerLoading.Visibility = Visibility.Collapsed;
 
         }
 
@@ -84,6 +86,7 @@ namespace MALClient.Pages
 
         public void RefreshList()
         {
+            EmptyNotice.Visibility = Visibility.Collapsed;
             string query = Utils.GetMainPageInstance()?.GetSearchQuery();
             _animeItems.Clear();
             var items = _allAnimeItems.Where(item => !string.IsNullOrWhiteSpace(query) || GetDesiredStatus() == 7 || item.status == GetDesiredStatus());
@@ -96,7 +99,7 @@ namespace MALClient.Pages
                         items = items.OrderBy(item => item.title);
                         break;
                     case SortOptions.SortScore:
-                        items = items.OrderBy(item => item.score);
+                        items = items.OrderBy(item => item.Score);
                         break;
                     case SortOptions.SortWatched:
                         items = items.OrderBy(item => item.WatchedEpisodes);
@@ -111,13 +114,16 @@ namespace MALClient.Pages
                 item.ItemLoaded();
                 _animeItems.Add(item);
             }
+            if(_animeItems.Count == 0)
+                EmptyNotice.Visibility = Visibility.Visible;
             AlternateRowColors();
             Utils.GetMainPageInstance()?.SetStatus($"List - {ListSource.Text} - {MALClient.Utils.StatusToString(GetDesiredStatus())}");
         }
 
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
         {
-            RefreshList();
+            if(Animes != null)
+                RefreshList();
         }
 
         private void AlternateRowColors()

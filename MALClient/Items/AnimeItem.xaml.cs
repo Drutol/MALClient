@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -22,9 +23,9 @@ namespace MALClient.Items
         private string _imgUrl;
         public int WatchedEpisodes;
         public int AllEpisodes;
+        public int Score;
 
         private bool _imgLoaded = false;
-        internal object score;
 
         public AnimeItem(bool auth,string name,string img,int id,int status,int watchedEps,int allEps,int score)
         {
@@ -35,11 +36,17 @@ namespace MALClient.Items
             WatchedEps.Text = $"{watchedEps}/{allEps}";
             Ttile.Text = name;
             this.status = status;
-            this.score = score;
+            Score = score;
             title = name;
             _imgUrl = img;
             WatchedEpisodes = watchedEps;
             AllEpisodes = allEps;
+            if(score > 0)
+                BtnScore.Content = $"{score}/10";
+            else
+            {
+                BtnScore.Content = "Unranked";
+            }
 
             if (!auth)
             {
@@ -87,22 +94,27 @@ namespace MALClient.Items
 
         private async void IncrementWatchedEp(object sender, RoutedEventArgs e)
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
             WatchedEpisodes++;
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response == "Updated")
                 WatchedEps.Text = $"{WatchedEpisodes}/{AllEpisodes}";
+            SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
         private async void DecrementWatchedEp(object sender, RoutedEventArgs e)
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
             WatchedEpisodes--;
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response == "Updated")
                 WatchedEps.Text = $"{WatchedEpisodes}/{AllEpisodes}";
+            SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
         private async void ChangeStatus(object sender, RoutedEventArgs e)
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
             var item = sender as MenuFlyoutItem;
             status = MALClient.Utils.StatusToInt(item.Text);
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
@@ -110,6 +122,20 @@ namespace MALClient.Items
             {
                 Status.Content = MALClient.Utils.StatusToString(status);
             }
+            SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private async void ChangeScore(object sender, RoutedEventArgs e)
+        {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            var btn = sender as MenuFlyoutItem;
+            Score = int.Parse(btn.Text.Split('-').First());
+            string response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            if (response == "Updated")
+            {
+                BtnScore.Content = $"{Score}/10";
+            }
+            SpinnerLoading.Visibility = Visibility.Collapsed;
         }
     }
 }

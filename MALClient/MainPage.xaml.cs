@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Pages;
+using System.Xml.Linq;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -35,7 +36,7 @@ namespace MALClient
             await Launcher.LaunchUriAsync(new Uri(url));
         }
 
-        internal void ReversePane()
+        private void ReversePane()
         {
             MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
             if(MainMenu.IsPaneOpen)
@@ -49,6 +50,7 @@ namespace MALClient
         {
             _onSearchPage = false;
             ShowSearchStuff();
+            MainMenu.IsPaneOpen = false;
             MainContent.Navigate(typeof (Pages.AnimeListPage));
         }
 
@@ -65,19 +67,37 @@ namespace MALClient
             SearchToggle.Visibility = Visibility.Collapsed;
         }
 
+        private void ToggleSearchStuff()
+        {
+            SearchInput.Visibility = Visibility.Visible;
+            SearchToggle.IsChecked = true;
+        }
+
         internal void NavigateLogin()
         {
             _onSearchPage = false;
+            MainMenu.IsPaneOpen = false;
             SetStatus("Log In");
             HideSearchStuff();
             MainContent.Navigate(typeof(Pages.LogInPage));
         }
+
+        internal void NavigateDetails(XElement item)
+        {
+            HideSearchStuff();
+            MainMenu.IsPaneOpen = false;
+            _onSearchPage = false;
+            MainContent.Navigate(typeof (Pages.AnimeDetailsPage), new AnimeDetailsPageNavigationArgs(0, item));
+        }
+
         private bool _onSearchPage = false;
         internal void NavigateSearch()
         {
             _onSearchPage = true;
             ShowSearchStuff();
-            SetStatus("Search");
+            ToggleSearchStuff();
+            MainMenu.IsPaneOpen = false;
+            SearchInput.Focus(FocusState.Keyboard);
             MainContent.Navigate(typeof (Pages.AnimeSearchPage));
         }
 
@@ -115,6 +135,9 @@ namespace MALClient
 
         private void SearchQuerySubmitted(object o, TextChangedEventArgs textChangedEventArgs)
         {
+            if(_onSearchPage)
+                return;
+
             var source = MainContent.Content as AnimeListPage;
             _currSearchQuery = SearchInput.Text;
             source.RefreshList();
@@ -130,10 +153,11 @@ namespace MALClient
             if(!_onSearchPage)
                 return;
            
-            if (e.Key == VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter && SearchInput.Text.Length >= 2)
             {
                 var txt = sender as TextBox;
-                txt.Focus(FocusState.Unfocused);
+                txt.IsEnabled = false; //reset input
+                txt.IsEnabled = true; 
                 var source = MainContent.Content as AnimeSearchPage;
                 source.SubmitQuery(txt.Text);
             }

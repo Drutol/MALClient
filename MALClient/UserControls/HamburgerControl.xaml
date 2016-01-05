@@ -11,7 +11,7 @@
 
     <Grid>
         <ScrollViewer x:Name="PaneScrollViewer" VerticalScrollBarVisibility="Auto">
-            <Grid Background="LightGray">
+            <Grid Background="#E6E6E6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="4"/>
@@ -26,7 +26,18 @@
                             </Grid.ColumnDefinitions>
                             <Border x:Name="Border1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="1" Visibility="Collapsed"/>
                             <SymbolIcon HorizontalAlignment="Center" Symbol="List" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtList , Path=Foreground}"/>
-                            <TextBlock x:Name="TxtList" Text="Anime List" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                            <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnHistory_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                        <Grid Width="200" Height="50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="Border3" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="1" Visibility="Collapsed"/>
+                            <SymbolIcon Symbol="Find" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSearch , Path=Foreground}"/>
+                            <TextBlock x:Name="TxtSearch" Text="Anime Search" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                         </Grid>
                     </Button>
                     <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
@@ -51,17 +62,6 @@
                             <TextBlock x:Name="txtSettings" Text="Settings" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                         </Grid>
                     </Button>-->
-                    <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnHistory_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                        <Grid Width="200" Height="50">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Border x:Name="Border3" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="1" Visibility="Collapsed"/>
-                            <SymbolIcon Symbol="Find" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSearch , Path=Foreground}"/>
-                            <TextBlock x:Name="TxtSearch" Text="Anime Search" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                        </Grid>
-                    </Button>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

@@ -5,6 +5,7 @@ using System.Net.Http;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
@@ -86,6 +87,9 @@ namespace MALClient.Items
                 await writer.StoreAsync();
                 await writer.FlushAsync();
             }
+
+            if (!targetUrl.Contains("http"))
+                targetUrl = "http://" + targetUrl;
             var til = new SecondaryTile($"{Id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{Id}.png"), TileSize.Default);
             MALClient.Utils.RegisterTile(Id.ToString());
             await til.RequestCreateAsync();
@@ -171,6 +175,35 @@ namespace MALClient.Items
                 BtnScore.Content = $"{Score}/10";
             }
             SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private void PinTile(object sender, RoutedEventArgs e)
+        {
+            PinTile(TxtTileUrl.Text);
+            TileUrlInput.Visibility = Visibility.Collapsed;
+        }
+
+        public void OpenTileUrlInput()
+        {
+            TxtTileUrl.Text = "";
+            TileUrlInput.Visibility = Visibility.Visible;
+        }
+
+        private void CloseTileUrlInput(object sender, RoutedEventArgs e)
+        {
+            TileUrlInput.Visibility = Visibility.Collapsed;
+        }
+
+        private void TxtTileUrl_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                var txt = sender as TextBox;
+                txt.IsEnabled = false; //reset input
+                txt.IsEnabled = true;
+                PinTile(txt.Text);
+                TileUrlInput.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

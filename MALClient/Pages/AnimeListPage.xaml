@@ -37,7 +37,6 @@
             <AppBarButton Icon="Pin" Label="Pin to start">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Kissanime" Click="PinTileKiss"/>
                         <MenuFlyoutItem Text="MyAnimeList" Click="PinTileMal"/>
                         <MenuFlyoutItem Text="Custom link" Click="PinTileCustom"/>
                     </MenuFlyout>

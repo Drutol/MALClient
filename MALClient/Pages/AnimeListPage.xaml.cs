@@ -188,15 +188,18 @@ namespace MALClient.Pages
             }
         }
 
+        private void PinTileCustom(object sender, RoutedEventArgs e)
+        {
+            var item = Animes.SelectedItem as AnimeItem;
+            item.OpenTileUrlInput();
+        }
+
         private void RefreshList(object sender, RoutedEventArgs e)
         {
             FetchData();
         }
 
-        private void PinTileCustom(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {

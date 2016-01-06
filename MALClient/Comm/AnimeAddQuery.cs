@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Windows.Data.Xml.Dom;
-using MALClient.Items;
 
 namespace MALClient.Comm
 {
-    class AnimeUpdateQuery : Query
+    class AnimeAddQuery : Query
     {
-        public AnimeUpdateQuery(AnimeItem item)
+        public AnimeAddQuery(string id)
         {
-
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
-            xml.AppendLine($"<episode>{item.WatchedEpisodes}</episode>");
-            xml.AppendLine($"<status>{item.status}</status>");
-            xml.AppendLine($"<score>{item.Score}</score>");
+            xml.AppendLine("<episode>0</episode>");
+            xml.AppendLine("<status>6</status>");
+            xml.AppendLine("<score>0</score>");
             //xml.AppendLine("<download_episodes></download_episodes>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
@@ -38,25 +33,7 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{item.Id}.xml?data={xml}"));
-            Request.Credentials = Creditentials.GetHttpCreditentials();
-            Request.ContentType = "application/x-www-form-urlencoded";
-            Request.Method = "GET";
-
-        }
-
-        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, int myScore)
-        {
-            var xml = new StringBuilder();
-            xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            xml.AppendLine("<entry>");
-            xml.AppendLine($"<episode>{watchedEps}</episode>");
-            xml.AppendLine($"<status>{myStatus}</status>");
-            xml.AppendLine($"<score>{myScore}</score>");
-            xml.AppendLine("</entry>");
-
-
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
             Request.Credentials = Creditentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

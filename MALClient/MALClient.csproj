@@ -103,8 +103,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Comm\AnimeAddQuery.cs" />
     <Compile Include="Comm\AnimeListParameters.cs" />
     <Compile Include="Comm\AnimeListQuery.cs" />
+    <Compile Include="Comm\AnimeRemoveQuery.cs" />
     <Compile Include="Comm\AnimeSearchQuery.cs" />
     <Compile Include="Comm\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />

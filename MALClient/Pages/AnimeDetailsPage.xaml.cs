@@ -4,10 +4,12 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
+using MALClient.Items;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,25 +34,121 @@ namespace MALClient.Pages
         public string EndDate { get; set; }
         private string _imgUrl;
 
+        public int WatchedEps;
+        public int MyStatus;
+        public int MyScore;
+
+        private bool _isOnAuthList = false;
+        private AnimeItem _animeItemReference;
+
         private string _origin;
 
         public AnimeDetailsPage()
         {
             this.InitializeComponent();
             var currentView = SystemNavigationManager.GetForCurrentView();
-
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            currentView.BackRequested += CurrentViewOnBackRequested;
 
-            currentView.BackRequested += (sender, args) =>
-            {
-                args.Handled = true;
-                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                if(_origin == "Search")
-                    Utils.GetMainPageInstance().NavigateSearch(true);
-                else
-                    Utils.GetMainPageInstance().NavigateList();
-            };
         }
+
+        private async void ChangeStatus(object sender, RoutedEventArgs e)
+        {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            var item = sender as MenuFlyoutItem;
+            MyStatus = Utils.StatusToInt(item.Text);
+            string response = await new AnimeUpdateQuery(Id,WatchedEps,MyStatus,MyScore).GetRequestResponse();
+            if (response == "Updated")
+            {
+                BtnStatus.Content = item.Text;
+            }
+            SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private async void ChangeScore(object sender, RoutedEventArgs e)
+        {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            var btn = sender as MenuFlyoutItem;
+            MyScore = int.Parse(btn.Text.Split('-').First());
+            string response = await new AnimeUpdateQuery(Id, WatchedEps, MyStatus, MyScore).GetRequestResponse();
+            if (response == "Updated")
+            {
+                
+                BtnScore.Content = Score > 0 ? $"{Score}/10" : "Unranked";
+            }
+            SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private async void ChangeWatched(object sender, RoutedEventArgs routedEventArgs)
+        {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            var btn = sender as MenuFlyoutItem;
+            WatchedEps = int.Parse(btn.Text);
+            string response = await new AnimeUpdateQuery(Id, WatchedEps, MyStatus, MyScore).GetRequestResponse();
+            if (response == "Updated")
+            {
+                BtnWatched.Content = $"{WatchedEps}/{Episodes}";
+            }
+            SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private async void AddAnime(object sender, RoutedEventArgs e)
+        {
+            string response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
+            if(!response.Contains("Created"))
+                return;
+            BtnAddAnime.Visibility = Visibility.Collapsed;
+            var animeItem = new AnimeItem(
+                        true,
+                        Title,
+                        _imgUrl,
+                        Id,
+                        6,
+                        0,
+                        Episodes,
+                        0);
+            _isOnAuthList = true;
+            MyScore = 0;
+            MyStatus = 6;
+            WatchedEps = 0;
+            _animeItemReference = animeItem;
+            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName, animeItem);
+            MyDetails.Visibility = Visibility.Visible;
+            BtnScore.Content = $"{MyScore}";
+            BtnStatus.Content = $"{Utils.StatusToString(MyStatus)}";
+            for (int i = 0; i <= Episodes; i++)
+            {
+                var item = new MenuFlyoutItem();
+                item.Text = i.ToString();
+                item.Click += ChangeWatched;
+                BtnWatchedMenuFlyout.Items.Add(item);
+            }
+            BtnWatched.Content = $"{WatchedEps}/{Episodes}";
+        }
+
+        private async void RemoveAnime(object sender, RoutedEventArgs e)
+        {
+            string response = await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse();
+            if(!response.Contains("Deleted"))
+                return;
+            BtnAddAnime.Visibility = Visibility.Visible;
+            Utils.GetMainPageInstance().RemoveAnimeEntry(Creditentials.UserName,_animeItemReference);
+            MyDetails.Visibility = Visibility.Collapsed;
+        }
+
+
+        private void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
+        {
+            args.Handled = true;
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            currentView.BackRequested -= CurrentViewOnBackRequested;
+            if (_origin == "Search")
+                Utils.GetMainPageInstance().NavigateSearch(true);
+            else
+                Utils.GetMainPageInstance().NavigateList();
+        }
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -78,7 +176,7 @@ namespace MALClient.Pages
             Title = animeElement.Element("title").Value;
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            Synopsis = Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim(); 
+            Synopsis = Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]","").Replace("[/i]",""); 
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
@@ -94,7 +192,26 @@ namespace MALClient.Pages
             Utils.GetMainPageInstance().SetStatus(Title);
 
             DetailImage.Source = new BitmapImage(new Uri(_imgUrl));
+
+            if (Utils.GetMainPageInstance().TryRetrieveListItem(Id, ref WatchedEps, ref MyStatus, ref MyScore, ref _animeItemReference))
+            {
+                _isOnAuthList = true;
+                BtnAddAnime.Visibility = Visibility.Collapsed;
+                MyDetails.Visibility = Visibility.Visible;
+                BtnScore.Content = $"{MyScore}";
+                BtnStatus.Content = $"{Utils.StatusToString(MyStatus)}";
+                for (int i = 0; i <= Episodes; i++)
+                {
+                    var item = new MenuFlyoutItem();
+                    item.Text = i.ToString();
+                    item.Click += ChangeWatched;
+                    BtnWatchedMenuFlyout.Items.Add(item);
+                }
+                BtnWatched.Content = $"{WatchedEps}/{Episodes}";
+            }
         }
+
+
 
         private async void FetchData(string id,string title)
         {

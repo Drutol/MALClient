@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,6 +9,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Pages;
 using System.Xml.Linq;
+using MALClient.Comm;
 using MALClient.Items;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -55,6 +57,28 @@ namespace MALClient
             ShowSearchStuff();
             MainMenu.IsPaneOpen = false;
             MainContent.Navigate(typeof (Pages.AnimeListPage));
+        }
+
+        internal bool TryRetrieveListItem(int id, ref int watchedEps, ref int myStatus, ref int myScore, ref AnimeItem reference)
+        {
+            if (_allAnimeItemsCache[Creditentials.UserName] == null) return false;
+            try
+            {
+                var entry = _allAnimeItemsCache[Creditentials.UserName].First(item => item.Id == id);
+                if (entry != null)
+                {
+                    watchedEps = entry.WatchedEpisodes;
+                    myStatus = entry.status;
+                    myScore = entry.Score;
+                    reference = entry;
+                    return true;
+                }
+            }
+            catch (Exception) // no item in sequence
+            {
+                return false;
+            }
+            return false;
         }
 
         private void ShowSearchStuff()
@@ -185,6 +209,22 @@ namespace MALClient
             List<AnimeItem> data;
             _allAnimeItemsCache.TryGetValue(source, out data);
             return data;
+        }
+
+        public void AddAnimeEntry(string source, AnimeItem item)
+        {
+            if (_allAnimeItemsCache[source] != null)
+            {
+                _allAnimeItemsCache[source].Add(item);
+            }
+        }
+
+        public void RemoveAnimeEntry(string source, AnimeItem item)
+        {
+            if (_allAnimeItemsCache[source] != null)
+            {
+                _allAnimeItemsCache[source].Remove(item);
+            }
         }
     }
 }

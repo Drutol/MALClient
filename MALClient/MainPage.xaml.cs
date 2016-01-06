@@ -9,8 +9,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Pages;
 using System.Xml.Linq;
+using Windows.UI.Popups;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.UserControls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,7 +30,18 @@ namespace MALClient
         {
             this.InitializeComponent();
             MALClient.Utils.CheckTiles();
-            MainContent.Navigate(typeof (Pages.AnimeListPage));
+            if (Creditentials.Authenticated)
+            {
+                NavigateList();
+                HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
+            }
+            else
+            {
+                SetStatus(Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In");
+                NavigateLogin();
+                HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
+            }
+            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -104,7 +117,6 @@ namespace MALClient
         {
             _onSearchPage = false;
             MainMenu.IsPaneOpen = false;
-            SetStatus("Log In");
             HideSearchStuff();
             MainContent.Navigate(typeof(Pages.LogInPage));
         }
@@ -119,16 +131,22 @@ namespace MALClient
         }
 
         private bool _onSearchPage = false;
-        internal void NavigateSearch(bool autoSearch = false)
+        internal async void NavigateSearch(bool autoSearch = false)
         {
+            if (!Creditentials.Authenticated)
+            {
+                var msg = new MessageDialog("Log in order to search.");
+                await msg.ShowAsync();
+                return;
+            }
             _onSearchPage = true;
             _currSearchQuery = SearchInput.Text;
             ShowSearchStuff();
             ToggleSearchStuff();
             MainMenu.IsPaneOpen = false;
-            if(!autoSearch)
+            if (!autoSearch)
                 SearchInput.Focus(FocusState.Keyboard);
-            MainContent.Navigate(typeof (Pages.AnimeSearchPage),autoSearch ? GetSearchQuery() : "");
+            MainContent.Navigate(typeof(Pages.AnimeSearchPage), autoSearch ? GetSearchQuery() : "");
         }
 
         private void ReversePane(object sender, RoutedEventArgs e)
@@ -201,7 +219,7 @@ namespace MALClient
         
         public void SaveAnimeEntries(string source,List<AnimeItem> items)
         {
-            _allAnimeItemsCache.Add(source,items);
+            _allAnimeItemsCache[source] = items;
         }
 
         public List<AnimeItem> RetrieveAnimeEntries(string source)

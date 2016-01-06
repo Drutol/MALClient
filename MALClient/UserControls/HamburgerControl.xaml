@@ -48,7 +48,7 @@
                             </Grid.ColumnDefinitions>
                             <Border x:Name="Border4" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="1" Visibility="Collapsed"/>
                             <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtLogin , Path=Foreground}"/>
-                            <TextBlock x:Name="TxtLogin" Text="Log In" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                            <TextBlock x:Name="TxtLogin" Text="Log In" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                         </Grid>
                     </Button>
                     <!--<Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnSettings_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">

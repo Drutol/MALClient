@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -225,7 +226,10 @@ namespace MALClient.Pages
         }
 
 
-
+        private async void OpenMalPage(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/anime/{Id}"));
+        }
     }
 
 

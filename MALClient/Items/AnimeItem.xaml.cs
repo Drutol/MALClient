@@ -5,6 +5,7 @@ using System.Net.Http;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -55,6 +56,7 @@ namespace MALClient.Items
                 IncrementEps.Visibility = Visibility.Collapsed;
                 DecrementEps.Visibility = Visibility.Collapsed;
                 Status.IsEnabled = false;
+                BtnScore.IsEnabled = false;
             }
         }
 
@@ -94,21 +96,33 @@ namespace MALClient.Items
             Root.Background = brush;
         }
 
-        private Point _initialPoint ;
+        private Point _initialPoint;
+        private bool _manipulating;
+        private MessageDialog _msg; 
         private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             _initialPoint = e.Position;
+            _manipulating = true;
         }
 
-        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private async void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (e.IsInertial)
+            if (e.IsInertial && _manipulating)
             {
                 Point currentpoint = e.Position;
                 if (currentpoint.X - _initialPoint.X >= 70) // swipe right
                 {
-                    Utils.GetMainPageInstance().NavigateDetails(null,Id,title);
                     e.Complete();
+                    e.Handled = true;
+                    _manipulating = false;
+                    if (!Creditentials.Authenticated)
+                    {
+                        _msg = new MessageDialog("Log in in order to see details.");
+                        await _msg.ShowAsync();
+                    }
+                    else
+                        Utils.GetMainPageInstance().NavigateDetails(null,Id,title);
+
                 }
             }
         }

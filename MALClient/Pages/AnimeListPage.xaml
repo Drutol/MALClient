@@ -27,7 +27,7 @@
                         <Flyout>
                             <StackPanel>
                                 <TextBlock VerticalAlignment="Center" Text="MAL Username:"/>
-                                <TextBox x:Name="ListSource" Margin="5,5"/>
+                                <TextBox x:Name="ListSource" Margin="5,5" KeyDown="ListSource_OnKeyDown"/>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -73,4 +73,5 @@
         <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
         <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True" Visibility="Collapsed"  />
     </Grid>
+     
 </Page>

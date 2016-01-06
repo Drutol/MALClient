@@ -31,7 +31,7 @@
             </Grid.RowDefinitions>
             <Image x:Name="DetailImage" Grid.Column="0" Stretch="Fill" Width="120" Height="148" Margin="1,1"/>
             <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <Button Width="50" Height="50">
+                <Button Width="50" Height="50" Click="OpenMalPage">
                     <SymbolIcon Symbol="Globe"/>
                 </Button>
                 <Button x:Name="BtnAddAnime" Width="50" Height="50" Click="AddAnime">

@@ -4,11 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using Windows.Graphics.Printing;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using MALClient.Comm;
 using MALClient.Items;
@@ -37,10 +39,16 @@ namespace MALClient.Pages
         public AnimeListPage()
         {
             this.InitializeComponent();
-            if (Creditentials.UserName != null)
+            if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
             {
                 ListSource.Text = Creditentials.UserName;
                 FetchData();
+            }
+            else
+            {
+                EmptyNotice.Visibility = Visibility.Visible;
+                EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
+                Utils.GetMainPageInstance()?.SetStatus("Anime List");
             }
         }
 
@@ -48,6 +56,17 @@ namespace MALClient.Pages
         {
             SpinnerLoading.Visibility = Visibility.Visible;
             EmptyNotice.Visibility = Visibility.Collapsed;
+
+            if (string.IsNullOrWhiteSpace(ListSource.Text))
+            {
+                EmptyNotice.Visibility = Visibility.Visible;
+                EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
+            }
+            else
+            {
+                EmptyNotice.Text = "We have come up empty...";
+            }
+
             _allAnimeItems.Clear();
             _animeItems.Clear();
             var possibleData = Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text);
@@ -126,7 +145,7 @@ namespace MALClient.Pages
             if(_animeItems.Count == 0)
                 EmptyNotice.Visibility = Visibility.Visible;
             AlternateRowColors();
-            Utils.GetMainPageInstance()?.SetStatus($"List - {ListSource.Text} - {MALClient.Utils.StatusToString(GetDesiredStatus())}");
+            Utils.GetMainPageInstance()?.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
         }
 
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
@@ -211,6 +230,17 @@ namespace MALClient.Pages
             var chbox = sender as ToggleMenuFlyoutItem;
             _sortDescending = chbox.IsChecked;
             RefreshList();
+        }
+
+        private void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                var txt = sender as TextBox;
+                txt.IsEnabled = false; //reset input
+                txt.IsEnabled = true;
+                FetchData();
+            }
         }
     }
 }

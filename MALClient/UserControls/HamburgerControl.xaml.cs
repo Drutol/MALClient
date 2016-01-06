@@ -11,8 +11,17 @@ using Windows.UI.Xaml.Media;
 
 namespace MALClient.UserControls
 {
+
+    public enum HamburgerButtons
+    {
+        AnimeList,
+        AnimeSearch,
+        LogIn
+    }
+
     public sealed partial class HamburgerControl : UserControl
     {
+
         public HamburgerControl()
         {
             InitializeComponent();
@@ -45,28 +54,44 @@ namespace MALClient.UserControls
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().NavigateList();
-            ResetActiveButton();
-            TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            SetActiveButton(HamburgerButtons.AnimeList);
         }
 
         private void BtnHistory_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().NavigateSearch();
-            ResetActiveButton();
-            TxtSearch.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            SetActiveButton(HamburgerButtons.AnimeSearch);
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().NavigateLogin();
+            SetActiveButton(HamburgerButtons.LogIn);
+        }
+
+        public void SetActiveButton(HamburgerButtons val)
+        {
             ResetActiveButton();
-            TxtLogin.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            switch (val)
+            {
+                case HamburgerButtons.AnimeList:
+                    TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
+                case HamburgerButtons.AnimeSearch:
+                    TxtSearch.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
+                case HamburgerButtons.LogIn:
+                    TxtLogin.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(val), val, null);
+            }
         }
 
         private void ResetActiveButton()
         {
             //txtSettings.Foreground = new SolidColorBrush(Colors.Black);
-            //txtHistory.Foreground = new SolidColorBrush(Colors.Black);
+            TxtSearch.Foreground = new SolidColorBrush(Colors.Black);
             TxtList.Foreground = new SolidColorBrush(Colors.Black);
             TxtLogin.Foreground = new SolidColorBrush(Colors.Black);
         }
@@ -95,9 +120,7 @@ namespace MALClient.UserControls
 
         private MainPage GetMainPageInstance()
         {
-            return MALClient.Utils.GetMainPageInstance();
+            return Utils.GetMainPageInstance();
         }
-
-
     }
 }

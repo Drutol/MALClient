@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.Printing;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
@@ -35,6 +39,8 @@ namespace MALClient.Pages
         private bool _sortDescending = true;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>();
         private List<AnimeItem> _allAnimeItems = new List<AnimeItem>();
+        private TimeSpan _lastUpdateDiff;
+        private System.Threading.Timer _timer;
 
         public AnimeListPage()
         {
@@ -50,9 +56,21 @@ namespace MALClient.Pages
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
                 Utils.GetMainPageInstance()?.SetStatus("Anime List");
             }
+            _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null,
+                (int) TimeSpan.FromMinutes(1).TotalMilliseconds, (int) TimeSpan.FromMinutes(1).TotalMilliseconds);
+
         }
 
-        private async void FetchData()
+        private async void UpdateStatus()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                _lastUpdateDiff = _lastUpdateDiff.Add(TimeSpan.FromMinutes(1));
+                UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
+            });
+        }
+
+        private async void FetchData(bool force = false)
         {
             SpinnerLoading.Visibility = Visibility.Visible;
             EmptyNotice.Visibility = Visibility.Collapsed;
@@ -69,18 +87,30 @@ namespace MALClient.Pages
 
             _allAnimeItems.Clear();
             _animeItems.Clear();
-            var possibleData = Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text);
-            if (possibleData != null)
-                _allAnimeItems = possibleData;
+            var possibleData = force ? null : Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text);
+            if (possibleData != null && possibleData.Count > 0)
+                _allAnimeItems = possibleData;        
             else
             {
-                var args = new AnimeListParameters
+                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource.Text);
+                string data;
+                if (possibleCachedData != null)
                 {
-                    status = "all",
-                    type = "anime",
-                    user = ListSource.Text
-                };
-                var data = await new AnimeListQuery(args).GetRequestResponse();
+                    data = possibleCachedData.Item1;
+                    _lastUpdateDiff = possibleCachedData.Item2;
+                }
+                else
+                {
+                    var args = new AnimeListParameters
+                    {
+                        status = "all",
+                        type = "anime",
+                        user = ListSource.Text
+                    };
+                    data = await new AnimeListQuery(args).GetRequestResponse();
+                    DataCache.SaveDataForUser(ListSource.Text, data);     
+                    _lastUpdateDiff = TimeSpan.Zero;            
+                }
                 XDocument parsedData = XDocument.Parse(data);
                 var anime = parsedData.Root.Elements("anime").ToList();
                 foreach (var item in anime)
@@ -95,7 +125,8 @@ namespace MALClient.Pages
                         Convert.ToInt32(item.Element("series_episodes").Value),
                         Convert.ToInt32(item.Element("my_score").Value)));
                 }
-                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text,_allAnimeItems);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allAnimeItems);
+
             }
 
 
@@ -145,7 +176,40 @@ namespace MALClient.Pages
             if(_animeItems.Count == 0)
                 EmptyNotice.Visibility = Visibility.Visible;
             AlternateRowColors();
-            Utils.GetMainPageInstance()?.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+            UpdateUpperStatus();
+            UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
+        }
+
+        private async void UpdateUpperStatus(int retries = 5)
+        {
+            var page = Utils.GetMainPageInstance();
+            if (page != null)
+                page.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+            else if (retries >= 0)
+            {
+                await Task.Delay(1000);
+                UpdateUpperStatus(retries-1);
+            }
+        }
+
+        private string GetLastUpdatedStatus()
+        {
+            string output;
+            if (_lastUpdateDiff.Days > 0)
+                output = _lastUpdateDiff.Days + "day" + (_lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
+            else if(_lastUpdateDiff.Hours > 0)
+            {
+                output = _lastUpdateDiff.Hours + "hour" + (_lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+            }
+            else if (_lastUpdateDiff.Minutes > 0)
+            {               
+                output = $"{_lastUpdateDiff.Minutes} minute" + (_lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+            }
+            else
+            {
+                output = "just now.";
+            }
+            return output;
         }
 
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
@@ -196,10 +260,8 @@ namespace MALClient.Pages
 
         private void RefreshList(object sender, RoutedEventArgs e)
         {
-            FetchData();
+            FetchData(true);
         }
-
-
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {

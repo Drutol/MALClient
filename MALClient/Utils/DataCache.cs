@@ -19,15 +19,15 @@ namespace MALClient
             await FileIO.WriteTextAsync(file, data);
         }
 
-        public static async Task<Tuple<string,TimeSpan>> RetrieveDataForUser(string user)
+        public static async Task<Tuple<string,DateTime>> RetrieveDataForUser(string user)
         {
             try
             {
                 var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.xml");
                 var data = await Windows.Storage.FileIO.ReadTextAsync(file);
                 var lines = data.Split(new char[] {'\n', '\r'},StringSplitOptions.RemoveEmptyEntries);
-                TimeSpan diff;
-                if (!CheckForOldData(lines[lines.Length - 1],ref diff))
+                DateTime lastUpdateTime = new DateTime();
+                if (!CheckForOldData(lines[lines.Length - 1],ref lastUpdateTime))
                 {
                     await file.DeleteAsync();
                     return null;
@@ -37,7 +37,7 @@ namespace MALClient
                 {
                     data += lines[i];
                 }
-                return new Tuple<string, TimeSpan>(data,diff);
+                return new Tuple<string, DateTime>(data,lastUpdateTime);
             }
             catch (Exception)
             {
@@ -45,11 +45,11 @@ namespace MALClient
             }            
         }
 
-        public static bool CheckForOldData(string timestamp, ref TimeSpan time)
+        public static bool CheckForOldData(string timestamp, ref DateTime time)
         {
             var data = ConvertFromUnixTimestamp(double.Parse(timestamp));
             TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(data);
-            time = diff;
+            time = data;
             if (diff.TotalSeconds > 3600)
                 return false;
             return true;

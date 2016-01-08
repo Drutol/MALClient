@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -67,7 +68,7 @@ namespace MALClient.Items
                 Point currentpoint = e.Position;
                 if (currentpoint.X - initialpoint.X >= 70) //left
                 {
-                    Utils.GetMainPageInstance().NavigateDetails(item);
+                    Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item));
                     e.Complete();
                 }
             }

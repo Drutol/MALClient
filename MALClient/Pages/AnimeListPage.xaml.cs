@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -39,7 +40,7 @@ namespace MALClient.Pages
         private bool _sortDescending = true;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>();
         private List<AnimeItem> _allAnimeItems = new List<AnimeItem>();
-        private TimeSpan _lastUpdateDiff;
+        private DateTime _lastUpdate;
         private System.Threading.Timer _timer;
 
         public AnimeListPage()
@@ -56,18 +57,25 @@ namespace MALClient.Pages
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
                 Utils.GetMainPageInstance()?.SetStatus("Anime List");
             }
-            _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null,
-                (int) TimeSpan.FromMinutes(1).TotalMilliseconds, (int) TimeSpan.FromMinutes(1).TotalMilliseconds);
+            if(_timer == null)
+                _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
         }
 
-        private async void UpdateStatus()
+        public async void UpdateStatus()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                _lastUpdateDiff = _lastUpdateDiff.Add(TimeSpan.FromMinutes(1));
                 UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
             });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (_timer == null)
+                _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+            UpdateStatus();
+            base.OnNavigatedTo(e);
         }
 
         private async void FetchData(bool force = false)
@@ -87,7 +95,7 @@ namespace MALClient.Pages
 
             _allAnimeItems.Clear();
             _animeItems.Clear();
-            var possibleData = force ? null : Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text);
+            var possibleData = force ? null : Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text, out _lastUpdate);
             if (possibleData != null && possibleData.Count > 0)
                 _allAnimeItems = possibleData;        
             else
@@ -97,7 +105,7 @@ namespace MALClient.Pages
                 if (possibleCachedData != null)
                 {
                     data = possibleCachedData.Item1;
-                    _lastUpdateDiff = possibleCachedData.Item2;
+                    _lastUpdate = possibleCachedData.Item2;
                 }
                 else
                 {
@@ -108,8 +116,8 @@ namespace MALClient.Pages
                         user = ListSource.Text
                     };
                     data = await new AnimeListQuery(args).GetRequestResponse();
-                    DataCache.SaveDataForUser(ListSource.Text, data);     
-                    _lastUpdateDiff = TimeSpan.Zero;            
+                    DataCache.SaveDataForUser(ListSource.Text, data);
+                    _lastUpdate = DateTime.Now;
                 }
                 XDocument parsedData = XDocument.Parse(data);
                 var anime = parsedData.Root.Elements("anime").ToList();
@@ -125,7 +133,7 @@ namespace MALClient.Pages
                         Convert.ToInt32(item.Element("series_episodes").Value),
                         Convert.ToInt32(item.Element("my_score").Value)));
                 }
-                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allAnimeItems);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allAnimeItems, _lastUpdate);
 
             }
 
@@ -195,15 +203,16 @@ namespace MALClient.Pages
         private string GetLastUpdatedStatus()
         {
             string output;
-            if (_lastUpdateDiff.Days > 0)
-                output = _lastUpdateDiff.Days + "day" + (_lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
-            else if(_lastUpdateDiff.Hours > 0)
+            TimeSpan lastUpdateDiff = DateTime.Now.ToUniversalTime().Subtract(_lastUpdate);
+            if (lastUpdateDiff.Days > 0)
+                output = lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
+            else if(lastUpdateDiff.Hours > 0)
             {
-                output = _lastUpdateDiff.Hours + "hour" + (_lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+                output = lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
             }
-            else if (_lastUpdateDiff.Minutes > 0)
+            else if (lastUpdateDiff.Minutes > 0)
             {               
-                output = $"{_lastUpdateDiff.Minutes} minute" + (_lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+                output = $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
             }
             else
             {

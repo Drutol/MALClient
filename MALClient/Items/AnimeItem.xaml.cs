@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
+using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -125,7 +126,7 @@ namespace MALClient.Items
                         await _msg.ShowAsync();
                     }
                     else
-                        Utils.GetMainPageInstance().NavigateDetails(null,Id,title);
+                        Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(Id, title, null));
 
                 }
             }

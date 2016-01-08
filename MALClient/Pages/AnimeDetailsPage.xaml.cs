@@ -145,9 +145,9 @@ namespace MALClient.Pages
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             currentView.BackRequested -= CurrentViewOnBackRequested;
             if (_origin == "Search")
-                Utils.GetMainPageInstance().NavigateSearch(true);
+                Utils.GetMainPageInstance().Navigate(PageIndex.PageSearch,true);
             else
-                Utils.GetMainPageInstance().NavigateList();
+                Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
         }
 
 

@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -16,7 +17,8 @@ namespace MALClient.UserControls
     {
         AnimeList,
         AnimeSearch,
-        LogIn
+        LogIn,
+        Settings
     }
 
     public sealed partial class HamburgerControl : UserControl
@@ -31,7 +33,7 @@ namespace MALClient.UserControls
         internal void PaneOpened()
         {
             Border1.SetValue(Grid.ColumnSpanProperty, 2);
-            //Border2.SetValue(Grid.ColumnSpanProperty, 2);
+            Border2.SetValue(Grid.ColumnSpanProperty, 2);
             Border3.SetValue(Grid.ColumnSpanProperty, 2);
             Border4.SetValue(Grid.ColumnSpanProperty, 2);
         }
@@ -39,33 +41,32 @@ namespace MALClient.UserControls
         internal void PaneClosed()
         {
             Border1.SetValue(Grid.ColumnSpanProperty, 1);
-            //Border2.SetValue(Grid.ColumnSpanProperty, 1);
+            Border2.SetValue(Grid.ColumnSpanProperty, 1);
             Border3.SetValue(Grid.ColumnSpanProperty, 1);
             Border4.SetValue(Grid.ColumnSpanProperty, 1);
         }
 
-        //private void BtnSettings_Click(object sender, RoutedEventArgs e)
-        //{
-        //    GetMainPageInstance().NavigateSettings();
-        //    ResetActiveButton();
-        //    txtSettings.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-        //}
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            GetMainPageInstance().Navigate(PageIndex.PageSettings);
+            SetActiveButton(HamburgerButtons.AnimeList);
+        }
 
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {
-            GetMainPageInstance().NavigateList();
+            GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
             SetActiveButton(HamburgerButtons.AnimeList);
         }
 
         private void BtnHistory_Click(object sender, RoutedEventArgs e)
         {
-            GetMainPageInstance().NavigateSearch();
+            GetMainPageInstance().Navigate(PageIndex.PageSearch);
             SetActiveButton(HamburgerButtons.AnimeSearch);
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            GetMainPageInstance().NavigateLogin();
+            GetMainPageInstance().Navigate(PageIndex.PageLogIn);
             SetActiveButton(HamburgerButtons.LogIn);
         }
 
@@ -82,6 +83,9 @@ namespace MALClient.UserControls
                     break;
                 case HamburgerButtons.LogIn:
                     TxtLogin.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
+                case HamburgerButtons.Settings:
+                    TxtSettings.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);

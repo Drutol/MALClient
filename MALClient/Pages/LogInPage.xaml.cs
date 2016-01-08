@@ -41,7 +41,7 @@ namespace MALClient.Pages
             {
                 var response = await new AuthQuery().GetRequestResponse();
                 Creditentials.SetAuthStatus(true);
-                Utils.GetMainPageInstance().NavigateList();
+                Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
             }
             catch (Exception exc)
             {
@@ -55,7 +55,7 @@ namespace MALClient.Pages
         {
             Creditentials.Update("","");
             Creditentials.SetAuthStatus(false);
-            Utils.GetMainPageInstance().NavigateLogin();
+            Utils.GetMainPageInstance().Navigate(PageIndex.PageLogIn);
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)

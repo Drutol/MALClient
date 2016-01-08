@@ -31,8 +31,7 @@ namespace MALClient
         public MainPage()
         {
             this.InitializeComponent();
-            Application.Current.Resuming += App_Resuming;
-            MALClient.Utils.CheckTiles();
+            Utils.CheckTiles();
             if (Creditentials.Authenticated)
             {
                 Navigate(PageIndex.PageAnimeList);
@@ -45,28 +44,6 @@ namespace MALClient
                 HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
             }
             
-        }
-
-
-
-        private void App_Resuming(object sender, object e)
-        {
-            if (MainContent.Content is AnimeListPage)
-            {
-                var page = MainContent.Content as AnimeListPage;
-                page.UpdateStatus();
-            }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if(!string.IsNullOrWhiteSpace(e.Parameter.ToString()))
-                LaunchUri(e.Parameter.ToString());
-        }
-
-        private async void LaunchUri(string url)
-        {
-            await Launcher.LaunchUriAsync(new Uri(url));
         }
 
         private void ReversePane()
@@ -102,10 +79,6 @@ namespace MALClient
             }
             return false;
         }
-
-
-
-
 
         #region Navigation
         internal async void Navigate(PageIndex index, object args = null) 

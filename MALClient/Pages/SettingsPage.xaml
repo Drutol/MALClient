@@ -11,12 +11,12 @@
         <ScrollViewer>
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <ToggleSwitch x:Name="ToggleCache" VerticalAlignment="Center"/>
+                    <ToggleSwitch x:Name="ToggleCache" VerticalAlignment="Center" Toggled="ToggleDataCaching"/>
                     <TextBlock Text="Enable data caching." VerticalAlignment="Center" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="For how long cached data is valid?" FontWeight="Medium" TextWrapping="WrapWholeWords" HorizontalAlignment="Center"/>
-                    <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5">
+                    <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium" TextWrapping="WrapWholeWords" HorizontalAlignment="Center"/>
+                    <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5" SelectionChanged="ChangeCachePersistency">
                         <ComboBox.Items>
                             <ComboBoxItem Content="10 minutes"/>
                             <ComboBoxItem Content="1 hour"/>
@@ -32,7 +32,7 @@
                     <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center"/>
                     <ListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="150" HorizontalAlignment="Stretch" SelectionMode="None" Margin="0,10,0,5">
                         <ListView.Header>
-                            <TextBlock x:Name="ListEmptyNotice" Visibility="Collapsed" Text="No cached entries."/>
+                            <TextBlock x:Name="ListEmptyNotice" Visibility="Collapsed" Text="No cached entries." VerticalAlignment="Center"/>
                         </ListView.Header>
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">

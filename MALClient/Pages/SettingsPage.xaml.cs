@@ -25,7 +25,7 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
-        //(string)ApplicationData.Current.LocalSettings.Values["username"];
+        private bool _initialized = false;
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -38,7 +38,8 @@ namespace MALClient.Pages
                 SecondsToIndexHelper((int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600));
 
             PopulateCachedEntries();
-
+            Utils.GetMainPageInstance()?.SetStatus("Settings");
+            _initialized = true;
             base.OnNavigatedTo(e);
         }
 
@@ -89,6 +90,44 @@ namespace MALClient.Pages
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private int IndexToSecondsHelper(int index)
+        {
+            switch (index)
+            {
+                case 0: //10m
+                    return 600;
+                case 1: //1h
+                    return 3600;
+                case 2: //2h
+                    return 7200;
+                case 3: //3h
+                    return 10800;
+                case 4: //5h
+                    return 18000;
+                case 5: //10h
+                    return 36000;
+                case 6: //1d
+                    return 86400;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void ChangeCachePersistency(object sender, SelectionChangedEventArgs e)
+        {
+            if(!_initialized)
+                return;;
+            var cmb = sender as ComboBox;
+            ApplicationData.Current.LocalSettings.Values["CachePersistency"] = IndexToSecondsHelper(cmb.SelectedIndex);
+        }
+
+        private void ToggleDataCaching(object sender, RoutedEventArgs e)
+        {
+            if(!_initialized)
+                return;
+            ApplicationData.Current.LocalSettings.Values["EnableCache"] = ToggleCache.IsOn;
         }
     }
 }

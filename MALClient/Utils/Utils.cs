@@ -57,7 +57,7 @@ namespace MALClient
         public static void RegisterTile(string id)
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
+            if (String.IsNullOrWhiteSpace(tiles))
                 tiles = "";
             tiles += id + ";";
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
@@ -66,7 +66,7 @@ namespace MALClient
         public static async void CheckTiles()
         {
             string tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
-            if(string.IsNullOrWhiteSpace(tiles))
+            if(String.IsNullOrWhiteSpace(tiles))
                 return;
      
 
@@ -99,6 +99,43 @@ namespace MALClient
             return (MainPage)frame.Content;
         }
 
+        public static DateTime ConvertFromUnixTimestamp(double timestamp)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return origin.AddSeconds(timestamp);
+        }
+
+        public static int ConvertToUnixTimestamp(DateTime date)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan diff = date.ToUniversalTime() - origin;
+            return (int)Math.Floor(diff.TotalSeconds);
+        }
+
+        public static int GetCachePersitence()
+        {
+            return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600);
+        }
+
+        public static bool IsCachingEnabled()
+        {
+            return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
+        }
+
+        static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        /// <summary>
+        /// http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc
+        /// </summary>
+        public static string SizeSuffix(long value)
+        {
+            if (value < 0) { return "-" + SizeSuffix(-value); }
+            if (value == 0) { return "0.0 bytes"; }
+
+            int mag = (int)Math.Log(value, 1024);
+            decimal adjustedSize = (decimal)value / (1L << (mag * 10));
+
+            return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
+        }
     }
 
     

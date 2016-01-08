@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar x:Name="BottomCommandBar">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Sort" Label="Order by">
                     <AppBarButton.Flyout>
@@ -24,7 +24,7 @@
                 </AppBarButton>
                 <AppBarButton Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
-                        <Flyout>
+                        <Flyout x:Name="FlyoutListSource">
                             <StackPanel>
                                 <TextBlock VerticalAlignment="Center" Text="MAL Username:"/>
                                 <TextBox x:Name="ListSource" Margin="5,5" KeyDown="ListSource_OnKeyDown"/>

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,16 +31,16 @@ namespace MALClient.UserControls
             user = file.DisplayName.Split('_')[2];
             fileName = file.Name;           
             TxtUser.Text = user;
-            SetModificationDate(file);
-            
-           
+            SetDetails(file);                    
         }
 
-        private async void SetModificationDate(StorageFile file)
+        private async void SetDetails(StorageFile file)
         {
             var data = await file.GetBasicPropertiesAsync();
+            
             saveTime = data.DateModified.LocalDateTime;
-            TxtDate.Text = saveTime.ToString();
+            TxtDate.Text = saveTime.ToString("dd/MM/yyyy HH:mm");
+            TxtSize.Text = Utils.SizeSuffix((long)data.Size);
         }
 
         private async void DeleteFile(object sender, RoutedEventArgs e)
@@ -47,6 +48,7 @@ namespace MALClient.UserControls
             var file = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
             await file.DeleteAsync();
             IsEnabled = false;
+            Background = new SolidColorBrush(Colors.DarkGray);
         }
     }
 }

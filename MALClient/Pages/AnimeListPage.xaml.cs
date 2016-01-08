@@ -46,21 +46,10 @@ namespace MALClient.Pages
         public AnimeListPage()
         {
             this.InitializeComponent();
-            if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
-            {
-                ListSource.Text = Creditentials.UserName;
-                FetchData();
-            }
-            else
-            {
-                EmptyNotice.Visibility = Visibility.Visible;
-                EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
-                Utils.GetMainPageInstance()?.SetStatus("Anime List");
-            }
-            if(_timer == null)
-                _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+
 
         }
+
 
         public async void UpdateStatus()
         {
@@ -72,6 +61,17 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
+            {
+                ListSource.Text = Creditentials.UserName;
+                FetchData();
+            }
+            else
+            {
+                EmptyNotice.Visibility = Visibility.Visible;
+                EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
+                Utils.GetMainPageInstance()?.SetStatus("Anime List");
+            }
             if (_timer == null)
                 _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
             UpdateStatus();
@@ -313,6 +313,8 @@ namespace MALClient.Pages
                 var txt = sender as TextBox;
                 txt.IsEnabled = false; //reset input
                 txt.IsEnabled = true;
+                FlyoutListSource.Hide();
+                BottomCommandBar.IsOpen = false;
                 FetchData();
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -40,6 +41,8 @@ namespace MALClient.Pages
             try
             {
                 var response = await new AuthQuery().GetRequestResponse();
+                var doc = XDocument.Parse(response);
+                Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
                 Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
             }

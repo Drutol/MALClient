@@ -16,9 +16,9 @@
                             <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
-                            <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode" IsChecked="True"/>
+                            <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
                             <MenuFlyoutSeparator/>
-                            <ToggleMenuFlyoutItem Text="Decsending" IsChecked="True" Click="ChangeSortOrder"/>
+                            <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -64,7 +64,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True">
                 <ListView.Header>
-                <TextBlock x:Name="UpdateNotice"  Visibility="Visible" Margin="1" Text="" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#FFB9B9B9" />
+                <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" Text="" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#FFB9B9B9" />
             </ListView.Header>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

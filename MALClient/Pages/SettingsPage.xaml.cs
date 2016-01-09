@@ -33,14 +33,35 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ToggleCache.IsOn = (bool)(ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
-            ComboCachePersistency.SelectedIndex =
-                SecondsToIndexHelper((int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600));
-
+            ToggleCache.IsOn = Utils.IsCachingEnabled();
+            ComboCachePersistency.SelectedIndex = SecondsToIndexHelper(Utils.GetCachePersitence());
+            SetSortOrder();
+            BtnDescending.IsChecked = Utils.IsSortDescending();
             PopulateCachedEntries();
             Utils.GetMainPageInstance()?.SetStatus("Settings");
             _initialized = true;
             base.OnNavigatedTo(e);
+        }
+
+        private void SetSortOrder()
+        {
+            switch (Utils.GetSortOrder())
+            {
+                case AnimeListPage.SortOptions.SortNothing:
+                    Sort4.IsChecked = true;
+                    break;
+                case AnimeListPage.SortOptions.SortTitle:
+                    Sort1.IsChecked = true;
+                    break;
+                case AnimeListPage.SortOptions.SortScore:
+                    Sort2.IsChecked = true;
+                    break;
+                case AnimeListPage.SortOptions.SortWatched:
+                    Sort3.IsChecked = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
 
@@ -54,17 +75,15 @@ namespace MALClient.Pages
                     ListCurrentlyCached.Items.Add(new CachedEntryItem(file));
                 }
             }
-            if(files.Count == 0)
+            if (files.Count == 0)
                 ListEmptyNotice.Visibility = Visibility.Visible;
             else
             {
                 ListEmptyNotice.Visibility = Visibility.Collapsed;
             }
         }
-        
-        
-        
-        
+
+
         /// <summary>
         /// Converts seconds to combo box item index.
         /// </summary>
@@ -117,17 +136,51 @@ namespace MALClient.Pages
 
         private void ChangeCachePersistency(object sender, SelectionChangedEventArgs e)
         {
-            if(!_initialized)
-                return;;
+            if (!_initialized)
+                return;
+            ;
             var cmb = sender as ComboBox;
             ApplicationData.Current.LocalSettings.Values["CachePersistency"] = IndexToSecondsHelper(cmb.SelectedIndex);
         }
 
         private void ToggleDataCaching(object sender, RoutedEventArgs e)
         {
-            if(!_initialized)
+            if (!_initialized)
                 return;
             ApplicationData.Current.LocalSettings.Values["EnableCache"] = ToggleCache.IsOn;
+        }
+
+        private void SelectSortOrder(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as ToggleMenuFlyoutItem;
+            Sort1.IsChecked = false;
+            Sort2.IsChecked = false;
+            Sort3.IsChecked = false;
+            Sort4.IsChecked = false;
+            btn.IsChecked = true;
+            AnimeListPage.SortOptions sortOptions;
+            switch (btn.Text)
+            {
+                case "Title":
+                    sortOptions = AnimeListPage.SortOptions.SortTitle;
+                    break;
+                case "Score":
+                    sortOptions = AnimeListPage.SortOptions.SortScore;
+                    break;
+                case "Watched":
+                    sortOptions = AnimeListPage.SortOptions.SortWatched;
+                    break;
+                default:
+                    sortOptions = AnimeListPage.SortOptions.SortNothing;
+                    break;
+            }
+            ApplicationData.Current.LocalSettings.Values["SortOrder"] = (int) sortOptions;
+        }
+
+        private void ChangeSortOrder(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as ToggleMenuFlyoutItem;
+            ApplicationData.Current.LocalSettings.Values["SortDescending"] = btn.IsChecked;
         }
     }
 }

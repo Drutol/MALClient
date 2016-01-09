@@ -28,7 +28,7 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class AnimeListPage : Page
     {
-        private enum SortOptions
+        public enum SortOptions
         {
             SortNothing,
             SortTitle,
@@ -59,7 +59,7 @@ namespace MALClient.Pages
         }
 
 
-        public async void UpdateStatus()
+        private async void UpdateStatus()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -69,6 +69,8 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SetSortOrder();
+            BtnOrderDescending.IsChecked = Utils.IsSortDescending();
             if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
             {
                 ListSource.Text = Creditentials.UserName;
@@ -82,6 +84,7 @@ namespace MALClient.Pages
             }
             if (_timer == null)
                 _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+           
             UpdateStatus();
             base.OnNavigatedTo(e);
         }
@@ -102,12 +105,13 @@ namespace MALClient.Pages
             }
 
             _allLoadedAnimeItems.Clear();
+            _allDownloadedAnimeItems.Clear();
             _animeItems.Clear();
 
-            if(force)
-                Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text,out _allLoadedAnimeItems, out _allDownloadedAnimeItems , out _lastUpdate,out _loadedDictionary);              
+            if(!force)
+                Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text,out _allLoadedAnimeItems, out _allDownloadedAnimeItems , out _lastUpdate,out _loadedDictionary);
 
-            else
+            if (_allLoadedAnimeItems.Count == 0 || _allDownloadedAnimeItems.Count == 0)
             {
                 var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource.Text);
                 string data;
@@ -133,8 +137,11 @@ namespace MALClient.Pages
                 int status = GetDesiredStatus();
 
                 if (status == 7)
-                    for (int i = 0; i < 5; i++)
+                {
+                    for (int i = 0; i < 4; i++)
                         _loadedDictionary[i] = true;
+                    _loadedDictionary[6] = true;
+                }
                 else
                     _loadedDictionary[status] = true;
 
@@ -286,6 +293,8 @@ namespace MALClient.Pages
             {
                 output = "just now.";
             }
+            if(lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
+                UpdateNotice.Visibility = Visibility.Visible;
             return output;
         }
 
@@ -314,18 +323,6 @@ namespace MALClient.Pages
                 if (SecondaryTile.Exists(anime.Id.ToString()))
                     continue;
                 anime.PinTile($"http://www.myanimelist.net/anime/{anime.Id}");
-            }
-        }
-
-        private void PinTileKiss(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in Animes.SelectedItems)
-            {
-                var anime = item as AnimeItem;
-                if (SecondaryTile.Exists(anime.Id.ToString()))
-                    continue;
-
-                anime.PinTile($"https://kissanime.to/M/Anime/{anime.Name.Replace(' ', '-')}");
             }
         }
 
@@ -365,6 +362,31 @@ namespace MALClient.Pages
             btn.IsChecked = true;
             RefreshList();
 
+        }
+
+        private void SetSortOrder()
+        {
+            switch (Utils.GetSortOrder())
+            {
+                case SortOptions.SortNothing:
+                    _sortOption = SortOptions.SortNothing;
+                    sort4.IsChecked = true;
+                    break;
+                case SortOptions.SortTitle:
+                    _sortOption = SortOptions.SortTitle;
+                    sort1.IsChecked = true;
+                    break;
+                case SortOptions.SortScore:
+                    _sortOption = SortOptions.SortScore;
+                    sort2.IsChecked = true;
+                    break;
+                case SortOptions.SortWatched:
+                    _sortOption = SortOptions.SortWatched;
+                    sort3.IsChecked = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void ChangeSortOrder(object sender, RoutedEventArgs e)

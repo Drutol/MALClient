@@ -60,7 +60,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border x:Name="Border5" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtProfile , Path=Foreground}"/>
+                        <SymbolIcon Symbol="ContactInfo" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtProfile , Path=Foreground}"/>
                         <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                     </Grid>
                 </Button>

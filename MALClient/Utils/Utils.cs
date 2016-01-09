@@ -7,6 +7,7 @@ using Windows.Storage;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using MALClient.Pages;
 
 namespace MALClient
 {
@@ -120,6 +121,16 @@ namespace MALClient
         public static bool IsCachingEnabled()
         {
             return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
+        }
+
+        public static AnimeListPage.SortOptions GetSortOrder()
+        {
+            return (AnimeListPage.SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
+        }
+
+        public static bool IsSortDescending()
+        {
+            return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
         }
 
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };

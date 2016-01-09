@@ -94,6 +94,7 @@ namespace MALClient.Pages
 
             ProfileData profile = new ProfileData
             {
+                //Anime
                 AnimeWatching = int.Parse(watching[0].ChildNodes[1].InnerText),
                 AnimeCompleted = int.Parse(completed[0].ChildNodes[1].InnerText),
                 AnimeOnHold = int.Parse(onhold[0].ChildNodes[1].InnerText),

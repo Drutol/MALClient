@@ -112,6 +112,7 @@
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Creditentials.cs" />
     <Compile Include="Comm\IParameters.cs" />
+    <Compile Include="Comm\MALProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
     <Compile Include="Comm\UriType.cs" />
@@ -138,6 +139,9 @@
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PageUtils.cs" />
+    <Compile Include="Pages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -198,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LogInPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

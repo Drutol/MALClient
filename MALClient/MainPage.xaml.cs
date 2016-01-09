@@ -49,10 +49,10 @@ namespace MALClient
         private void ReversePane()
         {
             MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
-            if(MainMenu.IsPaneOpen)
-                HamburgerControl.PaneOpened();
-            else            
-                HamburgerControl.PaneClosed();
+            //if(MainMenu.IsPaneOpen)
+            //    HamburgerControl.PaneOpened();
+            //else            
+            //    HamburgerControl.PaneClosed();
             
         }
 
@@ -124,6 +124,10 @@ namespace MALClient
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
                     MainContent.Navigate(typeof(Pages.LogInPage));
+                    break;
+                case PageIndex.PageProfile:
+                    ShowSearchStuff();
+                    MainContent.Navigate(typeof(Pages.ProfilePage));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

@@ -39,15 +39,24 @@ namespace MALClient.Pages
         private SortOptions _sortOption = SortOptions.SortNothing;
         private bool _sortDescending = true;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>();
-        private List<AnimeItem> _allAnimeItems = new List<AnimeItem>();
+        private List<AnimeItem> _allLoadedAnimeItems = new List<AnimeItem>();
+        private List<XElement> _allDownloadedAnimeItems = new List<XElement>();
         private DateTime _lastUpdate;
         private System.Threading.Timer _timer;
+
+        //Loaded Boold
+        private Dictionary<int,bool> _loadedDictionary = new Dictionary<int, bool>
+        {
+            {1,false},
+            {2,false},
+            {3,false},
+            {4,false},
+            {6,false}
+        }; 
 
         public AnimeListPage()
         {
             this.InitializeComponent();
-
-
         }
 
 
@@ -93,11 +102,11 @@ namespace MALClient.Pages
                 EmptyNotice.Text = "We have come up empty...";
             }
 
-            _allAnimeItems.Clear();
+            _allLoadedAnimeItems.Clear();
             _animeItems.Clear();
             var possibleData = force ? null : Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text, out _lastUpdate);
             if (possibleData != null && possibleData.Count > 0)
-                _allAnimeItems = possibleData;        
+                _allLoadedAnimeItems = possibleData;        
             else
             {
                 var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource.Text);
@@ -121,19 +130,32 @@ namespace MALClient.Pages
                 }
                 XDocument parsedData = XDocument.Parse(data);
                 var anime = parsedData.Root.Elements("anime").ToList();
+                int status = GetDesiredStatus();
+
+                if (status == 7)
+                    for (int i = 0; i < 5; i++)
+                        _loadedDictionary[i] = true;
+                else
+                    _loadedDictionary[status] = true;
+
                 foreach (var item in anime)
                 {
-                    _allAnimeItems.Add(new AnimeItem(
-                        (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
-                        item.Element("series_title").Value,
-                        item.Element("series_image").Value,
-                        Convert.ToInt32(item.Element("series_animedb_id").Value),
-                        Convert.ToInt32(item.Element("my_status").Value),
-                        Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                        Convert.ToInt32(item.Element("series_episodes").Value),
-                        Convert.ToInt32(item.Element("my_score").Value)));
+                    if (status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status) //if displaying all or element has desired status
+                    {
+                        _allLoadedAnimeItems.Add(new AnimeItem(
+                            (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
+                            item.Element("series_title").Value,
+                            item.Element("series_image").Value,
+                            Convert.ToInt32(item.Element("series_animedb_id").Value),
+                            Convert.ToInt32(item.Element("my_status").Value),
+                            Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                            Convert.ToInt32(item.Element("series_episodes").Value),
+                            Convert.ToInt32(item.Element("my_score").Value)));
+                    }
+                    else
+                        _allDownloadedAnimeItems.Add(item);
                 }
-                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allAnimeItems, _lastUpdate);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems, _lastUpdate);
 
             }
 
@@ -156,7 +178,44 @@ namespace MALClient.Pages
             EmptyNotice.Visibility = Visibility.Collapsed;
             string query = Utils.GetMainPageInstance()?.GetSearchQuery();
             _animeItems.Clear();
-            var items = _allAnimeItems.Where(item => !string.IsNullOrWhiteSpace(query) || GetDesiredStatus() == 7 || item.status == GetDesiredStatus());
+            int status = GetDesiredStatus();
+            //Check if all items of desired status are loaded
+            if (!_loadedDictionary[status])
+            {
+                //Update dictionary status
+                if (status == 7)
+                {
+                    for (int i = 0; i < 4; i++)
+                        _loadedDictionary[i] = true;
+                    _loadedDictionary[6] = true;
+                }
+                else
+                    _loadedDictionary[status] = true;
+                //Load rest of items
+                List<XElement> elementsToRemove = new List<XElement>();
+                foreach (var item in _allDownloadedAnimeItems.Where(item => status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status))
+                {
+                    _allLoadedAnimeItems.Add(new AnimeItem(
+                        (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
+                        item.Element("series_title").Value,
+                        item.Element("series_image").Value,
+                        Convert.ToInt32(item.Element("series_animedb_id").Value),
+                        Convert.ToInt32(item.Element("my_status").Value),
+                        Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                        Convert.ToInt32(item.Element("series_episodes").Value),
+                        Convert.ToInt32(item.Element("my_score").Value)));
+                    elementsToRemove.Add(item);
+
+                }
+                foreach (var element in elementsToRemove)
+                {
+                    _allDownloadedAnimeItems.Remove(element);
+                }
+                //Submit updated list to higher-ups
+                Utils.GetMainPageInstance().SaveAnimeEntries(ListSource.Text,_allLoadedAnimeItems,_lastUpdate);
+            }
+
+            var items = _allLoadedAnimeItems.Where(item => !string.IsNullOrWhiteSpace(query) || GetDesiredStatus() == 7 || item.status == GetDesiredStatus());
             if (!string.IsNullOrWhiteSpace(query))
                 items = items.Where(item => item.title.ToLower().Contains(query.ToLower()));
             if(_sortOption != SortOptions.SortNothing)

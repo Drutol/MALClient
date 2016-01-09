@@ -7,6 +7,7 @@
         PageSettings,
         PageSearch,
         PageLogIn,
+        PageProfile,
     }
 
 }

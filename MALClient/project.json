@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "HtmlAgilityPack": "1.4.9",
     "Microsoft.ApplicationInsights": "1.0.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",

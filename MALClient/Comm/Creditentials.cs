@@ -11,7 +11,7 @@ namespace MALClient.Comm
 {
     public static class Creditentials
     {
-        public static string UserName { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["username"];
+        public static string UserName { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["Username"];
         private static string Password { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["password"];
         public static bool Authenticated { get; set; } = bool.Parse((string)ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False");
         internal static ICredentials GetHttpCreditentials()
@@ -23,7 +23,7 @@ namespace MALClient.Comm
         {
             UserName = name;
             Password = passwd;
-            ApplicationData.Current.LocalSettings.Values["username"] = name;
+            ApplicationData.Current.LocalSettings.Values["Username"] = name;
             ApplicationData.Current.LocalSettings.Values["password"] = passwd;
         }
 

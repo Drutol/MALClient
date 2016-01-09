@@ -16,6 +16,8 @@ namespace MALClient.Pages
                     return true;
                 case PageIndex.PageSearch:
                     return true;
+                case PageIndex.PageProfile:
+                    return true;
                 default:
                     return false;
             }

@@ -44,7 +44,6 @@ namespace MALClient.Pages
         private DateTime _lastUpdate;
         private System.Threading.Timer _timer;
 
-        //Loaded Boold
         private Dictionary<int,bool> _loadedDictionary = new Dictionary<int, bool>
         {
             {1,false},
@@ -104,9 +103,10 @@ namespace MALClient.Pages
 
             _allLoadedAnimeItems.Clear();
             _animeItems.Clear();
-            var possibleData = force ? null : Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text, out _lastUpdate);
-            if (possibleData != null && possibleData.Count > 0)
-                _allLoadedAnimeItems = possibleData;        
+
+            if(force)
+                Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text,out _allLoadedAnimeItems, out _allDownloadedAnimeItems , out _lastUpdate,out _loadedDictionary);              
+
             else
             {
                 var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource.Text);
@@ -155,7 +155,7 @@ namespace MALClient.Pages
                     else
                         _allDownloadedAnimeItems.Add(item);
                 }
-                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems, _lastUpdate);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems ,_allDownloadedAnimeItems , _lastUpdate , _loadedDictionary);
 
             }
 
@@ -173,14 +173,23 @@ namespace MALClient.Pages
             return (value == 5 || value == 6) ? value + 1 : value;
         }
 
-        public void RefreshList()
+        public void RefreshList(bool searchSource = false)
         {
-            EmptyNotice.Visibility = Visibility.Collapsed;
             string query = Utils.GetMainPageInstance()?.GetSearchQuery();
+            bool queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
+            if (searchSource && !queryCondition) // refresh was requested from search but there's nothing to update
+                return;
+
+
+            EmptyNotice.Visibility = Visibility.Collapsed;            
             _animeItems.Clear();
             int status = GetDesiredStatus();
+
+            if (queryCondition)
+                status = 7; //If we are gonna search we will have to load all items first.
+
             //Check if all items of desired status are loaded
-            if (!_loadedDictionary[status])
+            if (status == 7 || !_loadedDictionary[status])
             {
                 //Update dictionary status
                 if (status == 7)
@@ -212,11 +221,11 @@ namespace MALClient.Pages
                     _allDownloadedAnimeItems.Remove(element);
                 }
                 //Submit updated list to higher-ups
-                Utils.GetMainPageInstance().SaveAnimeEntries(ListSource.Text,_allLoadedAnimeItems,_lastUpdate);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems, _allDownloadedAnimeItems, _lastUpdate, _loadedDictionary);
             }
 
-            var items = _allLoadedAnimeItems.Where(item => !string.IsNullOrWhiteSpace(query) || GetDesiredStatus() == 7 || item.status == GetDesiredStatus());
-            if (!string.IsNullOrWhiteSpace(query))
+            var items = _allLoadedAnimeItems.Where(item => queryCondition || GetDesiredStatus() == 7 || item.status == GetDesiredStatus());
+            if (queryCondition)
                 items = items.Where(item => item.title.ToLower().Contains(query.ToLower()));
             if(_sortOption != SortOptions.SortNothing)
                 switch (_sortOption)

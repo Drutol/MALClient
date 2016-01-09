@@ -24,7 +24,7 @@ namespace MALClient
     public sealed partial class MainPage : Page
     {
 
-        private Dictionary<string,Tuple<List<AnimeItem>,DateTime>> _allAnimeItemsCache = new Dictionary<string, Tuple<List<AnimeItem>, DateTime>>();
+        private Dictionary<string,Tuple<List<AnimeItem>,List<XElement>,DateTime,Dictionary<int,bool>>> _allAnimeItemsCache = new Dictionary<string, Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>>>();
         private bool _onSearchPage = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
 
@@ -187,12 +187,12 @@ namespace MALClient
 
         private void SearchQuerySubmitted(object o, TextChangedEventArgs textChangedEventArgs)
         {
-            if (_onSearchPage)
+            if (_onSearchPage) // we are on anime list
                 return;
 
             var source = MainContent.Content as AnimeListPage;
             _currSearchQuery = SearchInput.Text;
-            source.RefreshList();
+            source.RefreshList(true);
         }
 
         internal string GetSearchQuery()
@@ -243,17 +243,26 @@ namespace MALClient
 
         #region SmallDataCaching
 
-        public void SaveAnimeEntries(string source, List<AnimeItem> items , DateTime updateTime)
+        public void SaveAnimeEntries(string source, List<AnimeItem> items, List<XElement> downItems  , DateTime updateTime , Dictionary<int,bool> loadStatus )
         {
-            _allAnimeItemsCache[source] = new Tuple<List<AnimeItem>, DateTime>(items,updateTime);
+            _allAnimeItemsCache[source] = new Tuple<List<AnimeItem>,List<XElement>, DateTime, Dictionary<int,bool>>(items,downItems,updateTime,loadStatus);
         }
 
-        public List<AnimeItem> RetrieveAnimeEntries(string source,out DateTime time)
+        public void RetrieveAnimeEntries(string source,out List<AnimeItem> loadedItems,out List<XElement> downloadedItems  ,out DateTime time,out Dictionary<int,bool> loadStatus )
         {
-            Tuple<List<AnimeItem>, DateTime> data;
+            Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>> data;
             _allAnimeItemsCache.TryGetValue(source, out data);
-            time = data?.Item2 ?? DateTime.Now;
-            return data?.Item1;
+            time = data?.Item3 ?? DateTime.Now;
+            loadStatus = data?.Item4 ?? new Dictionary<int, bool>
+            {
+                {1, false},
+                {2, false},
+                {3, false},
+                {4, false},
+                {6, false}
+            };
+            loadedItems = data?.Item1 ?? new List<AnimeItem>();
+            downloadedItems = data?.Item2 ?? new List<XElement>();
         }
 
         public void AddAnimeEntry(string source, AnimeItem item)

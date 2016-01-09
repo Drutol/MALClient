@@ -45,6 +45,7 @@ namespace MALClient.Pages
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
                 Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
+                Utils.GetMainPageInstance().UpdateHamburger();
             }
             catch (Exception exc)
             {
@@ -59,6 +60,7 @@ namespace MALClient.Pages
             Creditentials.Update("","");
             Creditentials.SetAuthStatus(false);
             Utils.GetMainPageInstance().Navigate(PageIndex.PageLogIn);
+            Utils.GetMainPageInstance().UpdateHamburger();
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)

@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using HtmlAgilityPack;
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -49,7 +50,7 @@ namespace MALClient.Pages
     public sealed partial class ProfilePage : Page
     {
 
-        //http://cdn.myanimelist.net/images/userimages/{id}.jpg
+        //
 
         public ProfilePage()
         {
@@ -116,6 +117,58 @@ namespace MALClient.Pages
                 MangaChapters = int.Parse(chapters[0].ChildNodes[1].InnerText),
                 MangaVolumes = int.Parse(volumes[0].ChildNodes[1].InnerText),
             };
+
+            List<Tuple<string,List<int>>> animeStats = new List<Tuple<string, List<int>>>
+            {
+                new Tuple<string, List<int>>("Watching",new List<int>()
+                {
+                    1,
+                    2,
+                    3,
+                })
+                //new Tuple<string, int>("Completed",profile.AnimeCompleted),
+                //new Tuple<string, int>("On Hold",profile.AnimeOnHold),
+                //new Tuple<string, int>("Dropped",profile.AnimeDropped),
+                //new Tuple<string, int>("Planned to Watch",profile.AnimePlanned),
+            };
+            List<KeyValuePair<string, int>> s1 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", profile.AnimeWatching)
+            };
+            SeriesWatching.ItemsSource = s1;
+
+            List<KeyValuePair<string, int>> s2 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", profile.AnimeCompleted)
+            };
+            SeriesCompleted.ItemsSource = s2;
+
+            List<KeyValuePair<string, int>> s3 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", profile.AnimeOnHold)
+            };
+            SeriesOnHold.ItemsSource = s3;
+
+            List<KeyValuePair<string, int>> s4 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", profile.AnimeDropped)
+            };
+            SeriesDropped.ItemsSource = s4;
+
+            List<KeyValuePair<string, int>> s5 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", profile.AnimePlanned)
+            };
+            SeriesPlanned.ItemsSource = s5;
+
+            TxtAnimeWatchingStats.Text = profile.AnimeWatching.ToString();
+            TxtAnimeCompleted.Text = profile.AnimeCompleted.ToString();
+            TxtAnimeOnHold.Text = profile.AnimeOnHold.ToString();
+            TxtAnimeDropped.Text = profile.AnimeDropped.ToString();
+            TxtAnimePlanned.Text = profile.AnimePlanned.ToString();
+            TxtAnimeTotal.Text = profile.AnimeTotal.ToString();
+            TxtAnimeRewatched.Text = profile.AnimeRewatched.ToString();
+            TxtAnimeEpisodes.Text = profile.AnimeEpisodes.ToString();
         }
 
     }

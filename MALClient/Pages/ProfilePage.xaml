@@ -2,12 +2,171 @@
     x:Class="MALClient.Pages.ProfilePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages"
+    xmlns:local="using:MALClient"
+    xmlns:controls="using:WinRTXamlToolkit.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Watching">ForestGreen</Color>
+            <Color x:Key="Completed">DodgerBlue</Color>
+            <Color x:Key="OnHold">Yellow</Color>
+            <Color x:Key="Dropped">Crimson</Color>
+            <Color x:Key="Planned">Gray</Color>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="230"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Anime Stats" FontWeight="Medium" FontSize="20"></TextBlock>
+        <charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
+            <charting:Chart.Palette>
+                <charting:ResourceDictionaryCollection>
+                    <ResourceDictionary>
+                        <Style x:Key="DataPointStyle" TargetType="Control">
+                            <Setter Property="Background" Value="{StaticResource Watching}"/>
+                        </Style>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <Style x:Key="DataPointStyle" TargetType="Control">
+                            <Setter Property="Background" Value="{StaticResource Completed}"/>
+                        </Style>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <Style x:Key="DataPointStyle" TargetType="Control">
+                            <Setter Property="Background" Value="{StaticResource OnHold}"/>
+                        </Style>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <Style x:Key="DataPointStyle" TargetType="Control">
+                            <Setter Property="Background" Value="{StaticResource Dropped}"/>
+                        </Style>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <Style x:Key="DataPointStyle" TargetType="Control">
+                            <Setter Property="Background" Value="{StaticResource Planned}"/>
+                        </Style>
+                    </ResourceDictionary>
+                </charting:ResourceDictionaryCollection>
+            </charting:Chart.Palette>
+            <charting:Chart.LegendStyle>
+                <Style TargetType="dataVisualization:Legend">
+                    <Setter Property="Width" Value="0" />
+                </Style>
+            </charting:Chart.LegendStyle>
+            <charting:Stacked100BarSeries x:Name="AnimeStats">
+                <charting:Stacked100BarSeries.SeriesDefinitions>
+                    <charting:SeriesDefinition x:Name="SeriesWatching" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
+                    <charting:SeriesDefinition x:Name="SeriesCompleted" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
+                    <charting:SeriesDefinition x:Name="SeriesOnHold" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
+                    <charting:SeriesDefinition x:Name="SeriesDropped" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
+                    <charting:SeriesDefinition x:Name="SeriesPlanned" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
+                </charting:Stacked100BarSeries.SeriesDefinitions>
+            </charting:Stacked100BarSeries>
+        </charting:Chart >
+        <Grid Grid.Row="2" Background="LightGray" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" Width="Auto">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="ForestGreen" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Watching" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeWatchingStats" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="DodgerBlue" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeCompleted" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeOnHold" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeDropped" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Plan to Watch" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimePlanned" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Width="Auto">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeTotal" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Rewatched" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeRewatched" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" MaxWidth="80"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Episodes" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Grid.Column="2" x:Name="TxtAnimeEpisodes" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="5,5"/>
+                </StackPanel>
+            </StackPanel>
+            
+        </Grid>
     </Grid>
 </Page>

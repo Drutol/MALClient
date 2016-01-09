@@ -6,6 +6,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Comm;
 using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -29,6 +31,19 @@ namespace MALClient.UserControls
         {
             InitializeComponent();
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            UpdateProfileImg();
+        }
+        internal void UpdateProfileImg()
+        {
+            if (Creditentials.Authenticated)
+            {
+                ImgUser.Source = new BitmapImage(new Uri($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
+                ImgUser.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ImgUser.Visibility = Visibility.Collapsed;
+            }
         }
 
         //internal void PaneOpened()
@@ -54,6 +69,8 @@ namespace MALClient.UserControls
             GetMainPageInstance().Navigate(PageIndex.PageSettings);
             SetActiveButton(HamburgerButtons.AnimeList);
         }
+
+
 
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {

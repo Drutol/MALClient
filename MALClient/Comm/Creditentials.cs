@@ -13,7 +13,7 @@ namespace MALClient.Comm
     {
         public static string UserName { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["Username"];
         private static string Password { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["password"];
-        private static int Id { get; set; } = (int)(ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
+        public static int Id { get; set; } = (int)(ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
         public static bool Authenticated { get; set; } = bool.Parse((string)ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False");
         internal static ICredentials GetHttpCreditentials()
         {

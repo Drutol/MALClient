@@ -56,7 +56,10 @@ namespace MALClient
             
         }
 
-
+        internal void UpdateHamburger()
+        {
+            HamburgerControl.UpdateProfileImg();
+        }
 
         internal bool TryRetrieveListItem(int id, ref int watchedEps, ref int myStatus, ref int myScore, ref AnimeItem reference)
         {

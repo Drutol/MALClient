@@ -27,6 +27,7 @@ namespace MALClient
         private Dictionary<string,Tuple<List<AnimeItem>,List<XElement>,DateTime,Dictionary<int,bool>>> _allAnimeItemsCache = new Dictionary<string, Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>>>();
         private bool _onSearchPage = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
+        private Tuple<DateTime, ProfileData> _profileDataCache;
 
         public MainPage()
         {
@@ -130,7 +131,7 @@ namespace MALClient
                     break;
                 case PageIndex.PageProfile:
                     ShowSearchStuff();
-                    MainContent.Navigate(typeof(Pages.ProfilePage));
+                    MainContent.Navigate(typeof(Pages.ProfilePage),RetrieveProfileData());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -284,6 +285,23 @@ namespace MALClient
             }
         }
 
+
+        public void SaveProfileData(ProfileData data)
+        {
+            _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now,data);
+        }
+
+        public ProfileData RetrieveProfileData()
+        {
+            if (_profileDataCache == null)
+                return null;
+            TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(_profileDataCache.Item1);
+            if (diff.TotalSeconds < 3600)
+                return _profileDataCache.Item2;
+            return null;
+        }
         #endregion
+
+
     }
 }

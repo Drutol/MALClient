@@ -13,7 +13,6 @@ namespace MALClient.Comm
 {
     public abstract class Query
     {
-        protected string HttpQuery;
         protected WebRequest Request;
 
         public async Task<string> GetRequestResponse()

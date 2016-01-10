@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using MALClient.Comm;
 using MALClient.Pages;
 
 namespace MALClient
@@ -146,6 +150,25 @@ namespace MALClient
             decimal adjustedSize = (decimal)value / (1L << (mag * 10));
 
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
+        }
+
+        public static async void DownloadProfileImg()
+        {
+            var folder = ApplicationData.Current.LocalFolder;
+            var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
+
+            HttpClient http = new HttpClient();
+            byte[] response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"); //get bytes
+
+            var fs = await thumb.OpenStreamForWriteAsync(); //get stream
+
+            using (DataWriter writer = new DataWriter(fs.AsOutputStream()))
+            {
+                writer.WriteBytes(response); //write
+                await writer.StoreAsync();
+                await writer.FlushAsync();
+            }
+            GetMainPageInstance().UpdateHamburger();
         }
     }
 

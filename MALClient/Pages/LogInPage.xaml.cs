@@ -45,7 +45,7 @@ namespace MALClient.Pages
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
                 Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
-                Utils.GetMainPageInstance().UpdateHamburger();
+                Utils.DownloadProfileImg();             
             }
             catch (Exception exc)
             {

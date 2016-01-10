@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -33,11 +34,15 @@ namespace MALClient.UserControls
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             UpdateProfileImg();
         }
-        internal void UpdateProfileImg()
+        internal async void UpdateProfileImg()
         {
             if (Creditentials.Authenticated)
             {
-                ImgUser.Source = new BitmapImage(new Uri($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
+                if (await ApplicationData.Current.LocalFolder.TryGetItemAsync("UserImg.png") != null)
+                    ImgUser.Source = new BitmapImage(new Uri("ms-appdata:///local/UserImg.png"));
+                else
+                    Utils.DownloadProfileImg();
+                    //ImgUser.Source = new BitmapImage(new Uri($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
                 ImgUser.Visibility = Visibility.Visible;
             }
             else

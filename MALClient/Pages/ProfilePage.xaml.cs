@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,9 +22,8 @@ using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 namespace MALClient.Pages
 {
 
-    public struct ProfileData
+    public class ProfileData
     {
-        public string Username { get; set; }
         //Anime
         public int AnimeWatching { get; set; }
         public int AnimeCompleted { get; set; }
@@ -43,19 +43,49 @@ namespace MALClient.Pages
         public int MangaReread { get; set; }
         public int MangaVolumes { get; set; }
         public int MangaChapters{ get; set; }
+        //Days
+        public float AnimeDays { get; set; }
+        public float MangaDays { get; set; }
     }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ProfilePage : Page
     {
+        private ProfileData _data;
 
-        //
+        public ProfileData Data
+        {
+            get { return _data; }
+            set
+            {
+                _data = value;
+                Utils.GetMainPageInstance()?.SaveProfileData(_data);
+            }
+        }
 
         public ProfilePage()
         {
-            this.InitializeComponent();
-            PullData();
+            this.InitializeComponent();         
+            SpinnerLoading.Background = new SolidColorBrush(Color.FromArgb(160,230,230,230));  
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            if (e.Parameter != null)
+            {
+                _data = e.Parameter as ProfileData;
+                PopulateAnimeData();
+                PopulateMangaData();
+                SpinnerLoading.Visibility = Visibility.Collapsed;
+            }
+            else
+                 PullData();
+
+            
+            Utils.GetMainPageInstance()?.SetStatus($"{Creditentials.UserName} - Profile");
+            base.OnNavigatedTo(e);
         }
 
         private async void PullData()
@@ -92,8 +122,10 @@ namespace MALClient.Pages
                 .Where(li => li.InnerText.Contains("On-Hold") && li.ChildNodes.Count == 2).ToList();
             var dropped = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Dropped") && li.ChildNodes.Count == 2).ToList();
-
-            ProfileData profile = new ProfileData
+            //Days
+            var days = doc.DocumentNode.Descendants("div")
+                .Where(div => div.InnerText.Contains("Days:") && div.ChildNodes.Count == 2).ToList();
+            Data = new ProfileData
             {
                 //Anime
                 AnimeWatching = int.Parse(watching[0].ChildNodes[1].InnerText),
@@ -116,59 +148,100 @@ namespace MALClient.Pages
                 MangaReread = int.Parse(reread[0].ChildNodes[1].InnerText),
                 MangaChapters = int.Parse(chapters[0].ChildNodes[1].InnerText),
                 MangaVolumes = int.Parse(volumes[0].ChildNodes[1].InnerText),
+                //Days
+                AnimeDays = float.Parse(days[0].ChildNodes[1].InnerText),
+                MangaDays = float.Parse(days[1].ChildNodes[1].InnerText),
             };
+            PopulateAnimeData();
+            PopulateMangaData();
+            SpinnerLoading.Visibility = Visibility.Collapsed; //end of exec path
+        }
 
-            List<Tuple<string,List<int>>> animeStats = new List<Tuple<string, List<int>>>
-            {
-                new Tuple<string, List<int>>("Watching",new List<int>()
-                {
-                    1,
-                    2,
-                    3,
-                })
-                //new Tuple<string, int>("Completed",profile.AnimeCompleted),
-                //new Tuple<string, int>("On Hold",profile.AnimeOnHold),
-                //new Tuple<string, int>("Dropped",profile.AnimeDropped),
-                //new Tuple<string, int>("Planned to Watch",profile.AnimePlanned),
-            };
+        private void PopulateAnimeData()
+        {
             List<KeyValuePair<string, int>> s1 = new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("", profile.AnimeWatching)
+                new KeyValuePair<string, int>("", Data.AnimeWatching)
             };
             SeriesWatching.ItemsSource = s1;
 
             List<KeyValuePair<string, int>> s2 = new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("", profile.AnimeCompleted)
+                new KeyValuePair<string, int>("", Data.AnimeCompleted)
             };
             SeriesCompleted.ItemsSource = s2;
 
             List<KeyValuePair<string, int>> s3 = new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("", profile.AnimeOnHold)
+                new KeyValuePair<string, int>("", Data.AnimeOnHold)
             };
             SeriesOnHold.ItemsSource = s3;
 
             List<KeyValuePair<string, int>> s4 = new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("", profile.AnimeDropped)
+                new KeyValuePair<string, int>("", Data.AnimeDropped)
             };
             SeriesDropped.ItemsSource = s4;
 
             List<KeyValuePair<string, int>> s5 = new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("", profile.AnimePlanned)
+                new KeyValuePair<string, int>("", Data.AnimePlanned)
             };
             SeriesPlanned.ItemsSource = s5;
 
-            TxtAnimeWatchingStats.Text = profile.AnimeWatching.ToString();
-            TxtAnimeCompleted.Text = profile.AnimeCompleted.ToString();
-            TxtAnimeOnHold.Text = profile.AnimeOnHold.ToString();
-            TxtAnimeDropped.Text = profile.AnimeDropped.ToString();
-            TxtAnimePlanned.Text = profile.AnimePlanned.ToString();
-            TxtAnimeTotal.Text = profile.AnimeTotal.ToString();
-            TxtAnimeRewatched.Text = profile.AnimeRewatched.ToString();
-            TxtAnimeEpisodes.Text = profile.AnimeEpisodes.ToString();
+            TxtAnimeWatchingStats.Text = Data.AnimeWatching.ToString();
+            TxtAnimeCompleted.Text = Data.AnimeCompleted.ToString();
+            TxtAnimeOnHold.Text = Data.AnimeOnHold.ToString();
+            TxtAnimeDropped.Text = Data.AnimeDropped.ToString();
+            TxtAnimePlanned.Text = Data.AnimePlanned.ToString();
+            TxtAnimeTotal.Text = Data.AnimeTotal.ToString();
+            TxtAnimeRewatched.Text = Data.AnimeRewatched.ToString();
+            TxtAnimeEpisodes.Text = Data.AnimeEpisodes.ToString();
+            TxtAnimeDays.Text = $"Days :  {Data.AnimeDays}";
+        }
+
+        private void PopulateMangaData()
+        {
+            List<KeyValuePair<string, int>> s1 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", Data.MangaReading)
+            };
+            SeriesReading.ItemsSource = s1;
+
+            List<KeyValuePair<string, int>> s2 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", Data.MangaCompleted)
+            };
+            SeriesMCompleted.ItemsSource = s2;
+
+            List<KeyValuePair<string, int>> s3 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", Data.MangaOnHold)
+            };
+            SeriesMOnHold.ItemsSource = s3;
+
+            List<KeyValuePair<string, int>> s4 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", Data.MangaDropped)
+            };
+            SeriesMDropped.ItemsSource = s4;
+
+            List<KeyValuePair<string, int>> s5 = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("", Data.MangaPlanned)
+            };
+            SeriesMPlanned.ItemsSource = s5;
+
+            TxtMangaReadingStats.Text = Data.AnimeWatching.ToString();
+            TxtMangaCompleted.Text = Data.MangaCompleted.ToString();
+            TxtMangaOnHold.Text = Data.MangaOnHold.ToString();
+            TxtMangaDropped.Text = Data.MangaDropped.ToString();
+            TxtMangaPlanned.Text = Data.MangaPlanned.ToString();
+            TxtMangaTotal.Text = Data.MangaTotal.ToString();
+            TxtMangaReread.Text = Data.MangaReread.ToString();
+            TxtMangaChapters.Text = Data.MangaChapters.ToString();
+            TxtMangaVolumes.Text = Data.MangaVolumes.ToString();
+            TxtMangaDays.Text = $"Days :  {Data.MangaDays}";
         }
 
     }

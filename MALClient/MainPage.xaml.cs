@@ -26,6 +26,7 @@ namespace MALClient
 
         private Dictionary<string,Tuple<List<AnimeItem>,List<XElement>,DateTime,Dictionary<int,bool>>> _allAnimeItemsCache = new Dictionary<string, Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>>>();
         private bool _onSearchPage = false;
+        private bool _wasOnDetailsFromSearch = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
         private Tuple<DateTime, ProfileData> _profileDataCache;
 
@@ -85,8 +86,9 @@ namespace MALClient
         }
 
         #region Navigation
-        internal async void Navigate(PageIndex index, object args = null) 
+        internal async void Navigate(PageIndex index, object args = null)
         {
+            bool wasOnSearchPage = _onSearchPage;
             _onSearchPage = false;
             MainMenu.IsPaneOpen = false;
 
@@ -107,15 +109,22 @@ namespace MALClient
                     HideSearchStuff();
                 }
             }
-
             switch (index)
             {
                 case PageIndex.PageAnimeList:
                     ShowSearchStuff();
-                    MainContent.Navigate(typeof(Pages.AnimeListPage));
+                    if (wasOnSearchPage || _wasOnDetailsFromSearch)
+                    {
+                        _currSearchQuery = "";
+                        SearchInput.Text = "";
+                        _wasOnDetailsFromSearch = false;
+                        UnToggleSearchStuff();
+                    }
+                    MainContent.Navigate(typeof(Pages.AnimeListPage),args);
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
+                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null; //from search details are passed instead of downloaded once more
                     MainContent.Navigate(typeof(Pages.AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
@@ -137,6 +146,13 @@ namespace MALClient
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
         }
+
+        internal AnimeListPageNavigationArgs GetCurrentListOrderParams()
+        {
+            var page = MainContent.Content as AnimeListPage;
+            return new AnimeListPageNavigationArgs(page.SortOption,page.CurrentStatus,page.SortDescending);
+        }
+
 
         private void NavigateSearch(bool autoSearch = false)
         {
@@ -181,6 +197,12 @@ namespace MALClient
         {
             SearchInput.Visibility = Visibility.Visible;
             SearchToggle.IsChecked = true;
+        }
+
+        private void UnToggleSearchStuff()
+        {
+            SearchInput.Visibility = Visibility.Collapsed;
+            SearchToggle.IsChecked = false;
         }
 
         #endregion

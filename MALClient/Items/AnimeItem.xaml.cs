@@ -122,7 +122,10 @@ namespace MALClient.Items
                         await _msg.ShowAsync();
                     }
                     else
-                        Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(Id, title, null));
+                        Utils.GetMainPageInstance()
+                            .Navigate(PageIndex.PageAnimeDetails,
+                                new AnimeDetailsPageNavigationArgs(Id, title, null,
+                                    Utils.GetMainPageInstance().GetCurrentListOrderParams()));
 
                 }
             }

@@ -24,6 +24,20 @@ using MALClient.Items;
 
 namespace MALClient.Pages
 {
+
+    public class AnimeListPageNavigationArgs
+    {
+        public AnimeListPage.SortOptions SortOption;
+        public int Status;
+        public bool Descending;
+
+        public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort,int status,bool desc)
+        {
+            SortOption = sort;
+            Status = status;
+            Descending = desc;
+        }
+    }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -38,7 +52,11 @@ namespace MALClient.Pages
         }
 
         private SortOptions _sortOption = SortOptions.SortNothing;
-        private bool _sortDescending = true;
+
+        public SortOptions SortOption => _sortOption;
+        public int CurrentStatus => GetDesiredStatus();
+        public bool SortDescending => _sortDescending;
+        private bool _sortDescending;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>();
         private List<AnimeItem> _allLoadedAnimeItems = new List<AnimeItem>();
         private List<XElement> _allDownloadedAnimeItems = new List<XElement>();
@@ -70,8 +88,11 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SetSortOrder();
-            BtnOrderDescending.IsChecked = Utils.IsSortDescending();
+            AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
+            SetSortOrder(args?.SortOption);
+            SetDesiredStatus(args?.Status);
+            BtnOrderDescending.IsChecked = args?.Descending ?? Utils.IsSortDescending();
+            _sortDescending = args?.Descending ?? Utils.IsSortDescending();
             if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
             {
                 ListSource.Text = Creditentials.UserName;
@@ -112,7 +133,7 @@ namespace MALClient.Pages
             if(!force)
                 Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text,out _allLoadedAnimeItems, out _allDownloadedAnimeItems , out _lastUpdate,out _loadedDictionary);
 
-            if (_allLoadedAnimeItems.Count == 0 || _allDownloadedAnimeItems.Count == 0)
+            if (_allLoadedAnimeItems.Count == 0 && _allDownloadedAnimeItems.Count == 0)
             {
                 var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource.Text);
                 string data;
@@ -163,6 +184,9 @@ namespace MALClient.Pages
                     else
                         _allDownloadedAnimeItems.Add(item);
                 }
+                //TODO : For some unknow reason items may duplicate/triplicate etc.
+                _allDownloadedAnimeItems = _allDownloadedAnimeItems.Distinct().ToList();
+                _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
                 Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems ,_allDownloadedAnimeItems , _lastUpdate , _loadedDictionary);
 
             }
@@ -179,6 +203,17 @@ namespace MALClient.Pages
             int value = StatusSelector.SelectedIndex;
             value++;
             return (value == 5 || value == 6) ? value + 1 : value;
+        }
+
+        private void SetDesiredStatus(int? value)
+        {
+            if (value != null)
+            {
+                value = (value == 6 || value == 7) ? value - 1 : value;
+                value--;
+            }
+
+            StatusSelector.SelectedIndex = value ?? 0; //TODO : Add setting for this
         }
 
         public void RefreshList(bool searchSource = false)
@@ -369,9 +404,9 @@ namespace MALClient.Pages
 
         }
 
-        private void SetSortOrder()
+        private void SetSortOrder(SortOptions? option)
         {
-            switch (Utils.GetSortOrder())
+            switch (option ?? Utils.GetSortOrder())
             {
                 case SortOptions.SortNothing:
                     _sortOption = SortOptions.SortNothing;

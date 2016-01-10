@@ -23,12 +23,14 @@ namespace MALClient.Pages
         public int Id;
         public string Title;
         public XElement AnimeElement;
+        public AnimeListPageNavigationArgs PrevListSetup;
 
-        public AnimeDetailsPageNavigationArgs(int id, string title, XElement element)
+        public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, AnimeListPageNavigationArgs args = null)
         {
             Id = id;
             Title = title;
             AnimeElement = element;
+            PrevListSetup = args;
         }
     }
 
@@ -52,6 +54,7 @@ namespace MALClient.Pages
         private AnimeItem _animeItemReference;
 
         private string _origin;
+        private AnimeListPageNavigationArgs _previousPageSetup;
 
         public AnimeDetailsPage()
         {
@@ -75,20 +78,26 @@ namespace MALClient.Pages
             else
             {
                 FetchData(param.Id.ToString(), param.Title);
+                _previousPageSetup = param.PrevListSetup;
                 _origin = "List";
             }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            currentView.BackRequested -= CurrentViewOnBackRequested;
         }
 
         private void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
-            var currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            currentView.BackRequested -= CurrentViewOnBackRequested;
             if (_origin == "Search")
                 Utils.GetMainPageInstance().Navigate(PageIndex.PageSearch, true);
             else
-                Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
+                Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList,_previousPageSetup);
         }
 
         #region ChangeStuff
@@ -212,7 +221,7 @@ namespace MALClient.Pages
             {
                 BtnAddAnime.Visibility = Visibility.Collapsed;
                 MyDetails.Visibility = Visibility.Visible;
-                BtnScore.Content = $"{MyScore}/10";
+                BtnScore.Content = MyScore > 0 ? $"{MyScore}/10" : "Unranked";
                 BtnStatus.Content = $"{Utils.StatusToString(MyStatus)}";
                 for (int i = 0; i <= Episodes; i++)
                 {

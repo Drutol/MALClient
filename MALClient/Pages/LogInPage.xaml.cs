@@ -47,11 +47,11 @@ namespace MALClient.Pages
                 Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
                 Utils.DownloadProfileImg();             
             }
-            catch (Exception exc)
-            {
-                var msg = new MessageDialog("Unable to authorize with provided creditentials.");
-                await msg.ShowAsync();
+            catch (Exception)
+            { 
                 Creditentials.SetAuthStatus(false);
+                var msg = new MessageDialog("Unable to authorize with provided creditentials.");
+                await msg.ShowAsync();             
             }           
         }
 

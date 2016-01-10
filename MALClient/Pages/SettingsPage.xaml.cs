@@ -164,7 +164,7 @@ namespace MALClient.Pages
                 case "Title":
                     sortOptions = AnimeListPage.SortOptions.SortTitle;
                     break;
-                case "Score":
+                case "MyScore":
                     sortOptions = AnimeListPage.SortOptions.SortScore;
                     break;
                 case "Watched":

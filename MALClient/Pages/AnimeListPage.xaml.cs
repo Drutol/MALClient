@@ -11,6 +11,7 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Input;
+using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -147,7 +148,7 @@ namespace MALClient.Pages
 
                 foreach (var item in anime)
                 {
-                    if (status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status) //if displaying all or element has desired status
+                    if (status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status) //if displaying all or element has desired MyStatus
                     {
                         _allLoadedAnimeItems.Add(new AnimeItem(
                             (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
@@ -195,10 +196,10 @@ namespace MALClient.Pages
             if (queryCondition)
                 status = 7; //If we are gonna search we will have to load all items first.
 
-            //Check if all items of desired status are loaded
+            //Check if all items of desired MyStatus are loaded
             if (status == 7 || !_loadedDictionary[status])
             {
-                //Update dictionary status
+                //Update dictionary MyStatus
                 if (status == 7)
                 {
                     for (int i = 0; i < 4; i++)
@@ -231,7 +232,7 @@ namespace MALClient.Pages
                 Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems, _allDownloadedAnimeItems, _lastUpdate, _loadedDictionary);
             }
 
-            var items = _allLoadedAnimeItems.Where(item => queryCondition || GetDesiredStatus() == 7 || item.status == GetDesiredStatus());
+            var items = _allLoadedAnimeItems.Where(item => queryCondition || GetDesiredStatus() == 7 || item.MyStatus == GetDesiredStatus());
             if (queryCondition)
                 items = items.Where(item => item.title.ToLower().Contains(query.ToLower()));
             if(_sortOption != SortOptions.SortNothing)
@@ -241,7 +242,7 @@ namespace MALClient.Pages
                         items = items.OrderBy(item => item.title);
                         break;
                     case SortOptions.SortScore:
-                        items = items.OrderBy(item => item.Score);
+                        items = items.OrderBy(item => item.MyScore);
                         break;
                     case SortOptions.SortWatched:
                         items = items.OrderBy(item => item.WatchedEpisodes);
@@ -315,13 +316,17 @@ namespace MALClient.Pages
             }
         }
 
-        private void PinTileMal(object sender, RoutedEventArgs e)
+        private async void PinTileMal(object sender, RoutedEventArgs e)
         {
             foreach (var item in Animes.SelectedItems)
             {
                 var anime = item as AnimeItem;
                 if (SecondaryTile.Exists(anime.Id.ToString()))
+                {
+                    var msg = new MessageDialog("Tile for this anime already exists.");
+                    await msg.ShowAsync();
                     continue;
+                }
                 anime.PinTile($"http://www.myanimelist.net/anime/{anime.Id}");
             }
         }
@@ -345,7 +350,7 @@ namespace MALClient.Pages
                 case "Title":
                     _sortOption = SortOptions.SortTitle;
                     break;
-                case "Score":
+                case "MyScore":
                     _sortOption = SortOptions.SortScore;
                     break;
                 case "Watched":

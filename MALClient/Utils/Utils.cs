@@ -152,23 +152,34 @@ namespace MALClient
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
-        public static async void DownloadProfileImg()
+        public static async void DownloadProfileImg(int retries = 5)
         {
-            var folder = ApplicationData.Current.LocalFolder;
-            var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
-
-            HttpClient http = new HttpClient();
-            byte[] response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"); //get bytes
-
-            var fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-            using (DataWriter writer = new DataWriter(fs.AsOutputStream()))
+            try
             {
-                writer.WriteBytes(response); //write
-                await writer.StoreAsync();
-                await writer.FlushAsync();
+                var folder = ApplicationData.Current.LocalFolder;
+                var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
+                
+                HttpClient http = new HttpClient();
+                byte[] response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"); //get bytes
+
+                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
+
+                using (DataWriter writer = new DataWriter(fs.AsOutputStream()))
+                {
+                    writer.WriteBytes(response); //write
+                    await writer.StoreAsync();
+                    await writer.FlushAsync();
+                }
+                GetMainPageInstance().UpdateHamburger();
             }
-            GetMainPageInstance().UpdateHamburger();
+            catch (Exception)
+            {
+                if (retries >= 0)
+                {
+                    await Task.Delay(1000);
+                    DownloadProfileImg(retries-1);
+                }
+            }
         }
     }
 

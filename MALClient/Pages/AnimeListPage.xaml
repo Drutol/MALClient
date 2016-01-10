@@ -14,7 +14,7 @@
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
-                            <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
+                            <ToggleMenuFlyoutItem x:Name="sort2"  Text="MyScore" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
                             <MenuFlyoutSeparator/>

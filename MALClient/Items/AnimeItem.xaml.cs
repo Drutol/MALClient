@@ -23,35 +23,31 @@ namespace MALClient.Items
     public sealed partial class AnimeItem : UserControl
     {
         public int Id;
-        public int status;
+        public int MyStatus;
+        public int MyScore;
+        public int WatchedEpisodes;
         public string title;
         private string _imgUrl;
-        public int WatchedEpisodes;
-        public int AllEpisodes;
-        public int Score;
+        public readonly int AllEpisodes;
+
 
         private bool _imgLoaded = false;
 
-        public AnimeItem(bool auth,string name,string img,int id,int status,int watchedEps,int allEps,int score)
+        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int watchedEps,int allEps,int myScore)
         {
             this.InitializeComponent();
             Id = id;
             
-            Status.Content = MALClient.Utils.StatusToString(status);
+            Status.Content = Utils.StatusToString(myStatus);
             WatchedEps.Text = $"{watchedEps}/{allEps}";
             Ttile.Text = name;
-            this.status = status;
-            Score = score;
+            MyStatus = myStatus;
+            MyScore = myScore;
             title = name;
             _imgUrl = img;
             WatchedEpisodes = watchedEps;
             AllEpisodes = allEps;
-            if(score > 0)
-                BtnScore.Content = $"{score}/10";
-            else
-            {
-                BtnScore.Content = "Unranked";
-            }
+            BtnScore.Content = myScore > 0 ? $"{myScore}/10" : "Unranked";
 
             if (!auth)
             {
@@ -74,7 +70,7 @@ namespace MALClient.Items
         public async void PinTile(string targetUrl)
         {
 
-            var folder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var folder = ApplicationData.Current.LocalFolder;
             var thumb = await folder.CreateFileAsync($"{Id}.png", CreationCollisionOption.ReplaceExisting);
 
             HttpClient http = new HttpClient();
@@ -92,7 +88,7 @@ namespace MALClient.Items
             if (!targetUrl.Contains("http"))
                 targetUrl = "http://" + targetUrl;
             var til = new SecondaryTile($"{Id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{Id}.png"), TileSize.Default);
-            MALClient.Utils.RegisterTile(Id.ToString());
+            Utils.RegisterTile(Id.ToString());
             await til.RequestCreateAsync();
         }
 
@@ -152,30 +148,48 @@ namespace MALClient.Items
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
+        public void ChangeWatched(int newWatched)
+        {
+            WatchedEpisodes = newWatched;
+            WatchedEps.Text = $"{newWatched}/{AllEpisodes}";
+        }
+
         private async void ChangeStatus(object sender, RoutedEventArgs e)
         {
             SpinnerLoading.Visibility = Visibility.Visible;
             var item = sender as MenuFlyoutItem;
-            status = MALClient.Utils.StatusToInt(item.Text);
+            MyStatus = MALClient.Utils.StatusToInt(item.Text);
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response == "Updated")
             {
-                Status.Content = MALClient.Utils.StatusToString(status);
+                Status.Content = MALClient.Utils.StatusToString(MyStatus);
             }
             SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        public void ChangeStatus(int newStatus)
+        {
+            MyStatus = newStatus;
+            BtnScore.Content = Utils.StatusToString(newStatus);
         }
 
         private async void ChangeScore(object sender, RoutedEventArgs e)
         {
             SpinnerLoading.Visibility = Visibility.Visible;
             var btn = sender as MenuFlyoutItem;
-            Score = int.Parse(btn.Text.Split('-').First());
+            MyScore = int.Parse(btn.Text.Split('-').First());
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response == "Updated")
             {
-                BtnScore.Content = $"{Score}/10";
+                BtnScore.Content = $"{MyScore}/10";
             }
             SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        public void ChangeScore(int newScore)
+        {
+            MyScore = newScore;
+            BtnScore.Content = $"{newScore}/10";
         }
 
         private void PinTile(object sender, RoutedEventArgs e)

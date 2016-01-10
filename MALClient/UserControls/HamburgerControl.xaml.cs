@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -33,23 +34,37 @@ namespace MALClient.UserControls
             InitializeComponent();
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             UpdateProfileImg();
+
         }
+
         internal async void UpdateProfileImg()
         {
             if (Creditentials.Authenticated)
             {
-                if (await ApplicationData.Current.LocalFolder.TryGetItemAsync("UserImg.png") != null)
-                    ImgUser.Source = new BitmapImage(new Uri("ms-appdata:///local/UserImg.png"));
-                else
+                try
+                {
+                    var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
+                    var bitmap = new BitmapImage();
+                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream()) //we can overwrite the image that way (if necessary)
+                    {
+                        bitmap.SetSource(fs);
+                    }
+                    
+                    ImgUser.Source = bitmap;
+                }
+                catch (Exception)
+                {
                     Utils.DownloadProfileImg();
-                    //ImgUser.Source = new BitmapImage(new Uri($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
-                ImgUser.Visibility = Visibility.Visible;
+                }
+                  
+                BtnProfile.Visibility = Visibility.Visible;
             }
             else
             {
-                ImgUser.Visibility = Visibility.Collapsed;
+                BtnProfile.Visibility = Visibility.Collapsed;
             }
         }
+
 
         //internal void PaneOpened()
         //{

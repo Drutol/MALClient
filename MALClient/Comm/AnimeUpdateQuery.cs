@@ -20,8 +20,8 @@ namespace MALClient.Comm
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
             xml.AppendLine($"<episode>{item.WatchedEpisodes}</episode>");
-            xml.AppendLine($"<status>{item.status}</status>");
-            xml.AppendLine($"<score>{item.Score}</score>");
+            xml.AppendLine($"<status>{item.MyStatus}</status>");
+            xml.AppendLine($"<score>{item.MyScore}</score>");
             //xml.AppendLine("<download_episodes></download_episodes>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");

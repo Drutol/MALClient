@@ -47,7 +47,7 @@
                     <TextBlock x:Name="DetailEpisodes" Margin="2,0,0,0" FontWeight="SemiBold"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,1">
-                    <TextBlock Text="Score : " />
+                    <TextBlock Text="MyScore : " />
                     <TextBlock x:Name="DetailScore" FontWeight="SemiBold" Margin="2,0,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,1" >

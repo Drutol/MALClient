@@ -71,8 +71,8 @@ namespace MALClient
                 if (entry != null)
                 {
                     watchedEps = entry.WatchedEpisodes;
-                    myStatus = entry.status;
-                    myScore = entry.Score;
+                    myStatus = entry.MyStatus;
+                    myScore = entry.MyScore;
                     reference = entry;
                     return true;
                 }
@@ -92,7 +92,7 @@ namespace MALClient
 
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
-                var msg = new MessageDialog("Log in order to search.");
+                var msg = new MessageDialog("Log in first in order to access this page.");
                 await msg.ShowAsync();
                 return;
             }

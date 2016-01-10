@@ -44,35 +44,34 @@
                         <TextBlock x:Name="TxtSearch" Text="Anime Search" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                     </Grid>
                 </Button>
-                <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="50">
+
+
+            </StackPanel>
+            <StackPanel Grid.Column="0" Margin="0,0,0,50" VerticalAlignment="Bottom">
+                <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" >
+                    <Grid Width="200" Height="35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="35"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border x:Name="Border4" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
                         <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtLogin , Path=Foreground}"/>
-                        <TextBlock x:Name="TxtLogin" Text="Log In" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock x:Name="TxtLogin" Text="Log In"  HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                     </Grid>
                 </Button>
-
-            </StackPanel>
-            <StackPanel Grid.Column="0" Margin="0,0,0,50" VerticalAlignment="Bottom">
-                <Button  VerticalContentAlignment="Center" Background="Transparent" Click="BtnProfile_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="50">
+                <Button x:Name="BtnProfile"  VerticalContentAlignment="Center" Background="Transparent" Click="BtnProfile_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                    <Grid Width="200" Height="35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="35"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border x:Name="Border5" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        
-                        <SymbolIcon Symbol="ContactInfo" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding ElementName=ImgUser , Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"  Foreground="{Binding ElementName=TxtProfile , Path=Foreground}"/>
-                        <Image x:Name="ImgUser" Grid.Column="0" Stretch="UniformToFill" Width="33" Height="33" Margin="1,1" Visibility="Collapsed"/>
+                        <Image x:Name="ImgUser" Grid.Column="0" Stretch="UniformToFill" Width="33" Height="33" Margin="1,1" Visibility="Visible"/>
                         <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                     </Grid>
                 </Button>
                 <Button  VerticalContentAlignment="Center" Background="Transparent" Click="BtnSettings_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="50">
+                    <Grid Width="200" Height="35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="35"/>
                             <ColumnDefinition Width="*"/>

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

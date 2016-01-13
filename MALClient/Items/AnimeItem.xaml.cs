@@ -40,7 +40,7 @@ namespace MALClient.Items
             
             Status.Content = Utils.StatusToString(myStatus);
             WatchedEps.Text = $"{watchedEps}/{allEps}";
-            Ttile.Text = name;
+            Title.Text = name;
             MyStatus = myStatus;
             MyScore = myScore;
             title = name;
@@ -56,6 +56,21 @@ namespace MALClient.Items
                 Status.IsEnabled = false;
                 BtnScore.IsEnabled = false;
             }
+        }
+
+        public AnimeItem(SeasonalAnimeData data)
+        {
+            Id = data.Id;
+            Status.Content = "Airing";
+            Title.Text = data.Title;
+            WatchedEps.Text = $"{data.Episodes} Episodes";
+            _imgUrl = data.ImgUrl;
+
+            IncrementEps.Visibility = Visibility.Collapsed;
+            DecrementEps.Visibility = Visibility.Collapsed;
+            Status.IsEnabled = false;
+            BtnScore.IsEnabled = false;
+            BtnAddToList.Visibility = Visibility.Visible;
         }
 
         public void ItemLoaded()
@@ -222,6 +237,21 @@ namespace MALClient.Items
                 PinTile(txt.Text);
                 TileUrlInput.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void AddThisToMyList(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HideSynopsis(object sender, RoutedEventArgs e)
+        {
+            SynopsisHide.Begin();
+        }
+
+        private void ShowSynopsis(object sender, RoutedEventArgs e)
+        {
+            SynopsisShow.Begin();
         }
     }
 }

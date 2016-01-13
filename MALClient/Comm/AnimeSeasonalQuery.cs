@@ -63,6 +63,7 @@ namespace MALClient.Comm
                     ImgUrl = img,
                     Synopsis = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "synopsis js-synopsis").InnerHtml,
                     Score = score,
+                    Episodes = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "eps").Descendants("a").First().InnerText.Split(new[] { " ", },StringSplitOptions.RemoveEmptyEntries)[0]
                 });
             }
 

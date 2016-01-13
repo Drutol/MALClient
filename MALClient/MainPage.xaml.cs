@@ -44,6 +44,7 @@ namespace MALClient
                 Navigate(PageIndex.PageLogIn);
                 HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
             }
+
             
         }
 

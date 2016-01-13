@@ -9,7 +9,7 @@ namespace MALClient.Comm
     {
         protected WebRequest Request;
 
-        public async Task<string> GetRequestResponse()
+        public virtual async Task<string> GetRequestResponse()
         {
             var response = await Request.GetResponseAsync();
 

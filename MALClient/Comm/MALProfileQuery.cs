@@ -7,7 +7,7 @@ namespace MALClient.Comm
     {
         public MALProfileQuery()
         {
-            Request = WebRequest.Create(Uri.EscapeUriString("http://myanimelist.net/profile/Drutol"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{Creditentials.UserName}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

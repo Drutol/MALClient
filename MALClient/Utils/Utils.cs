@@ -67,6 +67,9 @@ namespace MALClient
 
         public static async void CheckTiles()
         {
+            await new AnimeSeasonalQuery().GetSeasonalAnime();
+
+
             string tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
             if(String.IsNullOrWhiteSpace(tiles))
                 return;

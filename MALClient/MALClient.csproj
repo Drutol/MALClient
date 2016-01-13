@@ -11,7 +11,7 @@
     <AssemblyName>MALClient</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -68,7 +68,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -110,6 +110,7 @@
     <Compile Include="Comm\AnimeListQuery.cs" />
     <Compile Include="Comm\AnimeRemoveQuery.cs" />
     <Compile Include="Comm\AnimeSearchQuery.cs" />
+    <Compile Include="Comm\AnimeSeasonalQuery.cs" />
     <Compile Include="Comm\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Creditentials.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Items\AnimeSearchItem.xaml.cs">
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Items\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

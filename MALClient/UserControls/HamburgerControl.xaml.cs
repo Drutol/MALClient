@@ -44,18 +44,27 @@ namespace MALClient.UserControls
                 {
                     var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
                     var bitmap = new BitmapImage();
-                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream()) //we can overwrite the image that way (if necessary)
+                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
+                        //we can overwrite the image that way (if necessary)
                     {
-                        bitmap.SetSource(fs);
+                        await bitmap.SetSourceAsync(fs);
                     }
-                    
+
                     ImgUser.Source = bitmap;
                 }
-                catch (Exception)
+                catch (FileNotFoundException)
                 {
                     Utils.DownloadProfileImg();
                 }
-                  
+                catch (UnauthorizedAccessException)
+                {
+                    // ignored
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
                 BtnProfile.Visibility = Visibility.Visible;
             }
             else

@@ -22,7 +22,8 @@ namespace MALClient.UserControls
         AnimeSearch,
         LogIn,
         Settings,
-        Profile
+        Profile,
+        Seasonal
     }
 
     public sealed partial class HamburgerControl : UserControl
@@ -124,6 +125,12 @@ namespace MALClient.UserControls
             SetActiveButton(HamburgerButtons.Profile);
         }
 
+        private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
+        {
+            GetMainPageInstance().Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs());
+            SetActiveButton(HamburgerButtons.Profile);
+        }
+
         public void SetActiveButton(HamburgerButtons val)
         {
             ResetActiveButton();
@@ -144,6 +151,9 @@ namespace MALClient.UserControls
                 case HamburgerButtons.Profile:
                     TxtProfile.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
+                case HamburgerButtons.Seasonal:
+                    TxtSeasonal.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
             }
@@ -156,6 +166,7 @@ namespace MALClient.UserControls
             TxtList.Foreground = new SolidColorBrush(Colors.Black);
             TxtLogin.Foreground = new SolidColorBrush(Colors.Black);
             TxtProfile.Foreground = new SolidColorBrush(Colors.Black);
+            TxtSeasonal.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -184,6 +195,7 @@ namespace MALClient.UserControls
         {
             return Utils.GetMainPageInstance();
         }
+
 
 
     }

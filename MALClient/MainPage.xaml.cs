@@ -24,6 +24,7 @@ namespace MALClient
     {
 
         private Dictionary<string,Tuple<List<AnimeItem>,List<XElement>,DateTime,Dictionary<int,bool>>> _allAnimeItemsCache = new Dictionary<string, Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>>>();
+        private List<SeasonalAnimeData> _seasonalAnimeCache = new List<SeasonalAnimeData>(); 
         private bool _onSearchPage = false;
         private bool _wasOnDetailsFromSearch = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
@@ -307,7 +308,7 @@ namespace MALClient
             }
         }
 
-
+        //Profile
         public void SaveProfileData(ProfileData data)
         {
             _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now,data);
@@ -321,6 +322,16 @@ namespace MALClient
             if (diff.TotalSeconds < 3600)
                 return _profileDataCache.Item2;
             return null;
+        }
+        //Season
+        public void SaveSeasonData(List<SeasonalAnimeData> data)
+        {
+            _seasonalAnimeCache = data;
+        }
+
+        public List<SeasonalAnimeData> RetrieveSeasonData()
+        {
+            return _seasonalAnimeCache;
         }
         #endregion
 

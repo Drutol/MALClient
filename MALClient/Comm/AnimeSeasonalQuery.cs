@@ -36,6 +36,7 @@ namespace MALClient.Comm
 
             var nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
             List<SeasonalAnimeData> output = new List<SeasonalAnimeData>();
+            int i = 0;
             foreach (var htmlNode in nodes)
             {
                 if(htmlNode.Attributes["class"]?.Value != "seasonal-anime js-seasonal-anime")
@@ -60,11 +61,13 @@ namespace MALClient.Comm
                     Title = imageNode.InnerText,
                     MalLink = link,
                     Id = int.Parse(link.Substring(7).Split('/')[2]),
-                    ImgUrl = img,
+                    ImgUrl = img.Split('(', ')')[1],
                     Synopsis = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "synopsis js-synopsis").InnerHtml,
                     Score = score,
-                    Episodes = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "eps").Descendants("a").First().InnerText.Split(new[] { " ", },StringSplitOptions.RemoveEmptyEntries)[0]
+                    Episodes = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "eps").Descendants("a").First().InnerText.Split(new[] { " ", },StringSplitOptions.RemoveEmptyEntries)[0],
+                    Index = i,
                 });
+                i++;
             }
 
             return output;

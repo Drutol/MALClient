@@ -91,8 +91,20 @@
 
 
         <Image x:Name="Img" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
-        <ProgressBar x:Name="SpinnerLoading" Grid.Column="1" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
-        <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnShowMore" Click="ShowMore" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="40" >
+            <Button.Background>
+                <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+            </Button.Background>
+            <SymbolIcon Symbol="Zoom" Foreground="White"/>
+        </Button>
+        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnAddToList" Click="AddThisToMyList" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="40">
+            <Button.Background>
+                <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+            </Button.Background>
+            <SymbolIcon Symbol="Add" Foreground="White"/>
+        </Button>
+        <ProgressBar x:Name="SpinnerLoading" Grid.Row="0" Grid.Column="1" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+        <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
             <TextBlock x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
             <StackPanel  VerticalAlignment="Bottom"  HorizontalAlignment="Right">
                 <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
@@ -141,12 +153,8 @@
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="20" CenterY="40"/>
                     </Button.RenderTransform>
                 </Button>
-                <Button x:Name="BtnAddToList" Margin="10,0,0,0" Click="AddThisToMyList">
-                    <SymbolIcon Symbol="Add"/>
-                </Button>
-                <Button Click="ShowSynopsis">
-                    <SymbolIcon Symbol="Zoom"/>
-                </Button>
+
+
             </StackPanel>
         </Grid>
         <Grid x:Name="TileUrlInput" Visibility="Collapsed" Height="75" BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" Margin="5,5" >
@@ -167,10 +175,10 @@
         </Grid>
         <!--Synopsis Margin 150-->
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-            <Button Click="HideSynopsis">
+            <Button Click="HideSynopsis" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0">
                 <SymbolIcon Symbol="Up"></SymbolIcon>
             </Button>
-            <TextBlock Margin="0,20,0,0" x:Name="TxtSynopsis"/>
+            <TextBlock Margin="0,20,40,0" x:Name="TxtSynopsis"/>
         </Grid>
     </Grid>
 </UserControl>

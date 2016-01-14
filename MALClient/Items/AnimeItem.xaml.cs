@@ -29,6 +29,9 @@ namespace MALClient.Items
         public string title;
         private string _imgUrl;
         public readonly int AllEpisodes;
+        private bool _expandState = false;
+        private bool _seasonalState = false;
+        public int Index { get; set; }
 
 
         private bool _imgLoaded = false;
@@ -60,11 +63,19 @@ namespace MALClient.Items
 
         public AnimeItem(SeasonalAnimeData data)
         {
+            this.InitializeComponent();
+
             Id = data.Id;
             Status.Content = "Airing";
             Title.Text = data.Title;
             WatchedEps.Text = $"{data.Episodes} Episodes";
             _imgUrl = data.ImgUrl;
+            TxtSynopsis.Text = data.Synopsis;
+            Index = data.Index;
+
+            MyStatus = 7; //as for all filtering
+
+            _seasonalState = true;
 
             IncrementEps.Visibility = Visibility.Collapsed;
             DecrementEps.Visibility = Visibility.Collapsed;
@@ -244,14 +255,25 @@ namespace MALClient.Items
             throw new NotImplementedException();
         }
 
+        
         private void HideSynopsis(object sender, RoutedEventArgs e)
         {
             SynopsisHide.Begin();
+            _expandState = false;
         }
 
-        private void ShowSynopsis(object sender, RoutedEventArgs e)
+        private void ShowMore(object sender, RoutedEventArgs e)
         {
-            SynopsisShow.Begin();
+            if (!_expandState)
+            {
+                SynopsisShow.Begin();
+                _expandState = true;
+            }
+            else
+            {
+                SynopsisHide.Begin();
+                _expandState = false;
+            }
         }
     }
 }

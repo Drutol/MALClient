@@ -17,5 +17,6 @@ namespace MALClient.Items
         public string ImgUrl { get; set; }
         public string MalLink { get; set; }
         public string Episodes { get; set; }
+        public int Index { get; set; }
     }
 }

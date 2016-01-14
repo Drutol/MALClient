@@ -25,14 +25,19 @@ namespace MALClient.Pages
     public class AnimeListPageNavigationArgs
     {
         public AnimeListPage.SortOptions SortOption;
-        public int Status;
-        public bool Descending;
-
+        public readonly int Status;
+        public readonly bool Descending;
+        public bool LoadSeasonal = false;
         public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort,int status,bool desc)
         {
             SortOption = sort;
             Status = status;
             Descending = desc;
+        }
+
+        public AnimeListPageNavigationArgs()
+        {
+            LoadSeasonal = true;
         }
     }
     /// <summary>
@@ -59,6 +64,7 @@ namespace MALClient.Pages
         private List<XElement> _allDownloadedAnimeItems = new List<XElement>();
         private DateTime _lastUpdate;
         private System.Threading.Timer _timer;
+        private bool _seasonalState = false;
 
         private Dictionary<int,bool> _loadedDictionary = new Dictionary<int, bool>
         {
@@ -86,10 +92,33 @@ namespace MALClient.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
-            SetSortOrder(args?.SortOption);
-            SetDesiredStatus(args?.Status);
-            BtnOrderDescending.IsChecked = args?.Descending ?? Utils.IsSortDescending();
-            _sortDescending = args?.Descending ?? Utils.IsSortDescending();
+            if (args != null)
+            {
+                if (args.LoadSeasonal)
+                {
+                    SetDefaults();
+                    _loadedDictionary = new Dictionary<int, bool>
+                    {
+                        {1, true},
+                        {2, true},
+                        {3, true},
+                        {4, true},
+                        {6, true}
+                    };
+                    FetchSeasonalData();
+                    _seasonalState = true;
+                    return;
+                }
+
+                SetSortOrder(args?.SortOption);
+                SetDesiredStatus(args?.Status);
+                BtnOrderDescending.IsChecked = args.Descending;
+                _sortDescending = args.Descending;
+                
+            }
+            else // default
+                SetDefaults();
+
             if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
             {
                 ListSource.Text = Creditentials.UserName;
@@ -101,11 +130,39 @@ namespace MALClient.Pages
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
                 Utils.GetMainPageInstance()?.SetStatus("Anime List");
             }
+
             if (_timer == null)
                 _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
            
             UpdateStatus();
             base.OnNavigatedTo(e);
+        }
+
+        private void SetDefaults()
+        {
+            SetSortOrder(null);
+            SetDesiredStatus(null);
+            BtnOrderDescending.IsChecked = Utils.IsSortDescending();
+            _sortDescending = Utils.IsSortDescending();
+        }
+
+        private async void FetchSeasonalData(bool force = false)
+        {
+            SpinnerLoading.Visibility = Visibility.Visible;
+            EmptyNotice.Visibility = Visibility.Collapsed;
+
+            var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
+
+            _allLoadedAnimeItems.Clear();
+            _animeItems.Clear();
+
+            foreach (SeasonalAnimeData animeData in data)
+            {
+                _allLoadedAnimeItems.Add(new AnimeItem(animeData));
+            }
+            Animes.ItemsSource = _animeItems;
+            RefreshList();
+            SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
         private async void FetchData(bool force = false)
@@ -197,6 +254,8 @@ namespace MALClient.Pages
 
         private int GetDesiredStatus()
         {
+            if (_seasonalState)
+                return 7;
             int value = StatusSelector.SelectedIndex;
             value++;
             return (value == 5 || value == 6) ? value + 1 : value;
@@ -267,21 +326,24 @@ namespace MALClient.Pages
             var items = _allLoadedAnimeItems.Where(item => queryCondition || GetDesiredStatus() == 7 || item.MyStatus == GetDesiredStatus());
             if (queryCondition)
                 items = items.Where(item => item.title.ToLower().Contains(query.ToLower()));
-            if(_sortOption != SortOptions.SortNothing)
-                switch (_sortOption)
-                {
-                    case SortOptions.SortTitle:
-                        items = items.OrderBy(item => item.title);
-                        break;
-                    case SortOptions.SortScore:
-                        items = items.OrderBy(item => item.MyScore);
-                        break;
-                    case SortOptions.SortWatched:
-                        items = items.OrderBy(item => item.WatchedEpisodes);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(_sortOption), _sortOption, null);
-                }
+            switch (_sortOption)
+            {
+                case SortOptions.SortTitle:
+                    items = items.OrderBy(item => item.title);
+                    break;
+                case SortOptions.SortScore:
+                    items = items.OrderBy(item => item.MyScore);
+                    break;
+                case SortOptions.SortWatched:
+                    items = items.OrderBy(item => item.WatchedEpisodes);
+                    break;
+                case SortOptions.SortNothing:
+                    if (_seasonalState)
+                        items = items.OrderByDescending(item => item.Index);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_sortOption), _sortOption, null);
+            }
             if (_sortDescending)
                 items = items.Reverse();
             foreach (var item in items)

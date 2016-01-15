@@ -23,7 +23,6 @@ namespace MALClient.Comm
             string raw = await GetRequestResponse();
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            List<HtmlNode> nodessss;
             var mainNode =
                 doc.DocumentNode.Descendants("div")
                     .First(
@@ -31,8 +30,6 @@ namespace MALClient.Comm
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
                             "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
-
-
 
             var nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
             List<SeasonalAnimeData> output = new List<SeasonalAnimeData>();
@@ -58,7 +55,7 @@ namespace MALClient.Comm
                     score = 0;
                 output.Add(new SeasonalAnimeData
                 {
-                    Title = imageNode.InnerText,
+                    Title = imageNode.InnerText.Trim(),
                     MalLink = link,
                     Id = int.Parse(link.Substring(7).Split('/')[2]),
                     ImgUrl = img.Split('(', ')')[1],
@@ -68,7 +65,37 @@ namespace MALClient.Comm
                     Index = i,
                 });
                 i++;
+                if(i == 30)
+                    break;
             }
+
+            var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+            if (loadedStuff != null)
+            {
+                foreach (var seasonalAnimeData in output)
+                {
+                    try
+                    {
+                        seasonalAnimeData.AnimeItemRef = loadedStuff.LoadedAnime.First(item => item.Id == seasonalAnimeData.Id);
+                    }
+                    catch (Exception)
+                    {
+                        try
+                        {
+                            var animeXElement = loadedStuff.DownloadedAnime.First(item => item.Element("series_animedb_id").Value == seasonalAnimeData.Id.ToString());
+                            var animeItem = Utils.LoadAnimeItemFromXElement(animeXElement);
+                            loadedStuff.AnimeItemLoaded(animeItem);
+                            seasonalAnimeData.AnimeItemRef = animeItem;
+                        }
+                        catch (Exception)
+                        {
+                            // no luck
+                        }
+                    }
+                    
+                }
+            }
+
 
             return output;
         }

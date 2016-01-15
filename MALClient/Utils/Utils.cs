@@ -2,12 +2,14 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Comm;
+using MALClient.Items;
 using MALClient.Pages;
 
 namespace MALClient
@@ -30,6 +32,8 @@ namespace MALClient
                     return "Plan to watch";
                 case 7:
                     return "All";
+                case 8:
+                    return "Airing";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -50,7 +54,9 @@ namespace MALClient
                 case "Plan to watch":
                     return 6;
                 case "All":
-                    return 7;             
+                    return 7;
+                case "Airing":
+                    return 8;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -63,6 +69,19 @@ namespace MALClient
                 tiles = "";
             tiles += id + ";";
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
+        }
+
+        public static AnimeItem LoadAnimeItemFromXElement(XElement item)
+        {
+            return new AnimeItem(
+                        false,
+                        item.Element("series_title").Value,
+                        item.Element("series_image").Value,
+                        Convert.ToInt32(item.Element("series_animedb_id").Value),
+                        Convert.ToInt32(item.Element("my_status").Value),
+                        Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                        Convert.ToInt32(item.Element("series_episodes").Value),
+                        Convert.ToInt32(item.Element("my_score").Value));
         }
 
         public static async void CheckTiles()

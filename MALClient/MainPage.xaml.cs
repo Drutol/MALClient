@@ -23,7 +23,7 @@ namespace MALClient
     public sealed partial class MainPage : Page
     {
 
-        private Dictionary<string,Tuple<List<AnimeItem>,List<XElement>,DateTime,Dictionary<int,bool>>> _allAnimeItemsCache = new Dictionary<string, Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>>>();
+        private Dictionary<string,AnimeUserCache> _allAnimeItemsCache = new Dictionary<string, AnimeUserCache>();
         private List<SeasonalAnimeData> _seasonalAnimeCache = new List<SeasonalAnimeData>(); 
         private bool _onSearchPage = false;
         private bool _wasOnDetailsFromSearch = false;
@@ -69,12 +69,12 @@ namespace MALClient
             if (_allAnimeItemsCache[Creditentials.UserName] == null) return false;
             try
             {
-                var entry = _allAnimeItemsCache[Creditentials.UserName].Item1.First(item => item.Id == id);
+                var entry = _allAnimeItemsCache[Creditentials.UserName].LoadedAnime.First(item => item.Id == id);
                 if (entry != null)
                 {
                     watchedEps = entry.WatchedEpisodes;
                     myStatus = entry.MyStatus;
-                    myScore = entry.MyScore;
+                    myScore = (int)entry.MyScore; //it's float only when we are doing seasonal
                     reference = entry;
                     return true;
                 }
@@ -272,15 +272,28 @@ namespace MALClient
 
         public void SaveAnimeEntries(string source, List<AnimeItem> items, List<XElement> downItems  , DateTime updateTime , Dictionary<int,bool> loadStatus )
         {
-            _allAnimeItemsCache[source] = new Tuple<List<AnimeItem>,List<XElement>, DateTime, Dictionary<int,bool>>(items,downItems,updateTime,loadStatus);
+            _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache()
+            {
+                LoadedAnime = items,
+                DownloadedAnime = downItems,
+                LastUpdate = updateTime,
+                LoadedStatus = loadStatus
+            };
+        }
+
+        public AnimeUserCache RetrieveLoadedAnime()
+        {
+            AnimeUserCache data;
+            _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(),out data);
+            return data;
         }
 
         public void RetrieveAnimeEntries(string source,out List<AnimeItem> loadedItems,out List<XElement> downloadedItems  ,out DateTime time,out Dictionary<int,bool> loadStatus )
         {
-            Tuple<List<AnimeItem>, List<XElement>, DateTime, Dictionary<int, bool>> data;
-            _allAnimeItemsCache.TryGetValue(source, out data);
-            time = data?.Item3 ?? DateTime.Now;
-            loadStatus = data?.Item4 ?? new Dictionary<int, bool>
+            AnimeUserCache data;
+            _allAnimeItemsCache.TryGetValue(source.ToLower(), out data);
+            time = data?.LastUpdate ?? DateTime.Now;
+            loadStatus = data?.LoadedStatus ?? new Dictionary<int, bool>
             {
                 {1, false},
                 {2, false},
@@ -288,23 +301,25 @@ namespace MALClient
                 {4, false},
                 {6, false}
             };
-            loadedItems = data?.Item1 ?? new List<AnimeItem>();
-            downloadedItems = data?.Item2 ?? new List<XElement>();
+            loadedItems = data?.LoadedAnime ?? new List<AnimeItem>();
+            downloadedItems = data?.DownloadedAnime ?? new List<XElement>();
         }
 
         public void AddAnimeEntry(string source, AnimeItem item)
         {
+            source = source.ToLower();
             if (_allAnimeItemsCache[source] != null)
             {
-                _allAnimeItemsCache[source].Item1.Add(item);
+                _allAnimeItemsCache[source].AnimeItemLoaded(item);
             }
         }
 
         public void RemoveAnimeEntry(string source, AnimeItem item)
         {
+            source = source.ToLower();
             if (_allAnimeItemsCache[source] != null)
             {
-                _allAnimeItemsCache[source].Item1.Remove(item);
+                _allAnimeItemsCache[source].LoadedAnime.Remove(item);
             }
         }
 

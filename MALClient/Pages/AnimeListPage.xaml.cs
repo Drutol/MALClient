@@ -96,7 +96,11 @@ namespace MALClient.Pages
             {
                 if (args.LoadSeasonal)
                 {
-                    SetDefaults();
+                    BtnOrderDescending.IsChecked = _sortDescending = Utils.IsSortDescending();
+                    SwitchFiltersToSeasonal();
+                    SwitchSortingToSeasonal();
+                    SetSortOrder(SortOptions.SortWatched); //index
+                    SetDesiredStatus((int)AnimeStatus.Airing);
                     _loadedDictionary = new Dictionary<int, bool>
                     {
                         {1, true},
@@ -105,6 +109,7 @@ namespace MALClient.Pages
                         {4, true},
                         {6, true}
                     };
+
                     FetchSeasonalData();
                     _seasonalState = true;
                     return;
@@ -138,6 +143,16 @@ namespace MALClient.Pages
             base.OnNavigatedTo(e);
         }
 
+        private void SwitchSortingToSeasonal()
+        {
+            sort3.Text = "Index";
+        }
+
+        private void SwitchFiltersToSeasonal()
+        {
+            StatusSelector.Items.Add(new ListViewItem {Content = "Airing"});
+        }
+
         private void SetDefaults()
         {
             SetSortOrder(null);
@@ -158,7 +173,9 @@ namespace MALClient.Pages
 
             foreach (SeasonalAnimeData animeData in data)
             {
-                _allLoadedAnimeItems.Add(new AnimeItem(animeData));
+                //if reference to loaded anime item is fond then add it instead of loading new thing
+                // TODO : Use Seasonal data in existing item
+                _allLoadedAnimeItems.Add(animeData.AnimeItemRef == null ?  new AnimeItem(animeData) : AnimeItem.EnhanceWithSeasonalData(animeData));
             }
             Animes.ItemsSource = _animeItems;
             RefreshList();
@@ -254,8 +271,6 @@ namespace MALClient.Pages
 
         private int GetDesiredStatus()
         {
-            if (_seasonalState)
-                return 7;
             int value = StatusSelector.SelectedIndex;
             value++;
             return (value == 5 || value == 6) ? value + 1 : value;
@@ -335,11 +350,12 @@ namespace MALClient.Pages
                     items = items.OrderBy(item => item.MyScore);
                     break;
                 case SortOptions.SortWatched:
-                    items = items.OrderBy(item => item.WatchedEpisodes);
+                    if(_seasonalState)
+                        items = items.OrderByDescending(item => item.Index);
+                    else
+                        items = items.OrderBy(item => item.WatchedEpisodes);
                     break;
                 case SortOptions.SortNothing:
-                    if (_seasonalState)
-                        items = items.OrderByDescending(item => item.Index);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_sortOption), _sortOption, null);

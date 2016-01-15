@@ -24,7 +24,7 @@ namespace MALClient.Items
     {
         public int Id;
         public int MyStatus;
-        public int MyScore;
+        public float MyScore;
         public int WatchedEpisodes;
         public string title;
         private string _imgUrl;
@@ -32,6 +32,7 @@ namespace MALClient.Items
         private bool _expandState = false;
         private bool _seasonalState = false;
         public int Index { get; set; }
+        public int SeasonalMembers { get; set; }
 
 
         private bool _imgLoaded = false;
@@ -51,6 +52,7 @@ namespace MALClient.Items
             WatchedEpisodes = watchedEps;
             AllEpisodes = allEps;
             BtnScore.Content = myScore > 0 ? $"{myScore}/10" : "Unranked";
+            BtnAddToList.Visibility = Visibility.Collapsed;
 
             if (!auth)
             {
@@ -66,14 +68,18 @@ namespace MALClient.Items
             this.InitializeComponent();
 
             Id = data.Id;
+            SymbolAiring.Visibility = Visibility.Visible;
             Status.Content = "Airing";
             Title.Text = data.Title;
             WatchedEps.Text = $"{data.Episodes} Episodes";
             _imgUrl = data.ImgUrl;
             TxtSynopsis.Text = data.Synopsis;
             Index = data.Index;
+            BtnScore.Content = data.Score;
 
-            MyStatus = 7; //as for all filtering
+            MyStatus = (int) AnimeStatus.Airing;
+            MyScore = data.Score;
+            SeasonalMembers = data.Members;
 
             _seasonalState = true;
 
@@ -83,6 +89,7 @@ namespace MALClient.Items
             BtnScore.IsEnabled = false;
             BtnAddToList.Visibility = Visibility.Visible;
         }
+
 
         public void ItemLoaded()
         {
@@ -177,6 +184,8 @@ namespace MALClient.Items
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
+
+
         public void ChangeWatched(int newWatched)
         {
             WatchedEpisodes = newWatched;
@@ -250,12 +259,23 @@ namespace MALClient.Items
             }
         }
 
-        private void AddThisToMyList(object sender, RoutedEventArgs e)
+        private async void AddThisToMyList(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            string response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
+            if (!response.Contains("Created"))
+                return;
+
+            MyScore = 0;
+            MyStatus = 6;
+            WatchedEpisodes = 0;
+
+            BtnScore.Content = "Unranked";
+            Status.Content = $"{Utils.StatusToString(MyStatus)}";
+
+            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,this);
         }
 
-        
+
         private void HideSynopsis(object sender, RoutedEventArgs e)
         {
             SynopsisHide.Begin();
@@ -274,6 +294,17 @@ namespace MALClient.Items
                 SynopsisHide.Begin();
                 _expandState = false;
             }
+        }
+
+
+        //Statics
+
+        internal static AnimeItem EnhanceWithSeasonalData(SeasonalAnimeData data)
+        {
+            data.AnimeItemRef.TxtSynopsis.Text = data.Synopsis;
+            data.AnimeItemRef.SymbolAiring.Visibility = Visibility.Visible;
+            data.AnimeItemRef.BtnAddToList.Visibility = Visibility.Collapsed;
+            return data.AnimeItemRef;
         }
     }
 }

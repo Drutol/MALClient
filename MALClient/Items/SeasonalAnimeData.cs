@@ -18,5 +18,7 @@ namespace MALClient.Items
         public string MalLink { get; set; }
         public string Episodes { get; set; }
         public int Index { get; set; }
+
+        public AnimeItem AnimeItemRef { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         OnHold = 3,
         Dropped = 4,
         PlanToWatch = 6,
-        Airing = 7,
+        AllOrAiring = 7 
     }
 
 }

@@ -96,11 +96,11 @@ namespace MALClient.Pages
             {
                 if (args.LoadSeasonal)
                 {
-                    BtnOrderDescending.IsChecked = _sortDescending = Utils.IsSortDescending();
+                    BtnOrderDescending.IsChecked = _sortDescending = true;
                     SwitchFiltersToSeasonal();
                     SwitchSortingToSeasonal();
                     SetSortOrder(SortOptions.SortWatched); //index
-                    SetDesiredStatus((int)AnimeStatus.Airing);
+                    SetDesiredStatus((int)AnimeStatus.AllOrAiring);
                     _loadedDictionary = new Dictionary<int, bool>
                     {
                         {1, true},
@@ -137,7 +137,7 @@ namespace MALClient.Pages
             }
 
             if (_timer == null)
-                _timer = new System.Threading.Timer((state) => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+                _timer = new System.Threading.Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
            
             UpdateStatus();
             base.OnNavigatedTo(e);
@@ -150,7 +150,7 @@ namespace MALClient.Pages
 
         private void SwitchFiltersToSeasonal()
         {
-            StatusSelector.Items.Add(new ListViewItem {Content = "Airing"});
+            (StatusSelector.Items[5] as ListViewItem).Content = "Airing";
         }
 
         private void SetDefaults()
@@ -166,17 +166,25 @@ namespace MALClient.Pages
             SpinnerLoading.Visibility = Visibility.Visible;
             EmptyNotice.Visibility = Visibility.Collapsed;
 
-            var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
-
-            _allLoadedAnimeItems.Clear();
-            _animeItems.Clear();
-
-            foreach (SeasonalAnimeData animeData in data)
+            var possibleLoadedData = Utils.GetMainPageInstance().RetrieveSeasonData();
+            if (possibleLoadedData.Count == 0)
             {
-                //if reference to loaded anime item is fond then add it instead of loading new thing
-                // TODO : Use Seasonal data in existing item
-                _allLoadedAnimeItems.Add(animeData.AnimeItemRef == null ?  new AnimeItem(animeData) : AnimeItem.EnhanceWithSeasonalData(animeData));
+                var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
+
+                _allLoadedAnimeItems.Clear();
+
+                foreach (SeasonalAnimeData animeData in data)
+                {
+                    //if reference to loaded anime item is found then add it instead of loading new thing
+                    _allLoadedAnimeItems.Add(animeData.AnimeItemRef == null ? new AnimeItem(animeData) : AnimeItem.EnhanceWithSeasonalData(animeData));
+                }
+                Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
             }
+            else
+            {
+                _allLoadedAnimeItems = possibleLoadedData;
+            }
+
             Animes.ItemsSource = _animeItems;
             RefreshList();
             SpinnerLoading.Visibility = Visibility.Collapsed;
@@ -338,7 +346,7 @@ namespace MALClient.Pages
                 Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems, _allDownloadedAnimeItems, _lastUpdate, _loadedDictionary);
             }
 
-            var items = _allLoadedAnimeItems.Where(item => queryCondition || GetDesiredStatus() == 7 || item.MyStatus == GetDesiredStatus());
+            var items = _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
             if (queryCondition)
                 items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
             switch (_sortOption)
@@ -378,7 +386,10 @@ namespace MALClient.Pages
         {
             var page = Utils.GetMainPageInstance();
             if (page != null)
-                page.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+                if(!_seasonalState)
+                    page.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+                else
+                    page.SetStatus($"Airing - {Utils.StatusToString(GetDesiredStatus())}");
             else if (retries >= 0)
             {
                 await Task.Delay(1000);

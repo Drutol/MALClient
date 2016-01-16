@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using MALClient.Items;
+using Newtonsoft.Json;
+using WinRTXamlToolkit.IO.Serialization;
 
 namespace MALClient
 {
     public static class DataCache
     {
+        #region UserData
+
         public static async void SaveDataForUser(string user, string data)
         {
             if(!Utils.IsCachingEnabled())
@@ -25,7 +31,7 @@ namespace MALClient
             try
             {
                 var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.xml");
-                var data = await Windows.Storage.FileIO.ReadTextAsync(file);
+                var data = await FileIO.ReadTextAsync(file);
                 var lines = data.Split(new char[] {'\n', '\r'},StringSplitOptions.RemoveEmptyEntries);
                 DateTime lastUpdateTime = new DateTime();
                 if (!CheckForOldData(lines[lines.Length - 1],ref lastUpdateTime))
@@ -54,6 +60,38 @@ namespace MALClient
             if (diff.TotalSeconds > Utils.GetCachePersitence())
                 return false;
             return true;
+        }
+
+        private static bool CheckForOldData(DateTime date)
+        {
+            TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(date);
+            if (diff.TotalSeconds > 86400) //1day
+                return false;
+            return true;
+        }
+        #endregion
+
+        public static async void SaveSeasonalData(List<SeasonalAnimeData> data)
+        {
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(new Tuple<DateTime,List<SeasonalAnimeData>>(DateTime.UtcNow,data));
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_data.json", CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(file, json);
+        }
+
+        public static async Task<List<SeasonalAnimeData>> RetrieveSeasonalData()
+        {
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_data.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, List<SeasonalAnimeData>>>(data);
+                return CheckForOldData(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
         }
     }
 }

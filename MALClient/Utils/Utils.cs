@@ -71,10 +71,10 @@ namespace MALClient
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
         }
 
-        public static AnimeItem LoadAnimeItemFromXElement(XElement item)
+        public static AnimeItem LoadAnimeItemFromXElement(XElement item,bool auth)
         {
             return new AnimeItem(
-                        false,
+                        auth,
                         item.Element("series_title").Value,
                         item.Element("series_image").Value,
                         Convert.ToInt32(item.Element("series_animedb_id").Value),

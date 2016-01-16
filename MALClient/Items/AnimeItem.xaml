@@ -14,10 +14,10 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <Storyboard x:Name="SynopsisHide">
-                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height" From="250" To="150" SpeedRatio="2.0" />
+                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height" From="300" To="150" SpeedRatio="2.0" />
             </Storyboard>
             <Storyboard x:Name="SynopsisShow">
-                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height" From="150" To="250" SpeedRatio="2.0" />
+                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height" From="150" To="300" SpeedRatio="2.0" />
             </Storyboard>
             <Style x:Key="ButtonDisabledStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
@@ -86,7 +86,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
         
@@ -180,10 +180,9 @@
         </Grid>
         <!--Synopsis Margin 150-->
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-            <Button Click="HideSynopsis" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0">
-                <SymbolIcon Symbol="Up"/>
-            </Button>
-            <TextBlock Margin="0,20,40,0" x:Name="TxtSynopsis" TextWrapping="WrapWholeWords"/>
+            <ScrollViewer VerticalScrollMode="Auto" Height="Auto" Margin="5" VerticalAlignment="Stretch">
+                <TextBlock  x:Name="TxtSynopsis" TextWrapping="WrapWholeWords"/>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

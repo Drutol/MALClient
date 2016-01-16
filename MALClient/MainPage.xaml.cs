@@ -24,7 +24,7 @@ namespace MALClient
     {
 
         private Dictionary<string,AnimeUserCache> _allAnimeItemsCache = new Dictionary<string, AnimeUserCache>();
-        private List<SeasonalAnimeData> _seasonalAnimeCache = new List<SeasonalAnimeData>(); 
+        private List<AnimeItem> _seasonalAnimeCache = new List<AnimeItem>(); 
         private bool _onSearchPage = false;
         private bool _wasOnDetailsFromSearch = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
@@ -339,12 +339,12 @@ namespace MALClient
             return null;
         }
         //Season
-        public void SaveSeasonData(List<SeasonalAnimeData> data)
+        public void SaveSeasonData(List<AnimeItem> data)
         {
             _seasonalAnimeCache = data;
         }
 
-        public List<SeasonalAnimeData> RetrieveSeasonData()
+        public List<AnimeItem> RetrieveSeasonData()
         {
             return _seasonalAnimeCache;
         }

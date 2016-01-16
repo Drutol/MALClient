@@ -69,7 +69,7 @@ namespace MALClient.Items
         public readonly int Id;
         private readonly string _imgUrl;
         private readonly int _allEpisodes;
-        public readonly int Index;
+        public int Index;
         //state fields
         private bool _expandState = false;
         private bool _seasonalState = false;
@@ -116,7 +116,7 @@ namespace MALClient.Items
             _imgUrl = data.ImgUrl;
             _myEpisodes = 0; // We don't want to set TextBlock
             //Assign properties
-            MyStatus = (int) AnimeStatus.Airing;
+            MyStatus = (int) AnimeStatus.AllOrAiring;
             Title = data.Title;
             MyScore = data.Score;
             SeasonalMembers = data.Members;
@@ -360,9 +360,6 @@ namespace MALClient.Items
             MyStatus = 6;
             MyEpisodes = 0;
 
-            BtnScore.Content = "Unranked";
-            BtnStatus.Content = $"{Utils.StatusToString(MyStatus)}";
-
             Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,this);
         }
 
@@ -373,6 +370,7 @@ namespace MALClient.Items
             data.AnimeItemRef.TxtSynopsis.Text = data.Synopsis;
             data.AnimeItemRef.SymbolAiring.Visibility = Visibility.Visible;
             data.AnimeItemRef.BtnAddToList.Visibility = Visibility.Collapsed;
+            data.AnimeItemRef.Index = data.Index;
             return data.AnimeItemRef;
         }
     }

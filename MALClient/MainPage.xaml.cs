@@ -72,7 +72,7 @@ namespace MALClient
                 var entry = _allAnimeItemsCache[Creditentials.UserName].LoadedAnime.First(item => item.Id == id);
                 if (entry != null)
                 {
-                    watchedEps = entry.WatchedEpisodes;
+                    watchedEps = entry.MyEpisodes;
                     myStatus = entry.MyStatus;
                     myScore = (int)entry.MyScore; //it's float only when we are doing seasonal
                     reference = entry;

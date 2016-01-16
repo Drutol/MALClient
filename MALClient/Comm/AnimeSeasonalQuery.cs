@@ -55,12 +55,12 @@ namespace MALClient.Comm
                     score = 0;
                 output.Add(new SeasonalAnimeData
                 {
-                    Title = imageNode.InnerText.Trim(),
+                    Title = imageNode.InnerText.Trim(), //there are some \n that we need to get rid of
                     MalLink = link,
-                    Id = int.Parse(link.Substring(7).Split('/')[2]),
-                    ImgUrl = img.Split('(', ')')[1],
+                    Id = int.Parse(link.Substring(7).Split('/')[2]), //extracted from anime link
+                    ImgUrl = img.Split('(', ')')[1], // from image style attr it's between ( )
                     Synopsis = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "synopsis js-synopsis").InnerHtml,
-                    Score = score,
+                    Score = score, //0 for N/A
                     Episodes = htmlNode.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "eps").Descendants("a").First().InnerText.Split(new[] { " ", },StringSplitOptions.RemoveEmptyEntries)[0],
                     Index = i,
                 });
@@ -69,6 +69,7 @@ namespace MALClient.Comm
                     break;
             }
 
+            //Search in autheticated list for references
             var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
             if (loadedStuff != null)
             {
@@ -89,14 +90,14 @@ namespace MALClient.Comm
                         }
                         catch (Exception)
                         {
-                            // no luck
+                            // no luck , we will have to load this item on the go
                         }
                     }
                     
                 }
             }
 
-
+            //We are done.
             return output;
         }
     }

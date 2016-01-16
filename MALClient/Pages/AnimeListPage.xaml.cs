@@ -340,11 +340,11 @@ namespace MALClient.Pages
 
             var items = _allLoadedAnimeItems.Where(item => queryCondition || GetDesiredStatus() == 7 || item.MyStatus == GetDesiredStatus());
             if (queryCondition)
-                items = items.Where(item => item.title.ToLower().Contains(query.ToLower()));
+                items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
             switch (_sortOption)
             {
                 case SortOptions.SortTitle:
-                    items = items.OrderBy(item => item.title);
+                    items = items.OrderBy(item => item.Title);
                     break;
                 case SortOptions.SortScore:
                     items = items.OrderBy(item => item.MyScore);
@@ -353,7 +353,7 @@ namespace MALClient.Pages
                     if(_seasonalState)
                         items = items.OrderByDescending(item => item.Index);
                     else
-                        items = items.OrderBy(item => item.WatchedEpisodes);
+                        items = items.OrderBy(item => item.MyEpisodes);
                     break;
                 case SortOptions.SortNothing:
                     break;

@@ -110,7 +110,7 @@
                     <ScaleTransform ScaleY="2" ScaleX="2"/>
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
-            <TextBlock x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
+            <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
             <StackPanel  VerticalAlignment="Bottom"  HorizontalAlignment="Right">
                 <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
                     <Button.Flyout>
@@ -130,7 +130,7 @@
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
-                <Button x:Name="Status" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
+                <Button x:Name="BtnStatus" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
                     <Button.Flyout>
                         <MenuFlyout>
                             <MenuFlyout.Items>
@@ -151,7 +151,7 @@
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="20" CenterY="40"/>
                     </Button.RenderTransform>
                 </Button>
-                <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
+                <TextBlock x:Name="TxtWatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
                 <Button x:Name="DecrementEps" Background="Transparent" Height="40" Width="40" Click="IncrementWatchedEp" VerticalAlignment="Center">
                     <SymbolIcon Symbol="Add"/>
                     <Button.RenderTransform>

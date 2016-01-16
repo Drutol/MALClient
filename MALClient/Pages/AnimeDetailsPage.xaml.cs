@@ -197,7 +197,7 @@ namespace MALClient.Pages
             Id = int.Parse(animeElement.Element("id").Value);
             Score = float.Parse(animeElement.Element("score").Value);
             Episodes = int.Parse(animeElement.Element("episodes").Value);
-            Title = animeElement.Element("title").Value;
+            Title = animeElement.Element("Title").Value;
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
             Synopsis = Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "");

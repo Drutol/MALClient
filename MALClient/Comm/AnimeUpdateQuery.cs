@@ -13,7 +13,7 @@ namespace MALClient.Comm
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
-            xml.AppendLine($"<episode>{item.WatchedEpisodes}</episode>");
+            xml.AppendLine($"<episode>{item.MyEpisodes}</episode>");
             xml.AppendLine($"<status>{item.MyStatus}</status>");
             xml.AppendLine($"<score>{item.MyScore}</score>");
             //xml.AppendLine("<download_episodes></download_episodes>");

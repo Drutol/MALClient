@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
@@ -68,7 +73,7 @@ namespace MALClient.Items
         //fields
         public readonly int Id;
         private readonly string _imgUrl;
-        private readonly int _allEpisodes;
+        private int _allEpisodes;
         public int Index;
         //state fields
         private bool _expandState = false;
@@ -106,7 +111,8 @@ namespace MALClient.Items
             BtnScore.IsEnabled = false;
         }
 
-        public AnimeItem(SeasonalAnimeData data) //We are loading an item that is NOT on the list and is seasonal
+        public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItem> loaded)
+            //We are loading an item that is NOT on the list and is seasonal
         {
             //Base init
             this.InitializeComponent();
@@ -120,7 +126,7 @@ namespace MALClient.Items
             Title = data.Title;
             MyScore = data.Score;
             SeasonalMembers = data.Members;
-           
+
             //Custom controls setup
             TxtWatchedEps.Text = $"{data.Episodes} Episodes";
             SymbolAiring.Visibility = Visibility.Visible;
@@ -128,13 +134,62 @@ namespace MALClient.Items
             //Additional data from seasonal
             TxtSynopsis.Text = data.Synopsis;
             Index = data.Index;
-         
+
             //We are not on the list so we cannot really do this
             IncrementEps.Visibility = Visibility.Collapsed;
             DecrementEps.Visibility = Visibility.Collapsed;
             BtnStatus.IsEnabled = false;
             BtnScore.IsEnabled = false;
             BtnAddToList.Visibility = Visibility.Visible;
+
+            Task.Run(async () =>
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    AnimeItem reference;
+                    XElement re;
+                    if (loaded.TryGetValue(Id, out reference))
+                    {
+                        _allEpisodes = reference._allEpisodes;
+                        MyStatus = reference.MyStatus;
+                        MyScore = reference.MyScore;
+                        MyEpisodes = reference.MyEpisodes;
+
+                        BtnAddToList.Visibility = Visibility.Collapsed;
+
+                        IncrementEps.Visibility = Visibility.Collapsed;
+                        DecrementEps.Visibility = Visibility.Collapsed;
+                        BtnStatus.IsEnabled = true;
+                        BtnScore.IsEnabled = true;
+
+                        var dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+                        dataCache.LoadedAnime.Remove(reference);
+                        dataCache.LoadedAnime.Add(this);
+
+                    }
+                    else if (dl.TryGetValue(Id, out re))
+                    {
+                        //Assign properties
+                        _allEpisodes = Convert.ToInt32(re.Element("series_episodes").Value);
+                        MyStatus = Convert.ToInt32(re.Element("my_status").Value);
+                        MyScore = Convert.ToInt32(re.Element("my_score").Value);
+                        MyEpisodes = Convert.ToInt32(re.Element("my_watched_episodes").Value);
+                        
+
+
+                        //We are not seasonal so it's already on list            
+                        BtnAddToList.Visibility = Visibility.Collapsed;
+
+                        IncrementEps.Visibility = Visibility.Collapsed;
+                        DecrementEps.Visibility = Visibility.Collapsed;
+                        BtnStatus.IsEnabled = true;
+                        BtnScore.IsEnabled = true;
+                        Utils.GetMainPageInstance().RetrieveLoadedAnime().AnimeItemLoaded(this);
+                    }
+
+
+                });
+            });
         }
 
         #region Utils/Helpers
@@ -237,7 +292,7 @@ namespace MALClient.Items
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (e.IsInertial && _manipulating)
             {

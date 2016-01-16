@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using HtmlAgilityPack;
 using MALClient.Items;
 
@@ -20,22 +21,24 @@ namespace MALClient.Comm
 
         public async Task<List<SeasonalAnimeData>> GetSeasonalAnime()
         {
-            string raw = await GetRequestResponse();
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(raw);
-            var mainNode =
-                doc.DocumentNode.Descendants("div")
-                    .First(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
-
-            var nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
             List<SeasonalAnimeData> output = await DataCache.RetrieveSeasonalData() ?? new List<SeasonalAnimeData>();
-
             if (output.Count == 0)
             {
+                string raw = await GetRequestResponse();
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(raw);
+                var mainNode =
+                    doc.DocumentNode.Descendants("div")
+                        .First(
+                            node =>
+                                node.Attributes.Contains("class") &&
+                                node.Attributes["class"].Value ==
+                                "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
+
+                var nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
+
+
+
                 int i = 0;
                 foreach (var htmlNode in nodes)
                 {
@@ -84,37 +87,38 @@ namespace MALClient.Comm
                         break;
                 }
 
-            DataCache.SaveSeasonalData(output);
-        }
-
-        //Search in autheticated list for references
-            var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-            if (loadedStuff != null)
-            {
-                foreach (var seasonalAnimeData in output)
-                {
-                    try
-                    {
-                        seasonalAnimeData.AnimeItemRef = loadedStuff.LoadedAnime.First(item => item.Id == seasonalAnimeData.Id);
-                    }
-                    catch (Exception)
-                    {
-                        try
-                        {
-                            var animeXElement = loadedStuff.DownloadedAnime.First(item => item.Element("series_animedb_id").Value == seasonalAnimeData.Id.ToString());
-                            var animeItem = Utils.LoadAnimeItemFromXElement(animeXElement,true);
-                            loadedStuff.AnimeItemLoaded(animeItem);
-                            seasonalAnimeData.AnimeItemRef = animeItem;
-                        }
-                        catch (Exception)
-                        {
-                            // no luck , we will have to load this item on the go
-                        }
-                    }
-                    
-                }
+                DataCache.SaveSeasonalData(output);
             }
-            
+
+            //Search in autheticated list for references
+            //var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+            //if (loadedStuff != null)
+            //    {
+            //        Dictionary<int, XElement> downloadedItems = loadedStuff.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
+            //        Dictionary<int,AnimeItem> loadedItems = loadedStuff.LoadedAnime.ToDictionary(item => item.Id);
+            //        foreach (var seasonalAnimeData in output)
+            //        {
+            //            try
+            //            {
+            //                seasonalAnimeData.AnimeItemRef = loadedItems[seasonalAnimeData.Id];
+            //            }
+            //            catch (Exception)
+            //            {
+            //                try
+            //                {
+            //                    var animeXElement = downloadedItems[seasonalAnimeData.Id];
+            //                    var animeItem = Utils.LoadAnimeItemFromXElement(animeXElement, true);
+            //                    loadedStuff.AnimeItemLoaded(animeItem);
+            //                    seasonalAnimeData.AnimeItemRef = animeItem;
+            //                }
+            //                catch (Exception)
+            //                {
+            //                    // no luck , we will have to load this item on the go
+            //                }
+            //            }
+            //        }
+            //    }
+
             //We are done.
             return output;
         }

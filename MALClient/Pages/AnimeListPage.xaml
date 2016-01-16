@@ -62,19 +62,27 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True">
+        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True" >
             <ListView.Header>
                 <Grid Margin="1">
-                    <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" Text="" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#FFB9B9B9" />
+                    <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#FFB9B9B9" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Click="PrevPage">
+                            <SymbolIcon Symbol="Previous"></SymbolIcon>
+                        </Button>
+                        <Button Click="NextPage">
+                            <SymbolIcon Symbol="Next"></SymbolIcon>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </ListView.Header>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-            <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
         <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True" Visibility="Collapsed"  />
     </Grid>
      

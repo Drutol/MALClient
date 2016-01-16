@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,6 +9,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using MALClient.Pages;
 using System.Xml.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using MALClient.Comm;
 using MALClient.Items;
@@ -121,7 +124,14 @@ namespace MALClient
                         _wasOnDetailsFromSearch = false;
                         UnToggleSearchStuff();
                     }
-                    MainContent.Navigate(typeof(Pages.AnimeListPage),args);
+                    await Task.Run(async () =>
+                    {
+                        await
+                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                            {
+                                MainContent.Navigate(typeof (Pages.AnimeListPage), args);
+                            });
+                    });
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();

@@ -69,9 +69,10 @@ namespace MALClient
 
         internal bool TryRetrieveListItem(int id, ref int watchedEps, ref int myStatus, ref int myScore, ref AnimeItem reference)
         {
-            if (_allAnimeItemsCache[Creditentials.UserName] == null) return false;
+
             try
             {
+                if (_allAnimeItemsCache[Creditentials.UserName] == null) return false;
                 var entry = _allAnimeItemsCache[Creditentials.UserName].LoadedAnime.First(item => item.Id == id);
                 if (entry != null)
                 {

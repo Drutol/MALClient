@@ -29,9 +29,10 @@ namespace MALClient.Items
     {
         //prop field pairs
         private int _myStatus;
-        private float _myScore;
+        private int _myScore;
         private int _myEpisodes;
         private string _title;
+        private float _globalScore;
 
         public int MyStatus
         {
@@ -42,7 +43,7 @@ namespace MALClient.Items
                 BtnStatus.Content = Utils.StatusToString(value);
             }
         }
-        public float MyScore
+        public int MyScore
         {
             get { return _myScore; }
             private set
@@ -69,6 +70,15 @@ namespace MALClient.Items
                 TxtTitle.Text = value;
             }
         }
+        public float GlobalScore
+        {
+            get { return _globalScore; }
+            set
+            {
+                _globalScore = value;
+                TxtGlobalSocore.Text = value.ToString();
+            }
+        }
 
         //fields
         public readonly int Id;
@@ -82,7 +92,7 @@ namespace MALClient.Items
 
         //props
         private int SeasonalMembers { get; set; } //TODO : Use this
-
+        
 
 
 
@@ -99,7 +109,7 @@ namespace MALClient.Items
             MyScore = myScore;
             Title = name;
             MyEpisodes = myEps;
-            
+            BtnShowMore.Visibility = Visibility.Collapsed;
            
             //We are not seasonal so it's already on list            
             BtnAddToList.Visibility = Visibility.Collapsed;
@@ -124,7 +134,8 @@ namespace MALClient.Items
             //Assign properties
             MyStatus = (int) AnimeStatus.AllOrAiring;
             Title = data.Title;
-            MyScore = data.Score;
+            MyScore = 0;
+            GlobalScore = data.Score;
             SeasonalMembers = data.Members;
 
             //Custom controls setup
@@ -134,13 +145,10 @@ namespace MALClient.Items
             //Additional data from seasonal
             TxtSynopsis.Text = data.Synopsis;
             Index = data.Index;
-
+            SymbolGlobalScore.Visibility = Visibility.Visible;
+            
             //We are not on the list so we cannot really do this
-            IncrementEps.Visibility = Visibility.Collapsed;
-            DecrementEps.Visibility = Visibility.Collapsed;
-            BtnStatus.IsEnabled = false;
-            BtnScore.IsEnabled = false;
-            BtnAddToList.Visibility = Visibility.Visible;
+            SetAuthStatus(false);
 
             Task.Run(async () =>
             {
@@ -155,12 +163,7 @@ namespace MALClient.Items
                         MyScore = reference.MyScore;
                         MyEpisodes = reference.MyEpisodes;
 
-                        BtnAddToList.Visibility = Visibility.Collapsed;
-
-                        IncrementEps.Visibility = Visibility.Collapsed;
-                        DecrementEps.Visibility = Visibility.Collapsed;
-                        BtnStatus.IsEnabled = true;
-                        BtnScore.IsEnabled = true;
+                        SetAuthStatus(true);
 
                         var dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                         dataCache.LoadedAnime.Remove(reference);
@@ -176,14 +179,9 @@ namespace MALClient.Items
                         MyEpisodes = Convert.ToInt32(re.Element("my_watched_episodes").Value);
                         
 
-
+                        SetAuthStatus(true);
                         //We are not seasonal so it's already on list            
-                        BtnAddToList.Visibility = Visibility.Collapsed;
 
-                        IncrementEps.Visibility = Visibility.Collapsed;
-                        DecrementEps.Visibility = Visibility.Collapsed;
-                        BtnStatus.IsEnabled = true;
-                        BtnScore.IsEnabled = true;
                         Utils.GetMainPageInstance().RetrieveLoadedAnime().AnimeItemLoaded(this);
                     }
 
@@ -270,6 +268,26 @@ namespace MALClient.Items
             }
         }
 
+        private void SetAuthStatus(bool auth)
+        {
+            if (auth)
+            {
+                BtnAddToList.Visibility = Visibility.Collapsed;
+                IncrementEps.Visibility = Visibility.Visible;
+                DecrementEps.Visibility = Visibility.Visible;
+                BtnStatus.IsEnabled = true;
+                BtnScore.IsEnabled = true;
+            }
+            else
+            {
+                BtnAddToList.Visibility = Visibility.Visible;
+                IncrementEps.Visibility = Visibility.Collapsed;
+                DecrementEps.Visibility = Visibility.Collapsed;
+                BtnStatus.IsEnabled = false;
+                BtnScore.IsEnabled = false;
+            }
+
+        }
         #endregion
 
         #region Swipe
@@ -355,7 +373,7 @@ namespace MALClient.Items
         {
             SpinnerLoading.Visibility = Visibility.Visible;
             var btn = sender as MenuFlyoutItem;
-            float myPrevScore = MyScore;
+            int myPrevScore = MyScore;
             MyScore = int.Parse(btn.Text.Split('-').First());
             string response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response != "Updated")            
@@ -418,6 +436,14 @@ namespace MALClient.Items
             Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,this);
         }
 
+        private void NavigateDetails(object sender, RoutedEventArgs e)
+        {
+            Utils.GetMainPageInstance() 
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(Id, Title, null,
+                        Utils.GetMainPageInstance().GetCurrentListOrderParams()));
+        }
+
         //Statics
 
         internal static AnimeItem EnhanceWithSeasonalData(SeasonalAnimeData data)
@@ -428,5 +454,7 @@ namespace MALClient.Items
             data.AnimeItemRef.Index = data.Index;
             return data.AnimeItemRef;
         }
+
+
     }
 }

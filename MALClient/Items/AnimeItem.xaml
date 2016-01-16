@@ -13,6 +13,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
             <Storyboard x:Name="SynopsisHide">
                 <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height" From="300" To="150" SpeedRatio="2.0" />
             </Storyboard>
@@ -97,6 +98,12 @@
             </Button.Background>
             <SymbolIcon Symbol="Zoom" Foreground="White"/>
         </Button>
+        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnNavDetails" Click="NavigateDetails" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="40" Visibility="{Binding ElementName=BtnShowMore,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
+            <Button.Background>
+                <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+            </Button.Background>
+            <SymbolIcon Symbol="More" Foreground="White"/>
+        </Button>
         <Button Grid.Row="0" Grid.Column="0" x:Name="BtnAddToList" Click="AddThisToMyList" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="40">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
@@ -110,6 +117,15 @@
                     <ScaleTransform ScaleY="2" ScaleX="2"/>
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
+            <Grid x:Name="SymbolGlobalScore" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,11,11" Visibility="Collapsed">
+                <SymbolIcon  Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <SymbolIcon.RenderTransform>
+                        <ScaleTransform ScaleY="1.5" ScaleX="1.5"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+                <TextBlock x:Name="TxtGlobalSocore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center"/>
+            </Grid>
+
             <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
             <StackPanel  VerticalAlignment="Bottom"  HorizontalAlignment="Right">
                 <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">

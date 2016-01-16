@@ -62,18 +62,16 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True" >
+        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True">
             <ListView.Header>
                 <Grid Margin="1">
                     <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#FFB9B9B9" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Click="PrevPage">
-                            <SymbolIcon Symbol="Previous"></SymbolIcon>
-                        </Button>
-                        <Button Click="NextPage">
-                            <SymbolIcon Symbol="Next"></SymbolIcon>
-                        </Button>
-                    </StackPanel>
+                    <Button Click="PrevPage" Margin="1" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Back"/>
+                    </Button>
+                    <Button Click="NextPage" Margin="1" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0,0,2,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Forward"/>
+                    </Button>
                 </Grid>
             </ListView.Header>
             <ListView.ItemContainerStyle>

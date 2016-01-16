@@ -82,8 +82,14 @@ namespace MALClient.Pages
         public AnimeListPage()
         {
             this.InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+            EmptyNotice.Visibility = Visibility.Collapsed;
         }
-
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+        }
 
         private async void UpdateStatus()
         {
@@ -103,7 +109,7 @@ namespace MALClient.Pages
                 {
                     SpinnerLoading.Visibility = Visibility.Visible;
                     EmptyNotice.Visibility = Visibility.Collapsed;
-                    BtnOrderDescending.IsChecked = _sortDescending = true;
+                    BtnOrderDescending.IsChecked = _sortDescending = false;
                     SwitchFiltersToSeasonal();
                     SwitchSortingToSeasonal();
                     SetSortOrder(SortOptions.SortWatched); //index
@@ -125,6 +131,7 @@ namespace MALClient.Pages
                             });
                     });
                     _seasonalState = true;
+                    UpdateUpperStatus();
                     return;
                 }
 
@@ -175,9 +182,7 @@ namespace MALClient.Pages
 
         private async void FetchSeasonalData(bool force = false)
         {
-
-
-            var possibleLoadedData = Utils.GetMainPageInstance().RetrieveSeasonData();
+            var possibleLoadedData = force ? new List<AnimeItem>() : Utils.GetMainPageInstance().RetrieveSeasonData();
             if (possibleLoadedData.Count == 0)
             {
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
@@ -195,14 +200,10 @@ namespace MALClient.Pages
                 {
                     await Task.Run(async () =>
                     {
-
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                         {
-                            _allLoadedAnimeItems.Add(new AnimeItem(animeData,downloadedItems,loadedItems));
-
-
+                            _allLoadedAnimeItems.Add(new AnimeItem(animeData, downloadedItems, loadedItems));
                         });
-
                     });
                     //if reference to loaded anime item is found then add it instead of loading new thing
 
@@ -384,11 +385,14 @@ namespace MALClient.Pages
                     items = items.OrderBy(item => item.Title);
                     break;
                 case SortOptions.SortScore:
-                    items = items.OrderBy(item => item.MyScore);
+                    if (!_seasonalState)
+                        items = items.OrderBy(item => item.MyScore);
+                    else
+                        items = items.OrderBy(item => item.GlobalScore);
                     break;
                 case SortOptions.SortWatched:
                     if(_seasonalState)
-                        items = items.OrderByDescending(item => item.Index);
+                        items = items.OrderBy(item => item.Index);
                     else
                         items = items.OrderBy(item => item.MyEpisodes);
                     break;
@@ -512,7 +516,11 @@ namespace MALClient.Pages
 
         private void RefreshList(object sender, RoutedEventArgs e)
         {
-            FetchData(true);
+            if(_seasonalState)
+                FetchSeasonalData(true);
+            else
+                FetchData(true);
+
         }
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
@@ -523,7 +531,7 @@ namespace MALClient.Pages
                 case "Title":
                     _sortOption = SortOptions.SortTitle;
                     break;
-                case "MyScore":
+                case "Score":
                     _sortOption = SortOptions.SortScore;
                     break;
                 case "Watched":

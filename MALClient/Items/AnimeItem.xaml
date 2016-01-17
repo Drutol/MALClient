@@ -161,14 +161,28 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <Button x:Name="IncrementEps" Background="Transparent" VerticalAlignment="Center" Height="40" Width="40" Click="DecrementWatchedEp">
+                <Button x:Name="DecrementEps" Background="Transparent" VerticalAlignment="Center" Height="40" Width="40" Click="DecrementWatchedEp">
                     <SymbolIcon Symbol="Remove"/>
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="20" CenterY="40"/>
                     </Button.RenderTransform>
                 </Button>
-                <TextBlock x:Name="TxtWatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
-                <Button x:Name="DecrementEps" Background="Transparent" Height="40" Width="40" Click="IncrementWatchedEp" VerticalAlignment="Center">
+                <Button x:Name="BtnWatchedEps" FontWeight="SemiBold" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Button.Flyout>
+                        <Flyout x:Name="WatchedEpsFlyout">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="TxtBoxWatchedEps" KeyDown="SubmitWatchedEps"/>
+                                    <Button Click="ChangeWatchedEps" Margin="2,0,0,0">
+                                        <SymbolIcon Symbol="Accept"/>
+                                    </Button>
+                                </StackPanel>
+                                <TextBlock x:Name="TxtWatchedInvalidInputNotice" Text="Wrong input!" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>    
+                </Button>
+                <Button x:Name="IncrementEps" Background="Transparent" Height="40" Width="40" Click="IncrementWatchedEp" VerticalAlignment="Center">
                     <SymbolIcon Symbol="Add"/>
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="20" CenterY="40"/>

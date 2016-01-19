@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using HtmlAgilityPack;
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MALClient.Pages
@@ -76,6 +77,7 @@ namespace MALClient.Pages
 
             
             Utils.GetMainPageInstance()?.SetStatus($"{Creditentials.UserName} - Profile");
+
             base.OnNavigatedTo(e);
         }
 
@@ -150,35 +152,14 @@ namespace MALClient.Pages
 
         private void PopulateAnimeData()
         {
-            List<KeyValuePair<string, int>> s1 = new List<KeyValuePair<string, int>>
+            ChartAnime.PopulateData(new List<int>
             {
-                new KeyValuePair<string, int>("", Data.AnimeWatching)
-            };
-            SeriesWatching.ItemsSource = s1;
-
-            List<KeyValuePair<string, int>> s2 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.AnimeCompleted)
-            };
-            SeriesCompleted.ItemsSource = s2;
-
-            List<KeyValuePair<string, int>> s3 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.AnimeOnHold)
-            };
-            SeriesOnHold.ItemsSource = s3;
-
-            List<KeyValuePair<string, int>> s4 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.AnimeDropped)
-            };
-            SeriesDropped.ItemsSource = s4;
-
-            List<KeyValuePair<string, int>> s5 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.AnimePlanned)
-            };
-            SeriesPlanned.ItemsSource = s5;
+                Data.AnimeWatching,
+                Data.AnimeCompleted,
+                Data.AnimeOnHold,
+                Data.AnimeDropped,
+                Data.AnimePlanned
+            });
 
             TxtAnimeWatchingStats.Text = Data.AnimeWatching.ToString();
             TxtAnimeCompleted.Text = Data.AnimeCompleted.ToString();
@@ -193,37 +174,16 @@ namespace MALClient.Pages
 
         private void PopulateMangaData()
         {
-            List<KeyValuePair<string, int>> s1 = new List<KeyValuePair<string, int>>
+            ChartManga.PopulateData(new List<int>
             {
-                new KeyValuePair<string, int>("", Data.MangaReading)
-            };
-            SeriesReading.ItemsSource = s1;
+                Data.MangaReading,
+                Data.MangaCompleted,
+                Data.MangaOnHold,
+                Data.MangaDropped,
+                Data.MangaPlanned
+            });
 
-            List<KeyValuePair<string, int>> s2 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.MangaCompleted)
-            };
-            SeriesMCompleted.ItemsSource = s2;
-
-            List<KeyValuePair<string, int>> s3 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.MangaOnHold)
-            };
-            SeriesMOnHold.ItemsSource = s3;
-
-            List<KeyValuePair<string, int>> s4 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.MangaDropped)
-            };
-            SeriesMDropped.ItemsSource = s4;
-
-            List<KeyValuePair<string, int>> s5 = new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("", Data.MangaPlanned)
-            };
-            SeriesMPlanned.ItemsSource = s5;
-
-            TxtMangaReadingStats.Text = Data.AnimeWatching.ToString();
+            TxtMangaReadingStats.Text = Data.MangaReading.ToString();
             TxtMangaCompleted.Text = Data.MangaCompleted.ToString();
             TxtMangaOnHold.Text = Data.MangaOnHold.ToString();
             TxtMangaDropped.Text = Data.MangaDropped.ToString();

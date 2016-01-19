@@ -3,10 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient"
+    xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:dataVisualization="using:WinRTXamlToolkit.Controls.DataVisualization"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -26,11 +25,12 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
-                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="140"/>
                         <RowDefinition Height="215"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Anime Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBlock>
-                    <charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
+                    <TextBlock  Text="Anime Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBlock>
+                    <controls:StackedBarChartControl x:Name="ChartAnime" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="350"/>
+                    <!--<charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
                         <charting:Chart.Palette>
                             <charting:ResourceDictionaryCollection>
                                 <ResourceDictionary>
@@ -74,7 +74,7 @@
                                 <charting:SeriesDefinition x:Name="SeriesPlanned" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
                             </charting:Stacked100BarSeries.SeriesDefinitions>
                         </charting:Stacked100BarSeries>
-                    </charting:Chart >
+                    </charting:Chart >-->
                     <Grid Grid.Row="2" Background="LightGray" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
@@ -176,11 +176,12 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
-                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="140"/>
                         <RowDefinition Height="215"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Manga Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBlock>
-                    <charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
+                    <controls:StackedBarChartControl x:Name="ChartManga" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="350" />
+                    <!--<charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
                         <charting:Chart.Palette>
                             <charting:ResourceDictionaryCollection>
                                 <ResourceDictionary>
@@ -224,7 +225,7 @@
                                 <charting:SeriesDefinition x:Name="SeriesMPlanned" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
                             </charting:Stacked100BarSeries.SeriesDefinitions>
                         </charting:Stacked100BarSeries>
-                    </charting:Chart >
+                    </charting:Chart >-->
                     <Grid Grid.Row="2" Background="LightGray" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
                             <StackPanel HorizontalAlignment="Center" Width="Auto">

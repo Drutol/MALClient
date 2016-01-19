@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using MALClient.Items;
 using Newtonsoft.Json;
-using WinRTXamlToolkit.IO.Serialization;
 
 namespace MALClient
 {

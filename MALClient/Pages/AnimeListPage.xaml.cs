@@ -83,12 +83,14 @@ namespace MALClient.Pages
         {
             this.InitializeComponent();
             this.Loaded += MainWindow_Loaded;
-            EmptyNotice.Visibility = Visibility.Collapsed;
+
         }
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            EmptyNotice.Visibility = Visibility.Collapsed;
+            UpdateUpperStatus();
         }
 
         private async void UpdateStatus()
@@ -107,8 +109,10 @@ namespace MALClient.Pages
             {
                 if (args.LoadSeasonal)
                 {
+                    _seasonalState = true;
                     SpinnerLoading.Visibility = Visibility.Visible;
                     EmptyNotice.Visibility = Visibility.Collapsed;
+                    AppbarBtnPinTile.Visibility = Visibility.Collapsed;
                     BtnOrderDescending.IsChecked = _sortDescending = false;
                     SwitchFiltersToSeasonal();
                     SwitchSortingToSeasonal();
@@ -122,6 +126,7 @@ namespace MALClient.Pages
                         {4, true},
                         {6, true}
                     };
+                    
                     await Task.Run(async () =>
                     {
                         await
@@ -130,8 +135,7 @@ namespace MALClient.Pages
                                 FetchSeasonalData();
                             });
                     });
-                    _seasonalState = true;
-                    UpdateUpperStatus();
+                    
                     return;
                 }
 
@@ -186,9 +190,8 @@ namespace MALClient.Pages
             if (possibleLoadedData.Count == 0)
             {
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
-
                 _allLoadedAnimeItems.Clear();
-
+                Utils.GetMainPageInstance().SetStatus("Data downloaded , processing...");
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                 Dictionary<int, XElement> downloadedItems = loadedStuff.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
                 Dictionary<int,AnimeItem> loadedItems = loadedStuff.LoadedAnime.ToDictionary(item => item.Id);
@@ -198,23 +201,17 @@ namespace MALClient.Pages
                 downloadedIds.UnionWith(downloadedItems.Keys);
                 foreach (SeasonalAnimeData animeData in data)
                 {
-                    await Task.Run(async () =>
-                    {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                        {
-                            _allLoadedAnimeItems.Add(new AnimeItem(animeData, downloadedItems, loadedItems));
-                        });
-                    });
-                    //if reference to loaded anime item is found then add it instead of loading new thing
-
+                    _allLoadedAnimeItems.Add(new AnimeItem(animeData, downloadedItems, loadedItems));
                 }
                 Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
             }
             else
             {
+
                 _allLoadedAnimeItems = possibleLoadedData;
             }
 
+            UpdateUpperStatus();
             Animes.ItemsSource = _animeItems;
             RefreshList();
             SpinnerLoading.Visibility = Visibility.Collapsed;

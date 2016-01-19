@@ -55,10 +55,8 @@
                         <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                     </Grid>
                 </Button>
-
-
             </StackPanel>
-            <StackPanel Grid.Column="0" Margin="0,0,0,50" VerticalAlignment="Bottom">
+            <StackPanel x:Name="StckBtm" Grid.Column="0" VerticalAlignment="Bottom">
                 <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" >
                     <Grid Width="200" Height="35">
                         <Grid.ColumnDefinitions>
@@ -76,7 +74,7 @@
                             <ColumnDefinition Width="35"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="Border5" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+                        <Border x:Name="Border5" Grid.Column="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed"/>
                         <Image x:Name="ImgUser" Grid.Column="0" Stretch="UniformToFill" Width="33" Height="33" Margin="1,1" Visibility="Visible"/>
                         <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                     </Grid>

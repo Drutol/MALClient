@@ -5,6 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using HtmlAgilityPack;
 using MALClient.Items;
 
@@ -24,6 +26,11 @@ namespace MALClient.Comm
             List<SeasonalAnimeData> output = await DataCache.RetrieveSeasonalData() ?? new List<SeasonalAnimeData>();
             if (output.Count == 0)
             {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    Utils.GetMainPageInstance().SetStatus("Downloading data...");
+                });
+
                 string raw = await GetRequestResponse();
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(raw);
@@ -36,6 +43,7 @@ namespace MALClient.Comm
                                 "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
 
                 var nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
+
 
 
 

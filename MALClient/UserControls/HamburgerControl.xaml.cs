@@ -33,8 +33,13 @@ namespace MALClient.UserControls
         {
             InitializeComponent();
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-            UpdateProfileImg();
+            Loaded += OnLoaded;
 
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            UpdateProfileImg();
         }
 
         internal async void UpdateProfileImg()
@@ -44,11 +49,13 @@ namespace MALClient.UserControls
                 try
                 {
                     var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
+                    var props = await file.GetBasicPropertiesAsync();
+                    if(props.Size == 0)
+                        throw new FileNotFoundException();
                     var bitmap = new BitmapImage();
                     using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
-                        //we can overwrite the image that way (if necessary)
                     {
-                        await bitmap.SetSourceAsync(fs);
+                        bitmap.SetSource(fs);
                     }
 
                     ImgUser.Source = bitmap;
@@ -190,6 +197,12 @@ namespace MALClient.UserControls
                 break;
             }
         }
+
+        public void ChangeBottomStackPanelMargin(bool up)
+        {
+            StckBtm.Margin = up ? new Thickness(0, 0, 0, 50) : new Thickness(0,0,0,10);
+        }
+
 
         private MainPage GetMainPageInstance()
         {

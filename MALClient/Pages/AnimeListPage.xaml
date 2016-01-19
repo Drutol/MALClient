@@ -34,7 +34,7 @@
                 </AppBarButton>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Refresh" Label="Reload" Click="RefreshList"/>
-            <AppBarButton Icon="Pin" Label="Pin to start">
+            <AppBarButton x:Name="AppbarBtnPinTile" Icon="Pin" Label="Pin to start">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="MyAnimeList" Click="PinTileMal"/>
@@ -62,7 +62,7 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" IsSwipeEnabled="True">
+        <ListView x:Name="Animes" SelectionMode="Single" IsSwipeEnabled="True">
             <ListView.Header>
                 <Grid Margin="1">
                     <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />

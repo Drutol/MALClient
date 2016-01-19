@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -60,29 +61,36 @@ namespace MALClient.Pages
         {
             this.InitializeComponent();         
             SpinnerLoading.Background = new SolidColorBrush(Color.FromArgb(160,230,230,230));  
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (Data != null)
+            {
+                PopulateAnimeData();
+                PopulateMangaData();
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SpinnerLoading.Visibility = Visibility.Visible;
-            if (e.Parameter != null)
-            {
-                _data = e.Parameter as ProfileData;
-                PopulateAnimeData();
-                PopulateMangaData();
-                SpinnerLoading.Visibility = Visibility.Collapsed;
-            }
+
+            if (e.Parameter != null)           
+                _data = e.Parameter as ProfileData;           
             else
                  PullData();
-
-            
+           
             Utils.GetMainPageInstance()?.SetStatus($"{Creditentials.UserName} - Profile");
 
             base.OnNavigatedTo(e);
         }
 
+        
+
         private async void PullData()
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
             var data = await new MALProfileQuery().GetRequestResponse();
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(data);

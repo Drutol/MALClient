@@ -97,6 +97,9 @@ namespace MALClient
             _onSearchPage = false;
             MainMenu.IsPaneOpen = false;
 
+            HamburgerControl.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
+            
+
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
@@ -190,6 +193,7 @@ namespace MALClient
         public void SetStatus(string status)
         {
             CurrentStatus.Text = status;
+
         }
 
         private void ShowSearchStuff()

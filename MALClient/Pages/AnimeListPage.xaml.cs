@@ -63,7 +63,7 @@ namespace MALClient.Pages
         private bool _sortDescending;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
         private ObservableCollection<AnimeItem> _animeItemsSet = new ObservableCollection<AnimeItem>(); //All for current list
-        private List<AnimeItem> _allLoadedAnimeItems = new List<AnimeItem>();
+        private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
         private List<XElement> _allDownloadedAnimeItems = new List<XElement>();
         private DateTime _lastUpdate;
         private System.Threading.Timer _timer;
@@ -186,7 +186,7 @@ namespace MALClient.Pages
 
         private async void FetchSeasonalData(bool force = false)
         {
-            var possibleLoadedData = force ? new List<AnimeItem>() : Utils.GetMainPageInstance().RetrieveSeasonData();
+            var possibleLoadedData = force ? new List<AnimeItemAbstraction>() : Utils.GetMainPageInstance().RetrieveSeasonData();
             if (possibleLoadedData.Count == 0)
             {
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
@@ -194,14 +194,14 @@ namespace MALClient.Pages
                 Utils.GetMainPageInstance().SetStatus("Data downloaded , processing...");
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                 Dictionary<int, XElement> downloadedItems = loadedStuff.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
-                Dictionary<int,AnimeItem> loadedItems = loadedStuff.LoadedAnime.ToDictionary(item => item.Id);
+                Dictionary<int,AnimeItemAbstraction> loadedItems = loadedStuff.LoadedAnime.ToDictionary(item => item.Id);
                 HashSet<int> loadedIds = new HashSet<int>();
                 HashSet<int> downloadedIds = new HashSet<int>();
                 loadedIds.UnionWith(loadedItems.Keys);
                 downloadedIds.UnionWith(downloadedItems.Keys);
                 foreach (SeasonalAnimeData animeData in data)
                 {
-                    _allLoadedAnimeItems.Add(new AnimeItem(animeData, downloadedItems, loadedItems));
+                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, downloadedItems, loadedItems));
                 }
                 Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
             }
@@ -277,7 +277,7 @@ namespace MALClient.Pages
                 {
                     if (status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status) //if displaying all or element has desired MyStatus
                     {
-                        _allLoadedAnimeItems.Add(new AnimeItem(
+                        _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
                             (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
                             item.Element("series_title").Value,
                             item.Element("series_image").Value,
@@ -353,7 +353,7 @@ namespace MALClient.Pages
                 List<XElement> elementsToRemove = new List<XElement>();
                 foreach (var item in _allDownloadedAnimeItems.Where(item => status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status))
                 {
-                    _allLoadedAnimeItems.Add(new AnimeItem(
+                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
                         (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
                         item.Element("series_title").Value,
                         item.Element("series_image").Value,
@@ -401,7 +401,7 @@ namespace MALClient.Pages
             if (_sortDescending)
                 items = items.Reverse();
             foreach (var item in items)
-                _animeItemsSet.Add(item);
+                _animeItemsSet.Add(item.AnimeItem);
             if(_animeItemsSet.Count == 0)
                 EmptyNotice.Visibility = Visibility.Visible;
             ApplyCurrentPage();

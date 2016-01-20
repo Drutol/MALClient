@@ -40,6 +40,8 @@ namespace MALClient.Items
             private set
             {
                 _myStatus = value;
+                if(_parentAbstraction != null) //TODO : think about optimizing this
+                    _parentAbstraction.MyStatus = value;
                 BtnStatus.Content = Utils.StatusToString(value);
             }
         }
@@ -49,6 +51,8 @@ namespace MALClient.Items
             private set
             {
                 _myScore = value;
+                if (_parentAbstraction != null)
+                    _parentAbstraction.MyScore = value;
                 BtnScore.Content = value > 0 ? $"{value}/10" : "Unranked";
             }
         }
@@ -58,6 +62,8 @@ namespace MALClient.Items
             private set
             {
                 _myEpisodes = value;
+                if (_parentAbstraction != null)
+                    _parentAbstraction.MyEpisodes = value;
                 BtnWatchedEps.Content = $"{value}/{(_allEpisodes == 0 ? "?" : _allEpisodes.ToString())}";
             }
         }
@@ -85,6 +91,7 @@ namespace MALClient.Items
         private readonly string _imgUrl;
         private int _allEpisodes;
         public int Index;
+        internal AnimeItemAbstraction _parentAbstraction;
         //state fields
         private bool _expandState = false;
         private bool _seasonalState = false;
@@ -122,7 +129,7 @@ namespace MALClient.Items
             
         }
 
-        public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItem> loaded)
+        public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItemAbstraction> loaded)
             //We are loading an item that is NOT on the list and is seasonal
         {
             //Base init
@@ -156,7 +163,7 @@ namespace MALClient.Items
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    AnimeItem reference;
+                    AnimeItemAbstraction reference;
                     XElement re;
                     if (loaded.TryGetValue(Id, out reference))
                     {
@@ -169,7 +176,7 @@ namespace MALClient.Items
                         AdjustIncrementButtonsVisibility();
                         var dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                         dataCache.LoadedAnime.Remove(reference);
-                        dataCache.LoadedAnime.Add(this);
+                        dataCache.LoadedAnime.Add(_parentAbstraction);
 
                     }
                     else if (dl.TryGetValue(Id, out re))
@@ -185,10 +192,8 @@ namespace MALClient.Items
                         AdjustIncrementButtonsVisibility();
                         //We are not seasonal so it's already on list            
 
-                        Utils.GetMainPageInstance().RetrieveLoadedAnime().AnimeItemLoaded(this);
+                        Utils.GetMainPageInstance().RetrieveLoadedAnime().AnimeItemLoaded(_parentAbstraction);
                     }
-
-
                 });
             });
         }
@@ -504,7 +509,7 @@ namespace MALClient.Items
             MyStatus = 6;
             MyEpisodes = 0;
 
-            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,this);
+            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,_parentAbstraction);
         }
 
         private void NavigateDetails(object sender, RoutedEventArgs e)
@@ -557,8 +562,11 @@ namespace MALClient.Items
             }
         }
 
-
-#endregion
+        internal void RegisterParentContainer(AnimeItemAbstraction animeItemAbstraction)
+        {
+            _parentAbstraction = animeItemAbstraction;
+        }
+        #endregion
 
         //Statics
 
@@ -570,7 +578,6 @@ namespace MALClient.Items
             data.AnimeItemRef.Index = data.Index;
             return data.AnimeItemRef;
         }
-
 
 
     }

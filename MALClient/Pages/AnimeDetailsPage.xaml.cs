@@ -156,7 +156,7 @@ namespace MALClient.Pages
             MyStatus = 6;
             WatchedEps = 0;
             _animeItemReference = animeItem;
-            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName, animeItem);
+            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName, animeItem._parentAbstraction);
             MyDetails.Visibility = Visibility.Visible;
             BtnScore.Content = $"{MyScore}";
             BtnStatus.Content = $"{Utils.StatusToString(MyStatus)}";
@@ -184,7 +184,7 @@ namespace MALClient.Pages
             if(!response.Contains("Deleted"))
                 return;
             
-            Utils.GetMainPageInstance().RemoveAnimeEntry(Creditentials.UserName,_animeItemReference);
+            Utils.GetMainPageInstance().RemoveAnimeEntry(Creditentials.UserName,_animeItemReference._parentAbstraction);
             _animeItemReference = null;
             BtnAddAnime.Visibility = Visibility.Visible;
             MyDetails.Visibility = Visibility.Collapsed;

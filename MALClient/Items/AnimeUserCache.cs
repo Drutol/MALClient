@@ -9,12 +9,12 @@ namespace MALClient.Items
 {
     public class AnimeUserCache
     {
-        public List<AnimeItem> LoadedAnime { get; set; }
+        public List<AnimeItemAbstraction> LoadedAnime { get; set; }
         public List<XElement> DownloadedAnime { get; set; }
         public DateTime LastUpdate { get; set; }
         public Dictionary<int, bool> LoadedStatus { get; set; }
 
-        public void AnimeItemLoaded(AnimeItem item)
+        public void AnimeItemLoaded(AnimeItemAbstraction item)
         {
             //Remove from downloaded
             try

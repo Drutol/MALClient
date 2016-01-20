@@ -27,7 +27,7 @@ namespace MALClient
     {
 
         private Dictionary<string,AnimeUserCache> _allAnimeItemsCache = new Dictionary<string, AnimeUserCache>();
-        private List<AnimeItem> _seasonalAnimeCache = new List<AnimeItem>(); 
+        private List<AnimeItemAbstraction> _seasonalAnimeCache = new List<AnimeItemAbstraction>(); 
         private bool _onSearchPage = false;
         private bool _wasOnDetailsFromSearch = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
@@ -79,7 +79,7 @@ namespace MALClient
                     watchedEps = entry.MyEpisodes;
                     myStatus = entry.MyStatus;
                     myScore = (int)entry.MyScore; //it's float only when we are doing seasonal
-                    reference = entry;
+                    reference = entry.AnimeItem;
                     return true;
                 }
             }
@@ -285,7 +285,7 @@ namespace MALClient
 
         #region SmallDataCaching
 
-        public void SaveAnimeEntries(string source, List<AnimeItem> items, List<XElement> downItems  , DateTime updateTime , Dictionary<int,bool> loadStatus )
+        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, List<XElement> downItems  , DateTime updateTime , Dictionary<int,bool> loadStatus )
         {
             _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache()
             {
@@ -303,7 +303,7 @@ namespace MALClient
             return data;
         }
 
-        public void RetrieveAnimeEntries(string source,out List<AnimeItem> loadedItems,out List<XElement> downloadedItems  ,out DateTime time,out Dictionary<int,bool> loadStatus )
+        public void RetrieveAnimeEntries(string source,out List<AnimeItemAbstraction> loadedItems,out List<XElement> downloadedItems  ,out DateTime time,out Dictionary<int,bool> loadStatus )
         {
             AnimeUserCache data;
             _allAnimeItemsCache.TryGetValue(source.ToLower(), out data);
@@ -316,11 +316,11 @@ namespace MALClient
                 {4, false},
                 {6, false}
             };
-            loadedItems = data?.LoadedAnime ?? new List<AnimeItem>();
+            loadedItems = data?.LoadedAnime ?? new List<AnimeItemAbstraction>();
             downloadedItems = data?.DownloadedAnime ?? new List<XElement>();
         }
 
-        public void AddAnimeEntry(string source, AnimeItem item)
+        public void AddAnimeEntry(string source, AnimeItemAbstraction item)
         {
             source = source.ToLower();
             if (_allAnimeItemsCache[source] != null)
@@ -329,7 +329,7 @@ namespace MALClient
             }
         }
 
-        public void RemoveAnimeEntry(string source, AnimeItem item)
+        public void RemoveAnimeEntry(string source, AnimeItemAbstraction item)
         {
             source = source.ToLower();
             if (_allAnimeItemsCache[source] != null)
@@ -354,12 +354,12 @@ namespace MALClient
             return null;
         }
         //Season
-        public void SaveSeasonData(List<AnimeItem> data)
+        public void SaveSeasonData(List<AnimeItemAbstraction> data)
         {
             _seasonalAnimeCache = data;
         }
 
-        public List<AnimeItem> RetrieveSeasonData()
+        public List<AnimeItemAbstraction> RetrieveSeasonData()
         {
             return _seasonalAnimeCache;
         }

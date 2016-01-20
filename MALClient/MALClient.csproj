@@ -124,6 +124,7 @@
     <Compile Include="Items\AnimeItem.xaml.cs">
       <DependentUpon>AnimeItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Items\AnimeItemAbstraction.cs" />
     <Compile Include="Items\AnimeSearchItem.xaml.cs">
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>

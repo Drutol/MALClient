@@ -7,10 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+
+    
+    
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Sort" Label="Order by">
+                <AppBarButton x:Name="AppBtnSortSecondary" Icon="Sort" Label="Order by">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
@@ -42,6 +45,18 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+            <AppBarButton x:Name="AppBtnSortPrimary" Visibility="Collapsed" Icon="Sort" Label="Order by">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort1,Path=IsChecked}" Text="Title" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort2,Path=IsChecked}"  Text="Score" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort3,Path=IsChecked}"  Text="Index" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort4,Path=IsChecked}"  Text="None" Click="SelectSortMode"/>
+                        <MenuFlyoutSeparator/>
+                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=BtnOrderDescending,Path=IsChecked}" Text="Decsending" Click="ChangeSortOrder"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout>
@@ -65,13 +80,19 @@
         <ListView x:Name="Animes" SelectionMode="Single" IsSwipeEnabled="True">
             <ListView.Header>
                 <Grid Margin="1">
-                    <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
-                    <Button Click="PrevPage" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <SymbolIcon Symbol="Back"/>
-                    </Button>
-                    <Button Click="NextPage" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0,0,2,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <SymbolIcon Symbol="Forward"/>
-                    </Button>
+                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"  Foreground="#FFB9B9B9" />
+                        <TextBlock x:Name="TxtPageCount" Visibility="{Binding ElementName=AnimesTopPageControls, Path=Visibility}" Margin="1" FontWeight="Medium" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"  Foreground="#FFB0B0B0" />
+                    </StackPanel>
+                                       
+                    <Grid x:Name="AnimesTopPageControls" Visibility="Collapsed">
+                        <Button x:Name="BtnPrevPage" Click="PrevPage" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <SymbolIcon Symbol="Back"/>
+                        </Button>
+                        <Button x:Name="BtnNextPage" Click="NextPage" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0,0,2,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <SymbolIcon Symbol="Forward"/>
+                        </Button>
+                    </Grid>
                 </Grid>
             </ListView.Header>
             <ListView.ItemContainerStyle>
@@ -79,6 +100,17 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.Footer>
+                <Grid Margin="1" Visibility="{Binding ElementName=AnimesTopPageControls,Path=Visibility}">
+                    <Button Click="PrevPage" IsEnabled="{Binding ElementName=BtnPrevPage,Path=IsEnabled}" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Back"/>
+                    </Button>
+                    <TextBlock Visibility="{Binding ElementName=AnimesTopPageControls, Path=Visibility}" Text="{Binding ElementName=TxtPageCount,Path=Text}" Margin="1" FontWeight="Medium" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#FFB0B0B0" />
+                    <Button Click="NextPage" IsEnabled="{Binding ElementName=BtnNextPage,Path=IsEnabled}" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0,0,2,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Forward"/>
+                    </Button>
+                </Grid>
+            </ListView.Footer>
         </ListView>
         <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
         <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True" Visibility="Collapsed"  />

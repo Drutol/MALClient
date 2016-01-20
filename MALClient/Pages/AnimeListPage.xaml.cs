@@ -27,12 +27,14 @@ namespace MALClient.Pages
         public AnimeListPage.SortOptions SortOption;
         public readonly int Status;
         public readonly bool Descending;
-        public bool LoadSeasonal = false;
-        public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort,int status,bool desc)
+        public readonly bool LoadSeasonal = false;
+        public readonly int CurrPage;
+        public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort,int status,bool desc,int page)
         {
             SortOption = sort;
             Status = status;
             Descending = desc;
+            CurrPage = page;
         }
 
         public AnimeListPageNavigationArgs()
@@ -60,7 +62,9 @@ namespace MALClient.Pages
         public SortOptions SortOption => _sortOption;
         public int CurrentStatus => GetDesiredStatus();
         public bool SortDescending => _sortDescending;
+        public int CurrentPage => _currentPage;
         private bool _sortDescending;
+        private bool _loaded = false;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
         private ObservableCollection<AnimeItem> _animeItemsSet = new ObservableCollection<AnimeItem>(); //All for current list
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
@@ -69,6 +73,8 @@ namespace MALClient.Pages
         private System.Threading.Timer _timer;
         private bool _seasonalState = false;
         private int _currentPage = 1;
+        private int _allPages;
+        private int _itemsPerPage = 10; //TODO : Setting for this
 
         private Dictionary<int,bool> _loadedDictionary = new Dictionary<int, bool>
         {
@@ -87,6 +93,7 @@ namespace MALClient.Pages
         }
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            _loaded = true;
             var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             EmptyNotice.Visibility = Visibility.Collapsed;
@@ -103,13 +110,15 @@ namespace MALClient.Pages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
+            
             AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
             if (args != null)
             {
                 if (args.LoadSeasonal)
                 {
                     _seasonalState = true;
+                    AppBtnSortSecondary.Visibility = Visibility.Collapsed;
+                    AppBtnSortPrimary.Visibility = Visibility.Visible;
                     SpinnerLoading.Visibility = Visibility.Visible;
                     EmptyNotice.Visibility = Visibility.Collapsed;
                     AppbarBtnPinTile.Visibility = Visibility.Collapsed;
@@ -143,7 +152,7 @@ namespace MALClient.Pages
                 SetDesiredStatus(args?.Status);
                 BtnOrderDescending.IsChecked = args.Descending;
                 _sortDescending = args.Descending;
-
+                _currentPage = args.CurrPage;                
             }
             else // default
                 SetDefaults();
@@ -164,6 +173,7 @@ namespace MALClient.Pages
                 _timer = new System.Threading.Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
             UpdateStatus();
+            base.OnNavigatedTo(e);
         }
 
         private void SwitchSortingToSeasonal()
@@ -290,7 +300,7 @@ namespace MALClient.Pages
                     else
                         _allDownloadedAnimeItems.Add(item);
                 }
-                //TODO : For some unknow reason items may duplicate/triplicate etc.
+                //TODO : For some unknown reason items may duplicate/triplicate etc.
                 _allDownloadedAnimeItems = _allDownloadedAnimeItems.Distinct().ToList();
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
                 Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems ,_allDownloadedAnimeItems , _lastUpdate , _loadedDictionary);
@@ -404,6 +414,26 @@ namespace MALClient.Pages
                 _animeItemsSet.Add(item.AnimeItem);
             if(_animeItemsSet.Count == 0)
                 EmptyNotice.Visibility = Visibility.Visible;
+            _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count/_itemsPerPage);
+            if (_allPages <= 1)
+                AnimesTopPageControls.Visibility = Visibility.Collapsed;
+            else
+            {
+                AnimesTopPageControls.Visibility = Visibility.Visible;
+                if (_currentPage <= 1)
+                {
+                    BtnPrevPage.IsEnabled = false;
+                    _currentPage = 1;
+                }
+                else
+                {
+                    BtnPrevPage.IsEnabled = true;
+                }
+
+                BtnNextPage.IsEnabled = _currentPage != _allPages;
+            }
+
+                
             ApplyCurrentPage();
             AlternateRowColors();
             UpdateUpperStatus();
@@ -414,6 +444,8 @@ namespace MALClient.Pages
         private void PrevPage(object sender, RoutedEventArgs e)
         {
             _currentPage--;
+            BtnPrevPage.IsEnabled = _currentPage != 1;
+            BtnNextPage.IsEnabled = true;
             ApplyCurrentPage();
 
         }
@@ -421,18 +453,28 @@ namespace MALClient.Pages
         private void NextPage(object sender, RoutedEventArgs e)
         {
             _currentPage++;
+            BtnNextPage.IsEnabled = _currentPage != _allPages;
+            BtnPrevPage.IsEnabled = true;
             ApplyCurrentPage();
         }
 
         private void ApplyCurrentPage()
         {
             _animeItems.Clear();
-            foreach (var item in _animeItemsSet.Skip(10*(_currentPage - 1)).Take(10))
+            foreach (var item in _animeItemsSet.Skip(_itemsPerPage*(_currentPage - 1)).Take(_itemsPerPage))
             {
                 item.ItemLoaded();
                 _animeItems.Add(item);
             }
+            UpdatePageStatus();
+
         }
+
+        private void UpdatePageStatus()
+        {
+            TxtPageCount.Text = $"{_currentPage}/{_allPages}";
+        }
+
         #endregion
 
         private async void UpdateUpperStatus(int retries = 5)
@@ -475,7 +517,7 @@ namespace MALClient.Pages
 
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
         {
-            if(Animes != null)
+            if(_loaded)
                 RefreshList();
         }
 

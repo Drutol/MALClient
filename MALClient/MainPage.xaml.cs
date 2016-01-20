@@ -165,7 +165,7 @@ namespace MALClient
         internal AnimeListPageNavigationArgs GetCurrentListOrderParams()
         {
             var page = MainContent.Content as AnimeListPage;
-            return new AnimeListPageNavigationArgs(page.SortOption,page.CurrentStatus,page.SortDescending);
+            return new AnimeListPageNavigationArgs(page.SortOption,page.CurrentStatus,page.SortDescending,page.CurrentPage);
         }
 
 

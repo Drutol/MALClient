@@ -526,7 +526,7 @@ namespace MALClient.Items
         {
             if(MyStatus == to)
                 return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)} \n To : {Utils.StatusToString(to)}","Would you like to change current status?");
+            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)}\n To : {Utils.StatusToString(to)}","Would you like to change current status?");
             bool confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
             msg.Commands.Add(new UICommand("No"));
@@ -545,7 +545,7 @@ namespace MALClient.Items
         {
             if (MyEpisodes == to)
                 return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyEpisodes)} \n To : {Utils.StatusToString(to)}", "Would you like to change watched episodes value?");
+            var msg = new MessageDialog($"From : {MyEpisodes}\n To : {to}", "Would you like to change watched episodes value?");
             bool confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
             msg.Commands.Add(new UICommand("No"));

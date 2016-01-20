@@ -11,7 +11,7 @@ using MALClient.Pages;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeSearchItem : UserControl
+    public sealed partial class AnimeSearchItem : UserControl , IAnimeData
     {
         private XElement item;
 
@@ -25,25 +25,32 @@ namespace MALClient.Items
             this.InitializeComponent();
             this.item = animeElement;
             Id = int.Parse(animeElement.Element("id").Value);
-            Score = float.Parse(animeElement.Element("score").Value);
-            Episodes = int.Parse(animeElement.Element("episodes").Value);
+            GlobalScore = float.Parse(animeElement.Element("score").Value);
+            AllEpisodes = int.Parse(animeElement.Element("episodes").Value);
             Title = animeElement.Element("title").Value;
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
 
             TxtTitle.Text = Title;
-            TxtScore.Text = Score.ToString();
+            TxtScore.Text = GlobalScore.ToString();
             Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
-            WatchedEps.Text = Episodes.ToString();
+            WatchedEps.Text = AllEpisodes.ToString();
 
         }
 
         public int Id { get; set; }
-        public float Score { get; set; }
-        public int Episodes { get; set; }
+        public float GlobalScore { get; set; }
+        public int AllEpisodes { get; set; }
+
         public string Title { get; set; }
         public string Type { get; set; }
         public string Status { get; private set; }
+
+        //They must be here because reasons (interface reasons)
+        public int MyEpisodes { get; set; }
+        public int MyScore { get; set; }
+        public int MyStatus { get; set; }
+
 
         private Point initialpoint;
 
@@ -59,7 +66,7 @@ namespace MALClient.Items
                 Point currentpoint = e.Position;
                 if (currentpoint.X - initialpoint.X >= 70) //left
                 {
-                    Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item));
+                    Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item,this));
                     e.Complete();
                 }
             }

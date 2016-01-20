@@ -25,7 +25,7 @@ using MALClient.Pages;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeItem : UserControl
+    public sealed partial class AnimeItem : UserControl , IAnimeData
     {
         //prop field pairs
         private int _myStatus;
@@ -33,11 +33,12 @@ namespace MALClient.Items
         private int _myEpisodes;
         private string _title;
         private float _globalScore;
+        private bool _airing = false;
 
         public int MyStatus
         {
             get { return _myStatus; }
-            private set
+            set
             {
                 _myStatus = value;
                 if(_parentAbstraction != null) //TODO : think about optimizing this
@@ -48,7 +49,7 @@ namespace MALClient.Items
         public int MyScore
         {
             get { return _myScore; }
-            private set
+            set
             {
                 _myScore = value;
                 if (_parentAbstraction != null)
@@ -59,7 +60,7 @@ namespace MALClient.Items
         public int MyEpisodes
         {
             get { return _myEpisodes; }
-            private set
+            set
             {
                 _myEpisodes = value;
                 if (_parentAbstraction != null)
@@ -83,11 +84,22 @@ namespace MALClient.Items
             {
                 _globalScore = value;
                 TxtGlobalSocore.Text = value.ToString();
+                SymbolGlobalScore.Visibility = Visibility.Visible;
+            }
+        }
+
+        public bool Airing
+        {
+            get { return _airing; }
+            set
+            {
+                SymbolAiring.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                _airing = value;
             }
         }
 
         //fields
-        public readonly int Id;
+        public int Id { get; set; }
         private readonly string _imgUrl;
         private int _allEpisodes;
         public int Index;
@@ -100,6 +112,7 @@ namespace MALClient.Items
 
         //props
         private int SeasonalMembers { get; set; } //TODO : Use this
+        public int AllEpisodes => _allEpisodes;
         
 
 
@@ -148,7 +161,7 @@ namespace MALClient.Items
 
             //Custom controls setup
             BtnWatchedEps.Content = $"{data.Episodes} Episodes";
-            SymbolAiring.Visibility = Visibility.Visible;
+            Airing = true;
 
             //Additional data from seasonal
             TxtSynopsis.Text = data.Synopsis;
@@ -347,7 +360,7 @@ namespace MALClient.Items
                     _manipulating = false;
                     Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
                         .Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(Id, Title, null,
+                            new AnimeDetailsPageNavigationArgs(Id, Title, null,this,
                                 Utils.GetMainPageInstance().GetCurrentListOrderParams()));
 
                 }
@@ -516,7 +529,7 @@ namespace MALClient.Items
         {
             Utils.GetMainPageInstance() 
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(Id, Title, null,
+                    new AnimeDetailsPageNavigationArgs(Id, Title, null,this,
                         Utils.GetMainPageInstance().GetCurrentListOrderParams()));
         }
 

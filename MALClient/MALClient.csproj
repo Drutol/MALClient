@@ -129,6 +129,7 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Items\IAnimeData.cs" />
     <Compile Include="Items\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

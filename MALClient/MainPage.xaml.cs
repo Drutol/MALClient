@@ -133,7 +133,7 @@ namespace MALClient
                         await
                             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                             {
-                                MainContent.Navigate(typeof (Pages.AnimeListPage), args);
+                               MainContent.Navigate(typeof (Pages.AnimeListPage), args);
                             });
                     });
                     break;
@@ -162,10 +162,10 @@ namespace MALClient
             }
         }
 
-        internal AnimeListPageNavigationArgs GetCurrentListOrderParams()
+        internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
         {
             var page = MainContent.Content as AnimeListPage;
-            return new AnimeListPageNavigationArgs(page.SortOption,page.CurrentStatus,page.SortDescending,page.CurrentPage);
+            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,page.CurrentPage,seasonal);
         }
 
 

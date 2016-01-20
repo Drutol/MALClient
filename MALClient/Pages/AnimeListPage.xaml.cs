@@ -27,14 +27,18 @@ namespace MALClient.Pages
         public AnimeListPage.SortOptions SortOption;
         public readonly int Status;
         public readonly bool Descending;
-        public readonly bool LoadSeasonal = false;
+        public readonly bool LoadSeasonal;
         public readonly int CurrPage;
-        public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort,int status,bool desc,int page)
+        public readonly bool NavArgs = false;
+        public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort, int status, bool desc, int page,
+            bool seasonal)
         {
             SortOption = sort;
             Status = status;
             Descending = desc;
             CurrPage = page;
+            LoadSeasonal = seasonal;
+            NavArgs = true;
         }
 
         public AnimeListPageNavigationArgs()
@@ -42,7 +46,6 @@ namespace MALClient.Pages
             LoadSeasonal = true;
         }
     }
-
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -122,11 +125,23 @@ namespace MALClient.Pages
                     SpinnerLoading.Visibility = Visibility.Visible;
                     EmptyNotice.Visibility = Visibility.Collapsed;
                     AppbarBtnPinTile.Visibility = Visibility.Collapsed;
-                    BtnOrderDescending.IsChecked = _sortDescending = false;
+                    if (args.NavArgs)
+                    {
+                        BtnOrderDescending.IsChecked = _sortDescending = args.Descending;
+                        SetSortOrder(args.SortOption); //index
+                        SetDesiredStatus(args.Status);
+                        _currentPage = args.CurrPage;
+                    }
+                    else
+                    {
+                        BtnOrderDescending.IsChecked = _sortDescending = false;
+                        SetSortOrder(SortOptions.SortWatched); //index
+                        SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+                    }
+
                     SwitchFiltersToSeasonal();
                     SwitchSortingToSeasonal();
-                    SetSortOrder(SortOptions.SortWatched); //index
-                    SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+
                     _loadedDictionary = new Dictionary<int, bool>
                     {
                         {1, true},
@@ -148,8 +163,8 @@ namespace MALClient.Pages
                     return;
                 }
 
-                SetSortOrder(args?.SortOption);
-                SetDesiredStatus(args?.Status);
+                SetSortOrder(args.SortOption);
+                SetDesiredStatus(args.Status);
                 BtnOrderDescending.IsChecked = args.Descending;
                 _sortDescending = args.Descending;
                 _currentPage = args.CurrPage;                
@@ -318,7 +333,7 @@ namespace MALClient.Pages
         {
             int value = StatusSelector.SelectedIndex;
             value++;
-            return (value == 5 || value == 6) ? value + 1 : value;
+            return value == 0 ? 1 : (value == 5 || value == 6) ? value + 1 : value;
         }
 
         private void SetDesiredStatus(int? value)

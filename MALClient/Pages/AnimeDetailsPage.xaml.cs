@@ -111,6 +111,8 @@ namespace MALClient.Pages
                 throw new Exception("No paramaters for this page");
 
             _animeItemReference = param.AnimeItem;
+            if(MyStatus != 7)
+                BtnAddAnime.Visibility = Visibility.Collapsed;
             BtnWatchedEps.Content = $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
             BtnStatus.Content = Utils.StatusToString(MyStatus);
             BtnScore.Content = MyScore == 0 ? "Unranked" : $"{MyScore}/10";
@@ -229,7 +231,8 @@ namespace MALClient.Pages
                 return;
             
             Utils.GetMainPageInstance().RemoveAnimeEntry(Creditentials.UserName, (_animeItemReference as AnimeItem)._parentAbstraction);
-            _animeItemReference = null;
+
+            (_animeItemReference as AnimeItem).SetAuthStatus(false,true);
             BtnAddAnime.Visibility = Visibility.Visible;
             MyDetails.Visibility = Visibility.Collapsed;
         }

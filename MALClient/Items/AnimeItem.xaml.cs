@@ -30,7 +30,7 @@ namespace MALClient.Items
         //prop field pairs
         private int _myStatus;
         private int _myScore;
-        private int _myEpisodes;
+        private int _myEpisodes;// TODO : Yup, I'm looking at you...
         private string _title;
         private float _globalScore;
         private bool _airing = false;
@@ -41,7 +41,7 @@ namespace MALClient.Items
             set
             {
                 _myStatus = value;
-                if(_parentAbstraction != null) //TODO : think about optimizing this
+                if(_parentAbstraction != null) //TODO : think about optimizing this ... get rid of those fields here maybe?
                     _parentAbstraction.MyStatus = value;
                 BtnStatus.Content = Utils.StatusToString(value);
             }
@@ -223,6 +223,7 @@ namespace MALClient.Items
                 _imgLoaded = true;
             }
         }
+
         /// <summary>
         /// Creates tile with series cover as background , leading to certain URI.
         /// </summary>
@@ -282,7 +283,7 @@ namespace MALClient.Items
             }
         }
 
-        private void SetAuthStatus(bool auth)
+        public void SetAuthStatus(bool auth,bool eps = false)
         {
             _auth = auth;
             if (auth)
@@ -290,12 +291,19 @@ namespace MALClient.Items
                 BtnAddToList.Visibility = Visibility.Collapsed;
                 BtnStatus.IsEnabled = true;
                 BtnScore.IsEnabled = true;
+                BtnWatchedEps.IsEnabled = true;
             }
             else
             {
                 BtnAddToList.Visibility = Visibility.Visible;
                 BtnStatus.IsEnabled = false;
                 BtnScore.IsEnabled = false;
+                BtnWatchedEps.IsEnabled = false;
+                if(eps)
+                {
+                    BtnWatchedEps.Content = $"{AllEpisodes} Episodes";
+                    BtnStatus.Content = "All";
+                }
             }
 
         }
@@ -361,7 +369,7 @@ namespace MALClient.Items
                     Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
                         .Navigate(PageIndex.PageAnimeDetails,
                             new AnimeDetailsPageNavigationArgs(Id, Title, null,this,
-                                Utils.GetMainPageInstance().GetCurrentListOrderParams()));
+                                Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)));
 
                 }
             }
@@ -470,22 +478,6 @@ namespace MALClient.Items
             
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }
-
-        //changed in some other place , implemented before these were properties
-        public void ChangeWatched(int newWatched)
-        {
-            MyEpisodes = newWatched;
-        }
-
-        public void ChangeStatus(int newStatus)
-        {
-            MyStatus = newStatus;
-        }
-
-        public void ChangeScore(int newScore)
-        {
-            MyScore = newScore;
-        }
         #endregion
 
         #region CustomTilePin
@@ -522,6 +514,11 @@ namespace MALClient.Items
             MyStatus = 6;
             MyEpisodes = 0;
 
+
+            
+            SetAuthStatus(true);
+            AdjustIncrementButtonsVisibility();
+            BtnAddToList.Visibility = Visibility.Collapsed;
             Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,_parentAbstraction);
         }
 
@@ -530,7 +527,7 @@ namespace MALClient.Items
             Utils.GetMainPageInstance() 
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null,this,
-                        Utils.GetMainPageInstance().GetCurrentListOrderParams()));
+                        Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)));
         }
 
         #region Prompts
@@ -539,7 +536,7 @@ namespace MALClient.Items
         {
             if(MyStatus == to)
                 return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)}\n To : {Utils.StatusToString(to)}","Would you like to change current status?");
+            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)}\nTo : {Utils.StatusToString(to)}","Would you like to change current status?");
             bool confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
             msg.Commands.Add(new UICommand("No"));
@@ -558,7 +555,7 @@ namespace MALClient.Items
         {
             if (MyEpisodes == to)
                 return;
-            var msg = new MessageDialog($"From : {MyEpisodes}\n To : {to}", "Would you like to change watched episodes value?");
+            var msg = new MessageDialog($"From : {MyEpisodes}\nTo : {to}", "Would you like to change watched episodes value?");
             bool confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
             msg.Commands.Add(new UICommand("No"));

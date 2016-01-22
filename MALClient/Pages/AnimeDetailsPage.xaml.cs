@@ -254,7 +254,7 @@ namespace MALClient.Pages
             DetailScore.Text = GlobalScore.ToString();
             DetailEpisodes.Text = AllEpisodes.ToString();
 
-            DetailBroadcast.Text = StartDate;
+            DetailBroadcast.Text = StartDate + "\n" + EndDate;
             DetailStatus.Text = Status;
             DetailType.Text = Type;
             DetailSynopsis.Text = Synopsis;

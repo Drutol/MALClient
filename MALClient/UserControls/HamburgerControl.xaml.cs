@@ -23,7 +23,8 @@ namespace MALClient.UserControls
         LogIn,
         Settings,
         Profile,
-        Seasonal
+        Seasonal,
+        About
     }
 
     public sealed partial class HamburgerControl : UserControl
@@ -81,32 +82,11 @@ namespace MALClient.UserControls
             }
         }
 
-
-        //internal void PaneOpened()
-        //{
-        //    Border1.SetValue(Grid.ColumnSpanProperty, 2);
-        //    Border2.SetValue(Grid.ColumnSpanProperty, 2);
-        //    Border3.SetValue(Grid.ColumnSpanProperty, 2);
-        //    Border4.SetValue(Grid.ColumnSpanProperty, 2);
-        //    Border5.SetValue(Grid.ColumnSpanProperty, 2);
-        //}
-
-        //internal void PaneClosed()
-        //{
-        //    Border1.SetValue(Grid.ColumnSpanProperty, 1);
-        //    Border2.SetValue(Grid.ColumnSpanProperty, 1);
-        //    Border3.SetValue(Grid.ColumnSpanProperty, 1);
-        //    Border4.SetValue(Grid.ColumnSpanProperty, 1);
-        //    Border5.SetValue(Grid.ColumnSpanProperty, 1);
-        //}
-
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageSettings);
             SetActiveButton(HamburgerButtons.AnimeList);
         }
-
-
 
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {
@@ -138,6 +118,12 @@ namespace MALClient.UserControls
             SetActiveButton(HamburgerButtons.Profile);
         }
 
+        private void ButtonAbout_OnClick(object sender, RoutedEventArgs e)
+        {
+            GetMainPageInstance().Navigate(PageIndex.PageAbout);
+            SetActiveButton(HamburgerButtons.About);
+        }
+
         public void SetActiveButton(HamburgerButtons val)
         {
             ResetActiveButton();
@@ -161,6 +147,9 @@ namespace MALClient.UserControls
                 case HamburgerButtons.Seasonal:
                     TxtSeasonal.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
+                case HamburgerButtons.About:
+                    SymbolAbout.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
             }
@@ -174,6 +163,7 @@ namespace MALClient.UserControls
             TxtLogin.Foreground = new SolidColorBrush(Colors.Black);
             TxtProfile.Foreground = new SolidColorBrush(Colors.Black);
             TxtSeasonal.Foreground = new SolidColorBrush(Colors.Black);
+            SymbolAbout.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -208,7 +198,6 @@ namespace MALClient.UserControls
         {
             return Utils.GetMainPageInstance();
         }
-
 
 
     }

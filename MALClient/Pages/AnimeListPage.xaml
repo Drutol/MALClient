@@ -25,7 +25,7 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="Contact2" Label="List source">
+                <AppBarButton x:Name="AppBtnListSource" Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource">
                             <StackPanel>

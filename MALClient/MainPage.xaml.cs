@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Input;
 using MALClient.Pages;
 using System.Xml.Linq;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Store;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using MALClient.Comm;
@@ -49,7 +50,6 @@ namespace MALClient
                 HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
             }
 
-            
         }
 
         private void ReversePane()
@@ -65,29 +65,6 @@ namespace MALClient
         internal void UpdateHamburger()
         {
             HamburgerControl.UpdateProfileImg();
-        }
-
-        internal bool TryRetrieveListItem(int id, ref int watchedEps, ref int myStatus, ref int myScore, ref AnimeItem reference)
-        {
-
-            try
-            {
-                if (_allAnimeItemsCache[Creditentials.UserName] == null) return false;
-                var entry = _allAnimeItemsCache[Creditentials.UserName].LoadedAnime.First(item => item.Id == id);
-                if (entry != null)
-                {
-                    watchedEps = entry.MyEpisodes;
-                    myStatus = entry.MyStatus;
-                    myScore = (int)entry.MyScore; //it's float only when we are doing seasonal
-                    reference = entry.AnimeItem;
-                    return true;
-                }
-            }
-            catch (Exception) // no item in sequence
-            {
-                return false;
-            }
-            return false;
         }
 
         #region Navigation
@@ -139,7 +116,7 @@ namespace MALClient
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
-                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null; //from search details are passed instead of downloaded once more
+                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null; //from search , details are passed instead of being downloaded once more
                     MainContent.Navigate(typeof(Pages.AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
@@ -156,6 +133,10 @@ namespace MALClient
                 case PageIndex.PageProfile:
                     ShowSearchStuff();
                     MainContent.Navigate(typeof(Pages.ProfilePage),RetrieveProfileData());
+                    break;
+                case PageIndex.PageAbout:
+                    HideSearchStuff();
+                    MainContent.Navigate(typeof(Pages.AboutPage));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -344,7 +325,7 @@ namespace MALClient
             _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now,data);
         }
 
-        public ProfileData RetrieveProfileData()
+        private ProfileData RetrieveProfileData()
         {
             if (_profileDataCache == null)
                 return null;

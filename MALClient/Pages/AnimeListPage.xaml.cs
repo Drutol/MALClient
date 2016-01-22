@@ -112,8 +112,7 @@ namespace MALClient.Pages
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            
+        {           
             AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
             if (args != null)
             {
@@ -125,6 +124,8 @@ namespace MALClient.Pages
                     SpinnerLoading.Visibility = Visibility.Visible;
                     EmptyNotice.Visibility = Visibility.Collapsed;
                     AppbarBtnPinTile.Visibility = Visibility.Collapsed;
+                    AppBtnListSource.Visibility = Visibility.Collapsed;
+
                     if (args.NavArgs)
                     {
                         BtnOrderDescending.IsChecked = _sortDescending = args.Descending;
@@ -151,17 +152,9 @@ namespace MALClient.Pages
                         {6, true}
                     };
                     
-                    await Task.Run(async () =>
-                    {
-                        await
-                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                            {
-                                FetchSeasonalData();
-                            });
-                    });
-                    
+                    FetchSeasonalData();            
                     return;
-                }
+                } // else we just have nav data
 
                 SetSortOrder(args.SortOption);
                 SetDesiredStatus(args.Status);
@@ -214,9 +207,9 @@ namespace MALClient.Pages
             var possibleLoadedData = force ? new List<AnimeItemAbstraction>() : Utils.GetMainPageInstance().RetrieveSeasonData();
             if (possibleLoadedData.Count == 0)
             {
-                var data = await new AnimeSeasonalQuery().GetSeasonalAnime();
+                Utils.GetMainPageInstance().SetStatus("Downloading data...");
+                var data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
                 _allLoadedAnimeItems.Clear();
-                Utils.GetMainPageInstance().SetStatus("Data downloaded , processing...");
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                 Dictionary<int, XElement> downloadedItems = loadedStuff.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
                 Dictionary<int,AnimeItemAbstraction> loadedItems = loadedStuff.LoadedAnime.ToDictionary(item => item.Id);
@@ -232,7 +225,6 @@ namespace MALClient.Pages
             }
             else
             {
-
                 _allLoadedAnimeItems = possibleLoadedData;
             }
 

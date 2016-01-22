@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Items"
-    xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -17,13 +16,29 @@
             <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="Img" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
+        <Grid VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,11,11">
+            <SymbolIcon  Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <SymbolIcon.RenderTransform>
+                    <ScaleTransform ScaleY="1.5" ScaleX="1.5"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+            <TextBlock x:Name="TxtGlobalScore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center"/>
+        </Grid>
+        <SymbolIcon x:Name="SymbolAiring" Grid.Column="1" Visibility="Collapsed" Symbol="SlideShow" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity=".5" Foreground="DarkGray">
+            <SymbolIcon.RenderTransform>
+                <ScaleTransform ScaleY="2" ScaleX="2"/>
+            </SymbolIcon.RenderTransform>
+        </SymbolIcon>
+        <Button  Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="40" Visibility="{Binding ElementName=BtnShowMore,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
+            <Button.Background>
+                <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+            </Button.Background>
+            <SymbolIcon Symbol="More" Foreground="White"/>
+        </Button>
+        <Image x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
         <Grid Grid.Column="1" HorizontalAlignment="Stretch">
             <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock x:Name="TxtScore" FontWeight="SemiBold" VerticalAlignment="Center"/>
-            </StackPanel>
+            <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         </Grid>
     </Grid>
 </UserControl>

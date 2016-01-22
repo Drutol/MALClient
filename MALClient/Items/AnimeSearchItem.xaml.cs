@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -23,7 +24,7 @@ namespace MALClient.Items
         public AnimeSearchItem(XElement animeElement)
         {
             this.InitializeComponent();
-            this.item = animeElement;
+            item = animeElement;
             Id = int.Parse(animeElement.Element("id").Value);
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             AllEpisodes = int.Parse(animeElement.Element("episodes").Value);
@@ -32,9 +33,11 @@ namespace MALClient.Items
             Status = animeElement.Element("status").Value;
 
             TxtTitle.Text = Title;
-            TxtScore.Text = GlobalScore.ToString();
+            TxtGlobalScore.Text = GlobalScore.ToString();
+            if(Status == "Currently Airing")
+                SymbolAiring.Visibility = Visibility.Visible;
             Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
-            WatchedEps.Text = AllEpisodes.ToString();
+            WatchedEps.Text = $"Episodes : {AllEpisodes}";
 
         }
 
@@ -76,6 +79,11 @@ namespace MALClient.Items
         public void Setbackground(SolidColorBrush brush)
         {
             Root.Background = brush;
+        }
+
+        private void NavigateDetails(object sender, RoutedEventArgs e)
+        {
+            Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this));
         }
     }
 }

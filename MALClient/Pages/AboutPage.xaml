@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="MALClient.Pages.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <StackPanel Margin="10">
+                            <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
+                            Hello!<LineBreak/>
+                            Thanks for checking out this application , I'd like to let you know that this app is open source and you can find it's code here:
+                            </TextBlock>
+                            <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center" Click="LaunchRepo"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid  Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <StackPanel Margin="10">
+                            <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
+                            If there are any issues , ideas , gripes , bug reports etc. PLEASE by all means report it here :
+                            </TextBlock>
+                            <Button Content="Take me to issues board!" Margin="10" HorizontalAlignment="Center" Click="LaunchIssues"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
+                            I'm checking it daily so don't hesitate to post there :)<LineBreak/><LineBreak/>
+                            This application is built on top of official MyAnimeList API.
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <StackPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="If you would like to say 'thank you' you can do so by donating:" FontWeight="Medium" HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
+                            <Grid Margin="10" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Center">
+                                <StackPanel>
+                                    <MenuFlyoutItem x:Name="Donate1" Text="Donate $0.99" Click="Donate" />
+                                    <MenuFlyoutItem x:Name="Donate2" Text="Donate $1.99" Click="Donate" BorderBrush="LightGray" BorderThickness="0,1,0,1"/>
+                                    <MenuFlyoutItem  x:Name="Donate3" Text="Donate $2.99" Click="Donate"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0">
+                                There are no direct benefits , but I'll be eternally grateful :)
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid VerticalAlignment="Stretch" Margin="20,0,20,0">
+                        <TextBlock Text="MALClient version" HorizontalAlignment="Left"/>
+                        <TextBlock Text="v1.0" FontWeight="Medium" HorizontalAlignment="Right"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

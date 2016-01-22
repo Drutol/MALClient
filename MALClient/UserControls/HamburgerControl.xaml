@@ -83,11 +83,15 @@
                     <Grid Width="200" Height="35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="35"/>
                         </Grid.ColumnDefinitions>
                         <Border x:Name="Border2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
                         <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSettings , Path=Foreground}"/>
                         <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                        <Button Grid.Column="2" Background="Transparent" Width="35" Height="35" BorderThickness="0" Click="ButtonAbout_OnClick">
+                            <SymbolIcon x:Name="SymbolAbout" Symbol="Help"></SymbolIcon>
+                        </Button>
                     </Grid>
                 </Button>
             </StackPanel>

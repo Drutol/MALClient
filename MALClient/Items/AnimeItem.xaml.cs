@@ -34,6 +34,7 @@ namespace MALClient.Items
         private string _title;
         private float _globalScore;
         private bool _airing = false;
+        private List<string> _genres = new List<string>(); 
 
         public int MyStatus
         {
@@ -87,7 +88,6 @@ namespace MALClient.Items
                 SymbolGlobalScore.Visibility = Visibility.Visible;
             }
         }
-
         public bool Airing
         {
             get { return _airing; }
@@ -97,6 +97,17 @@ namespace MALClient.Items
                 _airing = value;
             }
         }
+
+        public List<string> Genres
+        {
+            get { return _genres; }
+            set
+            {
+                _genres = value;
+                foreach (var genre in value)
+                    TxtGenres.Text += genre + "    ";
+            }
+        } 
 
         //fields
         public int Id { get; set; }
@@ -157,6 +168,8 @@ namespace MALClient.Items
             Title = data.Title;
             MyScore = 0;
             GlobalScore = data.Score;
+            if(data.Genres != null)
+            Genres = data.Genres;
             SeasonalMembers = data.Members;
 
             //Custom controls setup
@@ -172,6 +185,8 @@ namespace MALClient.Items
             SetAuthStatus(false);
             AdjustIncrementButtonsVisibility();
 
+            if(dl == null || loaded == null)
+                return;
             Task.Run(async () =>
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
@@ -295,7 +310,7 @@ namespace MALClient.Items
             }
             else
             {
-                BtnAddToList.Visibility = Visibility.Visible;
+                BtnAddToList.Visibility = Creditentials.Authenticated ? Visibility.Visible : Visibility.Collapsed;
                 BtnStatus.IsEnabled = false;
                 BtnScore.IsEnabled = false;
                 BtnWatchedEps.IsEnabled = false;

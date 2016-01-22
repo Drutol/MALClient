@@ -30,7 +30,12 @@
                         <Flyout x:Name="FlyoutListSource">
                             <StackPanel>
                                 <TextBlock VerticalAlignment="Center" Text="MAL Username:"/>
-                                <TextBox x:Name="ListSource" Margin="5,5" KeyDown="ListSource_OnKeyDown"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="ListSource" Margin="5,5" KeyDown="ListSource_OnKeyDown"/>
+                                    <Button Click="SetListSource">
+                                        <SymbolIcon Symbol="Accept"/>
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -112,7 +117,11 @@
                 </Grid>
             </ListView.Footer>
         </ListView>
-        <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB9B9B9" />
+        <StackPanel Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="EmptyNotice"  Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
+            <Button x:Name="BtnSetSource" Content="Set source" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Click="ShowListSourceFlyout"/>
+        </StackPanel>
+
         <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True" Visibility="Collapsed"  />
     </Grid>
      

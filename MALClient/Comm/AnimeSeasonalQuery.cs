@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.ApplicationModel.Core;
+using Windows.Data.Html;
 using Windows.UI.Core;
 using HtmlAgilityPack;
 using MALClient.Items;
@@ -39,9 +40,6 @@ namespace MALClient.Comm
 
                 var nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
 
-
-
-
                 int i = 0;
                 foreach (var htmlNode in nodes)
                 {
@@ -69,12 +67,12 @@ namespace MALClient.Comm
                         Id = int.Parse(link.Substring(7).Split('/')[2]), //extracted from anime link
                         ImgUrl = img.Split('(', ')')[1], // from image style attr it's between ( )
                         Synopsis =
-                            htmlNode.Descendants("div")
+                            HtmlUtilities.ConvertToText(htmlNode.Descendants("div")
                                 .First(
                                     node =>
                                         node.Attributes.Contains("class") &&
                                         node.Attributes["class"].Value == "synopsis js-synopsis")
-                                .InnerHtml,
+                                .InnerText),
                         Score = score, //0 for N/A
                         Episodes =
                             htmlNode.Descendants("div")
@@ -84,6 +82,13 @@ namespace MALClient.Comm
                                 .First()
                                 .InnerText.Split(new[] {" ",}, StringSplitOptions.RemoveEmptyEntries)[0],
                         Index = i,
+                        Genres = htmlNode.Descendants("div").First(node =>
+                                        node.Attributes.Contains("class") &&
+                                        node.Attributes["class"].Value == "genres-inner js-genre-inner").InnerText
+                                        .Replace('\n',';')
+                                        .Split(new[] {';'} , StringSplitOptions.RemoveEmptyEntries)
+                                        .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()) 
+                                        .ToList()
                     });
                     i++;
                     if (i == 30)

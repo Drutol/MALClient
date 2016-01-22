@@ -73,16 +73,15 @@ namespace MALClient
             bool wasOnSearchPage = _onSearchPage;
             _onSearchPage = false;
             MainMenu.IsPaneOpen = false;
-
-            HamburgerControl.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
-            
-
+         
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
                 await msg.ShowAsync();
                 return;
             }
+
+            HamburgerControl.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
@@ -279,6 +278,8 @@ namespace MALClient
 
         public AnimeUserCache RetrieveLoadedAnime()
         {
+            if (!Creditentials.Authenticated)
+                return null;
             AnimeUserCache data;
             _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(),out data);
             return data;

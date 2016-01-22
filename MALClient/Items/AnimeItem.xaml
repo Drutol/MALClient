@@ -209,7 +209,8 @@
         </Grid>
         <!--Synopsis Margin 150-->
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-            <ScrollViewer VerticalScrollMode="Auto" Height="Auto" Margin="5" VerticalAlignment="Stretch">
+            <TextBlock x:Name="TxtGenres"  VerticalAlignment="Top" HorizontalAlignment="Center" Height="40" TextWrapping="WrapWholeWords" FontWeight="Medium" TextAlignment="Center" Margin="10,10,10,5" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+            <ScrollViewer VerticalScrollMode="Auto" Height="Auto" Margin="5,50,5,5" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden" >
                 <TextBlock  x:Name="TxtSynopsis" TextWrapping="WrapWholeWords"/>
             </ScrollViewer>
         </Grid>

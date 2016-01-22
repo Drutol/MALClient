@@ -98,8 +98,7 @@ namespace MALClient.Pages
         {
             _loaded = true;
             var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            EmptyNotice.Visibility = Visibility.Collapsed;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;            
             UpdateUpperStatus();
         }
 
@@ -111,7 +110,7 @@ namespace MALClient.Pages
             });
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {           
             AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
             if (args != null)
@@ -167,6 +166,7 @@ namespace MALClient.Pages
 
             if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
             {
+                
                 ListSource.Text = Creditentials.UserName;
                 FetchData();
             }
@@ -174,7 +174,8 @@ namespace MALClient.Pages
             {
                 EmptyNotice.Visibility = Visibility.Visible;
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
-                Utils.GetMainPageInstance()?.SetStatus("Anime List");
+                BtnSetSource.Visibility = Visibility.Visible;
+                UpdateUpperStatus();
             }
 
             if (_timer == null)
@@ -211,12 +212,15 @@ namespace MALClient.Pages
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
                 _allLoadedAnimeItems.Clear();
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                Dictionary<int, XElement> downloadedItems = loadedStuff.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
-                Dictionary<int,AnimeItemAbstraction> loadedItems = loadedStuff.LoadedAnime.ToDictionary(item => item.Id);
-                HashSet<int> loadedIds = new HashSet<int>();
-                HashSet<int> downloadedIds = new HashSet<int>();
-                loadedIds.UnionWith(loadedItems.Keys);
-                downloadedIds.UnionWith(downloadedItems.Keys);
+                Dictionary<int, XElement> downloadedItems = loadedStuff?.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
+                Dictionary<int,AnimeItemAbstraction> loadedItems = loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
+                //HashSet<int> loadedIds = new HashSet<int>();
+                //HashSet<int> downloadedIds = new HashSet<int>();
+                //if (loadedStuff != null)
+                //{
+                //    loadedIds.UnionWith(loadedItems.Keys);
+                //    downloadedIds.UnionWith(downloadedItems.Keys);
+                //}
                 foreach (SeasonalAnimeData animeData in data)
                 {
                     _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, downloadedItems, loadedItems));
@@ -236,6 +240,7 @@ namespace MALClient.Pages
 
         private async void FetchData(bool force = false)
         {
+            BtnSetSource.Visibility = Visibility.Collapsed;
             SpinnerLoading.Visibility = Visibility.Visible;
             EmptyNotice.Visibility = Visibility.Collapsed;
 
@@ -243,6 +248,7 @@ namespace MALClient.Pages
             {
                 EmptyNotice.Visibility = Visibility.Visible;
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
+                BtnSetSource.Visibility = Visibility.Visible;
             }
             else
             {
@@ -486,16 +492,27 @@ namespace MALClient.Pages
 
         private async void UpdateUpperStatus(int retries = 5)
         {
-            var page = Utils.GetMainPageInstance();
-            if (page != null)
-                if(!_seasonalState)
-                    page.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
-                else
-                    page.SetStatus($"Airing - {Utils.StatusToString(GetDesiredStatus())}");
-            else if (retries >= 0)
+            while (true)
             {
-                await Task.Delay(1000);
-                UpdateUpperStatus(retries-1);
+                var page = Utils.GetMainPageInstance();
+
+                if (page != null)
+
+                    if (!_seasonalState)
+                        if (!string.IsNullOrWhiteSpace(ListSource.Text))
+                            page.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+                        else
+                            page.SetStatus("Anime list");
+                    else
+                        page.SetStatus($"Airing - {Utils.StatusToString(GetDesiredStatus())}");
+
+                else if (retries >= 0)
+                {
+                    await Task.Delay(1000);
+                    retries = retries - 1;
+                    continue;
+                }
+                break;
             }
         }
 
@@ -630,16 +647,24 @@ namespace MALClient.Pages
 
         private void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                var txt = sender as TextBox;
-                txt.IsEnabled = false; //reset input
-                txt.IsEnabled = true;
+            if (e == null || e.Key == VirtualKey.Enter)
+            {               
+                ListSource.IsEnabled = false; //reset input
+                ListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
                 FetchData();
             }
         }
 
+        private void ShowListSourceFlyout(object sender, RoutedEventArgs e)
+        {
+            FlyoutListSource.ShowAt(sender as FrameworkElement);
+        }
+
+        private void SetListSource(object sender, RoutedEventArgs e)
+        {
+            ListSource_OnKeyDown(null,null);
+        }
     }
 }

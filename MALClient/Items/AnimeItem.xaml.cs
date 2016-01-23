@@ -124,6 +124,7 @@ namespace MALClient.Items
         //props
         private int SeasonalMembers { get; set; } //TODO : Use this
         public int AllEpisodes => _allEpisodes;
+        public bool Auth => _auth;
         
 
 
@@ -182,7 +183,7 @@ namespace MALClient.Items
             SymbolGlobalScore.Visibility = Visibility.Visible;
             
             //We are not on the list so we cannot really do this
-            SetAuthStatus(false);
+            SetAuthStatus(false,true);
             AdjustIncrementButtonsVisibility();
 
             if(dl == null || loaded == null)
@@ -304,6 +305,8 @@ namespace MALClient.Items
             if (auth)
             {
                 BtnAddToList.Visibility = Visibility.Collapsed;
+                BtnStatus.Visibility = Visibility.Visible;
+                BtnScore.Visibility = Visibility.Visible;
                 BtnStatus.IsEnabled = true;
                 BtnScore.IsEnabled = true;
                 BtnWatchedEps.IsEnabled = true;
@@ -314,10 +317,12 @@ namespace MALClient.Items
                 BtnStatus.IsEnabled = false;
                 BtnScore.IsEnabled = false;
                 BtnWatchedEps.IsEnabled = false;
+
                 if(eps)
                 {
-                    BtnWatchedEps.Content = $"{AllEpisodes} Episodes";
-                    BtnStatus.Content = "All";
+                    BtnWatchedEps.Content = $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+                    BtnStatus.Visibility = Visibility.Collapsed;
+                    BtnScore.Visibility = Visibility.Collapsed;
                 }
             }
 

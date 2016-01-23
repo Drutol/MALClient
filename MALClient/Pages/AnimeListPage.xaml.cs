@@ -30,14 +30,16 @@ namespace MALClient.Pages
         public readonly bool LoadSeasonal;
         public readonly int CurrPage;
         public readonly bool NavArgs = false;
+        public readonly string ListSource;
         public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort, int status, bool desc, int page,
-            bool seasonal)
+            bool seasonal,string source)
         {
             SortOption = sort;
             Status = status;
             Descending = desc;
             CurrPage = page;
             LoadSeasonal = seasonal;
+            ListSource = source;
             NavArgs = true;
         }
 
@@ -66,6 +68,7 @@ namespace MALClient.Pages
         public int CurrentStatus => GetDesiredStatus();
         public bool SortDescending => _sortDescending;
         public int CurrentPage => _currentPage;
+        public string ListSource => TxtListSource.Text;
         private bool _sortDescending;
         private bool _loaded = false;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
@@ -78,6 +81,7 @@ namespace MALClient.Pages
         private int _currentPage = 1;
         private int _allPages;
         private int _itemsPerPage = 10; //TODO : Setting for this
+        private bool _wasPreviousQuery = false;
 
         private Dictionary<int,bool> _loadedDictionary = new Dictionary<int, bool>
         {
@@ -127,6 +131,7 @@ namespace MALClient.Pages
 
                     if (args.NavArgs)
                     {
+                        TxtListSource.Text = args.ListSource;
                         BtnOrderDescending.IsChecked = _sortDescending = args.Descending;
                         SetSortOrder(args.SortOption); //index
                         SetDesiredStatus(args.Status);
@@ -155,6 +160,7 @@ namespace MALClient.Pages
                     return;
                 } // else we just have nav data
 
+                TxtListSource.Text = args.ListSource;
                 SetSortOrder(args.SortOption);
                 SetDesiredStatus(args.Status);
                 BtnOrderDescending.IsChecked = args.Descending;
@@ -164,18 +170,22 @@ namespace MALClient.Pages
             else // default
                 SetDefaults();
 
-            if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
-            {
-                
-                ListSource.Text = Creditentials.UserName;
-                FetchData();
+            if (string.IsNullOrWhiteSpace(ListSource))
+            {               
+                if(!string.IsNullOrWhiteSpace(Creditentials.UserName))
+                    TxtListSource.Text = Creditentials.UserName;              
             }
-            else
+
+            if(string.IsNullOrWhiteSpace(ListSource))
             {
                 EmptyNotice.Visibility = Visibility.Visible;
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
                 BtnSetSource.Visibility = Visibility.Visible;
                 UpdateUpperStatus();
+            }
+            else
+            {
+                FetchData();
             }
 
             if (_timer == null)
@@ -244,7 +254,7 @@ namespace MALClient.Pages
             SpinnerLoading.Visibility = Visibility.Visible;
             EmptyNotice.Visibility = Visibility.Collapsed;
 
-            if (string.IsNullOrWhiteSpace(ListSource.Text))
+            if (string.IsNullOrWhiteSpace(TxtListSource.Text))
             {
                 EmptyNotice.Visibility = Visibility.Visible;
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
@@ -260,11 +270,11 @@ namespace MALClient.Pages
             _animeItems.Clear();
 
             if(!force)
-                Utils.GetMainPageInstance()?.RetrieveAnimeEntries(ListSource.Text,out _allLoadedAnimeItems, out _allDownloadedAnimeItems , out _lastUpdate,out _loadedDictionary);
+                Utils.GetMainPageInstance()?.RetrieveAnimeEntries(TxtListSource.Text,out _allLoadedAnimeItems, out _allDownloadedAnimeItems , out _lastUpdate,out _loadedDictionary);
 
             if (_allLoadedAnimeItems.Count == 0 && _allDownloadedAnimeItems.Count == 0)
             {
-                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource.Text);
+                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(TxtListSource.Text);
                 string data;
                 if (possibleCachedData != null)
                 {
@@ -277,10 +287,10 @@ namespace MALClient.Pages
                     {
                         status = "all",
                         type = "anime",
-                        user = ListSource.Text
+                        user = TxtListSource.Text
                     };
                     data = await new AnimeListQuery(args).GetRequestResponse();
-                    DataCache.SaveDataForUser(ListSource.Text, data);
+                    DataCache.SaveDataForUser(TxtListSource.Text, data);
                     _lastUpdate = DateTime.Now;
                 }
                 XDocument parsedData = XDocument.Parse(data);
@@ -301,7 +311,7 @@ namespace MALClient.Pages
                     if (status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status) //if displaying all or element has desired MyStatus
                     {
                         _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
-                            (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
+                            (Creditentials.Authenticated && TxtListSource.Text == Creditentials.UserName),
                             item.Element("series_title").Value,
                             item.Element("series_image").Value,
                             Convert.ToInt32(item.Element("series_animedb_id").Value),
@@ -316,7 +326,7 @@ namespace MALClient.Pages
                 //TODO : For some unknown reason items may duplicate/triplicate etc.
                 _allDownloadedAnimeItems = _allDownloadedAnimeItems.Distinct().ToList();
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
-                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems ,_allDownloadedAnimeItems , _lastUpdate , _loadedDictionary);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(TxtListSource.Text, _allLoadedAnimeItems ,_allDownloadedAnimeItems , _lastUpdate , _loadedDictionary);
 
             }
 
@@ -349,9 +359,10 @@ namespace MALClient.Pages
         {
             string query = Utils.GetMainPageInstance()?.GetSearchQuery();
             bool queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
-            if (searchSource && !queryCondition) // refresh was requested from search but there's nothing to update
+            if (!_wasPreviousQuery && searchSource && !queryCondition) // refresh was requested from search but there's nothing to update
                 return;
 
+            _wasPreviousQuery = queryCondition;
 
             EmptyNotice.Visibility = Visibility.Collapsed;            
             _animeItemsSet.Clear();
@@ -377,7 +388,7 @@ namespace MALClient.Pages
                 foreach (var item in _allDownloadedAnimeItems.Where(item => status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status))
                 {
                     _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
-                        (Creditentials.Authenticated && ListSource.Text == Creditentials.UserName),
+                        (Creditentials.Authenticated && TxtListSource.Text == Creditentials.UserName),
                         item.Element("series_title").Value,
                         item.Element("series_image").Value,
                         Convert.ToInt32(item.Element("series_animedb_id").Value),
@@ -393,7 +404,7 @@ namespace MALClient.Pages
                     _allDownloadedAnimeItems.Remove(element);
                 }
                 //Submit updated list to higher-ups
-                Utils.GetMainPageInstance()?.SaveAnimeEntries(ListSource.Text, _allLoadedAnimeItems, _allDownloadedAnimeItems, _lastUpdate, _loadedDictionary);
+                Utils.GetMainPageInstance()?.SaveAnimeEntries(TxtListSource.Text, _allLoadedAnimeItems, _allDownloadedAnimeItems, _lastUpdate, _loadedDictionary);
             }
 
             var items = _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
@@ -499,8 +510,8 @@ namespace MALClient.Pages
                 if (page != null)
 
                     if (!_seasonalState)
-                        if (!string.IsNullOrWhiteSpace(ListSource.Text))
-                            page.SetStatus($"{ListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+                        if (!string.IsNullOrWhiteSpace(TxtListSource.Text))
+                            page.SetStatus($"{TxtListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
                         else
                             page.SetStatus("Anime list");
                     else
@@ -649,8 +660,8 @@ namespace MALClient.Pages
         {
             if (e == null || e.Key == VirtualKey.Enter)
             {               
-                ListSource.IsEnabled = false; //reset input
-                ListSource.IsEnabled = true;
+                TxtListSource.IsEnabled = false; //reset input
+                TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
                 FetchData();

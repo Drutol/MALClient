@@ -35,7 +35,7 @@ namespace MALClient
                 case 8:
                     return "Airing";
                 default:
-                    return "";
+                    return "Not Set";
             }
         }
 

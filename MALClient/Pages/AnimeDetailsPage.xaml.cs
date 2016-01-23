@@ -111,11 +111,28 @@ namespace MALClient.Pages
                 throw new Exception("No paramaters for this page");
 
             _animeItemReference = param.AnimeItem;
-            if(MyStatus != 7)
+            if (_animeItemReference is AnimeSearchItem) //if we are from search let's look for abstraction
+            {
+                if (!Utils.GetMainPageInstance()
+                    .TryRetieveAuthenticatedAnimeItem(_animeItemReference.Id, ref _animeItemReference))
+                    // else we don't have this item
+                {
+                    //we may only prepare for its creation
+                    BtnAddAnime.Visibility = Visibility.Visible;
+                    MyDetails.Visibility = Visibility.Collapsed;
+                }
+            } // else we already have it
+
+            if(_animeItemReference is AnimeItem && (_animeItemReference as AnimeItem).Auth)
+            {
+                //we have item on the list , so there's valid data here
+                MyDetails.Visibility = Visibility.Visible;
                 BtnAddAnime.Visibility = Visibility.Collapsed;
-            BtnWatchedEps.Content = $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
-            BtnStatus.Content = Utils.StatusToString(MyStatus);
-            BtnScore.Content = MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+                BtnWatchedEps.Content = $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
+                BtnStatus.Content = Utils.StatusToString(MyStatus);
+                BtnScore.Content = MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+            }
+
             if (param.AnimeElement != null)
             {
                 PopulateData(param.AnimeElement);
@@ -244,8 +261,8 @@ namespace MALClient.Pages
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            if (Status == "Currently Airing")
-                (_animeItemReference as AnimeItem).Airing = true;
+            if (Status == "Currently Airing" && _animeItemReference is AnimeItem)
+                ((AnimeItem) _animeItemReference).Airing = true;
             Synopsis = Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "");
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
@@ -262,11 +279,6 @@ namespace MALClient.Pages
             Utils.GetMainPageInstance().SetStatus(Title);
 
             DetailImage.Source = new BitmapImage(new Uri(_imgUrl));
-
-            if(_animeItemReference != null)
-                MyDetails.Visibility = Visibility.Visible;
-            else
-                MyDetails.Visibility = Visibility.Collapsed;
             
         }
 

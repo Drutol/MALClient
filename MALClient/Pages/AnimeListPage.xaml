@@ -31,7 +31,7 @@
                             <StackPanel>
                                 <TextBlock VerticalAlignment="Center" Text="MAL Username:"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="ListSource" Margin="5,5" KeyDown="ListSource_OnKeyDown"/>
+                                    <TextBox x:Name="TxtListSource" Margin="5,5" KeyDown="ListSource_OnKeyDown"/>
                                     <Button Click="SetListSource">
                                         <SymbolIcon Symbol="Accept"/>
                                     </Button>

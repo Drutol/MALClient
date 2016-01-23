@@ -145,7 +145,7 @@ namespace MALClient
         internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
         {
             var page = MainContent.Content as AnimeListPage;
-            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,page.CurrentPage,seasonal);
+            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,page.CurrentPage,seasonal,page.ListSource);
         }
 
 
@@ -283,6 +283,21 @@ namespace MALClient
             AnimeUserCache data;
             _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(),out data);
             return data;
+        }
+
+        public bool TryRetieveAuthenticatedAnimeItem(int id,ref IAnimeData reference)
+        {
+            if (!Creditentials.Authenticated)
+                return false;
+            try
+            {
+                reference = _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.First(abstraction => abstraction.Id == id).AnimeItem;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public void RetrieveAnimeEntries(string source,out List<AnimeItemAbstraction> loadedItems,out List<XElement> downloadedItems  ,out DateTime time,out Dictionary<int,bool> loadStatus )

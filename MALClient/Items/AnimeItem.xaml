@@ -111,54 +111,59 @@
         </Button>
         <ProgressBar x:Name="SpinnerLoading" Grid.Row="0" Grid.Column="1" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Grid x:Name="SymbolGlobalScore" HorizontalAlignment="Right"  Margin="0,0,11,11" Visibility="Collapsed">
+                    <SymbolIcon  Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <SymbolIcon.RenderTransform>
+                            <ScaleTransform ScaleY="1.5" ScaleX="1.5"/>
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                    <TextBlock x:Name="TxtGlobalSocore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center"/>
+                </Grid>
+                <StackPanel VerticalAlignment="Bottom"  HorizontalAlignment="Right">
+                    <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem Text="10 - Masterpiece" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="9 - Great" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="8 - Very Good" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="7 - Good" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="6 - Fine" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="5 - Average" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="4 - Bad" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="3 - Very Bad" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="2 - Horrible" Click="ChangeScore"/>
+                                    <MenuFlyoutItem Text="1 - Appaling" Click="ChangeScore"/>
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button x:Name="BtnStatus" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem Text="Watching" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="Completed" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="On hold" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="Dropped" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus"/>
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            
             <SymbolIcon x:Name="SymbolAiring" Visibility="Collapsed" Symbol="SlideShow" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity=".5" Foreground="DarkGray">
                 <SymbolIcon.RenderTransform>
                     <ScaleTransform ScaleY="2" ScaleX="2"/>
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
-            <Grid x:Name="SymbolGlobalScore" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,11,11" Visibility="Collapsed">
-                <SymbolIcon  Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <SymbolIcon.RenderTransform>
-                        <ScaleTransform ScaleY="1.5" ScaleX="1.5"/>
-                    </SymbolIcon.RenderTransform>
-                </SymbolIcon>
-                <TextBlock x:Name="TxtGlobalSocore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center"/>
-            </Grid>
+
 
             <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
-            <StackPanel  VerticalAlignment="Bottom"  HorizontalAlignment="Right">
-                <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="10 - Masterpiece" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="9 - Great" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="8 - Very Good" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="7 - Good" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="6 - Fine" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="5 - Average" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="4 - Bad" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="3 - Very Bad" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="2 - Horrible" Click="ChangeScore"/>
-                                <MenuFlyoutItem Text="1 - Appaling" Click="ChangeScore"/>
-                            </MenuFlyout.Items>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
-                <Button x:Name="BtnStatus" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="Watching" Click="ChangeStatus"/>
-                                <MenuFlyoutItem Text="Completed" Click="ChangeStatus"/>
-                                <MenuFlyoutItem Text="On hold" Click="ChangeStatus"/>
-                                <MenuFlyoutItem Text="Dropped" Click="ChangeStatus"/>
-                                <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus"/>
-                            </MenuFlyout.Items>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
-            </StackPanel>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <Button x:Name="DecrementEps" Background="Transparent" VerticalAlignment="Center" Height="40" Width="40" Click="DecrementWatchedEp">
                     <SymbolIcon Symbol="Remove"/>

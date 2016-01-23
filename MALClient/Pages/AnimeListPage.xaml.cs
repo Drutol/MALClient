@@ -80,7 +80,7 @@ namespace MALClient.Pages
         private bool _seasonalState = false;
         private int _currentPage = 1;
         private int _allPages;
-        private int _itemsPerPage = 10; //TODO : Setting for this
+        private readonly int _itemsPerPage = Utils.GetItemsPerPage();
         private bool _wasPreviousQuery = false;
 
         private Dictionary<int,bool> _loadedDictionary = new Dictionary<int, bool>
@@ -114,8 +114,8 @@ namespace MALClient.Pages
             });
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {           
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
             AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
             if (args != null)
             {
@@ -155,8 +155,14 @@ namespace MALClient.Pages
                         {4, true},
                         {6, true}
                     };
-                    
-                    FetchSeasonalData();            
+                    await Task.Run(async () =>
+                    {
+                        await
+                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                            {
+                                FetchSeasonalData();
+                            });
+                    });
                     return;
                 } // else we just have nav data
 
@@ -165,18 +171,18 @@ namespace MALClient.Pages
                 SetDesiredStatus(args.Status);
                 BtnOrderDescending.IsChecked = args.Descending;
                 _sortDescending = args.Descending;
-                _currentPage = args.CurrPage;                
+                _currentPage = args.CurrPage;
             }
             else // default
                 SetDefaults();
 
             if (string.IsNullOrWhiteSpace(ListSource))
-            {               
-                if(!string.IsNullOrWhiteSpace(Creditentials.UserName))
-                    TxtListSource.Text = Creditentials.UserName;              
+            {
+                if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
+                    TxtListSource.Text = Creditentials.UserName;
             }
 
-            if(string.IsNullOrWhiteSpace(ListSource))
+            if (string.IsNullOrWhiteSpace(ListSource))
             {
                 EmptyNotice.Visibility = Visibility.Visible;
                 EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
@@ -346,13 +352,12 @@ namespace MALClient.Pages
 
         private void SetDesiredStatus(int? value)
         {
-            if (value != null)
-            {
-                value = (value == 6 || value == 7) ? value - 1 : value;
-                value--;
-            }
+            value = value ?? Utils.GetDefaultAnimeFilter();
 
-            StatusSelector.SelectedIndex = value ?? 0; //TODO : Add setting for this
+            value = (value == 6 || value == 7) ? value - 1 : value;
+            value--;
+
+            StatusSelector.SelectedIndex = (int)value; //TODO : Add setting for this
         }
 
         public void RefreshList(bool searchSource = false)

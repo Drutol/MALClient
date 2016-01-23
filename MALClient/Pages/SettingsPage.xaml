@@ -57,6 +57,33 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
+                <MenuFlyoutSeparator/>
+                <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                    <StackPanel>
+                        <TextBlock Text="Default filter value :" FontWeight="Medium" HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
+                        <ComboBox x:Name="CmbDefaultFilter" SelectionChanged="ChangeDefaultFilter" HorizontalAlignment="Center" Margin="10">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="Watching"/>
+                                <ComboBoxItem Content="Completed"/>
+                                <ComboBoxItem Content="On hold"/>
+                                <ComboBoxItem Content="Dropped"/>
+                                <ComboBoxItem Content="Plan to watch"/>
+                                <ComboBoxItem Content="All"/>
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+                <MenuFlyoutSeparator/>
+                <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Anime items per page : " FontWeight="Medium" HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
+                            <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderItemsPerPage,Path=Value}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                        </StackPanel>
+                        
+                        <Slider x:Name="SliderItemsPerPage" Minimum="5" Maximum="20" VerticalAlignment="Center" HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5" ValueChanged="ChangeItemsPerPage"/>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>

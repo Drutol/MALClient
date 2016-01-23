@@ -153,6 +153,16 @@ namespace MALClient
             return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
         }
 
+        internal static int GetDefaultAnimeFilter()
+        {
+            return (int) (ApplicationData.Current.LocalSettings.Values["DefaultFilter"] ?? (int) AnimeStatus.Watching);
+        }
+
+        public static int GetItemsPerPage()
+        {
+            return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 10);
+        }
+
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         /// <summary>
         /// http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc
@@ -197,6 +207,7 @@ namespace MALClient
                 }
             }
         }
+
 
 
     }

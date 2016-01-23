@@ -2,6 +2,7 @@
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using MALClient.UserControls;
 
@@ -27,10 +28,14 @@ namespace MALClient.Pages
             SetSortOrder();
             BtnDescending.IsChecked = Utils.IsSortDescending();
             PopulateCachedEntries();
+            SetDesiredStatus();
+            SetItemsPerPage();
             Utils.GetMainPageInstance()?.SetStatus("Settings");
             _initialized = true;
             base.OnNavigatedTo(e);
         }
+
+
 
         private void SetSortOrder()
         {
@@ -170,6 +175,33 @@ namespace MALClient.Pages
         {
             var btn = sender as ToggleMenuFlyoutItem;
             ApplicationData.Current.LocalSettings.Values["SortDescending"] = btn.IsChecked;
+        }
+
+        private void ChangeDefaultFilter(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_initialized)
+                return;
+            ApplicationData.Current.LocalSettings.Values["DefaultFilter"] = Utils.StatusToInt((string)((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
+        }
+
+        private void SetDesiredStatus()
+        {
+            int value = Utils.GetDefaultAnimeFilter();
+            value = (value == 6 || value == 7) ? value - 1 : value;
+            value--;
+            CmbDefaultFilter.SelectedIndex = value;
+        }
+
+        private void ChangeItemsPerPage(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1 )
+                return;
+            ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = (int)e.NewValue;
+        }
+
+        private void SetItemsPerPage()
+        {
+            SliderItemsPerPage.Value = Utils.GetItemsPerPage();
         }
     }
 }

@@ -72,7 +72,7 @@ namespace MALClient.Pages
         private bool _sortDescending;
         private bool _loaded = false;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
-        private ObservableCollection<AnimeItem> _animeItemsSet = new ObservableCollection<AnimeItem>(); //All for current list
+        private ObservableCollection<AnimeItemAbstraction> _animeItemsSet = new ObservableCollection<AnimeItemAbstraction>(); //All for current list
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
         private List<XElement> _allDownloadedAnimeItems = new List<XElement>();
         private DateTime _lastUpdate;
@@ -440,7 +440,7 @@ namespace MALClient.Pages
             if (_sortDescending)
                 items = items.Reverse();
             foreach (var item in items)
-                _animeItemsSet.Add(item.AnimeItem);
+                _animeItemsSet.Add(item);
             if(_animeItemsSet.Count == 0)
                 EmptyNotice.Visibility = Visibility.Visible;
             _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count/_itemsPerPage);
@@ -492,8 +492,8 @@ namespace MALClient.Pages
             _animeItems.Clear();
             foreach (var item in _animeItemsSet.Skip(_itemsPerPage*(_currentPage - 1)).Take(_itemsPerPage))
             {
-                item.ItemLoaded();
-                _animeItems.Add(item);
+                item.AnimeItem.ItemLoaded();
+                _animeItems.Add(item.AnimeItem);
             }
             UpdatePageStatus();
 

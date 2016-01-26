@@ -10,96 +10,98 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.Resources>
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
-    </UserControl.Resources>
-    
-    <Grid>
+    <Grid x:Name="RootGrid" VerticalAlignment="Stretch">
         <Grid Background="#E6E6E6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="4"/>
             </Grid.ColumnDefinitions>
             <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Column="1"/>
-            <StackPanel Grid.Column="0">
-                <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnList_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="Border1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        <SymbolIcon HorizontalAlignment="Center" Symbol="List" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtList , Path=Foreground}"/>
-                        <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                    </Grid>
-                </Button>
-                <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnHistory_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="Border3" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        <SymbolIcon Symbol="Find" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSearch , Path=Foreground}"/>
-                        <TextBlock x:Name="TxtSearch" Text="Anime Search" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                    </Grid>
-                </Button>
-                <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnSeasonal_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="Border6" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}"/>
-                        <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                    </Grid>
-                </Button>
-            </StackPanel>
-            <StackPanel x:Name="StckBtm" Grid.Column="0" VerticalAlignment="Bottom">
-                <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" >
-                    <Grid Width="200" Height="35">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="Border4" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtLogin , Path=Foreground}"/>
-                        <TextBlock x:Name="TxtLogin" Text="Log In"  HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                    </Grid>
-                </Button>
-                <Button x:Name="BtnProfile"  VerticalContentAlignment="Center" Background="Transparent" Click="BtnProfile_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="35">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="Border5" Grid.Column="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed"/>
-                        <Image x:Name="ImgUser" Grid.Column="0" Stretch="UniformToFill" Width="33" Height="33" Margin="1,1" Visibility="Visible"/>
-                        <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                    </Grid>
-                </Button>
-                <Button  VerticalContentAlignment="Center" Background="Transparent" Click="BtnSettings_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
-                    <Grid Width="200" Height="35">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35"/>
-                            <ColumnDefinition Width="110"/>
-                            <ColumnDefinition Width="35"/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="Border2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
-                        <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSettings , Path=Foreground}"/>
-                        <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
-                        <Button Grid.Column="2" Background="Transparent" Width="35" Height="35" BorderThickness="0" Click="ButtonAbout_OnClick">
-                            <SymbolIcon x:Name="SymbolAbout" Symbol="Help">
-                                <SymbolIcon.RenderTransform>
-                                    <ScaleTransform ScaleX=".75" ScaleY=".75"/>
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
-                        </Button>
-                    </Grid>
-                </Button>
-            </StackPanel>
-
+            <ScrollViewer x:Name="ScrlBurger" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" VerticalAlignment="Stretch">
+                <Grid>
+                    <StackPanel>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnList_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                <Grid Width="200" Height="50">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Border1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+                                    <SymbolIcon HorizontalAlignment="Center" Symbol="List" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtList , Path=Foreground}"/>
+                                    <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnHistory_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                <Grid Width="200" Height="50">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Border3" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+                                    <SymbolIcon Symbol="Find" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSearch , Path=Foreground}"/>
+                                    <TextBlock x:Name="TxtSearch" Text="Anime Search" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnSeasonal_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                <Grid Width="200" Height="50">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Border6" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+                                    <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}"/>
+                                    <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime" FontWeight="Medium" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                        <Grid x:Name="GridSeparator"/>
+                        <StackPanel x:Name="StckBtm">
+                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" >
+                                <Grid Width="200" Height="35">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Border4" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+                                    <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtLogin , Path=Foreground}"/>
+                                    <TextBlock x:Name="TxtLogin" Text="Log In"  HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                            <Button x:Name="BtnProfile"  VerticalContentAlignment="Center" Background="Transparent" Click="BtnProfile_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                <Grid Width="200" Height="35">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Border5" Grid.Column="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="Collapsed"/>
+                                    <Image x:Name="ImgUser" Grid.Column="0" Stretch="UniformToFill" Width="33" Height="33" Margin="1,1" Visibility="Visible"/>
+                                    <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                            <Button  VerticalContentAlignment="Center" Background="Transparent" Click="BtnSettings_Click" BorderThickness="0" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                <Grid Width="200" Height="35">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="35"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="Border2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+                                    <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSettings , Path=Foreground}"/>
+                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
+                                    <Button Grid.Column="2" Background="Transparent" Width="35" Height="35" BorderThickness="0" Click="ButtonAbout_OnClick">
+                                        <SymbolIcon x:Name="SymbolAbout" Symbol="Help">
+                                            <SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX=".75" ScaleY=".75"/>
+                                            </SymbolIcon.RenderTransform>
+                                        </SymbolIcon>
+                                    </Button>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

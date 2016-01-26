@@ -68,8 +68,11 @@ namespace MALClient.UserControls
 
             foreach (var value in values)
             {
-                if(value == 0)
+                if (value == 0)
+                {
+                    currColor++;
                     continue;
+                }
                 percentage = value * 100 / all;
                 totalPercentage += percentage;
                 offset = percentage*maxWidth/100;

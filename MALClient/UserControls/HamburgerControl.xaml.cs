@@ -29,6 +29,7 @@ namespace MALClient.UserControls
 
     public sealed partial class HamburgerControl : UserControl
     {
+        private readonly int _stackPanelHeightSum = 355;
 
         public HamburgerControl()
         {
@@ -41,6 +42,12 @@ namespace MALClient.UserControls
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             UpdateProfileImg();
+        }
+
+        internal void PaneOpened()
+        {
+            var val = Convert.ToInt32(ScrlBurger.ActualHeight);
+            GridSeparator.Height = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
         }
 
         internal async void UpdateProfileImg()
@@ -115,7 +122,7 @@ namespace MALClient.UserControls
         private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs());
-            SetActiveButton(HamburgerButtons.Profile);
+            SetActiveButton(HamburgerButtons.Seasonal);
         }
 
         private void ButtonAbout_OnClick(object sender, RoutedEventArgs e)

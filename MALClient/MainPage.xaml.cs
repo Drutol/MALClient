@@ -33,6 +33,7 @@ namespace MALClient
         private bool _wasOnDetailsFromSearch = false;
         private bool? _searchStateBeforeNavigatingToSearch = null;
         private Tuple<DateTime, ProfileData> _profileDataCache;
+        public HamburgerControl Hamburger => HamburgerControl;
 
         public MainPage()
         {
@@ -55,11 +56,11 @@ namespace MALClient
         private void ReversePane()
         {
             MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
-            //if(MainMenu.IsPaneOpen)
-            //    HamburgerControl.PaneOpened();
+            if (MainMenu.IsPaneOpen)
+                HamburgerControl.PaneOpened();
             //else            
             //    HamburgerControl.PaneClosed();
-            
+
         }
 
         internal void UpdateHamburger()
@@ -131,10 +132,17 @@ namespace MALClient
                     break;
                 case PageIndex.PageProfile:
                     ShowSearchStuff();
-                    MainContent.Navigate(typeof(Pages.ProfilePage),RetrieveProfileData());
+                    await Task.Run(async () =>
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                        {
+                            MainContent.Navigate(typeof (Pages.ProfilePage), RetrieveProfileData());
+                        });
+                    });
                     break;
                 case PageIndex.PageAbout:
                     HideSearchStuff();
+                    SetStatus("About");
                     MainContent.Navigate(typeof(Pages.AboutPage));
                     break;
                 default:
@@ -362,6 +370,34 @@ namespace MALClient
         }
         #endregion
 
+        public void ClearAnimeItemsForSource(string userName)
+        {
+            _allAnimeItemsCache[userName.ToLower()] = null;
+        }
 
+        public void LogOut()
+        {
+            foreach (var userCach in _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
+            {
+                userCach.AnimeItem.SetAuthStatus(false,true);
+            }
+            foreach (var animeItemAbstraction in _seasonalAnimeCache)
+            {
+                animeItemAbstraction.AnimeItem.SetAuthStatus(false,true);
+            }
+            ClearAnimeItemsForSource(Creditentials.UserName);
+            _profileDataCache = null;
+        }
+
+        public void LogIn()
+        {
+            _seasonalAnimeCache.Clear();
+            try
+            {
+                _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
+                _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
+            }
+            catch(Exception) { /* ignored */ }
+        }
     }
 }

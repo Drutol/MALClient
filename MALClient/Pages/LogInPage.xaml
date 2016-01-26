@@ -12,7 +12,7 @@
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Source="../Assets/Wide310x150Logo.png" Grid.Row="0" Width="Auto" VerticalAlignment="Center"/>
+        <Image Source="../Assets/Wide310x150Logo.png" Grid.Row="0" Width="310" Height="150"  VerticalAlignment="Center"/>
         <Button x:Name="BtnLogOff" Grid.Row="0" BorderThickness="2,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Background="Transparent" Width="50" Height="50" Click="LogOut" Visibility="Collapsed">
             <SymbolIcon Symbol="Cancel"/>
         </Button>

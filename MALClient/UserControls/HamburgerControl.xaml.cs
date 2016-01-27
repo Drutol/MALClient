@@ -48,8 +48,10 @@ namespace MALClient.UserControls
         {
             var val = Convert.ToInt32(ScrlBurger.ActualHeight);
             GridSeparator.Height = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
+            GridBtmMargin.Height = GridSeparator.Height == 0 ? 50 : 0;
         }
 
+        private bool _subtractedHeightForButton = true;
         internal async void UpdateProfileImg()
         {
             if (Creditentials.Authenticated)
@@ -72,22 +74,29 @@ namespace MALClient.UserControls
                 {
                     Utils.DownloadProfileImg();
                 }
-                catch (UnauthorizedAccessException)
-                {
-                    // ignored
-                }
                 catch (Exception)
                 {
                     // ignored
                 }
 
                 BtnProfile.Visibility = Visibility.Visible;
-                _stackPanelHeightSum += 35;
+                if (_subtractedHeightForButton)
+                {
+                    _stackPanelHeightSum += 35;
+                    _subtractedHeightForButton = false;
+                }
+
             }
             else
             {
                 BtnProfile.Visibility = Visibility.Collapsed;
-                _stackPanelHeightSum -= 35;
+                if (!_subtractedHeightForButton)
+                {
+                    _stackPanelHeightSum -= 35;
+                    _subtractedHeightForButton = true;
+                }
+
+                
             }
         }
 

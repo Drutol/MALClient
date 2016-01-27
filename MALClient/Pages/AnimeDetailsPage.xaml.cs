@@ -98,9 +98,7 @@ namespace MALClient.Pages
         public AnimeDetailsPage()
         {
             this.InitializeComponent();
-            var currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            currentView.BackRequested += CurrentViewOnBackRequested;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -144,24 +142,20 @@ namespace MALClient.Pages
                 _previousPageSetup = param.PrevListSetup;
                 _origin = "List";
             }
+
+            if (_origin == "Search")
+                Utils.RegisterBackNav(PageIndex.PageSearch, true);
+            else
+                Utils.RegisterBackNav(PageIndex.PageAnimeList, _previousPageSetup);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            var currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            currentView.BackRequested -= CurrentViewOnBackRequested;
+            Utils.DeregisterBackNav();
         }
 
-        private void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
-        {
-            args.Handled = true;
-            if (_origin == "Search")
-                Utils.GetMainPageInstance().Navigate(PageIndex.PageSearch, true);
-            else
-                Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeList,_previousPageSetup);
-        }
+
 
         #region ChangeStuff
         private async void ChangeStatus(object sender, RoutedEventArgs e)

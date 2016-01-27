@@ -360,6 +360,21 @@ namespace MALClient.Pages
             StatusSelector.SelectedIndex = (int)value; //TODO : Add setting for this
         }
 
+        internal void ScrollTo(AnimeItem animeItem)
+        {
+            try
+            {
+                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
+                double offset = _animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
+                scrollViewer.ScrollToVerticalOffset(offset);
+            }
+            catch (Exception)
+            {
+               // ehh
+            }
+
+        }
+
         public void RefreshList(bool searchSource = false)
         {
             string query = Utils.GetMainPageInstance()?.GetSearchQuery();

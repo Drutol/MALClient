@@ -32,9 +32,17 @@ namespace MALClient.Pages
             SetItemsPerPage();
             Utils.GetMainPageInstance()?.SetStatus("Settings");
             _initialized = true;
+
+            Utils.RegisterBackNav(PageIndex.PageAnimeList,null);
+
             base.OnNavigatedTo(e);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            Utils.DeregisterBackNav();
+        }
 
 
         private void SetSortOrder()

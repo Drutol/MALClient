@@ -29,7 +29,7 @@ namespace MALClient.UserControls
 
     public sealed partial class HamburgerControl : UserControl
     {
-        private readonly int _stackPanelHeightSum = 355;
+        private int _stackPanelHeightSum = 275; //base value
 
         public HamburgerControl()
         {
@@ -82,10 +82,12 @@ namespace MALClient.UserControls
                 }
 
                 BtnProfile.Visibility = Visibility.Visible;
+                _stackPanelHeightSum += 35;
             }
             else
             {
                 BtnProfile.Visibility = Visibility.Collapsed;
+                _stackPanelHeightSum -= 35;
             }
         }
 
@@ -195,9 +197,15 @@ namespace MALClient.UserControls
             }
         }
 
+        private bool? _prevState;
         public void ChangeBottomStackPanelMargin(bool up)
         {
-            StckBtm.Margin = up ? new Thickness(0, 0, 0, 50) : new Thickness(0,0,0,10);
+            if (up == _prevState)         
+                return;
+
+            _prevState = up;
+            
+            _stackPanelHeightSum += up ? 50 : -50 ;
         }
 
 

@@ -68,6 +68,12 @@ namespace MALClient
             HamburgerControl.UpdateProfileImg();
         }
 
+        public void AnimeListScrollTo(AnimeItem animeItem)
+        {
+            if(MainContent.Content is AnimeListPage)
+                ((AnimeListPage) MainContent.Content).ScrollTo(animeItem);
+        }
+
         #region Navigation
         internal async void Navigate(PageIndex index, object args = null)
         {
@@ -399,5 +405,7 @@ namespace MALClient
             }
             catch(Exception) { /* ignored */ }
         }
+
+
     }
 }

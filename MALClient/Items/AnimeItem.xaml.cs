@@ -514,8 +514,10 @@ namespace MALClient.Items
 
         public void OpenTileUrlInput()
         {
-            TxtTileUrl.Text = "";
+            TxtTileUrl.Text = "";        
+            Utils.GetMainPageInstance().AnimeListScrollTo(this);
             TileUrlInput.Visibility = Visibility.Visible;
+            TxtTileUrl.Focus(FocusState.Keyboard);
         }
 
         private void CloseTileUrlInput(object sender, RoutedEventArgs e)

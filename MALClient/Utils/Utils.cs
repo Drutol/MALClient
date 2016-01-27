@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -207,6 +208,34 @@ namespace MALClient
                 }
             }
         }
+
+        #region BackNavigation
+
+        private static PageIndex _pageTo;
+        private static object _args;
+        public static void RegisterBackNav(PageIndex page,object args)
+        {
+            _pageTo = page;
+            _args = args;
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            currentView.BackRequested += CurrentViewOnBackRequested;
+        }
+
+        private static void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
+        {
+            args.Handled = true;
+            GetMainPageInstance().Navigate(_pageTo,_args);
+        }
+
+        public static void DeregisterBackNav()
+        {
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            currentView.BackRequested -= CurrentViewOnBackRequested;    
+            _args = null;
+        }
+        #endregion
 
 
 

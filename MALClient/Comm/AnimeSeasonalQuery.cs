@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -57,6 +58,22 @@ namespace MALClient.Comm
                             .First(
                                 node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "score")
                             .InnerText;
+                    var infoNode =
+                        htmlNode.Descendants("div")
+                            .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "info");
+                    int day;
+                    try
+                    {
+                        string date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0,13).Replace(",","");
+                        day = (int)DateTime.Parse(date).DayOfWeek;
+                        day++;
+                    }
+
+                    catch (Exception)
+                    {
+                        day = -1;
+                    }
+                    
                     float score;
                     if (!float.TryParse(scoreTxt, out score))
                         score = 0;
@@ -88,7 +105,9 @@ namespace MALClient.Comm
                                         .Replace('\n',';')
                                         .Split(new[] {';'} , StringSplitOptions.RemoveEmptyEntries)
                                         .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()) 
-                                        .ToList()
+                                        .ToList(),
+                        AirDay = day,
+                                        
                     });
                     i++;
                     if (i == 30)

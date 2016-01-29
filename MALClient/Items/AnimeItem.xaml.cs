@@ -83,11 +83,16 @@ namespace MALClient.Items
             get { return _globalScore; }
             set
             {
+                if(value == 0)
+                    return;
                 _globalScore = value;
                 TxtGlobalSocore.Text = value.ToString();
                 SymbolGlobalScore.Visibility = Visibility.Visible;
             }
         }
+
+        public int AirDay => _parentAbstraction.AirDay;
+
         public bool Airing
         {
             get { return _airing; }
@@ -150,8 +155,9 @@ namespace MALClient.Items
 
             SetAuthStatus(auth);          
             AdjustIncrementButtonsVisibility();
-            //Some other source lookup
-            
+            //There may be additional data available
+                
+
         }
 
         public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItemAbstraction> loaded)
@@ -597,6 +603,8 @@ namespace MALClient.Items
         internal void RegisterParentContainer(AnimeItemAbstraction animeItemAbstraction)
         {
             _parentAbstraction = animeItemAbstraction;
+            GlobalScore = _parentAbstraction.GlobalScore;
+                Airing = true;
         }
         #endregion
 

@@ -50,7 +50,8 @@
                                 <ToggleMenuFlyoutItem x:Name="Sort1" Text="Title" Click="SelectSortOrder"/>
                                 <ToggleMenuFlyoutItem x:Name="Sort2"  Text="Score" Click="SelectSortOrder" BorderBrush="LightGray" BorderThickness="0,1,0,1"/>
                                 <ToggleMenuFlyoutItem x:Name="Sort3"  Text="Watched" Click="SelectSortOrder"/>
-                                <ToggleMenuFlyoutItem x:Name="Sort4"  Text="None" Click="SelectSortOrder" BorderBrush="LightGray" BorderThickness="0,1,0,0"/>
+                                <ToggleMenuFlyoutItem x:Name="Sort5"  Text="Soonest airing" Click="SelectSortOrder" BorderBrush="LightGray" BorderThickness="0,1,0,1"/>
+                                <ToggleMenuFlyoutItem x:Name="Sort4"  Text="Watched" Click="SelectSortOrder"/>
                                 <MenuFlyoutSeparator/>
                                 <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending" Click="ChangeSortOrder"/>
                             </StackPanel>

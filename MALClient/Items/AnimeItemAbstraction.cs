@@ -22,6 +22,7 @@ namespace MALClient.Items
         public float GlobalScore;
         public int Id;
         public int _allEpisodes;
+        public int AirDay = -1;
         public int Index = 0;
 
         public AnimeItem AnimeItem
@@ -50,9 +51,17 @@ namespace MALClient.Items
         private Dictionary<int, XElement> dl;
         private Dictionary<int, AnimeItemAbstraction> loaded;
 
+        private AnimeItemAbstraction(int id)
+        {
+            Id = id;
+            VolatileDataCache data;
+            if (!DataCache.TryRetrieveDataForId(Id, out data)) return;
+            AirDay = data.DayOfAiring;
+            GlobalScore = data.GlobalScore;
+        }
 
         //Two constructors depending on original init
-        public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore)
+        public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore) : this(id)
         {
             this.auth = auth;
             this.name = name;
@@ -64,19 +73,17 @@ namespace MALClient.Items
             this.myScore = MyScore = myScore;
             _firstConstructor = true;
 
-            Id = id;
             Title = name;
 
         }
 
-        public AnimeItemAbstraction(SeasonalAnimeData data, Dictionary<int, XElement> dl,Dictionary<int, AnimeItemAbstraction> loaded)
+        public AnimeItemAbstraction(SeasonalAnimeData data, Dictionary<int, XElement> dl,Dictionary<int, AnimeItemAbstraction> loaded) : this(data.Id)
         {
             this.data = data;
             this.dl = dl;
             this.loaded = loaded;
 
             Title = data.Title;
-            Id = data.Id;
             GlobalScore = data.Score;
             Index = data.Index;
 

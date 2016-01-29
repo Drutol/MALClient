@@ -61,6 +61,9 @@ namespace MALClient.Pages
                 case AnimeListPage.SortOptions.SortWatched:
                     Sort3.IsChecked = true;
                     break;
+                case AnimeListPage.SortOptions.SortAirDay:
+                    Sort5.IsChecked = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -159,6 +162,7 @@ namespace MALClient.Pages
             Sort2.IsChecked = false;
             Sort3.IsChecked = false;
             Sort4.IsChecked = false;
+            Sort5.IsChecked = false;
             btn.IsChecked = true;
             AnimeListPage.SortOptions sortOptions;
             switch (btn.Text)
@@ -171,6 +175,9 @@ namespace MALClient.Pages
                     break;
                 case "Watched":
                     sortOptions = AnimeListPage.SortOptions.SortWatched;
+                    break;
+                case "Soonest airing":
+                    sortOptions = AnimeListPage.SortOptions.SortAirDay;
                     break;
                 default:
                     sortOptions = AnimeListPage.SortOptions.SortNothing;

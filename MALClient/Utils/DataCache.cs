@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using MALClient.Items;
 using Newtonsoft.Json;
 
 namespace MALClient
 {
+    /// <summary>
+    /// Contains stuff like GlobalScore and air date
+    /// </summary>
+    public class VolatileDataCache
+    {
+        public float GlobalScore { get; set; }
+        public int DayOfAiring { get; set; }
+    }
+
     public static class DataCache
     {
         #region UserData
@@ -70,9 +80,10 @@ namespace MALClient
         }
         #endregion
 
+        #region SeasonData
         public static async void SaveSeasonalData(List<SeasonalAnimeData> data)
         {
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(new Tuple<DateTime,List<SeasonalAnimeData>>(DateTime.UtcNow,data));
+            var json = JsonConvert.SerializeObject(new Tuple<DateTime,List<SeasonalAnimeData>>(DateTime.UtcNow,data));
             var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_data.json", CreationCollisionOption.ReplaceExisting);
             await FileIO.WriteTextAsync(file, json);
         }
@@ -91,6 +102,50 @@ namespace MALClient
                 //No file
             }
             return null;
+        }
+        #endregion
+
+        #region VolatileData
+
+        private static Dictionary<int, VolatileDataCache> _volatileDataCache;
+
+        private static async void LoadVolatileData()
+        {
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
+                var data = await FileIO.ReadTextAsync(file);
+                _volatileDataCache = JsonConvert.DeserializeObject<Dictionary<int, VolatileDataCache>>(data);          
+            }
+            catch (Exception)
+            {
+                _volatileDataCache = new Dictionary<int, VolatileDataCache>();
+            }
+        }
+
+        public static async void SaveVolatileData()
+        {
+            var json = JsonConvert.SerializeObject(_volatileDataCache);
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("volatile_data.json", CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(file, json);
+        }
+
+        public static void RegisterVolatileData(int id, VolatileDataCache data)
+        {
+            _volatileDataCache[id] = data;
+        }
+
+        public static bool TryRetrieveDataForId(int id , out VolatileDataCache data)
+        {
+            return _volatileDataCache.TryGetValue(id, out data);
+        }
+
+        #endregion
+
+
+        static DataCache()
+        {
+            LoadVolatileData();
         }
     }
 }

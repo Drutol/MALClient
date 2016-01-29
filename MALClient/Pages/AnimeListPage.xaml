@@ -19,6 +19,7 @@
                             <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
+                            <ToggleMenuFlyoutItem x:Name="sort5"  Text="Soonest airing" Click="SelectSortMode"/>
                             <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
                             <MenuFlyoutSeparator/>
                             <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder"/>

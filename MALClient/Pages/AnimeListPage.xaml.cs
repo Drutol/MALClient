@@ -60,6 +60,7 @@ namespace MALClient.Pages
             SortTitle,
             SortScore,
             SortWatched,
+            SortAirDay
         }
 
         private SortOptions _sortOption = SortOptions.SortNothing;
@@ -230,17 +231,16 @@ namespace MALClient.Pages
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                 Dictionary<int, XElement> downloadedItems = loadedStuff?.DownloadedAnime.ToDictionary(item => int.Parse(item.Element("series_animedb_id").Value));
                 Dictionary<int,AnimeItemAbstraction> loadedItems = loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
-                //HashSet<int> loadedIds = new HashSet<int>();
-                //HashSet<int> downloadedIds = new HashSet<int>();
-                //if (loadedStuff != null)
-                //{
-                //    loadedIds.UnionWith(loadedItems.Keys);
-                //    downloadedIds.UnionWith(downloadedItems.Keys);
-                //}
                 foreach (SeasonalAnimeData animeData in data)
                 {
                     _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, downloadedItems, loadedItems));
+                    DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
+                    {
+                        DayOfAiring = animeData.AirDay,
+                        GlobalScore = animeData.Score
+                    });
                 }
+                DataCache.SaveVolatileData();
                 Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
             }
             else
@@ -372,7 +372,6 @@ namespace MALClient.Pages
             {
                // ehh
             }
-
         }
 
         public void RefreshList(bool searchSource = false)
@@ -390,6 +389,8 @@ namespace MALClient.Pages
 
             if (queryCondition)
                 status = 7; //If we are gonna search we will have to load all items first.
+
+           
 
             //Check if all items of desired MyStatus are loaded
             if (status == 7 || !_loadedDictionary[status])
@@ -449,10 +450,30 @@ namespace MALClient.Pages
                     break;
                 case SortOptions.SortNothing:
                     break;
+                case SortOptions.SortAirDay:
+                    int today = (int) DateTime.Now.DayOfWeek;
+                    today++;
+                    today = 7;
+                    var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
+                    var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
+                    var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
+                    var airingBeforeToday = airingItems.Where(abstraction => abstraction.AirDay < today);
+                    if (_sortDescending)
+                        items = airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                            .Concat(
+                                airingBeforeToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                                    .Concat(nonAiringItems));
+                    else
+                        items = airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
+                            .Concat(
+                                airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                    .Concat(nonAiringItems));
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_sortOption), _sortOption, null);
             }
-            if (_sortDescending)
+            if (_sortDescending && _sortOption != SortOptions.SortAirDay)
                 items = items.Reverse();
             foreach (var item in items)
                 _animeItemsSet.Add(item);
@@ -631,6 +652,9 @@ namespace MALClient.Pages
                 case "Watched":
                     _sortOption = SortOptions.SortWatched;
                     break;
+                case "Soonest airing":
+                    _sortOption = SortOptions.SortAirDay;
+                    break;
                 default:
                     _sortOption = SortOptions.SortNothing;
                     break;
@@ -639,6 +663,7 @@ namespace MALClient.Pages
             sort2.IsChecked = false;
             sort3.IsChecked = false;
             sort4.IsChecked = false;
+            sort5.IsChecked = false;
             btn.IsChecked = true;
             RefreshList();
 
@@ -663,6 +688,10 @@ namespace MALClient.Pages
                 case SortOptions.SortWatched:
                     _sortOption = SortOptions.SortWatched;
                     sort3.IsChecked = true;
+                    break;
+                case SortOptions.SortAirDay:
+                    _sortOption = SortOptions.SortAirDay;
+                    sort5.IsChecked = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

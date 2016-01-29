@@ -91,7 +91,6 @@ namespace MALClient.Pages
             }
         }
 
-        private string _origin;
         private IAnimeData _animeItemReference;
         private AnimeListPageNavigationArgs _previousPageSetup;
 
@@ -134,19 +133,15 @@ namespace MALClient.Pages
             if (param.AnimeElement != null)
             {
                 PopulateData(param.AnimeElement);
-                _origin = "Search";
+                Utils.RegisterBackNav(PageIndex.PageSearch, true);
             }
             else
             {
                 FetchData(param.Id.ToString(), param.Title);
                 _previousPageSetup = param.PrevListSetup;
-                _origin = "List";
-            }
-
-            if (_origin == "Search")
-                Utils.RegisterBackNav(PageIndex.PageSearch, true);
-            else
                 Utils.RegisterBackNav(PageIndex.PageAnimeList, _previousPageSetup);
+            }
+                
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -255,13 +250,25 @@ namespace MALClient.Pages
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            if (Status == "Currently Airing" && _animeItemReference is AnimeItem)
-                ((AnimeItem) _animeItemReference).Airing = true;
+
             Synopsis = Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "");
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
 
+            if (_animeItemReference is AnimeItem)
+            {
+                if (Status == "Currently Airing")
+                {                   
+                    DataCache.RegisterVolatileData(Id, new VolatileDataCache
+                    {
+                        DayOfAiring = (int)DateTime.Parse(StartDate).DayOfWeek+1,
+                        GlobalScore = GlobalScore,
+                    });
+                    ((AnimeItem)_animeItemReference).Airing = true;
+                    DataCache.SaveVolatileData();
+                }
+            }
             DetailScore.Text = GlobalScore.ToString();
             DetailEpisodes.Text = AllEpisodes.ToString();
 

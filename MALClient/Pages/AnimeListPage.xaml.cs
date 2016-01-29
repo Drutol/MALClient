@@ -357,7 +357,7 @@ namespace MALClient.Pages
             value = (value == 6 || value == 7) ? value - 1 : value;
             value--;
 
-            StatusSelector.SelectedIndex = (int)value; //TODO : Add setting for this
+            StatusSelector.SelectedIndex = (int)value;
         }
 
         internal void ScrollTo(AnimeItem animeItem)
@@ -453,7 +453,6 @@ namespace MALClient.Pages
                 case SortOptions.SortAirDay:
                     int today = (int) DateTime.Now.DayOfWeek;
                     today++;
-                    today = 7;
                     var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
                     var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
                     var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
@@ -593,8 +592,12 @@ namespace MALClient.Pages
 
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
         {
-            if(_loaded)
+            if (_loaded)
+            {
+                _currentPage = 1;
                 RefreshList();
+            }
+                
         }
 
         private void AlternateRowColors()

@@ -28,9 +28,6 @@ namespace MALClient.Items
     public sealed partial class AnimeItem : UserControl , IAnimeData
     {
         //prop field pairs
-        private int _myStatus;
-        private int _myScore;
-        private int _myEpisodes;// TODO : Yup, I'm looking at you...
         private string _title;
         private float _globalScore;
         private bool _airing = false;
@@ -38,34 +35,28 @@ namespace MALClient.Items
 
         public int MyStatus
         {
-            get { return _myStatus; }
+            get { return _parentAbstraction.MyStatus; }
             set
             {
-                _myStatus = value;
-                if(_parentAbstraction != null) //TODO : think about optimizing this ... get rid of those fields here maybe?
-                    _parentAbstraction.MyStatus = value;
+                _parentAbstraction.MyStatus = value;
                 BtnStatus.Content = Utils.StatusToString(value);
             }
         }
         public int MyScore
         {
-            get { return _myScore; }
+            get { return _parentAbstraction.MyScore; }
             set
             {
-                _myScore = value;
-                if (_parentAbstraction != null)
-                    _parentAbstraction.MyScore = value;
+                _parentAbstraction.MyScore = value;
                 BtnScore.Content = value > 0 ? $"{value}/10" : "Unranked";
             }
         }
         public int MyEpisodes
         {
-            get { return _myEpisodes; }
+            get { return _parentAbstraction.MyEpisodes; }
             set
             {
-                _myEpisodes = value;
-                if (_parentAbstraction != null)
-                    _parentAbstraction.MyEpisodes = value;
+                _parentAbstraction.MyEpisodes = value;
                 BtnWatchedEps.Content = $"{value}/{(_allEpisodes == 0 ? "?" : _allEpisodes.ToString())}";
             }
         }
@@ -98,6 +89,11 @@ namespace MALClient.Items
             get { return _airing; }
             set
             {
+                if (_parentAbstraction.TryRetrieveVolatileData())
+                {
+                    TxtAiringDay.Text = Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
+                    TxtTitle.Margin = new Thickness(5, 3, 50, 0);
+                }
                 SymbolAiring.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
                 _airing = value;
             }
@@ -134,10 +130,11 @@ namespace MALClient.Items
 
 
 
-        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore) //We are loading an item that IS on the list , it it's seasonal there's static "enhancing" method down below
+        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent) //We are loading an item that IS on the list , it it's seasonal there's static "enhancing" method down below
         {
             //Base init
             this.InitializeComponent();
+            _parentAbstraction = parent;
             //Assign fields
             Id = id;
             _imgUrl = img;
@@ -156,20 +153,23 @@ namespace MALClient.Items
             SetAuthStatus(auth);          
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
-                
+            GlobalScore = _parentAbstraction.GlobalScore;
+            if (_parentAbstraction.AirDay != -1)
+                Airing = true;
 
         }
 
-        public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItemAbstraction> loaded)
+        public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItemAbstraction> loaded,AnimeItemAbstraction parent)
             //We are loading an item that is NOT on the list and is seasonal
         {
             //Base init
             this.InitializeComponent();
+            _parentAbstraction = parent;
             _seasonalState = true;
             //Assign Fields
             Id = data.Id;
             _imgUrl = data.ImgUrl;
-            _myEpisodes = 0; // We don't want to set TextBlock
+            _parentAbstraction.MyEpisodes = 0; // We don't want to set TextBlock
             //Assign properties
             MyStatus = (int) AnimeStatus.AllOrAiring;
             Title = data.Title;
@@ -182,7 +182,6 @@ namespace MALClient.Items
             //Custom controls setup
             BtnWatchedEps.Content = $"{data.Episodes} Episodes";
             Airing = true;
-
             //Additional data from seasonal
             TxtSynopsis.Text = data.Synopsis;
             Index = data.Index;
@@ -598,13 +597,6 @@ namespace MALClient.Items
 
                 AdjustIncrementButtonsVisibility();
             }
-        }
-
-        internal void RegisterParentContainer(AnimeItemAbstraction animeItemAbstraction)
-        {
-            _parentAbstraction = animeItemAbstraction;
-            GlobalScore = _parentAbstraction.GlobalScore;
-                Airing = true;
         }
         #endregion
 

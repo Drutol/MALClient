@@ -63,6 +63,29 @@ namespace MALClient
             }
         }
 
+        public static string DayToString(DayOfWeek day)
+        {
+            switch (day)
+            {
+                case DayOfWeek.Friday:
+                    return "Fri";
+                case DayOfWeek.Monday:
+                    return "Mon";
+                case DayOfWeek.Saturday:
+                    return "Sat";
+                case DayOfWeek.Sunday:
+                    return "Sun";
+                case DayOfWeek.Thursday:
+                    return "Thu";
+                case DayOfWeek.Tuesday:
+                    return "Tue";
+                case DayOfWeek.Wednesday:
+                    return "Wed";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(day), day, null);
+            }
+        }
+
         public static void RegisterTile(string id)
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
@@ -72,25 +95,12 @@ namespace MALClient
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
         }
 
-        public static AnimeItem LoadAnimeItemFromXElement(XElement item,bool auth)
-        {
-            return new AnimeItem(
-                        auth,
-                        item.Element("series_title").Value,
-                        item.Element("series_image").Value,
-                        Convert.ToInt32(item.Element("series_animedb_id").Value),
-                        Convert.ToInt32(item.Element("my_status").Value),
-                        Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                        Convert.ToInt32(item.Element("series_episodes").Value),
-                        Convert.ToInt32(item.Element("my_score").Value));
-        }
-
         public static async void CheckTiles()
         {
-            string tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
-            if(String.IsNullOrWhiteSpace(tiles))
+            string tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
+            if (String.IsNullOrWhiteSpace(tiles))
                 return;
-     
+
 
             string newTiles = "";
             foreach (var tileId in tiles.Split(';'))
@@ -117,8 +127,8 @@ namespace MALClient
 
         public static MainPage GetMainPageInstance()
         {
-            var frame = (Frame)Window.Current.Content;
-            return (MainPage)frame.Content;
+            var frame = (Frame) Window.Current.Content;
+            return (MainPage) frame.Content;
         }
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
@@ -131,7 +141,7 @@ namespace MALClient
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan diff = date.ToUniversalTime() - origin;
-            return (int)Math.Floor(diff.TotalSeconds);
+            return (int) Math.Floor(diff.TotalSeconds);
         }
 
         public static int GetCachePersitence()
@@ -151,7 +161,7 @@ namespace MALClient
 
         public static bool IsSortDescending()
         {
-            return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
+            return (bool) (ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
         }
 
         internal static int GetDefaultAnimeFilter()
@@ -164,17 +174,24 @@ namespace MALClient
             return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 10);
         }
 
-        static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        static readonly string[] SizeSuffixes = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+
         /// <summary>
         /// http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc
         /// </summary>
         public static string SizeSuffix(long value)
         {
-            if (value < 0) { return "-" + SizeSuffix(-value); }
-            if (value == 0) { return "0.0 bytes"; }
+            if (value < 0)
+            {
+                return "-" + SizeSuffix(-value);
+            }
+            if (value == 0)
+            {
+                return "0.0 bytes";
+            }
 
-            int mag = (int)Math.Log(value, 1024);
-            decimal adjustedSize = (decimal)value / (1L << (mag * 10));
+            int mag = (int) Math.Log(value, 1024);
+            decimal adjustedSize = (decimal) value/(1L << (mag*10));
 
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
@@ -185,7 +202,7 @@ namespace MALClient
             {
                 var folder = ApplicationData.Current.LocalFolder;
                 var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
-                
+
                 HttpClient http = new HttpClient();
                 byte[] response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"); //get bytes
 
@@ -204,7 +221,7 @@ namespace MALClient
                 if (retries >= 0)
                 {
                     await Task.Delay(1000);
-                    DownloadProfileImg(retries-1);
+                    DownloadProfileImg(retries - 1);
                 }
             }
         }
@@ -213,7 +230,8 @@ namespace MALClient
 
         private static PageIndex _pageTo;
         private static object _args;
-        public static void RegisterBackNav(PageIndex page,object args)
+
+        public static void RegisterBackNav(PageIndex page, object args)
         {
             _pageTo = page;
             _args = args;
@@ -225,22 +243,17 @@ namespace MALClient
         private static void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
-            GetMainPageInstance().Navigate(_pageTo,_args);
+            GetMainPageInstance().Navigate(_pageTo, _args);
         }
 
         public static void DeregisterBackNav()
         {
             var currentView = SystemNavigationManager.GetForCurrentView();
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            currentView.BackRequested -= CurrentViewOnBackRequested;    
+            currentView.BackRequested -= CurrentViewOnBackRequested;
             _args = null;
         }
+
         #endregion
-
-
-
     }
-
-    
-
 }

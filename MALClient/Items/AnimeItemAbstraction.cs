@@ -33,7 +33,6 @@ namespace MALClient.Items
                     return _animeItem;
 
                 _animeItem = LoadElement();
-                _animeItem.RegisterParentContainer(this);
                 return _animeItem;
             }
         }
@@ -58,6 +57,17 @@ namespace MALClient.Items
             if (!DataCache.TryRetrieveDataForId(Id, out data)) return;
             AirDay = data.DayOfAiring;
             GlobalScore = data.GlobalScore;
+        }
+
+        public bool TryRetrieveVolatileData(bool force = false)
+        {
+            if (GlobalScore != 0 && !force)
+                return true;
+            VolatileDataCache data;
+            if (!DataCache.TryRetrieveDataForId(Id, out data)) return false;
+            AirDay = data.DayOfAiring;
+            GlobalScore = data.GlobalScore;
+            return true;
         }
 
         //Two constructors depending on original init
@@ -95,9 +105,9 @@ namespace MALClient.Items
         {
             _loaded = true;
             if(_firstConstructor)
-                return new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore);
+                return new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore,this);
 
-            return new AnimeItem(data,dl,loaded);
+            return new AnimeItem(data,dl,loaded,this);
         }
     }
 }

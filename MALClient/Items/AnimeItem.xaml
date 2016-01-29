@@ -121,6 +121,19 @@
                     <TextBlock x:Name="TxtGlobalSocore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </Grid>
                 <StackPanel VerticalAlignment="Bottom"  HorizontalAlignment="Right">
+                    <Button x:Name="BtnStatus" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem Text="Watching" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="Completed" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="On hold" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="Dropped" Click="ChangeStatus"/>
+                                    <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus"/>
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                     <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
                         <Button.Flyout>
                             <MenuFlyout>
@@ -139,27 +152,20 @@
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
-                    <Button x:Name="BtnStatus" Margin="1" Style="{StaticResource ButtonDisabledStyle}" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyout.Items>
-                                    <MenuFlyoutItem Text="Watching" Click="ChangeStatus"/>
-                                    <MenuFlyoutItem Text="Completed" Click="ChangeStatus"/>
-                                    <MenuFlyoutItem Text="On hold" Click="ChangeStatus"/>
-                                    <MenuFlyoutItem Text="Dropped" Click="ChangeStatus"/>
-                                    <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus"/>
-                                </MenuFlyout.Items>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
                 </StackPanel>
             </StackPanel>
-            
-            <SymbolIcon x:Name="SymbolAiring" Visibility="Collapsed" Symbol="SlideShow" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity=".5" Foreground="DarkGray">
-                <SymbolIcon.RenderTransform>
-                    <ScaleTransform ScaleY="2" ScaleX="2"/>
-                </SymbolIcon.RenderTransform>
-            </SymbolIcon>
+
+            <Grid x:Name="SymbolAiring" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,5,0">
+                <Grid  VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <!--<SymbolIcon  Symbol="SlideShow" VerticalAlignment="Center" HorizontalAlignment="Center"  Opacity=".5" Foreground="Black"/>-->
+                    <Ellipse Width="50" Height="30" Fill="LightGray" Opacity=".75"/>
+                    <TextBlock x:Name="TxtAiringDay" FontWeight="SemiLight" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,3" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="20"/>
+                    <!--<Grid.RenderTransform>
+                        <ScaleTransform ScaleY="2" ScaleX="2"/>
+                    </Grid.RenderTransform>-->
+                </Grid>
+            </Grid>
+
 
 
             <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>

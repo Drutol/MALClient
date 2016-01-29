@@ -26,11 +26,8 @@ namespace MALClient
         {
             if(!Utils.IsCachingEnabled())
                 return;
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.xml",CreationCollisionOption.ReplaceExisting);
-            var builder = new StringBuilder(data);
-            builder.AppendLine(Utils.ConvertToUnixTimestamp(DateTime.Now).ToString());
-            data = builder.ToString();
-            await FileIO.WriteTextAsync(file, data);
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.json",CreationCollisionOption.ReplaceExisting);         
+            await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(new Tuple<DateTime,string>(DateTime.Now, data)));
         }
 
         public static async Task<Tuple<string,DateTime>> RetrieveDataForUser(string user)
@@ -39,21 +36,15 @@ namespace MALClient
                 return null;
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.xml");
+                var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.json");
                 var data = await FileIO.ReadTextAsync(file);
-                var lines = data.Split(new char[] {'\n', '\r'},StringSplitOptions.RemoveEmptyEntries);
-                DateTime lastUpdateTime = new DateTime();
-                if (!CheckForOldData(lines[lines.Length - 1],ref lastUpdateTime))
+                var decoded = JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
+                if (!CheckForOldData(decoded.Item1))
                 {
                     await file.DeleteAsync();
                     return null;
                 }
-                data = "";
-                for (int i = 0; i < lines.Length - 1; i++)
-                {
-                    data += lines[i];
-                }
-                return new Tuple<string, DateTime>(data,lastUpdateTime);
+                return new Tuple<string, DateTime>(decoded.Item2,decoded.Item1);
             }
             catch (Exception)
             {
@@ -61,17 +52,15 @@ namespace MALClient
             }            
         }
 
-        private static bool CheckForOldData(string timestamp, ref DateTime time)
+        private static bool CheckForOldData(DateTime timestamp)
         {
-            var data = Utils.ConvertFromUnixTimestamp(double.Parse(timestamp));
-            TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(data);
-            time = data;
+            TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(timestamp);
             if (diff.TotalSeconds > Utils.GetCachePersitence())
                 return false;
             return true;
         }
 
-        private static bool CheckForOldData(DateTime date)
+        private static bool CheckForOldDataSeason(DateTime date)
         {
             TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(date);
             if (diff.TotalSeconds > 86400) //1day
@@ -95,7 +84,7 @@ namespace MALClient
                 var file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_data.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, List<SeasonalAnimeData>>>(data);
-                return CheckForOldData(tuple.Item1) ? tuple.Item2 : null;
+                return CheckForOldDataSeason(tuple.Item1) ? tuple.Item2 : null;
             }
             catch (Exception)
             {
@@ -135,9 +124,22 @@ namespace MALClient
             _volatileDataCache[id] = data;
         }
 
+        public static void DeregisterVolatileData(int id)
+        {
+            try { _volatileDataCache[id].DayOfAiring = -1;} catch(Exception) { /*ignore*/ }
+        }
+
         public static bool TryRetrieveDataForId(int id , out VolatileDataCache data)
         {
-            return _volatileDataCache.TryGetValue(id, out data);
+            try
+            {
+                return _volatileDataCache.TryGetValue(id, out data);
+            }
+            catch (Exception)
+            {
+                data = null;
+                return false;
+            }
         }
 
         #endregion

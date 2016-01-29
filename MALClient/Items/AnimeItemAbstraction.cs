@@ -21,7 +21,7 @@ namespace MALClient.Items
         public string Title;
         public float GlobalScore;
         public int Id;
-        public int _allEpisodes;
+        public int AllEpisodes;
         public int AirDay = -1;
         public int Index = 0;
 
@@ -47,7 +47,6 @@ namespace MALClient.Items
         private int id,myStatus,myEps,allEps,myScore;
         //2nd
         private SeasonalAnimeData data;
-        private Dictionary<int, XElement> dl;
         private Dictionary<int, AnimeItemAbstraction> loaded;
 
         private AnimeItemAbstraction(int id)
@@ -87,10 +86,9 @@ namespace MALClient.Items
 
         }
 
-        public AnimeItemAbstraction(SeasonalAnimeData data, Dictionary<int, XElement> dl,Dictionary<int, AnimeItemAbstraction> loaded) : this(data.Id)
+        public AnimeItemAbstraction(SeasonalAnimeData data,Dictionary<int, AnimeItemAbstraction> loaded) : this(data.Id)
         {
             this.data = data;
-            this.dl = dl;
             this.loaded = loaded;
 
             Title = data.Title;
@@ -107,7 +105,7 @@ namespace MALClient.Items
             if(_firstConstructor)
                 return new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore,this);
 
-            return new AnimeItem(data,dl,loaded,this);
+            return new AnimeItem(data,loaded,this);
         }
     }
 }

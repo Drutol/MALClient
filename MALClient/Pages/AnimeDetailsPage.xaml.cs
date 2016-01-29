@@ -108,10 +108,10 @@ namespace MALClient.Pages
                 throw new Exception("No paramaters for this page");
 
             _animeItemReference = param.AnimeItem;
-            if (_animeItemReference is AnimeSearchItem) //if we are from search let's look for abstraction
+            if (_animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItem).Auth) //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 if (!Utils.GetMainPageInstance()
-                    .TryRetieveAuthenticatedAnimeItem(_animeItemReference.Id, ref _animeItemReference))
+                    .TryRetrieveAuthenticatedAnimeItem(_animeItemReference.Id, ref _animeItemReference))
                     // else we don't have this item
                 {
                     //we may only prepare for its creation

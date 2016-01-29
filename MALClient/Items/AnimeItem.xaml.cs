@@ -126,18 +126,23 @@ namespace MALClient.Items
         private int SeasonalMembers { get; set; } //TODO : Use this
         public int AllEpisodes => _allEpisodes;
         public bool Auth => _auth;
-        
 
 
+        private AnimeItem(string img,AnimeItemAbstraction parent)
+        {
+            this.InitializeComponent();
+            _parentAbstraction = parent;
+            _imgUrl = img;
+            Img.Source = new BitmapImage(new Uri(_imgUrl));
+        }
 
-        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent) //We are loading an item that IS on the list , it it's seasonal there's static "enhancing" method down below
+        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent) : this(img,parent) //We are loading an item that IS on the list , it it's seasonal there's static "enhancing" method down below
         {
             //Base init
             this.InitializeComponent();
             _parentAbstraction = parent;
             //Assign fields
             Id = id;
-            _imgUrl = img;
             _allEpisodes = allEps;
             _auth = auth;
             //Assign properties
@@ -159,16 +164,11 @@ namespace MALClient.Items
 
         }
 
-        public AnimeItem(SeasonalAnimeData data, Dictionary<int, XElement> dl, Dictionary<int, AnimeItemAbstraction> loaded,AnimeItemAbstraction parent)
-            //We are loading an item that is NOT on the list and is seasonal
+        public AnimeItem(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded,AnimeItemAbstraction parent) :this(data.ImgUrl,parent)//We are loading an item that is NOT on the list and is seasonal
         {
-            //Base init
-            this.InitializeComponent();
-            _parentAbstraction = parent;
             _seasonalState = true;
             //Assign Fields
             Id = data.Id;
-            _imgUrl = data.ImgUrl;
             _parentAbstraction.MyEpisodes = 0; // We don't want to set TextBlock
             //Assign properties
             MyStatus = (int) AnimeStatus.AllOrAiring;
@@ -191,17 +191,16 @@ namespace MALClient.Items
             SetAuthStatus(false,true);
             AdjustIncrementButtonsVisibility();
 
-            if(dl == null || loaded == null)
+            if(loaded == null)
                 return;
             Task.Run(async () =>
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     AnimeItemAbstraction reference;
-                    XElement re;
                     if (loaded.TryGetValue(Id, out reference))
                     {
-                        _allEpisodes = reference._allEpisodes;
+                        _allEpisodes = reference.AllEpisodes;
                         MyStatus = reference.MyStatus;
                         MyScore = reference.MyScore;
                         MyEpisodes = reference.MyEpisodes;
@@ -213,37 +212,11 @@ namespace MALClient.Items
                         dataCache.LoadedAnime.Add(_parentAbstraction);
 
                     }
-                    else if (dl.TryGetValue(Id, out re))
-                    {
-                        //Assign properties
-                        _allEpisodes = Convert.ToInt32(re.Element("series_episodes").Value);
-                        MyStatus = Convert.ToInt32(re.Element("my_status").Value);
-                        MyScore = Convert.ToInt32(re.Element("my_score").Value);
-                        MyEpisodes = Convert.ToInt32(re.Element("my_watched_episodes").Value);
-                        
-
-                        SetAuthStatus(true);
-                        AdjustIncrementButtonsVisibility();
-                        //We are not seasonal so it's already on list            
-
-                        Utils.GetMainPageInstance().RetrieveLoadedAnime().AnimeItemLoaded(_parentAbstraction);
-                    }
                 });
             });
         }
 
         #region Utils/Helpers
-        /// <summary>
-        /// When item is loaded it's image is set , why would we want to load it when it isn't even visible?
-        /// </summary>
-        public void ItemLoaded()
-        {
-            if (!_imgLoaded)
-            {
-                Img.Source = new BitmapImage(new Uri(_imgUrl));
-                _imgLoaded = true;
-            }
-        }
 
         /// <summary>
         /// Creates tile with series cover as background , leading to certain URI.
@@ -318,7 +291,7 @@ namespace MALClient.Items
             }
             else
             {
-                BtnAddToList.Visibility = Creditentials.Authenticated ? Visibility.Visible : Visibility.Collapsed;
+                BtnAddToList.Visibility = _seasonalState ? Visibility.Visible : Visibility.Collapsed;
                 BtnStatus.IsEnabled = false;
                 BtnScore.IsEnabled = false;
                 BtnWatchedEps.IsEnabled = false;

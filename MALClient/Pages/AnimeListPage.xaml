@@ -13,19 +13,6 @@
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar">
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="AppBtnSortSecondary" Icon="Sort" Label="Order by">
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
-                            <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
-                            <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
-                            <ToggleMenuFlyoutItem x:Name="sort5"  Text="Soonest airing" Click="SelectSortMode"/>
-                            <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
-                            <MenuFlyoutSeparator/>
-                            <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder"/>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
                 <AppBarButton x:Name="AppBtnListSource" Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource">
@@ -41,8 +28,8 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
+                <AppBarButton Icon="Refresh" Label="Reload" Click="RefreshList"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Refresh" Label="Reload" Click="RefreshList"/>
             <AppBarButton x:Name="AppbarBtnPinTile" Icon="Pin" Label="Pin to start">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
@@ -51,15 +38,16 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="AppBtnSortPrimary" Visibility="Collapsed" Icon="Sort" Label="Order by">
+            <AppBarButton  Icon="Sort" Label="Order by">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort1,Path=IsChecked}" Text="Title" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort2,Path=IsChecked}"  Text="Score" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort3,Path=IsChecked}"  Text="Index" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=sort4,Path=IsChecked}"  Text="None" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem x:Name="sort5"  Text="Soonest airing" Click="SelectSortMode"/>
+                        <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
                         <MenuFlyoutSeparator/>
-                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=BtnOrderDescending,Path=IsChecked}" Text="Decsending" Click="ChangeSortOrder"/>
+                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -90,7 +78,7 @@
                         <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"  Foreground="#FFB9B9B9" />
                         <TextBlock x:Name="TxtPageCount" Visibility="{Binding ElementName=AnimesTopPageControls, Path=Visibility}" Margin="1" FontWeight="Medium" TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"  Foreground="#FFB0B0B0" />
                     </StackPanel>
-                                       
+
                     <Grid x:Name="AnimesTopPageControls" Visibility="Collapsed">
                         <Button x:Name="BtnPrevPage" Click="PrevPage" Margin="1" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                             <SymbolIcon Symbol="Back"/>
@@ -122,8 +110,6 @@
             <TextBlock x:Name="EmptyNotice"  Visibility="Collapsed" Text="We have come up empty..." TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
             <Button x:Name="BtnSetSource" Content="Set source" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Click="ShowListSourceFlyout"/>
         </StackPanel>
-
         <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True" Visibility="Collapsed"  />
     </Grid>
-     
 </Page>

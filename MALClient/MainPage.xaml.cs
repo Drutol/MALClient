@@ -279,15 +279,24 @@ namespace MALClient
 
         #region SmallDataCaching
 
-        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, List<XElement> downItems  , DateTime updateTime , Dictionary<int,bool> loadStatus )
+        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, DateTime updateTime )
         {
             _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache()
             {
                 LoadedAnime = items,
-                DownloadedAnime = downItems,
                 LastUpdate = updateTime,
-                LoadedStatus = loadStatus
             };
+            bool changedSomething = false;
+            foreach (var animeItemAbstraction in items)
+            {
+                if (animeItemAbstraction.MyEpisodes == animeItemAbstraction.AllEpisodes)
+                {
+                    changedSomething = true;
+                    DataCache.DeregisterVolatileData(animeItemAbstraction.Id);
+                }
+            }
+            if(changedSomething)
+                DataCache.SaveVolatileData();
         }
 
         public AnimeUserCache RetrieveLoadedAnime()
@@ -299,7 +308,7 @@ namespace MALClient
             return data;
         }
 
-        public bool TryRetieveAuthenticatedAnimeItem(int id,ref IAnimeData reference)
+        public bool TryRetrieveAuthenticatedAnimeItem(int id,ref IAnimeData reference)
         {
             if (!Creditentials.Authenticated)
                 return false;
@@ -314,21 +323,13 @@ namespace MALClient
             }
         }
 
-        public void RetrieveAnimeEntries(string source,out List<AnimeItemAbstraction> loadedItems,out List<XElement> downloadedItems  ,out DateTime time,out Dictionary<int,bool> loadStatus )
+        public void RetrieveAnimeEntries(string source,out List<AnimeItemAbstraction> loadedItems  ,out DateTime time )
         {
             AnimeUserCache data;
             _allAnimeItemsCache.TryGetValue(source.ToLower(), out data);
             time = data?.LastUpdate ?? DateTime.Now;
-            loadStatus = data?.LoadedStatus ?? new Dictionary<int, bool>
-            {
-                {1, false},
-                {2, false},
-                {3, false},
-                {4, false},
-                {6, false}
-            };
+
             loadedItems = data?.LoadedAnime ?? new List<AnimeItemAbstraction>();
-            downloadedItems = data?.DownloadedAnime ?? new List<XElement>();
         }
 
         public void AddAnimeEntry(string source, AnimeItemAbstraction item)
@@ -336,7 +337,7 @@ namespace MALClient
             source = source.ToLower();
             if (_allAnimeItemsCache[source] != null)
             {
-                _allAnimeItemsCache[source].AnimeItemLoaded(item);
+                _allAnimeItemsCache[source].LoadedAnime.Add(item);
             }
         }
 
@@ -347,6 +348,12 @@ namespace MALClient
             {
                 _allAnimeItemsCache[source].LoadedAnime.Remove(item);
             }
+        }
+
+        internal void PurgeUserCache(string source)
+        {
+            _allAnimeItemsCache[source.ToLower()].LoadedAnime.Clear();
+            _allAnimeItemsCache[source.ToLower()] = null;
         }
 
         //Profile

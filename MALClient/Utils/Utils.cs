@@ -82,7 +82,7 @@ namespace MALClient
                 case DayOfWeek.Wednesday:
                     return "Wed";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(day), day, null);
+                    return "";
             }
         }
 

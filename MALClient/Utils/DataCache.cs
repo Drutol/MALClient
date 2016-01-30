@@ -104,7 +104,7 @@ namespace MALClient
             {
                 var file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
                 var data = await FileIO.ReadTextAsync(file);
-                _volatileDataCache = JsonConvert.DeserializeObject<Dictionary<int, VolatileDataCache>>(data);          
+                _volatileDataCache = JsonConvert.DeserializeObject<Dictionary<int, VolatileDataCache>>(data) ?? new Dictionary<int, VolatileDataCache>();          
             }
             catch (Exception)
             {

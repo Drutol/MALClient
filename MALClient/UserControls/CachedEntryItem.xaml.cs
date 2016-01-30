@@ -11,14 +11,13 @@ namespace MALClient.UserControls
 {
     public sealed partial class CachedEntryItem : UserControl
     {
-        public string user { get; set; }
         public string fileName { get; set; }
         public DateTime saveTime { get; set; }
 
-        public CachedEntryItem(StorageFile file)
+        public CachedEntryItem(StorageFile file,bool nonUser)
         {
             this.InitializeComponent();
-            user = file.DisplayName.Split('_')[2];
+            var user = nonUser ? file.DisplayName.Split('_')[2] : file.DisplayName.Replace('_',' ') ;
             fileName = file.Name;           
             TxtUser.Text = user;
             SetDetails(file);                    

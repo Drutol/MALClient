@@ -75,9 +75,9 @@ namespace MALClient.Pages
             var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
             foreach (var file in files)
             {
-                if (file.DisplayName.Contains("anime_data"))
+                if (file.DisplayName.Contains("data"))
                 {
-                    ListCurrentlyCached.Items.Add(new CachedEntryItem(file));
+                    ListCurrentlyCached.Items.Add(new CachedEntryItem(file,file.DisplayName.Contains("anime")));
                 }
             }
             if (files.Count == 0)

@@ -12,7 +12,7 @@
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <ToggleSwitch x:Name="ToggleCache" VerticalAlignment="Center" Toggled="ToggleDataCaching"/>
-                    <TextBlock Text="Enable data caching." VerticalAlignment="Center" TextAlignment="Center"/>
+                    <TextBlock Text="Enable list data caching." VerticalAlignment="Center" TextAlignment="Center"/>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium" TextWrapping="WrapWholeWords" HorizontalAlignment="Center"/>

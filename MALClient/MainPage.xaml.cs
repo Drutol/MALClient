@@ -137,7 +137,7 @@ namespace MALClient
                     MainContent.Navigate(typeof(Pages.LogInPage));
                     break;
                 case PageIndex.PageProfile:
-                    ShowSearchStuff();
+                    HideSearchStuff();
                     await Task.Run(async () =>
                     {
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>

@@ -180,6 +180,7 @@ namespace MALClient.Pages
             if (!int.TryParse(TxtBoxWatchedEps.Text, out eps))
             {
                 TxtWatchedInvalidInputNotice.Visibility = Visibility.Visible;
+                SpinnerLoading.Visibility = Visibility.Collapsed;              
                 return;
             }
             string response = await new AnimeUpdateQuery(Id, eps, MyStatus, MyScore).GetRequestResponse();
@@ -194,7 +195,8 @@ namespace MALClient.Pages
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
-            ChangeWatchedEps(null,null);
+            if(e.Key == VirtualKey.Enter)
+                ChangeWatchedEps(null,null);
         }
         #endregion
 

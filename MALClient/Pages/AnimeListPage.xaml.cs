@@ -280,6 +280,28 @@ namespace MALClient.Pages
                 UpdateNotice.Visibility = Visibility.Visible;
             return output;
         }
+
+        private void UpdateStatusCounterBadges()
+        {
+            Dictionary<int, int> counters = new Dictionary<int, int>();
+            for (AnimeStatus i = AnimeStatus.Watching; i <= AnimeStatus.PlanToWatch; i++)
+                counters[(int)i] = 0;
+            foreach (AnimeItemAbstraction animeItemAbstraction in _allLoadedAnimeItems)
+            {
+                if(animeItemAbstraction.MyStatus <= 6)
+                    counters[animeItemAbstraction.MyStatus]++;
+            }
+            AnimeStatus j = AnimeStatus.Watching;
+            foreach (object item in StatusSelector.Items)
+            {
+                (item as ListViewItem).Content = counters[(int)j] + " - " + Utils.StatusToString((int)j);
+                j++;
+                if ((int)j == 5)
+                    j++;
+                if(j == AnimeStatus.AllOrAiring)
+                    return;
+            }
+        }
         #endregion
 
         #region FetchAndPopulate
@@ -357,6 +379,12 @@ namespace MALClient.Pages
                         user = TxtListSource.Text
                     };
                     data = await new AnimeListQuery(args).GetRequestResponse();
+                    if (data.Contains("<error>Invalid username</error>"))
+                    {
+                        RefreshList();
+                        SpinnerLoading.Visibility = Visibility.Collapsed;
+                        return;
+                    }
                     DataCache.SaveDataForUser(TxtListSource.Text, data);
                     _lastUpdate = DateTime.Now;
                 }
@@ -386,6 +414,7 @@ namespace MALClient.Pages
 
             RefreshList();
             Animes.ItemsSource = _animeItems;
+            UpdateStatusCounterBadges();
             SpinnerLoading.Visibility = Visibility.Collapsed;
 
         }

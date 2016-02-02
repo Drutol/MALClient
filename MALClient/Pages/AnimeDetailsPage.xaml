@@ -65,7 +65,7 @@
             </StackPanel>
             <Grid x:Name="MyDetails" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Visibility="Collapsed">
                 <MenuFlyoutSeparator VerticalAlignment="Top"/>
-                <ProgressRing x:Name="SpinnerLoading" Margin="1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsActive="True" Visibility="Collapsed"  />
+                <ProgressRing x:Name="SpinnerLoading" Margin="1,4,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsActive="True" Visibility="Collapsed"  />
                 <StackPanel  Orientation="Horizontal" Margin="1,10,1,0" HorizontalAlignment="Center">
                     <Button x:Name="BtnScore" FontWeight="Medium" Margin="1" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto" HorizontalAlignment="Right">
                         <Button.Flyout>

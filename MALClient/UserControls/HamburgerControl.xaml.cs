@@ -41,7 +41,8 @@ namespace MALClient.UserControls
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            UpdateProfileImg();
+            _stackPanelHeightSum = 275;
+            UpdateProfileImg();     
         }
 
         internal void PaneOpened()

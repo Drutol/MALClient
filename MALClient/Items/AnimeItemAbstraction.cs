@@ -42,7 +42,7 @@ namespace MALClient.Items
         //Data from constructors
         private readonly bool _firstConstructor = false;
         //1st
-        private readonly bool auth;
+        private bool auth;
         private readonly string name;
         private readonly string img;
         private readonly int id;
@@ -50,6 +50,7 @@ namespace MALClient.Items
         private readonly int myEps;
         private readonly int allEps;
         private readonly int myScore;
+        private bool authSetEps;
         //2nd
         private readonly SeasonalAnimeData data;
         private readonly Dictionary<int, AnimeItemAbstraction> loaded;
@@ -103,11 +104,23 @@ namespace MALClient.Items
             MyStatus = (int) AnimeStatus.AllOrAiring;
             
         }
+
+        public void SetAuthStatus(bool status,bool eps)
+        {
+            if (_loaded)
+                AnimeItem.SetAuthStatus(status, eps);
+            else
+            {
+                auth = status;
+                authSetEps = eps;
+            }
+            
+        }
         //Load UIElement
         private AnimeItem LoadElement()
         {
             _loaded = true;
-            return _firstConstructor ? new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore,this) : new AnimeItem(data,loaded,this);
+            return _firstConstructor ? new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore,this,authSetEps) : new AnimeItem(data,loaded,this);
         }
     }
 }

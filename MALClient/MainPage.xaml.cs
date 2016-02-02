@@ -385,18 +385,18 @@ namespace MALClient
 
         public void ClearAnimeItemsForSource(string userName)
         {
-            _allAnimeItemsCache[userName.ToLower()] = null;
+            _allAnimeItemsCache[userName.ToLower()].LoadedAnime.Clear();
         }
 
         public void LogOut()
         {
             foreach (var userCach in _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
             {
-                userCach.AnimeItem.SetAuthStatus(false,true);
+                userCach.SetAuthStatus(false,true);
             }
             foreach (var animeItemAbstraction in _seasonalAnimeCache)
             {
-                animeItemAbstraction.AnimeItem.SetAuthStatus(false,true);
+                animeItemAbstraction.SetAuthStatus(false,true);
             }
             ClearAnimeItemsForSource(Creditentials.UserName);
             _profileDataCache = null;

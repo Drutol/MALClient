@@ -131,7 +131,7 @@ namespace MALClient.Items
             Img.Source = new BitmapImage(new Uri(_imgUrl));
         }
 
-        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent) : this(img,id,parent) //We are loading an item that IS on the list
+        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent,bool setEpsAuth = false) : this(img,id,parent) //We are loading an item that IS on the list
         {
             //Assign fields
             Id = id;
@@ -147,7 +147,7 @@ namespace MALClient.Items
             //We are not seasonal so it's already on list            
             BtnAddToList.Visibility = Visibility.Collapsed;
 
-            SetAuthStatus(auth);          
+            SetAuthStatus(auth,setEpsAuth);          
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
             GlobalScore = _parentAbstraction.GlobalScore;
@@ -166,6 +166,7 @@ namespace MALClient.Items
             Title = data.Title;
             MyScore = 0;
             GlobalScore = data.Score;
+            int.TryParse(data.Episodes, out _allEpisodes);
             if(data.Genres != null)
             Genres = data.Genres;
             //SeasonalMembers = data.Members;
@@ -188,20 +189,17 @@ namespace MALClient.Items
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     AnimeItemAbstraction reference;
-                    if (loaded.TryGetValue(Id, out reference))
-                    {
-                        _allEpisodes = reference.AllEpisodes;
-                        MyStatus = reference.MyStatus;
-                        MyScore = reference.MyScore;
-                        MyEpisodes = reference.MyEpisodes;
+                    if (!loaded.TryGetValue(Id, out reference)) return;
+                    _allEpisodes = reference.AllEpisodes;
+                    MyStatus = reference.MyStatus;
+                    MyScore = reference.MyScore;
+                    MyEpisodes = reference.MyEpisodes;
 
-                        SetAuthStatus(true);
-                        AdjustIncrementButtonsVisibility();
-                        var dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                        dataCache.LoadedAnime.Remove(reference);
-                        dataCache.LoadedAnime.Add(_parentAbstraction);
-
-                    }
+                    SetAuthStatus(true);
+                    AdjustIncrementButtonsVisibility();
+                    var dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+                    dataCache.LoadedAnime.Remove(reference);
+                    dataCache.LoadedAnime.Add(_parentAbstraction);
                 });
             });
         }
@@ -281,7 +279,7 @@ namespace MALClient.Items
             }
             else
             {
-                BtnAddToList.Visibility = _seasonalState ? Visibility.Visible : Visibility.Collapsed;
+                BtnAddToList.Visibility = _seasonalState && Creditentials.Authenticated ? Visibility.Visible : Visibility.Collapsed;
                 BtnStatus.IsEnabled = false;
                 BtnScore.IsEnabled = false;
                 BtnWatchedEps.IsEnabled = false;
@@ -293,12 +291,13 @@ namespace MALClient.Items
                     BtnScore.Visibility = Visibility.Collapsed;
                 }
             }
+            AdjustIncrementButtonsVisibility();
 
         }
 
         private void AdjustIncrementButtonsVisibility()
         {
-            if (!_auth)
+            if (!_auth || !Creditentials.Authenticated)
             {
                 IncrementEps.Visibility = Visibility.Collapsed;
                 DecrementEps.Visibility = Visibility.Collapsed;

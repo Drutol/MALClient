@@ -7,15 +7,20 @@ namespace MALClient.Comm
 {
     class AnimeUpdateQuery : Query
     {
-        public AnimeUpdateQuery(AnimeItem item)
+        public AnimeUpdateQuery(AnimeItem item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyStatus)
         {
+            
+        }
 
+
+        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, int myScore)
+        {
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
-            xml.AppendLine($"<episode>{item.MyEpisodes}</episode>");
-            xml.AppendLine($"<status>{item.MyStatus}</status>");
-            xml.AppendLine($"<score>{item.MyScore}</score>");
+            xml.AppendLine($"<episode>{watchedEps}</episode>");
+            xml.AppendLine($"<status>{myStatus}</status>");
+            xml.AppendLine($"<score>{myScore}</score>");
             //xml.AppendLine("<download_episodes></download_episodes>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
@@ -29,24 +34,6 @@ namespace MALClient.Comm
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
             //xml.AppendLine("<tags></tags>");
-            xml.AppendLine("</entry>");
-
-
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{item.Id}.xml?data={xml}"));
-            Request.Credentials = Creditentials.GetHttpCreditentials();
-            Request.ContentType = "application/x-www-form-urlencoded";
-            Request.Method = "GET";
-
-        }
-
-        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, int myScore)
-        {
-            var xml = new StringBuilder();
-            xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            xml.AppendLine("<entry>");
-            xml.AppendLine($"<episode>{watchedEps}</episode>");
-            xml.AppendLine($"<status>{myStatus}</status>");
-            xml.AppendLine($"<score>{myScore}</score>");
             xml.AppendLine("</entry>");
 
 

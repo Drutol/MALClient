@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -16,28 +16,33 @@
                 <StackPanel Grid.Row="0">
                     <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Margin="10">
+                            <TextBlock Text="Hello!" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
-                            Hello!<LineBreak/>
-                            Thanks for checking out this application , I'd like to let you know that this app is open source and you can find it's code here:
+                                Thanks for checking out this application , I'd like to let you know that this app is open source and you can find it's code here:
                             </TextBlock>
                             <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center" Click="LaunchRepo"/>
+                            <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
+                                <LineBreak/>
+                                This application is built on top of official MyAnimeList API.
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                     <Grid  Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Margin="10">
+                            <TextBlock Text="Support" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
                             If there are any issues , ideas , gripes , bug reports etc. PLEASE by all means report it here :
                             </TextBlock>
                             <Button Content="Take me to issues board!" Margin="10" HorizontalAlignment="Center" Click="LaunchIssues"/>
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
-                            I'm checking it daily so don't hesitate to post there :)<LineBreak/><LineBreak/>
-                            This application is built on top of official MyAnimeList API.
+                            I'm checking it daily so don't hesitate to post there :)
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                     <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel HorizontalAlignment="Stretch">
-                            <TextBlock Text="If you would like to say 'thank you' you can do so by donating:" FontWeight="Medium" HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
+                            <TextBlock Text="Donate" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Text="If you would like to say 'thank you' you can do so by donating:"  HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
                             <Grid Margin="10" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Center">
                                 <StackPanel>
                                     <MenuFlyoutItem x:Name="Donate1" Text="Donate $0.99" Click="Donate" />
@@ -48,6 +53,17 @@
                             <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0">
                                 There are no direct benefits , but I'll be eternally grateful :)
                             </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <StackPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5" Height="5"></Ellipse>
+                                <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
+                                    v1.0 Initial release.
+                                </TextBlock>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                     <Grid VerticalAlignment="Stretch" Margin="20,0,20,0">

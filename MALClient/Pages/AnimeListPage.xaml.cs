@@ -12,6 +12,7 @@ using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -351,50 +352,9 @@ namespace MALClient.Pages
 
             _wasPreviousQuery = queryCondition;
 
-            EmptyNotice.Visibility = Visibility.Collapsed;            
+         
             _animeItemsSet.Clear();
-            int status = GetDesiredStatus();
-
-            if (queryCondition)
-                status = 7; //If we are gonna search we will have to load all items first.
-
-           
-
-            ////Check if all items of desired MyStatus are loaded
-            //if (status == 7 || !_loadedDictionary[status])
-            //{
-            //    //Update dictionary MyStatus
-            //    if (status == 7)
-            //    {
-            //        for (int i = 0; i < 4; i++)
-            //            _loadedDictionary[i] = true;
-            //        _loadedDictionary[6] = true;
-            //    }
-            //    else
-            //        _loadedDictionary[status] = true;
-            //    //Load rest of items
-            //    List<XElement> elementsToRemove = new List<XElement>();
-            //    foreach (var item in _allDownloadedAnimeItems.Where(item => status == 7 || Convert.ToInt32(item.Element("my_status").Value) == status))
-            //    {
-            //        _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
-            //            (Creditentials.Authenticated && TxtListSource.Text == Creditentials.UserName),
-            //            item.Element("series_title").Value,
-            //            item.Element("series_image").Value,
-            //            Convert.ToInt32(item.Element("series_animedb_id").Value),
-            //            Convert.ToInt32(item.Element("my_status").Value),
-            //            Convert.ToInt32(item.Element("my_watched_episodes").Value),
-            //            Convert.ToInt32(item.Element("series_episodes").Value),
-            //            Convert.ToInt32(item.Element("my_score").Value)));
-            //        elementsToRemove.Add(item);
-
-            //    }
-            //    foreach (var element in elementsToRemove)
-            //    {
-            //        _allDownloadedAnimeItems.Remove(element);
-            //    }
-            //    //Submit updated list to higher-ups
-            //    Utils.GetMainPageInstance()?.SaveAnimeEntries(TxtListSource.Text, _allLoadedAnimeItems, _allDownloadedAnimeItems, _lastUpdate, _loadedDictionary);
-            //}
+            int status = queryCondition ? 7 : GetDesiredStatus();                 
 
             var items = _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
             if (queryCondition)
@@ -440,12 +400,16 @@ namespace MALClient.Pages
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_sortOption), _sortOption, null);
             }
+            //If we are descending then reverse order
             if (_sortDescending && _sortOption != SortOptions.SortAirDay)
                 items = items.Reverse();
+            //Add all abstractions to current set (spread across pages)
             foreach (var item in items)
                 _animeItemsSet.Add(item);
-            if(_animeItemsSet.Count == 0)
-                EmptyNotice.Visibility = Visibility.Visible;
+            //If we have items then we should hide EmptyNotice       
+            EmptyNotice.Visibility = _animeItemsSet.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            //How many pages do we have?
             _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count/_itemsPerPage);
             if (_allPages <= 1)
                 AnimesTopPageControls.Visibility = Visibility.Collapsed;
@@ -696,6 +660,16 @@ namespace MALClient.Pages
         private void SetListSource(object sender, RoutedEventArgs e)
         {
             ListSource_OnKeyDown(null,null);
+        }
+
+        private void FlyoutListSource_OnOpened(object sender, object e)
+        {
+            TxtListSource.SelectAll();
+        }
+
+        private void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AppbarBtnPinTile.IsEnabled = true;
         }
     }
 }

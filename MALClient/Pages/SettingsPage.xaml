@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <ToggleSwitch x:Name="ToggleCache" VerticalAlignment="Center" Toggled="ToggleDataCaching"/>

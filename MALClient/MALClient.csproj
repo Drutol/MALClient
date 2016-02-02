@@ -170,6 +170,7 @@
     <Compile Include="Utils\AnimeStatusEnum.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\Utils.cs" />
+    <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
   </ItemGroup>
   <ItemGroup>

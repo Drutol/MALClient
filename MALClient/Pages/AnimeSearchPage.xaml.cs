@@ -51,10 +51,11 @@ namespace MALClient.Pages
                 }
                 Animes.ItemsSource = _animeSearchItems;             
             }
-            catch (Exception e)
+            catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
             {
                 EmptyNotice.Visibility = Visibility.Visible;
             }
+
             AlternateRowColors();
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }

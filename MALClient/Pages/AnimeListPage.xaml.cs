@@ -30,7 +30,7 @@ namespace MALClient.Pages
         public readonly bool Descending;
         public readonly bool LoadSeasonal;
         public readonly int CurrPage;
-        public readonly bool NavArgs = false;
+        public readonly bool NavArgs;
         public readonly string ListSource;
         public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort, int status, bool desc, int page,
             bool seasonal,string source)
@@ -72,7 +72,7 @@ namespace MALClient.Pages
         public int CurrentPage => _currentPage;
         public string ListSource => TxtListSource.Text;
         private bool _sortDescending;
-        private bool _loaded = false;
+        private bool _loaded;
         private string _currentSoure;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
         private ObservableCollection<AnimeItemAbstraction> _animeItemsSet = new ObservableCollection<AnimeItemAbstraction>(); //All for current list

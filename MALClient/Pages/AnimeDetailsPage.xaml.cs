@@ -21,11 +21,11 @@ namespace MALClient.Pages
 
     public class AnimeDetailsPageNavigationArgs
     {
-        public int Id;
-        public string Title;
-        public XElement AnimeElement;
-        public AnimeListPageNavigationArgs PrevListSetup;
-        public IAnimeData AnimeItem;
+        public readonly int Id;
+        public readonly string Title;
+        public readonly XElement AnimeElement;
+        public readonly AnimeListPageNavigationArgs PrevListSetup;
+        public readonly IAnimeData AnimeItem;
 
         public AnimeDetailsPageNavigationArgs(int id, string title, XElement element,IAnimeData animeReference, AnimeListPageNavigationArgs args = null)
         {
@@ -39,11 +39,20 @@ namespace MALClient.Pages
 
     public sealed partial class AnimeDetailsPage : Page
     {
-        public int Id => _animeItemReference.Id;
-        public string Title => _animeItemReference.Title;
-        public int AllEpisodes => _animeItemReference.AllEpisodes;
+        private IAnimeData _animeItemReference;
+        private AnimeListPageNavigationArgs _previousPageSetup;
+        private int Id => _animeItemReference.Id;
+        private string Title => _animeItemReference.Title;
+        private int AllEpisodes => _animeItemReference.AllEpisodes;
         private float _globalScore;
-        public float GlobalScore
+        private string Type { get; set; }
+        private string Status { get; set; }
+        private string Synopsis { get; set; }
+        private string StartDate { get; set; }
+        private string EndDate { get; set; }
+        private string _imgUrl;
+
+        private float GlobalScore
         {
             get { return _globalScore; }
             set
@@ -52,14 +61,6 @@ namespace MALClient.Pages
                 _globalScore = value;
             }
         }
-
-        public string Type { get; set; }
-        public string Status { get; set; }
-        public string Synopsis { get; set; }
-
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-        private string _imgUrl;
 
         private int MyEpisodes
         {
@@ -91,13 +92,9 @@ namespace MALClient.Pages
             }
         }
 
-        private IAnimeData _animeItemReference;
-        private AnimeListPageNavigationArgs _previousPageSetup;
-
         public AnimeDetailsPage()
         {
             this.InitializeComponent();
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -149,8 +146,6 @@ namespace MALClient.Pages
             base.OnNavigatedFrom(e);
             Utils.DeregisterBackNav();
         }
-
-
 
         #region ChangeStuff
         private async void ChangeStatus(object sender, RoutedEventArgs e)
@@ -244,7 +239,7 @@ namespace MALClient.Pages
         }
         #endregion
 
-        #region FetachAndPopulate
+        #region FetchAndPopulate
         private void PopulateData(XElement animeElement)
         {
             GlobalScore = float.Parse(animeElement.Element("score").Value);
@@ -296,8 +291,6 @@ namespace MALClient.Pages
             PopulateData(elements.First(element => element.Element("id").Value == id));
         }
         #endregion
-
-
 
         private async void OpenMalPage(object sender, RoutedEventArgs e)
         {

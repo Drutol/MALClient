@@ -8,13 +8,11 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Pages;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace MALClient.Items
 {
     public sealed partial class AnimeSearchItem : UserControl , IAnimeData
     {
-        private XElement item;
+        private readonly XElement item;
 
         public AnimeSearchItem()
         {
@@ -46,8 +44,8 @@ namespace MALClient.Items
         public int AllEpisodes { get; set; }
 
         public string Title { get; set; }
-        public string Type { get; set; }
-        public string Status { get; private set; }
+        private string Type { get; set; }
+        private string Status { get; set; }
 
         //They must be here because reasons (interface reasons)
         public int MyEpisodes { get; set; }
@@ -55,28 +53,21 @@ namespace MALClient.Items
         public int MyStatus { get; set; }
 
 
-        private Point initialpoint;
-
+        private Point _initialPoint;
         private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            initialpoint = e.Position;
+            _initialPoint = e.Position;
         }
 
         private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (e.IsInertial)
-            {
-                Point currentpoint = e.Position;
-                if (currentpoint.X - initialpoint.X >= 70) //left
-                {
-                    Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item,this));
-                    e.Complete();
-                }
-            }
+            if (!e.IsInertial || !(e.Position.X - _initialPoint.X >= 70)) return;
+            if (!(e.Position.X - _initialPoint.X >= 70)) return;
+            Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item,this));
+            e.Complete();
         }
 
-
-        public void Setbackground(SolidColorBrush brush)
+        public void Setbackground(SolidColorBrush brush) //Used to alternate rows
         {
             Root.Background = brush;
         }

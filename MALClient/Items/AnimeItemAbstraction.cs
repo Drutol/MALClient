@@ -40,14 +40,19 @@ namespace MALClient.Items
         private AnimeItem _animeItem = null;
 
         //Data from constructors
-        private bool _firstConstructor = false;
+        private readonly bool _firstConstructor = false;
         //1st
-        private bool auth;
-        private string name,img;
-        private int id,myStatus,myEps,allEps,myScore;
+        private readonly bool auth;
+        private readonly string name;
+        private readonly string img;
+        private readonly int id;
+        private readonly int myStatus;
+        private readonly int myEps;
+        private readonly int allEps;
+        private readonly int myScore;
         //2nd
-        private SeasonalAnimeData data;
-        private Dictionary<int, AnimeItemAbstraction> loaded;
+        private readonly SeasonalAnimeData data;
+        private readonly Dictionary<int, AnimeItemAbstraction> loaded;
 
         private AnimeItemAbstraction(int id)
         {
@@ -102,10 +107,7 @@ namespace MALClient.Items
         private AnimeItem LoadElement()
         {
             _loaded = true;
-            if(_firstConstructor)
-                return new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore,this);
-
-            return new AnimeItem(data,loaded,this);
+            return _firstConstructor ? new AnimeItem(auth,name,img,id,myStatus,myEps,allEps,myScore,this) : new AnimeItem(data,loaded,this);
         }
     }
 }

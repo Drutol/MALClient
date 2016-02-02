@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Storage;
@@ -82,8 +81,6 @@ namespace MALClient.Items
             }
         }
 
-        public int AirDay => _parentAbstraction.AirDay;
-
         public bool Airing
         {
             get { return _airing; }
@@ -99,7 +96,7 @@ namespace MALClient.Items
             }
         }
 
-        public List<string> Genres
+        private List<string> Genres
         {
             get { return _genres; }
             set
@@ -114,33 +111,28 @@ namespace MALClient.Items
         public int Id { get; set; }
         private readonly string _imgUrl;
         private int _allEpisodes;
-        public int Index;
         internal AnimeItemAbstraction _parentAbstraction;
         //state fields
         private bool _expandState = false;
         private bool _seasonalState = false;
-        private bool _imgLoaded = false;
         private bool _auth;
-
         //props
-        private int SeasonalMembers { get; set; } //TODO : Use this
+        //private int SeasonalMembers { get; set; } //TODO : Use this
         public int AllEpisodes => _allEpisodes;
         public bool Auth => _auth;
 
 
-        private AnimeItem(string img,AnimeItemAbstraction parent)
+        private AnimeItem(string img,int id,AnimeItemAbstraction parent)
         {
             this.InitializeComponent();
             _parentAbstraction = parent;
             _imgUrl = img;
+            Id = id;
             Img.Source = new BitmapImage(new Uri(_imgUrl));
         }
 
-        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent) : this(img,parent) //We are loading an item that IS on the list , it it's seasonal there's static "enhancing" method down below
+        public AnimeItem(bool auth,string name,string img,int id,int myStatus,int myEps,int allEps,int myScore, AnimeItemAbstraction parent) : this(img,id,parent) //We are loading an item that IS on the list
         {
-            //Base init
-            this.InitializeComponent();
-            _parentAbstraction = parent;
             //Assign fields
             Id = id;
             _allEpisodes = allEps;
@@ -164,11 +156,10 @@ namespace MALClient.Items
 
         }
 
-        public AnimeItem(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded,AnimeItemAbstraction parent) :this(data.ImgUrl,parent)//We are loading an item that is NOT on the list and is seasonal
+        public AnimeItem(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded,AnimeItemAbstraction parent) :this(data.ImgUrl,data.Id,parent)//We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
             //Assign Fields
-            Id = data.Id;
             _parentAbstraction.MyEpisodes = 0; // We don't want to set TextBlock
             //Assign properties
             MyStatus = (int) AnimeStatus.AllOrAiring;
@@ -177,14 +168,13 @@ namespace MALClient.Items
             GlobalScore = data.Score;
             if(data.Genres != null)
             Genres = data.Genres;
-            SeasonalMembers = data.Members;
+            //SeasonalMembers = data.Members;
 
             //Custom controls setup
             BtnWatchedEps.Content = $"{data.Episodes} Episodes";
             Airing = true;
             //Additional data from seasonal
-            TxtSynopsis.Text = data.Synopsis;
-            Index = data.Index;
+            TxtSynopsis.Text = data.Synopsis;          
             SymbolGlobalScore.Visibility = Visibility.Visible;
             
             //We are not on the list so we cannot really do this
@@ -572,17 +562,6 @@ namespace MALClient.Items
             }
         }
         #endregion
-
-        //Statics
-
-        internal static AnimeItem EnhanceWithSeasonalData(SeasonalAnimeData data)
-        {
-            data.AnimeItemRef.TxtSynopsis.Text = data.Synopsis;
-            data.AnimeItemRef.SymbolAiring.Visibility = Visibility.Visible;
-            data.AnimeItemRef.BtnAddToList.Visibility = Visibility.Collapsed;
-            data.AnimeItemRef.Index = data.Index;
-            return data.AnimeItemRef;
-        }
 
 
     }

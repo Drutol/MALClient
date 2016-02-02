@@ -50,7 +50,7 @@
                                     <MenuFlyoutItem  x:Name="Donate3" Text="Donate $2.99" Click="Donate"/>
                                 </StackPanel>
                             </Grid>
-                            <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0">
+                            <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0" TextWrapping="WrapWholeWords">
                                 There are no direct benefits , but I'll be eternally grateful :)
                             </TextBlock>
                         </StackPanel>

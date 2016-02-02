@@ -85,27 +85,19 @@ namespace MALClient.Pages
         private readonly int _itemsPerPage = Utils.GetItemsPerPage();
         private bool _wasPreviousQuery = false;
 
-
+        #region Init
         public AnimeListPage()
         {
             this.InitializeComponent();
             this.Loaded += MainWindow_Loaded;
-
         }
+
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
             var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;            
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             UpdateUpperStatus();
-        }
-
-        private async void UpdateStatus()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
-            });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -186,7 +178,9 @@ namespace MALClient.Pages
             UpdateStatus();
             base.OnNavigatedTo(e);
         }
+        #endregion
 
+        #region UIHelpers
         private void SwitchSortingToSeasonal()
         {
             sort3.Text = "Index";
@@ -194,7 +188,15 @@ namespace MALClient.Pages
 
         private void SwitchFiltersToSeasonal()
         {
-            (StatusSelector.Items[5] as ListViewItem).Content = "Airing";
+            (StatusSelector.Items[5] as ListViewItem).Content = "Airing"; //We are quite confiddent here
+        }
+
+        private async void UpdateStatus()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
+            });
         }
 
         private void SetDefaults()
@@ -205,6 +207,82 @@ namespace MALClient.Pages
             _sortDescending = Utils.IsSortDescending();
         }
 
+        internal void ScrollTo(AnimeItem animeItem)
+        {
+            try
+            {
+                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
+                double offset = _animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
+                scrollViewer.ScrollToVerticalOffset(offset);
+            }
+            catch (Exception)
+            {
+                // ehh
+            }
+        }
+
+        private async void UpdateUpperStatus(int retries = 5)
+        {
+            while (true)
+            {
+                var page = Utils.GetMainPageInstance();
+
+                if (page != null)
+
+                    if (!_seasonalState)
+                        if (!string.IsNullOrWhiteSpace(TxtListSource.Text))
+                            page.SetStatus($"{TxtListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
+                        else
+                            page.SetStatus("Anime list");
+                    else
+                        page.SetStatus($"Airing - {Utils.StatusToString(GetDesiredStatus())}");
+
+                else if (retries >= 0)
+                {
+                    await Task.Delay(1000);
+                    retries = retries - 1;
+                    continue;
+                }
+                break;
+            }
+        }
+
+        private void AlternateRowColors()
+        {
+            for (int i = 0; i < _animeItems.Count; i++)
+            {
+                if ((i + 1) % 2 == 0)
+                    _animeItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
+                else
+                    _animeItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));
+            }
+        }
+
+        private string GetLastUpdatedStatus()
+        {
+            string output;
+            TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
+            if (lastUpdateDiff.Days > 0)
+                output = lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
+            else if (lastUpdateDiff.Hours > 0)
+            {
+                output = lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+            }
+            else if (lastUpdateDiff.Minutes > 0)
+            {
+                output = $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+            }
+            else
+            {
+                output = "just now.";
+            }
+            if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
+                UpdateNotice.Visibility = Visibility.Visible;
+            return output;
+        }
+        #endregion
+
+        #region FetchAndPopulate
         private async void FetchSeasonalData(bool force = false)
         {
             var possibleLoadedData = force ? new List<AnimeItemAbstraction>() : Utils.GetMainPageInstance().RetrieveSeasonData();
@@ -213,8 +291,8 @@ namespace MALClient.Pages
                 Utils.GetMainPageInstance().SetStatus("Downloading data...");
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
                 _allLoadedAnimeItems.Clear();
-                var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();              
-                Dictionary<int,AnimeItemAbstraction> loadedItems = loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
+                var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+                Dictionary<int, AnimeItemAbstraction> loadedItems = loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
                 foreach (SeasonalAnimeData animeData in data)
                 {
                     _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, loadedItems));
@@ -258,8 +336,8 @@ namespace MALClient.Pages
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _animeItems.Clear();
 
-            if(!force)
-                Utils.GetMainPageInstance().RetrieveAnimeEntries(TxtListSource.Text,out _allLoadedAnimeItems , out _lastUpdate);
+            if (!force)
+                Utils.GetMainPageInstance().RetrieveAnimeEntries(TxtListSource.Text, out _allLoadedAnimeItems, out _lastUpdate);
 
             if (_allLoadedAnimeItems.Count == 0)
             {
@@ -285,20 +363,20 @@ namespace MALClient.Pages
                 XDocument parsedData = XDocument.Parse(data);
                 var anime = parsedData.Root.Elements("anime").ToList();
                 bool auth = Creditentials.Authenticated &&
-                            TxtListSource.Text.ToLower() == Creditentials.UserName.ToLower();
+                            string.Equals(TxtListSource.Text, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase);
                 foreach (var item in anime)
                 {
-                        _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
-                            auth,
-                            item.Element("series_title").Value,
-                            item.Element("series_image").Value,
-                            Convert.ToInt32(item.Element("series_animedb_id").Value),
-                            Convert.ToInt32(item.Element("my_status").Value),
-                            Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                            Convert.ToInt32(item.Element("series_episodes").Value),
-                            Convert.ToInt32(item.Element("my_score").Value)));
+                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
+                        auth,
+                        item.Element("series_title").Value,
+                        item.Element("series_image").Value,
+                        Convert.ToInt32(item.Element("series_animedb_id").Value),
+                        Convert.ToInt32(item.Element("my_status").Value),
+                        Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                        Convert.ToInt32(item.Element("series_episodes").Value),
+                        Convert.ToInt32(item.Element("my_score").Value)));
                 }
-                //TODO : For some unknown reason items may duplicate/triplicate etc.
+                //TODO : For some unknown reason items may duplicate/triplicate etc. May no longer be the case
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
 
                 Utils.GetMainPageInstance().SaveAnimeEntries(TxtListSource.Text, _allLoadedAnimeItems, _lastUpdate);
@@ -311,7 +389,9 @@ namespace MALClient.Pages
             SpinnerLoading.Visibility = Visibility.Collapsed;
 
         }
+        #endregion
 
+        #region StatusRelatedStuff
         private int GetDesiredStatus()
         {
             int value = StatusSelector.SelectedIndex;
@@ -328,20 +408,7 @@ namespace MALClient.Pages
 
             StatusSelector.SelectedIndex = (int)value;
         }
-
-        internal void ScrollTo(AnimeItem animeItem)
-        {
-            try
-            {
-                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-                double offset = _animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
-                scrollViewer.ScrollToVerticalOffset(offset);
-            }
-            catch (Exception)
-            {
-               // ehh
-            }
-        }
+        #endregion
 
         public void RefreshList(bool searchSource = false)
         {
@@ -470,73 +537,13 @@ namespace MALClient.Pages
 
         #endregion
 
-        private async void UpdateUpperStatus(int retries = 5)
-        {
-            while (true)
-            {
-                var page = Utils.GetMainPageInstance();
-
-                if (page != null)
-
-                    if (!_seasonalState)
-                        if (!string.IsNullOrWhiteSpace(TxtListSource.Text))
-                            page.SetStatus($"{TxtListSource.Text} - {Utils.StatusToString(GetDesiredStatus())}");
-                        else
-                            page.SetStatus("Anime list");
-                    else
-                        page.SetStatus($"Airing - {Utils.StatusToString(GetDesiredStatus())}");
-
-                else if (retries >= 0)
-                {
-                    await Task.Delay(1000);
-                    retries = retries - 1;
-                    continue;
-                }
-                break;
-            }
-        }
-
-        private string GetLastUpdatedStatus()
-        {
-            string output;
-            TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
-            if (lastUpdateDiff.Days > 0)
-                output = lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
-            else if(lastUpdateDiff.Hours > 0)
-            {
-                output = lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
-            }
-            else if (lastUpdateDiff.Minutes > 0)
-            {               
-                output = $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
-            }
-            else
-            {
-                output = "just now.";
-            }
-            if(lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
-                UpdateNotice.Visibility = Visibility.Visible;
-            return output;
-        }
-
+        #region ActionHandlers
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
         {
             if (_loaded)
             {
                 _currentPage = 1;
                 RefreshList();
-            }
-                
-        }
-
-        private void AlternateRowColors()
-        {
-            for (int i = 0; i < _animeItems.Count; i++)
-            {
-                if ((i + 1)%2 == 0)
-                    _animeItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
-                else
-                    _animeItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));
             }
         }
 
@@ -563,12 +570,11 @@ namespace MALClient.Pages
 
         private void RefreshList(object sender, RoutedEventArgs e)
         {
-            if(_seasonalState)
+            if (_seasonalState)
                 FetchSeasonalData(true);
             else
                 FetchData(true);
-
-        }
+        }     
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
@@ -671,5 +677,6 @@ namespace MALClient.Pages
         {
             AppbarBtnPinTile.IsEnabled = true;
         }
+        #endregion
     }
 }

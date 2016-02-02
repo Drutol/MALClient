@@ -10,7 +10,7 @@ namespace MALClient.Comm
             switch (type)
             {
                 case UriType.AnimeListUpdate:               
-                    uri = $"http://myanimelist.net/malappinfo.php?";
+                    uri = "http://myanimelist.net/malappinfo.php?";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

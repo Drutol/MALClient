@@ -72,9 +72,16 @@ namespace MALClient
         #region SeasonData
         public static async void SaveSeasonalData(List<SeasonalAnimeData> data)
         {
-            var json = JsonConvert.SerializeObject(new Tuple<DateTime,List<SeasonalAnimeData>>(DateTime.UtcNow,data));
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_data.json", CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, json);
+            await Task.Run(async () =>
+            {
+                var json =
+                    JsonConvert.SerializeObject(new Tuple<DateTime, List<SeasonalAnimeData>>(DateTime.UtcNow, data));
+                var file =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_data.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            });
         }
 
         public static async Task<List<SeasonalAnimeData>> RetrieveSeasonalData()

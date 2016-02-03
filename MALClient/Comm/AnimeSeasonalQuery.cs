@@ -113,7 +113,6 @@ namespace MALClient.Comm
                     break;
             }
 
-            DataCache.SaveSeasonalData(output);
 
             //We are done.
             return output;

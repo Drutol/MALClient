@@ -90,7 +90,7 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"  Foreground="{Binding ElementName=TxtSettings , Path=Foreground}"/>
                                     <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center"/>
                                     <Button Grid.Column="2" Background="Transparent" Width="35" Height="35" BorderThickness="0" Click="ButtonAbout_OnClick">
-                                        <SymbolIcon x:Name="SymbolAbout" Symbol="Help">
+                                        <SymbolIcon x:Name="SymbolAbout" Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2,4,0,0">
                                             <SymbolIcon.RenderTransform>
                                                 <ScaleTransform ScaleX=".75" ScaleY=".75"/>
                                             </SymbolIcon.RenderTransform>

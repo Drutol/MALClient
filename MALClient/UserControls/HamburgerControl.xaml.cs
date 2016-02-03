@@ -41,7 +41,8 @@ namespace MALClient.UserControls
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            _stackPanelHeightSum = 275;
+            if(!Creditentials.Authenticated)
+                _stackPanelHeightSum = 275;
             UpdateProfileImg();     
         }
 
@@ -49,7 +50,7 @@ namespace MALClient.UserControls
         {
             var val = Convert.ToInt32(ScrlBurger.ActualHeight);
             GridSeparator.Height = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            GridBtmMargin.Height = GridSeparator.Height == 0 ? 50 : 0;
+            GridBtmMargin.Height = GridSeparator.Height < 1 ? 50 : 0;
         }
 
         private bool _subtractedHeightForButton = true;

@@ -75,7 +75,7 @@ namespace MALClient.Pages
             var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
             foreach (var file in files)
             {
-                if (file.DisplayName.Contains("data"))
+                if (file.FileType == ".json")
                 {
                     ListCurrentlyCached.Items.Add(new CachedEntryItem(file,file.DisplayName.Contains("anime")));
                 }

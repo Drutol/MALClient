@@ -23,7 +23,7 @@
                             <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center" Click="LaunchRepo"/>
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
                                 <LineBreak/>
-                                This application is built on top of official MyAnimeList API.
+                                This application is built on top of official MyAnimeList API.                              
                             </TextBlock>
                         </StackPanel>
                     </Grid>
@@ -64,6 +64,14 @@
                                     v1.0 Initial release.
                                 </TextBlock>
                             </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <StackPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="Disclaimer" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Margin="20,0,0,0" VerticalAlignment="Center" TextWrapping="WrapWholeWords">
+                                    MyAnimeList API leaves much to be desired , and I have done everything I could to make it work like this. If you are wondering why Seasonal anime takes so long to load , the answer is that API does not provide this data and in order to obtain it I have to download raw page , parse it and then display it. I wish I could do this better... but it is the only way right now :(
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                     <Grid VerticalAlignment="Stretch" Margin="20,0,20,0">

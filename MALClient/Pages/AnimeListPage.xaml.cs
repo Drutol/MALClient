@@ -310,7 +310,7 @@ namespace MALClient.Pages
             var possibleLoadedData = force ? new List<AnimeItemAbstraction>() : Utils.GetMainPageInstance().RetrieveSeasonData();
             if (possibleLoadedData.Count == 0)
             {
-                Utils.GetMainPageInstance().SetStatus("Downloading data...");
+                Utils.GetMainPageInstance().SetStatus("Downloading data...\nThis may take a while...");
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
                 _allLoadedAnimeItems.Clear();
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();

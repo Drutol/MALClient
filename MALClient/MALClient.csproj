@@ -20,8 +20,8 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
-    <AppxPackageDir>G:\TEMP\</AppxPackageDir>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <AppxPackageDir>C:\Users\Mordonus\Documents\Visual Studio 2015\Projects\MALClient\Packages\</AppxPackageDir>
     <PackageCertificateThumbprint>4EC81A866245A42CF35119BA241E4466468220AC</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">

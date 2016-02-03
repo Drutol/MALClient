@@ -428,6 +428,10 @@ namespace MALClient.Items
                 SpinnerLoading.Visibility = Visibility.Collapsed;
                 TxtBoxWatchedEps.Text = "";
             }
+            else
+            {
+                TxtWatchedInvalidInputNotice.Visibility = Visibility.Visible;
+            }
         }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)

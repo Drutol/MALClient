@@ -43,15 +43,22 @@
             </AppBarButton>
             <AppBarButton  Icon="Sort" Label="Order by">
                 <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem x:Name="sort5"  Text="Soonest airing" Click="SelectSortMode"/>
-                        <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
-                        <MenuFlyoutSeparator/>
-                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder"/>
-                    </MenuFlyout>
+                    <Flyout>
+                        <StackPanel>
+                            <StackPanel.Resources>
+                                <Style TargetType="ToggleMenuFlyoutItem">
+                                    <Setter Property="Height" Value="40"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>
+                            <ToggleMenuFlyoutItem x:Name="sort2"  Text="Score" Click="SelectSortMode"/>
+                            <ToggleMenuFlyoutItem x:Name="sort3"  Text="Watched" Click="SelectSortMode"/>
+                            <ToggleMenuFlyoutItem x:Name="sort5"  Text="Soonest airing" Click="SelectSortMode"/>
+                            <ToggleMenuFlyoutItem x:Name="sort4"  Text="None" Click="SelectSortMode"/>
+                            <MenuFlyoutSeparator/>
+                            <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder"/>
+                        </StackPanel>
+                    </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">

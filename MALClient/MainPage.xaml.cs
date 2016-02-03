@@ -241,13 +241,12 @@ namespace MALClient
             if (!_onSearchPage)
                 return;
 
-            if (e.Key == VirtualKey.Enter && SearchInput.Text.Length >= 2)
+            if ((e==null || e.Key == VirtualKey.Enter) && SearchInput.Text.Length >= 2)
             {
-                var txt = sender as TextBox;
-                txt.IsEnabled = false; //reset input
-                txt.IsEnabled = true;
+                SearchInput.IsEnabled = false; //reset input
+                SearchInput.IsEnabled = true;
                 var source = MainContent.Content as AnimeSearchPage;
-                source.SubmitQuery(txt.Text);
+                source.SubmitQuery(SearchInput.Text);
             }
         }
 
@@ -257,6 +256,7 @@ namespace MALClient
             if (_onSearchPage)
             {
                 btn.IsChecked = true;
+                SearchInput_OnKeyDown(null,null);
                 return;
             }
             if ((bool) btn.IsChecked)
@@ -381,22 +381,23 @@ namespace MALClient
         {
             return _seasonalAnimeCache;
         }
-        #endregion
 
         public void ClearAnimeItemsForSource(string userName)
         {
             _allAnimeItemsCache[userName.ToLower()].LoadedAnime.Clear();
         }
+        #endregion
 
+        #region LogInOut
         public void LogOut()
         {
             foreach (var userCach in _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
             {
-                userCach.SetAuthStatus(false,true);
+                userCach.SetAuthStatus(false, true);
             }
             foreach (var animeItemAbstraction in _seasonalAnimeCache)
             {
-                animeItemAbstraction.SetAuthStatus(false,true);
+                animeItemAbstraction.SetAuthStatus(false, true);
             }
             ClearAnimeItemsForSource(Creditentials.UserName);
             _profileDataCache = null;
@@ -410,8 +411,11 @@ namespace MALClient
                 _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
                 _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
             }
-            catch(Exception) { /* ignored */ }
+            catch (Exception) { /* ignored */ }
         }
+        #endregion
+
+
 
 
     }

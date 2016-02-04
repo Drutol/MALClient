@@ -32,6 +32,8 @@ namespace MALClient.Pages
             try
             {
                 var response = await new AuthQuery().GetRequestResponse();
+                if (string.IsNullOrEmpty(response))
+                    throw new Exception();
                 var doc = XDocument.Parse(response);
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);

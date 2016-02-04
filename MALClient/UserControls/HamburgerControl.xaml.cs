@@ -105,7 +105,7 @@ namespace MALClient.UserControls
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageSettings);
-            SetActiveButton(HamburgerButtons.AnimeList);
+            SetActiveButton(HamburgerButtons.Settings);
         }
 
         private void BtnList_Click(object sender, RoutedEventArgs e)

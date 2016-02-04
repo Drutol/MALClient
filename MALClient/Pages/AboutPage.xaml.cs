@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Store;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Newtonsoft.Json.Serialization;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -46,12 +36,14 @@ namespace MALClient.Pages
         {
             try
             {
-                var btn = sender as Button;
-                await CurrentAppSimulator.RequestProductPurchaseAsync("Donate1", false);
+                var btn = sender as MenuFlyoutItem;
+                await CurrentApp.RequestProductPurchaseAsync(btn.Name, false);
+                var msg = new MessageDialog("Thanks for donating!");
+                await msg.ShowAsync();
             }
             catch (Exception)
             {
-                //ignored
+                // no donation
             }
             
         }

@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"  VerticalAlignment="Center"/>
-        <Button x:Name="BtnLogOff" Margin="0,10,20,0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Background="Transparent" Width="50" Height="50" Click="LogOut" Visibility="Collapsed">
+        <Button x:Name="BtnLogOff" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Background="Transparent" Width="50" Height="50" Click="LogOut" Visibility="Collapsed">
             <Grid>
                 <!--<Ellipse Width="30" Height="30" Fill="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                 <SymbolIcon Symbol="Cancel" Foreground="Black"/>

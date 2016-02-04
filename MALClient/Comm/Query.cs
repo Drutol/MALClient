@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace MALClient.Comm
 {
@@ -11,13 +13,23 @@ namespace MALClient.Comm
 
         public async Task<string> GetRequestResponse()
         {
-            var response = await Request.GetResponseAsync();
-
             string responseString = "";
-            using (Stream stream = response.GetResponseStream())
+            try
             {
-                StreamReader reader = new StreamReader(stream, Encoding.UTF8);
-                responseString = reader.ReadToEnd();
+                var response = await Request.GetResponseAsync();
+
+                
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                    responseString = reader.ReadToEnd();
+                }
+                return responseString;
+            }
+            catch (Exception e)
+            {
+                var msg = new MessageDialog(e.Message,"An error occured");
+                await msg.ShowAsync();
             }
             return responseString;
         }

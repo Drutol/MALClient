@@ -99,6 +99,12 @@ namespace MALClient.Pages
         {
             SpinnerLoading.Visibility = Visibility.Visible;
             var data = await new MALProfileQuery().GetRequestResponse();
+            if (string.IsNullOrEmpty(data))
+            {
+                SpinnerLoading.Visibility = Visibility.Collapsed;
+                return;
+            }
+                
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(data);
             //AnimeStats

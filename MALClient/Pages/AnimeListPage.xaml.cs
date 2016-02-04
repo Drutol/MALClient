@@ -312,17 +312,23 @@ namespace MALClient.Pages
             {
                 Utils.GetMainPageInstance().SetStatus("Downloading data...\nThis may take a while...");
                 var data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
+                if (data == null)
+                {
+                    RefreshList();
+                    SpinnerLoading.Visibility = Visibility.Collapsed;
+                    return;
+                }
                 _allLoadedAnimeItems.Clear();
                 var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
                 Dictionary<int, AnimeItemAbstraction> loadedItems = loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
                 foreach (SeasonalAnimeData animeData in data)
                 {
-                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, loadedItems));
                     DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
                     {
                         DayOfAiring = animeData.AirDay,
                         GlobalScore = animeData.Score
                     });
+                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, loadedItems));
                 }
                 DataCache.SaveVolatileData();
                 Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
@@ -379,7 +385,7 @@ namespace MALClient.Pages
                         user = TxtListSource.Text
                     };
                     data = await new AnimeListQuery(args).GetRequestResponse();
-                    if (data.Contains("<error>Invalid username</error>"))
+                    if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
                     {
                         RefreshList();
                         SpinnerLoading.Visibility = Visibility.Collapsed;

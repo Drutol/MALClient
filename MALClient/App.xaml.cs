@@ -52,7 +52,11 @@ namespace MALClient
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-
+                    //nothing
+                }
+                if (e.PrelaunchActivated)
+                {
+                    return;
                 }
 
 

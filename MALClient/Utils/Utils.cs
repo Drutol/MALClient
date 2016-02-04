@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
+using MALClient.UserControls;
 
 namespace MALClient
 {
@@ -198,6 +199,8 @@ namespace MALClient
 
         public static async void DownloadProfileImg(int retries = 5)
         {
+            if (!Creditentials.Authenticated)
+                return;
             try
             {
                 var folder = ApplicationData.Current.LocalFolder;
@@ -243,7 +246,9 @@ namespace MALClient
         private static void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
-            GetMainPageInstance().Navigate(_pageTo, _args);
+            var page = GetMainPageInstance();
+            page.Navigate(_pageTo, _args);
+            page.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
         }
 
         public static void DeregisterBackNav()
@@ -252,6 +257,29 @@ namespace MALClient
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             currentView.BackRequested -= CurrentViewOnBackRequested;
             _args = null;
+        }
+
+        private static HamburgerButtons GetButtonForPage(PageIndex page)
+        {
+            switch (page)
+            {
+                case PageIndex.PageAnimeList:
+                    return HamburgerButtons.AnimeList;
+                case PageIndex.PageAnimeDetails:
+                    return HamburgerButtons.AnimeList;
+                case PageIndex.PageSettings:
+                    return HamburgerButtons.Settings;
+                case PageIndex.PageSearch:
+                    return HamburgerButtons.AnimeSearch;
+                case PageIndex.PageLogIn:
+                    return HamburgerButtons.LogIn;
+                case PageIndex.PageProfile:
+                    return HamburgerButtons.Profile;
+                case PageIndex.PageAbout:
+                    return HamburgerButtons.About;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(page), page, null);
+            }
         }
 
         #endregion

@@ -47,7 +47,7 @@
                         <StackPanel>
                             <StackPanel.Resources>
                                 <Style TargetType="ToggleMenuFlyoutItem">
-                                    <Setter Property="Height" Value="40"/>
+                                    <Setter Property="Height" Value="46"/>
                                 </Style>
                             </StackPanel.Resources>
                             <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode"/>

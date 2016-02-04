@@ -28,6 +28,8 @@ namespace MALClient.Comm
             List<SeasonalAnimeData> output = force ? new List<SeasonalAnimeData>() : await DataCache.RetrieveSeasonalData() ?? new List<SeasonalAnimeData>();
             if (output.Count != 0) return output;
             string raw = await GetRequestResponse();
+            if (string.IsNullOrEmpty(raw))
+                return null;
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(raw);
             var mainNode =

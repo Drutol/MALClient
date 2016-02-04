@@ -305,7 +305,7 @@ namespace MALClient.Pages
         #endregion
 
         #region FetchAndPopulate
-        private async void FetchSeasonalData(bool force = false)
+        private async Task FetchSeasonalData(bool force = false)
         {
             var possibleLoadedData = force ? new List<AnimeItemAbstraction>() : Utils.GetMainPageInstance().RetrieveSeasonData();
             if (possibleLoadedData.Count == 0)
@@ -344,7 +344,7 @@ namespace MALClient.Pages
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
-        private async void FetchData(bool force = false)
+        private async Task FetchData(bool force = false)
         {
             BtnSetSource.Visibility = Visibility.Collapsed;
             SpinnerLoading.Visibility = Visibility.Visible;
@@ -362,7 +362,7 @@ namespace MALClient.Pages
             }
 
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
-            _animeItems.Clear();
+            _animeItems = new ObservableCollection<AnimeItem>();
 
             if (!force)
                 Utils.GetMainPageInstance().RetrieveAnimeEntries(TxtListSource.Text, out _allLoadedAnimeItems, out _lastUpdate);

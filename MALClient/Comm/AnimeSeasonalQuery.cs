@@ -115,6 +115,7 @@ namespace MALClient.Comm
                     break;
             }
 
+            await Task.Run(() => DataCache.SaveSeasonalData(output));
 
             //We are done.
             return output;

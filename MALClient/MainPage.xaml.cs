@@ -75,7 +75,7 @@ namespace MALClient
         }
 
         #region Navigation
-        internal async void Navigate(PageIndex index, object args = null)
+        internal async Task Navigate(PageIndex index, object args = null)
         {
             bool wasOnSearchPage = _onSearchPage;
             _onSearchPage = false;
@@ -399,8 +399,6 @@ namespace MALClient
             {
                 animeItemAbstraction.SetAuthStatus(false, true);
             }
-            ClearAnimeItemsForSource(Creditentials.UserName);
-            _profileDataCache = null;
         }
 
         public void LogIn()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -54,7 +55,7 @@ namespace MALClient.UserControls
         }
 
         private bool _subtractedHeightForButton = true;
-        internal async void UpdateProfileImg()
+        internal async Task UpdateProfileImg(bool dl = true)
         {
             if (Creditentials.Authenticated)
             {
@@ -69,12 +70,12 @@ namespace MALClient.UserControls
                     {
                         bitmap.SetSource(fs);
                     }
-
                     ImgUser.Source = bitmap;
                 }
                 catch (FileNotFoundException)
                 {
-                    Utils.DownloadProfileImg();
+                    if(dl)
+                        Utils.DownloadProfileImg();
                 }
                 catch (Exception)
                 {

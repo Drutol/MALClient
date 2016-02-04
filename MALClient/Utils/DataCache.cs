@@ -26,8 +26,15 @@ namespace MALClient
         {
             if(!Utils.IsCachingEnabled())
                 return;
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.json",CreationCollisionOption.ReplaceExisting);         
-            await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(new Tuple<DateTime,string>(DateTime.Now, data)));
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.Now, data)));
+            }
+            catch (Exception)
+            { 
+                //
+            }          
         }
 
         public static async Task<Tuple<string,DateTime>> RetrieveDataForUser(string user)

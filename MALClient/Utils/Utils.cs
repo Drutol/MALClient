@@ -209,23 +209,22 @@ namespace MALClient
                 HttpClient http = new HttpClient();
                 byte[] response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"); //get bytes
 
-                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-                using (DataWriter writer = new DataWriter(fs.AsOutputStream()))
+                using (var fs = await thumb.OpenStreamForWriteAsync())  //get stream
                 {
-                    writer.WriteBytes(response); //write
-                    await writer.StoreAsync();
-                    await writer.FlushAsync();
+                    using (DataWriter writer = new DataWriter(fs.AsOutputStream()))
+                    {
+                        writer.WriteBytes(response); //write
+                        await writer.StoreAsync();
+                        await writer.FlushAsync();
+                        await Task.Delay(2000);
+                    }
                 }
-                GetMainPageInstance().UpdateHamburger();
+                
+                GetMainPageInstance().Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
             {
-                if (retries >= 0)
-                {
-                    await Task.Delay(1000);
-                    DownloadProfileImg(retries - 1);
-                }
+                GetMainPageInstance().Hamburger.UpdateProfileImg(false);
             }
         }
 

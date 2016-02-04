@@ -38,10 +38,10 @@ namespace MALClient.Pages
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
                 var page = Utils.GetMainPageInstance();
-                page.Navigate(PageIndex.PageAnimeList);
-                page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
                 page.LogIn();
-                Utils.DownloadProfileImg();             
+                page.Navigate(PageIndex.PageAnimeList);
+                page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);               
+                page.Hamburger.UpdateProfileImg();             
             }
             catch (Exception)
             { 
@@ -54,10 +54,9 @@ namespace MALClient.Pages
         private void LogOut(object sender, RoutedEventArgs e)
         {
             var page = Utils.GetMainPageInstance();
-            Creditentials.SetAuthStatus(false);
-            page.LogOut();
+            Creditentials.SetAuthStatus(false);          
             Creditentials.Update("","");
-            
+            page.LogOut();
             page.Navigate(PageIndex.PageLogIn);
             page.UpdateHamburger();
             

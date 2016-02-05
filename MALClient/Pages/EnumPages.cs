@@ -8,6 +8,7 @@
         PageSearch,
         PageLogIn,
         PageProfile,
+        PageRecommendations,
         PageAbout
     }
 

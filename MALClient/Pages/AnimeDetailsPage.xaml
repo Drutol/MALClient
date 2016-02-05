@@ -11,8 +11,8 @@
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
     </Page.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer  Margin="1,10,1,0" VerticalScrollMode="Auto" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="150" MaxHeight="250" Height="Auto"/>
             <!--Img + Details-->
@@ -116,10 +116,10 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <MenuFlyoutSeparator Grid.Row="1" VerticalAlignment="Top"/>
-        <ScrollViewer  Margin="1,10,1,0" VerticalScrollMode="Auto" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch">
-            <TextBlock x:Name="DetailSynopsis" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords" Margin="1,1" />
-        </ScrollViewer>
+            <MenuFlyoutSeparator Grid.Row="1" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="1" x:Name="DetailSynopsis" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWholeWords" Margin="1,1" />
+        </Grid>
+    </ScrollViewer>
         
-    </Grid>
+
 </Page>

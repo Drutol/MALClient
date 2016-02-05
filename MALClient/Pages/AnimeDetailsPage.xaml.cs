@@ -255,16 +255,14 @@ namespace MALClient.Pages
 
             if (_animeItemReference is AnimeItem)
             {
-                if (Status == "Currently Airing")
-                {                   
-                    DataCache.RegisterVolatileData(Id, new VolatileDataCache
-                    {
-                        DayOfAiring = (int)DateTime.Parse(StartDate).DayOfWeek+1,
-                        GlobalScore = GlobalScore,
-                    });
-                    ((AnimeItem)_animeItemReference).Airing = true;
-                    DataCache.SaveVolatileData();
-                }
+                int day = Status == "Currently Airing" ? (int) DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
+                DataCache.RegisterVolatileData(Id, new VolatileDataCache
+                {
+                    DayOfAiring = day,
+                    GlobalScore = GlobalScore,
+                });
+                ((AnimeItem) _animeItemReference).Airing = day != -1;
+                DataCache.SaveVolatileData();
             }
             DetailScore.Text = GlobalScore.ToString();
             DetailEpisodes.Text = AllEpisodes.ToString();

@@ -13,7 +13,7 @@ using MALClient.Comm;
 using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
+#pragma warning disable 4014
 namespace MALClient.UserControls
 {
 

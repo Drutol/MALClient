@@ -14,6 +14,7 @@ using MALClient.Items;
 using MALClient.Pages;
 using MALClient.UserControls;
 
+#pragma warning disable 4014
 namespace MALClient
 {
     public static class Utils

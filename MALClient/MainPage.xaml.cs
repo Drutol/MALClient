@@ -18,7 +18,7 @@ using MALClient.Items;
 using MALClient.UserControls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
+#pragma warning disable 4014
 namespace MALClient
 {
     /// <summary>

@@ -33,13 +33,13 @@
                 <ScaleTransform ScaleY="2" ScaleX="2"/>
             </SymbolIcon.RenderTransform>
         </SymbolIcon>
-        <Button  Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="40" Visibility="{Binding ElementName=BtnShowMore,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
+        <Image x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
+        <Button  Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="40" Visibility="Visible">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
             </Button.Background>
             <SymbolIcon Symbol="More" Foreground="White"/>
         </Button>
-        <Image x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
         <Grid Grid.Column="1" HorizontalAlignment="Stretch">
             <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
             <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>

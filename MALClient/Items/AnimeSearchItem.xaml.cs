@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Pages;
 
+#pragma warning disable 4014
 namespace MALClient.Items
 {
     public sealed partial class AnimeSearchItem : UserControl , IAnimeData

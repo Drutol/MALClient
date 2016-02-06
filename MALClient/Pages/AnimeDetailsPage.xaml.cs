@@ -264,7 +264,9 @@ namespace MALClient.Pages
                 Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "")
                     .Trim()
                     .Replace("[i]", "")
-                    .Replace("[/i]", "");
+                    .Replace("[/i]", "")
+                    .Replace("#039;","'")
+                    .Replace("quot;","\"");
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;

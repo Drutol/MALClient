@@ -10,10 +10,9 @@ namespace MALClient.Items
     /// </summary>
     public class AnimeItemAbstraction
     {
-        //Data from constructors
         private readonly bool _firstConstructor;
         private readonly int allEps;
-        //2nd
+
         private readonly SeasonalAnimeData data;
         private readonly int id;
         private readonly string img;
@@ -27,7 +26,7 @@ namespace MALClient.Items
         private bool _loaded;
         public int AirDay = -1;
         public int AllEpisodes;
-        //1st
+
         private bool auth;
         private bool authSetEps;
         public float GlobalScore;

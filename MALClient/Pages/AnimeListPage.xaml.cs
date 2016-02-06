@@ -104,7 +104,7 @@ namespace MALClient.Pages
             _animeItemsSet.Clear();
             var status = queryCondition ? 7 : GetDesiredStatus();
 
-            IEnumerable<AnimeItemAbstraction> items =
+            var items =
                 _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
             if (queryCondition)
                 items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
@@ -130,12 +130,12 @@ namespace MALClient.Pages
                 case SortOptions.SortAirDay:
                     var today = (int) DateTime.Now.DayOfWeek;
                     today++;
-                    IEnumerable<AnimeItemAbstraction> nonAiringItems =
+                    var nonAiringItems =
                         items.Where(abstraction => abstraction.AirDay == -1);
-                    IEnumerable<AnimeItemAbstraction> airingItems = items.Where(abstraction => abstraction.AirDay != -1);
-                    IEnumerable<AnimeItemAbstraction> airingAfterToday =
+                    var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
+                    var airingAfterToday =
                         airingItems.Where(abstraction => abstraction.AirDay >= today);
-                    IEnumerable<AnimeItemAbstraction> airingBeforeToday =
+                    var airingBeforeToday =
                         airingItems.Where(abstraction => abstraction.AirDay < today);
                     if (SortDescending)
                         items = airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
@@ -363,10 +363,8 @@ namespace MALClient.Pages
         {
             for (var i = 0; i < _animeItems.Count; i++)
             {
-                if ((i + 1)%2 == 0)
-                    _animeItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
-                else
-                    _animeItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));
+                _animeItems[i].Setbackground(
+                    new SolidColorBrush((i + 1)%2 == 0 ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent));
             }
         }
 
@@ -539,7 +537,7 @@ namespace MALClient.Pages
                         Convert.ToInt32(item.Element("series_episodes").Value),
                         Convert.ToInt32(item.Element("my_score").Value)));
                 }
-                //TODO : For some unknown reason items may duplicate/triplicate etc. May no longer be the case
+
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
 
                 Utils.GetMainPageInstance().SaveAnimeEntries(TxtListSource.Text, _allLoadedAnimeItems, _lastUpdate);
@@ -613,11 +611,9 @@ namespace MALClient.Pages
 
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
         {
-            if (_loaded)
-            {
-                CurrentPage = 1;
-                RefreshList();
-            }
+            if (!_loaded) return;
+            CurrentPage = 1;
+            RefreshList();
         }
 
         private async void PinTileMal(object sender, RoutedEventArgs e)

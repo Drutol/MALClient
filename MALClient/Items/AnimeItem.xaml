@@ -16,11 +16,11 @@
             <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
             <Storyboard x:Name="SynopsisHide">
                 <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root"
-                                 Storyboard.TargetProperty="Height" From="300" To="150" SpeedRatio="2.0" />
+                                 Storyboard.TargetProperty="Height" From="400" To="150" SpeedRatio="2.0" />
             </Storyboard>
             <Storyboard x:Name="SynopsisShow">
                 <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root"
-                                 Storyboard.TargetProperty="Height" From="150" To="300" SpeedRatio="2.0" />
+                                 Storyboard.TargetProperty="Height" From="150" To="400" SpeedRatio="2.0" />
             </Storyboard>
             <Style x:Key="ButtonDisabledStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
@@ -110,7 +110,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="150" />
-            <RowDefinition Height="150" />
+            <RowDefinition Height="400" />
         </Grid.RowDefinitions>
 
         <Image x:Name="Img" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto"

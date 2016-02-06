@@ -27,13 +27,14 @@ namespace MALClient.UserControls
         Settings,
         Profile,
         Seasonal,
-        About
+        About,
+        Recommendations
     }
 
     public sealed partial class HamburgerControl : UserControl
     {
         private bool? _prevState;
-        private int _stackPanelHeightSum = 275; //base value
+        private int _stackPanelHeightSum = 325; //base value
 
         private bool _subtractedHeightForButton = true;
 
@@ -47,7 +48,7 @@ namespace MALClient.UserControls
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             if (!Creditentials.Authenticated)
-                _stackPanelHeightSum = 275;
+                _stackPanelHeightSum = 325;
             UpdateProfileImg();
         }
 
@@ -139,10 +140,16 @@ namespace MALClient.UserControls
             SetActiveButton(HamburgerButtons.Seasonal);
         }
 
-        private void ButtonAbout_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonAbout_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAbout);
             SetActiveButton(HamburgerButtons.About);
+        }
+
+        private void BtnRecom_Click(object sender, RoutedEventArgs e)
+        {
+            GetMainPageInstance().Navigate(PageIndex.PageRecomendations);
+            SetActiveButton(HamburgerButtons.Recommendations);
         }
 
         public void SetActiveButton(HamburgerButtons val)
@@ -174,6 +181,10 @@ namespace MALClient.UserControls
                     SymbolAbout.Foreground =
                         Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
+                case HamburgerButtons.Recommendations:
+                    TxtRecom.Foreground =
+                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
             }
@@ -188,6 +199,7 @@ namespace MALClient.UserControls
             TxtProfile.Foreground = new SolidColorBrush(Colors.Black);
             TxtSeasonal.Foreground = new SolidColorBrush(Colors.Black);
             SymbolAbout.Foreground = new SolidColorBrush(Colors.Black);
+            TxtRecom.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -227,5 +239,7 @@ namespace MALClient.UserControls
         {
             return Utils.GetMainPageInstance();
         }
+
+
     }
 }

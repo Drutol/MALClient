@@ -30,7 +30,7 @@
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border x:Name="Border1" BorderThickness="0,0,0,2"
+                                    <Border  BorderThickness="0,0,0,2"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                             Grid.ColumnSpan="2" Visibility="Collapsed" />
                                     <SymbolIcon HorizontalAlignment="Center" Symbol="List" Grid.Column="0"
@@ -49,7 +49,7 @@
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border x:Name="Border3" BorderThickness="0,0,0,2"
+                                    <Border BorderThickness="0,0,0,2"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                             Grid.ColumnSpan="2" Visibility="Collapsed" />
                                     <SymbolIcon Symbol="Find" HorizontalAlignment="Center" Grid.Column="0"
@@ -68,13 +68,32 @@
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border x:Name="Border6" BorderThickness="0,0,0,2"
+                                    <Border BorderThickness="0,0,0,2"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                             Grid.ColumnSpan="2" Visibility="Collapsed" />
                                     <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
                                     <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime" FontWeight="Medium"
+                                               HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center"
+                                               TextAlignment="Center" />
+                                </Grid>
+                            </Button>
+                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                    Click="BtnRecom_Click" BorderThickness="0"
+                                    PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                <Grid Width="200" Height="50">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="0,0,0,2"
+                                            BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                            Grid.ColumnSpan="2" Visibility="Collapsed" />
+                                    <SymbolIcon Symbol="VideoChat" HorizontalAlignment="Center" Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
+                                    <TextBlock x:Name="TxtRecom" Text="Recommendations" FontWeight="Medium"
                                                HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center"
                                                TextAlignment="Center" />
                                 </Grid>
@@ -135,7 +154,7 @@
                                     <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
-                                            BorderThickness="0" Click="ButtonAbout_OnClick">
+                                            BorderThickness="0" Click="ButtonAbout_Click">
                                         <SymbolIcon x:Name="SymbolAbout" Symbol="Help" VerticalAlignment="Center"
                                                     HorizontalAlignment="Center" Margin="2,4,0,0">
                                             <SymbolIcon.RenderTransform>

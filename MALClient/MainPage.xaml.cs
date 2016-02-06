@@ -39,7 +39,7 @@ namespace MALClient
             Utils.CheckTiles();
             if (Creditentials.Authenticated)
             {
-                Navigate(PageIndex.PageAnimeList);
+                Navigate(PageIndex.PageRecomendations);
 
                 HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
             }
@@ -151,6 +151,11 @@ namespace MALClient
                     HideSearchStuff();
                     SetStatus("About");
                     MainContent.Navigate(typeof (AboutPage));
+                    break;
+                case PageIndex.PageRecomendations:
+                    HideSearchStuff();
+                    SetStatus("Recommendations");
+                    MainContent.Navigate(typeof(RecomendationsPage));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

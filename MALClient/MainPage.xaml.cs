@@ -355,8 +355,14 @@ namespace MALClient
 
         internal void PurgeUserCache(string source)
         {
-            _allAnimeItemsCache[source.ToLower()].LoadedAnime.Clear();
-            _allAnimeItemsCache[source.ToLower()] = null;
+            try
+            {
+                _allAnimeItemsCache[source.ToLower()].LoadedAnime.Clear();
+            }
+            catch (Exception)
+            {
+                //no entry here
+            }            
         }
 
         //Profile

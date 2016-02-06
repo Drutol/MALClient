@@ -713,9 +713,9 @@ namespace MALClient.Pages
 
         private async void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e == null || e.Key == VirtualKey.Enter)
+            if ((sender == null && e == null) || e.Key == VirtualKey.Enter)
             {
-                if (_currentSoure.ToLower() != Creditentials.UserName.ToLower())
+                if (_currentSoure != null && !string.Equals(_currentSoure, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                     Utils.GetMainPageInstance().PurgeUserCache(_currentSoure);
                         //why would we want to keep those entries?
                 _currentSoure = TxtListSource.Text;

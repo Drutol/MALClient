@@ -110,7 +110,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="150" />
-            <RowDefinition Height="400" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Image x:Name="Img" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto"
@@ -271,9 +271,9 @@
             <TextBlock x:Name="TxtGenres" VerticalAlignment="Top" HorizontalAlignment="Center" Height="40"
                        TextWrapping="WrapWholeWords" FontWeight="Medium" TextAlignment="Center" Margin="10,10,10,5"
                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-            <ScrollViewer VerticalScrollMode="Auto" Height="Auto" Margin="5,50,5,5" VerticalAlignment="Top"
+            <ScrollViewer VerticalScrollMode="Auto" Height="Auto" Margin="5,50,5,10" VerticalAlignment="Top"
                           VerticalScrollBarVisibility="Hidden">
-                <TextBlock x:Name="TxtSynopsis" TextWrapping="WrapWholeWords" />
+                <TextBlock x:Name="TxtSynopsis" TextWrapping="WrapWholeWords" VerticalAlignment="Stretch" />
             </ScrollViewer>
         </Grid>
     </Grid>

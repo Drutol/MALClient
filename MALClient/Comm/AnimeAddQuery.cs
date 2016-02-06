@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MALClient.Comm
 {
-    class AnimeAddQuery : Query
+    internal class AnimeAddQuery : Query
     {
         public AnimeAddQuery(string id)
         {
@@ -30,7 +30,8 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
             Request.Credentials = Creditentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

@@ -3,7 +3,7 @@ using System.Net;
 
 namespace MALClient.Comm
 {
-    class MALProfileQuery : Query
+    internal class MALProfileQuery : Query
     {
         public MALProfileQuery()
         {

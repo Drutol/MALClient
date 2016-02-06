@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -10,15 +9,15 @@ using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Comm;
-using MALClient.Items;
 using MALClient.Pages;
 using MALClient.UserControls;
 
- 
 namespace MALClient
 {
     public static class Utils
     {
+        private static readonly string[] SizeSuffixes = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+
         public static string StatusToString(int status)
         {
             switch (status)
@@ -91,7 +90,7 @@ namespace MALClient
         public static void RegisterTile(string id)
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (String.IsNullOrWhiteSpace(tiles))
+            if (string.IsNullOrWhiteSpace(tiles))
                 tiles = "";
             tiles += id + ";";
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
@@ -99,19 +98,19 @@ namespace MALClient
 
         public static async void CheckTiles()
         {
-            string tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (String.IsNullOrWhiteSpace(tiles))
+            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
+            if (string.IsNullOrWhiteSpace(tiles))
                 return;
 
 
-            string newTiles = "";
+            var newTiles = "";
             foreach (var tileId in tiles.Split(';'))
             {
                 if (!SecondaryTile.Exists(tileId))
                 {
                     try
                     {
-                        var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
+                        StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
                         await file.DeleteAsync();
                     }
                     catch (Exception)
@@ -135,13 +134,13 @@ namespace MALClient
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return origin.AddSeconds(timestamp);
         }
 
         public static int ConvertToUnixTimestamp(DateTime date)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return (int) Math.Floor(diff.TotalSeconds);
         }
@@ -176,10 +175,8 @@ namespace MALClient
             return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 10);
         }
 
-        static readonly string[] SizeSuffixes = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
-
         /// <summary>
-        /// http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc
+        ///     http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc
         /// </summary>
         public static string SizeSuffix(long value)
         {
@@ -192,8 +189,8 @@ namespace MALClient
                 return "0.0 bytes";
             }
 
-            int mag = (int) Math.Log(value, 1024);
-            decimal adjustedSize = (decimal) value/(1L << (mag*10));
+            var mag = (int) Math.Log(value, 1024);
+            var adjustedSize = (decimal) value/(1L << (mag*10));
 
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
@@ -204,15 +201,17 @@ namespace MALClient
                 return;
             try
             {
-                var folder = ApplicationData.Current.LocalFolder;
-                var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
+                StorageFolder folder = ApplicationData.Current.LocalFolder;
+                StorageFile thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
-                HttpClient http = new HttpClient();
-                byte[] response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"); //get bytes
+                var http = new HttpClient();
+                byte[] response =
+                    await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg");
+                    //get bytes
 
-                using (var fs = await thumb.OpenStreamForWriteAsync())  //get stream
+                using (Stream fs = await thumb.OpenStreamForWriteAsync()) //get stream
                 {
-                    using (DataWriter writer = new DataWriter(fs.AsOutputStream()))
+                    using (var writer = new DataWriter(fs.AsOutputStream()))
                     {
                         writer.WriteBytes(response); //write
                         await writer.StoreAsync();
@@ -229,22 +228,22 @@ namespace MALClient
             }
         }
 
-         public static string CleanAnimeTitle(string title)
-         {
-             var index = title.IndexOf('+');
-             return index == -1 ? title : title.Substring(0, index);
-         }
+        public static string CleanAnimeTitle(string title)
+        {
+            var index = title.IndexOf('+');
+            return index == -1 ? title : title.Substring(0, index);
+        }
 
-    #region BackNavigation
+        #region BackNavigation
 
-    private static PageIndex _pageTo;
+        private static PageIndex _pageTo;
         private static object _args;
 
         public static void RegisterBackNav(PageIndex page, object args)
         {
             _pageTo = page;
             _args = args;
-            var currentView = SystemNavigationManager.GetForCurrentView();
+            SystemNavigationManager currentView = SystemNavigationManager.GetForCurrentView();
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             currentView.BackRequested += CurrentViewOnBackRequested;
         }
@@ -252,14 +251,14 @@ namespace MALClient
         private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
-            var page = GetMainPageInstance();
+            MainPage page = GetMainPageInstance();
             await page.Navigate(_pageTo, _args);
             page.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
         }
 
         public static void DeregisterBackNav()
         {
-            var currentView = SystemNavigationManager.GetForCurrentView();
+            SystemNavigationManager currentView = SystemNavigationManager.GetForCurrentView();
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             currentView.BackRequested -= CurrentViewOnBackRequested;
             _args = null;

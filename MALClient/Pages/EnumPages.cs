@@ -10,5 +10,4 @@
         PageProfile,
         PageAbout
     }
-
 }

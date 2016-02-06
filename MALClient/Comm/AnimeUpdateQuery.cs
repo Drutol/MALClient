@@ -5,11 +5,10 @@ using MALClient.Items;
 
 namespace MALClient.Comm
 {
-    class AnimeUpdateQuery : Query
+    internal class AnimeUpdateQuery : Query
     {
         public AnimeUpdateQuery(AnimeItem item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore)
         {
-            
         }
 
 
@@ -37,7 +36,8 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
             Request.Credentials = Creditentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

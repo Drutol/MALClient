@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -11,13 +12,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
+
 #pragma warning disable 4014
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
- 
+
 namespace MALClient.UserControls
 {
-
     public enum HamburgerButtons
     {
         AnimeList,
@@ -31,21 +32,23 @@ namespace MALClient.UserControls
 
     public sealed partial class HamburgerControl : UserControl
     {
+        private bool? _prevState;
         private int _stackPanelHeightSum = 275; //base value
+
+        private bool _subtractedHeightForButton = true;
 
         public HamburgerControl()
         {
             InitializeComponent();
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             Loaded += OnLoaded;
-
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if(!Creditentials.Authenticated)
+            if (!Creditentials.Authenticated)
                 _stackPanelHeightSum = 275;
-            UpdateProfileImg();     
+            UpdateProfileImg();
         }
 
         internal void PaneOpened()
@@ -55,16 +58,15 @@ namespace MALClient.UserControls
             GridBtmMargin.Height = GridSeparator.Height < 1 ? 50 : 0;
         }
 
-        private bool _subtractedHeightForButton = true;
         internal async Task UpdateProfileImg(bool dl = true)
         {
             if (Creditentials.Authenticated)
             {
                 try
                 {
-                    var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
-                    var props = await file.GetBasicPropertiesAsync();
-                    if(props.Size == 0)
+                    StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
+                    BasicProperties props = await file.GetBasicPropertiesAsync();
+                    if (props.Size == 0)
                         throw new FileNotFoundException();
                     var bitmap = new BitmapImage();
                     using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
@@ -75,7 +77,7 @@ namespace MALClient.UserControls
                 }
                 catch (FileNotFoundException)
                 {
-                    if(dl)
+                    if (dl)
                         Utils.DownloadProfileImg();
                 }
                 catch (Exception)
@@ -89,7 +91,6 @@ namespace MALClient.UserControls
                     _stackPanelHeightSum += 35;
                     _subtractedHeightForButton = false;
                 }
-
             }
             else
             {
@@ -99,8 +100,6 @@ namespace MALClient.UserControls
                     _stackPanelHeightSum -= 35;
                     _subtractedHeightForButton = true;
                 }
-
-                
             }
         }
 
@@ -136,7 +135,7 @@ namespace MALClient.UserControls
 
         private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
         {
-            GetMainPageInstance().Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs());
+            GetMainPageInstance().Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs());
             SetActiveButton(HamburgerButtons.Seasonal);
         }
 
@@ -161,16 +160,19 @@ namespace MALClient.UserControls
                     TxtLogin.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
                 case HamburgerButtons.Settings:
-                    TxtSettings.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    TxtSettings.Foreground =
+                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
                 case HamburgerButtons.Profile:
                     TxtProfile.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
                 case HamburgerButtons.Seasonal:
-                    TxtSeasonal.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    TxtSeasonal.Foreground =
+                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
                 case HamburgerButtons.About:
-                    SymbolAbout.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                    SymbolAbout.Foreground =
+                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
@@ -190,8 +192,8 @@ namespace MALClient.UserControls
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            Grid grid = btn.Content as Grid;
+            var btn = sender as Button;
+            var grid = btn.Content as Grid;
             foreach (Border item in grid.Children.OfType<Border>())
             {
                 item.Visibility = Visibility.Visible;
@@ -201,8 +203,8 @@ namespace MALClient.UserControls
 
         private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            Grid grid = btn.Content as Grid;
+            var btn = sender as Button;
+            var grid = btn.Content as Grid;
             foreach (Border item in grid.Children.OfType<Border>())
             {
                 item.Visibility = Visibility.Collapsed;
@@ -210,15 +212,14 @@ namespace MALClient.UserControls
             }
         }
 
-        private bool? _prevState;
         public void ChangeBottomStackPanelMargin(bool up)
         {
-            if (up == _prevState)         
+            if (up == _prevState)
                 return;
 
             _prevState = up;
-            
-            _stackPanelHeightSum += up ? 50 : -50 ;
+
+            _stackPanelHeightSum += up ? 50 : -50;
         }
 
 
@@ -226,7 +227,5 @@ namespace MALClient.UserControls
         {
             return Utils.GetMainPageInstance();
         }
-
-
     }
 }

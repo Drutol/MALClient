@@ -4,12 +4,12 @@ namespace MALClient.Comm
 {
     public static class UriBuilder
     {
-        public static string GetUri(UriType type,IParameters parameters)
+        public static string GetUri(UriType type, IParameters parameters)
         {
             string uri;
             switch (type)
             {
-                case UriType.AnimeListUpdate:               
+                case UriType.AnimeListUpdate:
                     uri = "http://myanimelist.net/malappinfo.php?";
                     break;
                 default:

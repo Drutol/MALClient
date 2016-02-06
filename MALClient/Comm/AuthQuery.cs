@@ -3,7 +3,7 @@ using System.Net;
 
 namespace MALClient.Comm
 {
-    class AuthQuery : Query
+    internal class AuthQuery : Query
     {
         public AuthQuery()
         {

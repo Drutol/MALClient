@@ -2,46 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using MALClient.Pages;
-using System.Xml.Linq;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Store;
-using Windows.UI.Core;
-using Windows.UI.Popups;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.Pages;
 using MALClient.UserControls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
- 
+
 namespace MALClient
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private readonly Dictionary<string, AnimeUserCache> _allAnimeItemsCache =
+            new Dictionary<string, AnimeUserCache>();
 
-        private Dictionary<string,AnimeUserCache> _allAnimeItemsCache = new Dictionary<string, AnimeUserCache>();
-        private List<AnimeItemAbstraction> _seasonalAnimeCache = new List<AnimeItemAbstraction>(); 
-        private bool _onSearchPage = false;
-        private bool _wasOnDetailsFromSearch = false;
-        private bool? _searchStateBeforeNavigatingToSearch = null;
+        private bool _onSearchPage;
         private Tuple<DateTime, ProfileData> _profileDataCache;
-        public HamburgerControl Hamburger => HamburgerControl;
-        #pragma warning disable 4014
+        private bool? _searchStateBeforeNavigatingToSearch;
+        private List<AnimeItemAbstraction> _seasonalAnimeCache = new List<AnimeItemAbstraction>();
+        private bool _wasOnDetailsFromSearch;
+#pragma warning disable 4014
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Utils.CheckTiles();
             if (Creditentials.Authenticated)
             {
-
                 Navigate(PageIndex.PageAnimeList);
 
                 HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
@@ -52,9 +49,10 @@ namespace MALClient
                 Navigate(PageIndex.PageLogIn);
                 HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
             }
-
         }
-        #pragma warning restore 4014
+#pragma warning restore 4014
+        public HamburgerControl Hamburger => HamburgerControl;
+
         private void ReversePane()
         {
             MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
@@ -62,7 +60,6 @@ namespace MALClient
                 HamburgerControl.PaneOpened();
             //else            
             //    HamburgerControl.PaneClosed();
-
         }
 
         internal async void UpdateHamburger()
@@ -72,17 +69,18 @@ namespace MALClient
 
         public void AnimeListScrollTo(AnimeItem animeItem)
         {
-            if(MainContent.Content is AnimeListPage)
+            if (MainContent.Content is AnimeListPage)
                 ((AnimeListPage) MainContent.Content).ScrollTo(animeItem);
         }
 
         #region Navigation
+
         internal async Task Navigate(PageIndex index, object args = null)
         {
-            bool wasOnSearchPage = _onSearchPage;
+            var wasOnSearchPage = _onSearchPage;
             _onSearchPage = false;
             MainMenu.IsPaneOpen = false;
-         
+
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
@@ -95,7 +93,7 @@ namespace MALClient
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
                 SearchToggle.IsChecked = _searchStateBeforeNavigatingToSearch;
-                if(SearchToggle.IsChecked.Value)
+                if (SearchToggle.IsChecked.Value)
                     ShowSearchStuff();
                 else
                 {
@@ -116,42 +114,43 @@ namespace MALClient
                     await Task.Run(async () =>
                     {
                         await
-                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                            {
-                               MainContent.Navigate(typeof (Pages.AnimeListPage), args);
-                            });
+                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                                () => { MainContent.Navigate(typeof (AnimeListPage), args); });
                     });
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
-                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null; //from search , details are passed instead of being downloaded once more
-                    MainContent.Navigate(typeof(Pages.AnimeDetailsPage), args);
+                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null;
+                        //from search , details are passed instead of being downloaded once more
+                    MainContent.Navigate(typeof (AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
-                    MainContent.Navigate(typeof(Pages.SettingsPage));
+                    MainContent.Navigate(typeof (SettingsPage));
                     break;
                 case PageIndex.PageSearch:
                     NavigateSearch(args != null);
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    MainContent.Navigate(typeof(Pages.LogInPage));
+                    MainContent.Navigate(typeof (LogInPage));
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    await Task.Run(async () =>
-                    {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                        {
-                            MainContent.Navigate(typeof (Pages.ProfilePage), RetrieveProfileData());
-                        });
-                    });
+                    await
+                        Task.Run(
+                            async () =>
+                            {
+                                await
+                                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                                        CoreDispatcherPriority.High,
+                                        () => { MainContent.Navigate(typeof (ProfilePage), RetrieveProfileData()); });
+                            });
                     break;
                 case PageIndex.PageAbout:
                     HideSearchStuff();
                     SetStatus("About");
-                    MainContent.Navigate(typeof(Pages.AboutPage));
+                    MainContent.Navigate(typeof (AboutPage));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -161,7 +160,8 @@ namespace MALClient
         internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
         {
             var page = MainContent.Content as AnimeListPage;
-            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,page.CurrentPage,seasonal,page.ListSource);
+            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
+                page.CurrentPage, seasonal, page.ListSource);
         }
 
 
@@ -174,7 +174,7 @@ namespace MALClient
             ToggleSearchStuff();
             if (!autoSearch)
                 SearchInput.Focus(FocusState.Keyboard);
-            MainContent.Navigate(typeof (Pages.AnimeSearchPage), autoSearch ? GetSearchQuery() : "");
+            MainContent.Navigate(typeof (AnimeSearchPage), autoSearch ? GetSearchQuery() : "");
         }
 
         #endregion
@@ -189,7 +189,6 @@ namespace MALClient
         public void SetStatus(string status)
         {
             CurrentStatus.Text = status;
-
         }
 
         private void ShowSearchStuff()
@@ -221,7 +220,7 @@ namespace MALClient
 
         #region Search
 
-        private string _currSearchQuery = null;
+        private string _currSearchQuery;
 
         private void SearchQuerySubmitted(object o, TextChangedEventArgs textChangedEventArgs)
         {
@@ -243,7 +242,7 @@ namespace MALClient
             if (!_onSearchPage)
                 return;
 
-            if ((e==null || e.Key == VirtualKey.Enter) && SearchInput.Text.Length >= 2)
+            if ((e == null || e.Key == VirtualKey.Enter) && SearchInput.Text.Length >= 2)
             {
                 SearchInput.IsEnabled = false; //reset input
                 SearchInput.IsEnabled = true;
@@ -258,7 +257,7 @@ namespace MALClient
             if (_onSearchPage)
             {
                 btn.IsChecked = true;
-                SearchInput_OnKeyDown(null,null);
+                SearchInput_OnKeyDown(null, null);
                 return;
             }
             if ((bool) btn.IsChecked)
@@ -281,15 +280,15 @@ namespace MALClient
 
         #region SmallDataCaching
 
-        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, DateTime updateTime )
+        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, DateTime updateTime)
         {
-            _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache()
+            _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache
             {
                 LoadedAnime = items,
-                LastUpdate = updateTime,
+                LastUpdate = updateTime
             };
-            bool changedSomething = false;
-            foreach (var animeItemAbstraction in items)
+            var changedSomething = false;
+            foreach (AnimeItemAbstraction animeItemAbstraction in items)
             {
                 if (animeItemAbstraction.MyEpisodes == animeItemAbstraction.AllEpisodes)
                 {
@@ -297,7 +296,7 @@ namespace MALClient
                     DataCache.DeregisterVolatileData(animeItemAbstraction.Id);
                 }
             }
-            if(changedSomething)
+            if (changedSomething)
                 DataCache.SaveVolatileData();
         }
 
@@ -306,17 +305,19 @@ namespace MALClient
             if (!Creditentials.Authenticated)
                 return null;
             AnimeUserCache data;
-            _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(),out data);
+            _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(), out data);
             return data;
         }
 
-        public bool TryRetrieveAuthenticatedAnimeItem(int id,ref IAnimeData reference)
+        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference)
         {
             if (!Creditentials.Authenticated)
                 return false;
             try
             {
-                reference = _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.First(abstraction => abstraction.Id == id).AnimeItem;
+                reference =
+                    _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.First(
+                        abstraction => abstraction.Id == id).AnimeItem;
                 return true;
             }
             catch (Exception)
@@ -325,7 +326,7 @@ namespace MALClient
             }
         }
 
-        public void RetrieveAnimeEntries(string source,out List<AnimeItemAbstraction> loadedItems  ,out DateTime time )
+        public void RetrieveAnimeEntries(string source, out List<AnimeItemAbstraction> loadedItems, out DateTime time)
         {
             AnimeUserCache data;
             _allAnimeItemsCache.TryGetValue(source.ToLower(), out data);
@@ -361,7 +362,7 @@ namespace MALClient
         //Profile
         public void SaveProfileData(ProfileData data)
         {
-            _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now,data);
+            _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now, data);
         }
 
         private ProfileData RetrieveProfileData()
@@ -373,6 +374,7 @@ namespace MALClient
                 return _profileDataCache.Item2;
             return null;
         }
+
         //Season
         public void SaveSeasonData(List<AnimeItemAbstraction> data)
         {
@@ -388,16 +390,20 @@ namespace MALClient
         {
             _allAnimeItemsCache[userName.ToLower()].LoadedAnime.Clear();
         }
+
         #endregion
 
         #region LogInOut
+
         public void LogOut()
         {
-            foreach (var userCach in _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
+            foreach (
+                AnimeItemAbstraction userCach in
+                    _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
             {
                 userCach.SetAuthStatus(false, true);
             }
-            foreach (var animeItemAbstraction in _seasonalAnimeCache)
+            foreach (AnimeItemAbstraction animeItemAbstraction in _seasonalAnimeCache)
             {
                 animeItemAbstraction.SetAuthStatus(false, true);
             }
@@ -406,17 +412,17 @@ namespace MALClient
         public void LogIn()
         {
             _seasonalAnimeCache.Clear();
-            //try
-            //{
-            //    _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
-            //    _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
-            //}
-            //catch (Exception) { /* ignored */ }
+            try
+            {
+                _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
+                _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
+            }
+            catch (Exception)
+            {
+                /* ignored */
+            }
         }
+
         #endregion
-
-
-
-
     }
 }

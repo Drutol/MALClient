@@ -11,43 +11,53 @@
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
-                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Grid Margin="10" BorderThickness="5,0,0,0"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Margin="10">
-                            <TextBlock Text="Hello!" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Text="Hello!" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
                                 Thanks for checking out this application , I'd like to let you know that this app is open source and you can find it's code here:
                             </TextBlock>
-                            <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center" Click="LaunchRepo"/>
+                            <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center"
+                                    Click="LaunchRepo" />
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
-                                <LineBreak/>
-                                This application is built on top of official MyAnimeList API.                              
+                                <LineBreak />
+                                This application is built on top of official MyAnimeList API.
                             </TextBlock>
                         </StackPanel>
                     </Grid>
-                    <Grid  Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Grid Margin="10" BorderThickness="5,0,0,0"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel Margin="10">
-                            <TextBlock Text="Support" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Text="Support" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
-                            If there are any issues , ideas , gripes , bug reports etc. PLEASE by all means report it here :
+                                If there are any issues , ideas , gripes , bug reports etc. PLEASE by all means report it here :
                             </TextBlock>
-                            <Button Content="Take me to issues board!" Margin="10" HorizontalAlignment="Center" Click="LaunchIssues"/>
+                            <Button Content="Take me to issues board!" Margin="10" HorizontalAlignment="Center"
+                                    Click="LaunchIssues" />
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
-                            I'm checking it daily so don't hesitate to post there :)
+                                I'm checking it daily so don't hesitate to post there :)
                             </TextBlock>
                         </StackPanel>
                     </Grid>
-                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Grid Margin="10" BorderThickness="5,0,0,0"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel HorizontalAlignment="Stretch">
-                            <TextBlock Text="Donate" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                            <TextBlock Text="If you would like to say 'thank you' you can do so by donating:"  HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
+                            <TextBlock Text="Donate" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <TextBlock Text="If you would like to say 'thank you' you can do so by donating:"
+                                       HorizontalAlignment="Center" TextWrapping="WrapWholeWords" />
                             <Grid Margin="10" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Center">
                                 <StackPanel>
                                     <MenuFlyoutItem x:Name="Donate1" Text="Donate $0.99" Click="Donate" />
-                                    <MenuFlyoutItem x:Name="Donate2" Text="Donate $1.99" Click="Donate" BorderBrush="LightGray" BorderThickness="0,1,0,1"/>
-                                    <MenuFlyoutItem  x:Name="Donate3" Text="Donate $2.99" Click="Donate"/>
+                                    <MenuFlyoutItem x:Name="Donate2" Text="Donate $1.99" Click="Donate"
+                                                    BorderBrush="LightGray" BorderThickness="0,1,0,1" />
+                                    <MenuFlyoutItem x:Name="Donate3" Text="Donate $2.99" Click="Donate" />
                                 </StackPanel>
                             </Grid>
                             <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0" TextWrapping="WrapWholeWords">
@@ -55,28 +65,33 @@
                             </TextBlock>
                         </StackPanel>
                     </Grid>
-                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Grid Margin="10" BorderThickness="5,0,0,0"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel HorizontalAlignment="Stretch">
-                            <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5" Height="5"></Ellipse>
+                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
+                                         Height="5" />
                                 <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
                                     v1.0 Initial release.
                                 </TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
-                    <Grid Margin="10" BorderThickness="5,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Grid Margin="10" BorderThickness="5,0,0,0"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <StackPanel HorizontalAlignment="Stretch">
-                            <TextBlock Text="Disclaimer" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Text="Disclaimer" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                             <TextBlock Margin="20,0,0,0" VerticalAlignment="Center" TextWrapping="WrapWholeWords">
-                                    MyAnimeList API leaves much to be desired , and I have done everything I could to make it work like this. If you are wondering why Seasonal anime takes so long to load , the answer is that API does not provide this data and in order to obtain it I have to download raw page , parse it and then display it. I wish I could do this better... but it is the only way right now :(
+                                MyAnimeList API leaves much to be desired , and I have done everything I could to make it work like this. If you are wondering why Seasonal anime takes so long to load , the answer is that API does not provide this data and in order to obtain it I have to download raw page , parse it and then display it. I wish I could do this better... but it is the only way right now :(
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                     <Grid VerticalAlignment="Stretch" Margin="20,0,20,0">
-                        <TextBlock Text="MALClient version" HorizontalAlignment="Left"/>
-                        <TextBlock Text="v1.0" FontWeight="Medium" HorizontalAlignment="Right"/>
+                        <TextBlock Text="MALClient version" HorizontalAlignment="Left" />
+                        <TextBlock Text="v1.0" FontWeight="Medium" HorizontalAlignment="Right" />
                     </Grid>
                 </StackPanel>
             </Grid>

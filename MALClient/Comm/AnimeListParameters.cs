@@ -1,6 +1,6 @@
 ﻿namespace MALClient.Comm
 {
-    class AnimeListParameters : IParameters
+    internal class AnimeListParameters : IParameters
     {
         public string user { get; set; }
         public string status { get; set; }

@@ -13,15 +13,15 @@ namespace MALClient.Comm
 
         public async Task<string> GetRequestResponse()
         {
-            string responseString = "";
+            var responseString = "";
             try
             {
-                var response = await Request.GetResponseAsync();
+                WebResponse response = await Request.GetResponseAsync();
 
-                
+
                 using (Stream stream = response.GetResponseStream())
                 {
-                    StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                    var reader = new StreamReader(stream, Encoding.UTF8);
                     responseString = reader.ReadToEnd();
                     reader.Dispose();
                 }
@@ -29,13 +29,10 @@ namespace MALClient.Comm
             }
             catch (Exception e)
             {
-                var msg = new MessageDialog(e.Message,"An error occured");
+                var msg = new MessageDialog(e.Message, "An error occured");
                 await msg.ShowAsync();
             }
             return responseString;
         }
-
     }
-
-    
 }

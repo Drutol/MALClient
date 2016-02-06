@@ -1,7 +1,6 @@
 ﻿using System;
 using Windows.ApplicationModel.Store;
 using Windows.System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -11,13 +10,13 @@ using Windows.UI.Xaml.Navigation;
 namespace MALClient.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class AboutPage : Page
     {
         public AboutPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -38,14 +37,11 @@ namespace MALClient.Pages
             {
                 var btn = sender as MenuFlyoutItem;
                 await CurrentApp.RequestProductPurchaseAsync(btn.Name, false);
-                var msg = new MessageDialog("Thanks for donating!");
-                await msg.ShowAsync();
             }
             catch (Exception)
             {
                 // no donation
             }
-            
         }
 
         private async void LaunchIssues(object sender, RoutedEventArgs e)

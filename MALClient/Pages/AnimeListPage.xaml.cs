@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.ApplicationModel.Core;
@@ -12,28 +13,28 @@ using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
- 
+
 namespace MALClient.Pages
 {
-
     public class AnimeListPageNavigationArgs
     {
-        public AnimeListPage.SortOptions SortOption;
-        public readonly int Status;
-        public readonly bool Descending;
-        public readonly bool LoadSeasonal;
         public readonly int CurrPage;
-        public readonly bool NavArgs;
+        public readonly bool Descending;
         public readonly string ListSource;
+        public readonly bool LoadSeasonal;
+        public readonly bool NavArgs;
+        public readonly int Status;
+        public AnimeListPage.SortOptions SortOption;
+
         public AnimeListPageNavigationArgs(AnimeListPage.SortOptions sort, int status, bool desc, int page,
-            bool seasonal,string source)
+            bool seasonal, string source)
         {
             SortOption = sort;
             Status = status;
@@ -51,7 +52,7 @@ namespace MALClient.Pages
     }
 
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class AnimeListPage : Page
     {
@@ -64,35 +65,138 @@ namespace MALClient.Pages
             SortAirDay
         }
 
-        private SortOptions _sortOption = SortOptions.SortNothing;
-
-        public SortOptions SortOption => _sortOption;
-        public int CurrentStatus => GetDesiredStatus();
-        public bool SortDescending => _sortDescending;
-        public int CurrentPage => _currentPage;
-        public string ListSource => TxtListSource.Text;
-        private bool _sortDescending;
-        private bool _loaded;
-        private string _currentSoure;
-        private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
-        private ObservableCollection<AnimeItemAbstraction> _animeItemsSet = new ObservableCollection<AnimeItemAbstraction>(); //All for current list
-        private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
-        private DateTime _lastUpdate;
-        private System.Threading.Timer _timer;
-        private bool _seasonalState = false;
-        private int _currentPage = 1;
-        private int _allPages;
         private readonly int _itemsPerPage = Utils.GetItemsPerPage();
-        private bool _wasPreviousQuery = false;
+        private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+        private int _allPages;
+        private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
 
-        #region Init
-        public AnimeListPage()
+        private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
+            new ObservableCollection<AnimeItemAbstraction>(); //All for current list
+
+        private string _currentSoure;
+        private DateTime _lastUpdate;
+        private bool _loaded;
+        private bool _seasonalState;
+
+        private Timer _timer;
+        private bool _wasPreviousQuery;
+
+        public SortOptions SortOption { get; private set; } = SortOptions.SortNothing;
+
+        public int CurrentStatus => GetDesiredStatus();
+        public bool SortDescending { get; private set; }
+
+        public int CurrentPage { get; private set; } = 1;
+
+        public string ListSource => TxtListSource.Text;
+
+        public void RefreshList(bool searchSource = false)
         {
-            this.InitializeComponent();
-            this.Loaded += MainWindow_Loaded;
+            var query = Utils.GetMainPageInstance()?.GetSearchQuery();
+            var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
+            if (!_wasPreviousQuery && searchSource && !queryCondition)
+                // refresh was requested from search but there's nothing to update
+                return;
+
+            _wasPreviousQuery = queryCondition;
+            CurrentPage = 1;
+
+            _animeItemsSet.Clear();
+            var status = queryCondition ? 7 : GetDesiredStatus();
+
+            IEnumerable<AnimeItemAbstraction> items =
+                _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+            if (queryCondition)
+                items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
+            switch (SortOption)
+            {
+                case SortOptions.SortTitle:
+                    items = items.OrderBy(item => item.Title);
+                    break;
+                case SortOptions.SortScore:
+                    if (!_seasonalState)
+                        items = items.OrderBy(item => item.MyScore);
+                    else
+                        items = items.OrderBy(item => item.GlobalScore);
+                    break;
+                case SortOptions.SortWatched:
+                    if (_seasonalState)
+                        items = items.OrderBy(item => item.Index);
+                    else
+                        items = items.OrderBy(item => item.MyEpisodes);
+                    break;
+                case SortOptions.SortNothing:
+                    break;
+                case SortOptions.SortAirDay:
+                    var today = (int) DateTime.Now.DayOfWeek;
+                    today++;
+                    IEnumerable<AnimeItemAbstraction> nonAiringItems =
+                        items.Where(abstraction => abstraction.AirDay == -1);
+                    IEnumerable<AnimeItemAbstraction> airingItems = items.Where(abstraction => abstraction.AirDay != -1);
+                    IEnumerable<AnimeItemAbstraction> airingAfterToday =
+                        airingItems.Where(abstraction => abstraction.AirDay >= today);
+                    IEnumerable<AnimeItemAbstraction> airingBeforeToday =
+                        airingItems.Where(abstraction => abstraction.AirDay < today);
+                    if (SortDescending)
+                        items = airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                            .Concat(
+                                airingBeforeToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                                    .Concat(nonAiringItems));
+                    else
+                        items = airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
+                            .Concat(
+                                airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                    .Concat(nonAiringItems));
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
+            }
+            //If we are descending then reverse order
+            if (SortDescending && SortOption != SortOptions.SortAirDay)
+                items = items.Reverse();
+            //Add all abstractions to current set (spread across pages)
+            foreach (AnimeItemAbstraction item in items)
+                _animeItemsSet.Add(item);
+            //If we have items then we should hide EmptyNotice       
+            EmptyNotice.Visibility = _animeItemsSet.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            //How many pages do we have?
+            _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
+            if (_allPages <= 1)
+                AnimesTopPageControls.Visibility = Visibility.Collapsed;
+            else
+            {
+                AnimesTopPageControls.Visibility = Visibility.Visible;
+                if (CurrentPage <= 1)
+                {
+                    BtnPrevPage.IsEnabled = false;
+                    CurrentPage = 1;
+                }
+                else
+                {
+                    BtnPrevPage.IsEnabled = true;
+                }
+
+                BtnNextPage.IsEnabled = CurrentPage != _allPages;
+            }
+
+
+            ApplyCurrentPage();
+            AlternateRowColors();
+            UpdateUpperStatus();
+            UpdateNotice.Text = GetLastUpdatedStatus();
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        #region Init
+
+        public AnimeListPage()
+        {
+            InitializeComponent();
+            Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
             try
@@ -103,13 +207,13 @@ namespace MALClient.Pages
             }
             catch (Exception)
             {
-                //igored
-            }     
+                //ignored
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            AnimeListPageNavigationArgs args = e.Parameter as AnimeListPageNavigationArgs;
+            var args = e.Parameter as AnimeListPageNavigationArgs;
             if (args != null)
             {
                 if (args.LoadSeasonal)
@@ -124,16 +228,16 @@ namespace MALClient.Pages
                     {
                         TxtListSource.Text = args.ListSource;
                         _currentSoure = args.ListSource;
-                        BtnOrderDescending.IsChecked = _sortDescending = args.Descending;
+                        BtnOrderDescending.IsChecked = SortDescending = args.Descending;
                         SetSortOrder(args.SortOption); //index
                         SetDesiredStatus(args.Status);
-                        _currentPage = args.CurrPage;
+                        CurrentPage = args.CurrPage;
                     }
                     else
                     {
-                        BtnOrderDescending.IsChecked = _sortDescending = false;
+                        BtnOrderDescending.IsChecked = SortDescending = false;
                         SetSortOrder(SortOptions.SortWatched); //index
-                        SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+                        SetDesiredStatus((int) AnimeStatus.AllOrAiring);
                     }
 
                     SwitchFiltersToSeasonal();
@@ -142,10 +246,8 @@ namespace MALClient.Pages
                     await Task.Run(async () =>
                     {
                         await
-                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-                            {
-                                await FetchSeasonalData();
-                            });
+                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                                async () => { await FetchSeasonalData(); });
                     });
                     return;
                 } // else we just have nav data
@@ -155,8 +257,8 @@ namespace MALClient.Pages
                 SetSortOrder(args.SortOption);
                 SetDesiredStatus(args.Status);
                 BtnOrderDescending.IsChecked = args.Descending;
-                _sortDescending = args.Descending;
-                _currentPage = args.CurrPage;
+                SortDescending = args.Descending;
+                CurrentPage = args.CurrPage;
             }
             else // default
                 SetDefaults();
@@ -180,15 +282,18 @@ namespace MALClient.Pages
             }
 
             if (_timer == null)
-                _timer = new System.Threading.Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+                _timer = new Timer(state => { UpdateStatus(); }, null, (int) TimeSpan.FromMinutes(1).TotalMilliseconds,
+                    (int) TimeSpan.FromMinutes(1).TotalMilliseconds);
 
             UpdateStatus();
-            
+
             base.OnNavigatedTo(e);
         }
+
         #endregion
 
         #region UIHelpers
+
         private void SwitchSortingToSeasonal()
         {
             sort3.Text = "Index";
@@ -201,10 +306,9 @@ namespace MALClient.Pages
 
         private async void UpdateStatus()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                UpdateNotice.Text = GetLastUpdatedStatus();
-            });
+            await
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => { UpdateNotice.Text = GetLastUpdatedStatus(); });
         }
 
         private void SetDefaults()
@@ -212,7 +316,7 @@ namespace MALClient.Pages
             SetSortOrder(null);
             SetDesiredStatus(null);
             BtnOrderDescending.IsChecked = Utils.IsSortDescending();
-            _sortDescending = Utils.IsSortDescending();
+            SortDescending = Utils.IsSortDescending();
         }
 
         internal void ScrollTo(AnimeItem animeItem)
@@ -220,7 +324,7 @@ namespace MALClient.Pages
             try
             {
                 var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-                double offset = _animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
+                var offset = _animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
                 scrollViewer.ScrollToVerticalOffset(offset);
             }
             catch (Exception)
@@ -233,7 +337,7 @@ namespace MALClient.Pages
         {
             while (true)
             {
-                var page = Utils.GetMainPageInstance();
+                MainPage page = Utils.GetMainPageInstance();
 
                 if (page != null)
 
@@ -257,9 +361,9 @@ namespace MALClient.Pages
 
         private void AlternateRowColors()
         {
-            for (int i = 0; i < _animeItems.Count; i++)
+            for (var i = 0; i < _animeItems.Count; i++)
             {
-                if ((i + 1) % 2 == 0)
+                if ((i + 1)%2 == 0)
                     _animeItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
                 else
                     _animeItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));
@@ -268,7 +372,7 @@ namespace MALClient.Pages
 
         private string GetLastUpdatedStatus()
         {
-            string output = "Updated ";
+            var output = "Updated ";
             try
             {
                 TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
@@ -300,34 +404,38 @@ namespace MALClient.Pages
         private void UpdateStatusCounterBadges()
         {
             Dictionary<int, int> counters = new Dictionary<int, int>();
-            for (AnimeStatus i = AnimeStatus.Watching; i <= AnimeStatus.PlanToWatch; i++)
-                counters[(int)i] = 0;
+            for (var i = AnimeStatus.Watching; i <= AnimeStatus.PlanToWatch; i++)
+                counters[(int) i] = 0;
             foreach (AnimeItemAbstraction animeItemAbstraction in _allLoadedAnimeItems)
             {
-                if(animeItemAbstraction.MyStatus <= 6)
+                if (animeItemAbstraction.MyStatus <= 6)
                     counters[animeItemAbstraction.MyStatus]++;
             }
-            AnimeStatus j = AnimeStatus.Watching;
+            var j = AnimeStatus.Watching;
             foreach (object item in StatusSelector.Items)
             {
-                (item as ListViewItem).Content = counters[(int)j] + " - " + Utils.StatusToString((int)j);
+                (item as ListViewItem).Content = counters[(int) j] + " - " + Utils.StatusToString((int) j);
                 j++;
-                if ((int)j == 5)
+                if ((int) j == 5)
                     j++;
-                if(j == AnimeStatus.AllOrAiring)
+                if (j == AnimeStatus.AllOrAiring)
                     return;
             }
         }
+
         #endregion
 
         #region FetchAndPopulate
+
         private async Task FetchSeasonalData(bool force = false)
         {
-            var possibleLoadedData = force ? new List<AnimeItemAbstraction>() : Utils.GetMainPageInstance().RetrieveSeasonData();
+            List<AnimeItemAbstraction> possibleLoadedData = force
+                ? new List<AnimeItemAbstraction>()
+                : Utils.GetMainPageInstance().RetrieveSeasonData();
             if (possibleLoadedData.Count == 0)
             {
                 Utils.GetMainPageInstance().SetStatus("Downloading data...\nThis may take a while...");
-                var data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
+                List<SeasonalAnimeData> data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
                 if (data == null)
                 {
                     RefreshList();
@@ -335,8 +443,9 @@ namespace MALClient.Pages
                     return;
                 }
                 _allLoadedAnimeItems.Clear();
-                var loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                Dictionary<int, AnimeItemAbstraction> loadedItems = loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
+                AnimeUserCache loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+                Dictionary<int, AnimeItemAbstraction> loadedItems =
+                    loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
                 foreach (SeasonalAnimeData animeData in data)
                 {
                     DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
@@ -381,11 +490,14 @@ namespace MALClient.Pages
             _animeItems = new ObservableCollection<AnimeItem>();
 
             if (!force)
-                Utils.GetMainPageInstance().RetrieveAnimeEntries(TxtListSource.Text, out _allLoadedAnimeItems, out _lastUpdate);
+                Utils.GetMainPageInstance()
+                    .RetrieveAnimeEntries(TxtListSource.Text, out _allLoadedAnimeItems, out _lastUpdate);
 
             if (_allLoadedAnimeItems.Count == 0)
             {
-                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(TxtListSource.Text);
+                Tuple<string, DateTime> possibleCachedData = force
+                    ? null
+                    : await DataCache.RetrieveDataForUser(TxtListSource.Text);
                 string data;
                 if (possibleCachedData != null)
                 {
@@ -411,10 +523,11 @@ namespace MALClient.Pages
                     _lastUpdate = DateTime.Now;
                 }
                 XDocument parsedData = XDocument.Parse(data);
-                var anime = parsedData.Root.Elements("anime").ToList();
-                bool auth = Creditentials.Authenticated &&
-                            string.Equals(TxtListSource.Text, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase);
-                foreach (var item in anime)
+                List<XElement> anime = parsedData.Root.Elements("anime").ToList();
+                var auth = Creditentials.Authenticated &&
+                           string.Equals(TxtListSource.Text, Creditentials.UserName,
+                               StringComparison.CurrentCultureIgnoreCase);
+                foreach (XElement item in anime)
                 {
                     _allLoadedAnimeItems.Add(new AnimeItemAbstraction(
                         auth,
@@ -430,7 +543,6 @@ namespace MALClient.Pages
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
 
                 Utils.GetMainPageInstance().SaveAnimeEntries(TxtListSource.Text, _allLoadedAnimeItems, _lastUpdate);
-
             }
 
 
@@ -438,136 +550,45 @@ namespace MALClient.Pages
             Animes.ItemsSource = _animeItems;
             UpdateStatusCounterBadges();
             SpinnerLoading.Visibility = Visibility.Collapsed;
-
         }
+
         #endregion
 
         #region StatusRelatedStuff
+
         private int GetDesiredStatus()
         {
-            int value = StatusSelector.SelectedIndex;
+            var value = StatusSelector.SelectedIndex;
             value++;
-            return value == 0 ? 1 : (value == 5 || value == 6) ? value + 1 : value;
+            return value == 0 ? 1 : value == 5 || value == 6 ? value + 1 : value;
         }
 
         private void SetDesiredStatus(int? value)
         {
             value = value ?? Utils.GetDefaultAnimeFilter();
 
-            value = (value == 6 || value == 7) ? value - 1 : value;
+            value = value == 6 || value == 7 ? value - 1 : value;
             value--;
 
-            StatusSelector.SelectedIndex = (int)value;
+            StatusSelector.SelectedIndex = (int) value;
         }
+
         #endregion
 
-        public void RefreshList(bool searchSource = false)
-        {
-            string query = Utils.GetMainPageInstance()?.GetSearchQuery();
-            bool queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
-            if (!_wasPreviousQuery && searchSource && !queryCondition) // refresh was requested from search but there's nothing to update
-                return;
-
-            _wasPreviousQuery = queryCondition;
-            _currentPage = 1;
-         
-            _animeItemsSet.Clear();
-            int status = queryCondition ? 7 : GetDesiredStatus();                 
-
-            var items = _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
-            if (queryCondition)
-                items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
-            switch (_sortOption)
-            {
-                case SortOptions.SortTitle:
-                    items = items.OrderBy(item => item.Title);
-                    break;
-                case SortOptions.SortScore:
-                    if (!_seasonalState)
-                        items = items.OrderBy(item => item.MyScore);
-                    else
-                        items = items.OrderBy(item => item.GlobalScore);
-                    break;
-                case SortOptions.SortWatched:
-                    if(_seasonalState)
-                        items = items.OrderBy(item => item.Index);
-                    else
-                        items = items.OrderBy(item => item.MyEpisodes);
-                    break;
-                case SortOptions.SortNothing:
-                    break;
-                case SortOptions.SortAirDay:
-                    int today = (int) DateTime.Now.DayOfWeek;
-                    today++;
-                    var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
-                    var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
-                    var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
-                    var airingBeforeToday = airingItems.Where(abstraction => abstraction.AirDay < today);
-                    if (_sortDescending)
-                        items = airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                            .Concat(
-                                airingBeforeToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                                    .Concat(nonAiringItems));
-                    else
-                        items = airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
-                            .Concat(
-                                airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                    .Concat(nonAiringItems));
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(_sortOption), _sortOption, null);
-            }
-            //If we are descending then reverse order
-            if (_sortDescending && _sortOption != SortOptions.SortAirDay)
-                items = items.Reverse();
-            //Add all abstractions to current set (spread across pages)
-            foreach (var item in items)
-                _animeItemsSet.Add(item);
-            //If we have items then we should hide EmptyNotice       
-            EmptyNotice.Visibility = _animeItemsSet.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-
-            //How many pages do we have?
-            _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count/_itemsPerPage);
-            if (_allPages <= 1)
-                AnimesTopPageControls.Visibility = Visibility.Collapsed;
-            else
-            {
-                AnimesTopPageControls.Visibility = Visibility.Visible;
-                if (_currentPage <= 1)
-                {
-                    BtnPrevPage.IsEnabled = false;
-                    _currentPage = 1;
-                }
-                else
-                {
-                    BtnPrevPage.IsEnabled = true;
-                }
-
-                BtnNextPage.IsEnabled = _currentPage != _allPages;
-            }
-
-                
-            ApplyCurrentPage();
-            AlternateRowColors();
-            UpdateUpperStatus();
-            UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
-        }
-
         #region Pagination
+
         private void PrevPage(object sender, RoutedEventArgs e)
         {
-            _currentPage--;
-            BtnPrevPage.IsEnabled = _currentPage != 1;
+            CurrentPage--;
+            BtnPrevPage.IsEnabled = CurrentPage != 1;
             BtnNextPage.IsEnabled = true;
             ApplyCurrentPage();
-
         }
 
         private void NextPage(object sender, RoutedEventArgs e)
         {
-            _currentPage++;
-            BtnNextPage.IsEnabled = _currentPage != _allPages;
+            CurrentPage++;
+            BtnNextPage.IsEnabled = CurrentPage != _allPages;
             BtnPrevPage.IsEnabled = true;
             ApplyCurrentPage();
         }
@@ -575,32 +596,33 @@ namespace MALClient.Pages
         private void ApplyCurrentPage()
         {
             _animeItems.Clear();
-            foreach (var item in _animeItemsSet.Skip(_itemsPerPage*(_currentPage - 1)).Take(_itemsPerPage))
+            foreach (
+                AnimeItemAbstraction item in _animeItemsSet.Skip(_itemsPerPage*(CurrentPage - 1)).Take(_itemsPerPage))
                 _animeItems.Add(item.AnimeItem);
             UpdatePageStatus();
-
         }
 
         private void UpdatePageStatus()
         {
-            TxtPageCount.Text = $"{_currentPage}/{_allPages}";
+            TxtPageCount.Text = $"{CurrentPage}/{_allPages}";
         }
 
         #endregion
 
         #region ActionHandlers
+
         private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
         {
             if (_loaded)
             {
-                _currentPage = 1;
+                CurrentPage = 1;
                 RefreshList();
             }
         }
 
         private async void PinTileMal(object sender, RoutedEventArgs e)
         {
-            foreach (var item in Animes.SelectedItems)
+            foreach (object item in Animes.SelectedItems)
             {
                 var anime = item as AnimeItem;
                 if (SecondaryTile.Exists(anime.Id.ToString()))
@@ -625,7 +647,7 @@ namespace MALClient.Pages
                 await FetchSeasonalData(true);
             else
                 await FetchData(true);
-        }     
+        }
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
@@ -633,19 +655,19 @@ namespace MALClient.Pages
             switch (btn.Text)
             {
                 case "Title":
-                    _sortOption = SortOptions.SortTitle;
+                    SortOption = SortOptions.SortTitle;
                     break;
                 case "Score":
-                    _sortOption = SortOptions.SortScore;
+                    SortOption = SortOptions.SortScore;
                     break;
                 case "Watched":
-                    _sortOption = SortOptions.SortWatched;
+                    SortOption = SortOptions.SortWatched;
                     break;
                 case "Soonest airing":
-                    _sortOption = SortOptions.SortAirDay;
+                    SortOption = SortOptions.SortAirDay;
                     break;
                 default:
-                    _sortOption = SortOptions.SortNothing;
+                    SortOption = SortOptions.SortNothing;
                     break;
             }
             sort1.IsChecked = false;
@@ -655,7 +677,6 @@ namespace MALClient.Pages
             sort5.IsChecked = false;
             btn.IsChecked = true;
             RefreshList();
-
         }
 
         private void SetSortOrder(SortOptions? option)
@@ -663,23 +684,23 @@ namespace MALClient.Pages
             switch (option ?? Utils.GetSortOrder())
             {
                 case SortOptions.SortNothing:
-                    _sortOption = SortOptions.SortNothing;
+                    SortOption = SortOptions.SortNothing;
                     sort4.IsChecked = true;
                     break;
                 case SortOptions.SortTitle:
-                    _sortOption = SortOptions.SortTitle;
+                    SortOption = SortOptions.SortTitle;
                     sort1.IsChecked = true;
                     break;
                 case SortOptions.SortScore:
-                    _sortOption = SortOptions.SortScore;
+                    SortOption = SortOptions.SortScore;
                     sort2.IsChecked = true;
                     break;
                 case SortOptions.SortWatched:
-                    _sortOption = SortOptions.SortWatched;
+                    SortOption = SortOptions.SortWatched;
                     sort3.IsChecked = true;
                     break;
                 case SortOptions.SortAirDay:
-                    _sortOption = SortOptions.SortAirDay;
+                    SortOption = SortOptions.SortAirDay;
                     sort5.IsChecked = true;
                     break;
                 default:
@@ -690,7 +711,7 @@ namespace MALClient.Pages
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {
             var chbox = sender as ToggleMenuFlyoutItem;
-            _sortDescending = chbox.IsChecked;
+            SortDescending = chbox.IsChecked;
             RefreshList();
         }
 
@@ -698,8 +719,9 @@ namespace MALClient.Pages
         {
             if (e == null || e.Key == VirtualKey.Enter)
             {
-                if(_currentSoure.ToLower() != Creditentials.UserName.ToLower())
-                    Utils.GetMainPageInstance().PurgeUserCache(_currentSoure); //why would we want to keep those entries?
+                if (_currentSoure.ToLower() != Creditentials.UserName.ToLower())
+                    Utils.GetMainPageInstance().PurgeUserCache(_currentSoure);
+                        //why would we want to keep those entries?
                 _currentSoure = TxtListSource.Text;
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
@@ -716,7 +738,7 @@ namespace MALClient.Pages
 
         private void SetListSource(object sender, RoutedEventArgs e)
         {
-            ListSource_OnKeyDown(null,null);
+            ListSource_OnKeyDown(null, null);
         }
 
         private void FlyoutListSource_OnOpened(object sender, object e)
@@ -728,6 +750,7 @@ namespace MALClient.Pages
         {
             AppbarBtnPinTile.IsEnabled = true;
         }
+
         #endregion
     }
 }

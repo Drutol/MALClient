@@ -9,40 +9,48 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta" ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia">
+    ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
+    ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia">
 
     <UserControl.Resources>
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
+        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
     </UserControl.Resources>
 
-    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root" >
+    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,11,11">
-            <SymbolIcon  Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <SymbolIcon Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
                 <SymbolIcon.RenderTransform>
-                    <ScaleTransform ScaleY="1.5" ScaleX="1.5"/>
+                    <ScaleTransform ScaleY="1.5" ScaleX="1.5" />
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
-            <TextBlock x:Name="TxtGlobalScore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center"/>
+            <TextBlock x:Name="TxtGlobalScore" FontWeight="Medium" VerticalAlignment="Center" Margin="10,10,0,0"
+                       HorizontalAlignment="Center" TextAlignment="Center" />
         </Grid>
-        <SymbolIcon x:Name="SymbolAiring" Grid.Column="1" Visibility="Collapsed" Symbol="SlideShow" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity=".5" Foreground="DarkGray">
+        <SymbolIcon x:Name="SymbolAiring" Grid.Column="1" Visibility="Collapsed" Symbol="SlideShow"
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Opacity=".5" Foreground="DarkGray">
             <SymbolIcon.RenderTransform>
-                <ScaleTransform ScaleY="2" ScaleX="2"/>
+                <ScaleTransform ScaleY="2" ScaleX="2" />
             </SymbolIcon.RenderTransform>
         </SymbolIcon>
-        <Image x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto" MaxWidth="120" Margin="1,1" />
-        <Button  Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="40" Visibility="Visible">
+        <Image x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
+               Width="Auto" MaxWidth="120" Margin="1,1" />
+        <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">
             <Button.Background>
-                <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+                <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
-            <SymbolIcon Symbol="More" Foreground="White"/>
+            <SymbolIcon Symbol="More" Foreground="White" />
         </Button>
         <Grid Grid.Column="1" HorizontalAlignment="Stretch">
-            <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Margin="5,3"/>
-            <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
+                       TextWrapping="WrapWholeWords" Margin="5,3" />
+            <TextBlock x:Name="WatchedEps" FontWeight="SemiBold" TextAlignment="Center" HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom" />
         </Grid>
     </Grid>
 </UserControl>

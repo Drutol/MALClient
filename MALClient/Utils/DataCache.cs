@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using MALClient.Items;
 using Newtonsoft.Json;
@@ -10,7 +8,7 @@ using Newtonsoft.Json;
 namespace MALClient
 {
     /// <summary>
-    /// Contains stuff like GlobalScore and air date
+    ///     Contains stuff like GlobalScore and air date
     /// </summary>
     public class VolatileDataCache
     {
@@ -20,43 +18,54 @@ namespace MALClient
 
     public static class DataCache
     {
+        static DataCache()
+        {
+            LoadVolatileData();
+        }
+
         #region UserData
 
         public static async void SaveDataForUser(string user, string data)
         {
-            if(!Utils.IsCachingEnabled())
+            if (!Utils.IsCachingEnabled())
                 return;
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.json", CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.Now, data)));
+                StorageFile file =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await
+                    FileIO.WriteTextAsync(file,
+                        JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.Now, data)));
             }
             catch (Exception)
-            { 
+            {
                 //
-            }          
+            }
         }
 
-        public static async Task<Tuple<string,DateTime>> RetrieveDataForUser(string user)
+        public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user)
         {
             if (!Utils.IsCachingEnabled())
                 return null;
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.json");
+                StorageFile file =
+                    await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.json");
                 var data = await FileIO.ReadTextAsync(file);
-                var decoded = JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
+                Tuple<DateTime, string> decoded = JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
                 if (!CheckForOldData(decoded.Item1))
                 {
                     await file.DeleteAsync();
                     return null;
                 }
-                return new Tuple<string, DateTime>(decoded.Item2,decoded.Item1);
+                return new Tuple<string, DateTime>(decoded.Item2, decoded.Item1);
             }
             catch (Exception)
             {
                 return null;
-            }            
+            }
         }
 
         private static bool CheckForOldData(DateTime timestamp)
@@ -74,16 +83,18 @@ namespace MALClient
                 return false;
             return true;
         }
+
         #endregion
 
         #region SeasonData
+
         public static async void SaveSeasonalData(List<SeasonalAnimeData> data)
         {
             await Task.Run(async () =>
             {
                 var json =
                     JsonConvert.SerializeObject(new Tuple<DateTime, List<SeasonalAnimeData>>(DateTime.UtcNow, data));
-                var file =
+                StorageFile file =
                     await
                         ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_data.json",
                             CreationCollisionOption.ReplaceExisting);
@@ -95,9 +106,10 @@ namespace MALClient
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_data.json");
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_data.json");
                 var data = await FileIO.ReadTextAsync(file);
-                var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, List<SeasonalAnimeData>>>(data);
+                Tuple<DateTime, List<SeasonalAnimeData>> tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, List<SeasonalAnimeData>>>(data);
                 return CheckForOldDataSeason(tuple.Item1) ? tuple.Item2 : null;
             }
             catch (Exception)
@@ -106,6 +118,7 @@ namespace MALClient
             }
             return null;
         }
+
         #endregion
 
         #region VolatileData
@@ -116,9 +129,10 @@ namespace MALClient
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
                 var data = await FileIO.ReadTextAsync(file);
-                _volatileDataCache = JsonConvert.DeserializeObject<Dictionary<int, VolatileDataCache>>(data) ?? new Dictionary<int, VolatileDataCache>();          
+                _volatileDataCache = JsonConvert.DeserializeObject<Dictionary<int, VolatileDataCache>>(data) ??
+                                     new Dictionary<int, VolatileDataCache>();
             }
             catch (Exception)
             {
@@ -131,14 +145,16 @@ namespace MALClient
             try
             {
                 var json = JsonConvert.SerializeObject(_volatileDataCache);
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("volatile_data.json", CreationCollisionOption.ReplaceExisting);
+                StorageFile file =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFileAsync("volatile_data.json",
+                            CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteTextAsync(file, json);
             }
             catch (Exception)
             {
-               //ignored
+                //ignored
             }
-
         }
 
         public static void RegisterVolatileData(int id, VolatileDataCache data)
@@ -148,10 +164,17 @@ namespace MALClient
 
         public static void DeregisterVolatileData(int id)
         {
-            try { _volatileDataCache[id].DayOfAiring = -1;} catch(Exception) { /*ignore*/ }
+            try
+            {
+                _volatileDataCache[id].DayOfAiring = -1;
+            }
+            catch (Exception)
+            {
+                /*ignore*/
+            }
         }
 
-        public static bool TryRetrieveDataForId(int id , out VolatileDataCache data)
+        public static bool TryRetrieveDataForId(int id, out VolatileDataCache data)
         {
             try
             {
@@ -165,11 +188,5 @@ namespace MALClient
         }
 
         #endregion
-
-
-        static DataCache()
-        {
-            LoadVolatileData();
-        }
     }
 }

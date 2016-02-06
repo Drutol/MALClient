@@ -9,57 +9,57 @@ using MALClient.Comm;
 using MALClient.UserControls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
- 
+
 namespace MALClient.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class LogInPage : Page
     {
         public LogInPage()
         {
-            this.InitializeComponent();
-            if(Creditentials.Authenticated)
+            InitializeComponent();
+            if (Creditentials.Authenticated)
                 BtnLogOff.Visibility = Visibility.Visible;
-            Utils.GetMainPageInstance()?.SetStatus(Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In");
+            Utils.GetMainPageInstance()?
+                .SetStatus(Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In");
         }
 
 
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
         {
-            Creditentials.Update(UserName.Text,UserPassword.Password);
+            Creditentials.Update(UserName.Text, UserPassword.Password);
             try
             {
                 var response = await new AuthQuery().GetRequestResponse();
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
-                var doc = XDocument.Parse(response);
+                XDocument doc = XDocument.Parse(response);
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
-                var page = Utils.GetMainPageInstance();
+                MainPage page = Utils.GetMainPageInstance();
                 page.LogIn();
                 await page.Navigate(PageIndex.PageAnimeList);
-                page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);               
-                await page.Hamburger.UpdateProfileImg();             
+                page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                await page.Hamburger.UpdateProfileImg();
             }
             catch (Exception)
-            { 
+            {
                 Creditentials.SetAuthStatus(false);
                 var msg = new MessageDialog("Unable to authorize with provided creditentials.");
-                await msg.ShowAsync();             
-            }           
+                await msg.ShowAsync();
+            }
         }
 
         private async void LogOut(object sender, RoutedEventArgs e)
         {
-            var page = Utils.GetMainPageInstance();
-            Creditentials.SetAuthStatus(false);          
-            Creditentials.Update("","");
+            MainPage page = Utils.GetMainPageInstance();
+            Creditentials.SetAuthStatus(false);
+            Creditentials.Update("", "");
             page.LogOut();
             await page.Navigate(PageIndex.PageLogIn);
             page.UpdateHamburger();
-            
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -75,11 +75,11 @@ namespace MALClient.Pages
             if (e.Key == VirtualKey.Enter)
             {
                 var txt = sender as PasswordBox;
-                if(txt.Password.Length == 0)
+                if (txt.Password.Length == 0)
                     return;
                 txt.IsEnabled = false; //reset input
                 txt.IsEnabled = true;
-                AttemptAuthentication(null,null);
+                AttemptAuthentication(null, null);
             }
         }
 

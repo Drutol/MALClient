@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid Width="Auto" Height="Auto" Background="Gainsboro">
-        <Canvas x:Name="ChartCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"/>
+        <Canvas x:Name="ChartCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent" />
     </Grid>
 </UserControl>

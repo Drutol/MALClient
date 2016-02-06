@@ -1,15 +1,22 @@
 ﻿using System.Net;
-using Windows.Devices.Usb;
 using Windows.Storage;
 
 namespace MALClient.Comm
 {
     public static class Creditentials
     {
-        public static string UserName { get; private set; } = (string)ApplicationData.Current.LocalSettings.Values["Username"];
-        private static string Password { get; set; } = (string)ApplicationData.Current.LocalSettings.Values["password"];
-        public static int Id { get; private set; } = (int)(ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
-        public static bool Authenticated { get; private set; } = bool.Parse((string)ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False");
+        public static string UserName { get; private set; } =
+            (string) ApplicationData.Current.LocalSettings.Values["Username"];
+
+        private static string Password { get; set; } = (string) ApplicationData.Current.LocalSettings.Values["password"]
+            ;
+
+        public static int Id { get; private set; } = (int) (ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0)
+            ;
+
+        public static bool Authenticated { get; private set; } =
+            bool.Parse((string) ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False");
+
         internal static ICredentials GetHttpCreditentials()
         {
             return new NetworkCredential(UserName, Password);

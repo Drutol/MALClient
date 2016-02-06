@@ -3,7 +3,7 @@ using System.Net;
 
 namespace MALClient.Comm
 {
-    class AnimeRemoveQuery : Query
+    internal class AnimeRemoveQuery : Query
     {
         public AnimeRemoveQuery(string id)
         {

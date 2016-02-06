@@ -11,14 +11,15 @@ using MALClient.UserControls;
 namespace MALClient.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
-        private bool _initialized = false;
+        private bool _initialized;
+
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -33,7 +34,7 @@ namespace MALClient.Pages
             Utils.GetMainPageInstance()?.SetStatus("Settings");
             _initialized = true;
 
-            Utils.RegisterBackNav(PageIndex.PageAnimeList,null);
+            Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
 
             base.OnNavigatedTo(e);
         }
@@ -77,7 +78,7 @@ namespace MALClient.Pages
             {
                 if (file.FileType == ".json")
                 {
-                    ListCurrentlyCached.Items.Add(new CachedEntryItem(file,file.DisplayName.Contains("anime")));
+                    ListCurrentlyCached.Items.Add(new CachedEntryItem(file, file.DisplayName.Contains("anime")));
                 }
             }
             if (files.Count == 0)
@@ -90,7 +91,7 @@ namespace MALClient.Pages
 
 
         /// <summary>
-        /// Converts seconds to combo box item index.
+        ///     Converts seconds to combo box item index.
         /// </summary>
         /// <returns></returns>
         private int SecondsToIndexHelper(int secs)
@@ -196,22 +197,23 @@ namespace MALClient.Pages
         {
             if (!_initialized)
                 return;
-            ApplicationData.Current.LocalSettings.Values["DefaultFilter"] = Utils.StatusToInt((string)((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
+            ApplicationData.Current.LocalSettings.Values["DefaultFilter"] =
+                Utils.StatusToInt((string) ((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
         }
 
         private void SetDesiredStatus()
         {
-            int value = Utils.GetDefaultAnimeFilter();
-            value = (value == 6 || value == 7) ? value - 1 : value;
+            var value = Utils.GetDefaultAnimeFilter();
+            value = value == 6 || value == 7 ? value - 1 : value;
             value--;
             CmbDefaultFilter.SelectedIndex = value;
         }
 
         private void ChangeItemsPerPage(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1 )
+            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
-            ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = (int)e.NewValue;
+            ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = (int) e.NewValue;
         }
 
         private void SetItemsPerPage()

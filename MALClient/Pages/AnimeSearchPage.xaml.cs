@@ -15,23 +15,23 @@ using MALClient.Items;
 namespace MALClient.Pages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class AnimeSearchPage : Page
     {
-        private ObservableCollection<AnimeSearchItem> _animeSearchItems =  new ObservableCollection<AnimeSearchItem>();
+        private readonly ObservableCollection<AnimeSearchItem> _animeSearchItems =
+            new ObservableCollection<AnimeSearchItem>();
 
         public AnimeSearchPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if(!string.IsNullOrWhiteSpace((string)e.Parameter))
-                SubmitQuery((string)e.Parameter);
-
+            if (!string.IsNullOrWhiteSpace((string) e.Parameter))
+                SubmitQuery((string) e.Parameter);
         }
 
         internal async void SubmitQuery(string text)
@@ -39,17 +39,19 @@ namespace MALClient.Pages
             SpinnerLoading.Visibility = Visibility.Visible;
             EmptyNotice.Visibility = Visibility.Collapsed;
             _animeSearchItems.Clear();
-            string response = "";
-            await Task.Run(async () => response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(text)).GetRequestResponse());
+            var response = "";
+            await
+                Task.Run(
+                    async () => response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(text)).GetRequestResponse());
 
             try
             {
                 XDocument parsedData = XDocument.Parse(response);
-                foreach (var item in parsedData.Element("anime").Elements("entry"))
+                foreach (XElement item in parsedData.Element("anime").Elements("entry"))
                 {
                     _animeSearchItems.Add(new AnimeSearchItem(item));
                 }
-                Animes.ItemsSource = _animeSearchItems;             
+                Animes.ItemsSource = _animeSearchItems;
             }
             catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
             {
@@ -62,9 +64,9 @@ namespace MALClient.Pages
 
         private void AlternateRowColors()
         {
-            for (int i = 0; i < _animeSearchItems.Count; i++)
+            for (var i = 0; i < _animeSearchItems.Count; i++)
             {
-                if ((i + 1) % 2 == 0)
+                if ((i + 1)%2 == 0)
                     _animeSearchItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
                 else
                     _animeSearchItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));

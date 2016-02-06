@@ -18,18 +18,21 @@
 
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="140"/>
-                        <RowDefinition Height="215"/>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="140" />
+                        <RowDefinition Height="215" />
                     </Grid.RowDefinitions>
-                    <TextBlock  Text="Anime Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBlock>
-                    <controls:StackedBarChartControl x:Name="ChartAnime" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="350"/>
+                    <TextBlock Text="Anime Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    <controls:StackedBarChartControl x:Name="ChartAnime" Grid.Row="1" VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center" MinWidth="350" />
                     <!--<charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
                         <charting:Chart.Palette>
                             <charting:ResourceDictionaryCollection>
@@ -80,94 +83,121 @@
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="ForestGreen" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Watching" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeWatchingStats" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="ForestGreen" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Watching" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeWatchingStats" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="DodgerBlue" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeCompleted" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="DodgerBlue" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeCompleted" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeOnHold" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeOnHold" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeDropped" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeDropped" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimePlanned" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimePlanned" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeTotal" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeTotal" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Rewatched" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeRewatched" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Rewatched" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeRewatched" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Episodes" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeEpisodes" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Episodes" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtAnimeEpisodes" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
-                                <TextBlock x:Name="TxtAnimeDays" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="Bold" FontSize="20"></TextBlock>
+                                <MenuFlyoutSeparator Margin="5,5" />
+                                <TextBlock x:Name="TxtAnimeDays" VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" Margin="10"
+                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                           FontWeight="Bold" FontSize="20" />
                             </StackPanel>
                         </StackPanel>
 
@@ -175,12 +205,15 @@
                 </Grid>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="140"/>
-                        <RowDefinition Height="215"/>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="140" />
+                        <RowDefinition Height="215" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Manga Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBlock>
-                    <controls:StackedBarChartControl x:Name="ChartManga" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="350" />
+                    <TextBlock Grid.Row="0" Text="Manga Stats" FontWeight="Medium" FontSize="23"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    <controls:StackedBarChartControl x:Name="ChartManga" Grid.Row="1" VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center" MinWidth="350" />
                     <!--<charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
                         <charting:Chart.Palette>
                             <charting:ResourceDictionaryCollection>
@@ -231,105 +264,135 @@
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="ForestGreen" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Reading" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaReadingStats" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="ForestGreen" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Reading" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaReadingStats" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="DodgerBlue" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaCompleted" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="DodgerBlue" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaCompleted" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaOnHold" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaOnHold" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaDropped" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaDropped" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaPlanned" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaPlanned" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaTotal" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaTotal" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Reread" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaReread" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Reread" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaReread" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Chapters" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaChapters" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Chapters" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaChapters" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
+                                <MenuFlyoutSeparator Margin="5,5" />
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*" MaxWidth="80"/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" MaxWidth="80" />
+                                        <ColumnDefinition Width="50" />
                                     </Grid.ColumnDefinitions>
-                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Volumes" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" x:Name="TxtMangaVolumes" FontWeight="Medium" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="Volumes" HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                    <TextBlock Grid.Column="2" x:Name="TxtMangaVolumes" FontWeight="Medium"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                                <MenuFlyoutSeparator Margin="5,5"/>
-                                <TextBlock x:Name="TxtMangaDays" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,5" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="Bold" FontSize="20"></TextBlock>
+                                <MenuFlyoutSeparator Margin="5,5" />
+                                <TextBlock x:Name="TxtMangaDays" VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" Margin="10,5"
+                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                           FontWeight="Bold" FontSize="20" />
                             </StackPanel>
                         </StackPanel>
 
@@ -338,7 +401,8 @@
             </StackPanel>
         </ScrollViewer>
         <Grid x:Name="SpinnerLoading" Visibility="Collapsed">
-            <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150" IsActive="True"/>
+            <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
+                          IsActive="True" />
         </Grid>
     </Grid>
 </Page>

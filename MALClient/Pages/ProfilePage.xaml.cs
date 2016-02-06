@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Comm;
 using HtmlAgilityPack;
-
+using MALClient.Comm;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MALClient.Pages
 {
-
     public class ProfileData
     {
         //Anime
@@ -35,17 +32,25 @@ namespace MALClient.Pages
         public int MangaTotal { get; set; }
         public int MangaReread { get; set; }
         public int MangaVolumes { get; set; }
-        public int MangaChapters{ get; set; }
+        public int MangaChapters { get; set; }
         //Days
         public float AnimeDays { get; set; }
         public float MangaDays { get; set; }
     }
+
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ProfilePage : Page
     {
         private ProfileData _data;
+
+        public ProfilePage()
+        {
+            InitializeComponent();
+            SpinnerLoading.Background = new SolidColorBrush(Color.FromArgb(160, 230, 230, 230));
+            Loaded += OnLoaded;
+        }
 
         public ProfileData Data
         {
@@ -55,13 +60,6 @@ namespace MALClient.Pages
                 _data = value;
                 Utils.GetMainPageInstance()?.SaveProfileData(_data);
             }
-        }
-
-        public ProfilePage()
-        {
-            this.InitializeComponent();         
-            SpinnerLoading.Background = new SolidColorBrush(Color.FromArgb(160,230,230,230));  
-            Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -75,12 +73,11 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
-            if (e.Parameter != null)           
-                _data = e.Parameter as ProfileData;           
+            if (e.Parameter != null)
+                _data = e.Parameter as ProfileData;
             else
-                 PullData();
-           
+                PullData();
+
             Utils.GetMainPageInstance()?.SetStatus($"{Creditentials.UserName} - Profile");
 
             Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
@@ -104,40 +101,40 @@ namespace MALClient.Pages
                 SpinnerLoading.Visibility = Visibility.Collapsed;
                 return;
             }
-                
-            HtmlDocument doc = new HtmlDocument();
+
+            var doc = new HtmlDocument();
             doc.LoadHtml(data);
             //AnimeStats
-            var watching = doc.DocumentNode.Descendants("li")
-               .Where(li => li.InnerText.Contains("Watching") && li.ChildNodes.Count == 2).ToList();
-            var plantowatch = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> watching = doc.DocumentNode.Descendants("li")
+                .Where(li => li.InnerText.Contains("Watching") && li.ChildNodes.Count == 2).ToList();
+            List<HtmlNode> plantowatch = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Plan to Watch") && li.ChildNodes.Count == 2).ToList();
-            var rewatched = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> rewatched = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Rewatched") && li.ChildNodes.Count == 2).ToList();
-            var episodes = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> episodes = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Episodes") && li.ChildNodes.Count == 2).ToList();
             //MangaStats
-            var reading = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> reading = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Reading") && li.ChildNodes.Count == 2).ToList();
-            var plantoread = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> plantoread = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Plan to Read") && li.ChildNodes.Count == 2).ToList();
-            var reread = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> reread = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Reread") && li.ChildNodes.Count == 2).ToList();
-            var chapters = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> chapters = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Chapters") && li.ChildNodes.Count == 2).ToList();
-            var volumes = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> volumes = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Volumes") && li.ChildNodes.Count == 2).ToList();
             //Shared
-            var total = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> total = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Total Entries") && li.ChildNodes.Count == 2).ToList();
-            var completed = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> completed = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Completed") && li.ChildNodes.Count == 2).ToList();
-            var onhold = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> onhold = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("On-Hold") && li.ChildNodes.Count == 2).ToList();
-            var dropped = doc.DocumentNode.Descendants("li")
+            List<HtmlNode> dropped = doc.DocumentNode.Descendants("li")
                 .Where(li => li.InnerText.Contains("Dropped") && li.ChildNodes.Count == 2).ToList();
             //Days
-            var days = doc.DocumentNode.Descendants("div")
+            List<HtmlNode> days = doc.DocumentNode.Descendants("div")
                 .Where(div => div.InnerText.Contains("Days:") && div.ChildNodes.Count == 2).ToList();
             Data = new ProfileData
             {
@@ -147,7 +144,6 @@ namespace MALClient.Pages
                 AnimeOnHold = int.Parse(onhold[0].ChildNodes[1].InnerText),
                 AnimeDropped = int.Parse(dropped[0].ChildNodes[1].InnerText),
                 AnimePlanned = int.Parse(plantowatch[0].ChildNodes[1].InnerText),
-
                 AnimeTotal = int.Parse(total[0].ChildNodes[1].InnerText),
                 AnimeEpisodes = int.Parse(episodes[0].ChildNodes[1].InnerText),
                 AnimeRewatched = int.Parse(rewatched[0].ChildNodes[1].InnerText),
@@ -157,14 +153,13 @@ namespace MALClient.Pages
                 MangaOnHold = int.Parse(onhold[1].ChildNodes[1].InnerText),
                 MangaDropped = int.Parse(dropped[1].ChildNodes[1].InnerText),
                 MangaPlanned = int.Parse(plantoread[0].ChildNodes[1].InnerText),
-
                 MangaTotal = int.Parse(total[1].ChildNodes[1].InnerText),
                 MangaReread = int.Parse(reread[0].ChildNodes[1].InnerText),
                 MangaChapters = int.Parse(chapters[0].ChildNodes[1].InnerText),
                 MangaVolumes = int.Parse(volumes[0].ChildNodes[1].InnerText),
                 //Days
                 AnimeDays = float.Parse(days[0].ChildNodes[1].InnerText),
-                MangaDays = float.Parse(days[1].ChildNodes[1].InnerText),
+                MangaDays = float.Parse(days[1].ChildNodes[1].InnerText)
             };
             PopulateAnimeData();
             PopulateMangaData();
@@ -215,6 +210,5 @@ namespace MALClient.Pages
             TxtMangaVolumes.Text = Data.MangaVolumes.ToString();
             TxtMangaDays.Text = $"Days :  {Data.MangaDays}";
         }
-
     }
 }

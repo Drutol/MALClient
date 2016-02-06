@@ -18,7 +18,7 @@ using MALClient.Items;
 using MALClient.UserControls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-#pragma warning disable 4014
+ 
 namespace MALClient
 {
     /// <summary>
@@ -34,14 +34,16 @@ namespace MALClient
         private bool? _searchStateBeforeNavigatingToSearch = null;
         private Tuple<DateTime, ProfileData> _profileDataCache;
         public HamburgerControl Hamburger => HamburgerControl;
-
+        #pragma warning disable 4014
         public MainPage()
         {
             this.InitializeComponent();
             Utils.CheckTiles();
             if (Creditentials.Authenticated)
             {
+
                 Navigate(PageIndex.PageAnimeList);
+
                 HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
             }
             else
@@ -52,7 +54,7 @@ namespace MALClient
             }
 
         }
-
+        #pragma warning restore 4014
         private void ReversePane()
         {
             MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
@@ -63,9 +65,9 @@ namespace MALClient
 
         }
 
-        internal void UpdateHamburger()
+        internal async void UpdateHamburger()
         {
-            HamburgerControl.UpdateProfileImg();
+            await HamburgerControl.UpdateProfileImg();
         }
 
         public void AnimeListScrollTo(AnimeItem animeItem)
@@ -404,12 +406,12 @@ namespace MALClient
         public void LogIn()
         {
             _seasonalAnimeCache.Clear();
-            try
-            {
-                _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
-                _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
-            }
-            catch (Exception) { /* ignored */ }
+            //try
+            //{
+            //    _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
+            //    _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
+            //}
+            //catch (Exception) { /* ignored */ }
         }
         #endregion
 

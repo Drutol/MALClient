@@ -40,7 +40,7 @@ namespace MALClient.Pages
             EmptyNotice.Visibility = Visibility.Collapsed;
             _animeSearchItems.Clear();
             string response = "";
-            await Task.Run(async () => response = await new AnimeSearchQuery(text).GetRequestResponse());
+            await Task.Run(async () => response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(text)).GetRequestResponse());
 
             try
             {

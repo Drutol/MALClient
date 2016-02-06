@@ -282,7 +282,7 @@ namespace MALClient.Pages
 
         private async void FetchData(string id, string title)
         {
-            string data = await new AnimeSearchQuery(title.Replace(' ', '+')).GetRequestResponse();
+            string data = await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse();
             data = WebUtility.HtmlDecode(data);
             data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 

@@ -14,7 +14,7 @@ using MALClient.Items;
 using MALClient.Pages;
 using MALClient.UserControls;
 
-#pragma warning disable 4014
+ 
 namespace MALClient
 {
     public static class Utils
@@ -220,18 +220,24 @@ namespace MALClient
                         await Task.Delay(2000);
                     }
                 }
-                
-                GetMainPageInstance().Hamburger.UpdateProfileImg(false);
+
+                await GetMainPageInstance().Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
             {
-                GetMainPageInstance().Hamburger.UpdateProfileImg(false);
+                await GetMainPageInstance().Hamburger.UpdateProfileImg(false);
             }
         }
 
-        #region BackNavigation
+         public static string CleanAnimeTitle(string title)
+         {
+             var index = title.IndexOf('+');
+             return index == -1 ? title : title.Substring(0, index);
+         }
 
-        private static PageIndex _pageTo;
+    #region BackNavigation
+
+    private static PageIndex _pageTo;
         private static object _args;
 
         public static void RegisterBackNav(PageIndex page, object args)
@@ -243,11 +249,11 @@ namespace MALClient
             currentView.BackRequested += CurrentViewOnBackRequested;
         }
 
-        private static void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
+        private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
             var page = GetMainPageInstance();
-            page.Navigate(_pageTo, _args);
+            await page.Navigate(_pageTo, _args);
             page.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
         }
 

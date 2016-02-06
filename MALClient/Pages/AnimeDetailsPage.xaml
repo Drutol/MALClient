@@ -11,7 +11,7 @@
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
     </Page.Resources>
-    <ScrollViewer  Margin="1,10,1,0" VerticalScrollMode="Auto" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch">
+    <ScrollViewer  Margin="1,10,1,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="150" MaxHeight="250" Height="Auto"/>

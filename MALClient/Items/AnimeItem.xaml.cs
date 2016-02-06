@@ -21,7 +21,7 @@ using MALClient.Comm;
 using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-#pragma warning disable 4014
+ 
 namespace MALClient.Items
 {
     public sealed partial class AnimeItem : UserControl , IAnimeData
@@ -326,7 +326,6 @@ namespace MALClient.Items
         #region Swipe
         private Point _initialPoint;
         private bool _manipulating;
-        private MessageDialog _msg;
         /// <summary>
         /// When manipulation starts , saves initial point.
         /// </summary>
@@ -343,7 +342,7 @@ namespace MALClient.Items
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private async void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (e.IsInertial && _manipulating)
             {
@@ -353,7 +352,7 @@ namespace MALClient.Items
                     e.Complete();
                     e.Handled = true;
                     _manipulating = false;
-                    Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
+                    await Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
                         .Navigate(PageIndex.PageAnimeDetails,
                             new AnimeDetailsPageNavigationArgs(Id, Title, null,this,
                                 Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)));
@@ -515,9 +514,9 @@ namespace MALClient.Items
             Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName,_parentAbstraction);
         }
 
-        private void NavigateDetails(object sender, RoutedEventArgs e)
+        private async void NavigateDetails(object sender, RoutedEventArgs e)
         {
-            Utils.GetMainPageInstance() 
+            await Utils.GetMainPageInstance() 
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null,this,
                         Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)));

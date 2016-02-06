@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-#pragma warning disable 4014
+ 
 namespace MALClient.Pages
 {
 
@@ -95,9 +95,16 @@ namespace MALClient.Pages
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
-            var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            UpdateUpperStatus();
+            try
+            {
+                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
+                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                UpdateUpperStatus();
+            }
+            catch (Exception)
+            {
+                //igored
+            }     
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -135,9 +142,9 @@ namespace MALClient.Pages
                     await Task.Run(async () =>
                     {
                         await
-                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                             {
-                                FetchSeasonalData();
+                                await FetchSeasonalData();
                             });
                     });
                     return;
@@ -169,13 +176,14 @@ namespace MALClient.Pages
             }
             else
             {
-                FetchData();
+                await FetchData();
             }
 
             if (_timer == null)
                 _timer = new System.Threading.Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
             UpdateStatus();
+            
             base.OnNavigatedTo(e);
         }
         #endregion
@@ -195,7 +203,7 @@ namespace MALClient.Pages
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                UpdateNotice.Text = $"Updated {GetLastUpdatedStatus()}";
+                UpdateNotice.Text = GetLastUpdatedStatus();
             });
         }
 
@@ -260,24 +268,32 @@ namespace MALClient.Pages
 
         private string GetLastUpdatedStatus()
         {
-            string output;
-            TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
-            if (lastUpdateDiff.Days > 0)
-                output = lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
-            else if (lastUpdateDiff.Hours > 0)
+            string output = "Updated ";
+            try
             {
-                output = lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+                TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
+                if (lastUpdateDiff.Days > 0)
+                    output += lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
+                else if (lastUpdateDiff.Hours > 0)
+                {
+                    output += lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+                }
+                else if (lastUpdateDiff.Minutes > 0)
+                {
+                    output += $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+                }
+                else
+                {
+                    output += "just now.";
+                }
+                if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
+                    UpdateNotice.Visibility = Visibility.Visible;
             }
-            else if (lastUpdateDiff.Minutes > 0)
+            catch (Exception)
             {
-                output = $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+                output = "";
             }
-            else
-            {
-                output = "just now.";
-            }
-            if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
-                UpdateNotice.Visibility = Visibility.Visible;
+
             return output;
         }
 
@@ -453,7 +469,7 @@ namespace MALClient.Pages
                 return;
 
             _wasPreviousQuery = queryCondition;
-
+            _currentPage = 1;
          
             _animeItemsSet.Clear();
             int status = queryCondition ? 7 : GetDesiredStatus();                 
@@ -603,12 +619,12 @@ namespace MALClient.Pages
             item.OpenTileUrlInput();
         }
 
-        private void RefreshList(object sender, RoutedEventArgs e)
+        private async void RefreshList(object sender, RoutedEventArgs e)
         {
             if (_seasonalState)
-                FetchSeasonalData(true);
+                await FetchSeasonalData(true);
             else
-                FetchData(true);
+                await FetchData(true);
         }     
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
@@ -678,7 +694,7 @@ namespace MALClient.Pages
             RefreshList();
         }
 
-        private void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        private async void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e == null || e.Key == VirtualKey.Enter)
             {
@@ -689,7 +705,7 @@ namespace MALClient.Pages
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
-                FetchData();
+                await FetchData();
             }
         }
 

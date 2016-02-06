@@ -9,7 +9,7 @@ using MALClient.Comm;
 using MALClient.UserControls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-#pragma warning disable 4014
+ 
 namespace MALClient.Pages
 {
     /// <summary>
@@ -39,9 +39,9 @@ namespace MALClient.Pages
                 Creditentials.SetAuthStatus(true);
                 var page = Utils.GetMainPageInstance();
                 page.LogIn();
-                page.Navigate(PageIndex.PageAnimeList);
+                await page.Navigate(PageIndex.PageAnimeList);
                 page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);               
-                page.Hamburger.UpdateProfileImg();             
+                await page.Hamburger.UpdateProfileImg();             
             }
             catch (Exception)
             { 
@@ -51,13 +51,13 @@ namespace MALClient.Pages
             }           
         }
 
-        private void LogOut(object sender, RoutedEventArgs e)
+        private async void LogOut(object sender, RoutedEventArgs e)
         {
             var page = Utils.GetMainPageInstance();
             Creditentials.SetAuthStatus(false);          
             Creditentials.Update("","");
             page.LogOut();
-            page.Navigate(PageIndex.PageLogIn);
+            await page.Navigate(PageIndex.PageLogIn);
             page.UpdateHamburger();
             
         }
@@ -81,6 +81,11 @@ namespace MALClient.Pages
                 txt.IsEnabled = true;
                 AttemptAuthentication(null,null);
             }
+        }
+
+        private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("http://myanimelist.net/register.php"));
         }
     }
 }

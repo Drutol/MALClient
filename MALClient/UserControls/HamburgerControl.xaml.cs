@@ -11,9 +11,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
+#pragma warning disable 4014
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-#pragma warning disable 4014
+ 
 namespace MALClient.UserControls
 {
 

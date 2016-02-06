@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Pages;
 
-#pragma warning disable 4014
+ 
 namespace MALClient.Items
 {
     public sealed partial class AnimeSearchItem : UserControl , IAnimeData
@@ -60,11 +60,11 @@ namespace MALClient.Items
             _initialPoint = e.Position;
         }
 
-        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private async void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (!e.IsInertial || !(e.Position.X - _initialPoint.X >= 70)) return;
             if (!(e.Position.X - _initialPoint.X >= 70)) return;
-            Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item,this));
+            await Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails,new AnimeDetailsPageNavigationArgs(0,"",item,this));
             e.Complete();
         }
 
@@ -73,9 +73,9 @@ namespace MALClient.Items
             Root.Background = brush;
         }
 
-        private void NavigateDetails(object sender, RoutedEventArgs e)
+        private async void NavigateDetails(object sender, RoutedEventArgs e)
         {
-            Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this));
+            await Utils.GetMainPageInstance().Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this));
         }
     }
 }

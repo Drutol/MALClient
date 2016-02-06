@@ -128,9 +128,17 @@ namespace MALClient
 
         public static async void SaveVolatileData()
         {
-            var json = JsonConvert.SerializeObject(_volatileDataCache);
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("volatile_data.json", CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, json);
+            try
+            {
+                var json = JsonConvert.SerializeObject(_volatileDataCache);
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("volatile_data.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            }
+            catch (Exception)
+            {
+               //ignored
+            }
+
         }
 
         public static void RegisterVolatileData(int id, VolatileDataCache data)

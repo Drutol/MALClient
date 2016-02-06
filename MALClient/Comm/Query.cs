@@ -23,6 +23,7 @@ namespace MALClient.Comm
                 {
                     StreamReader reader = new StreamReader(stream, Encoding.UTF8);
                     responseString = reader.ReadToEnd();
+                    reader.Dispose();
                 }
                 return responseString;
             }

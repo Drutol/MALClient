@@ -41,7 +41,7 @@ namespace MALClient
             Utils.CheckTiles();
             if (Creditentials.Authenticated)
             {
-                Navigate(PageIndex.PageRecommendations);
+                Navigate(PageIndex.PageAnimeList);
                 HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
             }
             else
@@ -50,7 +50,6 @@ namespace MALClient
                 Navigate(PageIndex.PageLogIn);
                 HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
             }
-            
 
         }
 
@@ -81,9 +80,7 @@ namespace MALClient
             bool wasOnSearchPage = _onSearchPage;
             _onSearchPage = false;
             MainMenu.IsPaneOpen = false;
-
-
-
+         
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
@@ -153,10 +150,6 @@ namespace MALClient
                     HideSearchStuff();
                     SetStatus("About");
                     MainContent.Navigate(typeof(Pages.AboutPage));
-                    break;
-                case PageIndex.PageRecommendations:
-                    HideSearchStuff();
-                    MainContent.Navigate(typeof(Pages.RecomendationsPage));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

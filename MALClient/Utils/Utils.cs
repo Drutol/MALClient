@@ -229,12 +229,6 @@ namespace MALClient
             }
         }
 
-        public static string CleanAnimeTitle(string title)
-        {
-            var index = title.IndexOf('+');
-            return index == -1 ? title : title.Substring(0, index);
-        }
-
         #region BackNavigation
 
         private static PageIndex _pageTo;

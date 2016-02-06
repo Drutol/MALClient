@@ -111,7 +111,6 @@
     <Compile Include="Comm\AnimeAddQuery.cs" />
     <Compile Include="Comm\AnimeListParameters.cs" />
     <Compile Include="Comm\AnimeListQuery.cs" />
-    <Compile Include="Comm\AnimeRecomendationsQuery.cs" />
     <Compile Include="Comm\AnimeRemoveQuery.cs" />
     <Compile Include="Comm\AnimeSearchQuery.cs" />
     <Compile Include="Comm\AnimeSeasonalQuery.cs" />
@@ -132,10 +131,6 @@
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
     <Compile Include="Items\IAnimeData.cs" />
-    <Compile Include="Items\RecomendationData.cs" />
-    <Compile Include="Items\RecomendationItem.xaml.cs">
-      <DependentUpon>RecomendationItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Items\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -159,9 +154,6 @@
     <Compile Include="Pages\PageUtils.cs" />
     <Compile Include="Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\RecomendationsPage.xaml.cs">
-      <DependentUpon>RecomendationsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -212,10 +204,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Items\RecomendationItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,10 +229,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProfilePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\RecomendationsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

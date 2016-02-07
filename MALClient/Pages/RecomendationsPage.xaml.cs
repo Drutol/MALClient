@@ -41,6 +41,7 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SpinnerLoading.Visibility = Visibility.Visible;
             base.OnNavigatedTo(e);
             FetchData();
         }
@@ -65,6 +66,7 @@ namespace MALClient.Pages
                 _recomendationItems.Add(pivot);
             }
             Pivot.ItemsSource = _recomendationItems;
+            SpinnerLoading.Visibility = Visibility.Collapsed;
             _loaded = true;
         }
 

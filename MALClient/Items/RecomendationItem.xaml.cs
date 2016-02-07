@@ -31,7 +31,7 @@ namespace MALClient.Items
         private RecomendationData _data;
         private ObservableCollection<ListViewItem> _detailItems = new ObservableCollection<ListViewItem>(); 
         public int Index { get; private set; }
-
+        private bool _dataLoaded;
         public RecomendationItem(RecomendationData data)
         {
             this.InitializeComponent();
@@ -55,6 +55,9 @@ namespace MALClient.Items
 
         public async Task PopulateData()
         {
+            if (_dataLoaded)
+                return;
+            SpinnerLoading.Visibility = Visibility.Visible;
             await _data.FetchData();
             DepImg.Source = new BitmapImage(new Uri(_data.DependentImgUrl));
             RecImg.Source = new BitmapImage(new Uri(_data.RecommendationImgUrl));
@@ -68,6 +71,8 @@ namespace MALClient.Items
             _detailItems.Add(BuildListViewItem("Start:", _data.DependentStartDate, _data.RecommendationStartDate));
             _detailItems.Add(BuildListViewItem("End:", _data.DependentEndDate, _data.RecommendationStartDate));
             DetailsListView.ItemsSource = _detailItems;
+            _dataLoaded = true;
+            SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
         private ListViewItem BuildListViewItem(string label, string val1, string val2)
@@ -78,15 +83,15 @@ namespace MALClient.Items
                 {
                     ColumnDefinitions =
                     {
-                        new ColumnDefinition {Width = new GridLength(0.33,GridUnitType.Star)},
-                        new ColumnDefinition {Width = new GridLength(0.33,GridUnitType.Star)},
-                        new ColumnDefinition {Width = new GridLength(0.33,GridUnitType.Star)}
+                        new ColumnDefinition {Width = new GridLength(0.24,GridUnitType.Star)},
+                        new ColumnDefinition {Width = new GridLength(0.38,GridUnitType.Star)},
+                        new ColumnDefinition {Width = new GridLength(0.38,GridUnitType.Star)}
                     },
                     Children =
                     {
-                        BuildTextBlock(label,FontWeights.Bold,0),
-                        BuildTextBlock(val1,FontWeights.SemiBold,1),
-                        BuildTextBlock(val2,FontWeights.SemiBold,2)
+                        BuildTextBlock(label,FontWeights.SemiBold,0),
+                        BuildTextBlock(val1,FontWeights.SemiLight,1),
+                        BuildTextBlock(val2,FontWeights.SemiLight,2)
                     },                   
                 },
                 Background = new SolidColorBrush((_detailItems.Count + 1) % 2 == 0 ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent)
@@ -99,10 +104,20 @@ namespace MALClient.Items
             {
                 Text = value,
                 FontWeight = weight,
-                TextAlignment = !weight.Equals(FontWeights.Bold) ? TextAlignment.Center : TextAlignment.Left
+                TextAlignment = !weight.Equals(FontWeights.SemiBold) ? TextAlignment.Center : TextAlignment.Left
             };
             txt.SetValue(Grid.ColumnProperty,column);
             return txt;
+        }
+
+        private void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

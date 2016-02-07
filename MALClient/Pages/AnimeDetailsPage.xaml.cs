@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
@@ -43,6 +47,8 @@ namespace MALClient.Pages
         private float _globalScore;
         private string _imgUrl;
         private AnimeListPageNavigationArgs _previousPageSetup;
+        private ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
+        private ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
 
         public AnimeDetailsPage()
         {
@@ -106,7 +112,7 @@ namespace MALClient.Pages
                 throw new Exception("No paramaters for this page");
 
             _animeItemReference = param.AnimeItem;
-            if (_animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItem).Auth)
+            if (_animeItemReference == null || _animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItem).Auth)
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 if (!Utils.GetMainPageInstance()
@@ -131,7 +137,7 @@ namespace MALClient.Pages
 
             if (param.AnimeElement != null)
             {
-                PopulateData(param.AnimeElement);
+                ExtractData(param.AnimeElement);
                 Utils.RegisterBackNav(PageIndex.PageSearch, true);
             }
             else
@@ -254,47 +260,89 @@ namespace MALClient.Pages
 
         #region FetchAndPopulate
 
-        private void PopulateData(XElement animeElement)
+        private void PopulateData()
+        {
+            if (_animeItemReference is AnimeItem)
+            {
+                var day = Status == "Currently Airing" ? (int)DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
+                DataCache.RegisterVolatileData(Id, new VolatileDataCache
+                {
+                    DayOfAiring = day,
+                    GlobalScore = GlobalScore
+                });
+                ((AnimeItem)_animeItemReference).Airing = day != -1;
+                DataCache.SaveVolatileData();
+            }
+            _loadedItems1.Add(BuildListViewItem("Episodes", AllEpisodes.ToString(),true));
+            _loadedItems1.Add(BuildListViewItem("Score", GlobalScore.ToString()));
+            _loadedItems1.Add(BuildListViewItem("Start", StartDate,true));
+            _loadedItems2.Add(BuildListViewItem("Type", Type,true, 0.3f, 0.7f));
+            _loadedItems2.Add(BuildListViewItem("Status", Status,false,0.3f,0.7f));      
+            _loadedItems2.Add(BuildListViewItem("End", EndDate,true, 0.3f, 0.7f));
+
+            DetailSynopsis.Text = Synopsis;
+
+            Utils.GetMainPageInstance().SetStatus(Title);
+
+            DetailImage.Source = new BitmapImage(new Uri(_imgUrl));
+            DetailsListViewP1.ItemsSource = _loadedItems1;
+            DetailsListViewP2.ItemsSource = _loadedItems2;
+        }
+
+        private ListViewItem BuildListViewItem(string label, string val1,bool alternate = false,float left = 0.4f,float right = 0.6f)
+        {
+            return new ListViewItem
+            {
+                Content = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition {Width = new GridLength(left,GridUnitType.Star)},
+                        new ColumnDefinition {Width = new GridLength(right,GridUnitType.Star)}
+                    },
+                    Children =
+                    {
+                        BuildTextBlock(label,FontWeights.SemiBold,0),
+                        BuildTextBlock(val1,FontWeights.SemiLight,1),
+                    },
+                },
+                Background = new SolidColorBrush(alternate ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent),
+                Height = 20
+            };
+        }
+
+        private TextBlock BuildTextBlock(string value, FontWeight weight, int column)
+        {
+            var txt = new TextBlock
+            {
+                Text = value,
+                FontWeight = weight,
+                FontSize = 13,
+                Height = 20,
+                TextAlignment = !weight.Equals(FontWeights.SemiBold) ? TextAlignment.Center : TextAlignment.Left              
+            };
+            txt.SetValue(Grid.ColumnProperty, column);
+            return txt;
+        }
+
+        private void ExtractData(XElement animeElement)
         {
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-
             Synopsis =
                 Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "")
                     .Trim()
                     .Replace("[i]", "")
                     .Replace("[/i]", "")
                     .Replace("#039;","'")
-                    .Replace("quot;","\"");
+                    .Replace("quot;","\"")
+                    .Replace("&mdash;","—");
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
-
-            if (_animeItemReference is AnimeItem)
-            {
-                var day = Status == "Currently Airing" ? (int) DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
-                DataCache.RegisterVolatileData(Id, new VolatileDataCache
-                {
-                    DayOfAiring = day,
-                    GlobalScore = GlobalScore
-                });
-                ((AnimeItem) _animeItemReference).Airing = day != -1;
-                DataCache.SaveVolatileData();
-            }
-            DetailScore.Text = GlobalScore.ToString();
-            DetailEpisodes.Text = AllEpisodes.ToString();
-
-            DetailBroadcast.Text = StartDate + "\n" + EndDate;
-            DetailStatus.Text = Status;
-            DetailType.Text = Type;
-            DetailSynopsis.Text = Synopsis;
-
-            Utils.GetMainPageInstance().SetStatus(Title);
-
-            DetailImage.Source = new BitmapImage(new Uri(_imgUrl));
+            PopulateData();
         }
-
 
         private async void FetchData(string id, string title)
         {
@@ -304,7 +352,7 @@ namespace MALClient.Pages
 
             XDocument parsedData = XDocument.Parse(data);
             var elements = parsedData.Element("anime").Elements("entry");
-            PopulateData(elements.First(element => element.Element("id").Value == id));
+            ExtractData(elements.First(element => element.Element("id").Value == id));
         }
 
         #endregion

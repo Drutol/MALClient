@@ -95,5 +95,7 @@ namespace MALClient.Items
             //Okay we got this data
             _loaded = true;
         }
+
+
     }
 }

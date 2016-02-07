@@ -323,5 +323,8 @@
         <Pivot x:Name="Pivot" Style="{StaticResource CustomPivotStyle}"  ItemsSource="{Binding}" PivotItemLoading="Pivot_OnPivotItemLoading">
             
         </Pivot>
+        <ProgressRing x:Name="SpinnerLoading"
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="150"
+                      IsActive="True" Visibility="Collapsed" />
     </Grid>
 </Page>

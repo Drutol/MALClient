@@ -46,7 +46,7 @@
                                         <TextBlock Margin="10,0,0,0" Text="Open in browser"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50" Click="AddAnime" Background="#E6E6E6">
+                                <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50" Click="AddAnime" Background="#E6E6E6" Margin="0,5,0,0">
                                     <StackPanel Orientation="Horizontal">
                                         <SymbolIcon Symbol="Add"/>
                                         <TextBlock Margin="10,0,0,0" Text="Add to my list"/>
@@ -56,7 +56,8 @@
                                     Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
                                     Click="RemoveAnime"
                                     HorizontalAlignment="Stretch"
-                                    Background="#E6E6E6">
+                                    Background="#E6E6E6"
+                                    Margin="0,5,0,0">
                                     <StackPanel Orientation="Horizontal">
                                         <SymbolIcon Symbol="Remove"/>
                                         <TextBlock Margin="10,0,0,0" Text="Remove from my list"/>
@@ -67,8 +68,8 @@
                     </Button.Flyout>
                 </Button>
                 <StackPanel Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock Text="This entry is not on your list yet." Foreground="LightGray" Opacity=".75"/>
-                    <Button HorizontalAlignment="Stretch" Height="50" Click="AddAnime" Background="#E6E6E6">
+                    <TextBlock Text="This entry is not on your list yet." Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center" Opacity=".75"/>
+                    <Button HorizontalAlignment="Stretch" Height="50" Click="AddAnime" Background="#E6E6E6" Margin="20,0,20,0">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Add"/>
                             <TextBlock Margin="10,0,0,0" Text="Add to my list"/>

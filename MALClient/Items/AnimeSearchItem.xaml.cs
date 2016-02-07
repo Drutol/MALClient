@@ -66,7 +66,7 @@ namespace MALClient.Items
             if (!(e.Position.X - _initialPoint.X >= 70)) return;
             await
                 Utils.GetMainPageInstance()
-                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this));
+                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this) { Source = PageIndex.PageSearch});
             e.Complete();
         }
 
@@ -79,7 +79,7 @@ namespace MALClient.Items
         {
             await
                 Utils.GetMainPageInstance()
-                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this));
+                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(0, "", item, this) {Source = PageIndex.PageSearch});
         }
     }
 }

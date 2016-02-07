@@ -21,18 +21,22 @@ using MALClient.Items;
 
 namespace MALClient.Pages
 {
+    public class RecommendationPageNavigationArgs
+    {
+        public int Index;
+    }
+
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class RecomendationsPage : Page
     {
-        private ObservableCollection<PivotItem> _recomendationItems = new ObservableCollection<PivotItem>();
-
-        private int _currentItem = 0;
-        
+        private readonly ObservableCollection<PivotItem> _recomendationItems = new ObservableCollection<PivotItem>();
+       
 
         private bool _loaded;
-
+        private int _startItem = 0;
 
         public RecomendationsPage()
         {
@@ -42,17 +46,20 @@ namespace MALClient.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             SpinnerLoading.Visibility = Visibility.Visible;
-            base.OnNavigatedTo(e);
+            if (e.Parameter is RecommendationPageNavigationArgs)
+                _startItem = (e.Parameter as RecommendationPageNavigationArgs).Index;
+
             FetchData();
         }
 
         private async void FetchData()
-        {
+        {          
             PopulateData(await new AnimeRecomendationsQuery().GetRecomendationsData());
         }
 
         private void PopulateData(List<RecomendationData> data)
         {
+            int i = 0;
             foreach (var item in data)
             {
                 var pivot = new PivotItem
@@ -61,11 +68,12 @@ namespace MALClient.Pages
                     {
                         Children = { new TextBlock {Text = item.DependentTitle , FontSize = 18} , new TextBlock  { Text = item.RecommendationTitle , FontSize = 18} }
                     },                   
-                    Content = new RecomendationItem(item)
+                    Content = new RecomendationItem(item,i++)
                 };
                 _recomendationItems.Add(pivot);
             }
             Pivot.ItemsSource = _recomendationItems;
+            Pivot.SelectedIndex = _startItem;       
             SpinnerLoading.Visibility = Visibility.Collapsed;
             _loaded = true;
         }

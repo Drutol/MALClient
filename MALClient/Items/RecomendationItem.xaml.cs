@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
+using MALClient.Pages;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,10 +33,11 @@ namespace MALClient.Items
         private ObservableCollection<ListViewItem> _detailItems = new ObservableCollection<ListViewItem>(); 
         public int Index { get; private set; }
         private bool _dataLoaded;
-        public RecomendationItem(RecomendationData data)
+        public RecomendationItem(RecomendationData data,int index)
         {
             this.InitializeComponent();
             Loaded += OnLoaded;
+            Index = index;
             _data = data;
         }
 
@@ -110,14 +112,21 @@ namespace MALClient.Items
             return txt;
         }
 
-        private void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            await Utils.GetMainPageInstance()
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(_data.RecommendationId, _data.RecommendationTitle, _data.RecommendationData, null,
+                        new RecommendationPageNavigationArgs {Index = Index}) { Source = PageIndex.PageRecomendations});
         }
 
-        private void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            await Utils.GetMainPageInstance()
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(_data.DependentId, _data.DependentTitle,
+                        _data.DependentData, null,
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
     }
 }

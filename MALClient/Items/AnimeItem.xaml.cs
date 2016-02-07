@@ -233,7 +233,7 @@ namespace MALClient.Items
             await Utils.GetMainPageInstance()
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                        Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)));
+                        Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)) {Source = PageIndex.PageAnimeList}) ;
         }
 
         #region Utils/Helpers
@@ -392,7 +392,7 @@ namespace MALClient.Items
                     await Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
                         .Navigate(PageIndex.PageAnimeDetails,
                             new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                                Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)));
+                                Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)) {Source = PageIndex.PageAnimeList});
                 }
             }
         }

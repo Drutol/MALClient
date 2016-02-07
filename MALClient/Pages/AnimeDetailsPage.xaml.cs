@@ -27,16 +27,17 @@ namespace MALClient.Pages
         public readonly XElement AnimeElement;
         public readonly IAnimeData AnimeItem;
         public readonly int Id;
-        public readonly AnimeListPageNavigationArgs PrevListSetup;
+        public readonly object PrevPageSetup;
         public readonly string Title;
+        public PageIndex Source;
 
         public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
-            AnimeListPageNavigationArgs args = null)
+            object args = null)
         {
             Id = id;
             Title = title;
             AnimeElement = element;
-            PrevListSetup = args;
+            PrevPageSetup = args;
             AnimeItem = animeReference;
         }
     }
@@ -46,7 +47,6 @@ namespace MALClient.Pages
         private IAnimeData _animeItemReference;
         private float _globalScore;
         private string _imgUrl;
-        private AnimeListPageNavigationArgs _previousPageSetup;
         private ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
         private ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
 
@@ -55,9 +55,20 @@ namespace MALClient.Pages
             InitializeComponent();
         }
 
-        private int Id => _animeItemReference.Id;
-        private string Title => _animeItemReference.Title;
-        private int AllEpisodes => _animeItemReference.AllEpisodes;
+        private int _allEpisodes;
+
+
+        private int Id { get; set; }
+        private string Title { get; set; }
+
+        private int AllEpisodes
+        {
+            get
+            {
+                return _animeItemReference?.AllEpisodes ?? _allEpisodes;
+            }
+            set { _allEpisodes = value; }
+        } 
         private string Type { get; set; }
         private string Status { get; set; }
         private string Synopsis { get; set; }
@@ -69,6 +80,7 @@ namespace MALClient.Pages
             get { return _globalScore; }
             set
             {
+                if(_animeItemReference != null)
                 _animeItemReference.GlobalScore = value;
                 _globalScore = value;
             }
@@ -111,12 +123,14 @@ namespace MALClient.Pages
             if (param == null)
                 throw new Exception("No paramaters for this page");
 
+            Id = param.Id;
+            Title = param.Title;
             _animeItemReference = param.AnimeItem;
             if (_animeItemReference == null || _animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItem).Auth)
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 if (!Utils.GetMainPageInstance()
-                    .TryRetrieveAuthenticatedAnimeItem(_animeItemReference.Id, ref _animeItemReference))
+                    .TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference))
                     // else we don't have this item
                 {
                     //we may only prepare for its creation
@@ -135,16 +149,20 @@ namespace MALClient.Pages
                 BtnScore.Content = MyScore == 0 ? "Unranked" : $"{MyScore}/10";
             }
 
-            if (param.AnimeElement != null)
+            switch (param.Source)
             {
-                ExtractData(param.AnimeElement);
-                Utils.RegisterBackNav(PageIndex.PageSearch, true);
-            }
-            else
-            {
-                FetchData(param.Id.ToString(), param.Title);
-                _previousPageSetup = param.PrevListSetup;
-                Utils.RegisterBackNav(PageIndex.PageAnimeList, _previousPageSetup);
+                case PageIndex.PageSearch:
+                    ExtractData(param.AnimeElement);
+                    Utils.RegisterBackNav(param.Source, true);
+                    break;
+                case PageIndex.PageAnimeList:
+                    FetchData(param.Id.ToString(), param.Title);
+                    Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+                case PageIndex.PageRecomendations:
+                    ExtractData(param.AnimeElement);
+                    Utils.RegisterBackNav(param.Source,param.PrevPageSetup);
+                    break;
             }
         }
 
@@ -337,10 +355,12 @@ namespace MALClient.Pages
                     .Replace("[/i]", "")
                     .Replace("#039;","'")
                     .Replace("quot;","\"")
-                    .Replace("&mdash;","—");
+                    .Replace("&mdash;","—");            
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
+            if (_animeItemReference == null)
+                AllEpisodes = Convert.ToInt32(animeElement.Element("episodes").Value);
             PopulateData();
         }
 

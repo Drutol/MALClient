@@ -26,7 +26,7 @@ namespace MALClient
     {
         private readonly Dictionary<string, AnimeUserCache> _allAnimeItemsCache =
             new Dictionary<string, AnimeUserCache>();
-
+        private List<RecomendationData> _recomendationDataCache = new List<RecomendationData>(); 
         private bool _onSearchPage;
         private Tuple<DateTime, ProfileData> _profileDataCache;
         private bool? _searchStateBeforeNavigatingToSearch;
@@ -155,7 +155,7 @@ namespace MALClient
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
                     SetStatus("Recommendations");
-                    MainContent.Navigate(typeof(RecomendationsPage));
+                    MainContent.Navigate(typeof(RecomendationsPage),args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -400,6 +400,16 @@ namespace MALClient
         public void ClearAnimeItemsForSource(string userName)
         {
             _allAnimeItemsCache[userName.ToLower()].LoadedAnime.Clear();
+        }
+        //Recommendations
+        public void SaveRecommendationsData(List<RecomendationData> data)
+        {
+            _recomendationDataCache = data;
+        }
+
+        public List<RecomendationData> RetrieveRecommendationData()
+        {
+            return _recomendationDataCache;
         }
 
         #endregion

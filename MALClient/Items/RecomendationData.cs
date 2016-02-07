@@ -23,6 +23,7 @@ namespace MALClient.Items
         public string DependentEndDate { get; private set; }
         public string DependentType { get; private set; }
         public string DependentStatus { get; private set; }
+        public string DependentEpisodes { get; private set; }
 
         //Keys
         public string RecommendationTitle { get; set; }
@@ -35,6 +36,7 @@ namespace MALClient.Items
         public string RecommendationEndDate { get; private set; }
         public string RecommendationType { get; private set; }
         public string RecommendationStatus { get; private set; }
+        public string RecommendationEpisodes { get; private set; }
 
         public string Description { get; set; }
 
@@ -78,6 +80,7 @@ namespace MALClient.Items
             DependentStartDate = DependentData.Element("start_date").Value;
             DependentEndDate = DependentData.Element("end_date").Value;
             DependentImgUrl = DependentData.Element("image").Value;
+            DependentEpisodes = DependentData.Element("episodes").Value;
 
             //Set data - Recom
             RecommendationGlobalScore = float.Parse(RecommendationData.Element("score").Value);
@@ -87,6 +90,7 @@ namespace MALClient.Items
             RecommendationStartDate = RecommendationData.Element("start_date").Value;
             RecommendationEndDate = RecommendationData.Element("end_date").Value;
             RecommendationImgUrl = RecommendationData.Element("image").Value;
+            RecommendationEpisodes = RecommendationData.Element("episodes").Value;
 
             //Okay we got this data
             _loaded = true;

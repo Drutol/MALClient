@@ -9,30 +9,88 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid Margin="3">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="130"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="250"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.ColumnSpan="3" Grid.Column="0" Background="{StaticResource AppBarBackgroundThemeBrush}"/>
-        <StackPanel Grid.Column="0" Grid.Row="0">
-            <Image x:Name="DepImg" Height="170" Stretch="UniformToFill"/>
-            <TextBlock x:Name="TxtDepTitle" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
-        </StackPanel>
-        <SymbolIcon Grid.Column="1" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Symbol="Switch" Foreground="LightGray" Opacity=".5" VerticalAlignment="Top" Margin="0,85,0,0" HorizontalAlignment="Center">
-        <SymbolIcon.RenderTransform>
-            <ScaleTransform ScaleY="3" ScaleX="3"/>
-        </SymbolIcon.RenderTransform>    
-        </SymbolIcon>
-        <StackPanel Grid.Column="2" Grid.Row="0">
-            <Image x:Name="RecImg" Height="170"  Stretch="UniformToFill"/>
-            <TextBlock x:Name="TxtRecTitle" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
-        </StackPanel>
-
-    </Grid>
+    <ScrollViewer>
+        <Grid Margin="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="130"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="270"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--LeftTop-->
+            <StackPanel Grid.Column="0" Grid.Row="0">
+                <Image x:Name="DepImg" Height="170" Stretch="UniformToFill"/>
+                <TextBlock x:Name="TxtDepTitle" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
+            </StackPanel>
+            <!--MidTop-->
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="Black" Opacity=".5"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Width" Value="40"/>
+                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
+                    </Style>
+                    <Style TargetType="SymbolIcon">
+                        <Setter Property="Foreground" Value="White"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Button>
+                        <SymbolIcon Symbol="Globe"/>
+                    </Button>
+                    <Button>
+                        <SymbolIcon Symbol="More"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <Button>
+                        <SymbolIcon Symbol="Globe"/>
+                    </Button>
+                    <Button>
+                        <SymbolIcon Symbol="More"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <SymbolIcon Grid.Column="1" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Symbol="Switch" Foreground="LightGray" VerticalAlignment="Top" Margin="0,85,0,0" HorizontalAlignment="Center">
+                <SymbolIcon.RenderTransform>
+                    <ScaleTransform ScaleY="3" ScaleX="3"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+            <!--RightTop-->
+            <StackPanel Grid.Column="2" Grid.Row="0">
+                <Image x:Name="RecImg" Height="170"  Stretch="UniformToFill"/>
+                <TextBlock x:Name="TxtRecTitle" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
+            </StackPanel>
+            <!--LeftMid-->
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" >
+                <StackPanel>
+                    <MenuFlyoutSeparator/>
+                    <ListView x:Name="DetailsListView" SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+            <!--Columnspan3-->
+            <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" >
+                <StackPanel>
+                    <MenuFlyoutSeparator/>
+                    <TextBlock Text="Recommendtion description" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

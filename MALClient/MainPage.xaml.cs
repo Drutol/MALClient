@@ -39,7 +39,7 @@ namespace MALClient
             Utils.CheckTiles();
             if (Creditentials.Authenticated)
             {
-                Navigate(PageIndex.PageRecomendations);
+                Navigate(PageIndex.PageAnimeList);
 
                 HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
             }

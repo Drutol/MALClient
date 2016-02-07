@@ -317,10 +317,10 @@
             </Setter>
         </Style>
     </Page.Resources>
-    
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot x:Name="Pivot" Style="{StaticResource CustomPivotStyle}" ItemsSource="{Binding}" PivotItemLoading="Pivot_OnPivotItemLoading">
+
+
+    <Grid Background="{StaticResource AppBarBackgroundThemeBrush}">
+        <Pivot x:Name="Pivot" Style="{StaticResource CustomPivotStyle}"  ItemsSource="{Binding}" PivotItemLoading="Pivot_OnPivotItemLoading">
             
         </Pivot>
     </Grid>

@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.Comm;
 using MALClient.UserControls;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,11 +39,12 @@ namespace MALClient.Pages
                 XDocument doc = XDocument.Parse(response);
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
-                MainPage page = Utils.GetMainPageInstance();
+                var page = Utils.GetMainPageInstance();
+                var hamburger = new ViewModelLocator().Hamburger;
                 page.LogIn();
                 await page.Navigate(PageIndex.PageAnimeList);
-                page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
-                await page.Hamburger.UpdateProfileImg();
+                hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                await hamburger.UpdateProfileImg();
             }
             catch (Exception)
             {
@@ -54,12 +56,12 @@ namespace MALClient.Pages
 
         private async void LogOut(object sender, RoutedEventArgs e)
         {
-            MainPage page = Utils.GetMainPageInstance();
+            var page = Utils.GetMainPageInstance();
             Creditentials.SetAuthStatus(false);
             Creditentials.Update("", "");
             page.LogOut();
             await page.Navigate(PageIndex.PageLogIn);
-            page.UpdateHamburger();
+            new ViewModelLocator().Hamburger.UpdateProfileImg();
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)

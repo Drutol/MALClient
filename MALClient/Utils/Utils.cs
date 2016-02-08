@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
+using MALClient.ViewModels;
 
 namespace MALClient
 {
@@ -126,10 +127,9 @@ namespace MALClient
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
         }
 
-        public static MainPage GetMainPageInstance()
+        public static MainViewModel GetMainPageInstance()
         {
-            var frame = (Frame) Window.Current.Content;
-            return (MainPage) frame.Content;
+            return new ViewModelLocator().Main;
         }
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
@@ -220,11 +220,11 @@ namespace MALClient
                     }
                 }
 
-                await GetMainPageInstance().Hamburger.UpdateProfileImg(false);
+                await new ViewModelLocator().Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
             {
-                await GetMainPageInstance().Hamburger.UpdateProfileImg(false);
+                await new ViewModelLocator().Hamburger.UpdateProfileImg(false);
             }
         }
 
@@ -251,9 +251,9 @@ namespace MALClient
         private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
-            MainPage page = GetMainPageInstance();
+            var page = GetMainPageInstance();
             await page.Navigate(_pageTo, _args);
-            page.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
+            new ViewModelLocator().Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
         }
 
         public static void DeregisterBackNav()

@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
+using MALClient.UserControls;
 
 namespace MALClient.ViewModels
 {
@@ -94,6 +101,28 @@ namespace MALClient.ViewModels
             }
         }
 
+        private BitmapImage _userImage;
+        public BitmapImage UserImage
+        {
+            get { return _userImage; } 
+            set
+            {
+                _userImage = value;
+                RaisePropertyChanged(() => UserImage);
+            }
+        }
+
+        private bool _profileButtonVisibility;
+        public bool ProfileButtonVisibility
+        {
+            get { return _profileButtonVisibility; }
+            set
+            {
+                _profileButtonVisibility = value;
+                RaisePropertyChanged(() => ProfileButtonVisibility);
+            }
+        }
+
         public HamburgerControlViewModel()
         {
                PaneOpenedCommand = new RelayCommand(this.PaneOpened);
@@ -114,6 +143,67 @@ namespace MALClient.ViewModels
             var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
             GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
             GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
+        }
+
+        internal async Task UpdateProfileImg(bool dl = true)
+        {
+            if (Creditentials.Authenticated)
+            {
+                try
+                {
+                    StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
+                    BasicProperties props = await file.GetBasicPropertiesAsync();
+                    if (props.Size == 0)
+                        throw new FileNotFoundException();
+                    var bitmap = new BitmapImage();
+                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
+                    {
+                        bitmap.SetSource(fs);
+                    }
+                    UserImage = bitmap;
+                }
+                catch (FileNotFoundException)
+                {
+                    if (dl)
+                        Utils.DownloadProfileImg();
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                ProfileButtonVisibility = true;
+                if (_subtractedHeightForButton)
+                {
+                    _stackPanelHeightSum += 35;
+                    _subtractedHeightForButton = false;
+                }
+            }
+            else
+            {
+                ProfileButtonVisibility = false;
+                if (!_subtractedHeightForButton)
+                {
+                    _stackPanelHeightSum -= 35;
+                    _subtractedHeightForButton = true;
+                }
+            }
+
+
+        }
+
+        private void ResetActiveButton()
+        {
+            foreach (var foregroundBrush in TxtForegroundBrushes)
+            {
+                foregroundBrush.Value.Value = new SolidColorBrush(Colors.Black);
+            }
+        }
+
+        public void SetActiveButton(HamburgerButtons val)
+        {
+            ResetActiveButton();
+            TxtForegroundBrushes[val.ToString()].Value = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
         }
     }
 }

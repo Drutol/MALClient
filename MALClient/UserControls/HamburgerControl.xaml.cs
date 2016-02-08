@@ -46,7 +46,7 @@ namespace MALClient.UserControls
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            UpdateProfileImg();
+            new ViewModelLocator().Hamburger.UpdateProfileImg();
         }
 
         internal void PaneOpened()
@@ -54,148 +54,59 @@ namespace MALClient.UserControls
 
         }
 
-        internal async Task UpdateProfileImg(bool dl = true)
-        {
-            if (Creditentials.Authenticated)
-            {
-                try
-                {
-                    StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
-                    BasicProperties props = await file.GetBasicPropertiesAsync();
-                    if (props.Size == 0)
-                        throw new FileNotFoundException();
-                    var bitmap = new BitmapImage();
-                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
-                    {
-                        bitmap.SetSource(fs);
-                    }
-                    ImgUser.Source = bitmap;
-                }
-                catch (FileNotFoundException)
-                {
-                    if (dl)
-                        Utils.DownloadProfileImg();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-
-                BtnProfile.Visibility = Visibility.Visible;
-                if (_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum += 35;
-                    _subtractedHeightForButton = false;
-                }
-            }
-            else
-            {
-                BtnProfile.Visibility = Visibility.Collapsed;
-                if (!_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum -= 35;
-                    _subtractedHeightForButton = true;
-                }
-            }
-        }
+        
 
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageSettings);
-            SetActiveButton(HamburgerButtons.Settings);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Settings);
         }
 
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
-            SetActiveButton(HamburgerButtons.AnimeList);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
         }
 
         private void BtnHistory_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageSearch);
-            SetActiveButton(HamburgerButtons.AnimeSearch);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.AnimeSearch);
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageLogIn);
-            SetActiveButton(HamburgerButtons.LogIn);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.LogIn);
         }
 
         private void BtnProfile_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageProfile);
-            SetActiveButton(HamburgerButtons.Profile);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Profile);
         }
 
         private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs());
-            SetActiveButton(HamburgerButtons.Seasonal);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Seasonal);
         }
 
         private void ButtonAbout_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAbout);
-            SetActiveButton(HamburgerButtons.About);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.About);
         }
 
         private void BtnRecom_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageRecomendations);
-            SetActiveButton(HamburgerButtons.Recommendations);
+            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Recommendations);
         }
 
-        public void SetActiveButton(HamburgerButtons val)
-        {
-            ResetActiveButton();
-            switch (val)
-            {
-                case HamburgerButtons.AnimeList:
-                    TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.AnimeSearch:
-                    TxtSearch.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.LogIn:
-                    TxtLogin.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Settings:
-                    TxtSettings.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Profile:
-                    TxtProfile.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Seasonal:
-                    TxtSeasonal.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.About:
-                    SymbolAbout.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Recommendations:
-                    TxtRecom.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(val), val, null);
-            }
-        }
 
-        private void ResetActiveButton()
-        {
-            TxtSettings.Foreground = new SolidColorBrush(Colors.Black);
-            TxtSearch.Foreground = new SolidColorBrush(Colors.Black);
-            TxtList.Foreground = new SolidColorBrush(Colors.Black);
-            TxtLogin.Foreground = new SolidColorBrush(Colors.Black);
-            TxtProfile.Foreground = new SolidColorBrush(Colors.Black);
-            TxtSeasonal.Foreground = new SolidColorBrush(Colors.Black);
-            SymbolAbout.Foreground = new SolidColorBrush(Colors.Black);
-            TxtRecom.Foreground = new SolidColorBrush(Colors.Black);
-        }
+
+
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -222,7 +133,7 @@ namespace MALClient.UserControls
 
 
 
-        private MainPage GetMainPageInstance()
+        private MainViewModel GetMainPageInstance()
         {
             return Utils.GetMainPageInstance();
         }

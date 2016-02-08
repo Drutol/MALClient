@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using MALClient.Pages;
@@ -10,6 +12,7 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.ViewModels
 {
+
     public class ViewModelLocator
     {/// <summary>
      /// Initializes a new instance of the ViewModelLocator class.
@@ -28,9 +31,11 @@ namespace MALClient.ViewModels
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
-            var navigationService = this.CreateNavigationService();
-            SimpleIoc.Default.Register<INavigationService>(() => navigationService);
+            //var navigationService = this.CreateNavigationService();
+            //SimpleIoc.Default.Register<INavigationService>(() => navigationService);
             SimpleIoc.Default.Register<RecommendationsViewModel>();
+            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<HamburgerControlViewModel>();
         }
 
         private INavigationService CreateNavigationService()

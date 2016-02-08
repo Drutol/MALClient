@@ -10,6 +10,10 @@
     DataContext="{Binding Hamburger , Source={StaticResource Locator}}"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <Grid x:Name="RootGrid" VerticalAlignment="Stretch">
         <Grid Background="#E6E6E6">
@@ -120,7 +124,7 @@
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </Button>
-                            <Button x:Name="BtnProfile" VerticalContentAlignment="Center" Background="Transparent"
+                            <Button x:Name="BtnProfile" VerticalContentAlignment="Center" Background="Transparent" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                     Click="BtnProfile_Click" BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited">
                                 <Grid Width="200" Height="35">
@@ -131,7 +135,7 @@
                                     <Border x:Name="Border5" Grid.Column="1" BorderThickness="0,0,0,2"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                             Visibility="Collapsed" />
-                                    <Image x:Name="ImgUser" Grid.Column="0" Stretch="UniformToFill" Width="33"
+                                    <Image x:Name="ImgUser" Source="{Binding UserImage}" Grid.Column="0" Stretch="UniformToFill" Width="33"
                                            Height="33" Margin="1,1" Visibility="Visible" />
                                     <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Foreground ="{Binding Path=TxtForegroundBrushes[Profile].Value}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
@@ -152,7 +156,7 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Foreground ="{Binding Path=TxtForegroundBrushes[TxtSettings].Value}"
+                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Foreground ="{Binding Path=TxtForegroundBrushes[Settings].Value}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
                                             BorderThickness="0" Click="ButtonAbout_Click">

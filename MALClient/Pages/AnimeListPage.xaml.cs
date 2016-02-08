@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -92,7 +93,7 @@ namespace MALClient.Pages
 
         public void RefreshList(bool searchSource = false)
         {
-            var query = Utils.GetMainPageInstance()?.GetSearchQuery();
+            var query = new ViewModelLocator().Main.CurrentSearchQuery;
             var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
             if (!_wasPreviousQuery && searchSource && !queryCondition)
                 // refresh was requested from search but there's nothing to update
@@ -337,7 +338,7 @@ namespace MALClient.Pages
         {
             while (true)
             {
-                MainPage page = Utils.GetMainPageInstance();
+                var page = Utils.GetMainPageInstance();
 
                 if (page != null)
 

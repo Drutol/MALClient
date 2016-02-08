@@ -39,11 +39,11 @@ namespace MALClient
             InitializeComponent();
             Utils.CheckTiles();
             var vl = new ViewModelLocator();
-            vl.Main.View = this;
+            ViewModelLocator.Main.View = this;
             if (Creditentials.Authenticated)
-                vl.Main.Navigate(PageIndex.PageAnimeList);               
+                ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);               
             else
-                vl.Main.Navigate(PageIndex.PageLogIn);
+                ViewModelLocator.Main.Navigate(PageIndex.PageLogIn);
         }
 #pragma warning restore 4014
         public HamburgerControl Hamburger => HamburgerControl;
@@ -77,7 +77,7 @@ namespace MALClient
             {
                 SearchInput.IsEnabled = false; //reset input
                 SearchInput.IsEnabled = true;
-                new ViewModelLocator().Main.OnSearchInputSubmit();
+                ViewModelLocator.Main.OnSearchInputSubmit();
             }
         }
 

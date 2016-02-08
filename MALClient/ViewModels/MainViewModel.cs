@@ -68,7 +68,7 @@ namespace MALClient.ViewModels
                 _menuPaneState = value;
                 RaisePropertyChanged(() => MenuPaneState);
                 if(value)
-                    new ViewModelLocator().Hamburger.PaneOpened();
+                    ViewModelLocator.Hamburger.PaneOpened();
             }
         }
 
@@ -126,8 +126,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => CurrentSearchQuery);
 
                 if (_onSearchPage) return;
-                var source = View.GetCurrentContent() as AnimeListPage;
-                source.RefreshList(true);
+                var source = View.GetCurrentContent();
+                (source as AnimeListPage)?.RefreshList(true);
             }
         }
 
@@ -167,8 +167,11 @@ namespace MALClient.ViewModels
                 return;
             }
 
+            if (index == PageIndex.PageSeasonal)
+                index = PageIndex.PageAnimeList;
+
             var vl = new ViewModelLocator();
-            vl.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
+            ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
@@ -194,7 +197,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
-                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null;
+                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     View.Navigate(typeof(AnimeDetailsPage), args);
                     break;

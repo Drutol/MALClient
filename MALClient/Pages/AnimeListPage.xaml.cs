@@ -93,7 +93,7 @@ namespace MALClient.Pages
 
         public void RefreshList(bool searchSource = false)
         {
-            var query = new ViewModelLocator().Main.CurrentSearchQuery;
+            var query = ViewModelLocator.Main.CurrentSearchQuery;
             var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
             if (!_wasPreviousQuery && searchSource && !queryCondition)
                 // refresh was requested from search but there's nothing to update

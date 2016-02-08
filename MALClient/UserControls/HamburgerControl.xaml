@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.UserControls"
     xmlns:converters="using:MALClient.XamlConverters"
+    xmlns:enum="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -27,9 +28,11 @@
                 <Grid>
                     <StackPanel>
                         <StackPanel Grid.Column="0" VerticalAlignment="Top">
-                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnList_Click"
+                            <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited">
+                                    PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="0">
                                 <Grid Width="200" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -46,9 +49,11 @@
                                                TextAlignment="Center" />
                                 </Grid>
                             </Button>
-                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnHistory_Click"
+                            <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited">
+                                    PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="3">
                                 <Grid Width="200" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -66,8 +71,10 @@
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                    Click="BtnSeasonal_Click" BorderThickness="0"
-                                    PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                    BorderThickness="0"
+                                    PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="8">
                                 <Grid Width="200" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -85,8 +92,10 @@
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                    Click="BtnRecom_Click" BorderThickness="0"
-                                    PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                     BorderThickness="0"
+                                    PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="7">
                                 <Grid Width="200" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -106,9 +115,11 @@
                         </StackPanel>
                         <Grid Height="{Binding GridSeparatorHeight}" />
                         <StackPanel x:Name="StckBtm">
-                            <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click"
+                            <Button VerticalContentAlignment="Center" Background="Transparent" 
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited">
+                                    PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="4">
                                 <Grid Width="200" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -125,8 +136,10 @@
                                 </Grid>
                             </Button>
                             <Button x:Name="BtnProfile" VerticalContentAlignment="Center" Background="Transparent" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                    Click="BtnProfile_Click" BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited">
+                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
+                                    PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="5">
                                 <Grid Width="200" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -142,8 +155,11 @@
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                    Click="BtnSettings_Click" BorderThickness="0"
-                                    PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited">
+                                    BorderThickness="0"
+                                    PointerEntered="Button_PointerEntered" 
+                                    PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonNavigationCommand}"
+                                    CommandParameter="2">
                                 <Grid Width="200" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -159,7 +175,9 @@
                                     <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch" Foreground ="{Binding Path=TxtForegroundBrushes[Settings].Value}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
-                                            BorderThickness="0" Click="ButtonAbout_Click">
+                                            BorderThickness="0" 
+                                            Command="{Binding ButtonNavigationCommand}"
+                                            CommandParameter="6">
                                         <SymbolIcon x:Name="SymbolAbout" Symbol="Help" VerticalAlignment="Center" Foreground ="{Binding Path=TxtForegroundBrushes[About].Value}"
                                                     HorizontalAlignment="Center" Margin="2,4,0,0">
                                             <SymbolIcon.RenderTransform>

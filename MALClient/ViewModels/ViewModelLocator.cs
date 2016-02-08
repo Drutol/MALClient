@@ -14,11 +14,16 @@ namespace MALClient.ViewModels
 {
 
     public class ViewModelLocator
-    {/// <summary>
-     /// Initializes a new instance of the ViewModelLocator class.
-     /// </summary>
+    {
+        /// <summary>
+        /// Initializes a new instance of the ViewModelLocator class.
+        /// </summary>
+        private static bool _initialized;
+
         public ViewModelLocator()
         {
+            if(_initialized)
+                return;
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             ////if (ViewModelBase.IsInDesignModeStatic)
@@ -36,28 +41,16 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<RecommendationsViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<HamburgerControlViewModel>();
+            _initialized = true;
         }
 
-        private INavigationService CreateNavigationService()
-        {
-            var navigationService = new NavigationService();
-            navigationService.Configure(PageIndex.PageRecomendations.ToString(), typeof(RecomendationsPage));
-            navigationService.Configure(PageIndex.PageAbout.ToString(), typeof(AboutPage));
-            navigationService.Configure(PageIndex.PageAnimeDetails.ToString(), typeof(AnimeDetailsPage));
-            navigationService.Configure(PageIndex.PageAnimeList.ToString(), typeof(AnimeListPage));
-            navigationService.Configure(PageIndex.PageLogIn.ToString(), typeof(LogInPage));
-            navigationService.Configure(PageIndex.PageProfile.ToString(), typeof(ProfilePage));
-            navigationService.Configure(PageIndex.PageSearch.ToString(), typeof(AnimeSearchPage));
-            return navigationService;
-        }
-
-        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
-        public RecommendationsViewModel Recommendations => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();      
-        public HamburgerControlViewModel Hamburger => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
+        public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public static RecommendationsViewModel Recommendations => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();      
+        public static HamburgerControlViewModel Hamburger => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
 
         public static void Cleanup()
         {
-            // TODO Clear the ViewModels
+
         }
     }
 }

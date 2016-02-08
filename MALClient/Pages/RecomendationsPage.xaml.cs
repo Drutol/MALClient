@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,7 +34,6 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class RecomendationsPage : Page
     {      
-        private int _startItem;
 
         public RecomendationsPage()
         {
@@ -43,8 +43,12 @@ namespace MALClient.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is RecommendationPageNavigationArgs)
-                _startItem = (e.Parameter as RecommendationPageNavigationArgs).Index;
-            Messenger.Default.Send(_startItem);
+                (DataContext as RecommendationsViewModel).PivotItemIndex = (e.Parameter as RecommendationPageNavigationArgs).Index;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            DataContext = null;
         }
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)

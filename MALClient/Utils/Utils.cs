@@ -129,7 +129,7 @@ namespace MALClient
 
         public static MainViewModel GetMainPageInstance()
         {
-            return new ViewModelLocator().Main;
+            return ViewModelLocator.Main;
         }
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
@@ -220,11 +220,11 @@ namespace MALClient
                     }
                 }
 
-                await new ViewModelLocator().Hamburger.UpdateProfileImg(false);
+                await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
             {
-                await new ViewModelLocator().Hamburger.UpdateProfileImg(false);
+                await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }
         }
 
@@ -253,7 +253,7 @@ namespace MALClient
             args.Handled = true;
             var page = GetMainPageInstance();
             await page.Navigate(_pageTo, _args);
-            new ViewModelLocator().Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
+            ViewModelLocator.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
         }
 
         public static void DeregisterBackNav()
@@ -264,7 +264,7 @@ namespace MALClient
             _args = null;
         }
 
-        private static HamburgerButtons GetButtonForPage(PageIndex page)
+        public static HamburgerButtons GetButtonForPage(PageIndex page)
         {
             switch (page)
             {
@@ -284,6 +284,8 @@ namespace MALClient
                     return HamburgerButtons.About;
                 case PageIndex.PageRecomendations:
                     return HamburgerButtons.Recommendations;
+                case PageIndex.PageSeasonal:
+                    return HamburgerButtons.Seasonal;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

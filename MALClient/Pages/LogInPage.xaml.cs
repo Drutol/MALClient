@@ -40,7 +40,7 @@ namespace MALClient.Pages
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
                 var page = Utils.GetMainPageInstance();
-                var hamburger = new ViewModelLocator().Hamburger;
+                var hamburger = ViewModelLocator.Hamburger;
                 page.LogIn();
                 await page.Navigate(PageIndex.PageAnimeList);
                 hamburger.SetActiveButton(HamburgerButtons.AnimeList);
@@ -61,7 +61,7 @@ namespace MALClient.Pages
             Creditentials.Update("", "");
             page.LogOut();
             await page.Navigate(PageIndex.PageLogIn);
-            new ViewModelLocator().Hamburger.UpdateProfileImg();
+            ViewModelLocator.Hamburger.UpdateProfileImg();
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)

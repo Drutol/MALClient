@@ -53,56 +53,7 @@ namespace MALClient.UserControls
         {
 
         }
-
-        
-
-        private void BtnSettings_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageSettings);
-            _viewModel.SetActiveButton(HamburgerButtons.Settings);
-        }
-
-        private void BtnList_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
-            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
-        }
-
-        private void BtnHistory_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageSearch);
-            _viewModel.SetActiveButton(HamburgerButtons.AnimeSearch);
-        }
-
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageLogIn);
-            _viewModel.SetActiveButton(HamburgerButtons.LogIn);
-        }
-
-        private void BtnProfile_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageProfile);
-            _viewModel.SetActiveButton(HamburgerButtons.Profile);
-        }
-
-        private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs());
-            _viewModel.SetActiveButton(HamburgerButtons.Seasonal);
-        }
-
-        private void ButtonAbout_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageAbout);
-            _viewModel.SetActiveButton(HamburgerButtons.About);
-        }
-
-        private void BtnRecom_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageRecomendations);
-            _viewModel.SetActiveButton(HamburgerButtons.Recommendations);
-        }
+     
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -125,12 +76,6 @@ namespace MALClient.UserControls
                 break;
             }
         }
-
-        private MainViewModel GetMainPageInstance()
-        {
-            return Utils.GetMainPageInstance();
-        }
-
 
         public double GetScrollBurgerActualHeight()
         {

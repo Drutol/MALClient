@@ -26,7 +26,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _loading;
+        private bool _loading = true;
         public bool Loading
         {
             get { return _loading; }
@@ -37,17 +37,22 @@ namespace MALClient.ViewModels
             }
         }
 
-        public int PivotItemIndex { get; set; }
+        private int _pivotItemIndex;
+
+        public int PivotItemIndex
+        {
+            get { return _pivotItemIndex; }
+            set
+            {
+                _pivotItemIndex = value;
+                if(!Loading)
+                    RaisePropertyChanged(() => PivotItemIndex);
+            }
+        }
 
         public RecommendationsViewModel()
-        {
-            Messenger.Default.Register(this, new Action<int>(i => 
-            {
-                PivotItemIndex = i;
-                Messenger.Default.Unregister(this);
-                PopulateData();
-            }));           
-            Loading = true;          
+        {                    
+            PopulateData();          
         }
 
         private async void PopulateData()
@@ -66,8 +71,8 @@ namespace MALClient.ViewModels
                 };
                 _recomendationItems.Add(pivot);
             }
-            PivotItemIndex = 0;
             Loading = false;
+            RaisePropertyChanged(() => PivotItemIndex);
         }
     }
 }

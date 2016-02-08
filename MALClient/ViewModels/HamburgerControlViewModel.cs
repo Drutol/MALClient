@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
+using MALClient.Pages;
 using MALClient.UserControls;
 
 namespace MALClient.ViewModels
@@ -120,6 +122,29 @@ namespace MALClient.ViewModels
             {
                 _profileButtonVisibility = value;
                 RaisePropertyChanged(() => ProfileButtonVisibility);
+            }
+        }
+
+        private ICommand _buttonNavigationCommand;
+        public ICommand ButtonNavigationCommand
+        {
+            get
+            {
+                return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<Object>(ButtonClick));
+            }
+        }
+
+        private async void ButtonClick(object o)
+        {
+            if(o == null)
+                return;
+            PageIndex page;
+            if (PageIndex.TryParse(o as string, out page))
+            {
+                await
+                    Utils.GetMainPageInstance()
+                        .Navigate(page, page == PageIndex.PageSeasonal ? new AnimeListPageNavigationArgs() : null);
+                SetActiveButton(Utils.GetButtonForPage(page));
             }
         }
 

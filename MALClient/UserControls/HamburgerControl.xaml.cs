@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 #pragma warning disable 4014
 
@@ -31,32 +32,26 @@ namespace MALClient.UserControls
         Recommendations
     }
 
-    public sealed partial class HamburgerControl : UserControl
+    public sealed partial class HamburgerControl : UserControl , IHamburgerControlView
     {
-        private bool? _prevState;
-        private int _stackPanelHeightSum = 325; //base value
 
-        private bool _subtractedHeightForButton = true;
 
         public HamburgerControl()
         {
             InitializeComponent();
             TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             Loaded += OnLoaded;
+            (DataContext as HamburgerControlViewModel).View = this;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (!Creditentials.Authenticated)
-                _stackPanelHeightSum = 325;
             UpdateProfileImg();
         }
 
         internal void PaneOpened()
         {
-            var val = Convert.ToInt32(ScrlBurger.ActualHeight);
-            GridSeparator.Height = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            GridBtmMargin.Height = GridSeparator.Height < 1 ? 50 : 0;
+
         }
 
         internal async Task UpdateProfileImg(bool dl = true)
@@ -224,15 +219,7 @@ namespace MALClient.UserControls
             }
         }
 
-        public void ChangeBottomStackPanelMargin(bool up)
-        {
-            if (up == _prevState)
-                return;
 
-            _prevState = up;
-
-            _stackPanelHeightSum += up ? 50 : -50;
-        }
 
 
         private MainPage GetMainPageInstance()
@@ -241,5 +228,9 @@ namespace MALClient.UserControls
         }
 
 
+        public double GetScrollBurgerActualHeight()
+        {
+            return ScrlBurger.ActualHeight;
+        }
     }
 }

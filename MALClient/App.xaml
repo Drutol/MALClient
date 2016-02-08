@@ -3,6 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient"
+    xmlns:viewModels="using:MALClient.ViewModels"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <viewModels:ViewModelLocator xmlns:vm="using:MALClient.ViewModels"
+                               x:Key="Locator" />
+    </Application.Resources>
 </Application>

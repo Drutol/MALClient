@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
+    DataContext="{Binding Main ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -40,7 +41,7 @@
             </ToggleButton>
         </Grid>
         <SplitView x:Name="MainMenu" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="200"
-                   IsPaneOpen="False" DisplayMode="CompactOverlay" Grid.Row="1">
+                   IsPaneOpen="{Binding MenuPaneState}" DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>
                 <controls:HamburgerControl x:Name="HamburgerControl" />
             </SplitView.Pane>

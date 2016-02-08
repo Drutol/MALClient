@@ -12,7 +12,7 @@
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
@@ -29,15 +29,21 @@
             </Grid.ColumnDefinitions>
             <Button HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                     Width="45" Height="45" Background="Transparent" FontSize="20"
-                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding ReversePaneCommand}" />
-            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}" VerticalAlignment="Center" 
+                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                    Command="{Binding ReversePaneCommand}" />
+            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
+                       VerticalAlignment="Center"
                        Visibility="{Binding ElementName=SearchInput , Path=Visibility , Converter={StaticResource VisiblityInverterConverter}}" />
-            <TextBox x:Name="SearchInput" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" KeyDown="SearchInput_OnKeyDown" Text="{Binding CurrentSearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                     Visibility="{Binding SearchInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}" 
-                     PlaceholderText="Search..."/>
+            <TextBox x:Name="SearchInput" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                     KeyDown="SearchInput_OnKeyDown"
+                     Text="{Binding CurrentSearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Visibility="{Binding SearchInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                     PlaceholderText="Search..." />
             <ToggleButton x:Name="SearchToggle" HorizontalAlignment="Right" IsThreeState="False"
-                          VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent" IsChecked="{Binding SearchToggleStatus}"
-                          Click="ReverseSearchInput" Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                          VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
+                          IsChecked="{Binding SearchToggleStatus}"
+                          Command="{Binding ToggleSearchCommand}"
+                          Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
             </ToggleButton>
         </Grid>

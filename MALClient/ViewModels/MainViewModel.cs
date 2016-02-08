@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
 using GalaSoft.MvvmLight;
 using MALClient.Comm;
 using MALClient.Items;
@@ -118,13 +119,13 @@ namespace MALClient.ViewModels
         private string _currentSearchQuery;
         public string CurrentSearchQuery
         {
-            get { return _currentSearchQuery; }
+            get { return SearchToggleStatus ? _currentSearchQuery : ""; }
             set
             {
                 _currentSearchQuery = value;
                 RaisePropertyChanged(() => CurrentSearchQuery);
 
-                if (!_onSearchPage) return;
+                if (_onSearchPage) return;
                 var source = View.GetCurrentContent() as AnimeListPage;
                 source.RefreshList(true);
             }
@@ -136,6 +137,15 @@ namespace MALClient.ViewModels
             get {
                 return _reversePaneCommand ??
                        (_reversePaneCommand = new CommandHandler(() => MenuPaneState = true, true));
+            }
+        }
+
+        private ICommand _toggleSearchCommand;
+        public ICommand ToggleSearchCommand
+        {
+            get {
+                return _toggleSearchCommand ??
+                       (_toggleSearchCommand = new CommandHandler(ReverseSearchInput, true));
             }
         }
 
@@ -218,6 +228,28 @@ namespace MALClient.ViewModels
             }
         }
 
+        private void ReverseSearchInput()
+        {
+            if(_onSearchPage)
+            {
+                if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
+                    OnSearchInputSubmit();
+                return;
+            }
+
+            SearchToggleStatus = !SearchToggleStatus;
+            SearchInputVisibility = SearchToggleStatus;
+            if(!_onSearchPage)
+            {
+                (View.GetCurrentContent() as AnimeListPage).RefreshList();
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
+                    OnSearchInputSubmit();
+            }                                   
+        }
+
         public void AnimeListScrollTo(AnimeItem animeItem)
         {
             var content = View.GetCurrentContent();
@@ -234,8 +266,8 @@ namespace MALClient.ViewModels
 
         public void OnSearchInputSubmit()
         {
-            if(!_onSearchPage)
-                (View.GetCurrentContent() as AnimeListPage).SubmitQuery(SearchInput.Text);
+            if(_onSearchPage)
+                (View.GetCurrentContent() as AnimeSearchPage).SubmitQuery(CurrentSearchQuery);
         }
 
         private void NavigateSearch(bool autoSearch = false)

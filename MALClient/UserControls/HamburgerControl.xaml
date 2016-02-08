@@ -97,14 +97,14 @@
                                             Grid.ColumnSpan="2" Visibility="Collapsed" />
                                     <SymbolIcon Symbol="VideoChat" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
-                                                Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
+                                                Foreground="{Binding ElementName=TxtRecom , Path=Foreground}" />
                                     <TextBlock x:Name="TxtRecom" Text="Recommendations" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[Recommendations].Value}"
                                                HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center"
                                                TextAlignment="Center" />
                                 </Grid>
                             </Button>
                         </StackPanel>
-                        <Grid x:Name="GridSeparator" />
+                        <Grid Height="{Binding GridSeparatorHeight}" />
                         <StackPanel x:Name="StckBtm">
                             <Button VerticalContentAlignment="Center" Background="Transparent" Click="BtnLogin_Click"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
@@ -169,7 +169,7 @@
                                     </Button>
                                 </Grid>
                             </Button>
-                            <Grid x:Name="GridBtmMargin" />
+                            <Grid Height="{Binding GridBtmMarginHeight}" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

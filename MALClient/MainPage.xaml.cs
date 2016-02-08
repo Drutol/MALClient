@@ -41,7 +41,7 @@ namespace MALClient
             var vl = new ViewModelLocator();
             vl.Main.View = this;
             if (Creditentials.Authenticated)
-                vl.Main.Navigate(PageIndex.PageRecomendations);               
+                vl.Main.Navigate(PageIndex.PageAnimeList);               
             else
                 vl.Main.Navigate(PageIndex.PageLogIn);
         }
@@ -81,30 +81,7 @@ namespace MALClient
             }
         }
 
-        private void ReverseSearchInput(object sender, RoutedEventArgs e)
-        {
-            var btn = sender as ToggleButton;
-            if (_onSearchPage)
-            {
-                btn.IsChecked = true;
-                SearchInput_OnKeyDown(null, null);
-                return;
-            }
-            if ((bool) btn.IsChecked)
-            {
-                SearchInput.Visibility = Visibility.Visible;
-                _currSearchQuery = SearchInput.Text;
-                if (!string.IsNullOrWhiteSpace(_currSearchQuery))
-                    SearchQuerySubmitted(null, null);
-            }
-            else
-            {
-                SearchInput.Visibility = Visibility.Collapsed;
-                _currSearchQuery = null;
-                var source = MainContent.Content as AnimeListPage;
-                source.RefreshList();
-            }
-        }
+
 
         #endregion
 

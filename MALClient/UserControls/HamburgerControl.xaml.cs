@@ -34,19 +34,19 @@ namespace MALClient.UserControls
 
     public sealed partial class HamburgerControl : UserControl , IHamburgerControlView
     {
-
+        private HamburgerControlViewModel _viewModel => (HamburgerControlViewModel)DataContext;
 
         public HamburgerControl()
         {
             InitializeComponent();
-            TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             Loaded += OnLoaded;
-            (DataContext as HamburgerControlViewModel).View = this;
+            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
+            _viewModel.View = this;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            new ViewModelLocator().Hamburger.UpdateProfileImg();
+            _viewModel.UpdateProfileImg();
         }
 
         internal void PaneOpened()
@@ -59,54 +59,50 @@ namespace MALClient.UserControls
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageSettings);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Settings);
+            _viewModel.SetActiveButton(HamburgerButtons.Settings);
         }
 
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
         }
 
         private void BtnHistory_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageSearch);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.AnimeSearch);
+            _viewModel.SetActiveButton(HamburgerButtons.AnimeSearch);
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageLogIn);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.LogIn);
+            _viewModel.SetActiveButton(HamburgerButtons.LogIn);
         }
 
         private void BtnProfile_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageProfile);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Profile);
+            _viewModel.SetActiveButton(HamburgerButtons.Profile);
         }
 
         private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs());
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Seasonal);
+            _viewModel.SetActiveButton(HamburgerButtons.Seasonal);
         }
 
         private void ButtonAbout_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageAbout);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.About);
+            _viewModel.SetActiveButton(HamburgerButtons.About);
         }
 
         private void BtnRecom_Click(object sender, RoutedEventArgs e)
         {
             GetMainPageInstance().Navigate(PageIndex.PageRecomendations);
-            new ViewModelLocator().Hamburger.SetActiveButton(HamburgerButtons.Recommendations);
+            _viewModel.SetActiveButton(HamburgerButtons.Recommendations);
         }
-
-
-
-
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -129,9 +125,6 @@ namespace MALClient.UserControls
                 break;
             }
         }
-
-
-
 
         private MainViewModel GetMainPageInstance()
         {

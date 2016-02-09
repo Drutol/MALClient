@@ -175,6 +175,11 @@ namespace MALClient.Pages
                     ViewModel.SortOption = SortOptions.SortNothing;
                     break;
             }
+            foreach (var child in SortToggles.Children)
+            {
+                (child as ToggleMenuFlyoutItem).IsChecked = false;
+            }
+            btn.IsChecked = true;
         }
 
 

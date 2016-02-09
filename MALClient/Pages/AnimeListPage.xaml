@@ -6,6 +6,7 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interop="using:Windows.UI.Xaml.Interop"
     DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -52,11 +53,13 @@
                                     <Setter Property="Height" Value="46" />
                                 </Style>
                             </StackPanel.Resources>
-                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[0].Value}" Text="Title" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[1].Value}" Text="Score" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[2].Value}" Text="{Binding Sort3Label}" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[3].Value}" Text="Soonest airing" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[4].Value}" Text="None" Click="SelectSortMode" />
+                            <StackPanel x:Name="SortToggles">
+                                <ToggleMenuFlyoutItem Text="Title" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem Text="Score" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem Text="{Binding Sort3Label}" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem Text="Soonest airing" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem Text="None" Click="SelectSortMode" />
+                            </StackPanel>
                             <MenuFlyoutSeparator />
                             <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />
                         </StackPanel>
@@ -74,7 +77,7 @@
                                 <ListViewItem Content="On hold" />
                                 <ListViewItem Content="Dropped" />
                                 <ListViewItem Content="Plan to watch" />
-                                <ListViewItem Content="All" />
+                                <ListViewItem Content="{Binding StatusAllLabel}" />
                             </ListView.Items>
                         </ListView>
                     </Flyout>

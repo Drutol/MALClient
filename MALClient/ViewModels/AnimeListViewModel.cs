@@ -34,7 +34,7 @@ namespace MALClient.ViewModels
 
         private readonly List<Parameter<bool>> _sortsCheckStatuses = new List<Parameter<bool>>
         {
-            new Parameter<bool>(false),
+            new Parameter<bool>(true),
             new Parameter<bool>(false),
             new Parameter<bool>(false),
             new Parameter<bool>(false),
@@ -56,7 +56,6 @@ namespace MALClient.ViewModels
             set
             {
                 _sortOption = value;
-                UpdateSortCheckStates();
                 RefreshList();
             }
         }
@@ -65,7 +64,7 @@ namespace MALClient.ViewModels
         public string CurrentUpdateStatus => GetLastUpdatedStatus();         
         public string CurrentPageStatus => $"{_currentPage}/{_allPages}";
         public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
-        public List<Parameter<bool>> SortCheckStates { get; set; }
+        public List<Parameter<bool>> SortCheckStates => _sortsCheckStatuses;
 
         private string _listSource;
         public string ListSource
@@ -290,7 +289,7 @@ namespace MALClient.ViewModels
 
         public bool IsSeasonal => _seasonalState;
 
-        public async void Init(AnimeListPageNavigationArgs args)
+        public async void Init(AnimeListPageNavigationArgs args) // TODO : Refactor this 
         {
             if (args != null)
             {
@@ -811,13 +810,5 @@ namespace MALClient.ViewModels
                 await FetchData(true);
         }
 
-        private void UpdateSortCheckStates()
-        {
-            foreach (Parameter<bool> sortsCheckStatus in _sortsCheckStatuses)
-            {
-                sortsCheckStatus.Value = false;
-            }
-            //_sortsCheckStatuses[(int) SortOption].Value = true;
-        }
     }
 }

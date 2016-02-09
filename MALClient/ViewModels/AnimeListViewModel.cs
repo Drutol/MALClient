@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
@@ -12,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
@@ -22,12 +24,21 @@ namespace MALClient.ViewModels
     {
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
 
-        private readonly ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
+        public readonly ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
 
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
 
         private readonly int _itemsPerPage = Utils.GetItemsPerPage();
+
+        private readonly List<Parameter<bool>> _sortsCheckStatuses = new List<Parameter<bool>>
+        {
+            new Parameter<bool>(false),
+            new Parameter<bool>(false),
+            new Parameter<bool>(false),
+            new Parameter<bool>(false),
+            new Parameter<bool>(false),
+        }; 
         private int _allPages;
 
 
@@ -37,12 +48,23 @@ namespace MALClient.ViewModels
         private bool _seasonalState;
         private bool _wasPreviousQuery;
 
-        public SortOptions SortOption { get; private set; } = SortOptions.SortNothing;
+        private SortOptions _sortOption = SortOptions.SortNothing;
+        public SortOptions SortOption
+        {
+            get { return _sortOption; }
+            set
+            {
+                _sortOption = value;
+                UpdateSortCheckStates();
+                RefreshList();
+            }
+        }
 
         public int CurrentStatus => GetDesiredStatus();
         public string CurrentUpdateStatus => GetLastUpdatedStatus();         
         public string CurrentPageStatus => $"{_currentPage}/{_allPages}";
-
+        public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
+        public List<Parameter<bool>> SortCheckStates { get; set; }
 
         private string _listSource;
         public string ListSource
@@ -121,7 +143,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _appbarBtnPinTileVisibility;
+        private bool _appbarBtnPinTileVisibility = true;
         public bool AppbarBtnPinTileVisibility
         {
             get { return _appbarBtnPinTileVisibility; }
@@ -132,7 +154,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _appBtnListSourceVisibility;
+        private bool _appBtnListSourceVisibility = true;
         public bool AppBtnListSourceVisibility
         {
             get { return _appBtnListSourceVisibility; }
@@ -171,7 +193,11 @@ namespace MALClient.ViewModels
             get { return _statusSelectorSelectedIndex; }
             set
             {
+                if(value == _statusSelectorSelectedIndex)
+                    return;
+
                 _statusSelectorSelectedIndex = value;
+                RefreshList();
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
             }
         }
@@ -195,6 +221,47 @@ namespace MALClient.ViewModels
             {
                 _sortDescending = value;
                 RaisePropertyChanged(() => SortDescending);
+            }
+        }
+
+        private string _sort3Label = "Watched";
+        public string Sort3Label
+        {
+            get { return _sort3Label; }
+            set
+            {
+                _sort3Label = value;
+                RaisePropertyChanged(() => Sort3Label);
+            }
+        }
+
+        private ICommand _prevPageCommand;
+        public ICommand PrevPageCommand
+        {
+            get
+            {
+                return _prevPageCommand ??
+                       (_prevPageCommand = new RelayCommand(PrevPage));
+            }
+        }
+
+        private ICommand _nextPageCommand;
+        public ICommand NextPageCommand
+        {
+            get
+            {
+                return _nextPageCommand ??
+                       (_nextPageCommand = new RelayCommand(NextPage));
+            }
+        }
+
+        private ICommand _refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return _refreshCommand ??
+                       (_refreshCommand = new RelayCommand(ReloadList));
             }
         }
 
@@ -232,7 +299,7 @@ namespace MALClient.ViewModels
                     }
                     else
                     {
-                        BtnOrderDescending.IsChecked = SortDescending = false;
+                        SortDescending = false;
                         SetSortOrder(SortOptions.SortWatched); //index
                         SetDesiredStatus((int)AnimeStatus.AllOrAiring);
                     }
@@ -249,11 +316,9 @@ namespace MALClient.ViewModels
                     return;
                 } // else we just have nav data
 
-                TxtListSource.Text = args.ListSource;
-                _currentSoure = args.ListSource;
+                ListSource = args.ListSource;
                 SetSortOrder(args.SortOption);
                 SetDesiredStatus(args.Status);
-                BtnOrderDescending.IsChecked = args.Descending;
                 SortDescending = args.Descending;
                 CurrentPage = args.CurrPage;
             }
@@ -263,14 +328,13 @@ namespace MALClient.ViewModels
             if (string.IsNullOrWhiteSpace(ListSource))
             {
                 if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
-                    TxtListSource.Text = Creditentials.UserName;
+                    ListSource = Creditentials.UserName;
             }
-            _currentSoure = TxtListSource.Text;
             if (string.IsNullOrWhiteSpace(ListSource))
             {
-                EmptyNotice.Visibility = Visibility.Visible;
-                EmptyNotice.Text += "\nList source is not set.\nLog in or set it manually.";
-                BtnSetSource.Visibility = Visibility.Visible;
+                EmptyNoticeVisibility = true;
+                EmptyNoticeContent = "We have come up empty...\nList source is not set.\nLog in or set it manually.";
+                BtnSetSourceVisibility = true;
                 UpdateUpperStatus();
             }
             else
@@ -285,29 +349,43 @@ namespace MALClient.ViewModels
             UpdateStatus();
         }
 
+        private async void UpdateStatus()
+        {
+            await
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => { RaisePropertyChanged(() => CurrentUpdateStatus); });
+        }
+
+        private void SetDefaults()
+        {
+            SetSortOrder(null);
+            SetDesiredStatus(null);
+            SortDescending = Utils.IsSortDescending();
+        }
+
         private void SetSortOrder(SortOptions? option)
         {
             switch (option ?? Utils.GetSortOrder())
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
-                    sort4.IsChecked = true;
+                    _sortsCheckStatuses[3].Value = true;
                     break;
                 case SortOptions.SortTitle:
                     SortOption = SortOptions.SortTitle;
-                    sort1.IsChecked = true;
+                    _sortsCheckStatuses[0].Value = true;
                     break;
                 case SortOptions.SortScore:
                     SortOption = SortOptions.SortScore;
-                    sort2.IsChecked = true;
+                    _sortsCheckStatuses[1].Value = true;
                     break;
                 case SortOptions.SortWatched:
                     SortOption = SortOptions.SortWatched;
-                    sort3.IsChecked = true;
+                    _sortsCheckStatuses[2].Value = true;
                     break;
                 case SortOptions.SortAirDay:
                     SortOption = SortOptions.SortAirDay;
-                    sort5.IsChecked = true;
+                    _sortsCheckStatuses[4].Value = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -449,7 +527,7 @@ namespace MALClient.ViewModels
 
         #region Pagination
 
-        private void PrevPage(object sender, RoutedEventArgs e)
+        private void PrevPage()
         {
             CurrentPage--;
             PrevPageButtonEnableState = CurrentPage != 1;
@@ -457,7 +535,7 @@ namespace MALClient.ViewModels
             ApplyCurrentPage();
         }
 
-        private void NextPage(object sender, RoutedEventArgs e)
+        private void NextPage()
         {
             CurrentPage++;
             NextPageButtonEnableState = CurrentPage != _allPages;
@@ -550,7 +628,7 @@ namespace MALClient.ViewModels
             return output;
         }
 
-        private async Task FetchData(bool force = false)
+        public async Task FetchData(bool force = false)
         {
             Loading = true;
 
@@ -679,5 +757,32 @@ namespace MALClient.ViewModels
         //    }
         //}
         #endregion
+
+        private void SwitchSortingToSeasonal()
+        {
+            Sort3Label = "Index";
+        }
+
+        private void SwitchFiltersToSeasonal()
+        {
+            //(StatusSelector.Items[5] as ListViewItem).Content = "Airing"; //We are quite confiddent here
+        }
+
+        private async void ReloadList()
+        {
+            if (_seasonalState)
+                await FetchSeasonalData(true);
+            else
+                await FetchData(true);
+        }
+
+        private void UpdateSortCheckStates()
+        {
+            foreach (Parameter<bool> sortsCheckStatus in _sortsCheckStatuses)
+            {
+                sortsCheckStatus.Value = false;
+            }
+            //_sortsCheckStatuses[(int) SortOption].Value = true;
+        }
     }
 }

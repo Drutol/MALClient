@@ -54,11 +54,11 @@ namespace MALClient.Pages
 
     public enum SortOptions
     {
-        SortNothing,
         SortTitle,
         SortScore,
-        SortWatched,
-        SortAirDay
+        SortWatched,                           
+        SortAirDay,
+        SortNothing
     }
 
     /// <summary>
@@ -94,45 +94,19 @@ namespace MALClient.Pages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var args = e.Parameter as AnimeListPageNavigationArgs;
-           
+            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);           
         }
 
         #endregion
 
         #region UIHelpers
 
-        private void SwitchSortingToSeasonal()
-        {
-            sort3.Text = "Index";
-        }
-
-        private void SwitchFiltersToSeasonal()
-        {
-            (StatusSelector.Items[5] as ListViewItem).Content = "Airing"; //We are quite confiddent here
-        }
-
-        private async void UpdateStatus()
-        {
-            await
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () => { UpdateNotice.Text = GetLastUpdatedStatus(); });
-        }
-
-        private void SetDefaults()
-        {
-            SetSortOrder(null);
-            SetDesiredStatus(null);
-            BtnOrderDescending.IsChecked = Utils.IsSortDescending();
-            SortDescending = Utils.IsSortDescending();
-        }
-
         internal void ScrollTo(AnimeItem animeItem)
         {
             try
             {
                 var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-                var offset = _animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
+                var offset = ViewModel._animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
                 scrollViewer.ScrollToVerticalOffset(offset);
             }
             catch (Exception)
@@ -159,13 +133,6 @@ namespace MALClient.Pages
 
         #region ActionHandlers
 
-        private void ChangeListStatus(object sender, SelectionChangedEventArgs e)
-        {
-            if (!_loaded) return;
-            CurrentPage = 1;
-            RefreshList();
-        }
-
         private async void PinTileMal(object sender, RoutedEventArgs e)
         {
             foreach (object item in Animes.SelectedItems)
@@ -187,42 +154,27 @@ namespace MALClient.Pages
             item.OpenTileUrlInput();
         }
 
-        private async void RefreshList(object sender, RoutedEventArgs e)
-        {
-            if (_seasonalState)
-                await FetchSeasonalData(true);
-            else
-                await FetchData(true);
-        }
-
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
             var btn = sender as ToggleMenuFlyoutItem;
             switch (btn.Text)
             {
                 case "Title":
-                    SortOption = SortOptions.SortTitle;
+                    ViewModel.SortOption = SortOptions.SortTitle;
                     break;
                 case "Score":
-                    SortOption = SortOptions.SortScore;
+                    ViewModel.SortOption = SortOptions.SortScore;
                     break;
                 case "Watched":
-                    SortOption = SortOptions.SortWatched;
+                    ViewModel.SortOption = SortOptions.SortWatched;
                     break;
                 case "Soonest airing":
-                    SortOption = SortOptions.SortAirDay;
+                    ViewModel.SortOption = SortOptions.SortAirDay;
                     break;
                 default:
-                    SortOption = SortOptions.SortNothing;
+                    ViewModel.SortOption = SortOptions.SortNothing;
                     break;
             }
-            sort1.IsChecked = false;
-            sort2.IsChecked = false;
-            sort3.IsChecked = false;
-            sort4.IsChecked = false;
-            sort5.IsChecked = false;
-            btn.IsChecked = true;
-            RefreshList();
         }
 
 
@@ -230,24 +182,24 @@ namespace MALClient.Pages
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {
             var chbox = sender as ToggleMenuFlyoutItem;
-            SortDescending = chbox.IsChecked;
-            RefreshList();
+            ViewModel.SortDescending = chbox.IsChecked;
+            ViewModel.RefreshList();
         }
 
         private async void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            var _currentSoure = ViewModel.ListSource;
             if ((sender == null && e == null) || e.Key == VirtualKey.Enter)
             {
                 if (_currentSoure != null &&
                     !string.Equals(_currentSoure, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                     Utils.GetMainPageInstance().PurgeUserCache(_currentSoure);
                 //why would we want to keep those entries?
-                _currentSoure = TxtListSource.Text;
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
-                await FetchData();
+                await ViewModel.FetchData();
             }
         }
 

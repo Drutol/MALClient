@@ -136,7 +136,7 @@ namespace MALClient.ViewModels
 
                 if (_onSearchPage) return;
                 var source = View.GetCurrentContent();
-                (source as AnimeListPage)?.RefreshList(true);
+                ViewModelLocator.AnimeList.RefreshList(true);
             }
         }
 
@@ -248,7 +248,7 @@ namespace MALClient.ViewModels
             SearchInputVisibility = SearchToggleStatus;
             if (!_onSearchPage)
             {
-                (View.GetCurrentContent() as AnimeListPage).RefreshList();
+                ViewModelLocator.AnimeList.RefreshList();
             }
             else
             {
@@ -312,7 +312,7 @@ namespace MALClient.ViewModels
         #region Helpers
         internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
         {
-            var page = View.GetCurrentContent() as AnimeListPage;
+            var page = ViewModelLocator.AnimeList;
             return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
                 page.CurrentPage, seasonal, page.ListSource);
         }

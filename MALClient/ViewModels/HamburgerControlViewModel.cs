@@ -25,16 +25,16 @@ namespace MALClient.ViewModels
         double GetScrollBurgerActualHeight();
     }
 
-    public class Parameter : INotifyPropertyChanged //wrapper
+    public class Parameter<T> : INotifyPropertyChanged //wrapper
     {
-        private Brush _value;
-        public Brush Value //real value
+        private T _value;
+        public T Value //real value
         {
             get { return _value; }
             set { _value = value; RaisePropertyChanged("Value"); }
         }
 
-        public Parameter(Brush value)
+        public Parameter(T value)
         {
             Value = value;
         }
@@ -58,18 +58,18 @@ namespace MALClient.ViewModels
         public IHamburgerControlView View { get; set; }
        
 
-        private Dictionary<string,Parameter> _txtForegroundBrushes = new Dictionary<string, Parameter>
+        private Dictionary<string,Parameter<Brush>> _txtForegroundBrushes = new Dictionary<string, Parameter<Brush>>
         {
-            ["AnimeList"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["AnimeSearch"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["LogIn"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["Settings"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["Profile"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["Seasonal"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["About"] = new Parameter(new SolidColorBrush(Colors.Black)),
-            ["Recommendations"] = new Parameter(new SolidColorBrush(Colors.Black)),
+            ["AnimeList"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["AnimeSearch"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["LogIn"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["Settings"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["Profile"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["Seasonal"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["About"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["Recommendations"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
         };
-        public Dictionary<string, Parameter> TxtForegroundBrushes
+        public Dictionary<string, Parameter<Brush>> TxtForegroundBrushes
         {
             get { return _txtForegroundBrushes; }
             set

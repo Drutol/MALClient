@@ -6,17 +6,19 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
 
     <Page.Resources>
         <converters:AreItemsSelectedInListViewConverter x:Key="AreItemsSelectedInListViewConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
 
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar">
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="AppBtnListSource" Icon="Contact2" Label="List source">
+                <AppBarButton Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
                             <StackPanel>
@@ -31,9 +33,9 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="Refresh" Label="Reload" Click="RefreshList" />
+                <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton x:Name="AppbarBtnPinTile" Icon="Pin" Label="Pin to start" IsEnabled="False">
+            <AppBarButton x:Name="AppbarBtnPinTile" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Pin" Label="Pin to start" IsEnabled="False">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="MyAnimeList" Click="PinTileMal" />
@@ -50,11 +52,11 @@
                                     <Setter Property="Height" Value="46" />
                                 </Style>
                             </StackPanel.Resources>
-                            <ToggleMenuFlyoutItem x:Name="sort1" Text="Title" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem x:Name="sort2" Text="Score" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem x:Name="sort3" Text="Watched" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem x:Name="sort5" Text="Soonest airing" Click="SelectSortMode" />
-                            <ToggleMenuFlyoutItem x:Name="sort4" Text="None" Click="SelectSortMode" />
+                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[0].Value}" Text="Title" Click="SelectSortMode" />
+                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[1].Value}" Text="Score" Click="SelectSortMode" />
+                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[2].Value}" Text="{Binding Sort3Label}" Click="SelectSortMode" />
+                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[3].Value}" Text="Soonest airing" Click="SelectSortMode" />
+                            <ToggleMenuFlyoutItem IsChecked="{Binding SortCheckStates[4].Value}" Text="None" Click="SelectSortMode" />
                             <MenuFlyoutSeparator />
                             <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />
                         </StackPanel>
@@ -64,7 +66,7 @@
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <ListView x:Name="StatusSelector" SelectionChanged="ChangeListStatus" SelectedIndex="0"
+                        <ListView SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                   SelectionMode="Single">
                             <ListView.Items>
                                 <ListViewItem Content="Watching" />
@@ -83,28 +85,28 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView x:Name="Animes" SelectionMode="Single" IsSwipeEnabled="True"
-                  SelectionChanged="Animes_OnSelectionChanged">
+                  SelectionChanged="Animes_OnSelectionChanged" ItemsSource="{Binding AnimeItems}">
             <ListView.Header>
                 <Grid Margin="1">
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                        <TextBlock x:Name="UpdateNotice" Visibility="Collapsed" Margin="1"
-                                   TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
+                        <TextBlock Visibility="{Binding UpdateNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="1"
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding CurrentUpdateStatus}"
                                    Foreground="#FFB9B9B9" />
                         <TextBlock x:Name="TxtPageCount"
                                    Visibility="{Binding ElementName=AnimesTopPageControls, Path=Visibility}" Margin="1"
                                    FontWeight="Medium" TextWrapping="WrapWholeWords" TextAlignment="Center"
-                                   HorizontalAlignment="Center" Foreground="#FFB0B0B0" />
+                                   HorizontalAlignment="Center" Foreground="#FFB0B0B0" Text="{Binding CurrentPageStatus}" />
                     </StackPanel>
 
-                    <Grid x:Name="AnimesTopPageControls" Visibility="Collapsed">
-                        <Button x:Name="BtnPrevPage" Click="PrevPage" Margin="1" Height="40" VerticalAlignment="Center"
+                    <Grid x:Name="AnimesTopPageControls" Visibility="{Binding AnimesTopPageControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button x:Name="BtnPrevPage" Command="{Binding PrevPageCommand}" Margin="1" Height="40" VerticalAlignment="Center"
                                 HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0"
-                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding PrevPageButtonEnableState}">
                             <SymbolIcon Symbol="Back" />
                         </Button>
-                        <Button x:Name="BtnNextPage" Click="NextPage" Margin="1" Height="40" VerticalAlignment="Center"
+                        <Button x:Name="BtnNextPage" Command="{Binding NextPageCommand}" Margin="1" Height="40" VerticalAlignment="Center"
                                 HorizontalAlignment="Right" Background="Transparent" BorderThickness="0,0,2,0"
-                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding NextPageButtonEnableState}">
                             <SymbolIcon Symbol="Forward" />
                         </Button>
                     </Grid>
@@ -117,7 +119,7 @@
             </ListView.ItemContainerStyle>
             <ListView.Footer>
                 <Grid Margin="1" Visibility="{Binding ElementName=AnimesTopPageControls,Path=Visibility}">
-                    <Button Click="PrevPage" IsEnabled="{Binding ElementName=BtnPrevPage,Path=IsEnabled}" Margin="1"
+                    <Button Command="{Binding PrevPageCommand}" IsEnabled="{Binding ElementName=BtnPrevPage,Path=IsEnabled}" Margin="1"
                             Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent"
                             BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon Symbol="Back" />
@@ -126,7 +128,7 @@
                                Text="{Binding ElementName=TxtPageCount,Path=Text}" Margin="1" FontWeight="Medium"
                                TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
                                VerticalAlignment="Center" Foreground="#FFB0B0B0" />
-                    <Button Click="NextPage" IsEnabled="{Binding ElementName=BtnNextPage,Path=IsEnabled}" Margin="1"
+                    <Button Command="{Binding NextPageCommand}" IsEnabled="{Binding ElementName=BtnNextPage,Path=IsEnabled}" Margin="1"
                             Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent"
                             BorderThickness="0,0,2,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon Symbol="Forward" />
@@ -136,13 +138,13 @@
         </ListView>
         <StackPanel Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <TextBlock x:Name="EmptyNotice" Visibility="Collapsed" Text="We have come up empty..."
+            <TextBlock Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding EmptyNoticeContent}"
                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
             <Button x:Name="BtnSetSource" Content="Set source" Margin="0,10,0,0" VerticalAlignment="Center"
-                    HorizontalAlignment="Center" Visibility="Collapsed" Click="ShowListSourceFlyout" />
+                    HorizontalAlignment="Center" Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Click="ShowListSourceFlyout" />
         </StackPanel>
-        <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}"
+        <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
-                      IsActive="True" Visibility="Collapsed" />
+                      IsActive="True" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Page>

@@ -74,7 +74,7 @@ namespace MALClient.Items
                 Airing = true;
         }
 
-        public AnimeItem(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded,
+        public AnimeItem(SeasonalAnimeData data,
             AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
             //We are loading an item that is NOT on the list and is seasonal
         {
@@ -102,26 +102,35 @@ namespace MALClient.Items
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
 
-            if (loaded == null)
-                return;
-            Task.Run(async () =>
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    AnimeItemAbstraction reference;
-                    if (!loaded.TryGetValue(Id, out reference)) return;
-                    _allEpisodes = reference.AllEpisodes;
-                    MyStatus = reference.MyStatus;
-                    MyScore = reference.MyScore;
-                    MyEpisodes = reference.MyEpisodes;
+            //if (loaded == null)
+            //    return;
+            //Task.Run(async () =>
+            //{
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            //    {
+            //        AnimeItemAbstraction reference;
+            //        if (!loaded.TryGetValue(Id, out reference)) return;
+            //        _allEpisodes = reference.AllEpisodes;
+            //        MyStatus = reference.MyStatus;
+            //        MyScore = reference.MyScore;
+            //        MyEpisodes = reference.MyEpisodes;
 
-                    SetAuthStatus(true);
-                    AdjustIncrementButtonsVisibility();
-                    AnimeUserCache dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                    dataCache.LoadedAnime.Remove(reference);
-                    dataCache.LoadedAnime.Add(_parentAbstraction);
-                });
-            });
+            //        SetAuthStatus(true);
+            //        AdjustIncrementButtonsVisibility();
+            //        AnimeUserCache dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+            //        dataCache.LoadedAnime.Remove(reference);
+            //        dataCache.LoadedAnime.Add(_parentAbstraction);
+            //    });
+            //});
+        }
+
+        public void UpdateWithSeasonData(SeasonalAnimeData data)
+        {
+            GlobalScore = data.Score;
+            if (data.Genres != null)
+                Genres = data.Genres;
+            Airing = true;
+
         }
 
         public bool Airing
@@ -363,22 +372,12 @@ namespace MALClient.Items
         private Point _initialPoint;
         private bool _manipulating;
 
-        /// <summary>
-        ///     When manipulation starts , saves initial point.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             _initialPoint = e.Position;
             _manipulating = true;
         }
 
-        /// <summary>
-        ///     Calculates distance , navigates to anime details if necessary
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (e.IsInertial && _manipulating)

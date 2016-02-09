@@ -314,7 +314,7 @@ namespace MALClient.ViewModels
         {
             var page = ViewModelLocator.AnimeList;
             return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
-                page.CurrentPage, seasonal, page.ListSource);
+                page.CurrentPage, page.IsSeasonal, page.ListSource);
         }
         #endregion
 

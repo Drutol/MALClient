@@ -16,7 +16,6 @@ namespace MALClient.Items
         private readonly SeasonalAnimeData data;
         private readonly int id;
         private readonly string img;
-        private readonly Dictionary<int, AnimeItemAbstraction> loaded;
         private readonly int myEps;
         private readonly int myScore;
         private readonly int myStatus;
@@ -63,11 +62,10 @@ namespace MALClient.Items
             Title = name;
         }
 
-        public AnimeItemAbstraction(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded)
+        public AnimeItemAbstraction(SeasonalAnimeData data)
             : this(data.Id)
         {
             this.data = data;
-            this.loaded = loaded;
 
             Title = data.Title;
             GlobalScore = data.Score;
@@ -116,7 +114,7 @@ namespace MALClient.Items
             _loaded = true;
             return _firstConstructor
                 ? new AnimeItem(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
-                : new AnimeItem(data, loaded, this);
+                : new AnimeItem(data, this);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace MALClient.ViewModels
     public class AnimeListViewModel : ViewModelBase
     {
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+        private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
         public readonly ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
 
@@ -235,6 +236,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private string _statusAllLabel = "All";
+        public string StatusAllLabel
+        {
+            get { return _statusAllLabel; }
+            set
+            {
+                _statusAllLabel = value;
+                RaisePropertyChanged(() => StatusAllLabel);
+            }
+        }
+
         private ICommand _prevPageCommand;
         public ICommand PrevPageCommand
         {
@@ -266,7 +278,6 @@ namespace MALClient.ViewModels
         }
 
         private AnimeListPage _view;
-
         public AnimeListPage View
         {
             get { return _view; }
@@ -276,6 +287,8 @@ namespace MALClient.ViewModels
                 //Init
             }
         }
+
+        public bool IsSeasonal => _seasonalState;
 
         public async void Init(AnimeListPageNavigationArgs args)
         {
@@ -325,6 +338,11 @@ namespace MALClient.ViewModels
             else // default
                 SetDefaults();
 
+            _seasonalState = false;
+            AppbarBtnPinTileVisibility = true;
+            Sort3Label = "Watching";
+            StatusAllLabel = "All";
+
             if (string.IsNullOrWhiteSpace(ListSource))
             {
                 if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
@@ -349,20 +367,8 @@ namespace MALClient.ViewModels
             UpdateStatus();
         }
 
-        private async void UpdateStatus()
-        {
-            await
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () => { RaisePropertyChanged(() => CurrentUpdateStatus); });
-        }
 
-        private void SetDefaults()
-        {
-            SetSortOrder(null);
-            SetDesiredStatus(null);
-            SortDescending = Utils.IsSortDescending();
-        }
-
+        #region Helpers
         private void SetSortOrder(SortOptions? option)
         {
             switch (option ?? Utils.GetSortOrder())
@@ -392,6 +398,47 @@ namespace MALClient.ViewModels
             }
         }
 
+        private async void UpdateStatus()
+        {
+            await
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => { RaisePropertyChanged(() => CurrentUpdateStatus); });
+        }
+
+        private void SetDefaults()
+        {
+            SetSortOrder(null);
+            SetDesiredStatus(null);
+            SortDescending = Utils.IsSortDescending();
+        }
+
+        public async void UpdateUpperStatus(int retries = 5)
+        {
+            while (true)
+            {
+                MainViewModel page = Utils.GetMainPageInstance();
+
+                if (page != null)
+
+                    if (!_seasonalState)
+                        if (!string.IsNullOrWhiteSpace(ListSource))
+                            page.CurrentStatus = $"{ListSource} - {Utils.StatusToString(GetDesiredStatus())}";
+                        else
+                            page.CurrentStatus = "Anime list";
+                    else
+                        page.CurrentStatus = $"Airing - {Utils.StatusToString(GetDesiredStatus())}";
+
+                else if (retries >= 0)
+                {
+                    await Task.Delay(1000);
+                    retries = retries - 1;
+                    continue;
+                }
+                break;
+            }
+        }
+        #endregion
+
         public void RefreshList(bool searchSource = false)
         {
             var query = ViewModelLocator.Main.CurrentSearchQuery;
@@ -406,10 +453,13 @@ namespace MALClient.ViewModels
             _animeItemsSet.Clear();
             var status = queryCondition ? 7 : GetDesiredStatus();
 
-            IEnumerable<AnimeItemAbstraction> items =
-                _allLoadedAnimeItems.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+            IEnumerable<AnimeItemAbstraction> items = _seasonalState ? _allLoadedSeasonalAnimeItems : _allLoadedAnimeItems;
+
+            items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+
             if (queryCondition)
                 items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
+
             switch (SortOption)
             {
                 case SortOptions.SortTitle:
@@ -490,31 +540,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => CurrentUpdateStatus);
         }
 
-        public async void UpdateUpperStatus(int retries = 5)
-        {
-            while (true)
-            {
-                MainViewModel page = Utils.GetMainPageInstance();
 
-                if (page != null)
-
-                    if (!_seasonalState)
-                        if (!string.IsNullOrWhiteSpace(ListSource))
-                            page.CurrentStatus = $"{ListSource} - {Utils.StatusToString(GetDesiredStatus())}";
-                        else
-                            page.CurrentStatus = "Anime list";
-                    else
-                        page.CurrentStatus = $"Airing - {Utils.StatusToString(GetDesiredStatus())}";
-
-                else if (retries >= 0)
-                {
-                    await Task.Delay(1000);
-                    retries = retries - 1;
-                    continue;
-                }
-                break;
-            }
-        }
 
         private void AlternateRowColors()
         {
@@ -571,10 +597,10 @@ namespace MALClient.ViewModels
                     Loading = false;
                     return;
                 }
-                _allLoadedAnimeItems.Clear();
-                AnimeUserCache loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                Dictionary<int, AnimeItemAbstraction> loadedItems =
-                    loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
+                _allLoadedSeasonalAnimeItems.Clear();
+                //AnimeUserCache loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
+                //Dictionary<int, AnimeItemAbstraction> loadedItems =
+                //    loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
                 foreach (SeasonalAnimeData animeData in data)
                 {
                     DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
@@ -582,10 +608,19 @@ namespace MALClient.ViewModels
                         DayOfAiring = animeData.AirDay,
                         GlobalScore = animeData.Score
                     });
-                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(animeData, loadedItems));
+                    var abstraction = _allLoadedAnimeItems.FirstOrDefault(item => item.Id == animeData.Id);
+                    if (abstraction == null)
+                        _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
+                    else
+                    {
+                        abstraction.AirDay = animeData.AirDay;
+                        abstraction.GlobalScore = animeData.Score;
+                        abstraction.AnimeItem.UpdateWithSeasonData(animeData);
+                        _allLoadedSeasonalAnimeItems.Add(abstraction);
+                    }
                 }
                 DataCache.SaveVolatileData();
-                Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
+                //Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
             }
             else
             {
@@ -765,7 +800,7 @@ namespace MALClient.ViewModels
 
         private void SwitchFiltersToSeasonal()
         {
-            //(StatusSelector.Items[5] as ListViewItem).Content = "Airing"; //We are quite confiddent here
+            StatusAllLabel = "Airing";
         }
 
         private async void ReloadList()

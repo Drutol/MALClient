@@ -17,7 +17,7 @@ using MALClient.UserControls;
 
 namespace MALClient.ViewModels
 {
-    public interface IMainViewNavigate
+    public interface IMainViewInteractions
     {
         void Navigate(Type page, object args = null);
         object GetCurrentContent();
@@ -26,8 +26,8 @@ namespace MALClient.ViewModels
 
     public class CommandHandler : ICommand
     {
-        private Action _action;
-        private bool _canExecute;
+        private readonly Action _action;
+        private readonly bool _canExecute;
         public CommandHandler(Action action, bool canExecute)
         {
             _action = action;
@@ -57,7 +57,16 @@ namespace MALClient.ViewModels
         private bool _wasOnDetailsFromSearch;
         private bool _onSearchPage;
 
-        public IMainViewNavigate View { get; set; }
+        private IMainViewInteractions _view;
+        public IMainViewInteractions View
+        {
+            get { return _view; }
+            set
+            {
+                _view = value;
+                Navigate(Creditentials.Authenticated ? PageIndex.PageAnimeList : PageIndex.PageLogIn);
+            }
+        } //entry point
 
         private bool _menuPaneState;
         public bool MenuPaneState
@@ -149,11 +158,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        public MainViewModel()
-        { 
-
-        }
-
         internal async Task Navigate(PageIndex index, object args = null)
         {
             var wasOnSearchPage = _onSearchPage;
@@ -170,7 +174,6 @@ namespace MALClient.ViewModels
             if (index == PageIndex.PageSeasonal)
                 index = PageIndex.PageAnimeList;
 
-            var vl = new ViewModelLocator();
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
@@ -218,12 +221,12 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageAbout:
                     HideSearchStuff();
-                    SetStatus("About");
+                    CurrentStatus = "About";
                     View.Navigate(typeof(AboutPage));
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
-                    SetStatus("Recommendations");
+                    CurrentStatus = "Recommendations";
                     View.Navigate(typeof(RecomendationsPage), args);
                     break;
                 default:
@@ -231,9 +234,10 @@ namespace MALClient.ViewModels
             }
         }
 
+        #region Search
         private void ReverseSearchInput()
         {
-            if(_onSearchPage)
+            if (_onSearchPage)
             {
                 if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
                     OnSearchInputSubmit();
@@ -242,7 +246,7 @@ namespace MALClient.ViewModels
 
             SearchToggleStatus = !SearchToggleStatus;
             SearchInputVisibility = SearchToggleStatus;
-            if(!_onSearchPage)
+            if (!_onSearchPage)
             {
                 (View.GetCurrentContent() as AnimeListPage).RefreshList();
             }
@@ -250,26 +254,12 @@ namespace MALClient.ViewModels
             {
                 if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
                     OnSearchInputSubmit();
-            }                                   
-        }
-
-        public void AnimeListScrollTo(AnimeItem animeItem)
-        {
-            var content = View.GetCurrentContent();
-            if (content is AnimeListPage)
-                ((AnimeListPage)content).ScrollTo(animeItem);
-        }
-
-        internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
-        {
-            var page = View.GetCurrentContent() as AnimeListPage;
-            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
-                page.CurrentPage, seasonal, page.ListSource);
+            }
         }
 
         public void OnSearchInputSubmit()
         {
-            if(_onSearchPage)
+            if (_onSearchPage)
                 (View.GetCurrentContent() as AnimeSearchPage).SubmitQuery(CurrentSearchQuery);
         }
 
@@ -283,10 +273,14 @@ namespace MALClient.ViewModels
                 View.SearchInputFocus(FocusState.Keyboard);
             View.Navigate(typeof(AnimeSearchPage), autoSearch ? CurrentSearchQuery : "");
         }
+        #endregion
 
-        public void SetStatus(string status)
+        #region UIHelpers
+        public void AnimeListScrollTo(AnimeItem animeItem)
         {
-            CurrentStatus = status;
+            var content = View.GetCurrentContent();
+            if (content is AnimeListPage)
+                ((AnimeListPage)content).ScrollTo(animeItem);
         }
 
         private void ShowSearchStuff()
@@ -313,6 +307,16 @@ namespace MALClient.ViewModels
             SearchInputVisibility = false;
             SearchToggleStatus = false;
         }
+        #endregion
+
+        #region Helpers
+        internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
+        {
+            var page = View.GetCurrentContent() as AnimeListPage;
+            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
+                page.CurrentPage, seasonal, page.ListSource);
+        }
+        #endregion
 
         #region SmallDataCaching
 

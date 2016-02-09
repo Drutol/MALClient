@@ -38,14 +38,13 @@ namespace MALClient.ViewModels
         }
 
         private int _pivotItemIndex;
-
         public int PivotItemIndex
         {
             get { return _pivotItemIndex; }
             set
             {
                 _pivotItemIndex = value;
-                if(!Loading)
+                if (!Loading)
                     RaisePropertyChanged(() => PivotItemIndex);
             }
         }

@@ -31,7 +31,7 @@ namespace MALClient.Pages
             PopulateCachedEntries();
             SetDesiredStatus();
             SetItemsPerPage();
-            Utils.GetMainPageInstance()?.SetStatus("Settings");
+            Utils.GetMainPageInstance().CurrentStatus = "Settings";
             _initialized = true;
 
             Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
@@ -50,19 +50,19 @@ namespace MALClient.Pages
         {
             switch (Utils.GetSortOrder())
             {
-                case AnimeListPage.SortOptions.SortNothing:
+                case SortOptions.SortNothing:
                     Sort4.IsChecked = true;
                     break;
-                case AnimeListPage.SortOptions.SortTitle:
+                case SortOptions.SortTitle:
                     Sort1.IsChecked = true;
                     break;
-                case AnimeListPage.SortOptions.SortScore:
+                case SortOptions.SortScore:
                     Sort2.IsChecked = true;
                     break;
-                case AnimeListPage.SortOptions.SortWatched:
+                case SortOptions.SortWatched:
                     Sort3.IsChecked = true;
                     break;
-                case AnimeListPage.SortOptions.SortAirDay:
+                case SortOptions.SortAirDay:
                     Sort5.IsChecked = true;
                     break;
                 default:
@@ -165,23 +165,23 @@ namespace MALClient.Pages
             Sort4.IsChecked = false;
             Sort5.IsChecked = false;
             btn.IsChecked = true;
-            AnimeListPage.SortOptions sortOptions;
+            SortOptions sortOptions;
             switch (btn.Text)
             {
                 case "Title":
-                    sortOptions = AnimeListPage.SortOptions.SortTitle;
+                    sortOptions = SortOptions.SortTitle;
                     break;
                 case "MyScore":
-                    sortOptions = AnimeListPage.SortOptions.SortScore;
+                    sortOptions = SortOptions.SortScore;
                     break;
                 case "Watched":
-                    sortOptions = AnimeListPage.SortOptions.SortWatched;
+                    sortOptions = SortOptions.SortWatched;
                     break;
                 case "Soonest airing":
-                    sortOptions = AnimeListPage.SortOptions.SortAirDay;
+                    sortOptions = SortOptions.SortAirDay;
                     break;
                 default:
-                    sortOptions = AnimeListPage.SortOptions.SortNothing;
+                    sortOptions = SortOptions.SortNothing;
                     break;
             }
             ApplicationData.Current.LocalSettings.Values["SortOrder"] = (int) sortOptions;

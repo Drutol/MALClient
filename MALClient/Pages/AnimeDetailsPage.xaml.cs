@@ -300,7 +300,7 @@ namespace MALClient.Pages
 
             DetailSynopsis.Text = Synopsis;
 
-            Utils.GetMainPageInstance().SetStatus(Title);
+            Utils.GetMainPageInstance().CurrentStatus = Title;
 
             DetailImage.Source = new BitmapImage(new Uri(_imgUrl));
             DetailsListViewP1.ItemsSource = _loadedItems1;

@@ -15,38 +15,30 @@ namespace MALClient.ViewModels
 
     public class ViewModelLocator
     {
+
+        private static bool _initialized;
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
-        private static bool _initialized;
-
         public ViewModelLocator()
         {
             if(_initialized)
                 return;
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
-            //var navigationService = this.CreateNavigationService();
-            //SimpleIoc.Default.Register<INavigationService>(() => navigationService);
-            SimpleIoc.Default.Register<RecommendationsViewModel>();
+            
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<HamburgerControlViewModel>();
+
+            SimpleIoc.Default.Register<RecommendationsViewModel>();
+            SimpleIoc.Default.Register<AnimeListViewModel>();
+            
             _initialized = true;
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public static RecommendationsViewModel Recommendations => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();      
         public static HamburgerControlViewModel Hamburger => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
+        public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
 
         public static void Cleanup()
         {

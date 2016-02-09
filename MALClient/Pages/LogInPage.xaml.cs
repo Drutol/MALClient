@@ -23,8 +23,8 @@ namespace MALClient.Pages
             InitializeComponent();
             if (Creditentials.Authenticated)
                 BtnLogOff.Visibility = Visibility.Visible;
-            Utils.GetMainPageInstance()?
-                .SetStatus(Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In");
+            Utils.GetMainPageInstance()
+                .CurrentStatus = Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In";
         }
 
 

@@ -155,9 +155,9 @@ namespace MALClient
             return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
         }
 
-        public static AnimeListPage.SortOptions GetSortOrder()
+        public static SortOptions GetSortOrder()
         {
-            return (AnimeListPage.SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
+            return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
         }
 
         public static bool IsSortDescending()

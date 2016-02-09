@@ -28,7 +28,6 @@ namespace MALClient.Pages
         public int Index;
     }
 
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -40,6 +39,11 @@ namespace MALClient.Pages
             this.InitializeComponent();
         }
 
+        private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
+        {
+            (args.Item.Content as RecomendationItem).PopulateData();
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is RecommendationPageNavigationArgs)
@@ -49,11 +53,6 @@ namespace MALClient.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             DataContext = null;
-        }
-
-        private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
-        {
-            (args.Item.Content as RecomendationItem).PopulateData();
         }
     }
 }

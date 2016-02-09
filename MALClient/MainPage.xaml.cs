@@ -23,54 +23,18 @@ namespace MALClient
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page , IMainViewNavigate
+    public sealed partial class MainPage : Page , IMainViewInteractions
     {
-        private readonly Dictionary<string, AnimeUserCache> _allAnimeItemsCache =
-            new Dictionary<string, AnimeUserCache>();
-        private List<RecomendationData> _recomendationDataCache = new List<RecomendationData>(); 
-        private bool _onSearchPage;
-        private Tuple<DateTime, ProfileData> _profileDataCache;
-        private bool? _searchStateBeforeNavigatingToSearch;
-        private List<AnimeItemAbstraction> _seasonalAnimeCache = new List<AnimeItemAbstraction>();
-        private bool _wasOnDetailsFromSearch;
-#pragma warning disable 4014
+        #pragma warning disable 4014
         public MainPage()
         {
             InitializeComponent();
             Utils.CheckTiles();
-            var vl = new ViewModelLocator();
             ViewModelLocator.Main.View = this;
-            if (Creditentials.Authenticated)
-                ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);               
-            else
-                ViewModelLocator.Main.Navigate(PageIndex.PageLogIn);
         }
-#pragma warning restore 4014
-        public HamburgerControl Hamburger => HamburgerControl;
-
-        private void ReversePane()
-        {
-            MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
-            if (MainMenu.IsPaneOpen)
-                HamburgerControl.PaneOpened();
-            //else            
-            //    HamburgerControl.PaneClosed();
-        }
+        #pragma warning restore 4014
 
         #region Search
-
-        private string _currSearchQuery;
-
-        private void SearchQuerySubmitted(object o, TextChangedEventArgs textChangedEventArgs)
-        {
-            if (_onSearchPage) // we are on anime list
-                return;
-
-            var source = MainContent.Content as AnimeListPage;
-            _currSearchQuery = SearchInput.Text;
-            source.RefreshList(true);
-        }
-
         private void SearchInput_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if ((e == null || e.Key == VirtualKey.Enter) && SearchInput.Text.Length >= 2)
@@ -80,9 +44,6 @@ namespace MALClient
                 ViewModelLocator.Main.OnSearchInputSubmit();
             }
         }
-
-
-
         #endregion
 
 

@@ -45,7 +45,7 @@ namespace MALClient.ViewModels
 
         private DateTime _lastUpdate;
         private Timer _timer;
-        private bool _loaded;
+        private string _prevListSource;
         private bool _seasonalState;
         private bool _wasPreviousQuery;
 
@@ -65,7 +65,7 @@ namespace MALClient.ViewModels
         public string CurrentPageStatus => $"{_currentPage}/{_allPages}";
         public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
         public List<Parameter<bool>> SortCheckStates => _sortsCheckStatuses;
-
+#region PropertyPairs
         private string _listSource;
         public string ListSource
         {
@@ -288,7 +288,7 @@ namespace MALClient.ViewModels
         }
 
         public bool IsSeasonal => _seasonalState;
-
+#endregion
         public async void Init(AnimeListPageNavigationArgs args) // TODO : Refactor this 
         {
             if (args != null)
@@ -368,6 +368,46 @@ namespace MALClient.ViewModels
 
 
         #region Helpers
+        private string GetLastUpdatedStatus()
+        {
+            var output = "Updated ";
+            try
+            {
+                TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
+                if (lastUpdateDiff.Days > 0)
+                    output += lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
+                else if (lastUpdateDiff.Hours > 0)
+                {
+                    output += lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+                }
+                else if (lastUpdateDiff.Minutes > 0)
+                {
+                    output += $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+                }
+                else
+                {
+                    output += "just now.";
+                }
+                if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
+                    UpdateNoticeVisibility = true;
+            }
+            catch (Exception)
+            {
+                output = "";
+            }
+
+            return output;
+        }
+
+        private void AlternateRowColors()
+        {
+            for (var i = 0; i < _animeItems.Count; i++)
+            {
+                _animeItems[i].Setbackground(
+                    new SolidColorBrush((i + 1) % 2 == 0 ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent));
+            }
+        }
+
         private void SetSortOrder(SortOptions? option)
         {
             switch (option ?? Utils.GetSortOrder())
@@ -539,17 +579,6 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => CurrentUpdateStatus);
         }
 
-
-
-        private void AlternateRowColors()
-        {
-            for (var i = 0; i < _animeItems.Count; i++)
-            {
-                _animeItems[i].Setbackground(
-                    new SolidColorBrush((i + 1) % 2 == 0 ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent));
-            }
-        }
-
         #region Pagination
 
         private void PrevPage()
@@ -583,13 +612,9 @@ namespace MALClient.ViewModels
 
         private async Task FetchSeasonalData(bool force = false)
         {
-            List<AnimeItemAbstraction> possibleLoadedData = force
-                ? new List<AnimeItemAbstraction>()
-                : Utils.GetMainPageInstance().RetrieveSeasonData();
-            if (possibleLoadedData.Count == 0)
-            {
                 Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
-                List<SeasonalAnimeData> data = await new AnimeSeasonalQuery().GetSeasonalAnime(force);
+                List<SeasonalAnimeData> data = new List<SeasonalAnimeData>();
+                await Task.Run(async () => data = await new AnimeSeasonalQuery().GetSeasonalAnime(force));
                 if (data == null)
                 {
                     RefreshList();
@@ -619,53 +644,20 @@ namespace MALClient.ViewModels
                     }
                 }
                 DataCache.SaveVolatileData();
-                //Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);
-            }
-            else
-            {
-                _allLoadedAnimeItems = possibleLoadedData;
-            }
+                //Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);            
 
             UpdateUpperStatus();           
             RefreshList();
             Loading = false;
         }
 
-        private string GetLastUpdatedStatus()
-        {
-            var output = "Updated ";
-            try
-            {
-                TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
-                if (lastUpdateDiff.Days > 0)
-                    output += lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
-                else if (lastUpdateDiff.Hours > 0)
-                {
-                    output += lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
-                }
-                else if (lastUpdateDiff.Minutes > 0)
-                {
-                    output += $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
-                }
-                else
-                {
-                    output += "just now.";
-                }
-                if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
-                    UpdateNoticeVisibility = true;
-            }
-            catch (Exception)
-            {
-                output = "";
-            }
-
-            return output;
-        }
-
         public async Task FetchData(bool force = false)
         {
-            Loading = true;
+            if (_prevListSource == ListSource)
+                return;
+            _prevListSource = ListSource;
 
+            Loading = true;
             BtnSetSourceVisibility = false;            
             EmptyNoticeVisibility = false;
 
@@ -681,18 +673,14 @@ namespace MALClient.ViewModels
             }
 
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
-            _animeItems.Clear();
-
-            if (!force)
-                Utils.GetMainPageInstance()
-                    .RetrieveAnimeEntries(ListSource, out _allLoadedAnimeItems, out _lastUpdate);
+            _animeItems.Clear();           
 
             if (_allLoadedAnimeItems.Count == 0)
             {
                 Tuple<string, DateTime> possibleCachedData = force
                     ? null
                     : await DataCache.RetrieveDataForUser(ListSource);
-                string data;
+                string data = "";
                 if (possibleCachedData != null)
                 {
                     data = possibleCachedData.Item1;
@@ -706,7 +694,7 @@ namespace MALClient.ViewModels
                         type = "anime",
                         user = ListSource
                     };
-                    data = await new AnimeListQuery(args).GetRequestResponse();
+                    await Task.Run(async() => data = await new AnimeListQuery(args).GetRequestResponse());
                     if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
                     {
                         RefreshList();
@@ -735,8 +723,6 @@ namespace MALClient.ViewModels
                 }
 
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
-
-                Utils.GetMainPageInstance().SaveAnimeEntries(ListSource, _allLoadedAnimeItems, _lastUpdate);
             }
 
 
@@ -745,10 +731,23 @@ namespace MALClient.ViewModels
             Loading = false;
         }
 
-
+        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference)
+        {
+            if (!Creditentials.Authenticated)
+                return false;
+            try
+            {
+                reference =
+                    _allLoadedAnimeItems.First(abstraction => abstraction.Id == id).AnimeItem;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         #endregion
-
 
         #region StatusRelatedStuff
 
@@ -810,5 +809,33 @@ namespace MALClient.ViewModels
                 await FetchData(true);
         }
 
+        public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
+        {
+            if(string.Equals(Creditentials.UserName,ListSource,StringComparison.CurrentCultureIgnoreCase))
+                _allLoadedAnimeItems.Add(parentAbstraction);
+        }
+
+        public void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction)
+        {
+            if (string.Equals(Creditentials.UserName, ListSource, StringComparison.CurrentCultureIgnoreCase))
+                _allLoadedAnimeItems.Remove(parentAbstraction);
+        }
+
+        #region LogInOut
+
+        public void LogOut()
+        {
+            foreach (AnimeItemAbstraction userCache in _allLoadedAnimeItems)
+            {
+                userCache.SetAuthStatus(false, true);
+            }
+        }
+
+        public void LogIn()
+        {
+            _allLoadedAnimeItems.Clear();
+            _allLoadedSeasonalAnimeItems.Clear();
+        }
+        #endregion
     }
 }

@@ -6,10 +6,12 @@
     xmlns:xamlConverters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
     <ScrollViewer Margin="1,10,1,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
                   VerticalAlignment="Stretch">
@@ -30,7 +32,7 @@
                     <RowDefinition Height="150" />
                     <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
                 </Grid.RowDefinitions>
-                <Image x:Name="DetailImage" Grid.Column="0" Stretch="Fill" Width="120" Height="148" Margin="1,1" />
+                <Image Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120" Height="148" Margin="1,1" />
                 <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                     <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon.RenderTransform>
@@ -40,13 +42,13 @@
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
-                                <Button Height="50" HorizontalAlignment="Stretch" Click="OpenMalPage" Background="#E6E6E6">
+                                <Button Height="50" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}" Background="#E6E6E6">
                                     <StackPanel Orientation="Horizontal">
                                         <SymbolIcon Symbol="Globe"/>
                                         <TextBlock Margin="10,0,0,0" Text="Open in browser"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50" Click="AddAnime" Background="#E6E6E6" Margin="0,5,0,0">
+                                <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50" Command="{Binding AddAnimeCommand}" Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Background="#E6E6E6" Margin="0,5,0,0">
                                     <StackPanel Orientation="Horizontal">
                                         <SymbolIcon Symbol="Add"/>
                                         <TextBlock Margin="10,0,0,0" Text="Add to my list"/>
@@ -54,7 +56,7 @@
                                 </Button>
                                 <Button Height="50"
                                     Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
-                                    Click="RemoveAnime"
+                                    Command="{Binding RemoveAnimeCommand}"
                                     HorizontalAlignment="Stretch"
                                     Background="#E6E6E6"
                                     Margin="0,5,0,0">
@@ -67,40 +69,41 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <StackPanel Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                <StackPanel Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="This entry is not on your list yet." Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center" Opacity=".75"/>
-                    <Button HorizontalAlignment="Stretch" Height="50" Click="AddAnime" Background="#E6E6E6" Margin="20,0,20,0">
+                    <Button HorizontalAlignment="Stretch" Height="50" Command="{Binding AddAnimeCommand}" Background="#E6E6E6" Margin="20,0,20,0">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Add"/>
                             <TextBlock Margin="10,0,0,0" Text="Add to my list"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
-                <Grid x:Name="MyDetails" Grid.Row="0" Grid.Column="1" Visibility="Collapsed" Margin="5,-10,0,0">
-                    <ProgressRing x:Name="SpinnerLoading" Width="50" Height="50" HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" IsActive="True" Visibility="Collapsed" />
+                <Grid Grid.Row="0" Grid.Column="1" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5,-10,0,0">
+                    <ProgressRing Width="50" Height="50" HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" IsActive="True" Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
                     <StackPanel Orientation="Vertical" Margin="1,10,1,0" HorizontalAlignment="Left">
                         <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
                             <TextBlock Text="My score : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90"/>
-                            <Button x:Name="BtnScore" FontWeight="Medium" Margin="1" 
+                            <Button FontWeight="Medium" Margin="1" 
                                 Background="Transparent"
                                 BorderThickness="0,0,0,2"                                
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" 
                                 Height="Auto"                              
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                Content="{Binding MyScoreBind}">
                                 <Button.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyout.Items>
-                                            <MenuFlyoutItem Text="10 - Masterpiece" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="9 - Great" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="8 - Very Good" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="7 - Good" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="6 - Fine" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="5 - Average" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="4 - Bad" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="3 - Very Bad" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="2 - Horrible" Click="ChangeScore" />
-                                            <MenuFlyoutItem Text="1 - Appaling" Click="ChangeScore" />
+                                            <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}" CommandParameter="10" />
+                                            <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}" CommandParameter="9" />
+                                            <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}" CommandParameter="8" />
+                                            <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}" CommandParameter="7" />
+                                            <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}" CommandParameter="6" />
+                                            <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}" CommandParameter="5" />
+                                            <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}" CommandParameter="4" />
+                                            <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}" CommandParameter="3" />
+                                            <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}" CommandParameter="2" />
+                                            <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}" CommandParameter="1" />
                                         </MenuFlyout.Items>
                                     </MenuFlyout>
                                 </Button.Flyout>
@@ -108,18 +111,19 @@
                         </StackPanel>
                         <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
                             <TextBlock Text="My status : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90"/>
-                            <Button x:Name="BtnStatus" FontWeight="Medium" Margin="1" Background="Transparent"
+                            <Button FontWeight="Medium" Margin="1" Background="Transparent"
                                 BorderThickness="0,0,0,2"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                Content="{Binding MyStatusBind}">
                                 <Button.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyout.Items>
-                                            <MenuFlyoutItem Text="Watching" Click="ChangeStatus" />
-                                            <MenuFlyoutItem Text="Completed" Click="ChangeStatus" />
-                                            <MenuFlyoutItem Text="On hold" Click="ChangeStatus" />
-                                            <MenuFlyoutItem Text="Dropped" Click="ChangeStatus" />
-                                            <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus" />
+                                            <MenuFlyoutItem Text="Watching" Command="{Binding ChangeStatusCommand}" CommandParameter="Watching" />
+                                            <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}" CommandParameter="Completed" />
+                                            <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}" CommandParameter="On hold" />
+                                            <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}" CommandParameter="Dropped" />
+                                            <MenuFlyoutItem Text="Plan to watch" Command="{Binding ChangeStatusCommand}" CommandParameter="Plan to watch" />
                                         </MenuFlyout.Items>
                                     </MenuFlyout>
                                 </Button.Flyout>
@@ -133,18 +137,19 @@
                             <Button x:Name="BtnWatchedEps" FontWeight="Medium" Margin="1" 
                                 Background="Transparent" BorderThickness="0,0,0,2"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                Content="{Binding MyEpisodesBind}">
                                 <Button.Flyout>
                                     <Flyout x:Name="WatchedEpsFlyout">
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBox x:Name="TxtBoxWatchedEps" KeyDown="SubmitWatchedEps" />
-                                                <Button Click="ChangeWatchedEps" Margin="2,0,0,0">
+                                                <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
                                                     <SymbolIcon Symbol="Accept" />
                                                 </Button>
                                             </StackPanel>
-                                            <TextBlock x:Name="TxtWatchedInvalidInputNotice" Text="Wrong input!"
-                                                   HorizontalAlignment="Center" Visibility="Collapsed" />
+                                            <TextBlock  Text="Wrong input!"
+                                                   HorizontalAlignment="Center" Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                         </StackPanel>
                                     </Flyout>
                                 </Button.Flyout>
@@ -159,14 +164,14 @@
                         <ColumnDefinition Width=".5*"/>
                         <ColumnDefinition Width=".5*"/>
                     </Grid.ColumnDefinitions>
-                    <ListView  x:Name="DetailsListViewP1" SelectionMode="None" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                    <ListView  SelectionMode="None" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="LightGray" ItemsSource="{Binding LeftDetailsRow}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
-                    <ListView x:Name="DetailsListViewP2" SelectionMode="None" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="LightGray">
+                    <ListView  SelectionMode="None" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="LightGray" ItemsSource="{Binding RightDetailsRow}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -176,7 +181,7 @@
                 </Grid>
                 <MenuFlyoutSeparator  VerticalAlignment="Top" />
                 <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBlock  x:Name="DetailSynopsis" HorizontalAlignment="Stretch" FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
+                <TextBlock  Text="{Binding Synopsis}" HorizontalAlignment="Stretch" FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
                        TextWrapping="WrapWholeWords" Margin="1,1" />
             </StackPanel>
 

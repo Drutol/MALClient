@@ -48,15 +48,13 @@ namespace MALClient.ViewModels
     }
 
     public class MainViewModel : ViewModelBase
-    {
-        private readonly Dictionary<string, AnimeUserCache> _allAnimeItemsCache = new Dictionary<string, AnimeUserCache>();
-        private List<RecomendationData> _recomendationDataCache = new List<RecomendationData>();
-        private List<AnimeItemAbstraction> _seasonalAnimeCache = new List<AnimeItemAbstraction>();
+    {      
         private Tuple<DateTime, ProfileData> _profileDataCache;
         private bool? _searchStateBeforeNavigatingToSearch;        
         private bool _wasOnDetailsFromSearch;
         private bool _onSearchPage;
-
+        
+        #region PropertyPairs
         private IMainViewInteractions _view;
         public IMainViewInteractions View
         {
@@ -157,6 +155,7 @@ namespace MALClient.ViewModels
                        (_toggleSearchCommand = new CommandHandler(ReverseSearchInput, true));
             }
         }
+#endregion
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
@@ -310,7 +309,7 @@ namespace MALClient.ViewModels
         #endregion
 
         #region Helpers
-        internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
+        internal AnimeListPageNavigationArgs GetCurrentListOrderParams()
         {
             var page = ViewModelLocator.AnimeList;
             return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
@@ -320,90 +319,7 @@ namespace MALClient.ViewModels
 
         #region SmallDataCaching
 
-        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, DateTime updateTime)
-        {
-            _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache
-            {
-                LoadedAnime = items,
-                LastUpdate = updateTime
-            };
-            var changedSomething = false;
-            foreach (AnimeItemAbstraction animeItemAbstraction in items)
-            {
-                if (animeItemAbstraction.MyEpisodes == animeItemAbstraction.AllEpisodes)
-                {
-                    changedSomething = true;
-                    DataCache.DeregisterVolatileData(animeItemAbstraction.Id);
-                }
-            }
-            if (changedSomething)
-                DataCache.SaveVolatileData();
-        }
-
-        public AnimeUserCache RetrieveLoadedAnime()
-        {
-            if (!Creditentials.Authenticated)
-                return null;
-            AnimeUserCache data;
-            _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(), out data);
-            return data;
-        }
-
-        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference)
-        {
-            if (!Creditentials.Authenticated)
-                return false;
-            try
-            {
-                reference =
-                    _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.First(
-                        abstraction => abstraction.Id == id).AnimeItem;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public void RetrieveAnimeEntries(string source, out List<AnimeItemAbstraction> loadedItems, out DateTime time)
-        {
-            AnimeUserCache data;
-            _allAnimeItemsCache.TryGetValue(source.ToLower(), out data);
-            time = data?.LastUpdate ?? DateTime.Now;
-
-            loadedItems = data?.LoadedAnime ?? new List<AnimeItemAbstraction>();
-        }
-
-        public void AddAnimeEntry(string source, AnimeItemAbstraction item)
-        {
-            source = source.ToLower();
-            if (_allAnimeItemsCache[source] != null)
-            {
-                _allAnimeItemsCache[source].LoadedAnime.Add(item);
-            }
-        }
-
-        public void RemoveAnimeEntry(string source, AnimeItemAbstraction item)
-        {
-            source = source.ToLower();
-            if (_allAnimeItemsCache[source] != null)
-            {
-                _allAnimeItemsCache[source].LoadedAnime.Remove(item);
-            }
-        }
-
-        internal void PurgeUserCache(string source)
-        {
-            try
-            {
-                _allAnimeItemsCache[source.ToLower()].LoadedAnime.Clear();
-            }
-            catch (Exception)
-            {
-                //no entry here
-            }
-        }
+        
 
         //Profile
         public void SaveProfileData(ProfileData data)
@@ -420,64 +336,8 @@ namespace MALClient.ViewModels
                 return _profileDataCache.Item2;
             return null;
         }
-
-        //Season
-        public void SaveSeasonData(List<AnimeItemAbstraction> data)
-        {
-            _seasonalAnimeCache = data;
-        }
-
-        public List<AnimeItemAbstraction> RetrieveSeasonData()
-        {
-            return _seasonalAnimeCache;
-        }
-
-        public void ClearAnimeItemsForSource(string userName)
-        {
-            _allAnimeItemsCache[userName.ToLower()].LoadedAnime.Clear();
-        }
-        //Recommendations
-        public void SaveRecommendationsData(List<RecomendationData> data)
-        {
-            _recomendationDataCache = data;
-        }
-
-        public List<RecomendationData> RetrieveRecommendationData()
-        {
-            return _recomendationDataCache;
-        }
-
         #endregion
 
-        #region LogInOut
 
-        public void LogOut()
-        {
-            foreach (
-                AnimeItemAbstraction userCach in
-                    _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
-            {
-                userCach.SetAuthStatus(false, true);
-            }
-            foreach (AnimeItemAbstraction animeItemAbstraction in _seasonalAnimeCache)
-            {
-                animeItemAbstraction.SetAuthStatus(false, true);
-            }
-        }
-
-        public void LogIn()
-        {
-            _seasonalAnimeCache.Clear();
-            try
-            {
-                _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
-                _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
-            }
-            catch (Exception)
-            {
-                /* ignored */
-            }
-        }
-#endregion
     }
 }

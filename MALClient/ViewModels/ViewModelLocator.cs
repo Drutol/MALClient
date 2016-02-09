@@ -31,6 +31,7 @@ namespace MALClient.ViewModels
 
             SimpleIoc.Default.Register<RecommendationsViewModel>();
             SimpleIoc.Default.Register<AnimeListViewModel>();
+            SimpleIoc.Default.Register<AnimeDetailsPageViewModel>();
             
             _initialized = true;
         }
@@ -39,6 +40,7 @@ namespace MALClient.ViewModels
         public static RecommendationsViewModel Recommendations => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();      
         public static HamburgerControlViewModel Hamburger => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
         public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
+        public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
 
         public static void Cleanup()
         {

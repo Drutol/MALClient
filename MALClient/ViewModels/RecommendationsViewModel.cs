@@ -50,13 +50,14 @@ namespace MALClient.ViewModels
         }
 
         public RecommendationsViewModel()
-        {                    
-            PopulateData();          
+        {
+            PopulateData();
         }
 
         private async void PopulateData()
         {
-            var data = await new AnimeRecomendationsQuery().GetRecomendationsData();
+            List<RecomendationData> data = new List<RecomendationData>();
+            await Task.Run(async () => data = await new AnimeRecomendationsQuery().GetRecomendationsData());
             int i = 0;
             foreach (var item in data)
             {

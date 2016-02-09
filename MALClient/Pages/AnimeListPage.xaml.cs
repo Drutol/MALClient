@@ -193,13 +193,8 @@ namespace MALClient.Pages
 
         private async void ListSource_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var _currentSoure = ViewModel.ListSource;
             if ((sender == null && e == null) || e.Key == VirtualKey.Enter)
             {
-                if (_currentSoure != null &&
-                    !string.Equals(_currentSoure, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                    Utils.GetMainPageInstance().PurgeUserCache(_currentSoure);
-                //why would we want to keep those entries?
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();

@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -234,7 +235,7 @@ namespace MALClient.Items
             SetAuthStatus(true);
             AdjustIncrementButtonsVisibility();
             BtnAddToList.Visibility = Visibility.Collapsed;
-            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName, _parentAbstraction);
+            ViewModelLocator.AnimeList.AddAnimeEntry(_parentAbstraction);
         }
 
         private async void NavigateDetails(object sender, RoutedEventArgs e)
@@ -242,7 +243,7 @@ namespace MALClient.Items
             await Utils.GetMainPageInstance()
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                        Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)) {Source = PageIndex.PageAnimeList}) ;
+                        Utils.GetMainPageInstance().GetCurrentListOrderParams()) {Source = PageIndex.PageAnimeList}) ;
         }
 
         #region Utils/Helpers
@@ -391,7 +392,7 @@ namespace MALClient.Items
                     await Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
                         .Navigate(PageIndex.PageAnimeDetails,
                             new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                                Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)) {Source = PageIndex.PageAnimeList});
+                                Utils.GetMainPageInstance().GetCurrentListOrderParams()) {Source = PageIndex.PageAnimeList});
                 }
             }
         }

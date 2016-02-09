@@ -205,8 +205,9 @@ namespace MALClient
                 StorageFile thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
-                byte[] response =
-                    await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg");
+                byte[] response = {};
+
+                await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
                     //get bytes
 
                 using (Stream fs = await thumb.OpenStreamForWriteAsync()) //get stream

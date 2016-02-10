@@ -13,9 +13,9 @@
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
-    <ScrollViewer Margin="1,10,1,0" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
                   VerticalAlignment="Stretch">
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="150" MaxHeight="250" Height="Auto" />
                 <!--Img + Details-->
@@ -32,7 +32,7 @@
                     <RowDefinition Height="150" />
                     <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
                 </Grid.RowDefinitions>
-                <Image Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120" Height="148" Margin="1,1" />
+                <Image Margin="1,10,1,0" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120" Height="148" />
                 <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                     <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon.RenderTransform>
@@ -184,6 +184,13 @@
                 <TextBlock  Text="{Binding Synopsis}" HorizontalAlignment="Stretch" FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
                        TextWrapping="WrapWholeWords" Margin="1,1" />
             </StackPanel>
+            <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Loading}">
+                <Grid.Background>
+                    <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                </Grid.Background>
+                <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"  IsActive="True">
+                </ProgressRing>
+            </Grid>
 
         </Grid>
     </ScrollViewer>

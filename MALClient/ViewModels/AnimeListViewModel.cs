@@ -341,6 +341,7 @@ namespace MALClient.ViewModels
             AppbarBtnPinTileVisibility = true;
             Sort3Label = "Watching";
             StatusAllLabel = "All";
+            AppBtnListSourceVisibility = true;
 
             if (string.IsNullOrWhiteSpace(ListSource))
             {
@@ -622,9 +623,6 @@ namespace MALClient.ViewModels
                     return;
                 }
                 _allLoadedSeasonalAnimeItems.Clear();
-                //AnimeUserCache loadedStuff = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                //Dictionary<int, AnimeItemAbstraction> loadedItems =
-                //    loadedStuff?.LoadedAnime.ToDictionary(item => item.Id);
                 foreach (SeasonalAnimeData animeData in data)
                 {
                     DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
@@ -643,8 +641,7 @@ namespace MALClient.ViewModels
                         _allLoadedSeasonalAnimeItems.Add(abstraction);
                     }
                 }
-                DataCache.SaveVolatileData();
-                //Utils.GetMainPageInstance().SaveSeasonData(_allLoadedAnimeItems);            
+                DataCache.SaveVolatileData();            
 
             UpdateUpperStatus();           
             RefreshList();
@@ -654,7 +651,13 @@ namespace MALClient.ViewModels
         public async Task FetchData(bool force = false)
         {
             if (_prevListSource == ListSource)
+            {
+                foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.Loaded))
+                {
+                    item.ViewModel.SignalBackToList();
+                }
                 return;
+            }
             _prevListSource = ListSource;
 
             Loading = true;
@@ -833,8 +836,9 @@ namespace MALClient.ViewModels
 
         public void LogIn()
         {
-            _allLoadedAnimeItems.Clear();
-            _allLoadedSeasonalAnimeItems.Clear();
+            ListSource = Creditentials.UserName;
+            _prevListSource = "";
+            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         }
         #endregion
     }

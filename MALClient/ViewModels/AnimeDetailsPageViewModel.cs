@@ -125,6 +125,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _loading;
+        public Visibility Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged(() => Loading);
+            }
+        }
+
         private string _watchedEpsInput;
         public string WatchedEpsInput {
             get { return _watchedEpsInput; }
@@ -234,6 +245,7 @@ namespace MALClient.ViewModels
 
         public void Init(AnimeDetailsPageNavigationArgs param)
         {
+            Loading = Visibility.Visible;
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
@@ -401,6 +413,7 @@ namespace MALClient.ViewModels
             Utils.GetMainPageInstance().CurrentStatus = Title;
 
             DetailImage  = new BitmapImage(new Uri(_imgUrl));
+            Loading = Visibility.Collapsed;
         }
 
         private ListViewItem BuildListViewItem(string label, string val1, bool alternate = false, float left = 0.4f, float right = 0.6f)

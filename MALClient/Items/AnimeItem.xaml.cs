@@ -28,14 +28,13 @@ namespace MALClient.Items
     public sealed partial class AnimeItem : UserControl , IAnimeItemInteractions
     {
 
-        public readonly AnimeItemViewModel ViewModel;
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
             vm.View = this;
-            DataContext = vm;
-            ViewModel = vm;           
+            DataContext = vm;      
         }  
 
         private bool _expandState;

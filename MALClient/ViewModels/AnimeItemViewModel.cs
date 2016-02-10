@@ -39,7 +39,7 @@ namespace MALClient.ViewModels
         
         private float _globalScore;
         public readonly AnimeItemAbstraction _parentAbstraction;
-        private readonly bool _seasonalState;
+        private bool _seasonalState;
         //prop field pairs
 
         public IAnimeItemInteractions View;
@@ -70,7 +70,6 @@ namespace MALClient.ViewModels
 
             //We are not seasonal so it's already on list            
             AddToListVisibility = false;
-
             SetAuthStatus(auth, setEpsAuth);
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
@@ -84,30 +83,23 @@ namespace MALClient.ViewModels
             //We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
-            //Assign Fields
-            _parentAbstraction.MyEpisodes = 0; // We don't want to set TextBlock
-            //Assign properties
             MyStatus = (int)AnimeStatus.AllOrAiring;
             Title = data.Title;
             MyScore = 0;
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
             if (data.Genres != null)
-                Genres = data.Genres;
-            //SeasonalMembers = data.Members;
-
-            //Custom controls setup
-            
+                Genres = data.Genres;            
             Airing = true;
-            //Additional data from seasonal
             Synopsis = data.Synopsis;
-            //We are not on the list so we cannot really do this
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
         }
         #endregion
 
         #region PropertyPairs
+        public int AllEpisodes => _allEpisodes;
+
         public string AirDayBind => Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
         private bool _airing;
         public bool Airing
@@ -171,7 +163,16 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyEpisodesBind => Auth ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+        public string MyEpisodesBind
+        {
+            get
+            {
+                if(_seasonalState)
+                    return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+
+                return Auth || MyEpisodes != 0 ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+            }
+        } 
         public int MyEpisodes
         {
             get { return _parentAbstraction.MyEpisodes; }
@@ -283,7 +284,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _updateButtonsVisibility;
+        private bool _updateButtonsVisibility = true;
         public bool UpdateButtonsVisibility
         {
             get { return _updateButtonsVisibility; }
@@ -428,16 +429,15 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(NavigateDetails));
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails));
             }
         }
 
         #endregion
         //fields
         public int Id { get; set; }
-        //props
         //private int SeasonalMembers { get; set; } //TODO : Use this
-        public int AllEpisodes => _allEpisodes;
+        
 
         public async void NavigateDetails()
         {
@@ -454,7 +454,19 @@ namespace MALClient.ViewModels
             if (data.Genres != null)
                 Genres = data.Genres;
             Airing = true;
+            if (!Auth)
+            {
+                UpdateButtonsVisibility = false;
+                _seasonalState = true;
+            }
+            RaisePropertyChanged(() => MyEpisodesBind);
 
+        }
+
+        public void SignalBackToList()
+        {
+            _seasonalState = false;
+            RaisePropertyChanged(() => MyEpisodesBind);
         }
 
         private async void AddThisToMyList()
@@ -462,13 +474,13 @@ namespace MALClient.ViewModels
             var response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
             if (!response.Contains("Created"))
                 return;
-
+            _seasonalState = false;
+            SetAuthStatus(true);
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
-
-
-            SetAuthStatus(true);
+            
+            
             AdjustIncrementButtonsVisibility();
             AddToListVisibility = false;
             ViewModelLocator.AnimeList.AddAnimeEntry(_parentAbstraction);
@@ -722,6 +734,8 @@ namespace MALClient.ViewModels
         }
 
         #endregion
+
+
     }
 
 

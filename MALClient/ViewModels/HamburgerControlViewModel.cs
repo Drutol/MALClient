@@ -51,14 +51,14 @@ namespace MALClient.ViewModels
     public class HamburgerControlViewModel : ViewModelBase
     {
         private bool? _prevState;
-        private int _stackPanelHeightSum = 325; //base value
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 325 : 375; //base value , we are either on log in page or list page (app bar on/off)
         private bool _subtractedHeightForButton = true;
 
 
         public IHamburgerControlView View { get; set; }
-       
 
-        private Dictionary<string,Parameter<Brush>> _txtForegroundBrushes = new Dictionary<string, Parameter<Brush>>
+
+        public Dictionary<string, Parameter<Brush>> TxtForegroundBrushes { get; } = new Dictionary<string, Parameter<Brush>>
         {
             ["AnimeList"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
             ["AnimeSearch"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
@@ -69,15 +69,6 @@ namespace MALClient.ViewModels
             ["About"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
             ["Recommendations"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
         };
-        public Dictionary<string, Parameter<Brush>> TxtForegroundBrushes
-        {
-            get { return _txtForegroundBrushes; }
-            set
-            {
-                _txtForegroundBrushes = value;
-                RaisePropertyChanged(() => TxtForegroundBrushes);
-            }
-        }
 
         public RelayCommand PaneOpenedCommand { get; private set; }
 
@@ -150,7 +141,7 @@ namespace MALClient.ViewModels
 
         public HamburgerControlViewModel()
         {
-               PaneOpenedCommand = new RelayCommand(this.PaneOpened);
+            PaneOpenedCommand = new RelayCommand(this.PaneOpened);
         }
 
         public void ChangeBottomStackPanelMargin(bool up)
@@ -161,7 +152,7 @@ namespace MALClient.ViewModels
             _prevState = up;
 
             _stackPanelHeightSum += up ? 50 : -50;
-        }
+        }    
 
         public void PaneOpened()
         {

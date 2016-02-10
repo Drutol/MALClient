@@ -23,7 +23,7 @@ namespace MALClient.Items
         private readonly string name;
 
         private AnimeItem _animeItem;
-        private bool _loaded;
+        public bool Loaded;
         public int AirDay = -1;
         public int AllEpisodes;
 
@@ -79,7 +79,7 @@ namespace MALClient.Items
         {
             get
             {
-                if (_loaded)
+                if (Loaded)
                     return _animeItem;
                 ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
@@ -93,7 +93,7 @@ namespace MALClient.Items
         {
             get
             {
-                if (_loaded)
+                if (Loaded)
                     return _viewModel;
                 ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
@@ -115,7 +115,7 @@ namespace MALClient.Items
 
         public void SetAuthStatus(bool status, bool eps)
         {
-            if (_loaded)
+            if (Loaded)
                 ViewModel.SetAuthStatus(status, eps);
             else
             {
@@ -134,7 +134,7 @@ namespace MALClient.Items
 
         private AnimeItem LoadElement()
         {
-            _loaded = true;
+            Loaded = true;
             return new AnimeItem(ViewModel);
         }
     }

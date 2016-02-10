@@ -27,9 +27,13 @@ namespace MALClient.Pages
                 .CurrentStatus = Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In";
         }
 
+        private bool _authenticating;
 
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
         {
+            if(_authenticating)
+                return;
+            _authenticating = true;
             Creditentials.Update(UserName.Text, UserPassword.Password);
             try
             {
@@ -51,6 +55,7 @@ namespace MALClient.Pages
                 var msg = new MessageDialog("Unable to authorize with provided creditentials.");
                 await msg.ShowAsync();
             }
+            _authenticating = false;
         }
 
         private async void LogOut(object sender, RoutedEventArgs e)

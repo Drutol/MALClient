@@ -171,7 +171,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyEpisodesBind => Auth ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{AllEpisodes} Episodes";
+        public string MyEpisodesBind => Auth ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
         public int MyEpisodes
         {
             get { return _parentAbstraction.MyEpisodes; }
@@ -193,7 +193,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string GlobalScoreBind => GlobalScore.ToString();
+        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString();
         public float GlobalScore
         {
             get { return _globalScore; }

@@ -403,7 +403,7 @@ namespace MALClient.ViewModels
         {
             for (var i = 0; i < _animeItems.Count; i++)
             {
-                _animeItems[i].Setbackground(
+                _animeItems[i].ViewModel.Setbackground(
                     new SolidColorBrush((i + 1) % 2 == 0 ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent));
             }
         }
@@ -639,7 +639,7 @@ namespace MALClient.ViewModels
                     {
                         abstraction.AirDay = animeData.AirDay;
                         abstraction.GlobalScore = animeData.Score;
-                        abstraction.AnimeItem.UpdateWithSeasonData(animeData);
+                        abstraction.ViewModel.UpdateWithSeasonData(animeData);
                         _allLoadedSeasonalAnimeItems.Add(abstraction);
                     }
                 }
@@ -738,7 +738,7 @@ namespace MALClient.ViewModels
             try
             {
                 reference =
-                    _allLoadedAnimeItems.First(abstraction => abstraction.Id == id).AnimeItem;
+                    _allLoadedAnimeItems.First(abstraction => abstraction.Id == id).ViewModel;
                 return true;
             }
             catch (Exception)

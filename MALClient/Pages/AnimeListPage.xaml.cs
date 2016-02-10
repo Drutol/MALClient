@@ -115,14 +115,6 @@ namespace MALClient.Pages
             }
         }
 
-
-
-
-
-
-
-
-
         #endregion
 
        
@@ -138,13 +130,13 @@ namespace MALClient.Pages
             foreach (object item in Animes.SelectedItems)
             {
                 var anime = item as AnimeItem;
-                if (SecondaryTile.Exists(anime.Id.ToString()))
+                if (SecondaryTile.Exists(anime.ViewModel.Id.ToString()))
                 {
                     var msg = new MessageDialog("Tile for this anime already exists.");
                     await msg.ShowAsync();
                     continue;
                 }
-                anime.PinTile($"http://www.myanimelist.net/anime/{anime.Id}");
+                anime.ViewModel.PinTile($"http://www.myanimelist.net/anime/{anime.ViewModel.Id}");
             }
         }
 

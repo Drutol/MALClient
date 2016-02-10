@@ -237,7 +237,7 @@ namespace MALClient.ViewModels
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
-            if (_animeItemReference == null || _animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItem).Auth)
+            if (_animeItemReference == null || _animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItemViewModel).Auth)
             //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 if (!ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference))
@@ -249,7 +249,7 @@ namespace MALClient.ViewModels
                 }
             } // else we already have it
 
-            if (_animeItemReference is AnimeItem && (_animeItemReference as AnimeItem).Auth)
+            if (_animeItemReference is AnimeItemViewModel && (_animeItemReference as AnimeItemViewModel).Auth)
             {
                 //we have item on the list , so there's valid data here
                 MyDetailsVisibility = true;
@@ -339,13 +339,13 @@ namespace MALClient.ViewModels
                 return;
             AddAnimeVisibility = false;
             var animeItem = new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0);
-            _animeItemReference = animeItem.AnimeItem;
+            _animeItemReference = animeItem.ViewModel;
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
             GlobalScore = GlobalScore; //trigger setter of anime item
             if (Status == "Currently Airing")
-                (_animeItemReference as AnimeItem).Airing = true;
+                (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
         }
@@ -364,9 +364,9 @@ namespace MALClient.ViewModels
             if (!response.Contains("Deleted"))
                 return;
 
-            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItem)._parentAbstraction);
+            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel)._parentAbstraction);
 
-            (_animeItemReference as AnimeItem).SetAuthStatus(false, true);
+            (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
             AddAnimeVisibility = true;
             MyDetailsVisibility = false;
         }
@@ -377,7 +377,7 @@ namespace MALClient.ViewModels
 
         private void PopulateData()
         {
-            if (_animeItemReference is AnimeItem)
+            if (_animeItemReference is AnimeItemViewModel)
             {
                 var day = Status == "Currently Airing" ? (int)DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
                 DataCache.RegisterVolatileData(Id, new VolatileDataCache
@@ -385,7 +385,7 @@ namespace MALClient.ViewModels
                     DayOfAiring = day,
                     GlobalScore = GlobalScore
                 });
-                ((AnimeItem)_animeItemReference).Airing = day != -1;
+                ((AnimeItemViewModel)_animeItemReference).Airing = day != -1;
                 DataCache.SaveVolatileData();
             }
             _loadedItems1.Clear();

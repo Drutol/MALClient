@@ -7,13 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:Name="Control"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
             <Storyboard x:Name="SynopsisHide">
                 <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root"
                                  Storyboard.TargetProperty="Height" From="400" To="150" SpeedRatio="2.0" />
@@ -100,7 +101,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root"
+    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root" Background="{Binding RootBrush}"
           ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
           ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia">
         <Grid.ColumnDefinitions>
@@ -112,16 +113,16 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Image x:Name="Img" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto"
+        <Image Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148" Width="Auto"
                MaxWidth="120" Margin="1,1" />
-        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnShowMore" Margin="1,0,0,1" Click="ShowMore"
+        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnShowMore" Visibility="{Binding ShowMoreVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="1,0,0,1" Click="ShowMore"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
             <SymbolIcon Symbol="Zoom" Foreground="White" />
         </Button>
-        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails"
+        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Command="{Binding NavigateDetailsCommand}"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
                 Visibility="{Binding ElementName=BtnShowMore,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
             <Button.Background>
@@ -129,61 +130,65 @@
             </Button.Background>
             <SymbolIcon Symbol="More" Foreground="White" />
         </Button>
-        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnAddToList" Margin="0,0,1,1" Click="AddThisToMyList"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40">
+        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnAddToList" Margin="0,0,1,1" Command="{Binding AddAnimeCommand}"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40" Visibility="{Binding AddToListVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
             <SymbolIcon Symbol="Add" Foreground="White" />
         </Button>
-        <ProgressBar x:Name="SpinnerLoading" Grid.Row="0" Grid.Column="1" IsIndeterminate="True"
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" />
+        <ProgressBar Grid.Row="0" Grid.Column="1" IsIndeterminate="True"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
             <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <Grid x:Name="SymbolGlobalScore" HorizontalAlignment="Right" Margin="0,0,11,11" Visibility="Collapsed">
+                <Grid HorizontalAlignment="Right" Margin="0,0,11,11" Visibility="{Binding GlobalScoreBind,Converter={StaticResource AnyTextToVisibilityConverter}}">
                     <SymbolIcon Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
                         <SymbolIcon.RenderTransform>
                             <ScaleTransform ScaleY="1.5" ScaleX="1.5" />
                         </SymbolIcon.RenderTransform>
                     </SymbolIcon>
-                    <TextBlock x:Name="TxtGlobalSocore" FontWeight="Medium" VerticalAlignment="Center"
+                    <TextBlock Text="{Binding GlobalScoreBind}" FontWeight="Medium" VerticalAlignment="Center"
                                Margin="10,10,0,0" HorizontalAlignment="Center" TextAlignment="Center" />
                 </Grid>
                 <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Button x:Name="BtnStatus" Margin="1" Style="{StaticResource ButtonDisabledStyle}"
+                    <Button Content="{Binding MyStatusBind}" Margin="1" Style="{StaticResource ButtonDisabledStyle}"
                             Background="Transparent" BorderThickness="0,0,0,2"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto"
-                            HorizontalAlignment="Right">
+                            HorizontalAlignment="Right"
+                            IsEnabled="{Binding UpdateButtonsEnableState}"
+                            Visibility="{Binding UpdateButtonsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyout.Items>
-                                    <MenuFlyoutItem Text="Watching" Click="ChangeStatus" />
-                                    <MenuFlyoutItem Text="Completed" Click="ChangeStatus" />
-                                    <MenuFlyoutItem Text="On hold" Click="ChangeStatus" />
-                                    <MenuFlyoutItem Text="Dropped" Click="ChangeStatus" />
-                                    <MenuFlyoutItem Text="Plan to watch" Click="ChangeStatus" />
+                                    <MenuFlyoutItem Text="Watching" Command="{Binding ChangeStatusCommand}" CommandParameter="Watching" />
+                                    <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}" CommandParameter="Completed" />
+                                    <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}" CommandParameter="On hold" />
+                                    <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}" CommandParameter="Dropped" />
+                                    <MenuFlyoutItem Text="Plan to watch" Command="{Binding ChangeStatusCommand}" CommandParameter="Plan to watch" />
                                 </MenuFlyout.Items>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
-                    <Button x:Name="BtnScore" Margin="1" Style="{StaticResource ButtonDisabledStyle}"
+                    <Button Content="{Binding MyScoreBind}"  Margin="1" Style="{StaticResource ButtonDisabledStyle}"
                             Background="Transparent" BorderThickness="0,0,0,2"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto"
-                            HorizontalAlignment="Right">
+                            HorizontalAlignment="Right"
+                            IsEnabled="{Binding UpdateButtonsEnableState}"
+                            Visibility="{Binding UpdateButtonsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyout.Items>
-                                    <MenuFlyoutItem Text="10 - Masterpiece" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="9 - Great" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="8 - Very Good" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="7 - Good" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="6 - Fine" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="5 - Average" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="4 - Bad" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="3 - Very Bad" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="2 - Horrible" Click="ChangeScore" />
-                                    <MenuFlyoutItem Text="1 - Appaling" Click="ChangeScore" />
+                                    <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}" CommandParameter="10" />
+                                    <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}" CommandParameter="9" />
+                                    <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}" CommandParameter="8" />
+                                    <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}" CommandParameter="7" />
+                                    <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}" CommandParameter="6" />
+                                    <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}" CommandParameter="5" />
+                                    <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}" CommandParameter="4" />
+                                    <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}" CommandParameter="3" />
+                                    <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}" CommandParameter="2" />
+                                    <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}" CommandParameter="1" />
                                 </MenuFlyout.Items>
                             </MenuFlyout>
                         </Button.Flyout>
@@ -191,7 +196,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <Grid x:Name="SymbolAiring" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top"
+            <Grid Visibility="{Binding Airing,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top"
                   Margin="0,10,5,0">
                 <Grid VerticalAlignment="Center" HorizontalAlignment="Left">
                     <Ellipse Width="50" Height="30" Opacity=".75" >
@@ -199,44 +204,44 @@
                             <SolidColorBrush Color="Black" Opacity=".25"></SolidColorBrush>
                         </Ellipse.Fill>
                     </Ellipse>
-                    <TextBlock x:Name="TxtAiringDay" FontWeight="SemiLight" VerticalAlignment="Center"
+                    <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
                                HorizontalAlignment="Center" Margin="0,0,0,3"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="20" />
                 </Grid>
             </Grid>
 
 
-            <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
-                       TextWrapping="WrapWholeWords" Margin="5,3" />
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
+                       TextWrapping="WrapWholeWords" Margin="{Binding TitleMargin}" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <Button x:Name="DecrementEps" Background="Transparent" VerticalAlignment="Center" Height="40"
-                        Width="40" Click="DecrementWatchedEp">
+                        Width="40" Command="{Binding DecrementWatchedCommand}" Visibility="{Binding DecrementEpsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <SymbolIcon Symbol="Remove" />
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
                     </Button.RenderTransform>
                 </Button>
-                <Button x:Name="BtnWatchedEps" Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiBold"
+                <Button Content="{Binding MyEpisodesBind}" Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiBold"
                         Margin="0,0,10,0" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0,0,0,2"
-                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding UpdateButtonsEnableState}">
                     <Button.Flyout>
                         <Flyout x:Name="WatchedEpsFlyout">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtBoxWatchedEps" KeyDown="SubmitWatchedEps" />
-                                    <Button Click="ChangeWatchedEps" Margin="2,0,0,0">
+                                    <TextBox x:Name="TxtBoxWatchedEps" Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SubmitWatchedEps" />
+                                    <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
                                         <SymbolIcon Symbol="Accept" />
                                     </Button>
                                 </StackPanel>
-                                <TextBlock x:Name="TxtWatchedInvalidInputNotice" Text="Wrong input!"
-                                           HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <TextBlock Text="Wrong input!"
+                                           HorizontalAlignment="Center" Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
                 <Button x:Name="IncrementEps" Background="Transparent" Height="40" Width="40"
-                        Click="IncrementWatchedEp" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        Command="{Binding IncrementWatchedCommand}" Visibility="{Binding IncrementEpsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <SymbolIcon Symbol="Add" />
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="-15" CenterY="40" />
@@ -246,7 +251,7 @@
 
             </StackPanel>
         </Grid>
-        <Grid x:Name="TileUrlInput" Visibility="Collapsed" Height="75" BorderThickness="1"
+        <Grid Visibility="{Binding TileUrlInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Height="75" BorderThickness="1"
               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center"
               Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" Margin="5,5">
             <Grid.ColumnDefinitions>
@@ -257,8 +262,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Url:" Height="25" Margin="5,0" />
             <TextBox Grid.Column="1" x:Name="TxtTileUrl" Height="25" HorizontalAlignment="Stretch" Margin="5,0"
-                     InputScope="Text" KeyDown="TxtTileUrl_OnKeyDown" />
-            <Button Grid.Column="2" Click="PinTile">
+                     InputScope="Text" Text="{Binding TileUrlInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="TxtTileUrl_OnKeyDown" />
+            <Button Grid.Column="2" Command="{Binding PinTileCommand}">
                 <SymbolIcon Symbol="Pin" />
             </Button>
             <Button Grid.Column="3" Click="CloseTileUrlInput">
@@ -272,7 +277,7 @@
                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
             <ScrollViewer VerticalScrollMode="Auto" Height="Auto" Margin="5,50,5,10" VerticalAlignment="Top"
                           VerticalScrollBarVisibility="Hidden">
-                <TextBlock x:Name="TxtSynopsis" TextWrapping="WrapWholeWords" VerticalAlignment="Stretch" />
+                <TextBlock Text="{Binding Synopsis}" TextWrapping="WrapWholeWords" VerticalAlignment="Stretch" />
             </ScrollViewer>
         </Grid>
     </Grid>

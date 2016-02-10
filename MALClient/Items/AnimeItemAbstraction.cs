@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
 
@@ -80,10 +81,25 @@ namespace MALClient.Items
             {
                 if (_loaded)
                     return _animeItem;
-
+                ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
                 return _animeItem;
             }
+        }
+
+        private AnimeItemViewModel _viewModel;
+
+        public AnimeItemViewModel ViewModel
+        {
+            get
+            {
+                if (_loaded)
+                    return _viewModel;
+                ViewModel = LoadElementModel();
+                _animeItem = LoadElement();
+                return _viewModel;
+            }
+            private set { _viewModel = value; }
         }
 
         public bool TryRetrieveVolatileData(bool force = false)
@@ -100,7 +116,7 @@ namespace MALClient.Items
         public void SetAuthStatus(bool status, bool eps)
         {
             if (_loaded)
-                AnimeItem.SetAuthStatus(status, eps);
+                ViewModel.SetAuthStatus(status, eps);
             else
             {
                 auth = status;
@@ -109,12 +125,17 @@ namespace MALClient.Items
         }
 
         //Load UIElement
+        private AnimeItemViewModel LoadElementModel()
+        {
+            return _firstConstructor
+                ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
+                : new AnimeItemViewModel(data, this);
+        }
+
         private AnimeItem LoadElement()
         {
             _loaded = true;
-            return _firstConstructor
-                ? new AnimeItem(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
-                : new AnimeItem(data, this);
+            return new AnimeItem(ViewModel);
         }
     }
 }

@@ -37,8 +37,20 @@ namespace MALClient.ViewModels
         private string _imgUrl;
         public ObservableCollection<ListViewItem> LeftDetailsRow => _loadedItems1; 
         public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
-        private ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
-        private ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
+        public ObservableCollection<ListViewItem> LeftGenres => _genres1;
+        public ObservableCollection<ListViewItem> RightGenres => _genres2; 
+        public ObservableCollection<ListViewItem> LeftEpisodes => _episodes1; 
+        public ObservableCollection<ListViewItem> RightEpisodes => _episodes2; 
+        public ObservableCollection<ListViewItem> OPs => _ops; 
+        public ObservableCollection<ListViewItem> EDs => _eds; 
+        private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _genres2 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _episodes1 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _episodes2 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _ops = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _eds = new ObservableCollection<ListViewItem>();
         private int _allEpisodes;
 
         private int Id { get; set; }
@@ -64,6 +76,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => Synopsis);
             }
         }
+
+        private List<string> _synonyms = new List<string>();
 
         private string StartDate { get; set; }
         private string EndDate { get; set; }
@@ -240,6 +254,17 @@ namespace MALClient.ViewModels
             {
                 _detailImage = value;
                 RaisePropertyChanged(() => DetailImage);
+            }
+        }
+
+        private Visibility _noEpisodesDataVisibility;
+        public Visibility NoEpisodesDataVisibility
+        {
+            get { return _noEpisodesDataVisibility; }
+            set
+            {
+                _noEpisodesDataVisibility = value;
+                RaisePropertyChanged(() => NoEpisodesDataVisibility);
             }
         }
 
@@ -433,7 +458,7 @@ namespace MALClient.ViewModels
                         BuildTextBlock(val1,FontWeights.SemiLight,1),
                     },
                 },
-                Background = new SolidColorBrush(alternate ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent),
+                Background = new SolidColorBrush(alternate ? Color.FromArgb(170, 230, 230, 230) : Color.FromArgb(255, 245, 245, 245)),
                 Height = 20
             };
         }
@@ -452,6 +477,7 @@ namespace MALClient.ViewModels
             return txt;
         }
 
+
         private void ExtractData(XElement animeElement)
         {
             GlobalScore = float.Parse(animeElement.Element("score").Value);
@@ -468,13 +494,18 @@ namespace MALClient.ViewModels
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
+            _synonyms = animeElement.Element("synonyms").Value.Split(',').ToList();
+            _synonyms.Add(animeElement.Element("english").Value);
+            _synonyms.Add(Title);
+            _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
             if (_animeItemReference == null)
                 AllEpisodes = Convert.ToInt32(animeElement.Element("episodes").Value);
             PopulateData();
         }
 
-        private async void FetchData(string id, string title)
+        private async Task FetchData(string id, string title)
         {
+            Loading = Visibility.Visible;
             var data = "";
             await Task.Run(async () => data = await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
             data = WebUtility.HtmlDecode(data);
@@ -485,6 +516,87 @@ namespace MALClient.ViewModels
             ExtractData(elements.First(element => element.Element("id").Value == id));
         }
 
+        public async void RefreshData()
+        {
+            await FetchData(Id.ToString(),Title);
+            if(_loadedDetails)
+                LoadDetails(true);
+        }
+
+        private bool _loadedDetails;
+        public async void LoadDetails(bool force = false)
+        {
+            _loadedDetails = true;
+            Loading = Visibility.Visible;
+            try
+            {
+                var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id).GetGeneralDetailsData(force);
+                _genres1.Clear();
+                _genres2.Clear();
+                _episodes1.Clear();
+                _episodes2.Clear();
+                _ops.Clear();
+                _eds.Clear();
+                int i = 1;
+                bool alternate1 = false, alternate2 = true;
+                foreach (var genre in data.Genres)
+                {
+                    if (i % 2 == 0)
+                    {
+                        _genres1.Add(BuildListViewItem(genre,"", alternate1, 1f, 0f));
+                        alternate1 = !alternate1;
+                    }
+                    else
+                    {
+                        _genres2.Add(BuildListViewItem(genre, "", alternate2, 1f, 0f));
+                        alternate2 = !alternate2;
+                    }
+                    i++;
+                }
+                i = 1;
+                alternate2 = true;
+                alternate1 = false;
+                foreach (var episode in data.Episodes)
+                {
+                    if (i%2 == 0)
+                    {
+                        _episodes1.Add(BuildListViewItem($"{i}.", episode, alternate1, 0.1f, 0.9f));
+                        alternate1 = !alternate1;
+                    }
+                    else
+                    {
+                        _episodes2.Add(BuildListViewItem($"{i}.", episode, alternate2, 0.1f, 0.9f));
+                        alternate2 = !alternate2;
+                    }
+                    i++;
+                }
+                i = 1;
+                alternate1 = true;
+                foreach (var op in data.OPs)
+                {
+                    _ops.Add(BuildListViewItem(op,"", alternate1, 1f, 0f));
+                    alternate1 = !alternate1;
+                    i++;
+                }
+                i = 1;
+                alternate1 = true;
+                foreach (var ed in data.EDs)
+                {
+                    _eds.Add(BuildListViewItem( ed,"", alternate1, 1f, 0f));
+                    alternate1 = !alternate1;
+                    i++;
+                }
+            }
+            catch (Exception)
+            {
+                //
+            }
+
+            Loading = Visibility.Collapsed;
+        }
+
         #endregion
+
+
     }
 }

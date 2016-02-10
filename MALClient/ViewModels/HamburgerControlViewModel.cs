@@ -25,28 +25,6 @@ namespace MALClient.ViewModels
         double GetScrollBurgerActualHeight();
     }
 
-    public class Parameter<T> : INotifyPropertyChanged //wrapper
-    {
-        private T _value;
-        public T Value //real value
-        {
-            get { return _value; }
-            set { _value = value; RaisePropertyChanged("Value"); }
-        }
-
-        public Parameter(T value)
-        {
-            Value = value;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
 
     public class HamburgerControlViewModel : ViewModelBase
     {
@@ -58,16 +36,19 @@ namespace MALClient.ViewModels
         public IHamburgerControlView View { get; set; }
 
 
-        public Dictionary<string, Parameter<Brush>> TxtForegroundBrushes { get; } = new Dictionary<string, Parameter<Brush>>
+        public Dictionary<string, Brush> TxtForegroundBrushes => _brushes;
+            
+            
+        private Dictionary<string, Brush> _brushes = new Dictionary<string, Brush>
         {
-            ["AnimeList"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["AnimeSearch"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["LogIn"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["Settings"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["Profile"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["Seasonal"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["About"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
-            ["Recommendations"] = new Parameter<Brush>(new SolidColorBrush(Colors.Black)),
+            ["AnimeList"] =  new SolidColorBrush(Colors.Black),
+            ["AnimeSearch"] =  new SolidColorBrush(Colors.Black),
+            ["LogIn"] =  new SolidColorBrush(Colors.Black),
+            ["Settings"] =  new SolidColorBrush(Colors.Black),
+            ["Profile"] =  new SolidColorBrush(Colors.Black),
+            ["Seasonal"] =  new SolidColorBrush(Colors.Black),
+            ["About"] =  new SolidColorBrush(Colors.Black),
+            ["Recommendations"] =  new SolidColorBrush(Colors.Black),
         };
 
         public RelayCommand PaneOpenedCommand { get; private set; }
@@ -210,16 +191,21 @@ namespace MALClient.ViewModels
 
         private void ResetActiveButton()
         {
-            foreach (var foregroundBrush in TxtForegroundBrushes)
-            {
-                foregroundBrush.Value.Value = new SolidColorBrush(Colors.Black);
-            }
+            _brushes["AnimeList"] = new SolidColorBrush(Colors.Black);
+            _brushes["AnimeSearch"] = new SolidColorBrush(Colors.Black);
+            _brushes["LogIn"] = new SolidColorBrush(Colors.Black);
+            _brushes["Settings"] = new SolidColorBrush(Colors.Black);
+            _brushes["Profile"] = new SolidColorBrush(Colors.Black);
+            _brushes["Seasonal"] = new SolidColorBrush(Colors.Black);
+            _brushes["About"] = new SolidColorBrush(Colors.Black);
+            _brushes["Recommendations"] = new SolidColorBrush(Colors.Black);
         }
 
         public void SetActiveButton(HamburgerButtons val)
         {
             ResetActiveButton();
-            TxtForegroundBrushes[val.ToString()].Value = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            _brushes[val.ToString()] = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            RaisePropertyChanged(() => TxtForegroundBrushes);
         }
     }
 }

@@ -45,7 +45,13 @@
                           Command="{Binding ToggleSearchCommand}"
                           Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
-            </ToggleButton>
+            </ToggleButton>            
+            <Button HorizontalAlignment="Right" 
+                          VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
+                          Command="{Binding RefreshDataCommand}"
+                          Visibility="{Binding RefreshButtonVisibility}">
+                <SymbolIcon Symbol="Refresh" />
+            </Button>
         </Grid>
         <SplitView x:Name="MainMenu" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="200"
                    IsPaneOpen="{Binding MenuPaneState}" DisplayMode="CompactOverlay" Grid.Row="1">

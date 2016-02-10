@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
 using MALClient.Items;
+using MALClient.Models;
 using Newtonsoft.Json;
 
 namespace MALClient
@@ -187,6 +188,50 @@ namespace MALClient
             }
         }
 
+        #endregion
+
+        #region AnimeDetailsData
+
+        public static async void SaveAnimeDetails(int id, AnimeGeneralDetailsData data)
+        {          
+            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+            await Task.Run(async () =>
+            {
+                var json =
+                    JsonConvert.SerializeObject(new Tuple<DateTime, AnimeGeneralDetailsData>(DateTime.UtcNow, data));
+                StorageFile file =
+                    await
+                        folder.CreateFileAsync($"{id}.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            }); 
+        }
+
+        public static async Task<AnimeGeneralDetailsData> RetrieveAnimeGeneralDetailsData(int id)
+        {
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                StorageFile file = await folder.GetFileAsync($"{id}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                Tuple<DateTime, AnimeGeneralDetailsData> tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, AnimeGeneralDetailsData>>(data);
+                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+        private static bool CheckForOldDataDetails(DateTime date)
+        {
+            TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(date);
+            if (diff.TotalDays > 7)
+                return false;
+            return true;
+        }
         #endregion
     }
 }

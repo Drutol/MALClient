@@ -32,14 +32,6 @@ namespace MALClient.ViewModels
 
         private readonly int _itemsPerPage = Utils.GetItemsPerPage();
 
-        private readonly List<Parameter<bool>> _sortsCheckStatuses = new List<Parameter<bool>>
-        {
-            new Parameter<bool>(true),
-            new Parameter<bool>(false),
-            new Parameter<bool>(false),
-            new Parameter<bool>(false),
-            new Parameter<bool>(false),
-        }; 
         private int _allPages;
 
 
@@ -64,7 +56,6 @@ namespace MALClient.ViewModels
         public string CurrentUpdateStatus => GetLastUpdatedStatus();         
         public string CurrentPageStatus => $"{_currentPage}/{_allPages}";
         public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
-        public List<Parameter<bool>> SortCheckStates => _sortsCheckStatuses;
 #region PropertyPairs
         private string _listSource;
         public string ListSource
@@ -415,23 +406,18 @@ namespace MALClient.ViewModels
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
-                    _sortsCheckStatuses[3].Value = true;
                     break;
                 case SortOptions.SortTitle:
                     SortOption = SortOptions.SortTitle;
-                    _sortsCheckStatuses[0].Value = true;
                     break;
                 case SortOptions.SortScore:
                     SortOption = SortOptions.SortScore;
-                    _sortsCheckStatuses[1].Value = true;
                     break;
                 case SortOptions.SortWatched:
                     SortOption = SortOptions.SortWatched;
-                    _sortsCheckStatuses[2].Value = true;
                     break;
                 case SortOptions.SortAirDay:
                     SortOption = SortOptions.SortAirDay;
-                    _sortsCheckStatuses[4].Value = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

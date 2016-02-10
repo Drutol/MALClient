@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.Comm;
 using MALClient.UserControls;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,13 +23,17 @@ namespace MALClient.Pages
             InitializeComponent();
             if (Creditentials.Authenticated)
                 BtnLogOff.Visibility = Visibility.Visible;
-            Utils.GetMainPageInstance()?
-                .SetStatus(Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In");
+            Utils.GetMainPageInstance()
+                .CurrentStatus = Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In";
         }
 
+        private bool _authenticating;
 
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
         {
+            if(_authenticating)
+                return;
+            _authenticating = true;
             Creditentials.Update(UserName.Text, UserPassword.Password);
             try
             {
@@ -38,11 +43,11 @@ namespace MALClient.Pages
                 XDocument doc = XDocument.Parse(response);
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
-                MainPage page = Utils.GetMainPageInstance();
-                page.LogIn();
-                await page.Navigate(PageIndex.PageAnimeList);
-                page.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
-                await page.Hamburger.UpdateProfileImg();
+                var hamburger = ViewModelLocator.Hamburger;
+                ViewModelLocator.AnimeList.LogIn();
+                await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+                hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                await hamburger.UpdateProfileImg();
             }
             catch (Exception)
             {
@@ -50,16 +55,17 @@ namespace MALClient.Pages
                 var msg = new MessageDialog("Unable to authorize with provided creditentials.");
                 await msg.ShowAsync();
             }
+            _authenticating = false;
         }
 
         private async void LogOut(object sender, RoutedEventArgs e)
         {
-            MainPage page = Utils.GetMainPageInstance();
+            var page = Utils.GetMainPageInstance();
             Creditentials.SetAuthStatus(false);
             Creditentials.Update("", "");
-            page.LogOut();
+            ViewModelLocator.AnimeList.LogOut();
             await page.Navigate(PageIndex.PageLogIn);
-            page.UpdateHamburger();
+            ViewModelLocator.Hamburger.UpdateProfileImg();
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)

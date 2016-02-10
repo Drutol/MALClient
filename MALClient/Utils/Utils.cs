@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
+using MALClient.ViewModels;
 
 namespace MALClient
 {
@@ -126,10 +127,9 @@ namespace MALClient
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
         }
 
-        public static MainPage GetMainPageInstance()
+        public static MainViewModel GetMainPageInstance()
         {
-            var frame = (Frame) Window.Current.Content;
-            return (MainPage) frame.Content;
+            return ViewModelLocator.Main;
         }
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
@@ -155,9 +155,9 @@ namespace MALClient
             return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
         }
 
-        public static AnimeListPage.SortOptions GetSortOrder()
+        public static SortOptions GetSortOrder()
         {
-            return (AnimeListPage.SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
+            return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
         }
 
         public static bool IsSortDescending()
@@ -205,8 +205,9 @@ namespace MALClient
                 StorageFile thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
-                byte[] response =
-                    await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg");
+                byte[] response = {};
+
+                await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
                     //get bytes
 
                 using (Stream fs = await thumb.OpenStreamForWriteAsync()) //get stream
@@ -220,11 +221,11 @@ namespace MALClient
                     }
                 }
 
-                await GetMainPageInstance().Hamburger.UpdateProfileImg(false);
+                await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
             {
-                await GetMainPageInstance().Hamburger.UpdateProfileImg(false);
+                await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }
         }
 
@@ -251,9 +252,9 @@ namespace MALClient
         private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
-            MainPage page = GetMainPageInstance();
+            var page = GetMainPageInstance();
             await page.Navigate(_pageTo, _args);
-            page.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
+            ViewModelLocator.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
         }
 
         public static void DeregisterBackNav()
@@ -264,7 +265,7 @@ namespace MALClient
             _args = null;
         }
 
-        private static HamburgerButtons GetButtonForPage(PageIndex page)
+        public static HamburgerButtons GetButtonForPage(PageIndex page)
         {
             switch (page)
             {
@@ -284,6 +285,8 @@ namespace MALClient
                     return HamburgerButtons.About;
                 case PageIndex.PageRecomendations:
                     return HamburgerButtons.Recommendations;
+                case PageIndex.PageSeasonal:
+                    return HamburgerButtons.Seasonal;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

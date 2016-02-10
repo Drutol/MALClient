@@ -7,10 +7,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
+    DataContext="{Binding Main ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
@@ -27,20 +29,26 @@
             </Grid.ColumnDefinitions>
             <Button HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                     Width="45" Height="45" Background="Transparent" FontSize="20"
-                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Click="ReversePane" />
-            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="" VerticalAlignment="Center"
+                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                    Command="{Binding ReversePaneCommand}" />
+            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
+                       VerticalAlignment="Center"
                        Visibility="{Binding ElementName=SearchInput , Path=Visibility , Converter={StaticResource VisiblityInverterConverter}}" />
             <TextBox x:Name="SearchInput" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                     Visibility="Collapsed" TextChanged="SearchQuerySubmitted" KeyDown="SearchInput_OnKeyDown"
+                     KeyDown="SearchInput_OnKeyDown"
+                     Text="{Binding CurrentSearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Visibility="{Binding SearchInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                      PlaceholderText="Search..." />
             <ToggleButton x:Name="SearchToggle" HorizontalAlignment="Right" IsThreeState="False"
                           VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
-                          Click="ReverseSearchInput">
+                          IsChecked="{Binding SearchToggleStatus}"
+                          Command="{Binding ToggleSearchCommand}"
+                          Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
             </ToggleButton>
         </Grid>
         <SplitView x:Name="MainMenu" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="200"
-                   IsPaneOpen="False" DisplayMode="CompactOverlay" Grid.Row="1">
+                   IsPaneOpen="{Binding MenuPaneState}" DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>
                 <controls:HamburgerControl x:Name="HamburgerControl" />
             </SplitView.Pane>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
 
@@ -16,14 +17,13 @@ namespace MALClient.Items
         private readonly SeasonalAnimeData data;
         private readonly int id;
         private readonly string img;
-        private readonly Dictionary<int, AnimeItemAbstraction> loaded;
         private readonly int myEps;
         private readonly int myScore;
         private readonly int myStatus;
         private readonly string name;
 
         private AnimeItem _animeItem;
-        private bool _loaded;
+        public bool Loaded;
         public int AirDay = -1;
         public int AllEpisodes;
 
@@ -63,11 +63,10 @@ namespace MALClient.Items
             Title = name;
         }
 
-        public AnimeItemAbstraction(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded)
+        public AnimeItemAbstraction(SeasonalAnimeData data)
             : this(data.Id)
         {
             this.data = data;
-            this.loaded = loaded;
 
             Title = data.Title;
             GlobalScore = data.Score;
@@ -80,12 +79,27 @@ namespace MALClient.Items
         {
             get
             {
-                if (_loaded)
+                if (Loaded)
                     return _animeItem;
-
+                ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
                 return _animeItem;
             }
+        }
+
+        private AnimeItemViewModel _viewModel;
+
+        public AnimeItemViewModel ViewModel
+        {
+            get
+            {
+                if (Loaded)
+                    return _viewModel;
+                ViewModel = LoadElementModel();
+                _animeItem = LoadElement();
+                return _viewModel;
+            }
+            private set { _viewModel = value; }
         }
 
         public bool TryRetrieveVolatileData(bool force = false)
@@ -101,8 +115,8 @@ namespace MALClient.Items
 
         public void SetAuthStatus(bool status, bool eps)
         {
-            if (_loaded)
-                AnimeItem.SetAuthStatus(status, eps);
+            if (Loaded)
+                ViewModel.SetAuthStatus(status, eps);
             else
             {
                 auth = status;
@@ -111,12 +125,17 @@ namespace MALClient.Items
         }
 
         //Load UIElement
+        private AnimeItemViewModel LoadElementModel()
+        {
+            return _firstConstructor
+                ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
+                : new AnimeItemViewModel(data, this);
+        }
+
         private AnimeItem LoadElement()
         {
-            _loaded = true;
-            return _firstConstructor
-                ? new AnimeItem(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
-                : new AnimeItem(data, loaded, this);
+            Loaded = true;
+            return new AnimeItem(ViewModel);
         }
     }
 }

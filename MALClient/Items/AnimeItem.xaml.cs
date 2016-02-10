@@ -19,272 +19,25 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeItem : UserControl, IAnimeData
+    public sealed partial class AnimeItem : UserControl , IAnimeItemInteractions
     {
-        private readonly string _imgUrl;
-        private bool _airing;
-        private int _allEpisodes;
-        //state fields
-        private bool _expandState;
-        private List<string> _genres = new List<string>();
-        private float _globalScore;
-        internal AnimeItemAbstraction _parentAbstraction;
-        private readonly bool _seasonalState;
-        //prop field pairs
-        private string _title;
 
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
-        private AnimeItem(string img, int id, AnimeItemAbstraction parent)
+        public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
-            _parentAbstraction = parent;
-            _imgUrl = img;
-            Id = id;
-            Img.Source = new BitmapImage(new Uri(_imgUrl));
-        }
+            vm.View = this;
+            DataContext = vm;      
+        }  
 
-        public AnimeItem(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore,
-            AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
-            //We are loading an item that IS on the list
-        {
-            //Assign fields
-            Id = id;
-            _allEpisodes = allEps;
-            Auth = auth;
-            //Assign properties
-            MyStatus = myStatus;
-            MyScore = myScore;
-            Title = name;
-            MyEpisodes = myEps;
-            BtnShowMore.Visibility = Visibility.Collapsed;
-
-            //We are not seasonal so it's already on list            
-            BtnAddToList.Visibility = Visibility.Collapsed;
-
-            SetAuthStatus(auth, setEpsAuth);
-            AdjustIncrementButtonsVisibility();
-            //There may be additional data available
-            GlobalScore = _parentAbstraction.GlobalScore;
-            if (_parentAbstraction.AirDay != -1)
-                Airing = true;
-        }
-
-        public AnimeItem(SeasonalAnimeData data, Dictionary<int, AnimeItemAbstraction> loaded,
-            AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
-            //We are loading an item that is NOT on the list and is seasonal
-        {
-            _seasonalState = true;
-            //Assign Fields
-            _parentAbstraction.MyEpisodes = 0; // We don't want to set TextBlock
-            //Assign properties
-            MyStatus = (int) AnimeStatus.AllOrAiring;
-            Title = data.Title;
-            MyScore = 0;
-            GlobalScore = data.Score;
-            int.TryParse(data.Episodes, out _allEpisodes);
-            if (data.Genres != null)
-                Genres = data.Genres;
-            //SeasonalMembers = data.Members;
-
-            //Custom controls setup
-            BtnWatchedEps.Content = $"{data.Episodes} Episodes";
-            Airing = true;
-            //Additional data from seasonal
-            TxtSynopsis.Text = data.Synopsis;
-            SymbolGlobalScore.Visibility = Visibility.Visible;
-
-            //We are not on the list so we cannot really do this
-            SetAuthStatus(false, true);
-            AdjustIncrementButtonsVisibility();
-
-            if (loaded == null)
-                return;
-            Task.Run(async () =>
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    AnimeItemAbstraction reference;
-                    if (!loaded.TryGetValue(Id, out reference)) return;
-                    _allEpisodes = reference.AllEpisodes;
-                    MyStatus = reference.MyStatus;
-                    MyScore = reference.MyScore;
-                    MyEpisodes = reference.MyEpisodes;
-
-                    SetAuthStatus(true);
-                    AdjustIncrementButtonsVisibility();
-                    AnimeUserCache dataCache = Utils.GetMainPageInstance().RetrieveLoadedAnime();
-                    dataCache.LoadedAnime.Remove(reference);
-                    dataCache.LoadedAnime.Add(_parentAbstraction);
-                });
-            });
-        }
-
-        public bool Airing
-        {
-            get { return _airing; }
-            set
-            {
-                if (_parentAbstraction.TryRetrieveVolatileData())
-                {
-                    TxtAiringDay.Text = Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
-                    TxtTitle.Margin = new Thickness(5, 3, 50, 0);
-                }
-                SymbolAiring.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-                _airing = value;
-            }
-        }
-
-        private List<string> Genres
-        {
-            get { return _genres; }
-            set
-            {
-                _genres = value;
-                foreach (var genre in value)
-                    TxtGenres.Text += genre + "    ";
-            }
-        }
-
-        public bool Auth { get; private set; }
-
-        public int MyStatus
-        {
-            get { return _parentAbstraction.MyStatus; }
-            set
-            {
-                _parentAbstraction.MyStatus = value;
-                BtnStatus.Content = Utils.StatusToString(value);
-            }
-        }
-
-        public int MyScore
-        {
-            get { return _parentAbstraction.MyScore; }
-            set
-            {
-                _parentAbstraction.MyScore = value;
-                BtnScore.Content = value > 0 ? $"{value}/10" : "Unranked";
-            }
-        }
-
-        public int MyEpisodes
-        {
-            get { return _parentAbstraction.MyEpisodes; }
-            set
-            {
-                _parentAbstraction.MyEpisodes = value;
-                BtnWatchedEps.Content = $"{value}/{(_allEpisodes == 0 ? "?" : _allEpisodes.ToString())}";
-            }
-        }
-
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                _title = value;
-                TxtTitle.Text = value;
-            }
-        }
-
-        public float GlobalScore
-        {
-            get { return _globalScore; }
-            set
-            {
-                if (value == 0)
-                    return;
-                _globalScore = value;
-                TxtGlobalSocore.Text = value.ToString();
-                SymbolGlobalScore.Visibility = Visibility.Visible;
-            }
-        }
-
-        //fields
-        public int Id { get; set; }
-        //props
-        //private int SeasonalMembers { get; set; } //TODO : Use this
-        public int AllEpisodes => _allEpisodes;
-
-        private async void AddThisToMyList(object sender, RoutedEventArgs e)
-        {
-            var response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
-            if (!response.Contains("Created"))
-                return;
-
-            MyScore = 0;
-            MyStatus = 6;
-            MyEpisodes = 0;
-
-
-            SetAuthStatus(true);
-            AdjustIncrementButtonsVisibility();
-            BtnAddToList.Visibility = Visibility.Collapsed;
-            Utils.GetMainPageInstance().AddAnimeEntry(Creditentials.UserName, _parentAbstraction);
-        }
-
-        private async void NavigateDetails(object sender, RoutedEventArgs e)
-        {
-            await Utils.GetMainPageInstance()
-                .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                        Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)) {Source = PageIndex.PageAnimeList}) ;
-        }
-
-        #region Utils/Helpers
-
-        /// <summary>
-        ///     Creates tile with series cover as background , leading to certain URI.
-        /// </summary>
-        /// <param name="targetUrl"></param>
-        public async void PinTile(string targetUrl)
-        {
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile thumb = await folder.CreateFileAsync($"{Id}.png", CreationCollisionOption.ReplaceExisting);
-
-            var http = new HttpClient();
-            byte[] response = await http.GetByteArrayAsync(_imgUrl); //get bytes
-
-            Stream fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-            using (var writer = new DataWriter(fs.AsOutputStream()))
-            {
-                writer.WriteBytes(response); //write
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-            }
-
-            if (!targetUrl.Contains("http"))
-                targetUrl = "http://" + targetUrl;
-            var til = new SecondaryTile($"{Id}", $"{Title}", targetUrl, new Uri($"ms-appdata:///local/{Id}.png"),
-                TileSize.Default);
-            Utils.RegisterTile(Id.ToString());
-            await til.RequestCreateAsync();
-        }
-
-        //Pinned with custom link.
-        private void PinTile(object sender, RoutedEventArgs e)
-        {
-            PinTile(TxtTileUrl.Text);
-            TileUrlInput.Visibility = Visibility.Collapsed;
-        }
-
-
-        /// <summary>
-        ///     Used by alternate row colors
-        /// </summary>
-        /// <param name="brush"></param>
-        public void Setbackground(SolidColorBrush brush)
-        {
-            Root.Background = brush;
-        }
-
-        //Synopsis stuff
+        private bool _expandState;
         private void ShowMore(object sender, RoutedEventArgs e)
         {
             if (!_expandState)
@@ -299,87 +52,24 @@ namespace MALClient.Items
             }
         }
 
-        public void SetAuthStatus(bool auth, bool eps = false)
+        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
-            Auth = auth;
-            if (auth)
-            {
-                BtnAddToList.Visibility = Visibility.Collapsed;
-                BtnStatus.Visibility = Visibility.Visible;
-                BtnScore.Visibility = Visibility.Visible;
-                BtnStatus.IsEnabled = true;
-                BtnScore.IsEnabled = true;
-                BtnWatchedEps.IsEnabled = true;
-            }
-            else
-            {
-                BtnAddToList.Visibility = _seasonalState && Creditentials.Authenticated
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                BtnStatus.IsEnabled = false;
-                BtnScore.IsEnabled = false;
-                BtnWatchedEps.IsEnabled = false;
-
-                if (eps)
-                {
-                    BtnWatchedEps.Content = $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
-                    BtnStatus.Visibility = Visibility.Collapsed;
-                    BtnScore.Visibility = Visibility.Collapsed;
-                }
-            }
-            AdjustIncrementButtonsVisibility();
+            if (e.Key == VirtualKey.Enter)
+                ViewModel.ChangeWatchedEps();
         }
-
-        private void AdjustIncrementButtonsVisibility()
-        {
-            if (!Auth || !Creditentials.Authenticated)
-            {
-                IncrementEps.Visibility = Visibility.Collapsed;
-                DecrementEps.Visibility = Visibility.Collapsed;
-                return;
-            }
-
-            if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-            {
-                IncrementEps.Visibility = Visibility.Collapsed;
-                DecrementEps.Visibility = Visibility.Visible;
-            }
-            else if (MyEpisodes == 0)
-            {
-                IncrementEps.Visibility = Visibility.Visible;
-                DecrementEps.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                IncrementEps.Visibility = Visibility.Visible;
-                DecrementEps.Visibility = Visibility.Visible;
-            }
-        }
-
-        #endregion
 
         #region Swipe
 
         private Point _initialPoint;
         private bool _manipulating;
 
-        /// <summary>
-        ///     When manipulation starts , saves initial point.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             _initialPoint = e.Position;
             _manipulating = true;
         }
 
-        /// <summary>
-        ///     Calculates distance , navigates to anime details if necessary
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (e.IsInertial && _manipulating)
             {
@@ -389,128 +79,13 @@ namespace MALClient.Items
                     e.Complete();
                     e.Handled = true;
                     _manipulating = false;
-                    await Utils.GetMainPageInstance() //If we are not authenticated msg box will appear.
-                        .Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                                Utils.GetMainPageInstance().GetCurrentListOrderParams(_seasonalState)) {Source = PageIndex.PageAnimeList});
+                    ViewModel.NavigateDetails();
                 }
             }
         }
 
         #endregion
-
-        #region AnimeUpdate
-
-        #region Watched
-
-        private async void IncrementWatchedEp(object sender, RoutedEventArgs e)
-        {
-            SpinnerLoading.Visibility = Visibility.Visible;
-
-            if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
-                MyStatus == (int) AnimeStatus.OnHold)
-                PromptForStatusChange((int) AnimeStatus.Watching);
-
-            MyEpisodes++;
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-            if (response != "Updated")
-                MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
-
-            if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                PromptForStatusChange((int) AnimeStatus.Completed);
-
-
-            AdjustIncrementButtonsVisibility();
-
-            SpinnerLoading.Visibility = Visibility.Collapsed;
-        }
-
-        private async void DecrementWatchedEp(object sender, RoutedEventArgs e)
-        {
-            SpinnerLoading.Visibility = Visibility.Visible;
-            MyEpisodes--;
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-            if (response != "Updated")
-                MyEpisodes++;
-
-            AdjustIncrementButtonsVisibility();
-
-            SpinnerLoading.Visibility = Visibility.Collapsed;
-        }
-
-        private async void ChangeWatchedEps(object sender, RoutedEventArgs e)
-        {
-            int watched;
-            if (!int.TryParse(TxtBoxWatchedEps.Text, out watched))
-            {
-                TxtWatchedInvalidInputNotice.Visibility = Visibility.Visible;
-                return;
-            }
-            if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
-            {
-                WatchedEpsFlyout.Hide();
-                SpinnerLoading.Visibility = Visibility.Visible;
-                TxtWatchedInvalidInputNotice.Visibility = Visibility.Collapsed;
-                var prevWatched = MyEpisodes;
-                MyEpisodes = watched;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-                if (response != "Updated")
-                    MyEpisodes = prevWatched;
-
-                if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                    PromptForStatusChange((int) AnimeStatus.Completed);
-
-                AdjustIncrementButtonsVisibility();
-
-
-                SpinnerLoading.Visibility = Visibility.Collapsed;
-                TxtBoxWatchedEps.Text = "";
-            }
-            else
-            {
-                TxtWatchedInvalidInputNotice.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Enter)
-                ChangeWatchedEps(null, null);
-        }
-
-        #endregion
-
-        private async void ChangeStatus(object sender, RoutedEventArgs e)
-        {
-            SpinnerLoading.Visibility = Visibility.Visible;
-            var item = sender as MenuFlyoutItem;
-            var myPrevStatus = MyStatus;
-            MyStatus = Utils.StatusToInt(item.Text);
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-            if (response != "Updated")
-                MyStatus = myPrevStatus;
-
-            if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
-                PromptForWatchedEpsChange(_allEpisodes);
-
-            SpinnerLoading.Visibility = Visibility.Collapsed;
-        }
-
-        private async void ChangeScore(object sender, RoutedEventArgs e)
-        {
-            SpinnerLoading.Visibility = Visibility.Visible;
-            var btn = sender as MenuFlyoutItem;
-            var myPrevScore = MyScore;
-            MyScore = int.Parse(btn.Text.Split('-').First());
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-            if (response != "Updated")
-                MyScore = myPrevScore;
-
-            SpinnerLoading.Visibility = Visibility.Collapsed;
-        }
-
-        #endregion
-
+       
         #region CustomTilePin
 
         private void TxtTileUrl_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -519,7 +94,7 @@ namespace MALClient.Items
             var txt = sender as TextBox;
             txt.IsEnabled = false; //reset input
             txt.IsEnabled = true;
-            PinTile(txt.Text);
+            ViewModel.PinTile();
             CloseTileUrlInput(null, null);
         }
 
@@ -527,61 +102,17 @@ namespace MALClient.Items
         {
             TxtTileUrl.Text = "";
             Utils.GetMainPageInstance().AnimeListScrollTo(this);
-            TileUrlInput.Visibility = Visibility.Visible;
+            ViewModel.TileUrlInputVisibility = true;
             TxtTileUrl.Focus(FocusState.Keyboard);
         }
 
         private void CloseTileUrlInput(object sender, RoutedEventArgs e)
         {
-            TileUrlInput.Visibility = Visibility.Collapsed;
+            ViewModel.TileUrlInputVisibility = false;
         }
 
         #endregion
 
-        #region Prompts
-
-        private async void PromptForStatusChange(int to)
-        {
-            if (MyStatus == to)
-                return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)}\nTo : {Utils.StatusToString(to)}",
-                "Would you like to change current status?");
-            var confirmation = false;
-            msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
-            msg.Commands.Add(new UICommand("No"));
-            await msg.ShowAsync();
-            if (confirmation)
-            {
-                var myPrevStatus = MyStatus;
-                MyStatus = to;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-                if (response != "Updated")
-                    MyStatus = myPrevStatus;
-            }
-        }
-
-        private async void PromptForWatchedEpsChange(int to)
-        {
-            if (MyEpisodes == to)
-                return;
-            var msg = new MessageDialog($"From : {MyEpisodes}\nTo : {to}",
-                "Would you like to change watched episodes value?");
-            var confirmation = false;
-            msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
-            msg.Commands.Add(new UICommand("No"));
-            await msg.ShowAsync();
-            if (confirmation)
-            {
-                var myPrevEps = MyEpisodes;
-                MyEpisodes = to;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
-                if (response != "Updated")
-                    MyStatus = myPrevEps;
-
-                AdjustIncrementButtonsVisibility();
-            }
-        }
-
-        #endregion
+        public Flyout WatchedFlyout => WatchedEpsFlyout;
     }
 }

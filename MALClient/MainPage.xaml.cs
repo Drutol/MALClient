@@ -14,6 +14,7 @@ using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
 using MALClient.UserControls;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,428 +23,43 @@ namespace MALClient
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page , IMainViewInteractions
     {
-        private readonly Dictionary<string, AnimeUserCache> _allAnimeItemsCache =
-            new Dictionary<string, AnimeUserCache>();
-        private List<RecomendationData> _recomendationDataCache = new List<RecomendationData>(); 
-        private bool _onSearchPage;
-        private Tuple<DateTime, ProfileData> _profileDataCache;
-        private bool? _searchStateBeforeNavigatingToSearch;
-        private List<AnimeItemAbstraction> _seasonalAnimeCache = new List<AnimeItemAbstraction>();
-        private bool _wasOnDetailsFromSearch;
-#pragma warning disable 4014
+        #pragma warning disable 4014
         public MainPage()
         {
             InitializeComponent();
             Utils.CheckTiles();
-            if (Creditentials.Authenticated)
-            {
-                Navigate(PageIndex.PageAnimeList);
-
-                HamburgerControl.SetActiveButton(HamburgerButtons.AnimeList);
-            }
-            else
-            {
-                SetStatus("Log In");
-                Navigate(PageIndex.PageLogIn);
-                HamburgerControl.SetActiveButton(HamburgerButtons.LogIn);
-            }
+            ViewModelLocator.Main.View = this;
         }
-#pragma warning restore 4014
-        public HamburgerControl Hamburger => HamburgerControl;
-
-        private void ReversePane()
-        {
-            MainMenu.IsPaneOpen = !MainMenu.IsPaneOpen;
-            if (MainMenu.IsPaneOpen)
-                HamburgerControl.PaneOpened();
-            //else            
-            //    HamburgerControl.PaneClosed();
-        }
-
-        internal async void UpdateHamburger()
-        {
-            await HamburgerControl.UpdateProfileImg();
-        }
-
-        public void AnimeListScrollTo(AnimeItem animeItem)
-        {
-            if (MainContent.Content is AnimeListPage)
-                ((AnimeListPage) MainContent.Content).ScrollTo(animeItem);
-        }
-
-        #region Navigation
-
-        internal async Task Navigate(PageIndex index, object args = null)
-        {
-            var wasOnSearchPage = _onSearchPage;
-            _onSearchPage = false;
-            MainMenu.IsPaneOpen = false;
-
-            if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
-            {
-                var msg = new MessageDialog("Log in first in order to access this page.");
-                await msg.ShowAsync();
-                return;
-            }
-
-            HamburgerControl.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
-
-            if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
-            {
-                SearchToggle.IsChecked = _searchStateBeforeNavigatingToSearch;
-                if (SearchToggle.IsChecked.Value)
-                    ShowSearchStuff();
-                else
-                {
-                    HideSearchStuff();
-                }
-            }
-            switch (index)
-            {
-                case PageIndex.PageAnimeList:
-                    ShowSearchStuff();
-                    if (wasOnSearchPage || _wasOnDetailsFromSearch)
-                    {
-                        _currSearchQuery = "";
-                        SearchInput.Text = "";
-                        _wasOnDetailsFromSearch = false;
-                        UnToggleSearchStuff();
-                    }
-                    await Task.Run(async () =>
-                    {
-                        await
-                            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                                () => { MainContent.Navigate(typeof (AnimeListPage), args); });
-                    });
-                    break;
-                case PageIndex.PageAnimeDetails:
-                    HideSearchStuff();
-                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).AnimeElement != null;
-                        //from search , details are passed instead of being downloaded once more
-                    MainContent.Navigate(typeof (AnimeDetailsPage), args);
-                    break;
-                case PageIndex.PageSettings:
-                    HideSearchStuff();
-                    MainContent.Navigate(typeof (SettingsPage));
-                    break;
-                case PageIndex.PageSearch:
-                    NavigateSearch(args != null);
-                    break;
-                case PageIndex.PageLogIn:
-                    HideSearchStuff();
-                    MainContent.Navigate(typeof (LogInPage));
-                    break;
-                case PageIndex.PageProfile:
-                    HideSearchStuff();
-                    await
-                        Task.Run(
-                            async () =>
-                            {
-                                await
-                                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                                        CoreDispatcherPriority.High,
-                                        () => { MainContent.Navigate(typeof (ProfilePage), RetrieveProfileData()); });
-                            });
-                    break;
-                case PageIndex.PageAbout:
-                    HideSearchStuff();
-                    SetStatus("About");
-                    MainContent.Navigate(typeof (AboutPage));
-                    break;
-                case PageIndex.PageRecomendations:
-                    HideSearchStuff();
-                    SetStatus("Recommendations");
-                    MainContent.Navigate(typeof(RecomendationsPage),args);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index), index, null);
-            }
-        }
-
-        internal AnimeListPageNavigationArgs GetCurrentListOrderParams(bool seasonal)
-        {
-            var page = MainContent.Content as AnimeListPage;
-            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
-                page.CurrentPage, seasonal, page.ListSource);
-        }
-
-
-        private void NavigateSearch(bool autoSearch = false)
-        {
-            _onSearchPage = true;
-            _currSearchQuery = SearchInput.Text;
-            _searchStateBeforeNavigatingToSearch = SearchToggle.IsChecked ?? false;
-            ShowSearchStuff();
-            ToggleSearchStuff();
-            if (!autoSearch)
-                SearchInput.Focus(FocusState.Keyboard);
-            MainContent.Navigate(typeof (AnimeSearchPage), autoSearch ? GetSearchQuery() : "");
-        }
-
-        #endregion
-
-        #region UIUtils
-
-        private void ReversePane(object sender, RoutedEventArgs e)
-        {
-            ReversePane();
-        }
-
-        public void SetStatus(string status)
-        {
-            CurrentStatus.Text = status;
-        }
-
-        private void ShowSearchStuff()
-        {
-            SearchToggle.Visibility = Visibility.Visible;
-            if ((bool) SearchToggle.IsChecked)
-                SearchInput.Visibility = Visibility.Visible;
-        }
-
-        private void HideSearchStuff()
-        {
-            SearchInput.Visibility = Visibility.Collapsed;
-            SearchToggle.Visibility = Visibility.Collapsed;
-        }
-
-        private void ToggleSearchStuff()
-        {
-            SearchInput.Visibility = Visibility.Visible;
-            SearchToggle.IsChecked = true;
-        }
-
-        private void UnToggleSearchStuff()
-        {
-            SearchInput.Visibility = Visibility.Collapsed;
-            SearchToggle.IsChecked = false;
-        }
-
-        #endregion
+        #pragma warning restore 4014
 
         #region Search
-
-        private string _currSearchQuery;
-
-        private void SearchQuerySubmitted(object o, TextChangedEventArgs textChangedEventArgs)
-        {
-            if (_onSearchPage) // we are on anime list
-                return;
-
-            var source = MainContent.Content as AnimeListPage;
-            _currSearchQuery = SearchInput.Text;
-            source.RefreshList(true);
-        }
-
-        internal string GetSearchQuery()
-        {
-            return _currSearchQuery;
-        }
-
         private void SearchInput_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (!_onSearchPage)
-                return;
-
             if ((e == null || e.Key == VirtualKey.Enter) && SearchInput.Text.Length >= 2)
             {
                 SearchInput.IsEnabled = false; //reset input
                 SearchInput.IsEnabled = true;
-                var source = MainContent.Content as AnimeSearchPage;
-                source.SubmitQuery(SearchInput.Text);
+                ViewModelLocator.Main.OnSearchInputSubmit();
             }
         }
-
-        private void ReverseSearchInput(object sender, RoutedEventArgs e)
-        {
-            var btn = sender as ToggleButton;
-            if (_onSearchPage)
-            {
-                btn.IsChecked = true;
-                SearchInput_OnKeyDown(null, null);
-                return;
-            }
-            if ((bool) btn.IsChecked)
-            {
-                SearchInput.Visibility = Visibility.Visible;
-                _currSearchQuery = SearchInput.Text;
-                if (!string.IsNullOrWhiteSpace(_currSearchQuery))
-                    SearchQuerySubmitted(null, null);
-            }
-            else
-            {
-                SearchInput.Visibility = Visibility.Collapsed;
-                _currSearchQuery = null;
-                var source = MainContent.Content as AnimeListPage;
-                source.RefreshList();
-            }
-        }
-
         #endregion
 
-        #region SmallDataCaching
 
-        public void SaveAnimeEntries(string source, List<AnimeItemAbstraction> items, DateTime updateTime)
+        public void Navigate(Type page, object args = null)
         {
-            _allAnimeItemsCache[source.ToLower()] = new AnimeUserCache
-            {
-                LoadedAnime = items,
-                LastUpdate = updateTime
-            };
-            var changedSomething = false;
-            foreach (AnimeItemAbstraction animeItemAbstraction in items)
-            {
-                if (animeItemAbstraction.MyEpisodes == animeItemAbstraction.AllEpisodes)
-                {
-                    changedSomething = true;
-                    DataCache.DeregisterVolatileData(animeItemAbstraction.Id);
-                }
-            }
-            if (changedSomething)
-                DataCache.SaveVolatileData();
+            MainContent.Navigate(page, args);
         }
 
-        public AnimeUserCache RetrieveLoadedAnime()
+        public object GetCurrentContent()
         {
-            if (!Creditentials.Authenticated)
-                return null;
-            AnimeUserCache data;
-            _allAnimeItemsCache.TryGetValue(Creditentials.UserName.ToLower(), out data);
-            return data;
+            return MainContent.Content;
         }
 
-        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference)
+        public void SearchInputFocus(FocusState state)
         {
-            if (!Creditentials.Authenticated)
-                return false;
-            try
-            {
-                reference =
-                    _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.First(
-                        abstraction => abstraction.Id == id).AnimeItem;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            SearchInput.Focus(state);
         }
-
-        public void RetrieveAnimeEntries(string source, out List<AnimeItemAbstraction> loadedItems, out DateTime time)
-        {
-            AnimeUserCache data;
-            _allAnimeItemsCache.TryGetValue(source.ToLower(), out data);
-            time = data?.LastUpdate ?? DateTime.Now;
-
-            loadedItems = data?.LoadedAnime ?? new List<AnimeItemAbstraction>();
-        }
-
-        public void AddAnimeEntry(string source, AnimeItemAbstraction item)
-        {
-            source = source.ToLower();
-            if (_allAnimeItemsCache[source] != null)
-            {
-                _allAnimeItemsCache[source].LoadedAnime.Add(item);
-            }
-        }
-
-        public void RemoveAnimeEntry(string source, AnimeItemAbstraction item)
-        {
-            source = source.ToLower();
-            if (_allAnimeItemsCache[source] != null)
-            {
-                _allAnimeItemsCache[source].LoadedAnime.Remove(item);
-            }
-        }
-
-        internal void PurgeUserCache(string source)
-        {
-            try
-            {
-                _allAnimeItemsCache[source.ToLower()].LoadedAnime.Clear();
-            }
-            catch (Exception)
-            {
-                //no entry here
-            }            
-        }
-
-        //Profile
-        public void SaveProfileData(ProfileData data)
-        {
-            _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now, data);
-        }
-
-        private ProfileData RetrieveProfileData()
-        {
-            if (_profileDataCache == null)
-                return null;
-            TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(_profileDataCache.Item1);
-            if (diff.TotalSeconds < 3600)
-                return _profileDataCache.Item2;
-            return null;
-        }
-
-        //Season
-        public void SaveSeasonData(List<AnimeItemAbstraction> data)
-        {
-            _seasonalAnimeCache = data;
-        }
-
-        public List<AnimeItemAbstraction> RetrieveSeasonData()
-        {
-            return _seasonalAnimeCache;
-        }
-
-        public void ClearAnimeItemsForSource(string userName)
-        {
-            _allAnimeItemsCache[userName.ToLower()].LoadedAnime.Clear();
-        }
-        //Recommendations
-        public void SaveRecommendationsData(List<RecomendationData> data)
-        {
-            _recomendationDataCache = data;
-        }
-
-        public List<RecomendationData> RetrieveRecommendationData()
-        {
-            return _recomendationDataCache;
-        }
-
-        #endregion
-
-        #region LogInOut
-
-        public void LogOut()
-        {
-            foreach (
-                AnimeItemAbstraction userCach in
-                    _allAnimeItemsCache.SelectMany(animeUserCach => animeUserCach.Value.LoadedAnime))
-            {
-                userCach.SetAuthStatus(false, true);
-            }
-            foreach (AnimeItemAbstraction animeItemAbstraction in _seasonalAnimeCache)
-            {
-                animeItemAbstraction.SetAuthStatus(false, true);
-            }
-        }
-
-        public void LogIn()
-        {
-            _seasonalAnimeCache.Clear();
-            try
-            {
-                _allAnimeItemsCache[Creditentials.UserName.ToLower()].LoadedAnime.Clear();
-                _allAnimeItemsCache[Creditentials.UserName.ToLower()] = null;
-            }
-            catch (Exception)
-            {
-                /* ignored */
-            }
-        }
-
-        #endregion
     }
 }

@@ -20,9 +20,9 @@ namespace MALClient.Comm
 
         public async Task<List<RecomendationData>> GetRecomendationsData()
         {
-            var possibleData = Utils.GetMainPageInstance().RetrieveRecommendationData();
-            if (possibleData.Count != 0)
-                return possibleData;
+           // var possibleData = Utils.GetMainPageInstance().RetrieveRecommendationData();
+           // if (possibleData.Count != 0)
+                //return possibleData;
             var output = new List<RecomendationData>();
             string raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
@@ -61,7 +61,7 @@ namespace MALClient.Comm
             }
 
 
-            Utils.GetMainPageInstance().SaveRecommendationsData(output);
+           // Utils.GetMainPageInstance().SaveRecommendationsData(output);
 
             return output;
         }

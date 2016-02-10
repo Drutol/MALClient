@@ -179,7 +179,16 @@
     <Compile Include="Utils\AnimeStatusEnum.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\Utils.cs" />
+    <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
+    <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\AnimeListViewModel.cs" />
+    <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RecommendationsViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
+    <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ namespace MALClient.Comm
 {
     internal class AnimeUpdateQuery : Query
     {
-        public AnimeUpdateQuery(AnimeItem item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore)
+        public AnimeUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore)
         {
         }
 

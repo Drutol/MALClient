@@ -14,8 +14,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Messaging;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,61 +28,31 @@ namespace MALClient.Pages
         public int Index;
     }
 
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class RecomendationsPage : Page
-    {
-        private readonly ObservableCollection<PivotItem> _recomendationItems = new ObservableCollection<PivotItem>();
-       
-
-        private bool _loaded;
-        private int _startItem = 0;
+    {      
 
         public RecomendationsPage()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            SpinnerLoading.Visibility = Visibility.Visible;
-            if (e.Parameter is RecommendationPageNavigationArgs)
-                _startItem = (e.Parameter as RecommendationPageNavigationArgs).Index;
-
-            FetchData();
-        }
-
-        private async void FetchData()
-        {          
-            PopulateData(await new AnimeRecomendationsQuery().GetRecomendationsData());
-        }
-
-        private void PopulateData(List<RecomendationData> data)
-        {
-            int i = 0;
-            foreach (var item in data)
-            {
-                var pivot = new PivotItem
-                {
-                    Header = new StackPanel
-                    {
-                        Children = { new TextBlock {Text = item.DependentTitle , FontSize = 18} , new TextBlock  { Text = item.RecommendationTitle , FontSize = 18} }
-                    },                   
-                    Content = new RecomendationItem(item,i++)
-                };
-                _recomendationItems.Add(pivot);
-            }
-            Pivot.ItemsSource = _recomendationItems;
-            Pivot.SelectedIndex = _startItem;       
-            SpinnerLoading.Visibility = Visibility.Collapsed;
-            _loaded = true;
-        }
-
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
             (args.Item.Content as RecomendationItem).PopulateData();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is RecommendationPageNavigationArgs)
+                (DataContext as RecommendationsViewModel).PivotItemIndex = (e.Parameter as RecommendationPageNavigationArgs).Index;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            DataContext = null;
         }
     }
 }

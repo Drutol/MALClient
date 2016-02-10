@@ -78,7 +78,7 @@ namespace MALClient.Pages
             else
                 PullData();
 
-            Utils.GetMainPageInstance()?.SetStatus($"{Creditentials.UserName} - Profile");
+            Utils.GetMainPageInstance().CurrentStatus = $"{Creditentials.UserName} - Profile";
 
             Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
 

@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 #pragma warning disable 4014
 
@@ -31,176 +32,28 @@ namespace MALClient.UserControls
         Recommendations
     }
 
-    public sealed partial class HamburgerControl : UserControl
+    public sealed partial class HamburgerControl : UserControl , IHamburgerControlView
     {
-        private bool? _prevState;
-        private int _stackPanelHeightSum = 325; //base value
-
-        private bool _subtractedHeightForButton = true;
+        private HamburgerControlViewModel _viewModel => (HamburgerControlViewModel)DataContext;
 
         public HamburgerControl()
         {
             InitializeComponent();
-            TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             Loaded += OnLoaded;
+            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
+            _viewModel.View = this;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (!Creditentials.Authenticated)
-                _stackPanelHeightSum = 325;
-            UpdateProfileImg();
+            _viewModel.UpdateProfileImg();
         }
 
         internal void PaneOpened()
         {
-            var val = Convert.ToInt32(ScrlBurger.ActualHeight);
-            GridSeparator.Height = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            GridBtmMargin.Height = GridSeparator.Height < 1 ? 50 : 0;
-        }
 
-        internal async Task UpdateProfileImg(bool dl = true)
-        {
-            if (Creditentials.Authenticated)
-            {
-                try
-                {
-                    StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
-                    BasicProperties props = await file.GetBasicPropertiesAsync();
-                    if (props.Size == 0)
-                        throw new FileNotFoundException();
-                    var bitmap = new BitmapImage();
-                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
-                    {
-                        bitmap.SetSource(fs);
-                    }
-                    ImgUser.Source = bitmap;
-                }
-                catch (FileNotFoundException)
-                {
-                    if (dl)
-                        Utils.DownloadProfileImg();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-
-                BtnProfile.Visibility = Visibility.Visible;
-                if (_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum += 35;
-                    _subtractedHeightForButton = false;
-                }
-            }
-            else
-            {
-                BtnProfile.Visibility = Visibility.Collapsed;
-                if (!_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum -= 35;
-                    _subtractedHeightForButton = true;
-                }
-            }
         }
-
-        private void BtnSettings_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageSettings);
-            SetActiveButton(HamburgerButtons.Settings);
-        }
-
-        private void BtnList_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageAnimeList);
-            SetActiveButton(HamburgerButtons.AnimeList);
-        }
-
-        private void BtnHistory_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageSearch);
-            SetActiveButton(HamburgerButtons.AnimeSearch);
-        }
-
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageLogIn);
-            SetActiveButton(HamburgerButtons.LogIn);
-        }
-
-        private void BtnProfile_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageProfile);
-            SetActiveButton(HamburgerButtons.Profile);
-        }
-
-        private void BtnSeasonal_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs());
-            SetActiveButton(HamburgerButtons.Seasonal);
-        }
-
-        private void ButtonAbout_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageAbout);
-            SetActiveButton(HamburgerButtons.About);
-        }
-
-        private void BtnRecom_Click(object sender, RoutedEventArgs e)
-        {
-            GetMainPageInstance().Navigate(PageIndex.PageRecomendations);
-            SetActiveButton(HamburgerButtons.Recommendations);
-        }
-
-        public void SetActiveButton(HamburgerButtons val)
-        {
-            ResetActiveButton();
-            switch (val)
-            {
-                case HamburgerButtons.AnimeList:
-                    TxtList.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.AnimeSearch:
-                    TxtSearch.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.LogIn:
-                    TxtLogin.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Settings:
-                    TxtSettings.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Profile:
-                    TxtProfile.Foreground = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Seasonal:
-                    TxtSeasonal.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.About:
-                    SymbolAbout.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                case HamburgerButtons.Recommendations:
-                    TxtRecom.Foreground =
-                        Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(val), val, null);
-            }
-        }
-
-        private void ResetActiveButton()
-        {
-            TxtSettings.Foreground = new SolidColorBrush(Colors.Black);
-            TxtSearch.Foreground = new SolidColorBrush(Colors.Black);
-            TxtList.Foreground = new SolidColorBrush(Colors.Black);
-            TxtLogin.Foreground = new SolidColorBrush(Colors.Black);
-            TxtProfile.Foreground = new SolidColorBrush(Colors.Black);
-            TxtSeasonal.Foreground = new SolidColorBrush(Colors.Black);
-            SymbolAbout.Foreground = new SolidColorBrush(Colors.Black);
-            TxtRecom.Foreground = new SolidColorBrush(Colors.Black);
-        }
+     
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -224,22 +77,9 @@ namespace MALClient.UserControls
             }
         }
 
-        public void ChangeBottomStackPanelMargin(bool up)
+        public double GetScrollBurgerActualHeight()
         {
-            if (up == _prevState)
-                return;
-
-            _prevState = up;
-
-            _stackPanelHeightSum += up ? 50 : -50;
+            return ScrlBurger.ActualHeight;
         }
-
-
-        private MainPage GetMainPageInstance()
-        {
-            return Utils.GetMainPageInstance();
-        }
-
-
     }
 }

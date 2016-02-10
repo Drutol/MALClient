@@ -9,6 +9,7 @@
         PageLogIn,
         PageProfile,
         PageAbout,
-        PageRecomendations
+        PageRecomendations,
+        PageSeasonal // it's the same as AnimeList
     }
 }

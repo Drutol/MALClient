@@ -10,7 +10,7 @@
     d:DesignWidth="400">
 
     <ScrollViewer>
-        <Grid Margin="3">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="130"/>
                 <ColumnDefinition Width="*"/>
@@ -79,9 +79,15 @@
                     <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5"/>
                 </StackPanel>
             </Grid>
-            <ProgressRing Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Column="0" Grid.Row="0" x:Name="SpinnerLoading"
-                      HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
-                      IsActive="True" Visibility="Collapsed" />
+            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="3" x:Name="SpinnerLoading">
+                <Grid.Background>
+                    <SolidColorBrush Color="LightGray" Opacity=".5"/>
+                </Grid.Background>
+                <ProgressRing
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                      IsActive="True" />
+            </Grid>
+            
         </Grid>
     </ScrollViewer>
 </UserControl>

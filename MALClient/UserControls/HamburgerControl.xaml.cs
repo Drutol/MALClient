@@ -40,13 +40,14 @@ namespace MALClient.UserControls
         {
             InitializeComponent();
             Loaded += OnLoaded;
-            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
-            _viewModel.View = this;
+
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             _viewModel.UpdateProfileImg();
+            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
+            _viewModel.View = this;
         }
 
         internal void PaneOpened()

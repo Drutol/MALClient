@@ -109,6 +109,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Comm\AnimeAddQuery.cs" />
+    <Compile Include="Comm\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\AnimeListParameters.cs" />
     <Compile Include="Comm\AnimeListQuery.cs" />
     <Compile Include="Comm\AnimeRecomendationsQuery.cs" />
@@ -131,12 +132,13 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
-    <Compile Include="Items\IAnimeData.cs" />
-    <Compile Include="Items\RecomendationData.cs" />
+    <Compile Include="Models\AnimeGeneralDetailsData.cs" />
+    <Compile Include="Models\IAnimeData.cs" />
+    <Compile Include="Models\RecomendationData.cs" />
     <Compile Include="Items\RecomendationItem.xaml.cs">
       <DependentUpon>RecomendationItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Items\SeasonalAnimeData.cs" />
+    <Compile Include="Models\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

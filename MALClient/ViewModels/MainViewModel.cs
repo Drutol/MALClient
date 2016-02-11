@@ -10,6 +10,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
@@ -155,7 +156,28 @@ namespace MALClient.ViewModels
                        (_toggleSearchCommand = new CommandHandler(ReverseSearchInput, true));
             }
         }
-#endregion
+
+        private ICommand _refreshDataCommand;
+        public ICommand RefreshDataCommand
+        {
+            get {
+                return _refreshDataCommand ??
+                       (_refreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData()));
+            }
+        }
+
+        private Visibility _refreshButtonVisibility;
+        public Visibility RefreshButtonVisibility
+        {
+            get { return _refreshButtonVisibility; }
+            set
+            {
+                _refreshButtonVisibility = value;
+                RaisePropertyChanged(() => RefreshButtonVisibility);
+            }
+        }
+
+        #endregion
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
@@ -169,6 +191,8 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
+
+            RefreshButtonVisibility = Visibility.Collapsed;
 
             if (index == PageIndex.PageSeasonal)
                 index = PageIndex.PageAnimeList;
@@ -199,6 +223,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     View.Navigate(typeof(AnimeDetailsPage), args);

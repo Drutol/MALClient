@@ -571,7 +571,7 @@ namespace MALClient.ViewModels
                 _eds.Clear();
                 AnnId = data.AnnId;
                 int i = 1;
-                bool alternate1 = false, alternate2 = true;
+                bool alternate1 = true, alternate2 = true;
                 foreach (var genre in data.Genres)
                 {
                     if (i % 2 == 0)

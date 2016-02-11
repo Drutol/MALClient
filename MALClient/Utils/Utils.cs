@@ -241,6 +241,31 @@ namespace MALClient
             return input.First().ToString().ToUpper() + input.Substring(1);
         }
 
+        public static async void PinTile(string targetUrl,int id,string imgUrl,string title)
+        {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile thumb = await folder.CreateFileAsync($"{id}.png", CreationCollisionOption.ReplaceExisting);
+
+            var http = new HttpClient();
+            byte[] response = await http.GetByteArrayAsync(imgUrl); //get bytes
+
+            Stream fs = await thumb.OpenStreamForWriteAsync(); //get stream
+
+            using (var writer = new DataWriter(fs.AsOutputStream()))
+            {
+                writer.WriteBytes(response); //write
+                await writer.StoreAsync();
+                await writer.FlushAsync();
+            }
+
+            if (!targetUrl.Contains("http"))
+                targetUrl = "http://" + targetUrl;
+            var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"),
+                TileSize.Default);
+            RegisterTile(id.ToString());
+            await til.RequestCreateAsync();
+        }
+
         #region BackNavigation
 
         private static PageIndex _pageTo;

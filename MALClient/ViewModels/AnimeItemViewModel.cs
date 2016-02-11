@@ -435,7 +435,7 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(PinTile));
+                return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(() => PinTile()));
             }
         }
 
@@ -503,35 +503,12 @@ namespace MALClient.ViewModels
 
         #region Utils/Helpers
 
-        public async void PinTile(string targetUrl)
-        {
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile thumb = await folder.CreateFileAsync($"{Id}.png", CreationCollisionOption.ReplaceExisting);
 
-            var http = new HttpClient();
-            byte[] response = await http.GetByteArrayAsync(_imgUrl); //get bytes
-
-            Stream fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-            using (var writer = new DataWriter(fs.AsOutputStream()))
-            {
-                writer.WriteBytes(response); //write
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-            }
-
-            if (!targetUrl.Contains("http"))
-                targetUrl = "http://" + targetUrl;
-            var til = new SecondaryTile($"{Id}", $"{Title}", targetUrl, new Uri($"ms-appdata:///local/{Id}.png"),
-                TileSize.Default);
-            Utils.RegisterTile(Id.ToString());
-            await til.RequestCreateAsync();
-        }
 
         //Pinned with custom link.
-        public void PinTile()
+        public void PinTile(string url = null)
         {
-            PinTile(TileUrlInput);
+            Utils.PinTile(url ?? TileUrlInput,Id,_imgUrl,Title);
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 

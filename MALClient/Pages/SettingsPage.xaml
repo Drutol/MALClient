@@ -44,6 +44,12 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
+                    <Button Margin="2" Click="RemoveAllAnimeDetails" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Delete" VerticalAlignment="Center"/>
+                            <TextBlock Text="Remove all anime details data." VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0"></TextBlock>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">

@@ -220,5 +220,20 @@ namespace MALClient.Pages
         {
             SliderItemsPerPage.Value = Utils.GetItemsPerPage();
         }
+
+        private async void RemoveAllAnimeDetails(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await (await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails")).DeleteAsync(
+                    StorageDeleteOption.PermanentDelete);
+
+                (sender as Button).IsEnabled = false;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
     }
 }

@@ -606,37 +606,39 @@ namespace MALClient.ViewModels
 
         private async Task FetchSeasonalData(bool force = false)
         {
-                Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
-                List<SeasonalAnimeData> data = new List<SeasonalAnimeData>();
-                await Task.Run(async () => data = await new AnimeSeasonalQuery().GetSeasonalAnime(force));
-                if (data == null)
+            Loading = true;
+            EmptyNoticeVisibility = false;
+            Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
+            List<SeasonalAnimeData> data = new List<SeasonalAnimeData>();
+            await Task.Run(async () => data = await new AnimeSeasonalQuery().GetSeasonalAnime(force));
+            if (data == null)
+            {
+                RefreshList();
+                Loading = false;
+                return;
+            }
+            _allLoadedSeasonalAnimeItems.Clear();
+            foreach (SeasonalAnimeData animeData in data)
+            {
+                DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
                 {
-                    RefreshList();
-                    Loading = false;
-                    return;
-                }
-                _allLoadedSeasonalAnimeItems.Clear();
-                foreach (SeasonalAnimeData animeData in data)
+                    DayOfAiring = animeData.AirDay,
+                    GlobalScore = animeData.Score
+                });
+                var abstraction = _allLoadedAnimeItems.FirstOrDefault(item => item.Id == animeData.Id);
+                if (abstraction == null)
+                    _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
+                else
                 {
-                    DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
-                    {
-                        DayOfAiring = animeData.AirDay,
-                        GlobalScore = animeData.Score
-                    });
-                    var abstraction = _allLoadedAnimeItems.FirstOrDefault(item => item.Id == animeData.Id);
-                    if (abstraction == null)
-                        _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
-                    else
-                    {
-                        abstraction.AirDay = animeData.AirDay;
-                        abstraction.GlobalScore = animeData.Score;
-                        abstraction.ViewModel.UpdateWithSeasonData(animeData);
-                        _allLoadedSeasonalAnimeItems.Add(abstraction);
-                    }
+                    abstraction.AirDay = animeData.AirDay;
+                    abstraction.GlobalScore = animeData.Score;
+                    abstraction.ViewModel.UpdateWithSeasonData(animeData);
+                    _allLoadedSeasonalAnimeItems.Add(abstraction);
                 }
-                DataCache.SaveVolatileData();            
+            }
+            DataCache.SaveVolatileData();
 
-            UpdateUpperStatus();           
+            UpdateUpperStatus();
             RefreshList();
             Loading = false;
         }

@@ -160,9 +160,11 @@ namespace MALClient.ViewModels
         private ICommand _refreshDataCommand;
         public ICommand RefreshDataCommand
         {
-            get {
-                return _refreshDataCommand ??
-                       (_refreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData()));
+            get { return _refreshDataCommand; }
+            private set
+            {
+                _refreshDataCommand = value;
+                RaisePropertyChanged(() => RefreshDataCommand);
             }
         }
 
@@ -224,6 +226,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     View.Navigate(typeof(AnimeDetailsPage), args);
@@ -250,6 +253,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
                     View.Navigate(typeof(RecomendationsPage), args);
                     break;

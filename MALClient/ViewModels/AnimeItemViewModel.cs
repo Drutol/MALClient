@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
@@ -66,16 +67,17 @@ namespace MALClient.ViewModels
             MyScore = myScore;
             Title = name;
             MyEpisodes = myEps;
-            ShowMoreVisibility = false;
+            ShowMoreVisibility = Visibility.Collapsed;
 
             //We are not seasonal so it's already on list            
-            AddToListVisibility = false;
+            AddToListVisibility = Visibility.Collapsed;
             SetAuthStatus(auth, setEpsAuth);
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
             GlobalScore = _parentAbstraction.GlobalScore;
             if (_parentAbstraction.AirDay != -1)
                 Airing = true;
+         
         }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
@@ -139,6 +141,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Orientation _incrementButtonsOrientation = Orientation.Horizontal;
+        public Orientation IncrementButtonsOrientation
+        {
+            get { return _incrementButtonsOrientation; }
+            set
+            {
+                _incrementButtonsOrientation = value;
+                RaisePropertyChanged(() => IncrementButtonsOrientation);
+            }
+        }
+
         public bool Auth { get; private set; }
 
         public string MyStatusBind => Utils.StatusToString(MyStatus);
@@ -149,6 +162,7 @@ namespace MALClient.ViewModels
             {
                 _parentAbstraction.MyStatus = value;
                 RaisePropertyChanged(() => MyStatusBind);
+                AdjustIncrementButtonsOrientation();
             }
         }
 
@@ -160,6 +174,7 @@ namespace MALClient.ViewModels
             {
                 _parentAbstraction.MyScore = value;
                 RaisePropertyChanged(() => MyScoreBind);
+                AdjustIncrementButtonsOrientation();
             }
         }
 
@@ -170,7 +185,7 @@ namespace MALClient.ViewModels
                 if(_seasonalState)
                     return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
 
-                return Auth || MyEpisodes != 0 ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+                return "Watched : " + (Auth || MyEpisodes != 0 ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes");
             }
         } 
         public int MyEpisodes
@@ -240,8 +255,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _addToListVisibility;
-        public bool AddToListVisibility
+        private Visibility _addToListVisibility;
+        public Visibility AddToListVisibility
         {
             get { return _addToListVisibility; }
             set
@@ -251,8 +266,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _incrementEpsVisibility;
-        public bool IncrementEpsVisibility
+        private Visibility _incrementEpsVisibility;
+        public Visibility IncrementEpsVisibility
         {
             get { return _incrementEpsVisibility; }
             set
@@ -262,8 +277,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _decrementEpsVisibility;
-        public bool DecrementEpsVisibility
+        private Visibility _decrementEpsVisibility;
+        public Visibility DecrementEpsVisibility
         {
             get { return _decrementEpsVisibility; }
             set
@@ -273,8 +288,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _showMoreVisiblity;
-        public bool ShowMoreVisibility
+        private Visibility _showMoreVisiblity;
+        public Visibility ShowMoreVisibility
         {
             get { return _showMoreVisiblity; }
             set
@@ -284,8 +299,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _updateButtonsVisibility = true;
-        public bool UpdateButtonsVisibility
+        private Visibility _updateButtonsVisibility;
+        public Visibility UpdateButtonsVisibility
         {
             get { return _updateButtonsVisibility; }
             set
@@ -295,8 +310,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _tileUrlInputVisibility;
-        public bool TileUrlInputVisibility
+        private Visibility _tileUrlInputVisibility = Visibility.Collapsed;
+        public Visibility TileUrlInputVisibility
         {
             get { return _tileUrlInputVisibility; }
             set
@@ -328,8 +343,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _watchedEpsInputNoticeVisibility;
-        public bool WatchedEpsInputNoticeVisibility
+        private Visibility _watchedEpsInputNoticeVisibility = Visibility.Collapsed;
+        public Visibility WatchedEpsInputNoticeVisibility
         {
             get { return _watchedEpsInputNoticeVisibility; }
             set
@@ -339,7 +354,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Brush _rootBrush;
+        private Brush _rootBrush = new SolidColorBrush(Colors.WhiteSmoke);
         public Brush RootBrush
         {
             get { return _rootBrush; }
@@ -350,8 +365,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _loadingUpdate;
-        public bool LoadingUpdate
+        private Visibility _loadingUpdate = Visibility.Collapsed;
+        public Visibility LoadingUpdate
         {
             get { return _loadingUpdate; }
             set
@@ -456,7 +471,7 @@ namespace MALClient.ViewModels
             Airing = true;
             if (!Auth)
             {
-                UpdateButtonsVisibility = false;
+                UpdateButtonsVisibility = Visibility.Collapsed;
                 _seasonalState = true;
             }
             RaisePropertyChanged(() => MyEpisodesBind);
@@ -482,7 +497,7 @@ namespace MALClient.ViewModels
             
             
             AdjustIncrementButtonsVisibility();
-            AddToListVisibility = false;
+            AddToListVisibility = Visibility.Collapsed;
             ViewModelLocator.AnimeList.AddAnimeEntry(_parentAbstraction);
         }
 
@@ -517,7 +532,7 @@ namespace MALClient.ViewModels
         public void PinTile()
         {
             PinTile(TileUrlInput);
-            TileUrlInputVisibility = false;
+            TileUrlInputVisibility = Visibility.Collapsed;
         }
 
 
@@ -537,19 +552,19 @@ namespace MALClient.ViewModels
             Auth = auth;
             if (auth)
             {
-                AddToListVisibility = false;
-                UpdateButtonsVisibility = true;
+                AddToListVisibility = Visibility.Collapsed;
+                UpdateButtonsVisibility = Visibility.Visible;
                 UpdateButtonsEnableState = true;
             }
             else
             {
-                AddToListVisibility = _seasonalState && Creditentials.Authenticated;
+                AddToListVisibility = _seasonalState && Creditentials.Authenticated ? Visibility.Visible : Visibility.Collapsed;
                 UpdateButtonsEnableState = false;
 
                 if (eps)
                 {
                     RaisePropertyChanged(() => MyEpisodesBind);
-                    UpdateButtonsVisibility = false;
+                    UpdateButtonsVisibility = Visibility.Collapsed;
                 }
             }
             AdjustIncrementButtonsVisibility();
@@ -557,27 +572,38 @@ namespace MALClient.ViewModels
 
         private void AdjustIncrementButtonsVisibility()
         {
-            if (!Auth || !Creditentials.Authenticated)
+            if (!Auth || !Creditentials.Authenticated || MyStatus == (int)AnimeStatus.PlanToWatch)
             {
-                IncrementEpsVisibility = false;
-                DecrementEpsVisibility = false;
+                IncrementEpsVisibility = Visibility.Collapsed;
+                DecrementEpsVisibility = Visibility.Collapsed;
                 return;
             }
 
             if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
             {
-                IncrementEpsVisibility = false;
-                DecrementEpsVisibility = true;
+                IncrementEpsVisibility = Visibility.Collapsed;
+                DecrementEpsVisibility = Visibility.Visible;
             }
             else if (MyEpisodes == 0)
             {
-                IncrementEpsVisibility = true;
-                DecrementEpsVisibility = false;
+                IncrementEpsVisibility = Visibility.Visible;
+                DecrementEpsVisibility = Visibility.Collapsed;
             }
             else
             {
-                IncrementEpsVisibility = true;
-                DecrementEpsVisibility = true;
+                IncrementEpsVisibility = Visibility.Visible;
+                DecrementEpsVisibility = Visibility.Visible;
+            }
+
+        }
+
+        private void AdjustIncrementButtonsOrientation()
+        {
+            //Too wide update buttons
+            if (MyScore == 0)
+            {
+                if(MyStatus == (int)AnimeStatus.Dropped || MyStatus == (int)AnimeStatus.Completed)
+                    IncrementButtonsOrientation = Orientation.Vertical;
             }
         }
 
@@ -589,7 +615,7 @@ namespace MALClient.ViewModels
 
         private async void IncrementWatchedEp()
         {
-            LoadingUpdate = true;
+            LoadingUpdate = Visibility.Visible;
 
             if (MyStatus == (int)AnimeStatus.PlanToWatch || MyStatus == (int)AnimeStatus.Dropped ||
                 MyStatus == (int)AnimeStatus.OnHold)
@@ -606,12 +632,12 @@ namespace MALClient.ViewModels
 
             AdjustIncrementButtonsVisibility();
 
-            LoadingUpdate = false;
+            LoadingUpdate = Visibility.Collapsed;
         }
 
         private async void DecrementWatchedEp()
         {
-            LoadingUpdate = true;
+            LoadingUpdate = Visibility.Visible;
             MyEpisodes--;
             var response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response != "Updated")
@@ -619,7 +645,7 @@ namespace MALClient.ViewModels
 
             AdjustIncrementButtonsVisibility();
 
-            LoadingUpdate = false;
+            LoadingUpdate = Visibility.Collapsed;
         }
 
         public async void ChangeWatchedEps()
@@ -627,14 +653,14 @@ namespace MALClient.ViewModels
             int watched;
             if (!int.TryParse(WatchedEpsInput, out watched))
             {
-                WatchedEpsInputNoticeVisibility = true;
+                WatchedEpsInputNoticeVisibility = Visibility.Visible;
                 return;
             }
             if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
             {
                 View.WatchedFlyout.Hide();
-                LoadingUpdate = true;
-                WatchedEpsInputNoticeVisibility = false;
+                LoadingUpdate = Visibility.Visible;
+                WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;
                 MyEpisodes = watched;
                 var response = await new AnimeUpdateQuery(this).GetRequestResponse();
@@ -647,12 +673,12 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsVisibility();
 
 
-                LoadingUpdate = false;
+                LoadingUpdate = Visibility.Collapsed;
                 WatchedEpsInput = "";
             }
             else
             {
-                WatchedEpsInputNoticeVisibility = true;
+                WatchedEpsInputNoticeVisibility = Visibility.Visible;
             }
         }
 
@@ -662,7 +688,7 @@ namespace MALClient.ViewModels
 
         private async void ChangeStatus(object status)
         {
-            LoadingUpdate = true;
+            LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
             var response = await new AnimeUpdateQuery(this).GetRequestResponse();
@@ -672,19 +698,19 @@ namespace MALClient.ViewModels
             if (MyStatus == (int)AnimeStatus.Completed && _allEpisodes != 0)
                 PromptForWatchedEpsChange(_allEpisodes);
 
-            LoadingUpdate = false;
+            LoadingUpdate = Visibility.Collapsed;
         }
 
         private async void ChangeScore(object score)
         {
-            LoadingUpdate = true;
+            LoadingUpdate = Visibility.Visible;
             var myPrevScore = MyScore;
             MyScore = Convert.ToInt32(score);
             var response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response != "Updated")
                 MyScore = myPrevScore;
 
-            LoadingUpdate = false;
+            LoadingUpdate = Visibility.Collapsed;
         }
 
         #endregion

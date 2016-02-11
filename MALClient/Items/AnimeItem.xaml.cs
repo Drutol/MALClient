@@ -102,13 +102,13 @@ namespace MALClient.Items
         {
             TxtTileUrl.Text = "";
             Utils.GetMainPageInstance().AnimeListScrollTo(this);
-            ViewModel.TileUrlInputVisibility = true;
+            ViewModel.TileUrlInputVisibility = Visibility.Visible;
             TxtTileUrl.Focus(FocusState.Keyboard);
         }
 
         private void CloseTileUrlInput(object sender, RoutedEventArgs e)
         {
-            ViewModel.TileUrlInputVisibility = false;
+            ViewModel.TileUrlInputVisibility = Visibility.Collapsed;
         }
 
         #endregion

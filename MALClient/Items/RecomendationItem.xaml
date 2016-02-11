@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="130"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="250"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -28,7 +28,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Image x:Name="DepImg" Height="170" Stretch="UniformToFill"/>
-                <TextBlock x:Name="TxtDepTitle" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
+                <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
                 <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonDependentDetails_OnClick">
                     <Button.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
@@ -50,7 +50,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Image x:Name="RecImg" Height="170" Stretch="UniformToFill"/>
-                <TextBlock x:Name="TxtRecTitle" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
+                <TextBlock x:Name="TxtRecTitle" IsTextSelectionEnabled="True" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
                 <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonRecomDetails_OnClick">
                     <Button.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>

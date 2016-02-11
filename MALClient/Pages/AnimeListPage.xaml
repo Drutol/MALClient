@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
+    xmlns:item="using:MALClient.Items"
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -86,7 +87,7 @@
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <ListView x:Name="Animes" SelectionMode="Single" IsSwipeEnabled="True"
                   SelectionChanged="Animes_OnSelectionChanged" ItemsSource="{Binding AnimeItems}">
             <ListView.Header>
@@ -118,6 +119,10 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0,5" />
+                    <Setter Property="Margin" Value="0,5" />
+                    <!--<Setter Property="BorderBrush" Value="{StaticResource SystemControlDisabledAccentBrush}"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>-->
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Footer>

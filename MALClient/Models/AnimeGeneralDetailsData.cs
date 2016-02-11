@@ -12,5 +12,6 @@ namespace MALClient.Models
         public List<string> Genres;
         public List<string> OPs;
         public List<string> EDs;
+        public string AnnId;
     }
 }

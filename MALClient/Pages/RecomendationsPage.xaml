@@ -324,7 +324,11 @@
 
     <Grid Background="{StaticResource AppBarBackgroundThemeBrush}">
         <Pivot x:Name="Pivot" Style="{StaticResource CustomPivotStyle}"  ItemsSource="{Binding RecommendationItems}" SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
-            
+            <Pivot.Resources>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Margin" Value="0,5,0,0"></Setter>
+                </Style>
+            </Pivot.Resources>
         </Pivot>
         <ProgressRing x:Name="SpinnerLoading"
                       HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="150"

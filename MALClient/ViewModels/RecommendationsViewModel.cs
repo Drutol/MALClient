@@ -16,14 +16,10 @@ namespace MALClient.ViewModels
 {
     public class RecommendationsViewModel : ViewModelBase
     {
-        private ObservableCollection<PivotItem> _recomendationItems = new ObservableCollection<PivotItem>();
+        private readonly ObservableCollection<PivotItem> _recomendationItems = new ObservableCollection<PivotItem>();
         public ObservableCollection<PivotItem> RecommendationItems
         {
             get { return _recomendationItems; }
-            set
-            {
-                _recomendationItems = value;                
-            }
         }
 
         private bool _loading = true;
@@ -54,10 +50,12 @@ namespace MALClient.ViewModels
             PopulateData();
         }
 
-        private async void PopulateData()
+        public async void PopulateData()
         {
+            Loading = true;
             List<RecomendationData> data = new List<RecomendationData>();
             await Task.Run(async () => data = await new AnimeRecomendationsQuery().GetRecomendationsData());
+            _recomendationItems.Clear();
             int i = 0;
             foreach (var item in data)
             {

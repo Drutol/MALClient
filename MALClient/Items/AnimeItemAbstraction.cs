@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
@@ -81,10 +82,16 @@ namespace MALClient.Items
             {
                 if (Loaded)
                     return _animeItem;
-                ViewModel = LoadElementModel();
+
+                ViewModel = LoadElementModel();               
                 _animeItem = LoadElement();
                 return _animeItem;
             }
+        }
+
+        private void Load()
+        {
+            
         }
 
         private AnimeItemViewModel _viewModel;

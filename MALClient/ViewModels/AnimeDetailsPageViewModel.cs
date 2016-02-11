@@ -39,20 +39,19 @@ namespace MALClient.ViewModels
         public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
         public ObservableCollection<ListViewItem> LeftGenres => _genres1;
         public ObservableCollection<ListViewItem> RightGenres => _genres2; 
-        public ObservableCollection<ListViewItem> LeftEpisodes => _episodes1; 
-        public ObservableCollection<ListViewItem> RightEpisodes => _episodes2; 
+        public ObservableCollection<ListViewItem> Episodes => _episodes; 
         public ObservableCollection<ListViewItem> OPs => _ops; 
         public ObservableCollection<ListViewItem> EDs => _eds; 
         private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _genres2 = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _episodes1 = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _episodes2 = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<ListViewItem> _episodes = new ObservableCollection<ListViewItem>();     
         private readonly ObservableCollection<ListViewItem> _ops = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _eds = new ObservableCollection<ListViewItem>();
         private int _allEpisodes;
 
+        private string AnnId { get; set; }
         private int Id { get; set; }
         private string Title { get; set; }
 
@@ -147,6 +146,17 @@ namespace MALClient.ViewModels
             {
                 _loading = value;
                 RaisePropertyChanged(() => Loading);
+            }
+        }
+
+        private Visibility _detailedDataVisibility;
+        public Visibility DetailedDataVisibility
+        {
+            get { return _detailedDataVisibility; }
+            set
+            {
+                _detailedDataVisibility = value;
+                RaisePropertyChanged(() => DetailedDataVisibility);
             }
         }
 
@@ -246,6 +256,15 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _openInAnnCommand;
+        public ICommand OpenInAnnCommand
+        {
+            get
+            {
+                return _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage));
+            }
+        }
+
         private BitmapImage _detailImage;
         public BitmapImage DetailImage
         {
@@ -318,6 +337,11 @@ namespace MALClient.ViewModels
             await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/anime/{Id}"));
         }
 
+        private async void OpenAnnPage()
+        {
+            await Launcher.LaunchUriAsync(new Uri($"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={AnnId}"));
+        }
+
         #region ChangeStuff
 
         private async void ChangeStatus(object status)
@@ -353,12 +377,21 @@ namespace MALClient.ViewModels
                 LoadingUpdate = false;
                 return;
             }
-            var response = await new AnimeUpdateQuery(Id, eps, MyStatus, MyScore).GetRequestResponse();
-            if (response == "Updated")
+            if (eps >= 0 && (AllEpisodes == 0 || eps <= AllEpisodes))
             {
-                MyEpisodes = eps;
                 View.GetWatchedEpsFlyout().Hide();
                 WatchedEpsInputNoticeVisibility = false;
+                var prevWatched = MyEpisodes;
+                MyEpisodes = eps;
+                var response = await new AnimeUpdateQuery(Id,MyEpisodes,MyStatus,MyScore).GetRequestResponse();
+                if (response != "Updated")
+                    MyEpisodes = prevWatched;
+
+                WatchedEpsInput = "";
+            }
+            else
+            {
+                WatchedEpsInputNoticeVisibility = true;
             }
             LoadingUpdate = false;
         }
@@ -454,7 +487,7 @@ namespace MALClient.ViewModels
                     },
                     Children =
                     {
-                        BuildTextBlock(label,FontWeights.SemiBold,0),
+                        BuildTextBlock(label,val1 == "" ? FontWeights.SemiLight :FontWeights.SemiBold,0),
                         BuildTextBlock(val1,FontWeights.SemiLight,1),
                     },
                 },
@@ -533,42 +566,32 @@ namespace MALClient.ViewModels
                 var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id).GetGeneralDetailsData(force);
                 _genres1.Clear();
                 _genres2.Clear();
-                _episodes1.Clear();
-                _episodes2.Clear();
+                _episodes.Clear();
                 _ops.Clear();
                 _eds.Clear();
+                AnnId = data.AnnId;
                 int i = 1;
                 bool alternate1 = false, alternate2 = true;
                 foreach (var genre in data.Genres)
                 {
                     if (i % 2 == 0)
                     {
-                        _genres1.Add(BuildListViewItem(genre,"", alternate1, 1f, 0f));
+                        _genres1.Add(BuildListViewItem(Utils.FirstCharToUpper(genre),"", alternate1, 1f, 0f));
                         alternate1 = !alternate1;
                     }
                     else
                     {
-                        _genres2.Add(BuildListViewItem(genre, "", alternate2, 1f, 0f));
+                        _genres2.Add(BuildListViewItem(Utils.FirstCharToUpper(genre), "", alternate2, 1f, 0f));
                         alternate2 = !alternate2;
                     }
                     i++;
                 }
                 i = 1;
-                alternate2 = true;
                 alternate1 = false;
                 foreach (var episode in data.Episodes)
                 {
-                    if (i%2 == 0)
-                    {
-                        _episodes1.Add(BuildListViewItem($"{i}.", episode, alternate1, 0.1f, 0.9f));
+                        _episodes.Add(BuildListViewItem($"{i++}.", episode, alternate1, 0.1f, 0.9f));
                         alternate1 = !alternate1;
-                    }
-                    else
-                    {
-                        _episodes2.Add(BuildListViewItem($"{i}.", episode, alternate2, 0.1f, 0.9f));
-                        alternate2 = !alternate2;
-                    }
-                    i++;
                 }
                 i = 1;
                 alternate1 = true;
@@ -586,12 +609,14 @@ namespace MALClient.ViewModels
                     alternate1 = !alternate1;
                     i++;
                 }
+                NoEpisodesDataVisibility = _episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                DetailedDataVisibility = Visibility.Visible;
             }
             catch (Exception)
             {
-                //
+                DetailedDataVisibility = Visibility.Collapsed;
             }
-
+            
             Loading = Visibility.Collapsed;
         }
 

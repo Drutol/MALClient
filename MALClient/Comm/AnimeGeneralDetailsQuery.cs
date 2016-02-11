@@ -37,6 +37,7 @@ namespace MALClient.Comm
 
             var output = new AnimeGeneralDetailsData
             {
+                AnnId = node.Attribute("id").Value,
                 Genres = node.Elements("info").Where(element => element.Attribute("type").Value == "Genres").Select( element => element.Value).ToList(),
                 Episodes = node.Elements("episode").Select(element => element.Value).ToList(),
                 OPs = node.Elements("info").Where(element => element.Attribute("type").Value == "Opening Theme").Select(element => element.Value).ToList(),

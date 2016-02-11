@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -233,6 +234,11 @@ namespace MALClient
         {
             var index = title.IndexOf('+');
             return index == -1 ? title : title.Substring(0, index);
+        }
+
+        public static string FirstCharToUpper(string input)
+        {
+            return input.First().ToString().ToUpper() + input.Substring(1);
         }
 
         #region BackNavigation

@@ -46,7 +46,6 @@ namespace MALClient
         }
         #endregion
 
-
         public void Navigate(Type page, object args = null)
         {
             MainContent.Navigate(page, args);

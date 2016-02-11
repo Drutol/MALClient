@@ -12,23 +12,23 @@
     <ScrollViewer>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!--LeftTop-->
-            <Grid Grid.Column="0" Grid.Row="0">
+            <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="170"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="DepImg" Height="170" Stretch="UniformToFill"/>
-                <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
+                <Image x:Name="DepImg" Height="170" Stretch="Uniform"/>
                 <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonDependentDetails_OnClick">
                     <Button.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
@@ -44,13 +44,12 @@
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
             <!--RightTop-->
-            <Grid Grid.Column="2" Grid.Row="0">
+            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="170"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="RecImg" Height="170" Stretch="UniformToFill"/>
-                <TextBlock x:Name="TxtRecTitle" IsTextSelectionEnabled="True" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWholeWords" Margin="0,10,0,0"/>
+                <Image x:Name="RecImg" Height="170" Stretch="Uniform" />
                 <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonRecomDetails_OnClick">
                     <Button.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
@@ -58,8 +57,16 @@
                     <SymbolIcon Symbol="More" Foreground="White"/>
                 </Button>
             </Grid>
+            <Grid Grid.ColumnSpan="3" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".5*"/>
+                    <ColumnDefinition Width=".5*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
+                <TextBlock Grid.Column="1" x:Name="TxtRecTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
+            </Grid>
             <!--Details-->
-            <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" >
+            <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0" >
                 <StackPanel>
                     <MenuFlyoutSeparator/>
                     <ListView x:Name="DetailsListView" SelectionMode="None">
@@ -72,16 +79,16 @@
                 </StackPanel>
             </Grid>
             <!--Description-->
-            <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" >
+            <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" >
                 <StackPanel>
                     <MenuFlyoutSeparator/>
                     <TextBlock Text="Recommendtion description" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5"/>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="3" x:Name="SpinnerLoading">
+            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" x:Name="SpinnerLoading">
                 <Grid.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".5"/>
+                    <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
                 </Grid.Background>
                 <ProgressRing
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"

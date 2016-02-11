@@ -188,9 +188,9 @@ namespace MALClient.ViewModels
                     return;
 
                 _statusSelectorSelectedIndex = value;
+                RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 Loading = true;
                 RefreshList();
-                RaisePropertyChanged(() => StatusSelectorSelectedIndex);
             }
         }
 
@@ -469,76 +469,74 @@ namespace MALClient.ViewModels
         }
         #endregion
 
-        public async void RefreshList(bool searchSource = false)
+        public void RefreshList(bool searchSource = false)
         {
-            IEnumerable<AnimeItemAbstraction> items = new List<AnimeItemAbstraction>();
-            await Task.Run(() =>
-             {
-                 var query = ViewModelLocator.Main.CurrentSearchQuery;
-                 var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
-                 if (!_wasPreviousQuery && searchSource && !queryCondition)
-                    // refresh was requested from search but there's nothing to update
-                    return;
+            var query = ViewModelLocator.Main.CurrentSearchQuery;
+            var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
+            if (!_wasPreviousQuery && searchSource && !queryCondition)
+                // refresh was requested from search but there's nothing to update
+                return;
 
-                 _wasPreviousQuery = queryCondition;
-                 _currentPage = 1;
+            _wasPreviousQuery = queryCondition;
+            _currentPage = 1;
 
-                 _animeItemsSet.Clear();
-                 var status = queryCondition ? 7 : GetDesiredStatus();
+            _animeItemsSet.Clear();
+            var status = queryCondition ? 7 : GetDesiredStatus();
 
-                 items = _seasonalState ? _allLoadedSeasonalAnimeItems : _allLoadedAnimeItems;
+            IEnumerable<AnimeItemAbstraction> items = _seasonalState
+                ? _allLoadedSeasonalAnimeItems
+                : _allLoadedAnimeItems;
 
-                 items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+            items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
 
-                 if (queryCondition)
-                     items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
+            if (queryCondition)
+                items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
 
-                 switch (SortOption)
-                 {
-                     case SortOptions.SortTitle:
-                         items = items.OrderBy(item => item.Title);
-                         break;
-                     case SortOptions.SortScore:
-                         if (!_seasonalState)
-                             items = items.OrderBy(item => item.MyScore);
-                         else
-                             items = items.OrderBy(item => item.GlobalScore);
-                         break;
-                     case SortOptions.SortWatched:
-                         if (_seasonalState)
-                             items = items.OrderBy(item => item.Index);
-                         else
-                             items = items.OrderBy(item => item.MyEpisodes);
-                         break;
-                     case SortOptions.SortNothing:
-                         break;
-                     case SortOptions.SortAirDay:
-                         var today = (int)DateTime.Now.DayOfWeek;
-                         today++;
-                         IEnumerable<AnimeItemAbstraction> nonAiringItems =
-                             items.Where(abstraction => abstraction.AirDay == -1);
-                         IEnumerable<AnimeItemAbstraction> airingItems =
-                             items.Where(abstraction => abstraction.AirDay != -1);
-                         IEnumerable<AnimeItemAbstraction> airingAfterToday =
-                             airingItems.Where(abstraction => abstraction.AirDay >= today);
-                         IEnumerable<AnimeItemAbstraction> airingBeforeToday =
-                             airingItems.Where(abstraction => abstraction.AirDay < today);
-                         if (SortDescending)
-                             items = airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                                 .Concat(
-                                     airingBeforeToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                                         .Concat(nonAiringItems));
-                         else
-                             items = airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                 .Concat(
-                                     airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                         .Concat(nonAiringItems));
+            switch (SortOption)
+            {
+                case SortOptions.SortTitle:
+                    items = items.OrderBy(item => item.Title);
+                    break;
+                case SortOptions.SortScore:
+                    if (!_seasonalState)
+                        items = items.OrderBy(item => item.MyScore);
+                    else
+                        items = items.OrderBy(item => item.GlobalScore);
+                    break;
+                case SortOptions.SortWatched:
+                    if (_seasonalState)
+                        items = items.OrderBy(item => item.Index);
+                    else
+                        items = items.OrderBy(item => item.MyEpisodes);
+                    break;
+                case SortOptions.SortNothing:
+                    break;
+                case SortOptions.SortAirDay:
+                    var today = (int) DateTime.Now.DayOfWeek;
+                    today++;
+                    IEnumerable<AnimeItemAbstraction> nonAiringItems =
+                        items.Where(abstraction => abstraction.AirDay == -1);
+                    IEnumerable<AnimeItemAbstraction> airingItems =
+                        items.Where(abstraction => abstraction.AirDay != -1);
+                    IEnumerable<AnimeItemAbstraction> airingAfterToday =
+                        airingItems.Where(abstraction => abstraction.AirDay >= today);
+                    IEnumerable<AnimeItemAbstraction> airingBeforeToday =
+                        airingItems.Where(abstraction => abstraction.AirDay < today);
+                    if (SortDescending)
+                        items = airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                            .Concat(
+                                airingBeforeToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                                    .Concat(nonAiringItems));
+                    else
+                        items = airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
+                            .Concat(
+                                airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                    .Concat(nonAiringItems));
 
-                         break;
-                     default:
-                         throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
-                 }
-             });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
+            }
             //If we are descending then reverse order
             if (SortDescending && SortOption != SortOptions.SortAirDay)
                 items = items.Reverse();
@@ -549,7 +547,7 @@ namespace MALClient.ViewModels
             EmptyNoticeVisibility = _animeItemsSet.Count == 0;
 
             //How many pages do we have?
-            _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
+            _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
             if (_allPages <= 1)
                 AnimesTopPageControlsVisibility = false;
             else
@@ -570,7 +568,6 @@ namespace MALClient.ViewModels
 
 
             ApplyCurrentPage();
-            AlternateRowColors();
             UpdateUpperStatus();
             RaisePropertyChanged(() => CurrentUpdateStatus);
         }
@@ -646,7 +643,7 @@ namespace MALClient.ViewModels
 
         public async Task FetchData(bool force = false)
         {
-            if (_prevListSource == ListSource)
+            if (!force && _prevListSource == ListSource)
             {
                 foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.Loaded))
                 {

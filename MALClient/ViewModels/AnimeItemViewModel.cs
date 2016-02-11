@@ -602,7 +602,9 @@ namespace MALClient.ViewModels
             //Too wide update buttons
             if (MyScore == 0)
             {
-                if(MyStatus == (int)AnimeStatus.Dropped || MyStatus == (int)AnimeStatus.Completed)
+                if (MyStatus == (int) AnimeStatus.Dropped ||
+                    MyStatus == (int) AnimeStatus.OnHold ||
+                    MyStatus == (int) AnimeStatus.Completed)
                     IncrementButtonsOrientation = Orientation.Vertical;
             }
         }

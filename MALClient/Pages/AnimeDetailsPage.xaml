@@ -207,7 +207,7 @@
                                            VerticalAlignment="Center" HorizontalAlignment="Center" 
                                            FontSize="30" FontWeight="SemiLight"
                                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                <Grid Visibility="{Binding DetailedDataVisibility}">
+                                <Grid Visibility="{Binding DetailedDataVisibility}" Margin="0,0,0,10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="Auto"/>

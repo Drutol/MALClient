@@ -121,8 +121,13 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Padding" Value="0,5" />
                     <Setter Property="Margin" Value="0,5" />
-                    <!--<Setter Property="BorderBrush" Value="{StaticResource SystemControlDisabledAccentBrush}"/>
-                    <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>-->
+                    <Setter Property="BorderBrush">
+                    <Setter.Value>
+                            <SolidColorBrush Color="{ThemeResource SystemAccentColor}" Opacity=".75"></SolidColorBrush>
+                    </Setter.Value>    
+                    </Setter>
+                  
+                    <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Footer>

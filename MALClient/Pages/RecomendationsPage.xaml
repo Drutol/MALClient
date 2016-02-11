@@ -326,7 +326,7 @@
         <Pivot x:Name="Pivot" Style="{StaticResource CustomPivotStyle}"  ItemsSource="{Binding RecommendationItems}" SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
             <Pivot.Resources>
                 <Style TargetType="PivotItem">
-                    <Setter Property="Margin" Value="0,5,0,0"></Setter>
+                    <Setter Property="Margin" Value="2,5,2,0"></Setter>
                 </Style>
             </Pivot.Resources>
         </Pivot>

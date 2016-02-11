@@ -277,7 +277,7 @@ namespace MALClient.ViewModels
             SearchInputVisibility = SearchToggleStatus;
             if (!_onSearchPage)
             {
-                ViewModelLocator.AnimeList.RefreshList();
+                ViewModelLocator.AnimeList.RefreshList(true);
             }
             else
             {

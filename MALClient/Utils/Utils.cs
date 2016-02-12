@@ -196,6 +196,20 @@ namespace MALClient
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
+        public static async Task RemoveProfileImg()
+        {
+            try
+            {
+                await (await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png")).DeleteAsync(
+                    StorageDeleteOption.PermanentDelete);
+            }
+            catch (Exception)
+            {
+                //no file
+            }
+            
+        }
+
         public static async void DownloadProfileImg(int retries = 5)
         {
             if (!Creditentials.Authenticated)

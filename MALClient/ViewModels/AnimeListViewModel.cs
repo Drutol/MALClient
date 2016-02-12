@@ -653,27 +653,35 @@ namespace MALClient.ViewModels
                 Loading = false;
                 return;
             }
-            _allLoadedSeasonalAnimeItems.Clear();
+            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
             var source = _allLoadedAuthAnimeItems.Count > 0
                 ? _allLoadedAuthAnimeItems
                 : new List<AnimeItemAbstraction>();
             foreach (SeasonalAnimeData animeData in data)
             {
-                DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
+                try
                 {
-                    DayOfAiring = animeData.AirDay,
-                    GlobalScore = animeData.Score
-                });
-                var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
-                if (abstraction == null)
-                    _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
-                else
-                {
-                    abstraction.AirDay = animeData.AirDay;
-                    abstraction.GlobalScore = animeData.Score;
-                    abstraction.ViewModel.UpdateWithSeasonData(animeData);
-                    _allLoadedSeasonalAnimeItems.Add(abstraction);
+                    DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
+                    {
+                        DayOfAiring = animeData.AirDay,
+                        GlobalScore = animeData.Score
+                    });
+                    var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
+                    if (abstraction == null)
+                        _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
+                    else
+                    {
+                        abstraction.AirDay = animeData.AirDay;
+                        abstraction.GlobalScore = animeData.Score;
+                        abstraction.ViewModel.UpdateWithSeasonData(animeData);
+                        _allLoadedSeasonalAnimeItems.Add(abstraction);
+                    }
                 }
+                catch (Exception e)
+                {
+                    // wat
+                }
+
             }
             DataCache.SaveVolatileData();
 
@@ -709,12 +717,16 @@ namespace MALClient.ViewModels
                 EmptyNoticeContent = "We have come up empty...";
             }
 
+            _animeItems.Clear();
+
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
-            if (_allLoadedAuthAnimeItems.Count > 0 &&
-                string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+            if(force)
+                _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+            else if (_allLoadedAuthAnimeItems.Count > 0 &&
+                     string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                 _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
 
-            _animeItems.Clear();           
+                     
 
             if (_allLoadedAnimeItems.Count == 0)
             {
@@ -875,17 +887,27 @@ namespace MALClient.ViewModels
 
         public void LogOut()
         {
-            _allLoadedAnimeItems.Clear();
-            _allLoadedAuthAnimeItems.Clear();
+            _animeItems.Clear();
+            _animeItemsSet.Clear();
+            _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+            _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
+            
             ListSource = string.Empty;
             _prevListSource = "";
         }
 
         public void LogIn()
         {
+            
+            _animeItems.Clear();
+            _animeItemsSet.Clear();
+            _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+            _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
+
             ListSource = Creditentials.UserName;
             _prevListSource = "";
-            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         }
         #endregion
 

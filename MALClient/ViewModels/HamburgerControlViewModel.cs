@@ -106,6 +106,18 @@ namespace MALClient.ViewModels
             }
         }
 
+
+        public Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
+        public Visibility UsrImgPlaceholderVisibility
+        {
+            get { return _usrImgPlaceholderVisibility; }
+            set
+            {
+                _usrImgPlaceholderVisibility = value;
+                RaisePropertyChanged(() => UsrImgPlaceholderVisibility);
+            }
+        }
+
         private async void ButtonClick(object o)
         {
             if(o == null)
@@ -158,15 +170,21 @@ namespace MALClient.ViewModels
                         bitmap.SetSource(fs);
                     }
                     UserImage = bitmap;
+                    UsrImgPlaceholderVisibility = Visibility.Collapsed;
                 }
                 catch (FileNotFoundException)
                 {
                     if (dl)
                         Utils.DownloadProfileImg();
+                    else
+                        UsrImgPlaceholderVisibility = Visibility.Visible;
+
+                    UserImage = new BitmapImage();
                 }
                 catch (Exception)
                 {
-                    // ignored
+                    UsrImgPlaceholderVisibility = Visibility.Visible;
+                    UserImage = new BitmapImage();
                 }
 
                 ProfileButtonVisibility = true;

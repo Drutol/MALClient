@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -101,68 +103,76 @@ namespace MALClient.Pages
                 SpinnerLoading.Visibility = Visibility.Collapsed;
                 return;
             }
-
-            var doc = new HtmlDocument();
-            doc.LoadHtml(data);
-            //AnimeStats
-            List<HtmlNode> watching = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Watching") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> plantowatch = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Plan to Watch") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> rewatched = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Rewatched") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> episodes = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Episodes") && li.ChildNodes.Count == 2).ToList();
-            //MangaStats
-            List<HtmlNode> reading = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Reading") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> plantoread = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Plan to Read") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> reread = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Reread") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> chapters = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Chapters") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> volumes = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Volumes") && li.ChildNodes.Count == 2).ToList();
-            //Shared
-            List<HtmlNode> total = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Total Entries") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> completed = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Completed") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> onhold = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("On-Hold") && li.ChildNodes.Count == 2).ToList();
-            List<HtmlNode> dropped = doc.DocumentNode.Descendants("li")
-                .Where(li => li.InnerText.Contains("Dropped") && li.ChildNodes.Count == 2).ToList();
-            //Days
-            List<HtmlNode> days = doc.DocumentNode.Descendants("div")
-                .Where(div => div.InnerText.Contains("Days:") && div.ChildNodes.Count == 2).ToList();
-            Data = new ProfileData
+            try
             {
-                //Anime
-                AnimeWatching = int.Parse(watching[0].ChildNodes[1].InnerText),
-                AnimeCompleted = int.Parse(completed[0].ChildNodes[1].InnerText),
-                AnimeOnHold = int.Parse(onhold[0].ChildNodes[1].InnerText),
-                AnimeDropped = int.Parse(dropped[0].ChildNodes[1].InnerText),
-                AnimePlanned = int.Parse(plantowatch[0].ChildNodes[1].InnerText),
-                AnimeTotal = int.Parse(total[0].ChildNodes[1].InnerText),
-                AnimeEpisodes = int.Parse(episodes[0].ChildNodes[1].InnerText),
-                AnimeRewatched = int.Parse(rewatched[0].ChildNodes[1].InnerText),
-                //Manga
-                MangaReading = int.Parse(reading[0].ChildNodes[1].InnerText),
-                MangaCompleted = int.Parse(completed[1].ChildNodes[1].InnerText),
-                MangaOnHold = int.Parse(onhold[1].ChildNodes[1].InnerText),
-                MangaDropped = int.Parse(dropped[1].ChildNodes[1].InnerText),
-                MangaPlanned = int.Parse(plantoread[0].ChildNodes[1].InnerText),
-                MangaTotal = int.Parse(total[1].ChildNodes[1].InnerText),
-                MangaReread = int.Parse(reread[0].ChildNodes[1].InnerText),
-                MangaChapters = int.Parse(chapters[0].ChildNodes[1].InnerText),
-                MangaVolumes = int.Parse(volumes[0].ChildNodes[1].InnerText),
+                var doc = new HtmlDocument();
+                doc.LoadHtml(data);
+                //AnimeStats
+                List<HtmlNode> watching = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Watching") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> plantowatch = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Plan to Watch") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> rewatched = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Rewatched") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> episodes = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Episodes") && li.ChildNodes.Count == 2).ToList();
+                //MangaStats
+                List<HtmlNode> reading = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Reading") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> plantoread = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Plan to Read") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> reread = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Reread") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> chapters = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Chapters") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> volumes = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Volumes") && li.ChildNodes.Count == 2).ToList();
+                //Shared
+                List<HtmlNode> total = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Total Entries") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> completed = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Completed") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> onhold = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("On-Hold") && li.ChildNodes.Count == 2).ToList();
+                List<HtmlNode> dropped = doc.DocumentNode.Descendants("li")
+                    .Where(li => li.InnerText.Contains("Dropped") && li.ChildNodes.Count == 2).ToList();
                 //Days
-                AnimeDays = float.Parse(days[0].ChildNodes[1].InnerText),
-                MangaDays = float.Parse(days[1].ChildNodes[1].InnerText)
-            };
-            PopulateAnimeData();
-            PopulateMangaData();
+                List<HtmlNode> days = doc.DocumentNode.Descendants("div")
+                    .Where(div => div.InnerText.Contains("Days:") && div.ChildNodes.Count == 2).ToList();
+                Data = new ProfileData
+                {
+                    //Anime
+                    AnimeWatching = int.Parse(watching[0].ChildNodes[1].InnerText.Replace(",", "")),
+                    AnimeCompleted = int.Parse(completed[0].ChildNodes[1].InnerText.Replace(",", "")),
+                    AnimeOnHold = int.Parse(onhold[0].ChildNodes[1].InnerText.Replace(",","")),
+                    AnimeDropped = int.Parse(dropped[0].ChildNodes[1].InnerText.Replace(",","")),
+                    AnimePlanned = int.Parse(plantowatch[0].ChildNodes[1].InnerText.Replace(",","")),
+                    AnimeTotal = int.Parse(total[0].ChildNodes[1].InnerText.Replace(",","")),
+                    AnimeEpisodes = int.Parse(episodes[0].ChildNodes[1].InnerText.Replace(",","")),
+                    AnimeRewatched = int.Parse(rewatched[0].ChildNodes[1].InnerText.Replace(",","")),
+                    //Manga
+                    MangaReading = int.Parse(reading[0].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaCompleted = int.Parse(completed[1].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaOnHold = int.Parse(onhold[1].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaDropped = int.Parse(dropped[1].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaPlanned = int.Parse(plantoread[0].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaTotal = int.Parse(total[1].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaReread = int.Parse(reread[0].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaChapters = int.Parse(chapters[0].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaVolumes = int.Parse(volumes[0].ChildNodes[1].InnerText.Replace(",","")),
+                    //Days
+                    AnimeDays = float.Parse(days[0].ChildNodes[1].InnerText.Replace(",","")),
+                    MangaDays = float.Parse(days[1].ChildNodes[1].InnerText.Replace(",",""))
+                };
+                PopulateAnimeData();
+                PopulateMangaData();
+            }
+            catch (Exception e)
+            {
+                var msg = new MessageDialog("Something went wrong...");
+                await msg.ShowAsync();
+            }
+            
             SpinnerLoading.Visibility = Visibility.Collapsed; //end of exec path
         }
 

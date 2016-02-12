@@ -43,6 +43,7 @@ namespace MALClient.Pages
                 XDocument doc = XDocument.Parse(response);
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));               
                 Creditentials.SetAuthStatus(true);
+                await Utils.RemoveProfileImg();
                 var hamburger = ViewModelLocator.Hamburger;
                 ViewModelLocator.AnimeList.LogIn();
                 await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
@@ -64,6 +65,7 @@ namespace MALClient.Pages
             var page = Utils.GetMainPageInstance();
             Creditentials.SetAuthStatus(false);
             Creditentials.Update("", "");
+            await Utils.RemoveProfileImg();
             ViewModelLocator.AnimeList.LogOut();
             await page.Navigate(PageIndex.PageLogIn);
             ViewModelLocator.Hamburger.UpdateProfileImg();

@@ -144,7 +144,7 @@ namespace MALClient.ViewModels
         {
             get {
                 return _reversePaneCommand ??
-                       (_reversePaneCommand = new CommandHandler(() => MenuPaneState = true, true));
+                       (_reversePaneCommand = new RelayCommand(() => MenuPaneState = true));
             }
         }
 

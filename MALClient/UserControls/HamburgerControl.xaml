@@ -14,6 +14,7 @@
     
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid" VerticalAlignment="Stretch">
@@ -148,8 +149,9 @@
                                     <Border x:Name="Border5" Grid.Column="1" BorderThickness="0,0,0,2"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                             Visibility="Collapsed" />
-                                    <Image x:Name="ImgUser" Source="{Binding UserImage}" Grid.Column="0" Stretch="UniformToFill" Width="33"
-                                           Height="33" Margin="1,1" Visibility="Visible" />
+                                    <Image Source="{Binding UserImage}" Grid.Column="0" Stretch="UniformToFill" Width="33"
+                                           Height="33" Margin="1,1" Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
+                                    <SymbolIcon Grid.Column="0" Width="33" Height="33" Symbol="WebCam" Visibility="{Binding UsrImgPlaceholderVisibility}"/>
                                     <TextBlock x:Name="TxtProfile" Text="Profile" HorizontalAlignment="Stretch" Foreground ="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>

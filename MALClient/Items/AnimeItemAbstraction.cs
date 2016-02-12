@@ -89,13 +89,7 @@ namespace MALClient.Items
             }
         }
 
-        private void Load()
-        {
-            
-        }
-
         private AnimeItemViewModel _viewModel;
-
         public AnimeItemViewModel ViewModel
         {
             get

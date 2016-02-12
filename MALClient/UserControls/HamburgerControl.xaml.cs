@@ -46,15 +46,9 @@ namespace MALClient.UserControls
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             _viewModel.UpdateProfileImg();
-            _viewModel.SetActiveButton(HamburgerButtons.AnimeList);
+            _viewModel.SetActiveButton(Creditentials.Authenticated ? HamburgerButtons.AnimeList : HamburgerButtons.LogIn);
             _viewModel.View = this;
-        }
-
-        internal void PaneOpened()
-        {
-
-        }
-     
+        }    
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {

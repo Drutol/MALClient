@@ -57,11 +57,11 @@
                                 </Style>
                             </StackPanel.Resources>
                             <StackPanel x:Name="SortToggles">
-                                <ToggleMenuFlyoutItem Text="Title" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem Text="Score" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem Text="{Binding Sort3Label}" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem Text="Soonest airing" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem Text="None" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
                             <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />

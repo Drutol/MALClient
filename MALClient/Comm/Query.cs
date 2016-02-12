@@ -11,13 +11,12 @@ namespace MALClient.Comm
     {
         protected WebRequest Request;
 
-        public async Task<string> GetRequestResponse()
+        public async Task<string> GetRequestResponse(bool wantMsg = true)
         {
             var responseString = "";
             try
             {
                 WebResponse response = await Request.GetResponseAsync();
-
 
                 using (Stream stream = response.GetResponseStream())
                 {
@@ -29,8 +28,11 @@ namespace MALClient.Comm
             }
             catch (Exception e)
             {
-                var msg = new MessageDialog(e.Message, "An error occured");
-                await msg.ShowAsync();
+                if (wantMsg)
+                {
+                    var msg = new MessageDialog(e.Message, "An error occured");
+                    await msg.ShowAsync();
+                }
             }
             return responseString;
         }

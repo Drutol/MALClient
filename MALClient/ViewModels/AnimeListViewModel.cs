@@ -364,7 +364,7 @@ namespace MALClient.ViewModels
 
             _seasonalState = false;
             AppbarBtnPinTileVisibility = true;
-            Sort3Label = "Watching";
+            Sort3Label = "Watched";
             StatusAllLabel = "All";
             AppBtnListSourceVisibility = true;
 
@@ -394,6 +394,7 @@ namespace MALClient.ViewModels
                 _timer = new Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds,
                     (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
+            View.InitSortOptions(SortOption,SortDescending);
             UpdateUpperStatus();
             UpdateStatus();
         }
@@ -431,15 +432,6 @@ namespace MALClient.ViewModels
             }
 
             return output;
-        }
-
-        private void AlternateRowColors()
-        {
-            //for (var i = 0; i < _animeItems.Count; i++)
-            //{
-            //    _animeItems[i].ViewModel.Setbackground(
-            //        new SolidColorBrush((i + 1) % 2 == 0 ? Color.FromArgb(170, 230, 230, 230) : Colors.Transparent));
-            //}
         }
 
         private void SetSortOrder(SortOptions? option)
@@ -586,7 +578,6 @@ namespace MALClient.ViewModels
 
             //How many pages do we have?
             UpdatePageSetup();
-
             UpdateUpperStatus();
             RaisePropertyChanged(() => CurrentUpdateStatus);
         }
@@ -642,6 +633,7 @@ namespace MALClient.ViewModels
                 _animeItems.Add(item.AnimeItem);
             RaisePropertyChanged(() => CurrentPageStatus);
             Loading = false;
+            View.DisablePinButton();
         }
 
         #endregion
@@ -776,8 +768,8 @@ namespace MALClient.ViewModels
                     _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
             }
 
-            AppBtnGoBackToMyListVisibility = !string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
-            
+            AppBtnGoBackToMyListVisibility = Creditentials.Authenticated && !string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
+
             RefreshList();
             //UpdateStatusCounterBadges();
             Loading = false;
@@ -883,10 +875,10 @@ namespace MALClient.ViewModels
 
         public void LogOut()
         {
-            foreach (AnimeItemAbstraction userCache in _allLoadedAnimeItems)
-            {
-                userCache.SetAuthStatus(false, true);
-            }
+            _allLoadedAnimeItems.Clear();
+            _allLoadedAuthAnimeItems.Clear();
+            ListSource = string.Empty;
+            _prevListSource = "";
         }
 
         public void LogIn()

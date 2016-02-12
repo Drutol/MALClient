@@ -215,6 +215,36 @@ namespace MALClient.Pages
             AppbarBtnPinTile.IsEnabled = true;
         }
 
+        internal void InitSortOptions(SortOptions option,bool descending)
+        {
+            switch (option)
+            {
+                case SortOptions.SortTitle:
+                    SortTitle.IsChecked = true;
+                    break;
+                case SortOptions.SortScore:
+                    SortScore.IsChecked = true;
+                    break;
+                case SortOptions.SortWatched:
+                    Sort3.IsChecked = true;
+                    break;
+                case SortOptions.SortAirDay:
+                    SortAiring.IsChecked = true;
+                    break;
+                case SortOptions.SortNothing:
+                    SortNone.IsChecked = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(option), option, null);
+            }
+            BtnOrderDescending.IsChecked = descending;
+        }
+
         #endregion
+
+        public void DisablePinButton()
+        {
+            AppbarBtnPinTile.IsEnabled = false;
+        }
     }
 }

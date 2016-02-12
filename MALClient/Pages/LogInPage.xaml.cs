@@ -37,11 +37,11 @@ namespace MALClient.Pages
             Creditentials.Update(UserName.Text, UserPassword.Password);
             try
             {
-                var response = await new AuthQuery().GetRequestResponse();
+                var response = await new AuthQuery().GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 XDocument doc = XDocument.Parse(response);
-                Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
+                Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));               
                 Creditentials.SetAuthStatus(true);
                 var hamburger = ViewModelLocator.Hamburger;
                 ViewModelLocator.AnimeList.LogIn();
@@ -52,6 +52,7 @@ namespace MALClient.Pages
             catch (Exception)
             {
                 Creditentials.SetAuthStatus(false);
+                Creditentials.Update(string.Empty, string.Empty);
                 var msg = new MessageDialog("Unable to authorize with provided creditentials.");
                 await msg.ShowAsync();
             }

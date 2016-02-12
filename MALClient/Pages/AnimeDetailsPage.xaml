@@ -244,19 +244,23 @@
                                         </Style>
                                     </Grid.Resources>
                                     <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width=".5*"/>
-                                            <ColumnDefinition Width=".5*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="10"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <MenuFlyoutSeparator Grid.ColumnSpan="2"/>
-                                        <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RightGenres}" BorderThickness="0,0,1,0" BorderBrush="LightGray"/>
-                                        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LeftGenres}" BorderThickness="1,0,0,0" BorderBrush="LightGray"/>
-                                    </Grid>
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Visibility="{Binding NoGenresDataVisibility}" Text="No data available"
+                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=".5*"/>
+                                                <ColumnDefinition Width=".5*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="10"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <MenuFlyoutSeparator Grid.ColumnSpan="2"/>
+                                            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RightGenres}" BorderThickness="0,0,1,0" BorderBrush="LightGray"/>
+                                            <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LeftGenres}" BorderThickness="1,0,0,0" BorderBrush="LightGray"/>
+                                        </Grid>
+                                    </StackPanel>
                                     <StackPanel Grid.ColumnSpan="2" Grid.Row="3">
                                         <TextBlock Text="Episodes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5"/>
                                         <MenuFlyoutSeparator/>
@@ -266,16 +270,22 @@
                                     </StackPanel>
                                     <MenuFlyoutSeparator Grid.Row="4"/>
                                     <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
-                                    <ListView Grid.Row="6" ItemsSource="{Binding OPs}">
-                                        <ListView.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="IsTextSelectionEnabled" Value="True"/>
-                                            </Style>
-                                        </ListView.Resources>
-                                    </ListView>
+                                    <StackPanel Grid.Row="6">
+                                        <TextBlock Visibility="{Binding NoOPsDataVisibility}" Text="No data available"
+                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
+                                        <ListView  ItemsSource="{Binding OPs}">
+                                            <ListView.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                                                </Style>
+                                            </ListView.Resources>
+                                        </ListView>
+                                    </StackPanel>
                                     <MenuFlyoutSeparator Grid.Row="7"/>
                                     <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
                                     <StackPanel Grid.Row="9">
+                                        <TextBlock Visibility="{Binding NoEDsDataVisibility}" Text="No data available"
+                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
                                         <ListView  ItemsSource="{Binding EDs}">
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">

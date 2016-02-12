@@ -287,6 +287,39 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _noEDsDataVisibility;
+        public Visibility NoEDsDataVisibility
+        {
+            get { return _noEDsDataVisibility; }
+            set
+            {
+                _noEDsDataVisibility = value;
+                RaisePropertyChanged(() => NoEDsDataVisibility);
+            }
+        }
+
+        private Visibility _noOPsDataVisibility;
+        public Visibility NoOPsDataVisibility
+        {
+            get { return _noOPsDataVisibility; }
+            set
+            {
+                _noOPsDataVisibility = value;
+                RaisePropertyChanged(() => NoOPsDataVisibility);
+            }
+        }
+
+        private Visibility _noGenresDataVisibility;
+        public Visibility NoGenresDataVisibility
+        {
+            get { return _noGenresDataVisibility; }
+            set
+            {
+                _noGenresDataVisibility = value;
+                RaisePropertyChanged(() => NoGenresDataVisibility);
+            }
+        }
+
         public void Init(AnimeDetailsPageNavigationArgs param)
         {
             Loading = Visibility.Visible;
@@ -588,10 +621,14 @@ namespace MALClient.ViewModels
                 }
                 i = 1;
                 alternate1 = false;
-                foreach (var episode in data.Episodes)
+                foreach (var episode in data.Episodes.Take(40))
                 {
                         _episodes.Add(BuildListViewItem($"{i++}.", episode, alternate1, 0.1f, 0.9f));
                         alternate1 = !alternate1;
+                }
+                if (data.Episodes.Count > 40)
+                {
+                    _episodes.Add(BuildListViewItem("?.", $"{data.Episodes.Count - 40} More episodes...", alternate1, 0.1f, 0.9f));
                 }
                 i = 1;
                 alternate1 = true;
@@ -610,6 +647,9 @@ namespace MALClient.ViewModels
                     i++;
                 }
                 NoEpisodesDataVisibility = _episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                NoGenresDataVisibility = _genres1.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                NoEDsDataVisibility = _eds.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                NoOPsDataVisibility = _ops.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                 DetailedDataVisibility = Visibility.Visible;
             }
             catch (Exception)

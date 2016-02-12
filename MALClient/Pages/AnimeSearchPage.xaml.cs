@@ -32,6 +32,14 @@ namespace MALClient.Pages
             base.OnNavigatedTo(e);
             if (!string.IsNullOrWhiteSpace((string) e.Parameter))
                 SubmitQuery((string) e.Parameter);
+
+            Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            Utils.DeregisterBackNav();
         }
 
         internal async void SubmitQuery(string text)

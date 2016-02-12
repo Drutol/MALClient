@@ -173,7 +173,7 @@ namespace MALClient
 
         public static int GetItemsPerPage()
         {
-            return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 10);
+            return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 5);
         }
 
         /// <summary>

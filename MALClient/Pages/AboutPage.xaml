@@ -70,24 +70,22 @@
                         <StackPanel HorizontalAlignment="Stretch">
                             <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
-                                         VerticalAlignment="Stretch" />
-                                <TextBlock Margin="20,0,0,0" VerticalAlignment="Center" TextWrapping="WrapWholeWords">
-                                    v1.1 - 12.02.2016 
-                                    <LineBreak/>
-                                    Redesigned details page
-                                    <LineBreak/>
-                                    Added recommendation page
-                                    <LineBreak/>
-                                    Added more option to pull more details about series
-                                    <LineBreak/>
-                                    Redesigned main list items a bit
-                                    <LineBreak/>
-                                    Rewritten most of the code to fit new design pattern
-                                    <LineBreak/>
-                                    Added refresh buttons in some pages
-                                </TextBlock>
+                            <StackPanel HorizontalAlignment="Stretch">
+                                <StackPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="20,5,0,0"/>
+                                        <Setter Property="TextWrapping" Value="WrapWholeWords"/>
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="v1.1 - 12.02.2016"/>
+                                <TextBlock Text="Redesigned details page"/>
+                                <TextBlock Text="Added recommendation page" />
+                                <TextBlock Text="Added more option to pull more details about series"/>
+                                <TextBlock Text="Redesigned main list items a bit"/>
+                                <TextBlock Text="Rewritten most of the code to fit new design pattern"/>
+                                <TextBlock Text="Added refresh buttons in some pages"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                                 <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"

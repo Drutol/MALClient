@@ -62,8 +62,8 @@ namespace MALClient.ViewModels
             _allEpisodes = allEps;
             Auth = auth;
             //Assign properties
-            MyStatus = myStatus;
             MyScore = myScore;
+            MyStatus = myStatus;
             Title = name;
             MyEpisodes = myEps;
             ShowMoreVisibility = Visibility.Collapsed;
@@ -84,9 +84,10 @@ namespace MALClient.ViewModels
             //We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
-            MyStatus = (int)AnimeStatus.AllOrAiring;
+            
             Title = data.Title;
             MyScore = 0;
+            MyStatus = (int)AnimeStatus.AllOrAiring;
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
             if (data.Genres != null)
@@ -163,11 +164,11 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyStatus; }
             set
             {
+                AdjustIncrementButtonsOrientation();
                 if (_parentAbstraction.MyStatus == value)
                     return;
                 _parentAbstraction.MyStatus = value;
-                RaisePropertyChanged(() => MyStatusBind);
-                AdjustIncrementButtonsOrientation();
+                RaisePropertyChanged(() => MyStatusBind);             
             }
         }
 
@@ -177,11 +178,12 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyScore; }
             set
             {
+                AdjustIncrementButtonsOrientation();
                 if (_parentAbstraction.MyScore == value)
                     return;
                 _parentAbstraction.MyScore = value;
                 RaisePropertyChanged(() => MyScoreBind);
-                AdjustIncrementButtonsOrientation();
+                
             }
         }
 
@@ -192,7 +194,7 @@ namespace MALClient.ViewModels
                 if(_seasonalState)
                     return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
 
-                return "Watched : " + (Auth || MyEpisodes != 0 ? $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes");
+                return Auth || MyEpisodes != 0 ? "Watched : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
             }
         } 
         public int MyEpisodes
@@ -583,7 +585,11 @@ namespace MALClient.ViewModels
         private void AdjustIncrementButtonsOrientation()
         {
             //Too wide update buttons
-            if (MyScore != 0) IncrementButtonsOrientation = Orientation.Horizontal;
+            if (MyScore != 0)
+            {
+                IncrementButtonsOrientation = Orientation.Horizontal;
+                return;
+            }
             if (MyStatus == (int) AnimeStatus.Dropped ||
                 MyStatus == (int) AnimeStatus.OnHold ||
                 MyStatus == (int) AnimeStatus.Completed ||

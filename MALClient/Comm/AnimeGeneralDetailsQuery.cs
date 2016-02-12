@@ -18,6 +18,7 @@ namespace MALClient.Comm
 
         public AnimeGeneralDetailsQuery(string title,int id,string rootTitle)
         {
+            title = title.Replace('+', ' ');
             Request = WebRequest.Create(Uri.EscapeUriString($"http://cdn.animenewsnetwork.com/encyclopedia/api.xml?title=~{title}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

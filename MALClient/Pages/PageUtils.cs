@@ -12,6 +12,8 @@
                     return true;
                 case PageIndex.PageProfile:
                     return true;
+                case PageIndex.PageRecomendations:
+                    return true;
                 default:
                     return false;
             }

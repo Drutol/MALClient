@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using MALClient.UserControls;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -214,6 +215,7 @@ namespace MALClient.Pages
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
             ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = (int) e.NewValue;
+            ViewModelLocator.AnimeList.UpdatePageSetup(true);
         }
 
         private void SetItemsPerPage()

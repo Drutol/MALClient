@@ -20,6 +20,8 @@
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar">
             <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}" 
+                              Visibility="{Binding AppBtnGoBackToMyListVisibility}"/>
                 <AppBarButton Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">

@@ -72,8 +72,14 @@
                 </Button.Flyout>
             </Button>
             <StackPanel Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock Text="This entry is not on your list yet." Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center" Opacity=".75"/>
-                <Button HorizontalAlignment="Stretch" Height="50" Command="{Binding AddAnimeCommand}" Background="#E6E6E6" Margin="20,0,20,0">
+                <TextBlock Text="This entry is not on your list yet." 
+                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}" 
+                           HorizontalAlignment="Center" Opacity=".75"/>
+                <Button HorizontalAlignment="Stretch"  Height="50" 
+                        Command="{Binding AddAnimeCommand}" 
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}" 
+                        Margin="20,10,20,0"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Add"/>
                         <TextBlock Margin="10,0,0,0" Text="Add to my list"/>

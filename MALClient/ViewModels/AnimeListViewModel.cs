@@ -23,6 +23,7 @@ namespace MALClient.ViewModels
     public class AnimeListViewModel : ViewModelBase
     {
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+        private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
         public readonly ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
@@ -30,10 +31,11 @@ namespace MALClient.ViewModels
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
 
-        private readonly int _itemsPerPage = Utils.GetItemsPerPage();
+        private int _itemsPerPage = Utils.GetItemsPerPage();
 
         private int _allPages;
 
+        private bool _needReload;
 
         private DateTime _lastUpdate;
         private Timer _timer;
@@ -86,6 +88,7 @@ namespace MALClient.ViewModels
             set
             {
                 _currentPage = value;
+                ApplyCurrentPage();
                 RaisePropertyChanged(() => CurrentPageStatus);
             }
         }
@@ -153,6 +156,17 @@ namespace MALClient.ViewModels
             {
                 _appBtnListSourceVisibility = value;
                 RaisePropertyChanged(() => AppBtnListSourceVisibility);
+            }
+        }
+
+        private Visibility _appBtnGoBackToMyListVisibility = Visibility.Collapsed;
+        public Visibility AppBtnGoBackToMyListVisibility
+        {
+            get { return _appBtnGoBackToMyListVisibility; }
+            set
+            {
+                _appBtnGoBackToMyListVisibility = value;
+                RaisePropertyChanged(() => AppBtnGoBackToMyListVisibility);
             }
         }
 
@@ -268,6 +282,20 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _goBackToMyListCommand;
+        public ICommand GoBackToMyListCommand
+        {
+            get
+            {
+                return _goBackToMyListCommand ??
+                       (_goBackToMyListCommand = new RelayCommand(() =>
+                       {
+                           ListSource = Creditentials.UserName;
+                           FetchData();
+                       }));
+            }
+        }
+
         private AnimeListPage _view;
         public AnimeListPage View
         {
@@ -293,6 +321,7 @@ namespace MALClient.ViewModels
                     EmptyNoticeVisibility = false;
                     AppbarBtnPinTileVisibility = false;
                     AppBtnListSourceVisibility = false;
+                    AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
 
                     if (args.NavArgs)
                     {
@@ -330,6 +359,9 @@ namespace MALClient.ViewModels
             else // default
                 SetDefaults();
 
+            if (_seasonalState)
+                ListSource = Creditentials.UserName;
+
             _seasonalState = false;
             AppbarBtnPinTileVisibility = true;
             Sort3Label = "Watching";
@@ -346,17 +378,23 @@ namespace MALClient.ViewModels
                 EmptyNoticeVisibility = true;
                 EmptyNoticeContent = "We have come up empty...\nList source is not set.\nLog in or set it manually.";
                 BtnSetSourceVisibility = true;
-                UpdateUpperStatus();
+
             }
             else
             {
-                await FetchData();
+                await Task.Run(async () =>
+                {
+                    await
+                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                            async () => { await FetchData(); });
+                });
             }
 
             if (_timer == null)
                 _timer = new Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds,
                     (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
+            UpdateUpperStatus();
             UpdateStatus();
         }
 
@@ -547,7 +585,18 @@ namespace MALClient.ViewModels
             EmptyNoticeVisibility = _animeItemsSet.Count == 0;
 
             //How many pages do we have?
-            _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
+            UpdatePageSetup();
+
+            UpdateUpperStatus();
+            RaisePropertyChanged(() => CurrentUpdateStatus);
+        }
+
+        #region Pagination
+        public void UpdatePageSetup(bool updatePerPage = false)
+        {
+            if (updatePerPage)
+                _itemsPerPage = Utils.GetItemsPerPage();
+            _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
             if (_allPages <= 1)
                 AnimesTopPageControlsVisibility = false;
             else
@@ -565,14 +614,9 @@ namespace MALClient.ViewModels
 
                 NextPageButtonEnableState = CurrentPage != _allPages;
             }
-
-
             ApplyCurrentPage();
-            UpdateUpperStatus();
-            RaisePropertyChanged(() => CurrentUpdateStatus);
         }
 
-        #region Pagination
 
         private void PrevPage()
         {
@@ -618,6 +662,9 @@ namespace MALClient.ViewModels
                 return;
             }
             _allLoadedSeasonalAnimeItems.Clear();
+            var source = _allLoadedAuthAnimeItems.Count > 0
+                ? _allLoadedAuthAnimeItems
+                : new List<AnimeItemAbstraction>();
             foreach (SeasonalAnimeData animeData in data)
             {
                 DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
@@ -625,7 +672,7 @@ namespace MALClient.ViewModels
                     DayOfAiring = animeData.AirDay,
                     GlobalScore = animeData.Score
                 });
-                var abstraction = _allLoadedAnimeItems.FirstOrDefault(item => item.Id == animeData.Id);
+                var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
                 if (abstraction == null)
                     _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
                 else
@@ -671,6 +718,10 @@ namespace MALClient.ViewModels
             }
 
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+            if (_allLoadedAuthAnimeItems.Count > 0 &&
+                string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
+
             _animeItems.Clear();           
 
             if (_allLoadedAnimeItems.Count == 0)
@@ -721,9 +772,12 @@ namespace MALClient.ViewModels
                 }
 
                 _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
+                if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                    _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
             }
 
-
+            AppBtnGoBackToMyListVisibility = !string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
+            
             RefreshList();
             //UpdateStatusCounterBadges();
             Loading = false;
@@ -736,7 +790,7 @@ namespace MALClient.ViewModels
             try
             {
                 reference =
-                    _allLoadedAnimeItems.First(abstraction => abstraction.Id == id).ViewModel;
+                    _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel;
                 return true;
             }
             catch (Exception)
@@ -809,14 +863,20 @@ namespace MALClient.ViewModels
 
         public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
         {
-            if(string.Equals(Creditentials.UserName,ListSource,StringComparison.CurrentCultureIgnoreCase))
-                _allLoadedAnimeItems.Add(parentAbstraction);
+            if (_allLoadedAuthAnimeItems.Count > 0)
+            {
+                _allLoadedAuthAnimeItems.Add(parentAbstraction);
+                _needReload = true;
+            }
         }
 
         public void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction)
         {
-            if (string.Equals(Creditentials.UserName, ListSource, StringComparison.CurrentCultureIgnoreCase))
-                _allLoadedAnimeItems.Remove(parentAbstraction);
+            if (_allLoadedAuthAnimeItems.Count > 0)
+            {
+                _allLoadedAuthAnimeItems.Remove(parentAbstraction);
+                _needReload = true;
+            }
         }
 
         #region LogInOut
@@ -836,5 +896,7 @@ namespace MALClient.ViewModels
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         }
         #endregion
+
+
     }
 }

@@ -34,10 +34,9 @@ namespace MALClient.ViewModels
     {
         private readonly string _imgUrl;
         
-        private int _allEpisodes;
-        //state fields
-        private bool _expandState;
         
+        //state fields
+        public int Id { get; set; }
         private float _globalScore;
         public readonly AnimeItemAbstraction _parentAbstraction;
         private bool _seasonalState;
@@ -96,10 +95,12 @@ namespace MALClient.ViewModels
             Synopsis = data.Synopsis;
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
+            ShowMoreVisibility = Visibility.Collapsed;
         }
         #endregion
 
         #region PropertyPairs
+        private int _allEpisodes;
         public int AllEpisodes => _allEpisodes;
 
         public string AirDayBind => Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
@@ -147,6 +148,8 @@ namespace MALClient.ViewModels
             get { return _incrementButtonsOrientation; }
             set
             {
+                if(_incrementButtonsOrientation == value)
+                    return;
                 _incrementButtonsOrientation = value;
                 RaisePropertyChanged(() => IncrementButtonsOrientation);
             }
@@ -160,6 +163,8 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyStatus; }
             set
             {
+                if (_parentAbstraction.MyStatus == value)
+                    return;
                 _parentAbstraction.MyStatus = value;
                 RaisePropertyChanged(() => MyStatusBind);
                 AdjustIncrementButtonsOrientation();
@@ -172,6 +177,8 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyScore; }
             set
             {
+                if (_parentAbstraction.MyScore == value)
+                    return;
                 _parentAbstraction.MyScore = value;
                 RaisePropertyChanged(() => MyScoreBind);
                 AdjustIncrementButtonsOrientation();
@@ -193,6 +200,8 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyEpisodes; }
             set
             {
+                if (_parentAbstraction.MyEpisodes == value)
+                    return;
                 _parentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
             }
@@ -449,9 +458,6 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-        //fields
-        public int Id { get; set; }
-        //private int SeasonalMembers { get; set; } //TODO : Use this
         
 
         public async void NavigateDetails()
@@ -577,13 +583,12 @@ namespace MALClient.ViewModels
         private void AdjustIncrementButtonsOrientation()
         {
             //Too wide update buttons
-            if (MyScore == 0)
-            {
-                if (MyStatus == (int) AnimeStatus.Dropped ||
-                    MyStatus == (int) AnimeStatus.OnHold ||
-                    MyStatus == (int) AnimeStatus.Completed)
-                    IncrementButtonsOrientation = Orientation.Vertical;
-            }
+            if (MyScore != 0) IncrementButtonsOrientation = Orientation.Horizontal;
+            if (MyStatus == (int) AnimeStatus.Dropped ||
+                MyStatus == (int) AnimeStatus.OnHold ||
+                MyStatus == (int) AnimeStatus.Completed ||
+                MyStatus == (int) AnimeStatus.Watching)
+                IncrementButtonsOrientation = Orientation.Vertical;
         }
 
         #endregion

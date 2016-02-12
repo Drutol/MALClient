@@ -13,14 +13,16 @@ namespace MALClient.Comm
 {
     public class AnimeGeneralDetailsQuery : Query
     {
-        private int _id;
+        private readonly int _id;
+        private readonly string _rootTitle;
 
-        public AnimeGeneralDetailsQuery(string title,int id)
+        public AnimeGeneralDetailsQuery(string title,int id,string rootTitle)
         {
             Request = WebRequest.Create(Uri.EscapeUriString($"http://cdn.animenewsnetwork.com/encyclopedia/api.xml?title=~{title}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _id = id;
+            _rootTitle = rootTitle;
         }
 
         public async Task<AnimeGeneralDetailsData> GetGeneralDetailsData(bool force = false)
@@ -33,7 +35,16 @@ namespace MALClient.Comm
             if (string.IsNullOrEmpty(raw))
                 return null;
             XDocument data = XDocument.Parse(raw);
-            var node = data.Element("ann").Elements("anime").First();
+            var nodes = data.Element("ann").Elements("anime");
+            //there may be many things , maybe we are lucky enough to grab original title
+            var node =
+                nodes.FirstOrDefault(
+                    element =>
+                        string.Equals(element.Attribute("name").Value, _rootTitle,
+                            StringComparison.CurrentCultureIgnoreCase));
+
+            if(node == null)
+                node = nodes.First();
 
             var output = new AnimeGeneralDetailsData
             {

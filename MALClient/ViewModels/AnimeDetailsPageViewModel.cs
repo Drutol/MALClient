@@ -97,7 +97,7 @@ namespace MALClient.ViewModels
         public string MyEpisodesBind => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
         private int MyEpisodes
         {
-            get { return _animeItemReference.MyEpisodes; }
+            get { return _animeItemReference?.MyEpisodes ?? 0; }
             set
             {
                 _animeItemReference.MyEpisodes = value;
@@ -108,7 +108,7 @@ namespace MALClient.ViewModels
         public string MyStatusBind => Utils.StatusToString(MyStatus);
         private int MyStatus
         {
-            get { return _animeItemReference.MyStatus; }
+            get { return _animeItemReference?.MyStatus ?? (int)AnimeStatus.AllOrAiring; }
             set
             {
                 _animeItemReference.MyStatus = value;
@@ -119,7 +119,7 @@ namespace MALClient.ViewModels
         public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
         private int MyScore
         {
-            get { return _animeItemReference.MyScore; }
+            get { return _animeItemReference?.MyScore ?? 0; }
             set
             {
                 _animeItemReference.MyScore = value;
@@ -563,7 +563,7 @@ namespace MALClient.ViewModels
             Loading = Visibility.Visible;
             try
             {
-                var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id).GetGeneralDetailsData(force);
+                var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id,Title).GetGeneralDetailsData(force);
                 _genres1.Clear();
                 _genres2.Clear();
                 _episodes.Clear();

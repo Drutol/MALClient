@@ -81,19 +81,9 @@ namespace MALClient.Pages
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
-            try
-            {
-                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-                ViewModel.UpdateUpperStatus();
-            }
-            catch (Exception)
-            {
-                //ignored
-            }
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);           
         }
@@ -102,19 +92,19 @@ namespace MALClient.Pages
 
         #region UIHelpers
 
-        internal void ScrollTo(AnimeItem animeItem)
-        {
-            try
-            {
-                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-                var offset = ViewModel._animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
-                scrollViewer.ScrollToVerticalOffset(offset);
-            }
-            catch (Exception)
-            {
-                // ehh
-            }
-        }
+        //internal void ScrollTo(AnimeItem animeItem)
+        //{
+        //    try
+        //    {
+        //        var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
+        //        var offset = ViewModel._animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
+        //        scrollViewer.ScrollToVerticalOffset(offset);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        // ehh
+        //    }
+        //}
 
         #endregion
              
@@ -122,23 +112,21 @@ namespace MALClient.Pages
 
         private async void PinTileMal(object sender, RoutedEventArgs e)
         {
-            foreach (object item in Animes.SelectedItems)
+            string id = ViewModel.CurrentlySelectedAnimeItem.ViewModel.Id.ToString();
+            if (SecondaryTile.Exists(id))
             {
-                var anime = item as AnimeItem;
-                if (SecondaryTile.Exists(anime.ViewModel.Id.ToString()))
-                {
-                    var msg = new MessageDialog("Tile for this anime already exists.");
-                    await msg.ShowAsync();
-                    continue;
-                }
-                anime.ViewModel.PinTile($"http://www.myanimelist.net/anime/{anime.ViewModel.Id}");
+                var msg = new MessageDialog("Tile for this anime already exists.");
+                await msg.ShowAsync();
+                return;
             }
+            ViewModel.CurrentlySelectedAnimeItem.ViewModel.PinTile($"http://www.myanimelist.net/anime/{id}");
+            
         }
 
         private void PinTileCustom(object sender, RoutedEventArgs e)
         {
-            var item = Animes.SelectedItem as AnimeItem;
-            item.OpenTileUrlInput();
+            //var item = Animes.SelectedItem as AnimeItem;
+            //item.OpenTileUrlInput();
         }
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
@@ -205,11 +193,6 @@ namespace MALClient.Pages
             TxtListSource.SelectAll();
         }
 
-        private void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            AppbarBtnPinTile.IsEnabled = true;
-        }
-
         internal void InitSortOptions(SortOptions option,bool descending)
         {
             switch (option)
@@ -245,6 +228,19 @@ namespace MALClient.Pages
         private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
             (args.Item.Content as AnimePagePivotContent).LoadContent();
+        }
+
+        private void AnimesPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (e.RemovedItems.Count > 0)
+                    ((e.RemovedItems.First() as PivotItem).Content as AnimePagePivotContent).ResetSelection();
+            }
+            catch (Exception)
+            {
+                //
+            }
         }
     }
 }

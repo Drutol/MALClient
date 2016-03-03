@@ -101,7 +101,7 @@ namespace MALClient.Items
         public void OpenTileUrlInput()
         {
             TxtTileUrl.Text = "";
-            Utils.GetMainPageInstance().AnimeListScrollTo(this);
+            //Utils.GetMainPageInstance().AnimeListScrollTo(this);
             ViewModel.TileUrlInputVisibility = Visibility.Visible;
             TxtTileUrl.Focus(FocusState.Keyboard);
         }

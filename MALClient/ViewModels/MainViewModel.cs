@@ -305,12 +305,12 @@ namespace MALClient.ViewModels
         #endregion
 
         #region UIHelpers
-        public void AnimeListScrollTo(AnimeItem animeItem)
-        {
-            var content = View.GetCurrentContent();
-            if (content is AnimeListPage)
-                ((AnimeListPage)content).ScrollTo(animeItem);
-        }
+        //public void AnimeListScrollTo(AnimeItem animeItem)
+        //{
+        //    var content = View.GetCurrentContent();
+        //    if (content is AnimeListPage)
+        //        ((AnimeListPage)content).ScrollTo(animeItem);
+        //}
 
         private void ShowSearchStuff()
         {

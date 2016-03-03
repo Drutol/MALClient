@@ -62,7 +62,6 @@ namespace MALClient.ViewModels
 
         public int CurrentStatus => GetDesiredStatus();
         public string CurrentUpdateStatus => GetLastUpdatedStatus();         
-        public string CurrentPageStatus => $"{_currentPage}/{_allPages}";
 
 #region PropertyPairs
         private string _listSource;
@@ -94,8 +93,6 @@ namespace MALClient.ViewModels
             set
             {
                 _currentPage = value;
-                ApplyCurrentPage();
-                RaisePropertyChanged(() => CurrentPageStatus);
             }
         }
 
@@ -107,17 +104,6 @@ namespace MALClient.ViewModels
             {
                 _emptyNoticeVisibility = value;
                 RaisePropertyChanged(() => EmptyNoticeVisibility);
-            }
-        }
-
-        private bool _animesTopPageControlsVisibility;
-        public bool AnimesTopPageControlsVisibility
-        {
-            get { return _animesTopPageControlsVisibility; }
-            set
-            {
-                _animesTopPageControlsVisibility = value;
-                RaisePropertyChanged(() => AnimesTopPageControlsVisibility);
             }
         }
 
@@ -175,28 +161,6 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => AppBtnGoBackToMyListVisibility);
             }
         }
-
-        private bool _prevPageButtonEnableState;
-        public bool PrevPageButtonEnableState
-        {
-            get { return _prevPageButtonEnableState; }
-            set
-            {
-                _prevPageButtonEnableState = value;
-                RaisePropertyChanged(() => PrevPageButtonEnableState);
-            }
-        }
-
-        private bool _nextPageButtonEnableState;
-        public bool NextPageButtonEnableState
-        {
-            get { return _nextPageButtonEnableState; }
-            set
-            {
-                _nextPageButtonEnableState = value;
-                RaisePropertyChanged(() => NextPageButtonEnableState);
-            }
-        }        
 
         private int _statusSelectorSelectedIndex;
         public int StatusSelectorSelectedIndex
@@ -256,27 +220,7 @@ namespace MALClient.ViewModels
                 _statusAllLabel = value;
                 RaisePropertyChanged(() => StatusAllLabel);
             }
-        }
-
-        private ICommand _prevPageCommand;
-        public ICommand PrevPageCommand
-        {
-            get
-            {
-                return _prevPageCommand ??
-                       (_prevPageCommand = new RelayCommand(PrevPage));
-            }
-        }
-
-        private ICommand _nextPageCommand;
-        public ICommand NextPageCommand
-        {
-            get
-            {
-                return _nextPageCommand ??
-                       (_nextPageCommand = new RelayCommand(NextPage));
-            }
-        }
+        }      
 
         private ICommand _refreshCommand;
         public ICommand RefreshCommand
@@ -330,8 +274,40 @@ namespace MALClient.ViewModels
 
         public Thickness AnimesPivotHeaderMargin { get; set; } = new Thickness(0);
 
-        public PivotItem AnimesPivotSelectedItem { get; set; }
+        private int _animesPivotSelectedIndex;
+        public int AnimesPivotSelectedIndex
+        {
+            get { return _animesPivotSelectedIndex; }
+            set
+            {
+                _animesPivotSelectedIndex = value;
+                CurrentPage = value + 1;
+                AppbarBtnPinTileIsEnabled = false;
+                RaisePropertyChanged(() => AnimesPivotSelectedIndex);
+            }
+        }
 
+        public AnimeItem _currentlySelectedAnimeItem;
+        public AnimeItem CurrentlySelectedAnimeItem
+        {
+            get { return _currentlySelectedAnimeItem; }
+            set
+            {
+                _currentlySelectedAnimeItem = value;
+                AppbarBtnPinTileIsEnabled = true;
+            }
+        }
+
+        public bool _appbarBtnPinTileIsEnabled;
+        public bool AppbarBtnPinTileIsEnabled
+        {
+            get { return _appbarBtnPinTileIsEnabled; }
+            set
+            {
+                _appbarBtnPinTileIsEnabled = value;
+                RaisePropertyChanged(() => AppbarBtnPinTileIsEnabled);
+            }
+        }
 
         #endregion
         public async void Init(AnimeListPageNavigationArgs args) // TODO : Refactor this 
@@ -533,7 +509,6 @@ namespace MALClient.ViewModels
                 return;
 
             _wasPreviousQuery = queryCondition;
-            _currentPage = 1;
 
             _animeItemsSet.Clear();
             var status = queryCondition ? 7 : GetDesiredStatus();
@@ -612,7 +587,7 @@ namespace MALClient.ViewModels
         {
             if (updatePerPage) //called from settings
                 _itemsPerPage = Utils.GetItemsPerPage();
-
+            int realPage = CurrentPage;
             _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
             AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
             _animePages = new ObservableCollection<PivotItem>();
@@ -624,38 +599,18 @@ namespace MALClient.ViewModels
                     Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage * i).Take(_itemsPerPage))                     
                 });
             }
-
+            
             RaisePropertyChanged(() => AnimePages);
-            
+            try
+            {
+                AnimesPivotSelectedIndex = realPage - 1;
+            }
+            catch (Exception)
+            {
+                CurrentPage = 1;
+            }
+                
             Loading = false;
-        }
-
-
-        private void PrevPage()
-        {
-            CurrentPage--;
-            PrevPageButtonEnableState = CurrentPage != 1;
-            NextPageButtonEnableState = true;
-            ApplyCurrentPage();
-        }
-
-        private void NextPage()
-        {
-            CurrentPage++;
-            NextPageButtonEnableState = CurrentPage != _allPages;
-            PrevPageButtonEnableState = true;
-            ApplyCurrentPage();
-        }
-
-        private void ApplyCurrentPage()
-        {
-            _animeItems.Clear();
-            foreach (
-                AnimeItemAbstraction item in _animeItemsSet.Skip(_itemsPerPage * (CurrentPage - 1)).Take(_itemsPerPage))
-                _animeItems.Add(item.AnimeItem);
-            RaisePropertyChanged(() => CurrentPageStatus);
-            
-            View.DisablePinButton();
         }
 
         #endregion

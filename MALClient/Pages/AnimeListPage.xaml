@@ -15,6 +15,7 @@
     <Page.Resources>
         <converters:AreItemsSelectedInListViewConverter x:Key="AreItemsSelectedInListViewConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
     </Page.Resources>
 
     <Page.BottomAppBar>
@@ -39,7 +40,7 @@
                 </AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton x:Name="AppbarBtnPinTile" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Pin" Label="Pin to start" IsEnabled="False">
+            <AppBarButton x:Name="AppbarBtnPinTile" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Pin" Label="Pin to start" IsEnabled="{Binding AppbarBtnPinTileIsEnabled}">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="MyAnimeList" Click="PinTileMal" />
@@ -90,7 +91,122 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
-        <Pivot x:Name="AnimesPivot" Margin="{Binding AnimesPivotHeaderMargin}" SelectedItem="{Binding AnimesPivotSelectedItem}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading" Padding="0">
+        <Pivot x:Name="AnimesPivot" Margin="{Binding AnimesPivotHeaderMargin}" SelectionChanged="AnimesPivot_OnSelectionChanged" SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading" Padding="0">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem">
+                    <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}" />
+                    <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
+                    <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}" />
+                    <Setter Property="CharacterSpacing" Value="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                    <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
+                    <Setter Property="Height" Value="48" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="PivotHeaderItem">
+                                <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                                    <Grid.Resources>
+                                        <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
+                                            <Setter Property="FontFamily" Value="Segoe UI" />
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="LineStackingStrategy" Value="MaxHeight" />
+                                            <Setter Property="TextLineBounds" Value="Full" />
+                                            <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
+                                        </Style>
+                                        <Style x:Key="BodyContentPresenterStyle" TargetType="ContentPresenter" BasedOn="{StaticResource BaseContentPresenterStyle}">
+                                            <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
+                                            <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}" />
+                                            <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="SelectionStates">
+                                            <VisualStateGroup.Transitions>
+                                                <VisualTransition From="Unselected" To="UnselectedLocked" GeneratedDuration="0:0:0.33" />
+                                                <VisualTransition From="UnselectedLocked" To="Unselected" GeneratedDuration="0:0:0.33" />
+                                            </VisualStateGroup.Transitions>
+                                            <VisualState x:Name="Disabled">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unselected" />
+                                            <VisualState x:Name="UnselectedLocked">
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="ContentPresenterTranslateTransform" Storyboard.TargetProperty="X" Duration="0" To="{ThemeResource PivotHeaderItemLockedTranslation}" />
+                                                    <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)" Duration="0" To="0" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="UnselectedPointerOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="SelectedPointerOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="UnselectedPressed">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="SelectedPressed">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                        <ContentPresenter.RenderTransform>
+                                            <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
+                                        </ContentPresenter.RenderTransform>
+                                    </ContentPresenter>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Pivot.Resources>
             <Pivot.ItemContainerStyle>
                 <Style TargetType="PivotItem">
                     <Setter Property="Padding" Value="0"/>
@@ -99,73 +215,12 @@
             </Pivot.ItemContainerStyle>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
-                        <TextBlock Text="{Binding}"/>
+                    <Grid Margin="10,0" Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
+                        <TextBlock Text="{Binding}" FontSize="19"/>
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <ListView x:Name="Animes" SelectionMode="Single" IsSwipeEnabled="True"
-                  SelectionChanged="Animes_OnSelectionChanged" Visibility="Collapsed">
-            <ListView.Header>
-                <Grid Margin="1">
-                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                        <TextBlock Visibility="{Binding UpdateNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="1"
-                                   TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding CurrentUpdateStatus}"
-                                   Foreground="#FFB9B9B9" />
-                        <TextBlock x:Name="TxtPageCount"
-                                   Visibility="{Binding ElementName=AnimesTopPageControls, Path=Visibility}" Margin="1"
-                                   FontWeight="Medium" TextWrapping="WrapWholeWords" TextAlignment="Center"
-                                   HorizontalAlignment="Center" Foreground="#FFB0B0B0" Text="{Binding CurrentPageStatus}" />
-                    </StackPanel>
-
-                    <Grid x:Name="AnimesTopPageControls" Visibility="{Binding AnimesTopPageControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Button x:Name="BtnPrevPage" Command="{Binding PrevPageCommand}" Margin="1" Height="40" VerticalAlignment="Center"
-                                HorizontalAlignment="Left" Background="Transparent" BorderThickness="2,0,0,0"
-                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding PrevPageButtonEnableState}">
-                            <SymbolIcon Symbol="Back" />
-                        </Button>
-                        <Button x:Name="BtnNextPage" Command="{Binding NextPageCommand}" Margin="1" Height="40" VerticalAlignment="Center"
-                                HorizontalAlignment="Right" Background="Transparent" BorderThickness="0,0,2,0"
-                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding NextPageButtonEnableState}">
-                            <SymbolIcon Symbol="Forward" />
-                        </Button>
-                    </Grid>
-                </Grid>
-            </ListView.Header>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Padding" Value="0,5" />
-                    <Setter Property="Margin" Value="0,5" />
-                    <Setter Property="BorderBrush">
-                    <Setter.Value>
-                            <SolidColorBrush Color="{ThemeResource SystemAccentColor}" Opacity=".75"></SolidColorBrush>
-                    </Setter.Value>    
-                    </Setter>
-                  
-                    <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.Footer>
-                <Grid Margin="1" Visibility="{Binding ElementName=AnimesTopPageControls,Path=Visibility}">
-                    <Button Command="{Binding PrevPageCommand}" IsEnabled="{Binding ElementName=BtnPrevPage,Path=IsEnabled}" Margin="1"
-                            Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent"
-                            BorderThickness="2,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <SymbolIcon Symbol="Back" />
-                    </Button>
-                    <TextBlock Visibility="{Binding ElementName=AnimesTopPageControls, Path=Visibility}"
-                               Text="{Binding ElementName=TxtPageCount,Path=Text}" Margin="1" FontWeight="Medium"
-                               TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
-                               VerticalAlignment="Center" Foreground="#FFB0B0B0" />
-                    <Button Command="{Binding NextPageCommand}" IsEnabled="{Binding ElementName=BtnNextPage,Path=IsEnabled}" Margin="1"
-                            Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent"
-                            BorderThickness="0,0,2,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <SymbolIcon Symbol="Forward" />
-                    </Button>
-                </Grid>
-            </ListView.Footer>
-        </ListView>
         <StackPanel Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding EmptyNoticeContent}"

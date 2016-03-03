@@ -10,7 +10,7 @@
     d:DesignWidth="400">
 
     <Grid Padding="0">
-        <ListView x:Name="Animes" Padding="0">
+        <ListView x:Name="Animes" Padding="0" SelectionMode="Single" SelectionChanged="Animes_OnSelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

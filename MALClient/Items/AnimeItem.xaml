@@ -101,9 +101,9 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root" Background="{Binding RootBrush}"
-          ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
-          ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia">
+    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root" Background="{Binding RootBrush}">
+        <!--ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
+          ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia"-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="*" />
@@ -243,7 +243,7 @@
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" Margin="{Binding TitleMargin}" />
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <StackPanel Orientation="{Binding IncrementButtonsOrientation}">
+                <StackPanel Orientation="{Binding IncrementButtonsOrientation}" Margin="0,0,0,1">
                     <Button x:Name="DecrementEps" 
                         VerticalAlignment="Center" HorizontalAlignment="Center" Height="40"
                         Width="40" Command="{Binding DecrementWatchedCommand}" 

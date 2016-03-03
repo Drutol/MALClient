@@ -90,8 +90,23 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+        <Pivot x:Name="AnimesPivot" Margin="{Binding AnimesPivotHeaderMargin}" SelectedItem="{Binding AnimesPivotSelectedItem}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading" Padding="0">
+            <Pivot.ItemContainerStyle>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="1"/>
+                </Style>
+            </Pivot.ItemContainerStyle>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
+                        <TextBlock Text="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+        </Pivot>
         <ListView x:Name="Animes" SelectionMode="Single" IsSwipeEnabled="True"
-                  SelectionChanged="Animes_OnSelectionChanged" ItemsSource="{Binding AnimeItems}">
+                  SelectionChanged="Animes_OnSelectionChanged" Visibility="Collapsed">
             <ListView.Header>
                 <Grid Margin="1">
                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">

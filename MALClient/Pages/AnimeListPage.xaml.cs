@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.UserControls;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -116,13 +117,7 @@ namespace MALClient.Pages
         }
 
         #endregion
-
-       
-
-
-
-        
-
+             
         #region ActionHandlers
 
         private async void PinTileMal(object sender, RoutedEventArgs e)
@@ -245,6 +240,11 @@ namespace MALClient.Pages
         public void DisablePinButton()
         {
             AppbarBtnPinTile.IsEnabled = false;
+        }
+
+        private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
+        {
+            (args.Item.Content as AnimePagePivotContent).LoadContent();
         }
     }
 }

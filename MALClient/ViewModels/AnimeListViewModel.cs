@@ -17,9 +17,11 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
+using MALClient.UserControls;
 
 namespace MALClient.ViewModels
 {
+
     public class AnimeListViewModel : ViewModelBase
     {
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
@@ -27,6 +29,10 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
         public readonly ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
+        public ObservableCollection<PivotItem> _animePages = new ObservableCollection<PivotItem>();
+
+        public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
+        public ObservableCollection<PivotItem> AnimePages => _animePages;
 
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
@@ -57,7 +63,7 @@ namespace MALClient.ViewModels
         public int CurrentStatus => GetDesiredStatus();
         public string CurrentUpdateStatus => GetLastUpdatedStatus();         
         public string CurrentPageStatus => $"{_currentPage}/{_allPages}";
-        public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
+
 #region PropertyPairs
         private string _listSource;
         public string ListSource
@@ -308,7 +314,26 @@ namespace MALClient.ViewModels
         }
 
         public bool IsSeasonal => _seasonalState;
-#endregion
+
+        private Visibility _animesPivotHeaderVisibility;
+        public Visibility AnimesPivotHeaderVisibility
+        {
+            get { return _animesPivotHeaderVisibility; }
+            set
+            {
+                _animesPivotHeaderVisibility = value;
+                AnimesPivotHeaderMargin = value == Visibility.Collapsed ? new Thickness(0,-50,0,0) : new Thickness(0);
+                RaisePropertyChanged(() => AnimesPivotHeaderVisibility);
+                RaisePropertyChanged(() => AnimesPivotHeaderMargin);
+            }
+        }
+
+        public Thickness AnimesPivotHeaderMargin { get; set; } = new Thickness(0);
+
+        public PivotItem AnimesPivotSelectedItem { get; set; }
+
+
+        #endregion
         public async void Init(AnimeListPageNavigationArgs args) // TODO : Refactor this 
         {
             if (args != null)
@@ -585,27 +610,24 @@ namespace MALClient.ViewModels
         #region Pagination
         public void UpdatePageSetup(bool updatePerPage = false)
         {
-            if (updatePerPage)
+            if (updatePerPage) //called from settings
                 _itemsPerPage = Utils.GetItemsPerPage();
-            _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
-            if (_allPages <= 1)
-                AnimesTopPageControlsVisibility = false;
-            else
-            {
-                AnimesTopPageControlsVisibility = true;
-                if (CurrentPage <= 1)
-                {
-                    PrevPageButtonEnableState = false;
-                    CurrentPage = 1;
-                }
-                else
-                {
-                    PrevPageButtonEnableState = true;
-                }
 
-                NextPageButtonEnableState = CurrentPage != _allPages;
+            _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
+            AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
+            _animePages = new ObservableCollection<PivotItem>();
+            for (int i = 0; i < _allPages; i++)
+            {
+                AnimePages.Add(new PivotItem
+                {
+                    Header = $"Page {i+1}",
+                    Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage * i).Take(_itemsPerPage))                     
+                });
             }
-            ApplyCurrentPage();
+
+            RaisePropertyChanged(() => AnimePages);
+            
+            Loading = false;
         }
 
 
@@ -632,7 +654,7 @@ namespace MALClient.ViewModels
                 AnimeItemAbstraction item in _animeItemsSet.Skip(_itemsPerPage * (CurrentPage - 1)).Take(_itemsPerPage))
                 _animeItems.Add(item.AnimeItem);
             RaisePropertyChanged(() => CurrentPageStatus);
-            Loading = false;
+            
             View.DisablePinButton();
         }
 

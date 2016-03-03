@@ -13,7 +13,7 @@
 
 
     <Page.Resources>
-        <converters:AreItemsSelectedInListViewConverter x:Key="AreItemsSelectedInListViewConverter" />
+        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"></converters:VisiblityInverterConverter>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         
     </Page.Resources>
@@ -46,6 +46,13 @@
                         <MenuFlyoutItem Text="MyAnimeList" Click="PinTileMal" />
                         <MenuFlyoutItem Text="Custom link" Click="PinTileCustom" />
                     </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Calendar" Label="Select season" Visibility="{Binding ElementName=AppbarBtnPinTile,Converter={StaticResource VisiblityInverterConverter},Path=Visibility}">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <ListView ItemsSource="{Binding SeasonSelection}"/>
+                    </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Sort" Label="Order by">

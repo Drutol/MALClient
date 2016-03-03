@@ -22,6 +22,7 @@ namespace MALClient
         static DataCache()
         {
             LoadVolatileData();
+            LoadSeasonalurls();
         }
 
         #region UserData
@@ -85,6 +86,8 @@ namespace MALClient
             return true;
         }
 
+
+
         #endregion
 
         #region SeasonData
@@ -125,6 +128,7 @@ namespace MALClient
         #region VolatileData
 
         private static Dictionary<int, VolatileDataCache> _volatileDataCache;
+        public static Dictionary<string, string> SeasonalUrls; 
 
         private static async void LoadVolatileData()
         {
@@ -161,18 +165,6 @@ namespace MALClient
         public static void RegisterVolatileData(int id, VolatileDataCache data)
         {
             _volatileDataCache[id] = data;
-        }
-
-        public static void DeregisterVolatileData(int id)
-        {
-            try
-            {
-                _volatileDataCache[id].DayOfAiring = -1;
-            }
-            catch (Exception)
-            {
-                /*ignore*/
-            }
         }
 
         public static bool TryRetrieveDataForId(int id, out VolatileDataCache data)
@@ -233,5 +225,38 @@ namespace MALClient
             return true;
         }
         #endregion
+
+        public static async void SaveSeasonalUrls(Dictionary<string, string> seasonData)
+        {
+            try
+            {
+                SeasonalUrls = seasonData;
+                var json = JsonConvert.SerializeObject(seasonData);
+                StorageFile file =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_urls.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
+        }
+
+        private static async void LoadSeasonalurls()
+        {
+            try
+            {
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_urls.json");
+                var data = await FileIO.ReadTextAsync(file);
+                SeasonalUrls = JsonConvert.DeserializeObject<Dictionary<string, string>>(data) ??
+                                     new Dictionary<string,string>();
+            }
+            catch (Exception)
+            {
+                SeasonalUrls = new Dictionary<string, string>();
+            }
+        }
     }
 }

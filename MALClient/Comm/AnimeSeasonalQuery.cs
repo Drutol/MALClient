@@ -11,9 +11,12 @@ namespace MALClient.Comm
 {
     internal class AnimeSeasonalQuery : Query
     {
-        public AnimeSeasonalQuery()
+        private bool _overriden;
+
+        public AnimeSeasonalQuery(string url = "http://myanimelist.net/anime/season")
         {
-            Request = WebRequest.Create(Uri.EscapeUriString("http://myanimelist.net/anime/season"));
+            _overriden = url != "http://myanimelist.net/anime/season";
+            Request = WebRequest.Create(Uri.EscapeUriString(url));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
@@ -37,6 +40,31 @@ namespace MALClient.Comm
                             node.Attributes["class"].Value ==
                             "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
 
+            //Get season data
+            if (!_overriden)
+            {
+                var seasonInfoNodes = doc.DocumentNode.Descendants("div").First(
+                    node =>
+                        node.Attributes.Contains("class") &&
+                        node.Attributes["class"].Value ==
+                        "horiznav_nav").Descendants("li").ToList();
+                Dictionary<string, string> seasonData = new Dictionary<string, string>();
+                for (int j = 1; j <= 4; j++)
+                {
+                    try
+                    {
+                        seasonData.Add(seasonInfoNodes[j].Descendants("a").First().InnerText.Trim(),
+                            seasonInfoNodes[j].Descendants("a").First().Attributes["href"].Value);
+                    }
+                    catch (Exception)
+                    {
+                        //ignored
+                    }
+                }
+                DataCache.SaveSeasonalUrls(seasonData);
+            }
+
+            //Get anime data
             IEnumerable<HtmlNode> nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
 
             var i = 0;
@@ -66,7 +94,6 @@ namespace MALClient.Comm
                     day = (int) DateTime.Parse(date).DayOfWeek;
                     day++;
                 }
-
                 catch (Exception)
                 {
                     day = -1;

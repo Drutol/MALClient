@@ -28,11 +28,10 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
-        public readonly ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>(); // + Page
         public ObservableCollection<PivotItem> _animePages = new ObservableCollection<PivotItem>();
-
-        public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
         public ObservableCollection<PivotItem> AnimePages => _animePages;
+
+        public ObservableCollection<ListViewItem> SeasonSelection { get; } = new ObservableCollection<ListViewItem>();
 
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
@@ -86,15 +85,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _currentPage = 1;
-        public int CurrentPage
-        {
-            get { return _currentPage; }
-            set
-            {
-                _currentPage = value;
-            }
-        }
+        public int CurrentPage { get; set; } = 1;
 
         private bool _emptyNoticeVisibility = false;
         public bool EmptyNoticeVisibility
@@ -660,6 +651,15 @@ namespace MALClient.ViewModels
                 }
 
             }
+            SeasonSelection.Clear();
+            foreach (var seasonalUrl in DataCache.SeasonalUrls)
+            {
+                SeasonSelection.Add(new ListViewItem
+                {
+                    Content = seasonalUrl.Key,
+                    Tag = seasonalUrl.Value
+                });
+            }
             DataCache.SaveVolatileData();
 
             UpdateUpperStatus();
@@ -693,8 +693,6 @@ namespace MALClient.ViewModels
             {
                 EmptyNoticeContent = "We have come up empty...";
             }
-
-            _animeItems.Clear();
 
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             if(force)
@@ -864,7 +862,6 @@ namespace MALClient.ViewModels
 
         public void LogOut()
         {
-            _animeItems.Clear();
             _animeItemsSet.Clear();
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
@@ -875,14 +872,11 @@ namespace MALClient.ViewModels
         }
 
         public void LogIn()
-        {
-            
-            _animeItems.Clear();
+        {           
             _animeItemsSet.Clear();
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-
+            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();       
             ListSource = Creditentials.UserName;
             _prevListSource = "";
         }

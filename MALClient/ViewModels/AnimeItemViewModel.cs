@@ -74,9 +74,8 @@ namespace MALClient.ViewModels
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
             GlobalScore = _parentAbstraction.GlobalScore;
-            if (_parentAbstraction.AirDay != -1)
-                Airing = true;
-         
+            Airing = _parentAbstraction.AirDay != -1;
+
         }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
@@ -91,8 +90,8 @@ namespace MALClient.ViewModels
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
             if (data.Genres != null)
-                Genres = data.Genres;            
-            Airing = true;
+                Genres = data.Genres;
+            Airing = _parentAbstraction.AirDay != -1;
             Synopsis = data.Synopsis;
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();

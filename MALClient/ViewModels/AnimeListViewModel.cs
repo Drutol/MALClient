@@ -290,13 +290,14 @@ namespace MALClient.ViewModels
             get { return _seasonalUrlsSelectedIndex; }
             set
             {
-                if(value == _seasonalUrlsSelectedIndex)
+                if (value == _seasonalUrlsSelectedIndex || value < 0)
                     return;
                 _seasonalUrlsSelectedIndex = value;
                 CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
-                CurrentPage = 1;            
-                FetchSeasonalData();
                 RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                View.FlyoutSeasonSelectionHide();
+                CurrentPage = 1;            
+                FetchSeasonalData();             
             }
         }
 
@@ -351,6 +352,7 @@ namespace MALClient.ViewModels
                         SortDescending = false;
                         SetSortOrder(SortOptions.SortWatched); //index
                         SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+                        CurrentSeason = null;
                     }
 
                     SwitchFiltersToSeasonal();
@@ -630,7 +632,6 @@ namespace MALClient.ViewModels
         #endregion
 
         #region FetchAndPopulate
-
         private async Task FetchSeasonalData(bool force = false)
         {
             Loading = true;
@@ -680,14 +681,23 @@ namespace MALClient.ViewModels
                 }
 
             }
+            
             SeasonSelection.Clear();
+            int i = 0;
             foreach (var seasonalUrl in DataCache.SeasonalUrls)
             {
                 SeasonSelection.Add(new ListViewItem
                 {
                     Content = seasonalUrl.Key,
-                    Tag = new AnimeSeason { Name = seasonalUrl.Key,Url = seasonalUrl.Value}                                                        
+                    Tag = new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value}
                 });
+                if (seasonalUrl.Key == CurrentSeason.Name)
+                {
+                    _seasonalUrlsSelectedIndex = i;
+                    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                }
+                i++;
+
             }
             //we have set artificial default one because we did not know what lays ahead of us
             if (setDefaultSeason)

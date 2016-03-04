@@ -223,9 +223,9 @@ namespace MALClient.Pages
 
         #endregion
 
-        public void DisablePinButton()
+        public void FlyoutSeasonSelectionHide()
         {
-            AppbarBtnPinTile.IsEnabled = false;
+            FlyoutSeasonSelection.Hide();
         }
 
         private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)

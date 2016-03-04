@@ -41,6 +41,12 @@ namespace MALClient.ViewModels
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
 
+
+
+
+
+
+
         private int _itemsPerPage = Utils.GetItemsPerPage();
 
         private int _allPages;
@@ -66,9 +72,10 @@ namespace MALClient.ViewModels
         }
 
         public int CurrentStatus => GetDesiredStatus();
-        public string CurrentUpdateStatus => GetLastUpdatedStatus();         
+        public string CurrentUpdateStatus => GetLastUpdatedStatus();
 
-#region PropertyPairs
+        #region PropertyPairs
+
         private string _listSource;
         public string ListSource
         {
@@ -174,6 +181,17 @@ namespace MALClient.ViewModels
                 RefreshList();
             }
         }
+        //For hiding/showing header bar - XamlResources/DictionaryAnimeList.xml
+        private GridLength _pivotHeaerGridRowHeight = new GridLength(200);
+        public GridLength PivotHeaerGridRowHeight
+        {
+            get { return _pivotHeaerGridRowHeight; }
+            set
+            {
+                _pivotHeaerGridRowHeight = value;
+                RaisePropertyChanged(() => PivotHeaerGridRowHeight);
+            }
+        }
 
         private bool _loading;
         public bool Loading
@@ -263,13 +281,10 @@ namespace MALClient.ViewModels
             set
             {
                 _animesPivotHeaderVisibility = value;
-                AnimesPivotHeaderMargin = value == Visibility.Collapsed ? new Thickness(0,-40,0,0) : new Thickness(0);
+                PivotHeaerGridRowHeight = value == Visibility.Collapsed ? new GridLength(0) : new GridLength(40);
                 RaisePropertyChanged(() => AnimesPivotHeaderVisibility);
-                RaisePropertyChanged(() => AnimesPivotHeaderMargin);
             }
         }
-
-        public Thickness AnimesPivotHeaderMargin { get; set; } = new Thickness(0);
 
         private int _animesPivotSelectedIndex;
         public int AnimesPivotSelectedIndex

@@ -99,14 +99,18 @@
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.Resources>
             <ResourceDictionary>
+                <Style TargetType="PivotHeaderPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="../XamlResources/DictionaryAnimeList.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
-        <Pivot x:Name="AnimesPivot" Margin="{Binding AnimesPivotHeaderMargin}" Style="{StaticResource PivotStyleAnimeList}" SelectionChanged="AnimesPivot_OnSelectionChanged" SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading" Padding="0">
+        <Pivot x:Name="AnimesPivot"  Style="{StaticResource PivotStyleAnimeList}"  SelectionChanged="AnimesPivot_OnSelectionChanged" SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}"/>
+
             </Pivot.Resources>
             <Pivot.ItemContainerStyle>
                 <Style TargetType="PivotItem">
@@ -116,7 +120,7 @@
             </Pivot.ItemContainerStyle>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Width="28" Height="28" Margin="2,1" Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
+                    <Grid Width="30" Height="30" Margin="2,0" VerticalAlignment="Top" Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
                         <TextBlock Text="{Binding}" FontSize="20" Foreground="White" FontWeight="SemiLight" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>

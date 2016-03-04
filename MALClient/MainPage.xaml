@@ -53,7 +53,7 @@
                 <SymbolIcon Symbol="Refresh" />
             </Button>
         </Grid>
-        <SplitView VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="200"
+        <SplitView VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
                    IsPaneOpen="{Binding MenuPaneState}" DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>
                 <controls:HamburgerControl x:Name="HamburgerControl" />

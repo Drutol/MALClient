@@ -17,7 +17,7 @@
         <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
     </UserControl.Resources>
 
-    <Grid x:Name="RootGrid" VerticalAlignment="Stretch">
+    <Grid VerticalAlignment="Stretch">
         <Grid Background="#E6E6E6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -28,13 +28,13 @@
                           VerticalAlignment="Stretch" >
                 <Grid>
                     <StackPanel>
-                        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+                        <StackPanel VerticalAlignment="Top">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="0">
-                                <Grid Width="200" Height="50">
+                                <Grid Width="220" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
@@ -55,7 +55,7 @@
                                     PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="3">
-                                <Grid Width="200" Height="50">
+                                <Grid Width="220" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
@@ -76,7 +76,7 @@
                                     PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="8">
-                                <Grid Width="200" Height="50">
+                                <Grid Width="220" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
@@ -97,7 +97,7 @@
                                     PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="7">
-                                <Grid Width="200" Height="50">
+                                <Grid Width="220" Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
@@ -121,7 +121,7 @@
                                     PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="4">
-                                <Grid Width="200" Height="35">
+                                <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
@@ -141,7 +141,7 @@
                                     PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="5">
-                                <Grid Width="200" Height="35">
+                                <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
@@ -162,7 +162,7 @@
                                     PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="2">
-                                <Grid Width="200" Height="35">
+                                <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="110" />

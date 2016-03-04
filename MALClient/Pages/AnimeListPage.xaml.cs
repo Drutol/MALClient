@@ -72,6 +72,7 @@ namespace MALClient.Pages
     {
         private bool _loaded;
         private AnimeListViewModel ViewModel => (DataContext as AnimeListViewModel);
+        public Grid PivotHeaderGrid;
         #region Init
 
         public AnimeListPage()
@@ -84,6 +85,7 @@ namespace MALClient.Pages
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
+            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -231,7 +233,10 @@ namespace MALClient.Pages
         private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
             (args.Item.Content as AnimePagePivotContent).LoadContent();
+
+
         }
+
 
         private void AnimesPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {

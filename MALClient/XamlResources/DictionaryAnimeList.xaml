@@ -337,7 +337,7 @@
                                 <PivotPanel x:Name="Panel" VerticalAlignment="Stretch" >
                                     <Grid x:Name="PivotLayoutElement">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="40" />
+                                            <RowDefinition Height="{Binding Source={StaticResource Locator}, Path=AnimeList.PivotHeaerGridRowHeight}" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
@@ -363,8 +363,8 @@
                                             <ContentControl.Clip>
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
-                                            <Grid Background="#E9E9E9" Height="40" >
-                                                <PivotHeaderPanel x:Name="StaticHeader" Height="40" Visibility="Visible" HorizontalAlignment="Center" />
+                                            <Grid Background="#E9E9E9" Height="40">
+                                                <PivotHeaderPanel x:Name="StaticHeader" Height="40" HorizontalAlignment="Center" />
                                                 <PivotHeaderPanel x:Name="Header" Height="40" >
                                                     <PivotHeaderPanel.RenderTransform>
                                                         <TransformGroup>

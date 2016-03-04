@@ -26,9 +26,16 @@
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}"></Style>
                 <Style TargetType="PivotItem">
-                    <Setter Property="Margin" Value="2,5,2,0"></Setter>
+                    <Setter Property="Margin" Value="2,0,2,0"></Setter>
                 </Style>
             </Pivot.Resources>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid VerticalAlignment="Center" Height="60" Margin="0,0,0,-10" Padding="0,5,0,0">
+                        <TextBlock Text="{Binding}" FontSize="18" FontWeight="SemiLight" Height="70"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
         </Pivot>
         <ProgressRing x:Name="SpinnerLoading"
                       HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="150"

@@ -61,10 +61,7 @@ namespace MALClient.ViewModels
             {
                 var pivot = new PivotItem
                 {
-                    Header = new StackPanel
-                    {
-                        Children = { new TextBlock { Text = item.DependentTitle, FontSize = 18 }, new TextBlock { Text = item.RecommendationTitle, FontSize = 18 } }
-                    },
+                    Header = item.DependentTitle + "\n" + item.RecommendationTitle,
                     Content = new RecomendationItem(item, i++)
                 };
                 _recomendationItems.Add(pivot);

@@ -263,7 +263,7 @@ namespace MALClient.ViewModels
             set
             {
                 _animesPivotHeaderVisibility = value;
-                AnimesPivotHeaderMargin = value == Visibility.Collapsed ? new Thickness(0,-50,0,0) : new Thickness(0);
+                AnimesPivotHeaderMargin = value == Visibility.Collapsed ? new Thickness(0,-40,0,0) : new Thickness(0);
                 RaisePropertyChanged(() => AnimesPivotHeaderVisibility);
                 RaisePropertyChanged(() => AnimesPivotHeaderMargin);
             }
@@ -609,7 +609,7 @@ namespace MALClient.ViewModels
             {
                 AnimePages.Add(new PivotItem
                 {
-                    Header = $"Page {i+1}",
+                    Header = $"{i+1}",
                     Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage * i).Take(_itemsPerPage))                     
                 });
             }

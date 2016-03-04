@@ -51,7 +51,7 @@
             <AppBarButton Icon="Calendar" Label="Select season" Visibility="{Binding ElementName=AppbarBtnPinTile,Converter={StaticResource VisiblityInverterConverter},Path=Visibility}">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <ListView ItemsSource="{Binding SeasonSelection}"/>
+                        <ListView ItemsSource="{Binding SeasonSelection}" SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

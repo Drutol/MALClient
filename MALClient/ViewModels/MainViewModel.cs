@@ -342,8 +342,14 @@ namespace MALClient.ViewModels
         internal AnimeListPageNavigationArgs GetCurrentListOrderParams()
         {
             var page = ViewModelLocator.AnimeList;
-            return new AnimeListPageNavigationArgs(page.SortOption, page.CurrentStatus, page.SortDescending,
-                page.CurrentPage, page.IsSeasonal, page.ListSource);
+            return new AnimeListPageNavigationArgs(
+                page.SortOption, 
+                page.CurrentStatus, 
+                page.SortDescending,
+                page.CurrentPage, 
+                page.IsSeasonal, 
+                page.ListSource , 
+                page.CurrentSeason);
         }
         #endregion
 

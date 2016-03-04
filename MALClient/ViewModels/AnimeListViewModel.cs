@@ -21,6 +21,11 @@ using MALClient.UserControls;
 
 namespace MALClient.ViewModels
 {
+    public class AnimeSeason
+    {
+        public string Name;
+        public string Url;
+    }
 
     public class AnimeListViewModel : ViewModelBase
     {
@@ -47,6 +52,7 @@ namespace MALClient.ViewModels
         private string _prevListSource;
         private bool _seasonalState;
         private bool _wasPreviousQuery;
+        public AnimeSeason CurrentSeason;
 
         private SortOptions _sortOption = SortOptions.SortNothing;
         public SortOptions SortOption
@@ -278,6 +284,22 @@ namespace MALClient.ViewModels
             }
         }
 
+        private int _seasonalUrlsSelectedIndex;
+        public int SeasonalUrlsSelectedIndex
+        {
+            get { return _seasonalUrlsSelectedIndex; }
+            set
+            {
+                if(value == _seasonalUrlsSelectedIndex)
+                    return;
+                _seasonalUrlsSelectedIndex = value;
+                CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
+                CurrentPage = 1;            
+                FetchSeasonalData();
+                RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+            }
+        }
+
         public AnimeItem _currentlySelectedAnimeItem;
         public AnimeItem CurrentlySelectedAnimeItem
         {
@@ -322,6 +344,7 @@ namespace MALClient.ViewModels
                         SetSortOrder(args.SortOption); //index
                         SetDesiredStatus(args.Status);
                         CurrentPage = args.CurrPage;
+                        CurrentSeason = args.CurrSeason;
                     }
                     else
                     {
@@ -478,7 +501,7 @@ namespace MALClient.ViewModels
                         else
                             page.CurrentStatus = "Anime list";
                     else
-                        page.CurrentStatus = $"Airing - {Utils.StatusToString(GetDesiredStatus())}";
+                        page.CurrentStatus = $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus())}";
 
                 else if (retries >= 0)
                 {
@@ -612,9 +635,15 @@ namespace MALClient.ViewModels
         {
             Loading = true;
             EmptyNoticeVisibility = false;
+            bool setDefaultSeason = false;
+            if (CurrentSeason == null)
+            {
+                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
+                setDefaultSeason = true;
+            }
             Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
             List<SeasonalAnimeData> data = new List<SeasonalAnimeData>();
-            await Task.Run(async () => data = await new AnimeSeasonalQuery().GetSeasonalAnime(force));
+            await Task.Run(async () => data = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force));
             if (data == null)
             {
                 RefreshList();
@@ -657,12 +686,18 @@ namespace MALClient.ViewModels
                 SeasonSelection.Add(new ListViewItem
                 {
                     Content = seasonalUrl.Key,
-                    Tag = seasonalUrl.Value
+                    Tag = new AnimeSeason { Name = seasonalUrl.Key,Url = seasonalUrl.Value}                                                        
                 });
+            }
+            //we have set artificial default one because we did not know what lays ahead of us
+            if (setDefaultSeason)
+            {
+                CurrentSeason = SeasonSelection[1].Tag as AnimeSeason;
+                _seasonalUrlsSelectedIndex = 1;
+                RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
             }
             DataCache.SaveVolatileData();
 
-            UpdateUpperStatus();
             RefreshList();
             Loading = false;
         }

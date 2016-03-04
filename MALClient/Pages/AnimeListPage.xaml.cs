@@ -34,9 +34,9 @@ namespace MALClient.Pages
         public readonly bool NavArgs;
         public readonly int Status;
         public SortOptions SortOption;
-
+        public AnimeSeason CurrSeason;
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
-            bool seasonal, string source)
+            bool seasonal, string source,AnimeSeason season)
         {
             SortOption = sort;
             Status = status;
@@ -45,12 +45,15 @@ namespace MALClient.Pages
             LoadSeasonal = seasonal;
             ListSource = source;
             NavArgs = true;
+            CurrSeason = season;
         }
 
         public AnimeListPageNavigationArgs()
         {
             LoadSeasonal = true;
         }
+
+        
     }
 
     public enum SortOptions

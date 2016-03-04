@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using Windows.Data.Html;
 using HtmlAgilityPack;
 using MALClient.Items;
+using MALClient.ViewModels;
 
 namespace MALClient.Comm
 {
     internal class AnimeSeasonalQuery : Query
     {
         private bool _overriden;
+        private AnimeSeason _season;
 
-        public AnimeSeasonalQuery(string url = "http://myanimelist.net/anime/season")
+        public AnimeSeasonalQuery(AnimeSeason season)
         {
-            _overriden = url != "http://myanimelist.net/anime/season";
-            Request = WebRequest.Create(Uri.EscapeUriString(url));
+            _season = season;
+            _overriden = _season.Url != "http://myanimelist.net/anime/season";
+            Request = WebRequest.Create(Uri.EscapeUriString(_season.Url));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
@@ -25,7 +28,7 @@ namespace MALClient.Comm
         {
             List<SeasonalAnimeData> output = force
                 ? new List<SeasonalAnimeData>()
-                : await DataCache.RetrieveSeasonalData() ?? new List<SeasonalAnimeData>();
+                : await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>(); //current season without suffix
             if (output.Count != 0) return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
@@ -40,7 +43,7 @@ namespace MALClient.Comm
                             node.Attributes["class"].Value ==
                             "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
 
-            //Get season data
+            //Get season data - we are getting this only from current season
             if (!_overriden)
             {
                 var seasonInfoNodes = doc.DocumentNode.Descendants("div").First(
@@ -139,7 +142,7 @@ namespace MALClient.Comm
                     break;
             }
 
-            await Task.Run(() => DataCache.SaveSeasonalData(output));
+            await Task.Run(() => DataCache.SaveSeasonalData(output,_overriden ? _season.Name : ""));
 
             //We are done.
             return output;

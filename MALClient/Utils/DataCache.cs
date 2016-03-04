@@ -92,7 +92,7 @@ namespace MALClient
 
         #region SeasonData
 
-        public static async void SaveSeasonalData(List<SeasonalAnimeData> data)
+        public static async void SaveSeasonalData(List<SeasonalAnimeData> data,string tag)
         {
             await Task.Run(async () =>
             {
@@ -100,17 +100,17 @@ namespace MALClient
                     JsonConvert.SerializeObject(new Tuple<DateTime, List<SeasonalAnimeData>>(DateTime.UtcNow, data));
                 StorageFile file =
                     await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_data.json",
+                        ApplicationData.Current.LocalFolder.CreateFileAsync($"seasonal_data{tag}.json",
                             CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteTextAsync(file, json);
             });
         }
 
-        public static async Task<List<SeasonalAnimeData>> RetrieveSeasonalData()
+        public static async Task<List<SeasonalAnimeData>> RetrieveSeasonalData(string tag)
         {
             try
             {
-                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_data.json");
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync($"seasonal_data{tag}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 Tuple<DateTime, List<SeasonalAnimeData>> tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, List<SeasonalAnimeData>>>(data);

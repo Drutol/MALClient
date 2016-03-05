@@ -346,6 +346,28 @@ namespace MALClient.ViewModels
             }
         }
 
+        private int _detailsPivotSelectedIndex;
+        public int DetailsPivotSelectedIndex
+        {
+            get { return _detailsPivotSelectedIndex; }
+            set
+            {
+                _detailsPivotSelectedIndex = value;
+                RaisePropertyChanged(() => DetailsPivotSelectedIndex);
+            }
+        }
+
+        private Visibility _noReviewsDataNoticeVisibility = Visibility.Collapsed;
+        public Visibility NoReviewsDataNoticeVisibility
+        {
+            get { return _noReviewsDataNoticeVisibility; }
+            set
+            {
+                _noReviewsDataNoticeVisibility = value;
+                RaisePropertyChanged(() => NoReviewsDataNoticeVisibility);
+            }
+        }
+
         public void Init(AnimeDetailsPageNavigationArgs param)
         {
             LoadingGlobal = Visibility.Visible;
@@ -389,6 +411,9 @@ namespace MALClient.ViewModels
                     Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
+            _loadedDetails = _loadedReviews = false;
+            DetailsPivotSelectedIndex = 0;
+            Reviews.Clear();
         }
 
         private async void OpenMalPage()
@@ -695,14 +720,15 @@ namespace MALClient.ViewModels
                 return;
             LoadingReviews = Visibility.Visible;
             _loadedReviews = true;
+            Reviews.Clear();
             List<AnimeReviewData> revs = new List<AnimeReviewData>();
             await Task.Run( async () => revs = await new AnimeReviewsQuery(Id).GetAnimeReviews(force));
-            Reviews.Clear();
+            
             foreach (var rev in revs)
             {
                 Reviews.Add(rev);
             }
-
+            NoReviewsDataNoticeVisibility = Reviews.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingReviews = Visibility.Collapsed;
         }
         #endregion

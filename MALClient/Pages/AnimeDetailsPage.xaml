@@ -16,6 +16,13 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="150" MaxHeight="250" Height="Auto" />
             <!--Img + Details-->
@@ -143,7 +150,7 @@
                                 My watched<LineBreak/>
                                 episodes :
                         </TextBlock>
-                        <Button x:Name="BtnWatchedEps" FontWeight="Medium" Margin="1" 
+                        <Button FontWeight="Medium" Margin="1" 
                                 Background="Transparent" BorderThickness="0,0,0,2"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                 VerticalAlignment="Center"
@@ -167,8 +174,16 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" >
+        <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}"/>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </Pivot.Resources>
             <Pivot.Items>
+                
                 <PivotItem Tag="General">
                     <PivotItem.Header>
                         General
@@ -248,7 +263,7 @@
                                     <StackPanel Grid.Row="1">
                                         <TextBlock Visibility="{Binding NoGenresDataVisibility}" Text="No data available"
                                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <Grid >
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=".5*"/>
                                                 <ColumnDefinition Width=".5*"/>
@@ -257,14 +272,13 @@
                                                 <RowDefinition Height="10"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <MenuFlyoutSeparator Grid.ColumnSpan="2"/>
                                             <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RightGenres}" BorderThickness="0,0,1,0" BorderBrush="LightGray"/>
                                             <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LeftGenres}" BorderThickness="1,0,0,0" BorderBrush="LightGray"/>
                                         </Grid>
+                                        <MenuFlyoutSeparator/>
                                     </StackPanel>
                                     <StackPanel Grid.ColumnSpan="2" Grid.Row="3">
                                         <TextBlock Text="Episodes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5"/>
-                                        <MenuFlyoutSeparator/>
                                         <TextBlock Visibility="{Binding NoEpisodesDataVisibility}" Text="No data available"
                                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
                                         <ListView ItemsSource="{Binding Episodes}" BorderThickness="0,0,1,0" BorderBrush="LightGray"/>
@@ -317,40 +331,54 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer>
-                            <Pivot ItemsSource="{Binding Reviews}">
-                                <Pivot.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Header}"></TextBlock>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </Pivot.HeaderTemplate>
-                                <Pivot.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid Grid.Row="0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Image Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}" Width="Auto" Height="Auto"/>
-                                                <StackPanel Grid.Column="1">
-                                                    <TextBlock Text="{Binding Author}"/>
+                            <Grid>
+                                <Grid VerticalAlignment="Stretch">
+                                    <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
+                                           Text="Reviews unavailable :(" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                           FontSize="30" FontWeight="SemiLight"
+                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                </Grid>
+                                <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                    </Grid.Background>
+                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
+                                    </ProgressRing>
+                                </Grid>
+                                <Pivot ItemsSource="{Binding Reviews}">
+                                    <Pivot.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" MaxWidth="300">
+                                                <Image Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}" Width="Auto" Height="Auto" MaxHeight="35"/>
+                                                <StackPanel Margin="5,0,0,0">
+                                                    <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15"/>
                                                 </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </Pivot.HeaderTemplate>
+                                    <Pivot.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="Stretch">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Padding="5,0" Margin="5,5" BorderThickness="5,0,0,0" HorizontalAlignment="Left">
+                                                    <TextBlock Text="{Binding Date}" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight"/>
+                                                </StackPanel>
+                                                <Grid Grid.Row="1">
+                                                    <MenuFlyoutSeparator/>
+                                                    <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords" Margin="0,5" Padding="5,5,5,0"/>
+                                                </Grid>
                                             </Grid>
-                                            <Grid Grid.Row="1">
-                                                <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords"/>
-
-                                            </Grid>
-                                        </Grid>
-
-                                    </DataTemplate>
-                                </Pivot.ItemTemplate>
-                            </Pivot>
+                                        </DataTemplate>
+                                    </Pivot.ItemTemplate>
+                                </Pivot>
+                            </Grid>
                         </ScrollViewer>
                     </PivotItem.Content>
                 </PivotItem>

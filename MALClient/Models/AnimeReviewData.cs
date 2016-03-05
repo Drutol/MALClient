@@ -16,7 +16,5 @@ namespace MALClient.Models
         public string EpisodesSeen { get; set; }
         public string HelpfulCount { get; set; }
 
-        //For UI purpose
-        public string Header => Author;
     }
 }

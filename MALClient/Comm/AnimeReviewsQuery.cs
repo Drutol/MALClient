@@ -39,7 +39,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "borderDark pt4 pb8 pl4 pr4 mb8").Take(3).ToList();
+                            "borderDark pt4 pb8 pl4 pr4 mb8").Take(4).ToList();
 
             foreach (var reviewNode in reviewNodes)
             {

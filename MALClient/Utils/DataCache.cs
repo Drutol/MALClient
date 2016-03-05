@@ -226,6 +226,7 @@ namespace MALClient
         }
         #endregion
 
+        #region SeasonalUrls
         public static async void SaveSeasonalUrls(Dictionary<string, string> seasonData)
         {
             try
@@ -258,5 +259,41 @@ namespace MALClient
                 SeasonalUrls = new Dictionary<string, string>();
             }
         }
+        #endregion
+
+        #region Reviews
+        public static async void SaveAnimeReviews(int id, List<AnimeReviewData> data)
+        {
+            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+            await Task.Run(async () =>
+            {
+                var json =
+                    JsonConvert.SerializeObject(new Tuple<DateTime, List<AnimeReviewData>>(DateTime.UtcNow, data));
+                StorageFile file =
+                    await
+                        folder.CreateFileAsync($"reviews_{id}.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            });
+        }
+
+        public static async Task<List<AnimeReviewData>> RetrieveReviewData(int animeId)
+        {
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                StorageFile file = await folder.GetFileAsync($"reviews_{animeId}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                Tuple<DateTime, List<AnimeReviewData>> tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, List<AnimeReviewData>>>(data);
+                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+        #endregion
     }
 }

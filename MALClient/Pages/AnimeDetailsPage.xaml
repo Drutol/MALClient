@@ -12,6 +12,7 @@
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
@@ -166,9 +167,9 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading">
+        <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" >
             <Pivot.Items>
-                <PivotItem>
+                <PivotItem Tag="General">
                     <PivotItem.Header>
                         General
                     </PivotItem.Header>
@@ -204,7 +205,7 @@
                         </ScrollViewer>
                     </PivotItem.Content>
                 </PivotItem>
-                <PivotItem>
+                <PivotItem Tag="Details">
                     <PivotItem.Header>
                         Details
                     </PivotItem.Header>
@@ -299,14 +300,64 @@
                                         Command="{Binding OpenInAnnCommand}"/>
                                     </StackPanel>
                                 </Grid>
+                                <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                    </Grid.Background>
+                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
+                                    </ProgressRing>
+                                </Grid>
                             </Grid>
+                        </ScrollViewer>
+                    </PivotItem.Content>
+                </PivotItem>
+                <PivotItem Tag="Reviews">
+                    <PivotItem.Header>
+                        Reviews
+                    </PivotItem.Header>
+                    <PivotItem.Content>
+                        <ScrollViewer>
+                            <Pivot ItemsSource="{Binding Reviews}">
+                                <Pivot.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Header}"></TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Pivot.HeaderTemplate>
+                                <Pivot.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}" Width="Auto" Height="Auto"/>
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding Author}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords"/>
+
+                                            </Grid>
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </Pivot.ItemTemplate>
+                            </Pivot>
                         </ScrollViewer>
                     </PivotItem.Content>
                 </PivotItem>
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Loading}">
+        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}">
             <Grid.Background>
                 <SolidColorBrush Color="LightGray" Opacity=".75"/>
             </Grid.Background>

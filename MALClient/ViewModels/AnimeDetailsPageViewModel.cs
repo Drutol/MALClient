@@ -21,6 +21,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.Models;
 using MALClient.Pages;
 
 namespace MALClient.ViewModels
@@ -35,13 +36,16 @@ namespace MALClient.ViewModels
         private IAnimeData _animeItemReference;
         private float _globalScore;
         private string _imgUrl;
+        private bool _loadedDetails;
+        private bool _loadedReviews;
         public ObservableCollection<ListViewItem> LeftDetailsRow => _loadedItems1; 
         public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
         public ObservableCollection<ListViewItem> LeftGenres => _genres1;
         public ObservableCollection<ListViewItem> RightGenres => _genres2; 
         public ObservableCollection<ListViewItem> Episodes => _episodes; 
         public ObservableCollection<ListViewItem> OPs => _ops; 
-        public ObservableCollection<ListViewItem> EDs => _eds; 
+        public ObservableCollection<ListViewItem> EDs => _eds;
+        public ObservableCollection<AnimeReviewData> Reviews { get; set; } = new ObservableCollection<AnimeReviewData>(); 
         private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
@@ -138,14 +142,36 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _loading;
-        public Visibility Loading
+        private Visibility _loadingGlobal;
+        public Visibility LoadingGlobal
         {
-            get { return _loading; }
+            get { return _loadingGlobal; }
             set
             {
-                _loading = value;
-                RaisePropertyChanged(() => Loading);
+                _loadingGlobal = value;
+                RaisePropertyChanged(() => LoadingGlobal);
+            }
+        }
+
+        private Visibility _loadingDetails;
+        public Visibility LoadingDetails
+        {
+            get { return _loadingDetails; }
+            set
+            {
+                _loadingDetails = value;
+                RaisePropertyChanged(() => LoadingDetails);
+            }
+        }
+
+        private Visibility _loadingReviews;
+        public Visibility LoadingReviews
+        {
+            get { return _loadingReviews; }
+            set
+            {
+                _loadingReviews = value;
+                RaisePropertyChanged(() => LoadingReviews);
             }
         }
 
@@ -322,7 +348,7 @@ namespace MALClient.ViewModels
 
         public void Init(AnimeDetailsPageNavigationArgs param)
         {
-            Loading = Visibility.Visible;
+            LoadingGlobal = Visibility.Visible;
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
@@ -504,7 +530,7 @@ namespace MALClient.ViewModels
             Utils.GetMainPageInstance().CurrentStatus = Title;
 
             DetailImage  = new BitmapImage(new Uri(_imgUrl));
-            Loading = Visibility.Collapsed;
+            LoadingGlobal = Visibility.Collapsed;
         }
 
         private ListViewItem BuildListViewItem(string label, string val1, bool alternate = false, float left = 0.4f, float right = 0.6f)
@@ -571,7 +597,7 @@ namespace MALClient.ViewModels
 
         private async Task FetchData(string id, string title)
         {
-            Loading = Visibility.Visible;
+            LoadingGlobal = Visibility.Visible;
             var data = "";
             await Task.Run(async () => data = await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
             data = WebUtility.HtmlDecode(data);
@@ -587,13 +613,16 @@ namespace MALClient.ViewModels
             await FetchData(Id.ToString(),Title);
             if(_loadedDetails)
                 LoadDetails(true);
+            if(_loadedReviews)
+                LoadReviews(true);
         }
 
-        private bool _loadedDetails;
         public async void LoadDetails(bool force = false)
         {
+            if (_loadedDetails && !force)
+                return;
             _loadedDetails = true;
-            Loading = Visibility.Visible;
+            LoadingDetails = Visibility.Visible;
             try
             {
                 var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id,Title).GetGeneralDetailsData(force);
@@ -657,9 +686,25 @@ namespace MALClient.ViewModels
                 DetailedDataVisibility = Visibility.Collapsed;
             }
             
-            Loading = Visibility.Collapsed;
+            LoadingDetails = Visibility.Collapsed;
         }
 
+        public async void LoadReviews(bool force = false)
+        {
+            if(_loadedReviews && !force)
+                return;
+            LoadingReviews = Visibility.Visible;
+            _loadedReviews = true;
+            List<AnimeReviewData> revs = new List<AnimeReviewData>();
+            await Task.Run( async () => revs = await new AnimeReviewsQuery(Id).GetAnimeReviews(force));
+            Reviews.Clear();
+            foreach (var rev in revs)
+            {
+                Reviews.Add(rev);
+            }
+
+            LoadingReviews = Visibility.Collapsed;
+        }
         #endregion
 
 

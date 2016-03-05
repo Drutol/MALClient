@@ -31,6 +31,7 @@ namespace MALClient
             InitializeComponent();
             Utils.CheckTiles();
             ViewModelLocator.Main.View = this;
+            new AnimeReviewsQuery(16067).GetAnimeReviews();
         }
         #pragma warning restore 4014
 

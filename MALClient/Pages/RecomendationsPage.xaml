@@ -37,8 +37,8 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <ProgressRing x:Name="SpinnerLoading"
-                      HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="150"
-                      IsActive="True" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
+        <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="150"
+                      IsActive="True" 
+                      Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Page>

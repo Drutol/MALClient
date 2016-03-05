@@ -81,20 +81,17 @@ namespace MALClient.Pages
             return WatchedEpsFlyout;
         }
 
-        private bool _loaded1St;
-        private bool _loaded2Nd;
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            if (!_loaded1St)
+            switch (args.Item.Tag as string)
             {
-                _loaded1St = true;
-                return;               
-            }
-            if(_loaded2Nd)
-                return;
-
-            _loaded2Nd=true;
-            ViewModel.LoadDetails();
+                case "Details":
+                    ViewModel.LoadDetails();
+                    break;
+                case "Reviews":
+                    ViewModel.LoadReviews();
+                    break;
+            }            
         }
     }
 }

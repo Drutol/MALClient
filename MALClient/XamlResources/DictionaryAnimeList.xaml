@@ -335,19 +335,21 @@
               Template="{StaticResource ScrollViewerScrollBarlessTemplate}"
               BringIntoViewOnFocusChange="False">
                                 <PivotPanel x:Name="Panel" VerticalAlignment="Stretch" >
-                                    <Grid x:Name="PivotLayoutElement">
+                                    <Grid x:Name="PivotLayoutElement" >
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="{Binding Source={StaticResource Locator}, Path=AnimeList.PivotHeaerGridRowHeight}" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="3" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="3" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RenderTransform>
                                             <CompositeTransform x:Name="PivotLayoutElementTranslateTransform" />
                                         </Grid.RenderTransform>
+                                        <Grid Grid.Column="0" Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="3" Height="40"/>
+                                        <Grid Grid.Column="2" Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="3" Height="40"/>
                                         <ContentPresenter
                   x:Name="LeftHeaderPresenter"
                   Content="{TemplateBinding LeftHeader}"
@@ -358,13 +360,14 @@
                   x:Name="HeaderClipper"
                   Grid.Column="1"
                   Height="40"
-                  UseSystemFocusVisuals="True"
+                  UseSystemFocusVisuals="True"                
                   HorizontalContentAlignment="Stretch">
                                             <ContentControl.Clip>
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
                                             <Grid Background="#E9E9E9" Height="40">
-                                                <PivotHeaderPanel x:Name="StaticHeader" Height="40" HorizontalAlignment="Center" />
+                                                <PivotHeaderPanel x:Name="StaticHeader" Height="40" HorizontalAlignment="Center"/>
+
                                                 <PivotHeaderPanel x:Name="Header" Height="40" >
                                                     <PivotHeaderPanel.RenderTransform>
                                                         <TransformGroup>

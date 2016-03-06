@@ -19,7 +19,7 @@ namespace MALClient
 {
     public static class Utils
     {
-        private static readonly string[] SizeSuffixes = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+        private static readonly string[] SizeSuffixes = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
         public static string StatusToString(int status)
         {

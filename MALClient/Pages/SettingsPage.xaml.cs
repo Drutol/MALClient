@@ -85,9 +85,19 @@ namespace MALClient.Pages
             if (files.Count == 0)
                 ListEmptyNotice.Visibility = Visibility.Visible;
             else
-            {
                 ListEmptyNotice.Visibility = Visibility.Collapsed;
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
+                var data = await folder.GetFilesAsync();
+                TxtRemoveAllDetails.Text += " (" + data.Count + " files)";
             }
+            catch (Exception)
+            {
+                //No folder
+                BtnRemoveAllDetails.Visibility = Visibility.Collapsed;                
+            }
+            
         }
 
 

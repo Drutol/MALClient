@@ -32,7 +32,7 @@
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Stretch">
                     <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
-                    <ListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="150" HorizontalAlignment="Stretch"
+                    <ListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="190" HorizontalAlignment="Stretch"
                               SelectionMode="None" Margin="0,10,0,5">
                         <ListView.Header>
                             <TextBlock x:Name="ListEmptyNotice" Visibility="Collapsed" Text="No cached entries."
@@ -41,13 +41,16 @@
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                <Setter Property="BorderThickness" Value="3,0,0,0"/>
+                                <Setter Property="Margin" Value="0,1"></Setter>
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
-                    <Button Margin="2" Click="RemoveAllAnimeDetails" HorizontalAlignment="Center">
+                    <Button x:Name="BtnRemoveAllDetails" Margin="2" Click="RemoveAllAnimeDetails" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Delete" VerticalAlignment="Center"/>
-                            <TextBlock Text="Remove all anime details data." VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0"></TextBlock>
+                            <TextBlock x:Name="TxtRemoveAllDetails" Text="Remove all anime details data" VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

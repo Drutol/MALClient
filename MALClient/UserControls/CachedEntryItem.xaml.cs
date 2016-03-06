@@ -12,6 +12,8 @@ namespace MALClient.UserControls
 {
     public sealed partial class CachedEntryItem : UserControl
     {
+        private static bool _rowColorAlternator;
+
         public CachedEntryItem(StorageFile file, bool nonUser)
         {
             InitializeComponent();
@@ -19,6 +21,9 @@ namespace MALClient.UserControls
             fileName = file.Name;
             TxtUser.Text = user;
             SetDetails(file);
+            if (_rowColorAlternator)
+                RootGrid.Background = new SolidColorBrush(Color.FromArgb(180,230,230,230));               
+            _rowColorAlternator = !_rowColorAlternator;
         }
 
         public string fileName { get; set; }

@@ -228,11 +228,6 @@
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
                     </Grid.Background>
-                    <!--<Ellipse  Opacity=".75" >
-                        <Ellipse.Fill>
-                            <SolidColorBrush Color="Black" Opacity=".25"></SolidColorBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>-->
                     <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
                                HorizontalAlignment="Center" Margin="0,0,0,3"
                                Foreground="White" FontSize="20" />

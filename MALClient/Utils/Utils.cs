@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -374,5 +375,16 @@ namespace MALClient
         }
 
         #endregion
+
+        public static string DecodeXmlSynopsis(string txt)
+        {
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("&mdash;", "—");
+        }
     }
 }

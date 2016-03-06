@@ -32,11 +32,10 @@ namespace MALClient.Items
             Title = animeElement.Element("title").Value;
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-
+            TxtType.Text = animeElement.Element("type").Value;
             TxtTitle.Text = Title;
             TxtGlobalScore.Text = GlobalScore.ToString();
-            if (Status == "Currently Airing")
-                SymbolAiring.Visibility = Visibility.Visible;
+            TxtSynopsis.Text = Utils.DecodeXmlSynopsis(animeElement.Element("synopsis").Value);
             Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
             WatchedEps.Text = $"Episodes : {AllEpisodes}";
         }

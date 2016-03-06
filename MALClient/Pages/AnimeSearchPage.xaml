@@ -10,10 +10,13 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid>
-            <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single">
+            <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" Padding="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                        <Setter Property="BorderThickness" Value="5,0,0,0"/>
+                        <Setter Property="Margin" Value="2,5,0,5"/>
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>

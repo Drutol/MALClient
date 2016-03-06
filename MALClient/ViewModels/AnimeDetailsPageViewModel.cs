@@ -600,14 +600,7 @@ namespace MALClient.ViewModels
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            Synopsis =
-                Regex.Replace(animeElement.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "")
-                    .Trim()
-                    .Replace("[i]", "")
-                    .Replace("[/i]", "")
-                    .Replace("#039;", "'")
-                    .Replace("quot;", "\"")
-                    .Replace("&mdash;", "—");
+            Synopsis = Utils.DecodeXmlSynopsis(animeElement.Element("synopsis").Value);               
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;

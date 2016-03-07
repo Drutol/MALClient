@@ -9,6 +9,8 @@ using System.Xml.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -67,6 +69,7 @@ namespace MALClient.ViewModels
             set
             {
                 _sortOption = value;
+                CurrentPage = 1;
                 RefreshList();
             }
         }
@@ -178,6 +181,7 @@ namespace MALClient.ViewModels
                 _statusSelectorSelectedIndex = value;
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 Loading = true;
+                CurrentPage = 1;
                 RefreshList();
             }
         }
@@ -259,6 +263,32 @@ namespace MALClient.ViewModels
                            FetchData();
                        }));
             }
+        }
+
+        private ICommand _pinTileCustomCommand;
+
+        public ICommand PinTileCustomCommand
+        {
+            get { return _pinTileCustomCommand ?? (_pinTileCustomCommand = new RelayCommand(() =>
+            {
+                CurrentlySelectedAnimeItem.OpenTileUrlInput();
+            })); }
+        }
+
+        private ICommand _pinTileMALCommand;
+        public ICommand PinTileMALCommand
+        {
+            get { return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
+            {
+                string id = CurrentlySelectedAnimeItem.ViewModel.Id.ToString();
+                if (SecondaryTile.Exists(id))
+                {
+                    var msg = new MessageDialog("Tile for this anime already exists.");
+                    await msg.ShowAsync();
+                    return;
+                }
+                CurrentlySelectedAnimeItem.ViewModel.PinTile($"http://www.myanimelist.net/anime/{id}");
+            })); }
         }
 
         private AnimeListPage _view;
@@ -677,7 +707,8 @@ namespace MALClient.ViewModels
                     DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
                     {
                         DayOfAiring = animeData.AirDay,
-                        GlobalScore = animeData.Score
+                        GlobalScore = animeData.Score,
+                        Genres = animeData.Genres                        
                     });
                     var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
                     if (abstraction == null)

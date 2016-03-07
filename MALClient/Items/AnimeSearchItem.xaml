@@ -41,7 +41,7 @@
                        TextWrapping="WrapWholeWords" Margin="5,3,0,0" />
             </Grid>
             <TextBlock x:Name="TxtSynopsis" VerticalAlignment="Stretch" Grid.Row="1" 
-                       TextTrimming="CharacterEllipsis" MaxLines="4" FontSize="16" 
+                       TextTrimming="CharacterEllipsis" MaxLines="4" FontSize="14" 
                        TextWrapping="WrapWholeWords" Margin="5,3,0,0" 
                        FontWeight="SemiLight" HorizontalAlignment="Stretch"/>
             <Grid Grid.Row="2" Margin="5,15,5,0">

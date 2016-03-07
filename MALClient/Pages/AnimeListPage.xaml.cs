@@ -70,22 +70,13 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class AnimeListPage : Page
     {
-        private bool _loaded;
         private AnimeListViewModel ViewModel => (DataContext as AnimeListViewModel);
-        public Grid PivotHeaderGrid;
         #region Init
 
         public AnimeListPage()
         {
             InitializeComponent();
             ViewModel.View = this;
-            Loaded += MainWindow_Loaded;
-        }
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            _loaded = true;
-            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -113,26 +104,7 @@ namespace MALClient.Pages
 
         #endregion
              
-        #region ActionHandlers
-
-        private async void PinTileMal(object sender, RoutedEventArgs e)
-        {
-            string id = ViewModel.CurrentlySelectedAnimeItem.ViewModel.Id.ToString();
-            if (SecondaryTile.Exists(id))
-            {
-                var msg = new MessageDialog("Tile for this anime already exists.");
-                await msg.ShowAsync();
-                return;
-            }
-            ViewModel.CurrentlySelectedAnimeItem.ViewModel.PinTile($"http://www.myanimelist.net/anime/{id}");
-            
-        }
-
-        private void PinTileCustom(object sender, RoutedEventArgs e)
-        {
-            //var item = Animes.SelectedItem as AnimeItem;
-            //item.OpenTileUrlInput();
-        }
+        #region ActionHandlersPin
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {

@@ -28,7 +28,7 @@
                     <RowDefinition Height="170"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="DepImg" Height="170" Stretch="Uniform"/>
+                <Image x:Name="DepImg" Height="170" Stretch="Uniform" Tapped="ButtonDependentDetails_OnClick"/>
                 <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonDependentDetails_OnClick">
                     <Button.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
@@ -49,7 +49,7 @@
                     <RowDefinition Height="170"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="RecImg" Height="170" Stretch="Uniform" />
+                <Image x:Name="RecImg" Height="170" Stretch="Uniform" Tapped="ButtonRecomDetails_OnClick" />
                 <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonRecomDetails_OnClick">
                     <Button.Background>
                         <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
@@ -57,13 +57,12 @@
                     <SymbolIcon Symbol="More" Foreground="White"/>
                 </Button>
             </Grid>
-            <Grid Grid.ColumnSpan="3" Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".5*"/>
-                    <ColumnDefinition Width=".5*"/>
-                </Grid.ColumnDefinitions>
+            <!-- TitleMid -->
+            <Grid Grid.Row="1" Grid.Column="0">
                 <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
-                <TextBlock Grid.Column="1" x:Name="TxtRecTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
+            </Grid>            
+            <Grid Grid.Row="1" Grid.Column="2">
+                <TextBlock x:Name="TxtRecTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
             </Grid>
             <!--Details-->
             <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0" >

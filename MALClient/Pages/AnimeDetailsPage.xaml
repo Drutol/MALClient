@@ -311,7 +311,8 @@
                                         <Button VerticalAlignment="Bottom" 
                                         Margin="0,15,0,0" HorizontalAlignment="Left" 
                                         Content="Source : Anime News Network"
-                                        Command="{Binding OpenInAnnCommand}"/>
+                                        Command="{Binding OpenInAnnCommand}"
+                                        Visibility="{Binding AnnSourceButtonVisibility}"/>
                                     </StackPanel>
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

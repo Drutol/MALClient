@@ -17,6 +17,7 @@
                         <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
                         <Setter Property="BorderThickness" Value="5,0,0,0"/>
                         <Setter Property="Margin" Value="2,5,0,5"/>
+                        <Setter Property="Padding" Value="0"/>
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>

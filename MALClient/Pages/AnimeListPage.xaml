@@ -42,8 +42,8 @@
             <AppBarButton x:Name="AppbarBtnPinTile" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Pin" Label="Pin to start" IsEnabled="{Binding AppbarBtnPinTileIsEnabled}">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="MyAnimeList" Click="PinTileMal" />
-                        <MenuFlyoutItem Text="Custom link" Click="PinTileCustom" />
+                        <MenuFlyoutItem Text="MyAnimeList" Command="{Binding PinTileMALCommand}" />
+                        <MenuFlyoutItem Text="Custom link" Command="{Binding PinTileCustomCommand}" />
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

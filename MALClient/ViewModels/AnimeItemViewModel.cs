@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -74,7 +64,7 @@ namespace MALClient.ViewModels
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
             GlobalScore = _parentAbstraction.GlobalScore;
-            Airing = _parentAbstraction.AirDay != -1;
+            Airing = _parentAbstraction.AirDay >= 0;
 
         }
 
@@ -91,7 +81,7 @@ namespace MALClient.ViewModels
             int.TryParse(data.Episodes, out _allEpisodes);
             if (data.Genres != null)
                 Genres = data.Genres;
-            Airing = _parentAbstraction.AirDay != -1;
+            Airing = _parentAbstraction.AirDay >= 0;
             Synopsis = data.Synopsis;
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
@@ -475,7 +465,7 @@ namespace MALClient.ViewModels
             GlobalScore = data.Score;
             if (data.Genres != null)
                 Genres = data.Genres;
-            Airing = true;
+            Airing = data.AirDay >= 0;
             if (!Auth)
             {
                 UpdateButtonsVisibility = Visibility.Collapsed;

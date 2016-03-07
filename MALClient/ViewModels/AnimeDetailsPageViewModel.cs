@@ -346,6 +346,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _annSourceButtonVisibility;
+        public Visibility AnnSourceButtonVisibility
+        {
+            get { return _annSourceButtonVisibility; }
+            set
+            {
+                _annSourceButtonVisibility = value;
+                RaisePropertyChanged(() => AnnSourceButtonVisibility);
+            }
+        }
+
         private int _detailsPivotSelectedIndex;
         public int DetailsPivotSelectedIndex
         {
@@ -546,10 +557,10 @@ namespace MALClient.ViewModels
             _loadedItems2.Clear();
             _loadedItems1.Add(BuildListViewItem("Episodes", AllEpisodes == 0 ? "?" : AllEpisodes.ToString(), true));
             _loadedItems1.Add(BuildListViewItem("Score", GlobalScore.ToString()));
-            _loadedItems1.Add(BuildListViewItem("Start", StartDate, true));
+            _loadedItems1.Add(BuildListViewItem("Start", StartDate == "0000-00-00" ? "?" : StartDate, true));
             _loadedItems2.Add(BuildListViewItem("Type", Type, true, 0.3f, 0.7f));
             _loadedItems2.Add(BuildListViewItem("Status", Status, false, 0.3f, 0.7f));
-            _loadedItems2.Add(BuildListViewItem("End", EndDate, true, 0.3f, 0.7f));
+            _loadedItems2.Add(BuildListViewItem("End", EndDate == "0000-00-00" ? "?" : EndDate, true, 0.3f, 0.7f));
 
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentStatus = Title;
@@ -641,15 +652,27 @@ namespace MALClient.ViewModels
                 return;
             _loadedDetails = true;
             LoadingDetails = Visibility.Visible;
+            _genres1.Clear();
+            _genres2.Clear();
+            _episodes.Clear();
+            _ops.Clear();
+            _eds.Clear();
             try
             {
                 var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id,Title).GetGeneralDetailsData(force);
-                _genres1.Clear();
-                _genres2.Clear();
-                _episodes.Clear();
-                _ops.Clear();
-                _eds.Clear();
                 AnnId = data.AnnId;
+
+                //Let's try to pull moar Genres data from MAL
+                VolatileDataCache genresData;
+                if (DataCache.TryRetrieveDataForId(Id, out genresData))
+                {
+                    foreach (var genre in genresData.Genres)
+                    {
+                        if (!data.Genres.Contains(genre))
+                            data.Genres.Add(genre);
+                    }
+                }
+                //Now we can build elements here --- I know know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
                 int i = 1;
                 bool alternate1 = true, alternate2 = true;
                 foreach (var genre in data.Genres)
@@ -693,17 +716,43 @@ namespace MALClient.ViewModels
                     alternate1 = !alternate1;
                     i++;
                 }
-                NoEpisodesDataVisibility = _episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                NoGenresDataVisibility = _genres1.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                NoEDsDataVisibility = _eds.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-                NoOPsDataVisibility = _ops.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                
                 DetailedDataVisibility = Visibility.Visible;
+                AnnSourceButtonVisibility = Visibility.Visible;
             }
             catch (Exception)
             {
-                DetailedDataVisibility = Visibility.Collapsed;
+                VolatileDataCache genresData; // we may fail to pull genres from ann so we have this from MAL season page 
+                if (DataCache.TryRetrieveDataForId(Id, out genresData))
+                {
+                    AnnSourceButtonVisibility = Visibility.Collapsed;
+                    DetailedDataVisibility = Visibility.Visible;
+
+                    int i = 1;
+                    bool alternate1 = true, alternate2 = true;
+                    foreach (var genre in genresData.Genres)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            _genres1.Add(BuildListViewItem(Utils.FirstCharToUpper(genre), "", alternate1, 1f, 0f));
+                            alternate1 = !alternate1;
+                        }
+                        else
+                        {
+                            _genres2.Add(BuildListViewItem(Utils.FirstCharToUpper(genre), "", alternate2, 1f, 0f));
+                            alternate2 = !alternate2;
+                        }
+                        i++;
+                    }
+                }
+                else
+                    DetailedDataVisibility = Visibility.Collapsed;
             }
-            
+            NoEpisodesDataVisibility = _episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoGenresDataVisibility = _genres1.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoEDsDataVisibility = _eds.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoOPsDataVisibility = _ops.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
             LoadingDetails = Visibility.Collapsed;
         }
 

@@ -15,6 +15,7 @@ namespace MALClient
     {
         public float GlobalScore { get; set; }
         public int DayOfAiring { get; set; }
+        public List<string> Genres { get; set; } 
     }
 
     public static class DataCache
@@ -164,7 +165,17 @@ namespace MALClient
 
         public static void RegisterVolatileData(int id, VolatileDataCache data)
         {
-            _volatileDataCache[id] = data;
+            if (_volatileDataCache.ContainsKey(id))
+            {
+                //We don't want to lose data here , only anime from seasonal contains genres data.
+                if (data.Genres != null && data.Genres.Count > 0)
+                    _volatileDataCache[id].Genres = data.Genres;
+                _volatileDataCache[id].DayOfAiring = data.DayOfAiring;
+                _volatileDataCache[id].GlobalScore = data.GlobalScore;
+            }
+            else
+                _volatileDataCache[id] = data;
+
         }
 
         public static bool TryRetrieveDataForId(int id, out VolatileDataCache data)

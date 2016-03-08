@@ -666,10 +666,12 @@ namespace MALClient.ViewModels
                 VolatileDataCache genresData;
                 if (DataCache.TryRetrieveDataForId(Id, out genresData))
                 {
-                    foreach (var genre in genresData.Genres)
+                    foreach (var genreMal in genresData.Genres)
                     {
-                        if (!data.Genres.Contains(genre))
-                            data.Genres.Add(genre);
+                        if (data.Genres.All(genreAnn => !String.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
+                        {
+                            data.Genres.Add(genreMal);
+                        }
                     }
                 }
                 //Now we can build elements here --- I know know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This

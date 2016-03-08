@@ -134,7 +134,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => CurrentSearchQuery);
 
                 if (_onSearchPage) return;
-                var source = View.GetCurrentContent();
+
                 ViewModelLocator.AnimeList.RefreshList(true);
             }
         }

@@ -70,7 +70,6 @@ namespace MALClient.ViewModels
             {
                 _sortOption = value;
                 CurrentPage = 1;
-                RefreshList();
             }
         }
 
@@ -371,6 +370,9 @@ namespace MALClient.ViewModels
         #endregion
         public async void Init(AnimeListPageNavigationArgs args) // TODO : Refactor this 
         {
+            _animeItemsSet.Clear();
+            _animePages = new ObservableCollection<PivotItem>();
+            RaisePropertyChanged(() => AnimePages);
             if (args != null)
             {
                 if (args.LoadSeasonal)
@@ -382,6 +384,7 @@ namespace MALClient.ViewModels
                     AppbarBtnPinTileVisibility = false;
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
+                    BtnSetSourceVisibility = false;
 
                     if (args.NavArgs)
                     {
@@ -452,10 +455,6 @@ namespace MALClient.ViewModels
                 });
             }
 
-            if (_timer == null)
-                _timer = new Timer(state => { UpdateStatus(); }, null, (int)TimeSpan.FromMinutes(1).TotalMilliseconds,
-                    (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
-
             View.InitSortOptions(SortOption,SortDescending);
             UpdateUpperStatus();
             UpdateStatus();
@@ -522,9 +521,9 @@ namespace MALClient.ViewModels
 
         private async void UpdateStatus()
         {
-            await
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () => { RaisePropertyChanged(() => CurrentUpdateStatus); });
+            //await
+            //    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //        () => { RaisePropertyChanged(() => CurrentUpdateStatus); });
         }
 
         private void SetDefaults()
@@ -766,6 +765,7 @@ namespace MALClient.ViewModels
                 {
                     item.ViewModel.SignalBackToList();
                 }
+                RefreshList();
                 return;
             }
             _prevListSource = ListSource;
@@ -954,6 +954,7 @@ namespace MALClient.ViewModels
         public void LogOut()
         {
             _animeItemsSet.Clear();
+            _animePages = new ObservableCollection<PivotItem>();
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
@@ -965,6 +966,7 @@ namespace MALClient.ViewModels
         public void LogIn()
         {           
             _animeItemsSet.Clear();
+            _animePages = new ObservableCollection<PivotItem>();
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();       

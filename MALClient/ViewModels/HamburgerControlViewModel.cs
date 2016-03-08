@@ -175,7 +175,7 @@ namespace MALClient.ViewModels
                 catch (FileNotFoundException)
                 {
                     if (dl)
-                        Utils.DownloadProfileImg();
+                        await Utils.DownloadProfileImg();
                     else
                         UsrImgPlaceholderVisibility = Visibility.Visible;
 

@@ -132,6 +132,7 @@ namespace MALClient.Pages
                 (child as ToggleMenuFlyoutItem).IsChecked = false;
             }
             btn.IsChecked = true;
+            ViewModel.RefreshList();
         }
 
 

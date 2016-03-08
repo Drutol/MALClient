@@ -211,7 +211,7 @@ namespace MALClient
             
         }
 
-        public static async void DownloadProfileImg(int retries = 5)
+        public static async Task DownloadProfileImg()
         {
             if (!Creditentials.Authenticated)
                 return;
@@ -226,16 +226,18 @@ namespace MALClient
                 await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
                     //get bytes
 
-                using (Stream fs = await thumb.OpenStreamForWriteAsync()) //get stream
-                {
-                    using (var writer = new DataWriter(fs.AsOutputStream()))
-                    {
-                        writer.WriteBytes(response); //write
-                        await writer.StoreAsync();
-                        await writer.FlushAsync();
-                        await Task.Delay(2000);
-                    }
-                }
+                Stream fs = await thumb.OpenStreamForWriteAsync(); //get stream
+                var writer = new DataWriter(fs.AsOutputStream());
+
+                writer.WriteBytes(response); //write
+                await writer.StoreAsync();
+                await writer.FlushAsync();
+                
+                               
+
+                writer.Dispose();
+                
+               
 
                 await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }

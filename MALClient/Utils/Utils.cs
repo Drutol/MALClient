@@ -232,19 +232,17 @@ namespace MALClient
                 writer.WriteBytes(response); //write
                 await writer.StoreAsync();
                 await writer.FlushAsync();
-                
-                               
-
+                                             
                 writer.Dispose();
-                
-               
-
+                             
                 await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
             {
-                await ViewModelLocator.Hamburger.UpdateProfileImg(false);
+                //
             }
+            await Task.Delay(10000);
+            await ViewModelLocator.Hamburger.UpdateProfileImg(false);
         }
 
         public static string CleanAnimeTitle(string title)

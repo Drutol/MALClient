@@ -79,22 +79,10 @@
                                         <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="v1.1 - 12.02.2016"/>
-                                <TextBlock Text="Redesigned details page"/>
-                                <TextBlock Text="Added recommendation page" />
-                                <TextBlock Text="Added more option to pull more details about series"/>
-                                <TextBlock Text="Redesigned main list items a bit"/>
-                                <TextBlock Text="Rewritten most of the code to fit new design pattern"/>
-                                <TextBlock Text="Added refresh buttons in some pages"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
-                                         VerticalAlignment="Stretch" />
-                                <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
-                                    v1.0 - 06.02.2016
-                                    <LineBreak/>
-                                    Initial release
-                                </TextBlock>
+                                <TextBlock Text="v1.2 - 07.03.2016"/>
+                                <TextBlock Text="Added reviews to details page."/>
+                                <TextBlock Text="Redesigned search page." />
+                                <TextBlock Text="Various misc. changes and bug fixes."/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -107,21 +95,17 @@
                                 <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
                                          Height="5" />
                                 <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
-                                    Redesign search page
+                                    Add recommendations to details page.
                                 </TextBlock>
-                            </StackPanel>                            
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                                 <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
                                          Height="5" />
                                 <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
-                                    Redesign profile page
+                                    Redesign profile page.
                                 </TextBlock>
                             </StackPanel>
                         </StackPanel>
-                    </Grid>
-                    <Grid VerticalAlignment="Stretch" Margin="20,0,20,0">
-                        <TextBlock Text="MALClient version" HorizontalAlignment="Left" />
-                        <TextBlock Text="v1.1" FontWeight="Medium" HorizontalAlignment="Right" />
                     </Grid>
                 </StackPanel>
             </Grid>

@@ -25,7 +25,7 @@ namespace MALClient.Comm
         {
             List<AnimeReviewData> output = force
                 ? new List<AnimeReviewData>()
-                : await DataCache.RetrieveReviewData(_animeId) ?? new List<AnimeReviewData>();
+                : await DataCache.RetrieveReviewsData(_animeId) ?? new List<AnimeReviewData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();

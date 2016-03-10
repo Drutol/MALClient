@@ -26,6 +26,8 @@ namespace MALClient
             LoadSeasonalurls();
         }
 
+
+
         #region UserData
 
         public static async void SaveDataForUser(string user, string data)
@@ -288,7 +290,7 @@ namespace MALClient
             });
         }
 
-        public static async Task<List<AnimeReviewData>> RetrieveReviewData(int animeId)
+        public static async Task<List<AnimeReviewData>> RetrieveReviewsData(int animeId)
         {
             try
             {
@@ -305,6 +307,43 @@ namespace MALClient
             }
             return null;
         }
+        #endregion
+
+        #region DirectRecommendations
+        public static async void SaveDirectRecommendationsData(int id, List<DirectRecommendationData> data)
+        {
+            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+            await Task.Run(async () =>
+            {
+                var json =
+                    JsonConvert.SerializeObject(new Tuple<DateTime, List<DirectRecommendationData>>(DateTime.UtcNow, data));
+                StorageFile file =
+                    await
+                        folder.CreateFileAsync($"direct_recommendations_{id}.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            });
+        }
+
+        public static async Task<List<DirectRecommendationData>> RetrieveDirectRecommendationData(int id)
+        {
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                StorageFile file = await folder.GetFileAsync($"direct_recommendations_{id}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                Tuple<DateTime, List<DirectRecommendationData>> tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, List<DirectRecommendationData>>>(data);
+                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+
         #endregion
     }
 }

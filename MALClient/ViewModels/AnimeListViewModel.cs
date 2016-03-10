@@ -459,11 +459,12 @@ namespace MALClient.ViewModels
 
         #region Helpers
 
-        private void Cleanup()
+        public override void Cleanup()
         {
             _animeItemsSet.Clear();
             _animePages = new ObservableCollection<PivotItem>();
             RaisePropertyChanged(() => AnimePages);
+            base.Cleanup();
         }
 
         private string GetLastUpdatedStatus()

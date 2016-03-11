@@ -1,22 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.System;
-using Windows.UI;
-using Windows.UI.Popups;
-using Windows.UI.Text;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Comm;
 using MALClient.Items;
 using MALClient.ViewModels;
 
@@ -90,6 +77,9 @@ namespace MALClient.Pages
                     break;
                 case "Reviews":
                     ViewModel.LoadReviews();
+                    break;
+                case "Recomm":
+                    ViewModel.LoadRecommendations();
                     break;
             }            
         }

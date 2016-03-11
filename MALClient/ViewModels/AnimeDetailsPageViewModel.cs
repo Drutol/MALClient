@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -14,7 +12,6 @@ using Windows.UI.Popups;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -38,6 +35,7 @@ namespace MALClient.ViewModels
         private string _imgUrl;
         private bool _loadedDetails;
         private bool _loadedReviews;
+        private bool _loadedRecomm;
         public ObservableCollection<ListViewItem> LeftDetailsRow => _loadedItems1; 
         public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
         public ObservableCollection<ListViewItem> LeftGenres => _genres1;
@@ -45,7 +43,8 @@ namespace MALClient.ViewModels
         public ObservableCollection<ListViewItem> Episodes => _episodes; 
         public ObservableCollection<ListViewItem> OPs => _ops; 
         public ObservableCollection<ListViewItem> EDs => _eds;
-        public ObservableCollection<AnimeReviewData> Reviews { get; set; } = new ObservableCollection<AnimeReviewData>(); 
+        public ObservableCollection<AnimeReviewData> Reviews { get;} = new ObservableCollection<AnimeReviewData>(); 
+        public ObservableCollection<DirectRecommendationData> Recommendations { get;} = new ObservableCollection<DirectRecommendationData>(); 
         private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
@@ -57,7 +56,7 @@ namespace MALClient.ViewModels
 
         private string AnnId { get; set; }
         private int Id { get; set; }
-        private string Title { get; set; }
+        public string Title { get; set; }
 
         private int AllEpisodes
         {
@@ -172,6 +171,17 @@ namespace MALClient.ViewModels
             {
                 _loadingReviews = value;
                 RaisePropertyChanged(() => LoadingReviews);
+            }
+        }
+
+        private Visibility _loadingRecommendations;
+        public Visibility LoadingRecommendations
+        {
+            get { return _loadingRecommendations; }
+            set
+            {
+                _loadingRecommendations = value;
+                RaisePropertyChanged(() => LoadingRecommendations);
             }
         }
 
@@ -379,6 +389,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _noRecommDataNoticeVisibility = Visibility.Collapsed;
+        public Visibility NoRecommDataNoticeVisibility
+        {
+            get { return _noRecommDataNoticeVisibility; }
+            set
+            {
+                _noRecommDataNoticeVisibility = value;
+                RaisePropertyChanged(() => NoRecommDataNoticeVisibility);
+            }
+        }
+
         public void Init(AnimeDetailsPageNavigationArgs param)
         {
             LoadingGlobal = Visibility.Visible;
@@ -422,7 +443,7 @@ namespace MALClient.ViewModels
                     Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
-            _loadedDetails = _loadedReviews = false;
+            _loadedDetails = _loadedReviews = _loadedRecomm = false;
             DetailsPivotSelectedIndex = 0;
             Reviews.Clear();
         }
@@ -644,6 +665,8 @@ namespace MALClient.ViewModels
                 LoadDetails(true);
             if(_loadedReviews)
                 LoadReviews(true);
+            if (_loadedRecomm)
+                LoadRecommendations(true);
         }
 
         public async void LoadDetails(bool force = false)
@@ -664,7 +687,7 @@ namespace MALClient.ViewModels
 
                 //Let's try to pull moar Genres data from MAL
                 VolatileDataCache genresData;
-                if (DataCache.TryRetrieveDataForId(Id, out genresData))
+                if (DataCache.TryRetrieveDataForId(Id, out genresData) && genresData.Genres != null)
                 {
                     foreach (var genreMal in genresData.Genres)
                     {
@@ -774,6 +797,21 @@ namespace MALClient.ViewModels
             }
             NoReviewsDataNoticeVisibility = Reviews.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingReviews = Visibility.Collapsed;
+        }
+
+        public async void LoadRecommendations(bool force = false)
+        {
+            if (_loadedRecomm && !force)
+                return;
+            LoadingRecommendations = Visibility.Visible;
+            _loadedRecomm = true;
+            Recommendations.Clear();
+            var recomm = new List<DirectRecommendationData>();
+            await Task.Run(async () => recomm = await new DirectRecommendationsQuery(Id).GetDirectRecommendations(force));
+            foreach (var item in recomm)
+                Recommendations.Add(item);
+            NoReviewsDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+            LoadingRecommendations = Visibility.Collapsed;
         }
         #endregion
 

@@ -391,9 +391,9 @@
                             <Grid>
                                 <Grid VerticalAlignment="Stretch">
                                     <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility}"
-                                           Text="Reviews unavailable :(" 
+                                           Text="Recommendations unavailable :(" 
                                            VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                           FontSize="30" FontWeight="SemiLight"
+                                           FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
                                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -403,7 +403,7 @@
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
                                 </Grid>
-                                <Pivot ItemsSource="{Binding Recommendations}">
+                                <Pivot ItemsSource="{Binding Recommendations}" SelectedItem="{Binding CurrentRecommendationsSelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                     <Pivot.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Path=Title}" FontSize="17" FontWeight="SemiLight"/>
@@ -413,18 +413,27 @@
                                         <DataTemplate>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="150"/>
+                                                    <RowDefinition Height="155"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="*"/>
-
                                                     </Grid.ColumnDefinitions>
-                                                    <Image Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
-                                                               Height="150" Width="Auto"
+                                                    <Grid>
+                                                        <Image Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
+                                                               Height="155" Width="Auto"
                                                                HorizontalAlignment="Center" Stretch="Uniform" Margin="5,5,5,0"/>
+                                                        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
+                                                                Click="ButtonNavDetails_OnClick"
+                                                                HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40">
+                                                            <Button.Background>
+                                                                <SolidColorBrush Color="Black" Opacity=".5" />
+                                                            </Button.Background>
+                                                            <SymbolIcon Symbol="More" Foreground="White" />
+                                                        </Button>
+                                                    </Grid>
                                                     <RichTextBlock Grid.Column="1" VerticalAlignment="Stretch" 
                                                                    OverflowContentTarget="{Binding ElementName=DescriptionOverflow}"
                                                                    TextTrimming="None" TextWrapping="WrapWholeWords"

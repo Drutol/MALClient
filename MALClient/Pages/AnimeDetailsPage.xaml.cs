@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -19,6 +20,7 @@ namespace MALClient.Pages
         public readonly object PrevPageSetup;
         public readonly string Title;
         public PageIndex Source;
+        public bool RegisterBackNav = true;
 
         public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
             object args = null)
@@ -54,7 +56,7 @@ namespace MALClient.Pages
         {
             DataContext = null;
             base.OnNavigatedFrom(e);
-            Utils.DeregisterBackNav();
+            NavMgr.DeregisterBackNav();
         }      
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
@@ -82,6 +84,11 @@ namespace MALClient.Pages
                     ViewModel.LoadRecommendations();
                     break;
             }            
+        }
+
+        private void ButtonNavDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NavigateDetails();
         }
     }
 }

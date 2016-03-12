@@ -49,13 +49,13 @@ namespace MALClient.Pages
             if (e.Parameter is RecommendationPageNavigationArgs)
                 (DataContext as RecommendationsViewModel).PivotItemIndex = (e.Parameter as RecommendationPageNavigationArgs).Index;
 
-            Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             DataContext = null;
-            Utils.DeregisterBackNav();
+            NavMgr.DeregisterBackNav();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using MALClient.Pages;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.ViewModels
@@ -32,6 +33,7 @@ namespace MALClient.ViewModels
         public static HamburgerControlViewModel Hamburger => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
         public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
         public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
+        public static PageIndex CurrentView => Main.CurrentPage;
     }
 }
 

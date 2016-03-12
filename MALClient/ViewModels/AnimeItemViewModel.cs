@@ -453,7 +453,7 @@ namespace MALClient.ViewModels
 
         public async void NavigateDetails()
         {
-            await Utils.GetMainPageInstance()
+            await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
                         Utils.GetMainPageInstance().GetCurrentListOrderParams())

@@ -82,7 +82,7 @@ namespace MALClient.Pages
 
             Utils.GetMainPageInstance().CurrentStatus = $"{Creditentials.UserName} - Profile";
 
-            Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
 
             base.OnNavigatedTo(e);
         }
@@ -90,7 +90,7 @@ namespace MALClient.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            Utils.DeregisterBackNav();
+            NavMgr.DeregisterBackNav();
         }
 
 

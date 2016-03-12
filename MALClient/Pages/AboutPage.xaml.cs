@@ -22,13 +22,13 @@ namespace MALClient.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Utils.RegisterBackNav(PageIndex.PageAnimeList, null);
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            Utils.DeregisterBackNav();
+            NavMgr.DeregisterBackNav();
         }
 
         private async void Donate(object sender, RoutedEventArgs e)

@@ -97,6 +97,9 @@ namespace MALClient.ViewModels
 
         public IDetailsViewInteraction View { get; set; }
 
+        public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
+        private AnimeDetailsPageNavigationArgs _prevArgs;
+        #region Properties
         public string MyEpisodesBind => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
         private int MyEpisodes
         {
@@ -244,6 +247,15 @@ namespace MALClient.ViewModels
             get
             {
                 return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<Object>(ChangeStatus));
+            }
+        }
+
+        private ICommand _navigateDetailsCommand;
+        public ICommand NavigateDetailsCommand
+        {
+            get
+            {
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails));
             }
         }
 
@@ -399,10 +411,12 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => NoRecommDataNoticeVisibility);
             }
         }
+#endregion
 
-        public void Init(AnimeDetailsPageNavigationArgs param)
+        public async void Init(AnimeDetailsPageNavigationArgs param)
         {
             LoadingGlobal = Visibility.Visible;
+            _prevArgs = param;
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
@@ -432,15 +446,20 @@ namespace MALClient.ViewModels
             {
                 case PageIndex.PageSearch:
                     ExtractData(param.AnimeElement);
-                    Utils.RegisterBackNav(param.Source, true);
+                    NavMgr.RegisterBackNav(param.Source, true);
                     break;
                 case PageIndex.PageAnimeList:
-                    FetchData(param.Id.ToString(), param.Title);
-                    Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    await FetchData(param.Id.ToString(), param.Title);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+                case PageIndex.PageAnimeDetails:
+                    await FetchData(param.Id.ToString(), param.Title);
+                    if(param.RegisterBackNav) //we are already going back
+                        NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup , PageIndex.PageAnimeDetails);
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
-                    Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
             _loadedDetails = _loadedReviews = _loadedRecomm = false;
@@ -815,6 +834,14 @@ namespace MALClient.ViewModels
         }
         #endregion
 
-
+        public async void NavigateDetails()
+        {           
+            await ViewModelLocator.Main
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(CurrentRecommendationsSelectedItem.Id, CurrentRecommendationsSelectedItem.Title, null, null,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, null , _animeItemReference)
+                        { Source = PageIndex.PageAnimeDetails, RegisterBackNav = false })
+                    {Source = PageIndex.PageAnimeDetails});
+        }
     }
 }

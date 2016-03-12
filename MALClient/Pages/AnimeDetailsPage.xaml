@@ -413,7 +413,7 @@
                                         <DataTemplate>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="160"/>
+                                                    <RowDefinition Height="145"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid>
@@ -422,17 +422,19 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid Width="Auto" Height="Auto">
-                                                        <Image Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
-                                                               Height="160" Width="Auto"
+                                                        <Image x:Name="Image" Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
+                                                               Height="145" Width="Auto"
                                                                HorizontalAlignment="Center" Stretch="Uniform" Margin="5,5,5,0"/>
-                                                        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
+                                                        <Grid Margin="{Binding ElementName=Image,Path=Margin}">
+                                                            <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
                                                                 Click="ButtonNavDetails_OnClick"
                                                                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40">
-                                                            <Button.Background>
-                                                                <SolidColorBrush Color="Black" Opacity=".5" />
-                                                            </Button.Background>
-                                                            <SymbolIcon Symbol="More" Foreground="White" />
-                                                        </Button>
+                                                                <Button.Background>
+                                                                    <SolidColorBrush Color="Black" Opacity=".5" />
+                                                                </Button.Background>
+                                                                <SymbolIcon Symbol="More" Foreground="White" />
+                                                            </Button>
+                                                        </Grid>
                                                     </Grid>
                                                     <RichTextBlock Grid.Column="1" VerticalAlignment="Stretch" 
                                                                    OverflowContentTarget="{Binding ElementName=DescriptionOverflow}"

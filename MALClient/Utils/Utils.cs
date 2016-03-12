@@ -241,7 +241,7 @@ namespace MALClient
             {
                 //
             }
-            await Task.Delay(10000);
+            await Task.Delay(2000);
             await ViewModelLocator.Hamburger.UpdateProfileImg(false);
         }
 

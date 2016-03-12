@@ -829,7 +829,7 @@ namespace MALClient.ViewModels
             await Task.Run(async () => recomm = await new DirectRecommendationsQuery(Id).GetDirectRecommendations(force));
             foreach (var item in recomm)
                 Recommendations.Add(item);
-            NoReviewsDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+            NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingRecommendations = Visibility.Collapsed;
         }
         #endregion

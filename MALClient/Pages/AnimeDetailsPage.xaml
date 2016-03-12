@@ -317,7 +317,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
                                     </Grid.Background>
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
@@ -342,7 +342,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
                                     </Grid.Background>
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
@@ -398,7 +398,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
                                     </Grid.Background>
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
@@ -406,14 +406,14 @@
                                 <Pivot ItemsSource="{Binding Recommendations}" SelectedItem="{Binding CurrentRecommendationsSelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                     <Pivot.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Title}" FontSize="17" FontWeight="SemiLight"/>
+                                            <TextBlock Text="{Binding Path=Title}" FontSize="17" MaxWidth="200" TextTrimming="WordEllipsis" FontWeight="SemiLight"/>
                                         </DataTemplate>
                                     </Pivot.HeaderTemplate>
                                     <Pivot.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="155"/>
+                                                    <RowDefinition Height="160"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid>
@@ -421,9 +421,9 @@
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Grid>
+                                                    <Grid Width="Auto" Height="Auto">
                                                         <Image Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
-                                                               Height="155" Width="Auto"
+                                                               Height="160" Width="Auto"
                                                                HorizontalAlignment="Center" Stretch="Uniform" Margin="5,5,5,0"/>
                                                         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
                                                                 Click="ButtonNavDetails_OnClick"
@@ -457,7 +457,7 @@
 
         <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}">
             <Grid.Background>
-                <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
             </Grid.Background>
             <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"  IsActive="True">
             </ProgressRing>

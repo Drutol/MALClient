@@ -58,7 +58,7 @@ namespace MALClient.Comm
                         node.Attributes["class"].Value ==
                         "borderClass bgColor1")
                         .Descendants("div")
-                        .First().InnerText.Trim());
+                        .First().InnerText.Trim().Replace("&nbsp","").Replace("read more",""));
                 var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
                 current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
                 current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Split('/')[2]);

@@ -54,7 +54,7 @@
             </Button>
         </Grid>
         <SplitView VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
-                   IsPaneOpen="{Binding MenuPaneState}" DisplayMode="CompactOverlay" Grid.Row="1">
+                   IsPaneOpen="{Binding MenuPaneState,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>
                 <controls:HamburgerControl/>
             </SplitView.Pane>

@@ -42,6 +42,8 @@ namespace MALClient.UserControls
 
         private void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(e.AddedItems.Count == 0)
+                return;           
             ViewModelLocator.AnimeList.CurrentlySelectedAnimeItem = e.AddedItems.First() as AnimeItem;
         }
 

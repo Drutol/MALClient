@@ -34,6 +34,7 @@ namespace MALClient
             else //non details navigation
             {
                 _detailsNavStack.Clear();
+                _wasOnStack = false;
                 _pageTo = page;
                 _args = args;
             }
@@ -77,6 +78,15 @@ namespace MALClient
             _handlerRegistered = false;
         }
 
+        public static void ResetBackNav()
+        {
+            _detailsNavStack.Clear();
+            _wasOnStack = false;
+            _handlerRegistered = false;
+            SystemNavigationManager currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            currentView.BackRequested -= CurrentViewOnBackRequested;
+        }
         
 
         #endregion

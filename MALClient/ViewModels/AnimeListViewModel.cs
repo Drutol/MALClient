@@ -367,6 +367,7 @@ namespace MALClient.ViewModels
         public async void Init(AnimeListPageNavigationArgs args) // TODO : Refactor this 
         {
             RefreshList();
+            NavMgr.ResetBackNav();
             _initDone = true;
             if (args != null)
             {
@@ -453,6 +454,7 @@ namespace MALClient.ViewModels
             View.InitSortOptions(SortOption,SortDescending);
             UpdateUpperStatus();
             UpdateStatus();
+
             _initDone = true;
         }
 

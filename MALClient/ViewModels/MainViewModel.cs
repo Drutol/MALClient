@@ -64,7 +64,7 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-                Navigate(Creditentials.Authenticated ? PageIndex.PageAnimeList : PageIndex.PageLogIn);
+                Navigate(Creditentials.Authenticated ? PageIndex.PageAnimeList : PageIndex.PageLogIn); //entry point whatnot
             }
         } //entry point
 

@@ -32,7 +32,7 @@ namespace MALClient
         ///     will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
 
@@ -73,6 +73,13 @@ namespace MALClient
             }
             // Ensure the current window is active
             Window.Current.Activate();
+            UniversalRateReminder.RatePopup.Title = "Rate this app!";
+            UniversalRateReminder.RatePopup.CancelButtonText = "Not now...";
+            UniversalRateReminder.RatePopup.Content =
+                "Your feedback helps improve this app! Please take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
+            UniversalRateReminder.RatePopup.ResetCountOnNewVersion = false;
+            UniversalRateReminder.RatePopup.RateButtonText = "To the store!";
+            await UniversalRateReminder.RatePopup.CheckRateReminderAsync();
         }
 
         private async void LaunchUri(string url)

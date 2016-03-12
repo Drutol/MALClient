@@ -18,7 +18,7 @@
                     <Setter Property="Margin" Value="0,5" />
                     <Setter Property="BorderBrush">
                         <Setter.Value>
-                            <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                            <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
                         </Setter.Value>
                     </Setter>
                     <Setter Property="BorderThickness" Value="5,0,0,0"></Setter>

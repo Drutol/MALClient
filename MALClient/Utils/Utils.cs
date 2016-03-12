@@ -93,7 +93,7 @@ namespace MALClient
         public static void RegisterTile(string id)
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
+            if (String.IsNullOrWhiteSpace(tiles))
                 tiles = "";
             tiles += id + ";";
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
@@ -102,7 +102,7 @@ namespace MALClient
         public static async void CheckTiles()
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
+            if (String.IsNullOrWhiteSpace(tiles))
                 return;
 
 
@@ -194,7 +194,7 @@ namespace MALClient
             var mag = (int) Math.Log(value, 1024);
             var adjustedSize = (decimal) value/(1L << (mag*10));
 
-            return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
+            return String.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
         public static async Task RemoveProfileImg()
@@ -283,14 +283,14 @@ namespace MALClient
 
         public static int LevenshteinDistance(string s, string t)
         {
-            if (string.IsNullOrEmpty(s))
+            if (String.IsNullOrEmpty(s))
             {
-                if (string.IsNullOrEmpty(t))
+                if (String.IsNullOrEmpty(t))
                     return 0;
                 return t.Length;
             }
 
-            if (string.IsNullOrEmpty(t))
+            if (String.IsNullOrEmpty(t))
             {
                 return s.Length;
             }
@@ -315,36 +315,6 @@ namespace MALClient
                 }
             }
             return d[n, m];
-        }
-
-        #region BackNavigation
-
-        private static PageIndex _pageTo;
-        private static object _args;
-
-        public static void RegisterBackNav(PageIndex page, object args)
-        {
-            _pageTo = page;
-            _args = args;
-            SystemNavigationManager currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            currentView.BackRequested += CurrentViewOnBackRequested;
-        }
-
-        private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
-        {
-            args.Handled = true;
-            var page = GetMainPageInstance();
-            await page.Navigate(_pageTo, _args);
-            ViewModelLocator.Hamburger.SetActiveButton(GetButtonForPage(_pageTo));
-        }
-
-        public static void DeregisterBackNav()
-        {
-            SystemNavigationManager currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            currentView.BackRequested -= CurrentViewOnBackRequested;
-            _args = null;
         }
 
         public static HamburgerButtons GetButtonForPage(PageIndex page)
@@ -373,8 +343,6 @@ namespace MALClient
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
         }
-
-        #endregion
 
         public static string DecodeXmlSynopsis(string txt)
         {

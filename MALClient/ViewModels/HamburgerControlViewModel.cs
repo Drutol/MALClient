@@ -39,7 +39,7 @@ namespace MALClient.ViewModels
         public Dictionary<string, Brush> TxtForegroundBrushes => _brushes;
             
             
-        private Dictionary<string, Brush> _brushes = new Dictionary<string, Brush>
+        private readonly Dictionary<string, Brush> _brushes = new Dictionary<string, Brush>
         {
             ["AnimeList"] =  new SolidColorBrush(Colors.Black),
             ["AnimeSearch"] =  new SolidColorBrush(Colors.Black),

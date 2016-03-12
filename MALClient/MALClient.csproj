@@ -119,7 +119,7 @@
     <Compile Include="Comm\AnimeSeasonalQuery.cs" />
     <Compile Include="Comm\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
-    <Compile Include="Comm\Creditentials.cs" />
+    <Compile Include="Comm\DirectRecommendationsQuery.cs" />
     <Compile Include="Comm\IParameters.cs" />
     <Compile Include="Comm\MALProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
@@ -135,6 +135,7 @@
     <Compile Include="Items\AnimeUserCache.cs" />
     <Compile Include="Models\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\AnimeReviewData.cs" />
+    <Compile Include="Models\DirectRecommendationData.cs" />
     <Compile Include="Models\IAnimeData.cs" />
     <Compile Include="Models\RecomendationData.cs" />
     <Compile Include="Items\RecomendationItem.xaml.cs">
@@ -184,7 +185,9 @@
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\AnimeStatusEnum.cs" />
+    <Compile Include="Utils\Creditentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
+    <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />

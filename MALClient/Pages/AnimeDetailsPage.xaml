@@ -317,7 +317,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
                                     </Grid.Background>
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
@@ -342,7 +342,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
                                     </Grid.Background>
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
@@ -354,7 +354,7 @@
                                                 <Image Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}" Width="Auto" Height="Auto" MaxHeight="35"/>
                                                 <StackPanel Margin="5,0,0,0">
                                                     <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold"/>
-                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15"/>
+                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15" FontWeight="SemiLight"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </DataTemplate>
@@ -372,9 +372,78 @@
                                                     <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight"/>
                                                 </StackPanel>
                                                 <Grid Grid.Row="1">
-                                                    <MenuFlyoutSeparator/>
                                                     <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords" Margin="0,5" Padding="5,5,5,0"/>
                                                 </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Pivot.ItemTemplate>
+                                </Pivot>
+                            </Grid>
+                        </ScrollViewer>
+                    </PivotItem.Content>
+                </PivotItem>
+                <PivotItem Tag="Recomm">
+                    <PivotItem.Header>
+                        Recoms
+                    </PivotItem.Header>
+                    <PivotItem.Content>
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid VerticalAlignment="Stretch">
+                                    <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility}"
+                                           Text="Recommendations unavailable :(" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                           FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
+                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                </Grid>
+                                <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                                    </Grid.Background>
+                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
+                                    </ProgressRing>
+                                </Grid>
+                                <Pivot ItemsSource="{Binding Recommendations}" SelectedItem="{Binding CurrentRecommendationsSelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                    <Pivot.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Title}" FontSize="17" MaxWidth="200" TextTrimming="WordEllipsis" FontWeight="SemiLight"/>
+                                        </DataTemplate>
+                                    </Pivot.HeaderTemplate>
+                                    <Pivot.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="160"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid Width="Auto" Height="Auto">
+                                                        <Image Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
+                                                               Height="160" Width="Auto"
+                                                               HorizontalAlignment="Center" Stretch="Uniform" Margin="5,5,5,0"/>
+                                                        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
+                                                                Click="ButtonNavDetails_OnClick"
+                                                                HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40">
+                                                            <Button.Background>
+                                                                <SolidColorBrush Color="Black" Opacity=".5" />
+                                                            </Button.Background>
+                                                            <SymbolIcon Symbol="More" Foreground="White" />
+                                                        </Button>
+                                                    </Grid>
+                                                    <RichTextBlock Grid.Column="1" VerticalAlignment="Stretch" 
+                                                                   OverflowContentTarget="{Binding ElementName=DescriptionOverflow}"
+                                                                   TextTrimming="None" TextWrapping="WrapWholeWords"
+                                                                   IsTextSelectionEnabled="False" Margin="5">
+                                                        <Paragraph>
+                                                            <Run Text="{Binding Description}"/>
+                                                        </Paragraph>
+                                                    </RichTextBlock>
+                                                </Grid>
+                                                <RichTextBlockOverflow Grid.Row="1" x:Name="DescriptionOverflow" Margin="5"/>
                                             </Grid>
                                         </DataTemplate>
                                     </Pivot.ItemTemplate>
@@ -388,7 +457,7 @@
 
         <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}">
             <Grid.Background>
-                <SolidColorBrush Color="LightGray" Opacity=".75"/>
+                <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
             </Grid.Background>
             <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"  IsActive="True">
             </ProgressRing>

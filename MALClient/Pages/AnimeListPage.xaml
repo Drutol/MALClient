@@ -18,7 +18,7 @@
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="BottomCommandBar">
+        <CommandBar x:Name="BottomCommandBar" Background="LightGray">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}" 
                               Visibility="{Binding AppBtnGoBackToMyListVisibility}"/>
@@ -95,8 +95,8 @@
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
-
-    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+    <!--{ThemeResource AppBarBackgroundThemeBrush}-->
+    <Grid Background="#E6E6E6">
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">
@@ -110,7 +110,6 @@
         <Pivot x:Name="AnimesPivot"  Style="{StaticResource PivotStyleAnimeList}"  SelectionChanged="AnimesPivot_OnSelectionChanged" SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}"/>
-
             </Pivot.Resources>
             <Pivot.ItemContainerStyle>
                 <Style TargetType="PivotItem">

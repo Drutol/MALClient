@@ -54,6 +54,7 @@ namespace MALClient.ViewModels
         private bool? _searchStateBeforeNavigatingToSearch;        
         private bool _wasOnDetailsFromSearch;
         private bool _onSearchPage;
+        public PageIndex CurrentPage;
         
         #region PropertyPairs
         private IMainViewInteractions _view;

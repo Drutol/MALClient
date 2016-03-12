@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
@@ -30,8 +31,7 @@ namespace MALClient
         {
             InitializeComponent();
             Utils.CheckTiles();
-            ViewModelLocator.Main.View = this;
-            new AnimeReviewsQuery(16067).GetAnimeReviews();
+            ViewModelLocator.Main.View = this;          
         }
         #pragma warning restore 4014
 
@@ -61,5 +61,6 @@ namespace MALClient
         {
             SearchInput.Focus(state);
         }
+
     }
 }

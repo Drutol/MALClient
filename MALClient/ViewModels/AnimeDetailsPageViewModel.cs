@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -14,7 +12,6 @@ using Windows.UI.Popups;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -38,6 +35,7 @@ namespace MALClient.ViewModels
         private string _imgUrl;
         private bool _loadedDetails;
         private bool _loadedReviews;
+        private bool _loadedRecomm;
         public ObservableCollection<ListViewItem> LeftDetailsRow => _loadedItems1; 
         public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
         public ObservableCollection<ListViewItem> LeftGenres => _genres1;
@@ -45,7 +43,8 @@ namespace MALClient.ViewModels
         public ObservableCollection<ListViewItem> Episodes => _episodes; 
         public ObservableCollection<ListViewItem> OPs => _ops; 
         public ObservableCollection<ListViewItem> EDs => _eds;
-        public ObservableCollection<AnimeReviewData> Reviews { get; set; } = new ObservableCollection<AnimeReviewData>(); 
+        public ObservableCollection<AnimeReviewData> Reviews { get;} = new ObservableCollection<AnimeReviewData>(); 
+        public ObservableCollection<DirectRecommendationData> Recommendations { get;} = new ObservableCollection<DirectRecommendationData>(); 
         private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
@@ -57,7 +56,7 @@ namespace MALClient.ViewModels
 
         private string AnnId { get; set; }
         private int Id { get; set; }
-        private string Title { get; set; }
+        public string Title { get; set; }
 
         private int AllEpisodes
         {
@@ -98,6 +97,9 @@ namespace MALClient.ViewModels
 
         public IDetailsViewInteraction View { get; set; }
 
+        public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
+        private AnimeDetailsPageNavigationArgs _prevArgs;
+        #region Properties
         public string MyEpisodesBind => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
         private int MyEpisodes
         {
@@ -175,6 +177,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _loadingRecommendations;
+        public Visibility LoadingRecommendations
+        {
+            get { return _loadingRecommendations; }
+            set
+            {
+                _loadingRecommendations = value;
+                RaisePropertyChanged(() => LoadingRecommendations);
+            }
+        }
+
         private Visibility _detailedDataVisibility;
         public Visibility DetailedDataVisibility
         {
@@ -234,6 +247,15 @@ namespace MALClient.ViewModels
             get
             {
                 return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<Object>(ChangeStatus));
+            }
+        }
+
+        private ICommand _navigateDetailsCommand;
+        public ICommand NavigateDetailsCommand
+        {
+            get
+            {
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails));
             }
         }
 
@@ -379,9 +401,22 @@ namespace MALClient.ViewModels
             }
         }
 
-        public void Init(AnimeDetailsPageNavigationArgs param)
+        private Visibility _noRecommDataNoticeVisibility = Visibility.Collapsed;
+        public Visibility NoRecommDataNoticeVisibility
+        {
+            get { return _noRecommDataNoticeVisibility; }
+            set
+            {
+                _noRecommDataNoticeVisibility = value;
+                RaisePropertyChanged(() => NoRecommDataNoticeVisibility);
+            }
+        }
+#endregion
+
+        public async void Init(AnimeDetailsPageNavigationArgs param)
         {
             LoadingGlobal = Visibility.Visible;
+            _prevArgs = param;
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
@@ -411,18 +446,23 @@ namespace MALClient.ViewModels
             {
                 case PageIndex.PageSearch:
                     ExtractData(param.AnimeElement);
-                    Utils.RegisterBackNav(param.Source, true);
+                    NavMgr.RegisterBackNav(param.Source, true);
                     break;
                 case PageIndex.PageAnimeList:
-                    FetchData(param.Id.ToString(), param.Title);
-                    Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    await FetchData(param.Id.ToString(), param.Title);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+                case PageIndex.PageAnimeDetails:
+                    await FetchData(param.Id.ToString(), param.Title);
+                    if(param.RegisterBackNav) //we are already going back
+                        NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup , PageIndex.PageAnimeDetails);
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
-                    Utils.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
-            _loadedDetails = _loadedReviews = false;
+            _loadedDetails = _loadedReviews = _loadedRecomm = false;
             DetailsPivotSelectedIndex = 0;
             Reviews.Clear();
         }
@@ -644,6 +684,8 @@ namespace MALClient.ViewModels
                 LoadDetails(true);
             if(_loadedReviews)
                 LoadReviews(true);
+            if (_loadedRecomm)
+                LoadRecommendations(true);
         }
 
         public async void LoadDetails(bool force = false)
@@ -664,7 +706,7 @@ namespace MALClient.ViewModels
 
                 //Let's try to pull moar Genres data from MAL
                 VolatileDataCache genresData;
-                if (DataCache.TryRetrieveDataForId(Id, out genresData))
+                if (DataCache.TryRetrieveDataForId(Id, out genresData) && genresData.Genres != null)
                 {
                     foreach (var genreMal in genresData.Genres)
                     {
@@ -775,8 +817,31 @@ namespace MALClient.ViewModels
             NoReviewsDataNoticeVisibility = Reviews.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingReviews = Visibility.Collapsed;
         }
+
+        public async void LoadRecommendations(bool force = false)
+        {
+            if (_loadedRecomm && !force)
+                return;
+            LoadingRecommendations = Visibility.Visible;
+            _loadedRecomm = true;
+            Recommendations.Clear();
+            var recomm = new List<DirectRecommendationData>();
+            await Task.Run(async () => recomm = await new DirectRecommendationsQuery(Id).GetDirectRecommendations(force));
+            foreach (var item in recomm)
+                Recommendations.Add(item);
+            NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+            LoadingRecommendations = Visibility.Collapsed;
+        }
         #endregion
 
-
+        public async void NavigateDetails()
+        {           
+            await ViewModelLocator.Main
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(CurrentRecommendationsSelectedItem.Id, CurrentRecommendationsSelectedItem.Title, null, null,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, null , _animeItemReference)
+                        { Source = PageIndex.PageAnimeDetails, RegisterBackNav = false })
+                    {Source = PageIndex.PageAnimeDetails});
+        }
     }
 }

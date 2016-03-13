@@ -188,6 +188,8 @@ namespace MALClient.ViewModels
             _onSearchPage = false;
             MenuPaneState = false;
 
+            await new RelatedAnimeQuery(10087).GetRelatedAnime();
+
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");

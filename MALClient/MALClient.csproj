@@ -123,6 +123,7 @@
     <Compile Include="Comm\IParameters.cs" />
     <Compile Include="Comm\MALProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
+    <Compile Include="Comm\RelatedAnimeQuery.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
     <Compile Include="Comm\UriType.cs" />
     <Compile Include="Items\AnimeItem.xaml.cs">
@@ -141,6 +142,7 @@
     <Compile Include="Items\RecomendationItem.xaml.cs">
       <DependentUpon>RecomendationItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\RelatedAnimeData.cs" />
     <Compile Include="Models\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

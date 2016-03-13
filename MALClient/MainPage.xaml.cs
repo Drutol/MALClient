@@ -31,7 +31,8 @@ namespace MALClient
         {
             InitializeComponent();
             Utils.CheckTiles();
-            ViewModelLocator.Main.View = this;          
+            ViewModelLocator.Main.View = this;     
+                 
         }
         #pragma warning restore 4014
 

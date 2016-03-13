@@ -367,5 +367,50 @@ namespace MALClient
 
 
         #endregion
+
+        #region RelatedAnime
+        public static async void SaveRelatedAnimeData(int id, List<RelatedAnimeData> data)
+        {
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                await Task.Run(async () =>
+                {
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, List<RelatedAnimeData>>(DateTime.UtcNow, data));
+                    StorageFile file =
+                        await
+                            folder.CreateFileAsync($"related_anime_{id}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+
+        }
+
+        public static async Task<List<RelatedAnimeData>> RetrieveRelatedAnimeData(int animeId)
+        {
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                StorageFile file = await folder.GetFileAsync($"related_anime_{animeId}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                Tuple<DateTime, List<RelatedAnimeData>> tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, List<RelatedAnimeData>>>(data);
+                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+
+        #endregion      
     }
 }

@@ -203,8 +203,7 @@ namespace MALClient.ViewModels
                     _subtractedHeightForButton = true;
                 }
             }
-
-
+            PaneOpened();
         }
 
         private void ResetActiveButton()

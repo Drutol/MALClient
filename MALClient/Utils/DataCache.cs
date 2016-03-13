@@ -26,13 +26,11 @@ namespace MALClient
             LoadSeasonalurls();
         }
 
-
-
         #region UserData
 
         public static async void SaveDataForUser(string user, string data)
         {
-            if (!Utils.IsCachingEnabled())
+            if (!Settings.IsCachingEnabled())
                 return;
             try
             {
@@ -52,7 +50,7 @@ namespace MALClient
 
         public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user)
         {
-            if (!Utils.IsCachingEnabled())
+            if (!Settings.IsCachingEnabled())
                 return null;
             try
             {
@@ -76,7 +74,7 @@ namespace MALClient
         private static bool CheckForOldData(DateTime timestamp)
         {
             TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(timestamp);
-            if (diff.TotalSeconds > Utils.GetCachePersitence())
+            if (diff.TotalSeconds > Settings.GetCachePersitence())
                 return false;
             return true;
         }

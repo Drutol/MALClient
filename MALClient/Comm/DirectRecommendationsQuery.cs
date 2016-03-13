@@ -39,7 +39,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "borderClass").Take(8);
+                            "borderClass").Take(Settings.GetRecommsToPull());
 
             foreach (var recommNode in recommNodes)
             {

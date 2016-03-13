@@ -145,37 +145,7 @@ namespace MALClient
             var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return (int) Math.Floor(diff.TotalSeconds);
-        }
-
-        public static int GetCachePersitence()
-        {
-            return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600);
-        }
-
-        public static bool IsCachingEnabled()
-        {
-            return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
-        }
-
-        public static SortOptions GetSortOrder()
-        {
-            return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
-        }
-
-        public static bool IsSortDescending()
-        {
-            return (bool) (ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
-        }
-
-        internal static int GetDefaultAnimeFilter()
-        {
-            return (int) (ApplicationData.Current.LocalSettings.Values["DefaultFilter"] ?? (int) AnimeStatus.Watching);
-        }
-
-        public static int GetItemsPerPage()
-        {
-            return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 5);
-        }
+        }       
 
         /// <summary>
         ///     http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc

@@ -28,9 +28,8 @@ namespace MALClient.Items
             _rowAlternator = !_rowAlternator;
         }
 
-        public AnimeSearchItem(XElement animeElement)
+        public AnimeSearchItem(XElement animeElement) : this()
         {
-            InitializeComponent();
             item = animeElement;
             Id = int.Parse(animeElement.Element("id").Value);
             GlobalScore = float.Parse(animeElement.Element("score").Value);

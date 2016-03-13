@@ -25,13 +25,13 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ToggleCache.IsOn = Utils.IsCachingEnabled();
-            ComboCachePersistency.SelectedIndex = SecondsToIndexHelper(Utils.GetCachePersitence());
+            ToggleCache.IsOn = Settings.IsCachingEnabled();
+            ComboCachePersistency.SelectedIndex = SecondsToIndexHelper(Settings.GetCachePersitence());
             SetSortOrder();
-            BtnDescending.IsChecked = Utils.IsSortDescending();
+            BtnDescending.IsChecked = Settings.IsSortDescending();
             PopulateCachedEntries();
             SetDesiredStatus();
-            SetItemsPerPage();
+            SliderSetup();
             Utils.GetMainPageInstance().CurrentStatus = "Settings";
             _initialized = true;
 
@@ -49,7 +49,7 @@ namespace MALClient.Pages
 
         private void SetSortOrder()
         {
-            switch (Utils.GetSortOrder())
+            switch (Settings.GetSortOrder())
             {
                 case SortOptions.SortNothing:
                     Sort4.IsChecked = true;
@@ -214,7 +214,7 @@ namespace MALClient.Pages
 
         private void SetDesiredStatus()
         {
-            var value = Utils.GetDefaultAnimeFilter();
+            var value = Settings.GetDefaultAnimeFilter();
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
             CmbDefaultFilter.SelectedIndex = value;
@@ -228,9 +228,25 @@ namespace MALClient.Pages
             ViewModelLocator.AnimeList.UpdatePageSetup(true);
         }
 
-        private void SetItemsPerPage()
+        private void ChangedReviewsToPull(object sender, RangeBaseValueChangedEventArgs e)
         {
-            SliderItemsPerPage.Value = Utils.GetItemsPerPage();
+            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
+                return;
+            ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] = (int) e.NewValue;
+        }
+
+        private void ChangedRecommsToPull(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
+                return;
+            ApplicationData.Current.LocalSettings.Values["RecommsToPull"] = (int) e.NewValue;
+        }
+
+        private void SliderSetup()
+        {
+            SliderItemsPerPage.Value = Settings.GetItemsPerPage();
+            SliderReccommsToPull.Value = Settings.GetRecommsToPull();
+            SliderReviewsToPull.Value = Settings.GetReviewsToPull();
         }
 
         private async void RemoveAllAnimeDetails(object sender, RoutedEventArgs e)

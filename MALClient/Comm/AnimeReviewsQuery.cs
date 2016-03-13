@@ -34,12 +34,12 @@ namespace MALClient.Comm
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            List<HtmlNode> reviewNodes = doc.DocumentNode.Descendants("div")
+            var reviewNodes = doc.DocumentNode.Descendants("div")
                 .Where(
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "borderDark pt4 pb8 pl4 pr4 mb8").Take(4).ToList();
+                            "borderDark pt4 pb8 pl4 pr4 mb8").Take(Settings.GetReviewsToPull());
 
             foreach (var reviewNode in reviewNodes)
             {
@@ -70,7 +70,7 @@ namespace MALClient.Comm
                     node.Attributes.Contains("class") &&
                     node.Attributes["class"].Value == "spaceit textReadability");
                 reviewNodeContent.ChildNodes.Remove(1);
-                current.Review = WebUtility.HtmlDecode(reviewNodeContent.InnerText.Trim());
+                current.Review = WebUtility.HtmlDecode(reviewNodeContent.InnerText.Trim().Replace("read more", ""));
 
                 output.Add(current);
             }

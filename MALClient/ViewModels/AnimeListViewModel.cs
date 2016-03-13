@@ -43,7 +43,7 @@ namespace MALClient.ViewModels
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
 
-        private int _itemsPerPage = Utils.GetItemsPerPage();
+        private int _itemsPerPage = Settings.GetItemsPerPage();
 
         private int _allPages;
 
@@ -504,7 +504,7 @@ namespace MALClient.ViewModels
 
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? Utils.GetSortOrder())
+            switch (option ?? Settings.GetSortOrder())
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
@@ -537,7 +537,7 @@ namespace MALClient.ViewModels
         {
             SetSortOrder(null);
             SetDesiredStatus(null);
-            SortDescending = Utils.IsSortDescending();
+            SortDescending = Settings.IsSortDescending();
         }
 
         public async void UpdateUpperStatus(int retries = 5)
@@ -653,7 +653,7 @@ namespace MALClient.ViewModels
         public void UpdatePageSetup(bool updatePerPage = false)
         {
             if (updatePerPage) //called from settings
-                _itemsPerPage = Utils.GetItemsPerPage();
+                _itemsPerPage = Settings.GetItemsPerPage();
             int realPage = CurrentPage;
             _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
             AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
@@ -887,7 +887,7 @@ namespace MALClient.ViewModels
 
         private void SetDesiredStatus(int? value)
         {
-            value = value ?? Utils.GetDefaultAnimeFilter();
+            value = value ?? Settings.GetDefaultAnimeFilter();
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;

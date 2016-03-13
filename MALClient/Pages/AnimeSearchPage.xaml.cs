@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -19,8 +20,7 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class AnimeSearchPage : Page
     {
-        private readonly ObservableCollection<AnimeSearchItem> _animeSearchItems =
-            new ObservableCollection<AnimeSearchItem>();
+        private SearchPageViewModel ViewModel => DataContext as SearchPageViewModel;
 
         public AnimeSearchPage()
         {
@@ -31,7 +31,12 @@ namespace MALClient.Pages
         {
             base.OnNavigatedTo(e);
             if (!string.IsNullOrWhiteSpace((string) e.Parameter))
-                SubmitQuery((string) e.Parameter);
+                ViewModel.SubmitQuery((string) e.Parameter);
+            else
+            {
+                ViewModel.AnimeSearchItems.Clear();
+                ViewModel.ResetQuery();
+            }
 
             NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
@@ -42,43 +47,8 @@ namespace MALClient.Pages
             NavMgr.DeregisterBackNav();
         }
 
-        internal async void SubmitQuery(string text)
-        {
-            SpinnerLoading.Visibility = Visibility.Visible;
-            EmptyNotice.Visibility = Visibility.Collapsed;
-            _animeSearchItems.Clear();
-            var response = "";
-            await
-                Task.Run(
-                    async () => response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(text)).GetRequestResponse());
 
-            try
-            {
-                XDocument parsedData = XDocument.Parse(response);
-                foreach (XElement item in parsedData.Element("anime").Elements("entry"))
-                {
-                    _animeSearchItems.Add(new AnimeSearchItem(item));
-                }
-                Animes.ItemsSource = _animeSearchItems;
-            }
-            catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
-            {
-                EmptyNotice.Visibility = Visibility.Visible;
-            }
 
-            AlternateRowColors();
-            SpinnerLoading.Visibility = Visibility.Collapsed;
-        }
 
-        private void AlternateRowColors()
-        {
-            for (var i = 0; i < _animeSearchItems.Count; i++)
-            {
-                if ((i + 1)%2 == 0)
-                    _animeSearchItems[i].Setbackground(new SolidColorBrush(Color.FromArgb(170, 230, 230, 230)));
-                else
-                    _animeSearchItems[i].Setbackground(new SolidColorBrush(Colors.Transparent));
-            }
-        }
     }
 }

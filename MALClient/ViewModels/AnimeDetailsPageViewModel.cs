@@ -446,7 +446,7 @@ namespace MALClient.ViewModels
             {
                 case PageIndex.PageSearch:
                     ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, true);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
                     await FetchData(param.Id.ToString(), param.Title);

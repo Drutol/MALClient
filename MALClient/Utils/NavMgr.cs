@@ -74,7 +74,6 @@ namespace MALClient
             SystemNavigationManager currentView = SystemNavigationManager.GetForCurrentView();
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             currentView.BackRequested -= CurrentViewOnBackRequested;
-            _args = null;
             _handlerRegistered = false;
         }
 

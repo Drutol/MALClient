@@ -1,25 +1,31 @@
 ﻿using System;
 using System.Xml.Linq;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeSearchItem : UserControl, IAnimeData
+    public sealed partial class AnimeSearchItem : UserControl , IAnimeData
     {
+        private static bool _rowAlternator;
         private readonly XElement item;
-
 
         private Point _initialPoint;
 
         public AnimeSearchItem()
         {
             InitializeComponent();
+            Setbackground(_rowAlternator
+                ? new SolidColorBrush(Color.FromArgb(170, 230, 230, 230))
+                : new SolidColorBrush(Colors.Transparent));
+            _rowAlternator = !_rowAlternator;
         }
 
         public AnimeSearchItem(XElement animeElement)
@@ -65,7 +71,7 @@ namespace MALClient.Items
             if (!(e.Position.X - _initialPoint.X >= 70)) return;
             await
                 Utils.GetMainPageInstance()
-                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(Id, Title, item, this) { Source = PageIndex.PageSearch});
+                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(Id, Title, item, this, ViewModelLocator.SearchPage.PrevQuery) { Source = PageIndex.PageSearch});
             e.Complete();
         }
 
@@ -78,7 +84,7 @@ namespace MALClient.Items
         {
             await
                 Utils.GetMainPageInstance()
-                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(Id, Title, item, this) {Source = PageIndex.PageSearch});
+                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(Id, Title, item, this, ViewModelLocator.SearchPage.PrevQuery) {Source = PageIndex.PageSearch});
         }
     }
 }

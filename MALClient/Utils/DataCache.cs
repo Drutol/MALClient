@@ -198,18 +198,26 @@ namespace MALClient
         #region AnimeDetailsData
 
         public static async void SaveAnimeDetails(int id, AnimeGeneralDetailsData data)
-        {          
-            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
-            await Task.Run(async () =>
+        {
+            try
             {
-                var json =
-                    JsonConvert.SerializeObject(new Tuple<DateTime, AnimeGeneralDetailsData>(DateTime.UtcNow, data));
-                StorageFile file =
-                    await
-                        folder.CreateFileAsync($"{id}.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
-            }); 
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                await Task.Run(async () =>
+                {
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, AnimeGeneralDetailsData>(DateTime.UtcNow, data));
+                    StorageFile file =
+                        await
+                            folder.CreateFileAsync($"{id}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //probably failed to create folder #windowsmagic
+            } 
+
         }
 
         public static async Task<AnimeGeneralDetailsData> RetrieveAnimeGeneralDetailsData(int id)
@@ -277,17 +285,25 @@ namespace MALClient
         #region Reviews
         public static async void SaveAnimeReviews(int id, List<AnimeReviewData> data)
         {
-            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
-            await Task.Run(async () =>
+            try
             {
-                var json =
-                    JsonConvert.SerializeObject(new Tuple<DateTime, List<AnimeReviewData>>(DateTime.UtcNow, data));
-                StorageFile file =
-                    await
-                        folder.CreateFileAsync($"reviews_{id}.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
-            });
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                await Task.Run(async () =>
+                {
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, List<AnimeReviewData>>(DateTime.UtcNow, data));
+                    StorageFile file =
+                        await
+                            folder.CreateFileAsync($"reviews_{id}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+
         }
 
         public static async Task<List<AnimeReviewData>> RetrieveReviewsData(int animeId)
@@ -312,17 +328,25 @@ namespace MALClient
         #region DirectRecommendations
         public static async void SaveDirectRecommendationsData(int id, List<DirectRecommendationData> data)
         {
-            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
-            await Task.Run(async () =>
+            try
             {
-                var json =
-                    JsonConvert.SerializeObject(new Tuple<DateTime, List<DirectRecommendationData>>(DateTime.UtcNow, data));
-                StorageFile file =
-                    await
-                        folder.CreateFileAsync($"direct_recommendations_{id}.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
-            });
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                await Task.Run(async () =>
+                {
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, List<DirectRecommendationData>>(DateTime.UtcNow, data));
+                    StorageFile file =
+                        await
+                            folder.CreateFileAsync($"direct_recommendations_{id}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+
         }
 
         public static async Task<List<DirectRecommendationData>> RetrieveDirectRecommendationData(int id)

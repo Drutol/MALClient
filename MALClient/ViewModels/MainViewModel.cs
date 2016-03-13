@@ -290,7 +290,7 @@ namespace MALClient.ViewModels
         public void OnSearchInputSubmit()
         {
             if (_onSearchPage)
-                (View.GetCurrentContent() as AnimeSearchPage).SubmitQuery(CurrentSearchQuery);
+                ViewModelLocator.SearchPage.SubmitQuery(CurrentSearchQuery);
         }
 
         private void NavigateSearch(bool autoSearch = false)

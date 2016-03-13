@@ -6,11 +6,12 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid>
-            <ListView x:Name="Animes" Margin="0,5,0,0" SelectionMode="Single" Padding="0">
+            <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}" Margin="0,5,0,0" SelectionMode="Single" Padding="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -21,13 +22,13 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <TextBlock x:Name="EmptyNotice" Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="Collapsed"
+            <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility}"
                        Text="No data received from MAL , try searching for something more specific. :("
                        TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Foreground="#FFB9B9B9" />
-            <ProgressRing x:Name="SpinnerLoading" Margin="{Binding ElementName=Animes, Path=Margin}"
+            <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
-                          IsActive="True" Visibility="Collapsed" />
+                          IsActive="True" Visibility="{Binding Loading}" />
         </Grid>
     </Grid>
 </Page>

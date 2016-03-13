@@ -454,6 +454,54 @@
                         </ScrollViewer>
                     </PivotItem.Content>
                 </PivotItem>
+                <PivotItem Tag="Related">
+                    <PivotItem.Header>
+                        Related
+                    </PivotItem.Header>
+                    <PivotItem.Content>
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid VerticalAlignment="Stretch">
+                                    <TextBlock Visibility="{Binding NoRelatedDataNoticeVisibility}"
+                                                       Text="Related anime unavailable :(" 
+                                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                       FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
+                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                </Grid>
+                                <Grid Visibility="{Binding LoadingRelated}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                                    </Grid.Background>
+                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
+                                    </ProgressRing>
+                                </Grid>
+                                <ListView ItemsSource="{Binding RelatedAnime}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                            <Setter Property="BorderThickness" Value="5,0,0,0"/>
+                                            <Setter Property="Margin" Value="5"/>
+                                            <Setter Property="Background" Value="WhiteSmoke"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}" IsEnabled="{Binding IsAnime}" Background="Transparent" HorizontalAlignment="Stretch">
+                                                    <Button.Content>
+                                                        <TextBlock Text="{Binding WholeRelation}" TextWrapping="WrapWholeWords" Margin="5,0"/>
+                                                    </Button.Content>
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </ScrollViewer>
+                    </PivotItem.Content>
+                </PivotItem>
             </Pivot.Items>
         </Pivot>
 

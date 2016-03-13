@@ -83,6 +83,9 @@ namespace MALClient.Pages
                 case "Recomm":
                     ViewModel.LoadRecommendations();
                     break;
+                case "Related":
+                    ViewModel.LoadRelatedAnime();
+                    break;
             }            
         }
 

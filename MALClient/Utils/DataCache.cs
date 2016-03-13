@@ -389,7 +389,6 @@ namespace MALClient
             {
                 //magic
             }
-
         }
 
         public static async Task<List<RelatedAnimeData>> RetrieveRelatedAnimeData(int animeId)

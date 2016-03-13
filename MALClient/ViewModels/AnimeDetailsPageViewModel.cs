@@ -36,6 +36,7 @@ namespace MALClient.ViewModels
         private bool _loadedDetails;
         private bool _loadedReviews;
         private bool _loadedRecomm;
+        private bool _loadedRelated;
         public ObservableCollection<ListViewItem> LeftDetailsRow => _loadedItems1; 
         public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
         public ObservableCollection<ListViewItem> LeftGenres => _genres1;
@@ -45,6 +46,7 @@ namespace MALClient.ViewModels
         public ObservableCollection<ListViewItem> EDs => _eds;
         public ObservableCollection<AnimeReviewData> Reviews { get;} = new ObservableCollection<AnimeReviewData>(); 
         public ObservableCollection<DirectRecommendationData> Recommendations { get;} = new ObservableCollection<DirectRecommendationData>(); 
+        public ObservableCollection<RelatedAnimeData> RelatedAnime { get;} = new ObservableCollection<RelatedAnimeData>(); 
         private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
         private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
@@ -99,6 +101,7 @@ namespace MALClient.ViewModels
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
         private AnimeDetailsPageNavigationArgs _prevArgs;
+
         #region Properties
         public string MyEpisodesBind => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
         private int MyEpisodes
@@ -174,6 +177,17 @@ namespace MALClient.ViewModels
             {
                 _loadingReviews = value;
                 RaisePropertyChanged(() => LoadingReviews);
+            }
+        }
+
+        private Visibility _loadingRelated;
+        public Visibility LoadingRelated
+        {
+            get { return _loadingRelated; }
+            set
+            {
+                _loadingRelated = value;
+                RaisePropertyChanged(() => LoadingRelated);
             }
         }
 
@@ -411,6 +425,17 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => NoRecommDataNoticeVisibility);
             }
         }
+
+        private Visibility _noRelatedDataNoticeVisibility = Visibility.Collapsed;
+        public Visibility NoRelatedDataNoticeVisibility
+        {
+            get { return _noRelatedDataNoticeVisibility; }
+            set
+            {
+                _noRelatedDataNoticeVisibility = value;
+                RaisePropertyChanged(() => NoRelatedDataNoticeVisibility);
+            }
+        }
 #endregion
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
@@ -462,7 +487,7 @@ namespace MALClient.ViewModels
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
-            _loadedDetails = _loadedReviews = _loadedRecomm = false;
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
             DetailsPivotSelectedIndex = 0;
             Reviews.Clear();
         }
@@ -831,6 +856,21 @@ namespace MALClient.ViewModels
                 Recommendations.Add(item);
             NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingRecommendations = Visibility.Collapsed;
+        }
+
+        public async void LoadRelatedAnime(bool force = false)
+        {
+            if (_loadedRelated && !force)
+                return;
+            LoadingRelated = Visibility.Visible;
+            _loadedRelated = true;
+            RelatedAnime.Clear();
+            var recomm = new List<RelatedAnimeData>();
+            await Task.Run(async () => recomm = await new RelatedAnimeQuery(Id).GetRelatedAnime(force));
+            foreach (var item in recomm)
+                RelatedAnime.Add(item);
+            NoRelatedDataNoticeVisibility = RelatedAnime.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+            LoadingRelated = Visibility.Collapsed;
         }
         #endregion
 

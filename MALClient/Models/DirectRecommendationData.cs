@@ -1,8 +1,10 @@
-﻿namespace MALClient.Models
+﻿using MALClient.Pages;
+
+namespace MALClient.Models
 {   /// <summary>
     /// Direct as in recommendation from details page
     /// </summary>
-    public class DirectRecommendationData
+    public class DirectRecommendationData : IDetailsPageArgs
     {
         public int Id { get; set; }
         public string Title { get; set; }

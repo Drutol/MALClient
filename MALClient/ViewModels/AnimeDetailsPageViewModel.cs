@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Windows.Devices.Sensors;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
@@ -260,7 +261,7 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<Object>(ChangeStatus));
+                return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus));
             }
         }
 
@@ -269,7 +270,8 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails));
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand = 
+                    new RelayCommand<IDetailsPageArgs>(args => NavigateDetails(args)));
             }
         }
 
@@ -436,6 +438,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => NoRelatedDataNoticeVisibility);
             }
         }
+
+        
 #endregion
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
@@ -874,11 +878,11 @@ namespace MALClient.ViewModels
         }
         #endregion
 
-        public async void NavigateDetails()
-        {           
+        public async void NavigateDetails(IDetailsPageArgs args)
+        {
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(CurrentRecommendationsSelectedItem.Id, CurrentRecommendationsSelectedItem.Title, null, null,
+                    new AnimeDetailsPageNavigationArgs(args.Id, args.Title , null, null,
                         new AnimeDetailsPageNavigationArgs(Id, Title, null , _animeItemReference)
                         { Source = PageIndex.PageAnimeDetails, RegisterBackNav = false })
                     {Source = PageIndex.PageAnimeDetails});

@@ -427,7 +427,8 @@
                                                                HorizontalAlignment="Center" Stretch="Uniform" Margin="5,5,5,0"/>
                                                         <Grid Margin="{Binding ElementName=Image,Path=Margin}">
                                                             <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
-                                                                Click="ButtonNavDetails_OnClick"
+                                                                Command="{Binding Source={StaticResource Locator}, Path=AnimeDetails.NavigateDetailsCommand}"
+                                                                CommandParameter="{Binding}"
                                                                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40">
                                                                 <Button.Background>
                                                                     <SolidColorBrush Color="Black" Opacity=".5" />
@@ -489,7 +490,11 @@
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}" IsEnabled="{Binding IsAnime}" Background="Transparent" HorizontalAlignment="Stretch">
+                                                <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}" 
+                                                        IsEnabled="{Binding IsAnime}" Background="Transparent" 
+                                                        HorizontalAlignment="Stretch" 
+                                                        Command="{Binding Source={StaticResource Locator} ,Path=AnimeDetails.NavigateDetailsCommand}"
+                                                        CommandParameter="{Binding}">
                                                     <Button.Content>
                                                         <TextBlock Text="{Binding WholeRelation}" TextWrapping="WrapWholeWords" Margin="5,0"/>
                                                     </Button.Content>

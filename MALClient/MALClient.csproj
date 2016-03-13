@@ -160,6 +160,7 @@
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\EnumPages.cs" />
+    <Compile Include="Pages\IDetailsPageArgs.cs" />
     <Compile Include="Pages\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>

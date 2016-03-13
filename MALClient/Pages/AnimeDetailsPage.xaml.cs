@@ -88,10 +88,5 @@ namespace MALClient.Pages
                     break;
             }            
         }
-
-        private void ButtonNavDetails_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.NavigateDetails();
-        }
     }
 }

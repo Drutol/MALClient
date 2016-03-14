@@ -43,15 +43,23 @@ namespace MALClient.Comm
 
             foreach (var row in relationsNode.Descendants("tr"))
             {
-                var current = new RelatedAnimeData();
-                current.WholeRelation = WebUtility.HtmlDecode(row.Descendants("td").First().InnerText.Trim()) + " ";
-                var linkNode = row.Descendants("a").First();
-                var link = linkNode.Attributes["href"].Value.Split('/');
-                current.IsAnime = link[1] == "anime";
-                current.Id = Convert.ToInt32(link[2]);
-                current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
-                current.WholeRelation += current.Title;
-                output.Add(current);
+                try
+                {
+                    var current = new RelatedAnimeData();
+                    current.WholeRelation = WebUtility.HtmlDecode(row.Descendants("td").First().InnerText.Trim()) + " ";
+                    var linkNode = row.Descendants("a").First();
+                    var link = linkNode.Attributes["href"].Value.Split('/');
+                    current.IsAnime = link[1] == "anime";
+                    current.Id = Convert.ToInt32(link[2]);
+                    current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
+                    current.WholeRelation += current.Title;
+                    output.Add(current);
+                }
+                catch (Exception)
+                {
+                    //mystery
+                }
+                
             }
 
 

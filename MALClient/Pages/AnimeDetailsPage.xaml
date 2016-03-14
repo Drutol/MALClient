@@ -176,7 +176,9 @@
         </Grid>
         <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
             <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}"/>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}">
+                    <Setter Property="Margin" Value="2,0"/>
+                </Style>
                 <Style TargetType="PivotItem">
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="Padding" Value="0"/>
@@ -476,7 +478,7 @@
                                     <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
                                     </ProgressRing>
                                 </Grid>
-                                <ListView ItemsSource="{Binding RelatedAnime}">
+                                <ListView ItemsSource="{Binding RelatedAnime}" SelectionMode="None">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

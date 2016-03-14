@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Store;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -17,6 +18,12 @@ namespace MALClient.Pages
         public AboutPage()
         {
             InitializeComponent();
+            ListTodo.ItemsSource = new ObservableCollection<string>()
+            {
+                "Add non image live tiles with stats and such.Overhaul tiles in general.",
+                "Redesign profile page.",
+                "Want something? Let me know! Scroll just a little bit and go to the issues board :)"
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

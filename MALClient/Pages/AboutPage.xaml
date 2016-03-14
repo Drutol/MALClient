@@ -26,7 +26,7 @@
                                     Click="LaunchRepo" />
                             <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords" FontSize="17">
                                 <LineBreak />
-                                This application is built on top of official MyAnimeList API.
+                                This application is built on top of official MyAnimeList API + AnimeNewsNetwork's Encyclopedia API for anime details.
                             </TextBlock>
                         </StackPanel>
                     </Grid>
@@ -79,38 +79,45 @@
                                         <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="v1.4 - 14.03.2016"/>
+                                <TextBlock Text="Added related anime section to details page."/>
+                                <TextBlock Text="Added additional sliders for amount of reviews/recommendations pulled." />
+                                <TextBlock Text="Upped amount of seasonal anime pulled from 30 to 40. - slider coming at a later date"/>
+                                <TextBlock Text="Crashfix for recommendation page."/>
+                                <MenuFlyoutSeparator/>
                                 <TextBlock Text="v1.3 - 13.03.2016"/>
                                 <TextBlock Text="Added recommendations to deatils page."/>
                                 <TextBlock Text="Adjusted color scheme." />
                                 <TextBlock Text="Added 'rate me!' popup."/>
-                                <MenuFlyoutSeparator/>
-                                <TextBlock Text="v1.2 - 07.03.2016"/>
-                                <TextBlock Text="Added reviews to details page."/>
-                                <TextBlock Text="Redesigned search page." />
-                                <TextBlock Text="Various misc. changes and bug fixes."/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
                     <Grid Margin="10" BorderThickness="5,0,0,0"
                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <StackPanel HorizontalAlignment="Stretch">
-                            <TextBlock Text="TODOs" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                        <TextBlock Text="TODOs" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
+                            
+                            <ListView SelectionMode="None" x:Name="ListTodo" Margin="0,20,0,0">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Margin" Value="5"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="7"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
                                          Height="5" />
-                                <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
-                                    Add related anime to details page.
-                                </TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                                <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
-                                         Height="5" />
-                                <TextBlock Margin="20,0,0,0" VerticalAlignment="Center">
-                                    Redesign profile page.
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
+                                        <TextBlock Margin="15,0,0,0" Grid.Column="1" Text="{Binding}" TextWrapping="WrapWholeWords"></TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            
                     </Grid>
                 </StackPanel>
             </Grid>

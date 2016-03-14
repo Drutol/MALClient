@@ -32,33 +32,37 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "spaceit borderClass").Take(20);
+                            "spaceit borderClass").Take(20); //constant 20 recommendations
 
             foreach (HtmlNode recomNode in recomNodes)
             {
-                var desc = recomNode.ChildNodes.First(node => node.Name == "div" && node.Attributes["class"].Value == "spaceit");
-                if (desc != null)
+                try
                 {
-                    //var imgs = recomNode.Descendants("img").Select(node => node.Attributes["src"].Value).ToArray();
-                    var titleNodes = recomNode.Descendants("a").Where(node => node.Attributes.Count == 2).Take(2).ToArray();
-                    var titles = titleNodes.Select(node => node.Attributes["title"].Value).ToArray();
-                    var ids = titleNodes.Select(node => Convert.ToInt32(node.Attributes["href"].Value.Substring(6).Split('/')[1])).ToArray();
+                    var desc = recomNode.ChildNodes.First(node => node.Name == "div" && node.Attributes["class"].Value == "spaceit");
+                    if (desc != null)
+                    {                   
+                        var titleNodes = recomNode.Descendants("a").Where(node => node.Attributes.Count == 2).Take(2).ToArray();
+                        var titles = titleNodes.Select(node => node.Attributes["title"].Value).ToArray();
+                        var ids = titleNodes.Select(node => Convert.ToInt32(node.Attributes["href"].Value.Substring(6).Split('/')[1])).ToArray();
 
-                    output.Add(new RecomendationData
-                    {
-                        DependentId = ids[0],
-                        RecommendationId = ids[1],
+                        output.Add(new RecomendationData
+                        {
+                            DependentId = ids[0],
+                            RecommendationId = ids[1],
 
-                        DependentTitle = titles[0],
-                        RecommendationTitle = titles[1],
+                            DependentTitle = titles[0],
+                            RecommendationTitle = titles[1],
 
-                        Description = WebUtility.HtmlDecode(desc.InnerText)
-                    });
+                            Description = WebUtility.HtmlDecode(desc.InnerText)
+                        });
+                    }
                 }
+                catch (Exception)
+                {
+                    //
+                }
+                
             }
-
-
-           // Utils.GetMainPageInstance().SaveRecommendationsData(output);
 
             return output;
         }

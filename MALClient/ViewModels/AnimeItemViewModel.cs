@@ -41,6 +41,7 @@ namespace MALClient.ViewModels
             _imgUrl = img;
             Id = id;
             Image = new BitmapImage(new Uri(_imgUrl));
+            AdjustIncrementButtonsOrientation();
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore,
@@ -153,10 +154,12 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyStatus; }
             set
             {
-                AdjustIncrementButtonsOrientation();
+                
                 if (_parentAbstraction.MyStatus == value)
                     return;
                 _parentAbstraction.MyStatus = value;
+                AdjustIncrementButtonsOrientation();
+                AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyStatusBind);             
             }
         }
@@ -167,10 +170,11 @@ namespace MALClient.ViewModels
             get { return _parentAbstraction.MyScore; }
             set
             {
-                AdjustIncrementButtonsOrientation();
                 if (_parentAbstraction.MyScore == value)
                     return;
                 _parentAbstraction.MyScore = value;
+                AdjustIncrementButtonsOrientation();
+                AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyScoreBind);
                 
             }
@@ -509,18 +513,6 @@ namespace MALClient.ViewModels
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 
-
-        /// <summary>
-        ///     Used by alternate row colors
-        /// </summary>
-        /// <param name="brush"></param>
-        public void Setbackground(SolidColorBrush brush)
-        {
-            RootBrush = brush;
-        }
-
-
-
         public void SetAuthStatus(bool auth, bool eps = false)
         {
             Auth = auth;
@@ -601,15 +593,19 @@ namespace MALClient.ViewModels
                 PromptForStatusChange((int)AnimeStatus.Watching);
 
             MyEpisodes++;
+            AdjustIncrementButtonsVisibility();
             var response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response != "Updated")
+            {
                 MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
+                AdjustIncrementButtonsVisibility();
+            }
 
             if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
                 PromptForStatusChange((int)AnimeStatus.Completed);
 
 
-            AdjustIncrementButtonsVisibility();
+            
 
             LoadingUpdate = Visibility.Collapsed;
         }
@@ -618,12 +614,15 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
             MyEpisodes--;
+            AdjustIncrementButtonsVisibility();
             var response = await new AnimeUpdateQuery(this).GetRequestResponse();
             if (response != "Updated")
+            {               
                 MyEpisodes++;
+                AdjustIncrementButtonsVisibility();
+            }
 
-            AdjustIncrementButtonsVisibility();
-
+            
             LoadingUpdate = Visibility.Collapsed;
         }
 

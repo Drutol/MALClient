@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Popups;
@@ -590,7 +591,7 @@ namespace MALClient.ViewModels
 
             if (MyStatus == (int)AnimeStatus.PlanToWatch || MyStatus == (int)AnimeStatus.Dropped ||
                 MyStatus == (int)AnimeStatus.OnHold)
-                PromptForStatusChange((int)AnimeStatus.Watching);
+                await PromptForStatusChange((int)AnimeStatus.Watching);
 
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
@@ -602,11 +603,8 @@ namespace MALClient.ViewModels
             }
 
             if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                PromptForStatusChange((int)AnimeStatus.Completed);
-
-
-            
-
+                await PromptForStatusChange((int)AnimeStatus.Completed);
+          
             LoadingUpdate = Visibility.Collapsed;
         }
 
@@ -646,7 +644,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                    PromptForStatusChange((int)AnimeStatus.Completed);
+                    await PromptForStatusChange((int)AnimeStatus.Completed);
 
                 AdjustIncrementButtonsVisibility();
 
@@ -674,7 +672,7 @@ namespace MALClient.ViewModels
                 MyStatus = myPrevStatus;
 
             if (MyStatus == (int)AnimeStatus.Completed && _allEpisodes != 0)
-                PromptForWatchedEpsChange(_allEpisodes);
+                await PromptForWatchedEpsChange(_allEpisodes);
 
             LoadingUpdate = Visibility.Collapsed;
         }
@@ -695,7 +693,7 @@ namespace MALClient.ViewModels
 
         #region Prompts
 
-        private async void PromptForStatusChange(int to)
+        public async Task PromptForStatusChange(int to)
         {
             if (MyStatus == to)
                 return;
@@ -715,7 +713,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private async void PromptForWatchedEpsChange(int to)
+        public async Task PromptForWatchedEpsChange(int to)
         {
             if (MyEpisodes == to)
                 return;

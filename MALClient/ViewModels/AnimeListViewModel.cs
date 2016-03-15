@@ -453,7 +453,6 @@ namespace MALClient.ViewModels
 
             View.InitSortOptions(SortOption,SortDescending);
             UpdateUpperStatus();
-            UpdateStatus();
 
             _initDone = true;
         }
@@ -524,13 +523,6 @@ namespace MALClient.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private async void UpdateStatus()
-        {
-            //await
-            //    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            //        () => { RaisePropertyChanged(() => CurrentUpdateStatus); });
         }
 
         private void SetDefaults()

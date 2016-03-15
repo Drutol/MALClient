@@ -167,7 +167,7 @@ namespace MALClient.Pages
                 PopulateAnimeData();
                 PopulateMangaData();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 var msg = new MessageDialog("Something went wrong...");
                 await msg.ShowAsync();

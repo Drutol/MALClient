@@ -158,13 +158,14 @@
                             <Button.Flyout>
                                 <Flyout x:Name="WatchedEpsFlyout">
                                     <StackPanel>
+                                        <TextBlock Text="Watched eps :" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBox x:Name="TxtBoxWatchedEps" Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SubmitWatchedEps" />
                                             <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
                                                 <SymbolIcon Symbol="Accept" />
                                             </Button>
                                         </StackPanel>
-                                        <TextBlock  Text="Wrong input!"
+                                        <TextBlock  Text="Wrong input!" FontWeight="SemiLight"
                                                    HorizontalAlignment="Center" Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                     </StackPanel>
                                 </Flyout>

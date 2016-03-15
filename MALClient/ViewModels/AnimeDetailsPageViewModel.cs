@@ -517,6 +517,14 @@ namespace MALClient.ViewModels
             if (response != "Updated")
                 MyStatus = prevStatus;
 
+            if (_animeItemReference is AnimeItemViewModel)
+                if (MyStatus == (int) AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
+                {
+                    await ((AnimeItemViewModel) _animeItemReference).PromptForWatchedEpsChange(AllEpisodes);
+                    RaisePropertyChanged(() => MyEpisodesBind);
+                }
+
+
             LoadingUpdate = false;
         }
 
@@ -534,7 +542,7 @@ namespace MALClient.ViewModels
         public async void ChangeWatchedEps()
         {
             LoadingUpdate = true;
-            int eps;
+            int eps,prevEps = MyEpisodes;
             if (!int.TryParse(WatchedEpsInput, out eps))
             {
                 WatchedEpsInputNoticeVisibility = true;
@@ -551,6 +559,19 @@ namespace MALClient.ViewModels
                 if (response != "Updated")
                     MyEpisodes = prevWatched;
 
+                if(_animeItemReference is AnimeItemViewModel)
+                    if (prevEps == 0 && AllEpisodes != 0 && MyEpisodes != AllEpisodes &&
+                        (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
+                         MyStatus == (int) AnimeStatus.OnHold))
+                    {
+                        await ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int)AnimeStatus.Watching);
+                        RaisePropertyChanged(() => MyStatusBind);
+                    }
+                    else if (MyEpisodes == AllEpisodes && AllEpisodes != 0)
+                    {
+                        await ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int)AnimeStatus.Completed);
+                        RaisePropertyChanged(() => MyStatusBind);
+                    }
                 WatchedEpsInput = "";
             }
             else

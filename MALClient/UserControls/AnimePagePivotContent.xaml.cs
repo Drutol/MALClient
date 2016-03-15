@@ -31,13 +31,14 @@ namespace MALClient.UserControls
             if(_loaded)
                 return;
             _loaded = true;
-
+            
             var items = new ObservableCollection<AnimeItem>();
             foreach (var abstraction in _content)
             {
                 items.Add(abstraction.AnimeItem);
             }
             Animes.ItemsSource = items;
+            //ViewModelLocator.AnimeList.Loading = false; //TODO : real (not really but will suffice for now) end of loading chain
         }
 
         private void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

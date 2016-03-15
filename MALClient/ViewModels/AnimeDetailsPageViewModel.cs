@@ -803,7 +803,7 @@ namespace MALClient.ViewModels
 
                     int i = 1;
                     bool alternate1 = true, alternate2 = true;
-                    foreach (var genre in genresData.Genres)
+                    foreach (var genre in genresData.Genres ?? new List<string>())
                     {
                         if (i % 2 == 0)
                         {
@@ -825,7 +825,9 @@ namespace MALClient.ViewModels
             NoGenresDataVisibility = _genres1.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             NoEDsDataVisibility = _eds.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             NoOPsDataVisibility = _ops.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-
+            if(_episodes.Count == 0 && _genres1.Count == 0 && _eds.Count == 0 && _ops.Count==0)
+                DetailedDataVisibility = Visibility.Collapsed;
+                       
             LoadingDetails = Visibility.Collapsed;
         }
 

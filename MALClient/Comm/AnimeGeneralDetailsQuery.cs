@@ -35,30 +35,52 @@ namespace MALClient.Comm
             string raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
-            XDocument data = XDocument.Parse(raw);
-            var nodes = data.Element("ann").Elements("anime");
-            //there may be many things , maybe we are lucky enough to grab original title
-            var node =
-                nodes.FirstOrDefault(
-                    element =>
-                        string.Equals(element.Attribute("name").Value, _rootTitle,
-                            StringComparison.CurrentCultureIgnoreCase));
 
-            if(node == null)
-                node = nodes.First();
+            AnimeGeneralDetailsData output;
 
-            var output = new AnimeGeneralDetailsData
+            try
             {
-                AnnId = node.Attribute("id").Value,
-                Genres = node.Elements("info").Where(element => element.Attribute("type").Value == "Genres").Select( element => element.Value).ToList(),
-                Episodes = node.Elements("episode").Select(element => element.Value).ToList(),
-                OPs = node.Elements("info").Where(element => element.Attribute("type").Value == "Opening Theme").Select(element => element.Value).ToList(),
-                EDs = node.Elements("info").Where(element => element.Attribute("type").Value == "Ending Theme").Select(element => element.Value).ToList(),              
-            };
+                XDocument data = XDocument.Parse(raw);
+                var nodes = data.Element("ann").Elements("anime");
+                //there may be many things , maybe we are lucky enough to grab original title
+                var node =
+                    nodes.FirstOrDefault(
+                        element =>
+                            string.Equals(element.Attribute("name").Value, _rootTitle,
+                                StringComparison.CurrentCultureIgnoreCase));
 
-            DataCache.SaveAnimeDetails(_id,output);
+                if (node == null)
+                    node = nodes.First();
 
-            return output;
+                output = new AnimeGeneralDetailsData
+                {
+                    AnnId = node.Attribute("id").Value,
+                    Genres =
+                        node.Elements("info")
+                            .Where(element => element.Attribute("type").Value == "Genres")
+                            .Select(element => element.Value)
+                            .ToList(),
+                    Episodes = node.Elements("episode").Select(element => element.Value).ToList(),
+                    OPs =
+                        node.Elements("info")
+                            .Where(element => element.Attribute("type").Value == "Opening Theme")
+                            .Select(element => element.Value)
+                            .ToList(),
+                    EDs =
+                        node.Elements("info")
+                            .Where(element => element.Attribute("type").Value == "Ending Theme")
+                            .Select(element => element.Value)
+                            .ToList(),
+                };
+
+                DataCache.SaveAnimeDetails(_id, output);
+
+                return output;
+            }
+            catch (Exception)
+            {
+                return null;
+            }        
         }
 
     }

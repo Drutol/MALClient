@@ -50,49 +50,44 @@ namespace MALClient.ViewModels
             //We are loading an item that IS on the list
         {
             //Assign fields
-            Task.Run(() =>
-            {
-                Id = id;
-                _allEpisodes = allEps;
-                Auth = auth;
-                //Assign properties
-                MyScore = myScore;
-                MyStatus = myStatus;
-                Title = name;
-                MyEpisodes = myEps;
-                ShowMoreVisibility = Visibility.Collapsed;
+            Id = id;
+            _allEpisodes = allEps;
+            Auth = auth;
+            //Assign properties
+            MyScore = myScore;
+            MyStatus = myStatus;
+            Title = name;
+            MyEpisodes = myEps;
+            ShowMoreVisibility = Visibility.Collapsed;
 
-                //We are not seasonal so it's already on list            
-                AddToListVisibility = Visibility.Collapsed;
-                SetAuthStatus(auth, setEpsAuth);
-                AdjustIncrementButtonsVisibility();
-                //There may be additional data available
-                GlobalScore = _parentAbstraction.GlobalScore;
-                Airing = _parentAbstraction.AirDay >= 0;
-            });
+            //We are not seasonal so it's already on list            
+            AddToListVisibility = Visibility.Collapsed;
+            SetAuthStatus(auth, setEpsAuth);
+            AdjustIncrementButtonsVisibility();
+            //There may be additional data available
+            GlobalScore = _parentAbstraction.GlobalScore;
+            Airing = _parentAbstraction.AirDay >= 0;
+
         }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
             AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
             //We are loading an item that is NOT on the list and is seasonal
         {
-            Task.Run(() =>
-            {
-                _seasonalState = true;
-
-                Title = data.Title;
-                MyScore = 0;
-                MyStatus = (int) AnimeStatus.AllOrAiring;
-                GlobalScore = data.Score;
-                int.TryParse(data.Episodes, out _allEpisodes);
-                if (data.Genres != null)
-                    Genres = data.Genres;
-                Airing = _parentAbstraction.AirDay >= 0;
-                Synopsis = data.Synopsis;
-                SetAuthStatus(false, true);
-                AdjustIncrementButtonsVisibility();
-                ShowMoreVisibility = Visibility.Collapsed;
-            });
+            _seasonalState = true;
+            
+            Title = data.Title;
+            MyScore = 0;
+            MyStatus = (int)AnimeStatus.AllOrAiring;
+            GlobalScore = data.Score;
+            int.TryParse(data.Episodes, out _allEpisodes);
+            if (data.Genres != null)
+                Genres = data.Genres;
+            Airing = _parentAbstraction.AirDay >= 0;
+            Synopsis = data.Synopsis;
+            SetAuthStatus(false, true);
+            AdjustIncrementButtonsVisibility();
+            ShowMoreVisibility = Visibility.Collapsed;
         }
         #endregion
 

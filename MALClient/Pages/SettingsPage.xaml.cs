@@ -32,7 +32,7 @@ namespace MALClient.Pages
             PopulateCachedEntries();
             SetDesiredStatus();
             SliderSetup();
-            Utils.GetMainPageInstance().CurrentStatus = "Settings - v1.4";
+            Utils.GetMainPageInstance().CurrentStatus = $"Settings - {Utils.GetAppVersion()}";
             _initialized = true;
 
             NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);

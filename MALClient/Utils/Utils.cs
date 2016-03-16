@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -145,7 +146,22 @@ namespace MALClient
             var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return (int) Math.Floor(diff.TotalSeconds);
-        }       
+        }
+
+        /// <summary>
+        /// http://stackoverflow.com/questions/28635208/retrieve-the-current-app-version-from-package
+        /// </summary>
+        /// <returns></returns>
+        public static string GetAppVersion()
+        {
+
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+
+        }
 
         /// <summary>
         ///     http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc

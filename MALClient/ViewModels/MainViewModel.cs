@@ -21,31 +21,7 @@ namespace MALClient.ViewModels
     public interface IMainViewInteractions
     {
         void Navigate(Type page, object args = null);
-        object GetCurrentContent();
         void SearchInputFocus(FocusState state);
-    }
-
-    public class CommandHandler : ICommand
-    {
-        private readonly Action _action;
-        private readonly bool _canExecute;
-        public CommandHandler(Action action, bool canExecute)
-        {
-            _action = action;
-            _canExecute = canExecute;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute;
-        }
-
-        public event EventHandler CanExecuteChanged;
-
-        public void Execute(object parameter)
-        {
-            _action();
-        }
     }
 
     public class MainViewModel : ViewModelBase
@@ -54,7 +30,6 @@ namespace MALClient.ViewModels
         private bool? _searchStateBeforeNavigatingToSearch;        
         private bool _wasOnDetailsFromSearch;
         private bool _onSearchPage;
-        public PageIndex CurrentPage;
         
         #region PropertyPairs
         private IMainViewInteractions _view;
@@ -154,7 +129,7 @@ namespace MALClient.ViewModels
         {
             get {
                 return _toggleSearchCommand ??
-                       (_toggleSearchCommand = new CommandHandler(ReverseSearchInput, true));
+                       (_toggleSearchCommand = new RelayCommand(ReverseSearchInput));
             }
         }
 
@@ -187,9 +162,7 @@ namespace MALClient.ViewModels
             var wasOnSearchPage = _onSearchPage;
             _onSearchPage = false;
             MenuPaneState = false;
-
-            await new RelatedAnimeQuery(10087).GetRelatedAnime();
-
+            await Task.Delay(1);
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");

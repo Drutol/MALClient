@@ -29,7 +29,7 @@ namespace MALClient.UserControls
 
         }
 
-        public void LoadContent()
+        public async void LoadContent()
         {
             if(_loaded)
                 return;
@@ -38,7 +38,7 @@ namespace MALClient.UserControls
             var items = new ObservableCollection<AnimeItem>();
             foreach (var abstraction in _content)
             {
-                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
                     () => { items.Add(abstraction.AnimeItem); });               
             }
             Animes.ItemsSource = items;

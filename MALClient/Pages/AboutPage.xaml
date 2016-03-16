@@ -79,16 +79,19 @@
                                         <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="v1.4 - 14.03.2016"/>
+                                <TextBlock Text="16.03.2016"/>
+                                <TextBlock Text="Increased responsiveness."/>
+                                <TextBlock Text="General optimization." />
+                                <TextBlock Text="Added update prompts to details page."/>
+                                <TextBlock Text="Details page crashfix."/>
+                                <TextBlock Text="Tweaked increment/decrement button a bit. (more to come)"/>
+                                <MenuFlyoutSeparator Margin="0,3"/>
+                                <TextBlock Text="14.03.2016"/>
                                 <TextBlock Text="Added related anime section to details page."/>
                                 <TextBlock Text="Added additional sliders for amount of reviews/recommendations pulled." />
                                 <TextBlock Text="Upped amount of seasonal anime pulled from 30 to 40. - slider coming at a later date"/>
                                 <TextBlock Text="Crashfix for recommendation page."/>
-                                <MenuFlyoutSeparator/>
-                                <TextBlock Text="v1.3 - 13.03.2016"/>
-                                <TextBlock Text="Added recommendations to deatils page."/>
-                                <TextBlock Text="Adjusted color scheme." />
-                                <TextBlock Text="Added 'rate me!' popup."/>
+                                
                             </StackPanel>
                         </StackPanel>
                     </Grid>

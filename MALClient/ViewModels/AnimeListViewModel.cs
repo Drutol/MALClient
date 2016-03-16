@@ -642,8 +642,11 @@ namespace MALClient.ViewModels
         }
 
         #region Pagination
+
+        public bool CanLoadPages = false;
         public void UpdatePageSetup(bool updatePerPage = false)
         {
+            CanLoadPages = false;
             if (updatePerPage) //called from settings
                 _itemsPerPage = Settings.GetItemsPerPage();
             int realPage = CurrentPage;
@@ -658,8 +661,9 @@ namespace MALClient.ViewModels
                     Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage * i).Take(_itemsPerPage))                     
                 });
             }
-            
+
             RaisePropertyChanged(() => AnimePages);
+            CanLoadPages = true;
             try
             {
                 AnimesPivotSelectedIndex = realPage - 1;
@@ -668,7 +672,8 @@ namespace MALClient.ViewModels
             {
                 CurrentPage = 1;
             }
-                
+            if(AnimePages.Count > 0)
+                (AnimePages[AnimesPivotSelectedIndex].Content as AnimePagePivotContent).LoadContent();
             Loading = false;
         }
 

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using MALClient.Items;
@@ -35,7 +38,8 @@ namespace MALClient.UserControls
             var items = new ObservableCollection<AnimeItem>();
             foreach (var abstraction in _content)
             {
-                items.Add(abstraction.AnimeItem);
+                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                    () => { items.Add(abstraction.AnimeItem); });               
             }
             Animes.ItemsSource = items;
         }

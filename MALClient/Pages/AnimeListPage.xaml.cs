@@ -205,6 +205,7 @@ namespace MALClient.Pages
 
         private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
+            if(ViewModel.CanLoadPages)
             (args.Item.Content as AnimePagePivotContent).LoadContent();
 
 

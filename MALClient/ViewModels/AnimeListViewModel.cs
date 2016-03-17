@@ -408,6 +408,7 @@ namespace MALClient.ViewModels
                     SwitchSortingToSeasonal();
 
                     await FetchSeasonalData();
+                    _initiazlized = true;
                     return;
                 } // else we just have nav data
 

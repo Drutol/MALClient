@@ -225,6 +225,28 @@ namespace MALClient.ViewModels
             }
         }
 
+        private string _filter1Label = "Watching"; 
+        public string Filter1Label
+        {
+            get { return _filter1Label; }
+            set
+            {
+                _filter1Label = value;
+                RaisePropertyChanged(() => Filter1Label);
+            }
+        }
+
+        private string _filter5Label = "Plan to watch"; 
+        public string Filter5Label
+        {
+            get { return _filter5Label; }
+            set
+            {
+                _filter5Label = value;
+                RaisePropertyChanged(() => Filter5Label);
+            }
+        }
+
         private string _statusAllLabel = "All";
         public string StatusAllLabel
         {
@@ -400,19 +422,30 @@ namespace MALClient.ViewModels
             else //assume default AnimeList
             {
                 WorkMode = AnimeListWorkModes.Anime;
-            }     
+            }
 
             switch (WorkMode)
             {
-                case AnimeListWorkModes.Manga:                   
+                case AnimeListWorkModes.Manga:
                 case AnimeListWorkModes.Anime:
-                    if(!gotArgs)
+                    if (!gotArgs)
                         SetDefaults();
 
-                    AppbarBtnPinTileVisibility = true;
-                    Sort3Label = "Watched";
-                    StatusAllLabel = "All";
                     AppBtnListSourceVisibility = true;
+                    AppbarBtnPinTileVisibility = true;
+
+                    if (WorkMode == AnimeListWorkModes.Anime)
+                    {                        
+                        Sort3Label = "Watched";
+                        StatusAllLabel = "All";
+                        Filter1Label = "Watching";
+                        Filter5Label = "Plan to watch";
+                    }
+                    else // manga
+                    {
+                        Filter1Label = "Reading";
+                        Filter5Label = "Plan to read";
+                    }
 
                     //try to set list source - display notice on fail
                     if (string.IsNullOrWhiteSpace(ListSource))
@@ -543,11 +576,11 @@ namespace MALClient.ViewModels
 
                     if (WorkMode != AnimeListWorkModes.SeasonalAnime)
                         if (!string.IsNullOrWhiteSpace(ListSource))
-                            page.CurrentStatus = $"{ListSource} - {Utils.StatusToString(GetDesiredStatus())}";
+                            page.CurrentStatus = $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(),WorkMode == AnimeListWorkModes.Manga)}";
                         else
                             page.CurrentStatus = "Anime list";
                     else
-                        page.CurrentStatus = $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus())}";
+                        page.CurrentStatus = $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus(),WorkMode == AnimeListWorkModes.Manga)}";
 
                 else if (retries >= 0)
                 {
@@ -858,7 +891,7 @@ namespace MALClient.ViewModels
                     case AnimeListWorkModes.Manga:
                         List<XElement> manga = parsedData.Root.Elements("manga").ToList();
                         foreach (XElement item in manga)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value)));
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value), Convert.ToInt32(item.Element("series_volumes").Value), Convert.ToInt32(item.Element("my_read_volumes").Value)));
 
                         _allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
                         if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))

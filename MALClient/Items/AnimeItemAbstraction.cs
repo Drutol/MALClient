@@ -134,8 +134,7 @@ namespace MALClient.Items
             return _firstConstructor
                 ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
                 : new AnimeItemViewModel(data, this);
-            else
-                return new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps, myVolumes,allVolumes);
+            return new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps, myVolumes,allVolumes);
         }
 
         private AnimeItem LoadElement()

@@ -22,12 +22,12 @@ namespace MALClient
     {
         private static readonly string[] SizeSuffixes = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
-        public static string StatusToString(int status)
+        public static string StatusToString(int status,bool manga = false)
         {
             switch (status)
             {
                 case 1:
-                    return "Watching";
+                    return manga ? "Reading" : "Watching";
                 case 2:
                     return "Completed";
                 case 3:
@@ -35,7 +35,7 @@ namespace MALClient
                 case 4:
                     return "Dropped";
                 case 6:
-                    return "Plan to watch";
+                    return manga ? "Plan to read" : "Plan to watch";
                 case 7:
                     return "All";
                 case 8:
@@ -49,6 +49,7 @@ namespace MALClient
         {
             switch (status)
             {
+                case "Reading":
                 case "Watching":
                     return 1;
                 case "Completed":
@@ -57,6 +58,7 @@ namespace MALClient
                     return 3;
                 case "Dropped":
                     return 4;
+                case "Plan to read":
                 case "Plan to watch":
                     return 6;
                 case "All":

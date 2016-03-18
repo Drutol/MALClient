@@ -158,7 +158,7 @@ namespace MALClient.ViewModels
 
         public bool Auth { get; private set; }
 
-        public string MyStatusBind => Utils.StatusToString(MyStatus);
+        public string MyStatusBind => Utils.StatusToString(MyStatus,!_parentAbstraction.RepresentsAnime);
         public int MyStatus
         {
             get { return _parentAbstraction.MyStatus; }
@@ -197,7 +197,7 @@ namespace MALClient.ViewModels
                 if(_seasonalState)
                     return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
 
-                return Auth || MyEpisodes != 0 ? $"{(_parentAbstraction.RepresentsAnime ? "Read" : "Watched")} : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+                return Auth || MyEpisodes != 0 ? $"{(_parentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
             }
         } 
         public int MyEpisodes
@@ -720,7 +720,7 @@ namespace MALClient.ViewModels
         {
             if (MyStatus == to)
                 return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)}\nTo : {Utils.StatusToString(to)}",
+            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus,!_parentAbstraction.RepresentsAnime)}\nTo : {Utils.StatusToString(to)}",
                 "Would you like to change current status?");
             var confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));

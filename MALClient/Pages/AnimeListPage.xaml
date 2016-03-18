@@ -81,11 +81,11 @@
                         <ListView SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                   SelectionMode="Single">
                             <ListView.Items>
-                                <ListViewItem Content="Watching" />
+                                <ListViewItem Content="{Binding Filter1Label}" />
                                 <ListViewItem Content="Completed" />
                                 <ListViewItem Content="On hold" />
                                 <ListViewItem Content="Dropped" />
-                                <ListViewItem Content="Plan to watch" />
+                                <ListViewItem Content="{Binding Filter5Label}" />
                                 <ListViewItem Content="{Binding StatusAllLabel}" />
                             </ListView.Items>
                         </ListView>

@@ -60,6 +60,9 @@ namespace MALClient.Comm
                         {
                             seasonData.Add(seasonInfoNodes[j].Descendants("a").First().InnerText.Trim(),
                                 seasonInfoNodes[j].Descendants("a").First().Attributes["href"].Value);
+
+                            if (seasonInfoNodes[j].Descendants("a").First().Attributes["class"].Value == "on")
+                                seasonData.Add("current", j.ToString());
                         }
                         catch (Exception)
                         {

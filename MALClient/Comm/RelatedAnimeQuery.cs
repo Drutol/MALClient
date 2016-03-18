@@ -34,35 +34,42 @@ namespace MALClient.Comm
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            var relationsNode = doc.DocumentNode.Descendants("table")
-                .First(
-                    node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        "anime_detail_related_anime");
-
-            foreach (var row in relationsNode.Descendants("tr"))
+            try
             {
-                try
+                var relationsNode = doc.DocumentNode.Descendants("table")
+                    .First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            "anime_detail_related_anime");
+
+                foreach (var row in relationsNode.Descendants("tr"))
                 {
-                    var current = new RelatedAnimeData();
-                    current.WholeRelation = WebUtility.HtmlDecode(row.Descendants("td").First().InnerText.Trim()) + " ";
-                    var linkNode = row.Descendants("a").First();
-                    var link = linkNode.Attributes["href"].Value.Split('/');
-                    current.IsAnime = link[1] == "anime";
-                    current.Id = Convert.ToInt32(link[2]);
-                    current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
-                    current.WholeRelation += current.Title;
-                    output.Add(current);
+
+                    try
+                    {
+                        var current = new RelatedAnimeData();
+                        current.WholeRelation = WebUtility.HtmlDecode(row.Descendants("td").First().InnerText.Trim()) +
+                                                " ";
+                        var linkNode = row.Descendants("a").First();
+                        var link = linkNode.Attributes["href"].Value.Split('/');
+                        current.IsAnime = link[1] == "anime";
+                        current.Id = Convert.ToInt32(link[2]);
+                        current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
+                        current.WholeRelation += current.Title;
+                        output.Add(current);
+                    }
+                    catch (Exception)
+                    {
+                        //mystery
+                    }
+
                 }
-                catch (Exception)
-                {
-                    //mystery
-                }
-                
             }
-
-
+            catch (Exception)
+            {
+                //no recom
+            }
             DataCache.SaveRelatedAnimeData(_animeId,output);
 
             return output;

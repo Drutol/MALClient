@@ -323,7 +323,7 @@ namespace MALClient.ViewModels
                 page.CurrentStatus, 
                 page.SortDescending,
                 page.CurrentPage, 
-                page.IsSeasonal, 
+                page.WorkMode, 
                 page.ListSource , 
                 page.CurrentSeason);
         }

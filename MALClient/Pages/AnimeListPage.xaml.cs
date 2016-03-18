@@ -25,35 +25,43 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
+    public enum AnimeListWorkModes
+    {
+        Anime,
+        SeasonalAnime,
+        Manga
+    }
+
     public class AnimeListPageNavigationArgs
     {
         public readonly int CurrPage;
         public readonly bool Descending;
         public readonly string ListSource;
-        public readonly bool LoadSeasonal;
+        public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
         public readonly bool NavArgs;
         public readonly int Status;
         public SortOptions SortOption;
         public AnimeSeason CurrSeason;
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
-            bool seasonal, string source,AnimeSeason season)
+            AnimeListWorkModes seasonal, string source,AnimeSeason season)
         {
             SortOption = sort;
             Status = status;
             Descending = desc;
             CurrPage = page;
-            LoadSeasonal = seasonal;
+            WorkMode = seasonal;
             ListSource = source;
             NavArgs = true;
             CurrSeason = season;
         }
 
-        public AnimeListPageNavigationArgs()
+        private AnimeListPageNavigationArgs()
         {
-            LoadSeasonal = true;
+            
         }
 
-        
+        public static AnimeListPageNavigationArgs Seasonal => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.SeasonalAnime};
+        public static AnimeListPageNavigationArgs Manga => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.Manga };
     }
 
     public enum SortOptions

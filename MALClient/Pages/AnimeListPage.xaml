@@ -7,7 +7,6 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:interop="using:Windows.UI.Xaml.Interop"
     DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -107,7 +106,13 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
-        <Pivot x:Name="AnimesPivot"  Style="{StaticResource PivotStyleAnimeList}"  SelectionChanged="AnimesPivot_OnSelectionChanged" SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AnimePages}" PivotItemLoading="AnimesPivot_OnPivotItemLoading">
+        <Pivot x:Name="AnimesPivot"  
+               Style="{StaticResource PivotStyleAnimeList}"  
+               SelectionChanged="AnimesPivot_OnSelectionChanged" 
+               SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
+               ItemsSource="{Binding AnimePages}" 
+               PivotItemLoading="AnimesPivot_OnPivotItemLoading"
+               VerticalAlignment="Top">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}"/>
             </Pivot.Resources>

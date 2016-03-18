@@ -52,24 +52,24 @@ namespace MALClient.UserControls
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            var btn = sender as Button;
-            var grid = btn.Content as Grid;
-            foreach (Border item in grid.Children.OfType<Border>())
-            {
-                item.Visibility = Visibility.Visible;
-                break;
-            }
+            //var btn = sender as Button;
+            //var grid = btn.Content as Grid;
+            //foreach (Border item in grid.Children.OfType<Border>())
+            //{
+            //    item.Visibility = Visibility.Visible;
+            //    break;
+            //}
         }
 
         private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            var btn = sender as Button;
-            var grid = btn.Content as Grid;
-            foreach (Border item in grid.Children.OfType<Border>())
-            {
-                item.Visibility = Visibility.Collapsed;
-                break;
-            }
+            //var btn = sender as Button;
+            //var grid = btn.Content as Grid;
+            //foreach (Border item in grid.Children.OfType<Border>())
+            //{
+            //    item.Visibility = Visibility.Collapsed;
+            //    break;
+            //}
         }
 
         public double GetScrollBurgerActualHeight()

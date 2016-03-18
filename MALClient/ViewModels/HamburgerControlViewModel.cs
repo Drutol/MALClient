@@ -29,7 +29,7 @@ namespace MALClient.ViewModels
     public class HamburgerControlViewModel : ViewModelBase
     {
         private bool? _prevState;
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 325 : 375; //base value , we are either on log in page or list page (app bar on/off)
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 300 : 350; //base value , we are either on log in page or list page (app bar on/off)
         private bool _subtractedHeightForButton = true;
 
 
@@ -37,18 +37,35 @@ namespace MALClient.ViewModels
 
 
         public Dictionary<string, Brush> TxtForegroundBrushes => _brushes;
+        public Dictionary<string, Thickness> TxtBorderBrushThicknesses => _thicknesses;
             
             
         private readonly Dictionary<string, Brush> _brushes = new Dictionary<string, Brush>
         {
             ["AnimeList"] =  new SolidColorBrush(Colors.Black),
+            ["MangaList"] =  new SolidColorBrush(Colors.Black),
             ["AnimeSearch"] =  new SolidColorBrush(Colors.Black),
+            ["MangaSearch"] =  new SolidColorBrush(Colors.Black),
             ["LogIn"] =  new SolidColorBrush(Colors.Black),
             ["Settings"] =  new SolidColorBrush(Colors.Black),
             ["Profile"] =  new SolidColorBrush(Colors.Black),
             ["Seasonal"] =  new SolidColorBrush(Colors.Black),
             ["About"] =  new SolidColorBrush(Colors.Black),
             ["Recommendations"] =  new SolidColorBrush(Colors.Black),
+        };
+
+        private readonly Dictionary<string, Thickness> _thicknesses = new Dictionary<string, Thickness>
+        {
+            ["AnimeList"] =  new Thickness(0),
+            ["MangaList"] =  new Thickness(0),
+            ["AnimeSearch"] =  new Thickness(0),
+            ["MangaSearch"] =  new Thickness(0),
+            ["LogIn"] =  new Thickness(0),
+            ["Settings"] =  new Thickness(0),
+            ["Profile"] =  new Thickness(0),
+            ["Seasonal"] =  new Thickness(0),
+            ["About"] =  new Thickness(0),
+            ["Recommendations"] =  new Thickness(0),
         };
 
         public RelayCommand PaneOpenedCommand { get; private set; }
@@ -127,7 +144,7 @@ namespace MALClient.ViewModels
             {
                 await
                     Utils.GetMainPageInstance()
-                        .Navigate(page, page == PageIndex.PageSeasonal ? new AnimeListPageNavigationArgs() : null);
+                        .Navigate(page, page == PageIndex.PageSeasonal ? AnimeListPageNavigationArgs.Seasonal : null);
                 SetActiveButton(Utils.GetButtonForPage(page));
             }
         }
@@ -174,12 +191,11 @@ namespace MALClient.ViewModels
                 }
                 catch (FileNotFoundException)
                 {
+                    UserImage = new BitmapImage();
                     if (dl)
                         await Utils.DownloadProfileImg();
                     else
-                        UsrImgPlaceholderVisibility = Visibility.Visible;
-
-                    UserImage = new BitmapImage();
+                        UsrImgPlaceholderVisibility = Visibility.Visible;                   
                 }
                 catch (Exception)
                 {
@@ -209,20 +225,35 @@ namespace MALClient.ViewModels
         private void ResetActiveButton()
         {
             _brushes["AnimeList"] = new SolidColorBrush(Colors.Black);
+            _brushes["MangaList"] = new SolidColorBrush(Colors.Black);
             _brushes["AnimeSearch"] = new SolidColorBrush(Colors.Black);
+            _brushes["MangaSearch"] = new SolidColorBrush(Colors.Black);
             _brushes["LogIn"] = new SolidColorBrush(Colors.Black);
             _brushes["Settings"] = new SolidColorBrush(Colors.Black);
             _brushes["Profile"] = new SolidColorBrush(Colors.Black);
             _brushes["Seasonal"] = new SolidColorBrush(Colors.Black);
             _brushes["About"] = new SolidColorBrush(Colors.Black);
             _brushes["Recommendations"] = new SolidColorBrush(Colors.Black);
+
+            _thicknesses["AnimeList"] = new Thickness(0);
+            _thicknesses["MangaList"] = new Thickness(0);
+            _thicknesses["AnimeSearch"] = new Thickness(0);
+            _thicknesses["MangaSearch"] = new Thickness(0);
+            _thicknesses["LogIn"] = new Thickness(0);
+            _thicknesses["Settings"] = new Thickness(0);
+            _thicknesses["Profile"] = new Thickness(0);
+            _thicknesses["Seasonal"] = new Thickness(0);
+            _thicknesses["About"] = new Thickness(0);
+            _thicknesses["Recommendations"] = new Thickness(0);
         }
 
         public void SetActiveButton(HamburgerButtons val)
         {
             ResetActiveButton();
             _brushes[val.ToString()] = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            _thicknesses[val.ToString()] = new Thickness(3,0,0,0);
             RaisePropertyChanged(() => TxtForegroundBrushes);
+            RaisePropertyChanged(() => TxtBorderBrushThicknesses);
         }
     }
 }

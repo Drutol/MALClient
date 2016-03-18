@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -701,7 +702,7 @@ namespace MALClient.ViewModels
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            Synopsis = Utils.DecodeXmlSynopsis(animeElement.Element("synopsis").Value);               
+            Synopsis = Utils.DecodeXmlSynopsisDetail(animeElement.Element("synopsis").Value);               
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
@@ -709,6 +710,8 @@ namespace MALClient.ViewModels
             _synonyms.Add(animeElement.Element("english").Value);
             _synonyms.Add(Title);
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+            for(int i=0;i<_synonyms.Count;i++)
+                _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty); //removes string from brackets (sthsth) lol ->  lol
             if (_animeItemReference == null)
                 AllEpisodes = Convert.ToInt32(animeElement.Element("episodes").Value);
             PopulateData();

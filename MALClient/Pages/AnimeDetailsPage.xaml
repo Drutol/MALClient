@@ -42,7 +42,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
-            <Image Margin="1,10,1,0" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120" Height="148" />
+            <Image Margin="1,1,1,0" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120" Height="148" />
             <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                 <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
                     <SymbolIcon.RenderTransform>
@@ -217,8 +217,9 @@
                                 </Grid>
                                 <MenuFlyoutSeparator  VerticalAlignment="Top" />
                                 <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock  Text="{Binding Synopsis}" HorizontalAlignment="Stretch" FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
-                       TextWrapping="WrapWholeWords" Margin="1,1" />
+                                <TextBlock  Text="{Binding Synopsis}" HorizontalAlignment="Stretch" 
+                                            FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
+                                            TextWrapping="WrapWholeWords" Margin="3,1" />
                             </StackPanel>
                         </ScrollViewer>
                     </PivotItem.Content>

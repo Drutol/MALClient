@@ -40,7 +40,7 @@ namespace MALClient.Items
             TxtType.Text = animeElement.Element("type").Value;
             TxtTitle.Text = Title;
             TxtGlobalScore.Text = GlobalScore.ToString();
-            TxtSynopsis.Text = Utils.DecodeXmlSynopsis(animeElement.Element("synopsis").Value);
+            TxtSynopsis.Text = Utils.DecodeXmlSynopsisSearch(animeElement.Element("synopsis").Value);
             Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
             WatchedEps.Text = $"Episodes : {AllEpisodes}";
         }

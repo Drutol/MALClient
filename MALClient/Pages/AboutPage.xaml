@@ -79,6 +79,10 @@
                                         <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="17.03.2016"/>
+                                <TextBlock Text="Related anime bugfix."/>
+                                <TextBlock Text="Small visual tweaks (margins etc.)"/>
+                                <MenuFlyoutSeparator Margin="0,3"/>
                                 <TextBlock Text="16.03.2016"/>
                                 <TextBlock Text="Increased responsiveness."/>
                                 <TextBlock Text="General optimization." />

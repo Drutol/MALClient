@@ -330,7 +330,19 @@ namespace MALClient
             }
         }
 
-        public static string DecodeXmlSynopsis(string txt)
+        public static string DecodeXmlSynopsisDetail(string txt)
+        {
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("quot;", "\"")
+                    .Replace("mdash;", "—")
+                    .Replace("amp;", "&");
+        }
+
+        public static string DecodeXmlSynopsisSearch(string txt)
         {
             return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
                     .Trim()
@@ -338,7 +350,8 @@ namespace MALClient
                     .Replace("[/i]", "")
                     .Replace("#039;", "'")
                     .Replace("&quot;", "\"")
-                    .Replace("&mdash;", "—");
+                    .Replace("&mdash;", "—")
+                    .Replace("&amp;", "&");
         }
     }
 }

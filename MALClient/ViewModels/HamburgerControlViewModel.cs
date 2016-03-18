@@ -144,7 +144,7 @@ namespace MALClient.ViewModels
             {
                 await
                     Utils.GetMainPageInstance()
-                        .Navigate(page, page == PageIndex.PageSeasonal ? AnimeListPageNavigationArgs.Seasonal : null);
+                        .Navigate(page, page == PageIndex.PageSeasonal ? AnimeListPageNavigationArgs.Seasonal : page == PageIndex.PageMangaList ? AnimeListPageNavigationArgs.Manga : null);
                 SetActiveButton(Utils.GetButtonForPage(page));
             }
         }

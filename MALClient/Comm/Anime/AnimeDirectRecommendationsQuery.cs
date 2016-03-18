@@ -9,11 +9,11 @@ using MALClient.Models;
 
 namespace MALClient.Comm
 {
-    class DirectRecommendationsQuery : Query
+    class AnimeDirectRecommendationsQuery : Query
     {
         private int _animeId;
 
-        public DirectRecommendationsQuery(int id)
+        public AnimeDirectRecommendationsQuery(int id)
         {
             Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/anime/{id}/whatever/userrecs"));
             Request.ContentType = "application/x-www-form-urlencoded";

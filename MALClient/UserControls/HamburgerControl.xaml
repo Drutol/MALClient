@@ -159,7 +159,7 @@
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="0">
+                                                    CommandParameter="9">
                                                 <Grid Width="220" Height="50">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
@@ -170,8 +170,8 @@
                                                             Grid.ColumnSpan="2" />          
                                                     <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink" Grid.Column="0"
                                                         VerticalAlignment="Center"
-                                                        Foreground="{Binding ElementName=TxtList , Path=Foreground}" /> 
-                                                    <TextBlock Text="Manga List" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[MangaList]}"
+                                                        Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" /> 
+                                                    <TextBlock x:Name="TxtMangaList" Text="Manga List" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                                         HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center"
                                                         TextAlignment="Center" />
                                                 </Grid>
@@ -180,7 +180,7 @@
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="3">
+                                                    CommandParameter="10">
                                                 <Grid Width="220" Height="50">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />

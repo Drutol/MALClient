@@ -108,22 +108,22 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Comm\AnimeAddQuery.cs" />
-    <Compile Include="Comm\AnimeGeneralDetailsQuery.cs" />
-    <Compile Include="Comm\AnimeListParameters.cs" />
-    <Compile Include="Comm\AnimeListQuery.cs" />
-    <Compile Include="Comm\AnimeRecomendationsQuery.cs" />
-    <Compile Include="Comm\AnimeRemoveQuery.cs" />
-    <Compile Include="Comm\AnimeReviewsQuery.cs" />
-    <Compile Include="Comm\AnimeSearchQuery.cs" />
-    <Compile Include="Comm\AnimeSeasonalQuery.cs" />
-    <Compile Include="Comm\AnimeUpdateQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
+    <Compile Include="Comm\MalListParameters.cs" />
+    <Compile Include="Comm\MalListQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeRemoveQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeReviewsQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeSearchQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeSeasonalQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
-    <Compile Include="Comm\DirectRecommendationsQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
     <Compile Include="Comm\IParameters.cs" />
     <Compile Include="Comm\MALProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
-    <Compile Include="Comm\RelatedAnimeQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
     <Compile Include="Comm\UriType.cs" />
     <Compile Include="Items\AnimeItem.xaml.cs">
@@ -309,7 +309,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Comm\Manga\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -325,6 +325,10 @@ namespace MALClient
                     return HamburgerButtons.Recommendations;
                 case PageIndex.PageSeasonal:
                     return HamburgerButtons.Seasonal;
+                case PageIndex.PageMangaList:
+                    return HamburgerButtons.MangaList;
+                case PageIndex.PageMangaSearch:
+                    return HamburgerButtons.MangaList;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using MALClient.Items;
 using MALClient.Models;
+using MALClient.Pages;
 using Newtonsoft.Json;
 
 namespace MALClient
@@ -28,7 +29,7 @@ namespace MALClient
 
         #region UserData
 
-        public static async void SaveDataForUser(string user, string data)
+        public static async void SaveDataForUser(string user, string data, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled())
                 return;
@@ -36,7 +37,7 @@ namespace MALClient
             {
                 StorageFile file =
                     await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync($"anime_data_{user.ToLower()}.json",
+                        ApplicationData.Current.LocalFolder.CreateFileAsync($"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json",
                             CreationCollisionOption.ReplaceExisting);
                 await
                     FileIO.WriteTextAsync(file,
@@ -48,14 +49,14 @@ namespace MALClient
             }
         }
 
-        public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user)
+        public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user,AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled())
                 return null;
             try
             {
                 StorageFile file =
-                    await ApplicationData.Current.LocalFolder.GetFileAsync($"anime_data_{user.ToLower()}.json");
+                    await ApplicationData.Current.LocalFolder.GetFileAsync($"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 Tuple<DateTime, string> decoded = JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
                 if (!CheckForOldData(decoded.Item1))

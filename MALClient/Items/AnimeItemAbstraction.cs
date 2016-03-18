@@ -22,11 +22,12 @@ namespace MALClient.Items
         private readonly int myScore;
         private readonly int myStatus;
         private readonly string name;
+        private readonly int allVolumes;
+        private readonly int myVolumes;
 
         private AnimeItem _animeItem;
         public bool Loaded;
         public int AirDay = -1;
-        public int AllEpisodes;
 
         private bool auth;
         private bool authSetEps;
@@ -36,7 +37,11 @@ namespace MALClient.Items
         public int MyEpisodes;
         public int MyScore;
         public int MyStatus;
+        public int MyVolumes;
+        public int MyChapters;
         public string Title;
+
+        public bool RepresentsAnime = true;
 
         private AnimeItemAbstraction(int id)
         {
@@ -47,7 +52,7 @@ namespace MALClient.Items
             GlobalScore = data.GlobalScore;
         }
 
-        //Two constructors depending on original init
+        //three constructors depending on original init
         public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
             int myScore) : this(id)
         {
@@ -74,6 +79,14 @@ namespace MALClient.Items
             Index = data.Index;
 
             MyStatus = (int) AnimeStatus.AllOrAiring;
+        }
+
+        public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
+            int myScore,int volumes,int allVolumes) : this(auth,name,img,id,myStatus,myEps,allEps,myScore)
+        {
+            RepresentsAnime = false;
+            this.myVolumes = MyVolumes = volumes;
+            this.allVolumes = allVolumes;
         }
 
         public AnimeItem AnimeItem
@@ -114,23 +127,15 @@ namespace MALClient.Items
             return true;
         }
 
-        public void SetAuthStatus(bool status, bool eps)
-        {
-            if (Loaded)
-                ViewModel.SetAuthStatus(status, eps);
-            else
-            {
-                auth = status;
-                authSetEps = eps;
-            }
-        }
-
         //Load UIElement
         private AnimeItemViewModel LoadElementModel()
         {
+            if(RepresentsAnime)
             return _firstConstructor
                 ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
                 : new AnimeItemViewModel(data, this);
+            else
+                return new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps, myVolumes,allVolumes);
         }
 
         private AnimeItem LoadElement()

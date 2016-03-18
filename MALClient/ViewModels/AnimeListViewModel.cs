@@ -32,7 +32,11 @@ namespace MALClient.ViewModels
     public class AnimeListViewModel : ViewModelBase
     {
         private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
-        private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+        private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();     
+
+        private List<AnimeItemAbstraction> _allLoadedMangaItems = new List<AnimeItemAbstraction>();       
+        private List<AnimeItemAbstraction> _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
+
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
         public ObservableCollection<PivotItem> _animePages = new ObservableCollection<PivotItem>();
@@ -47,10 +51,8 @@ namespace MALClient.ViewModels
 
         private int _allPages;
 
-        private bool _needReload;
 
-        //private DateTime _lastUpdate;
-        private Timer _timer;
+        private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
         private string _prevListSource;
         private bool _wasPreviousQuery;
         public AnimeSeason CurrentSeason;
@@ -402,6 +404,7 @@ namespace MALClient.ViewModels
 
             switch (WorkMode)
             {
+                case AnimeListWorkModes.Manga:                   
                 case AnimeListWorkModes.Anime:
                     if(!gotArgs)
                         SetDefaults();
@@ -446,8 +449,6 @@ namespace MALClient.ViewModels
                     SwitchSortingToSeasonal();
 
                     await FetchSeasonalData();
-                    break;
-                case AnimeListWorkModes.Manga:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -574,8 +575,22 @@ namespace MALClient.ViewModels
 
                 _animeItemsSet.Clear();
                 var status = queryCondition ? 7 : GetDesiredStatus();
-
-                IEnumerable<AnimeItemAbstraction> items = WorkMode == AnimeListWorkModes.SeasonalAnime ? _allLoadedSeasonalAnimeItems : _allLoadedAnimeItems;
+                
+                IEnumerable<AnimeItemAbstraction> items;
+                switch (WorkMode)
+                {
+                    case AnimeListWorkModes.Anime:
+                        items = _allLoadedAnimeItems;
+                        break;
+                    case AnimeListWorkModes.SeasonalAnime:
+                        items = _allLoadedSeasonalAnimeItems;
+                        break;
+                    case AnimeListWorkModes.Manga:
+                        items = _allLoadedMangaItems;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
                 items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
 
@@ -754,7 +769,7 @@ namespace MALClient.ViewModels
 
         public async Task FetchData(bool force = false)
         {
-            if (!force && _prevListSource == ListSource)
+            if (!force && _prevListSource == ListSource && _prevWorkMode == WorkMode)
             {
                 foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.Loaded))
                 {
@@ -763,6 +778,7 @@ namespace MALClient.ViewModels
                 await RefreshList();
                 return;
             }
+            _prevWorkMode = WorkMode;
             _prevListSource = ListSource;
 
             Loading = true;
@@ -780,16 +796,30 @@ namespace MALClient.ViewModels
                 EmptyNoticeContent = "We have come up empty...";
             }
 
-            _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
-            if (force)
-                _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-            else if (_allLoadedAuthAnimeItems.Count > 0 && string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
-
-
-            if (_allLoadedAnimeItems.Count == 0)
+            switch (WorkMode)
             {
-                Tuple<string, DateTime> possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource);
+                case AnimeListWorkModes.Anime:
+                    _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+                    if (force)
+                        _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+                    else if (_allLoadedAuthAnimeItems.Count > 0 && string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                        _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
+                    break;
+                case AnimeListWorkModes.Manga:
+                    _allLoadedMangaItems = new List<AnimeItemAbstraction>();
+                    if (force)
+                        _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
+                    else if (_allLoadedAuthMangaItems.Count > 0 && string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                        _allLoadedMangaItems = _allLoadedAuthMangaItems;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+
+            if (WorkMode == AnimeListWorkModes.Anime ? _allLoadedAnimeItems.Count == 0 : _allLoadedMangaItems.Count == 0)
+            {
+                Tuple<string, DateTime> possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource, WorkMode);
                 string data = "";
                 if (possibleCachedData != null)
                 {
@@ -798,37 +828,50 @@ namespace MALClient.ViewModels
                 }
                 else
                 {
-                    var args = new AnimeListParameters
+                    var args = new MalListParameters
                     {
-                        status = "all", type = "anime", user = ListSource
+                        Status = "all", Type = WorkMode == AnimeListWorkModes.Anime ? "anime" : "manga", User = ListSource
                     };
-                    await Task.Run(async () => data = await new AnimeListQuery(args).GetRequestResponse());
+                    await Task.Run(async () => data = await new MalListQuery(args).GetRequestResponse());
                     if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
                     {
+                        //no data?
                         await RefreshList();
                         Loading = false;
                         return;
                     }
-                    DataCache.SaveDataForUser(ListSource, data);
-                    //_lastUpdate = DateTime.Now;
+                    DataCache.SaveDataForUser(ListSource, data, WorkMode);
                 }
                 XDocument parsedData = XDocument.Parse(data);
-                List<XElement> anime = parsedData.Root.Elements("anime").ToList();
                 var auth = Creditentials.Authenticated && string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase);
-                foreach (XElement item in anime)
+                switch (WorkMode)
                 {
-                    _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_animedb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_watched_episodes").Value), Convert.ToInt32(item.Element("series_episodes").Value), Convert.ToInt32(item.Element("my_score").Value)));
-                }
+                    case AnimeListWorkModes.Anime:
+                        List<XElement> anime = parsedData.Root.Elements("anime").ToList();
+                        foreach (XElement item in anime)
+                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_animedb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_watched_episodes").Value), Convert.ToInt32(item.Element("series_episodes").Value), Convert.ToInt32(item.Element("my_score").Value)));
 
-                _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
-                if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                    _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
+                        _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
+                        if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                            _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
+                        break;
+                    case AnimeListWorkModes.Manga:
+                        List<XElement> manga = parsedData.Root.Elements("manga").ToList();
+                        foreach (XElement item in manga)
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value)));
+
+                        _allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
+                        if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                            _allLoadedAuthMangaItems = _allLoadedMangaItems;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
             AppBtnGoBackToMyListVisibility = Creditentials.Authenticated && !string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
 
-            RefreshList();
-            Loading = false;
+            await RefreshList();
         }
 
         public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference)
@@ -914,7 +957,6 @@ namespace MALClient.ViewModels
             if (_allLoadedAuthAnimeItems.Count > 0)
             {
                 _allLoadedAuthAnimeItems.Add(parentAbstraction);
-                _needReload = true;
             }
         }
 
@@ -923,7 +965,6 @@ namespace MALClient.ViewModels
             if (_allLoadedAuthAnimeItems.Count > 0)
             {
                 _allLoadedAuthAnimeItems.Remove(parentAbstraction);
-                _needReload = true;
             }
         }
 

@@ -172,7 +172,7 @@ namespace MALClient.ViewModels
 
             RefreshButtonVisibility = Visibility.Collapsed;
 
-            if (index == PageIndex.PageSeasonal)
+            if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList)
                 index = PageIndex.PageAnimeList;
 
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);

@@ -69,6 +69,13 @@ namespace MALClient.ViewModels
             Airing = _parentAbstraction.AirDay >= 0;
 
         }
+        //manga
+        public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
+            int myScore,
+            AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes) : this(auth,name,img,id,myStatus,myEps,allEps,myScore,parent,setEpsAuth)
+        {
+            
+        }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
             AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
@@ -93,7 +100,9 @@ namespace MALClient.ViewModels
 
         #region PropertyPairs
         private int _allEpisodes;
+        private int _allVolumes;
         public int AllEpisodes => _allEpisodes;
+        public int Volumes { get; set; }
 
         public string AirDayBind => Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
         private bool _airing;
@@ -188,7 +197,7 @@ namespace MALClient.ViewModels
                 if(_seasonalState)
                     return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
 
-                return Auth || MyEpisodes != 0 ? "Watched : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+                return Auth || MyEpisodes != 0 ? $"{(_parentAbstraction.RepresentsAnime ? "Read" : "Watched")} : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
             }
         } 
         public int MyEpisodes
@@ -202,6 +211,20 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyEpisodesBind);
             }
         }
+
+        public string MyVolumesBind => Auth || MyEpisodes != 0 ? "Read : " + $"{MyVolumes}/{(_allVolumes == 0 ? "?" : _allVolumes.ToString())}" : $"{(_allVolumes == 0 ? "?" : _allVolumes.ToString())} Volumes";
+        public int MyVolumes
+        {
+            get { return _parentAbstraction.MyVolumes; }
+            set
+            {
+                if (_parentAbstraction.MyVolumes == value)
+                    return;
+                _parentAbstraction.MyVolumes = value;
+                RaisePropertyChanged(() => MyVolumesBind);
+            }
+        }
+
 
         private string _title;
         public string Title

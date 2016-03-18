@@ -51,6 +51,7 @@ namespace MALClient.Items
         public int Id { get; set; }
         public float GlobalScore { get; set; }
         public int AllEpisodes { get; set; }
+        public int Volumes { get; set; }
 
         public string Title { get; set; }
 

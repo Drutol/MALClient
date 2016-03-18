@@ -881,7 +881,7 @@ namespace MALClient.ViewModels
             _loadedRecomm = true;
             Recommendations.Clear();
             var recomm = new List<DirectRecommendationData>();
-            await Task.Run(async () => recomm = await new DirectRecommendationsQuery(Id).GetDirectRecommendations(force));
+            await Task.Run(async () => recomm = await new AnimeDirectRecommendationsQuery(Id).GetDirectRecommendations(force));
             foreach (var item in recomm)
                 Recommendations.Add(item);
             NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
@@ -896,7 +896,7 @@ namespace MALClient.ViewModels
             _loadedRelated = true;
             RelatedAnime.Clear();
             var recomm = new List<RelatedAnimeData>();
-            await Task.Run(async () => recomm = await new RelatedAnimeQuery(Id).GetRelatedAnime(force));
+            await Task.Run(async () => recomm = await new AnimeRelatedQuery(Id).GetRelatedAnime(force));
             foreach (var item in recomm)
                 RelatedAnime.Add(item);
             NoRelatedDataNoticeVisibility = RelatedAnime.Count > 0 ? Visibility.Collapsed : Visibility.Visible;

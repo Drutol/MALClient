@@ -10,6 +10,8 @@
         PageProfile,
         PageAbout,
         PageRecomendations,
-        PageSeasonal // it's the same as AnimeList
+        PageSeasonal, // it's the same as AnimeList
+        PageMangaList,
+        PageMangaSearch
     }
 }

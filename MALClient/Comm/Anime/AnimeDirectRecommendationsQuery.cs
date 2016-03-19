@@ -12,13 +12,15 @@ namespace MALClient.Comm
     class AnimeDirectRecommendationsQuery : Query
     {
         private int _animeId;
+        private bool _animeMode;
 
-        public AnimeDirectRecommendationsQuery(int id)
+        public AnimeDirectRecommendationsQuery(int id,bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/anime/{id}/whatever/userrecs"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/userrecs"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
+            _animeMode = anime;
         }
 
         public async Task<List<DirectRecommendationData>> GetDirectRecommendations(bool force = false)
@@ -74,7 +76,7 @@ namespace MALClient.Comm
                 
             }
 
-            DataCache.SaveDirectRecommendationsData(_animeId,output);
+            DataCache.SaveDirectRecommendationsData(_animeId,output,_animeMode);
 
             return output;
         }

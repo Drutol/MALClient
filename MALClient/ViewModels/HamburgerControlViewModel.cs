@@ -144,8 +144,25 @@ namespace MALClient.ViewModels
             {
                 await
                     Utils.GetMainPageInstance()
-                        .Navigate(page, page == PageIndex.PageSeasonal ? AnimeListPageNavigationArgs.Seasonal : page == PageIndex.PageMangaList ? AnimeListPageNavigationArgs.Manga : null);
+                        .Navigate(page, GetAppropriateArgsForPage(page));
                 SetActiveButton(Utils.GetButtonForPage(page));
+            }
+        }
+
+        private object GetAppropriateArgsForPage(PageIndex page)
+        {
+            switch (page)
+            {
+                case PageIndex.PageSeasonal:
+                    return AnimeListPageNavigationArgs.Seasonal;
+                case PageIndex.PageMangaList:
+                    return AnimeListPageNavigationArgs.Manga;
+                case PageIndex.PageMangaSearch:
+                    return new SearchPageNavigationArgs {Anime = false};
+                case PageIndex.PageSearch:
+                    return new SearchPageNavigationArgs();
+                default:
+                    return null;
             }
         }
 

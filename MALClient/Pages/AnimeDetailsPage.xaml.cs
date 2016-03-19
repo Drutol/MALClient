@@ -12,31 +12,12 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
-    public class AnimeDetailsPageNavigationArgs
-    {
-        public readonly XElement AnimeElement;
-        public readonly IAnimeData AnimeItem;
-        public readonly int Id;
-        public readonly object PrevPageSetup;
-        public readonly string Title;
-        public PageIndex Source;
-        public bool RegisterBackNav = true;
 
-        public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
-            object args = null)
-        {
-            Id = id;
-            Title = title;
-            AnimeElement = element;
-            PrevPageSetup = args;
-            AnimeItem = animeReference;
-        }
-    }
 
     public sealed partial class AnimeDetailsPage : Page , IDetailsViewInteraction
     {
         private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;
-
+        private static PivotItem _detailsPivotHoldingSpace;
         public AnimeDetailsPage()
         {
             this.InitializeComponent();
@@ -49,7 +30,17 @@ namespace MALClient.Pages
             var param = e.Parameter as AnimeDetailsPageNavigationArgs;
             if (param == null)
                 throw new Exception("No paramaters for this page");
-            ViewModel.Init(param);           
+            ViewModel.Init(param);
+            if (!param.AnimeMode)
+            {
+                _detailsPivotHoldingSpace = (PivotItem)MainPivot.Items[1];
+                MainPivot.Items.RemoveAt(1);
+            }
+            else if (_detailsPivotHoldingSpace != null)
+            {
+                MainPivot.Items.Insert(1,_detailsPivotHoldingSpace);
+                _detailsPivotHoldingSpace = null;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

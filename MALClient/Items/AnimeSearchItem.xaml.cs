@@ -28,12 +28,14 @@ namespace MALClient.Items
             _rowAlternator = !_rowAlternator;
         }
 
-        public AnimeSearchItem(XElement animeElement) : this()
+        public AnimeSearchItem(XElement animeElement,bool anime = true) : this()
         {
             item = animeElement;
             Id = int.Parse(animeElement.Element("id").Value);
             GlobalScore = float.Parse(animeElement.Element("score").Value);
-            AllEpisodes = int.Parse(animeElement.Element("episodes").Value);
+            AllEpisodes = int.Parse(animeElement.Element(anime ? "episodes" : "chapters").Value);
+            if(!anime)
+                AllVolumes = int.Parse(animeElement.Element("volumes").Value);
             Title = animeElement.Element("title").Value;
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
@@ -42,7 +44,7 @@ namespace MALClient.Items
             TxtGlobalScore.Text = GlobalScore.ToString();
             TxtSynopsis.Text = Utils.DecodeXmlSynopsisSearch(animeElement.Element("synopsis").Value);
             Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
-            WatchedEps.Text = $"Episodes : {AllEpisodes}";
+            WatchedEps.Text = $"{(anime ? "Episodes" : "Chapters")} : {AllEpisodes}";
         }
 
         private string Type { get; set; }
@@ -52,6 +54,7 @@ namespace MALClient.Items
         public float GlobalScore { get; set; }
         public int AllEpisodes { get; set; }
         public int Volumes { get; set; }
+        public int AllVolumes { get; set; }
 
         public string Title { get; set; }
 

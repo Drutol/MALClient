@@ -196,11 +196,11 @@ namespace MALClient
 
         #region AnimeDetailsData
 
-        public static async void SaveAnimeDetails(int id, AnimeGeneralDetailsData data)
+        public static async void SaveAnimeDetails(int id, AnimeGeneralDetailsData data, bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
                     var json =
@@ -219,11 +219,11 @@ namespace MALClient
 
         }
 
-        public static async Task<AnimeGeneralDetailsData> RetrieveAnimeGeneralDetailsData(int id)
+        public static async Task<AnimeGeneralDetailsData> RetrieveAnimeGeneralDetailsData(int id, bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 StorageFile file = await folder.GetFileAsync($"{id}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 Tuple<DateTime, AnimeGeneralDetailsData> tuple =
@@ -282,11 +282,11 @@ namespace MALClient
         #endregion
 
         #region Reviews
-        public static async void SaveAnimeReviews(int id, List<AnimeReviewData> data)
+        public static async void SaveAnimeReviews(int id, List<AnimeReviewData> data, bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
                     var json =
@@ -305,11 +305,11 @@ namespace MALClient
 
         }
 
-        public static async Task<List<AnimeReviewData>> RetrieveReviewsData(int animeId)
+        public static async Task<List<AnimeReviewData>> RetrieveReviewsData(int animeId,bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 StorageFile file = await folder.GetFileAsync($"reviews_{animeId}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 Tuple<DateTime, List<AnimeReviewData>> tuple =
@@ -325,11 +325,11 @@ namespace MALClient
         #endregion
 
         #region DirectRecommendations
-        public static async void SaveDirectRecommendationsData(int id, List<DirectRecommendationData> data)
+        public static async void SaveDirectRecommendationsData(int id, List<DirectRecommendationData> data, bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
                     var json =
@@ -348,11 +348,11 @@ namespace MALClient
 
         }
 
-        public static async Task<List<DirectRecommendationData>> RetrieveDirectRecommendationData(int id)
+        public static async Task<List<DirectRecommendationData>> RetrieveDirectRecommendationData(int id, bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 StorageFile file = await folder.GetFileAsync($"direct_recommendations_{id}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 Tuple<DateTime, List<DirectRecommendationData>> tuple =
@@ -370,11 +370,11 @@ namespace MALClient
         #endregion
 
         #region RelatedAnime
-        public static async void SaveRelatedAnimeData(int id, List<RelatedAnimeData> data)
+        public static async void SaveRelatedAnimeData(int id, List<RelatedAnimeData> data,bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
                     var json =
@@ -392,11 +392,11 @@ namespace MALClient
             }
         }
 
-        public static async Task<List<RelatedAnimeData>> RetrieveRelatedAnimeData(int animeId)
+        public static async Task<List<RelatedAnimeData>> RetrieveRelatedAnimeData(int animeId, bool anime = true)
         {
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("AnimeDetails", CreationCollisionOption.OpenIfExists);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails", CreationCollisionOption.OpenIfExists);
                 StorageFile file = await folder.GetFileAsync($"related_anime_{animeId}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 Tuple<DateTime, List<RelatedAnimeData>> tuple =

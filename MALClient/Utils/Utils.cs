@@ -330,7 +330,7 @@ namespace MALClient
                 case PageIndex.PageMangaList:
                     return HamburgerButtons.MangaList;
                 case PageIndex.PageMangaSearch:
-                    return HamburgerButtons.MangaList;
+                    return HamburgerButtons.MangaSearch;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

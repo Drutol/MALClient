@@ -122,6 +122,10 @@
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
     <Compile Include="Comm\IParameters.cs" />
     <Compile Include="Comm\MALProfileQuery.cs" />
+    <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
+    <Compile Include="Comm\Manga\MangaAddQuery.cs" />
+    <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
+    <Compile Include="Comm\Manga\MangaSearchQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
@@ -309,9 +313,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Comm\Manga\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

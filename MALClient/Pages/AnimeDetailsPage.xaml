@@ -175,7 +175,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
+        <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}">
                     <Setter Property="Margin" Value="2,0"/>
@@ -186,7 +186,6 @@
                 </Style>
             </Pivot.Resources>
             <Pivot.Items>
-                
                 <PivotItem Tag="General">
                     <PivotItem.Header>
                         General

@@ -11,21 +11,23 @@ namespace MALClient.Comm
 {
     class AnimeReviewsQuery : Query
     {
-        private int _animeId;
+        private int _targetId;
+        private bool _anime;
 
-        public AnimeReviewsQuery(int id)
+        public AnimeReviewsQuery(int id,bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/anime/{id}/whatever/reviews"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/reviews"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
-            _animeId = id;
+            _targetId = id;
+            _anime = anime;
         }
 
         public async Task<List<AnimeReviewData>> GetAnimeReviews(bool force = false)
         {
             List<AnimeReviewData> output = force
                 ? new List<AnimeReviewData>()
-                : await DataCache.RetrieveReviewsData(_animeId) ?? new List<AnimeReviewData>();
+                : await DataCache.RetrieveReviewsData(_targetId,_anime) ?? new List<AnimeReviewData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();
@@ -91,7 +93,7 @@ namespace MALClient.Comm
             {
                 //no reviews
             }
-            DataCache.SaveAnimeReviews(_animeId,output);
+            DataCache.SaveAnimeReviews(_targetId,output,_anime);
 
             return output;
         } 

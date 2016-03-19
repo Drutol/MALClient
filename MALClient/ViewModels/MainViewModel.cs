@@ -212,7 +212,8 @@ namespace MALClient.ViewModels
                     View.Navigate(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
-                    NavigateSearch(args != null);
+                case PageIndex.PageMangaSearch:
+                    NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
@@ -268,15 +269,18 @@ namespace MALClient.ViewModels
                 ViewModelLocator.SearchPage.SubmitQuery(CurrentSearchQuery);
         }
 
-        private void NavigateSearch(bool autoSearch = false)
+        private void NavigateSearch(object args)
         {
             _onSearchPage = true;
             _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
             ShowSearchStuff();
             ToggleSearchStuff();
-            if (!autoSearch)
+            if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
+            {
                 View.SearchInputFocus(FocusState.Keyboard);
-            View.Navigate(typeof(AnimeSearchPage), autoSearch ? CurrentSearchQuery : "");
+                (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
+            }
+            View.Navigate(typeof(AnimeSearchPage),args);
         }
         #endregion
 

@@ -485,7 +485,7 @@ namespace MALClient.ViewModels
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
                         Utils.GetMainPageInstance().GetCurrentListOrderParams())
-                    { Source = PageIndex.PageAnimeList });
+                    { Source = PageIndex.PageAnimeList , AnimeMode = _parentAbstraction.RepresentsAnime});
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data)

@@ -9,9 +9,16 @@ using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
+    public class SearchPageNavigationArgs
+    {
+        public bool Anime { get; set; } = true;
+        public string Query { get; set; }
+    }
+
     public class SearchPageViewModel : ViewModelBase
     {
         #region Properties
@@ -43,8 +50,23 @@ namespace MALClient.ViewModels
         #endregion
 
         public string PrevQuery;
+        private bool _animeSearch; // default to anime
 
-        internal async void SubmitQuery(string query)
+        public void Init(SearchPageNavigationArgs args)
+        {
+            _animeSearch = args.Anime;
+            if(args.Query != null)
+                SubmitQuery(args.Query);
+            else
+            {
+                AnimeSearchItems.Clear();
+                ResetQuery();
+            }
+
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+        }
+
+        public async void SubmitQuery(string query)
         {
             if(query == PrevQuery)
                 return;
@@ -53,26 +75,46 @@ namespace MALClient.ViewModels
             EmptyNoticeVisibility = Visibility.Collapsed;
             AnimeSearchItems.Clear();
             var response = "";
-            await
-                Task.Run(
-                    async () => response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
-            try
+            if (_animeSearch)
             {
-                XDocument parsedData = XDocument.Parse(response);
-                foreach (XElement item in parsedData.Element("anime").Elements("entry"))
+                await
+                    Task.Run(
+                        async () =>
+                            response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
+                try
                 {
-                    AnimeSearchItems.Add(new AnimeSearchItem(item));
+                    XDocument parsedData = XDocument.Parse(response);
+                    foreach (XElement item in parsedData.Element("anime").Elements("entry"))
+                    {
+                        AnimeSearchItems.Add(new AnimeSearchItem(item));
+                    }
+                }
+                catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
+                {
+                    EmptyNoticeVisibility = Visibility.Visible;
                 }
             }
-            catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
+            else // manga search
             {
-                EmptyNoticeVisibility = Visibility.Visible;
+                await
+                    Task.Run(
+                        async () =>
+                            response = await new MangaSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
+                try
+                {
+                    XDocument parsedData = XDocument.Parse(response);
+                    foreach (XElement item in parsedData.Element("manga").Elements("entry"))
+                        AnimeSearchItems.Add(new AnimeSearchItem(item,false));
+                }
+                catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
+                {
+                    EmptyNoticeVisibility = Visibility.Visible;
+                }
             }
-
             Loading = Visibility.Collapsed;
         }
 
-        public void ResetQuery()
+        private void ResetQuery()
         {
             PrevQuery = null;
         }

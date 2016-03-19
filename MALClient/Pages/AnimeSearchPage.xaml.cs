@@ -29,16 +29,8 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModel.Init(e.Parameter as SearchPageNavigationArgs);
             base.OnNavigatedTo(e);
-            if (!string.IsNullOrWhiteSpace((string) e.Parameter))
-                ViewModel.SubmitQuery((string) e.Parameter);
-            else
-            {
-                ViewModel.AnimeSearchItems.Clear();
-                ViewModel.ResetQuery();
-            }
-
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

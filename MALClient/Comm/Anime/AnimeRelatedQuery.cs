@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Documents;
 using HtmlAgilityPack;
 using MALClient.Models;
 
@@ -12,13 +13,15 @@ namespace MALClient.Comm
     class AnimeRelatedQuery : Query
     {
         private int _animeId;
+        private bool _animeMode;
 
-        public AnimeRelatedQuery(int id)
+        public AnimeRelatedQuery(int id,bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/anime/{id}/"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
+            _animeMode = anime;
         }
 
         public async Task<List<RelatedAnimeData>> GetRelatedAnime(bool force = false)
@@ -70,7 +73,7 @@ namespace MALClient.Comm
             {
                 //no recom
             }
-            DataCache.SaveRelatedAnimeData(_animeId,output);
+            DataCache.SaveRelatedAnimeData(_animeId,output,_animeMode);
 
             return output;
         }

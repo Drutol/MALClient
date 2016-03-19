@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.ViewModels;
 
@@ -15,6 +16,6 @@ namespace MALClient.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string WholeRelation { get; set; }
-        public bool IsAnime { get; set; }
+        public RelatedItemType Type { get; set; }
     }
 }

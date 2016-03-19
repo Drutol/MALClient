@@ -91,6 +91,9 @@ namespace MALClient.ViewModels
             }
             set { _allEpisodes = value; }
         }
+
+        public int AllVolumes => _animeItemReference.AllVolumes;
+
         private string Type { get; set; }
         private string Status { get; set; }
         private string _synopsis;
@@ -138,6 +141,17 @@ namespace MALClient.ViewModels
             {
                 _animeItemReference.MyScore = value;
                 RaisePropertyChanged(() => MyScoreBind);
+            }
+        }
+
+        public string MyVolumesBind => MyVolumes.ToString();
+        public int MyVolumes
+        {
+            get { return _animeItemReference?.MyVolumes ?? 0; }
+            set
+            {
+                _animeItemReference.MyVolumes = value;
+               
             }
         }
 
@@ -512,10 +526,12 @@ namespace MALClient.ViewModels
             switch (param.Source)
             {
                 case PageIndex.PageSearch:
+                case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
+                case PageIndex.PageMangaList:
                     await FetchData(param.Id.ToString(), param.Title);
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
@@ -546,12 +562,19 @@ namespace MALClient.ViewModels
 
         #region ChangeStuff
 
+        private Query GetAppropriateUpdateQuery()
+        {
+            if (_animeMode)
+                return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore);
+            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, MyScore, MyVolumes);
+        }
+
         private async void ChangeStatus(object status)
         {
             LoadingUpdate = true;
             var prevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
-            var response = await new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyStatus = prevStatus;
 
@@ -571,7 +594,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = true;
             var prevScore = MyScore;
             MyScore = Convert.ToInt32(score as string);
-            var response = await new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyScore = prevScore;
             LoadingUpdate = false;
@@ -593,7 +616,7 @@ namespace MALClient.ViewModels
                 WatchedEpsInputNoticeVisibility = false;
                 var prevWatched = MyEpisodes;
                 MyEpisodes = eps;
-                var response = await new AnimeUpdateQuery(Id,MyEpisodes,MyStatus,MyScore).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyEpisodes = prevWatched;
 
@@ -627,11 +650,15 @@ namespace MALClient.ViewModels
 
         private async void AddAnime()
         {
-            var response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
-            if (!response.Contains("Created"))
+            var response = _animeMode
+                ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
+                : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
+            if (!response.Contains("Created") && _animeMode)
                 return;
             AddAnimeVisibility = false;
-            var animeItem = new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0);
+            var animeItem = _animeMode
+                ? new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0)
+                : new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0,0, AllVolumes);
             _animeItemReference = animeItem.ViewModel;
             MyScore = 0;
             MyStatus = 6;
@@ -653,7 +680,9 @@ namespace MALClient.ViewModels
             if (!uSure)
                 return;
 
-            var response = await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse();
+            var response = _animeMode
+                ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
+                : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
             if (!response.Contains("Deleted"))
                 return;
 
@@ -950,7 +979,7 @@ namespace MALClient.ViewModels
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title , null, null,
                         new AnimeDetailsPageNavigationArgs(Id, Title, null , _animeItemReference)
                         { Source = PageIndex.PageAnimeDetails, RegisterBackNav = false , AnimeMode = _animeMode})
-                    {Source = PageIndex.PageAnimeDetails});
+                    {Source = PageIndex.PageAnimeDetails , AnimeMode = args.Type == RelatedItemType.Anime});
         }
     }
 }

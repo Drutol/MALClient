@@ -989,7 +989,10 @@ namespace MALClient.ViewModels
         {
             if (_allLoadedAuthAnimeItems.Count > 0)
             {
-                _allLoadedAuthAnimeItems.Add(parentAbstraction);
+                if (parentAbstraction.RepresentsAnime)
+                    _allLoadedAuthAnimeItems.Add(parentAbstraction);
+                else
+                    _allLoadedAuthMangaItems.Add(parentAbstraction);
             }
         }
 
@@ -997,7 +1000,10 @@ namespace MALClient.ViewModels
         {
             if (_allLoadedAuthAnimeItems.Count > 0)
             {
-                _allLoadedAuthAnimeItems.Remove(parentAbstraction);
+                if (parentAbstraction.RepresentsAnime)
+                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);
+                else
+                    _allLoadedAuthMangaItems.Remove(parentAbstraction);
             }
         }
 

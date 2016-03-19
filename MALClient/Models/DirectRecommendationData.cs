@@ -1,4 +1,5 @@
-﻿using MALClient.Pages;
+﻿using MALClient.Comm;
+using MALClient.Pages;
 
 namespace MALClient.Models
 {   /// <summary>
@@ -8,6 +9,7 @@ namespace MALClient.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public RelatedItemType Type { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
     }

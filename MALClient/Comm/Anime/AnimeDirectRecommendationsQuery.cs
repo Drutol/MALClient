@@ -65,8 +65,11 @@ namespace MALClient.Comm
                             .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
                     var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
                     current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
-                    current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Split('/')[2]);
-
+                    var link = titleNode.Attributes["href"].Value.Split('/');
+                    current.Id = Convert.ToInt32(link[2]);
+                    current.Type = link[1] == "anime"
+                        ? RelatedItemType.Anime
+                        : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
                     output.Add(current);
                 }
                 catch (Exception)

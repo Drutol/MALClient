@@ -7,20 +7,20 @@ namespace MALClient.Comm
 {
     internal class MangaUpdateQuery : Query
     {
-        public MangaUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore)
+        public MangaUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.MyVolumes)
         {
         }
 
 
-        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore)
+        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore,int myVol)
         {
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
-            xml.AppendLine($"<episode>{watchedEps}</episode>");
+            xml.AppendLine($"<chapter>{watchedEps}</chapter>");
             xml.AppendLine($"<status>{myStatus}</status>");
             xml.AppendLine($"<score>{myScore}</score>");
-            //xml.AppendLine("<download_episodes></download_episodes>");
+            xml.AppendLine($"<volume>{myVol}</volume>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");

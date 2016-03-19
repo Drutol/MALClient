@@ -13,6 +13,7 @@
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter"/>
+        <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
@@ -494,7 +495,7 @@
                                         <DataTemplate>
                                             <Grid>
                                                 <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}" 
-                                                        IsEnabled="{Binding IsAnime}" Background="Transparent" 
+                                                        IsEnabled="{Binding Type , Converter={StaticResource RelatedAnimeTypeToBoolConverter}}" Background="Transparent" 
                                                         HorizontalAlignment="Stretch" 
                                                         Command="{Binding Source={StaticResource Locator} ,Path=AnimeDetails.NavigateDetailsCommand}"
                                                         CommandParameter="{Binding}">

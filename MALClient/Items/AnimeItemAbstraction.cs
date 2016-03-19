@@ -38,7 +38,6 @@ namespace MALClient.Items
         public int MyScore;
         public int MyStatus;
         public int MyVolumes;
-        public int MyChapters;
         public string Title;
 
         public bool RepresentsAnime = true;

@@ -74,7 +74,7 @@ namespace MALClient.ViewModels
             int myScore,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes) : this(auth,name,img,id,myStatus,myEps,allEps,myScore,parent,setEpsAuth)
         {
-            
+            _allVolumes = allVolumes;
         }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
@@ -102,7 +102,7 @@ namespace MALClient.ViewModels
         private int _allEpisodes;
         private int _allVolumes;
         public int AllEpisodes => _allEpisodes;
-        public int Volumes { get; set; }
+        public int AllVolumes => _allVolumes;
 
         public string AirDayBind => Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
         private bool _airing;
@@ -485,7 +485,10 @@ namespace MALClient.ViewModels
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
                         Utils.GetMainPageInstance().GetCurrentListOrderParams())
-                    { Source = PageIndex.PageAnimeList , AnimeMode = _parentAbstraction.RepresentsAnime});
+                    {
+                        Source = _parentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList,
+                        AnimeMode = _parentAbstraction.RepresentsAnime
+                    });
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data)
@@ -511,7 +514,10 @@ namespace MALClient.ViewModels
 
         private async void AddThisToMyList()
         {
-            var response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
+            var response = 
+                _parentAbstraction.RepresentsAnime
+                ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
+                : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             if (!response.Contains("Created"))
                 return;
             _seasonalState = false;
@@ -519,6 +525,8 @@ namespace MALClient.ViewModels
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
+            if (_parentAbstraction.RepresentsAnime)
+                MyVolumes = 0;
             
             
             AdjustIncrementButtonsVisibility();
@@ -606,6 +614,13 @@ namespace MALClient.ViewModels
 
         #region AnimeUpdate
 
+        private Query GetAppropriateUpdateQuery()
+        {
+            if (_parentAbstraction.RepresentsAnime)
+                return new AnimeUpdateQuery(this);
+            return new MangaUpdateQuery(this);
+        }
+
         #region Watched
 
         private async void IncrementWatchedEp()
@@ -618,7 +633,7 @@ namespace MALClient.ViewModels
 
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
             {
                 MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
@@ -636,7 +651,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
             {               
                 MyEpisodes++;
@@ -662,7 +677,7 @@ namespace MALClient.ViewModels
                 WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;
                 MyEpisodes = watched;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyEpisodes = prevWatched;
 
@@ -690,7 +705,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyStatus = myPrevStatus;
 
@@ -705,7 +720,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             var myPrevScore = MyScore;
             MyScore = Convert.ToInt32(score);
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyScore = myPrevScore;
 
@@ -730,7 +745,7 @@ namespace MALClient.ViewModels
             {
                 var myPrevStatus = MyStatus;
                 MyStatus = to;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyStatus = myPrevStatus;
             }
@@ -750,7 +765,7 @@ namespace MALClient.ViewModels
             {
                 var myPrevEps = MyEpisodes;
                 MyEpisodes = to;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyStatus = myPrevEps;
 

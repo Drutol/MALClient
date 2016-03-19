@@ -10,6 +10,13 @@ using MALClient.Models;
 
 namespace MALClient.Comm
 {
+    public enum RelatedItemType
+    {
+        Anime,
+        Manga,
+        Unknown
+    }
+
     class AnimeRelatedQuery : Query
     {
         private int _animeId;
@@ -56,7 +63,7 @@ namespace MALClient.Comm
                                                 " ";
                         var linkNode = row.Descendants("a").First();
                         var link = linkNode.Attributes["href"].Value.Split('/');
-                        current.IsAnime = link[1] == "anime";
+                        current.Type = link[1] == "anime" ? RelatedItemType.Anime : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
                         current.Id = Convert.ToInt32(link[2]);
                         current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
                         current.WholeRelation += current.Title;

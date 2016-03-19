@@ -45,6 +45,7 @@ namespace MALClient.Items
             TxtSynopsis.Text = Utils.DecodeXmlSynopsisSearch(animeElement.Element("synopsis").Value);
             Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
             WatchedEps.Text = $"{(anime ? "Episodes" : "Chapters")} : {AllEpisodes}";
+            _animeMode = anime;
         }
 
         private string Type { get; set; }
@@ -53,9 +54,10 @@ namespace MALClient.Items
         public int Id { get; set; }
         public float GlobalScore { get; set; }
         public int AllEpisodes { get; set; }
-        public int Volumes { get; set; }
+        public int MyVolumes { get; set; }
         public int AllVolumes { get; set; }
 
+        private bool _animeMode;
         public string Title { get; set; }
 
         //They must be here because reasons (interface reasons)
@@ -74,7 +76,12 @@ namespace MALClient.Items
             if (!(e.Position.X - _initialPoint.X >= 70)) return;
             await
                 Utils.GetMainPageInstance()
-                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(Id, Title, item, this, ViewModelLocator.SearchPage.PrevQuery) { Source = PageIndex.PageSearch});
+                    .Navigate(PageIndex.PageAnimeDetails,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this, new SearchPageNavigationArgs { Query = ViewModelLocator.SearchPage.PrevQuery, Anime = _animeMode })
+                        {
+                            Source = _animeMode ? PageIndex.PageSearch : PageIndex.PageMangaSearch,
+                            AnimeMode = _animeMode
+                        });
             e.Complete();
         }
 
@@ -87,7 +94,12 @@ namespace MALClient.Items
         {
             await
                 Utils.GetMainPageInstance()
-                    .Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(Id, Title, item, this, ViewModelLocator.SearchPage.PrevQuery) {Source = PageIndex.PageSearch});
+                    .Navigate(PageIndex.PageAnimeDetails,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this, new SearchPageNavigationArgs { Query = ViewModelLocator.SearchPage.PrevQuery , Anime = _animeMode})
+                        {
+                            Source = _animeMode ? PageIndex.PageSearch : PageIndex.PageMangaSearch,
+                            AnimeMode = _animeMode
+                        });
         }
     }
 }

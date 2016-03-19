@@ -11,10 +11,10 @@ namespace MALClient.Comm
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
-            xml.AppendLine("<episode>0</episode>");
+            xml.AppendLine("<chapter>0</chapter>");
             xml.AppendLine("<status>6</status>");
             xml.AppendLine("<score>0</score>");
-            //xml.AppendLine("<download_episodes></download_episodes>");
+            xml.AppendLine("<volume>0</volume>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");

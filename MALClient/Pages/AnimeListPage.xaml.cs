@@ -161,6 +161,7 @@ namespace MALClient.Pages
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
                 await ViewModel.FetchData();
+                e.Handled = true;
             }
         }
 

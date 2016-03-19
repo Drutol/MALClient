@@ -39,7 +39,10 @@ namespace MALClient.Items
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
+            {
                 ViewModel.ChangeWatchedEps();
+                e.Handled = true;
+            }
         }
 
         #region Swipe

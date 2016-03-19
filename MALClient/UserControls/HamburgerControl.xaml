@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     DataContext="{Binding Hamburger , Source={StaticResource Locator}}"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400" IsTabStop="False">
     
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

@@ -76,6 +76,7 @@ namespace MALClient.Pages
             if (e.Key == VirtualKey.Enter)
             {
                 UserPassword.Focus(FocusState.Keyboard);
+                e.Handled = true;
             }
         }
 
@@ -89,6 +90,7 @@ namespace MALClient.Pages
                 txt.IsEnabled = false; //reset input
                 txt.IsEnabled = true;
                 AttemptAuthentication(null, null);
+                e.Handled = true;
             }
         }
 

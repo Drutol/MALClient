@@ -53,7 +53,10 @@ namespace MALClient.Pages
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
+            {
                 ViewModel.ChangeWatchedEps();
+                e.Handled = true;
+            }
         }
 
         public Flyout GetWatchedEpsFlyout()

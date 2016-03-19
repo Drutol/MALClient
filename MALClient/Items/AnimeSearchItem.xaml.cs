@@ -85,7 +85,7 @@ namespace MALClient.Items
             e.Complete();
         }
 
-        public void Setbackground(SolidColorBrush brush) //Used to alternate rows
+        private void Setbackground(SolidColorBrush brush) //Used to alternate rows
         {
             Root.Background = brush;
         }

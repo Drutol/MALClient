@@ -43,6 +43,9 @@ namespace MALClient.ViewModels
             Id = id;
             Image = new BitmapImage(new Uri(_imgUrl));
             AdjustIncrementButtonsOrientation();
+            UpdateEpsUpperLabel = _parentAbstraction.RepresentsAnime 
+                ? "Watched eps :" 
+                : "Read chapters : ";
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore,
@@ -225,6 +228,27 @@ namespace MALClient.ViewModels
             }
         }
 
+        private string _watchedEpsLabel = "My watched\nepisodes :";
+        public string WatchedEpsLabel
+        {
+            get { return _watchedEpsLabel; }
+            set
+            {
+                _watchedEpsLabel = value;
+                RaisePropertyChanged(() => WatchedEpsLabel);
+            }
+        }
+
+        private string _updateEpsUpperLabel = "Watched eps :";
+        public string UpdateEpsUpperLabel
+        {
+            get { return _updateEpsUpperLabel; }
+            set
+            {
+                _updateEpsUpperLabel = value;
+                RaisePropertyChanged(() => UpdateEpsUpperLabel);
+            }
+        }
 
         private string _title;
         public string Title

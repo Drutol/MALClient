@@ -122,7 +122,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyStatusBind => Utils.StatusToString(MyStatus);
+        public string MyStatusBind => Utils.StatusToString(MyStatus,!_animeMode);
         private int MyStatus
         {
             get { return _animeItemReference?.MyStatus ?? (int)AnimeStatus.AllOrAiring; }
@@ -152,6 +152,50 @@ namespace MALClient.ViewModels
             {
                 _animeItemReference.MyVolumes = value;
                
+            }
+        }
+
+        private string _status1Label = "Watching";
+        public string Status1Label
+        {
+            get { return _status1Label; }
+            set
+            {
+                _status1Label = value;
+                RaisePropertyChanged(() => Status1Label);
+            }
+        }
+
+        private string _status5Label = "Plan to watch";
+        public string Status5Label
+        {
+            get { return _status5Label; }
+            set
+            {
+                _status5Label = value;
+                RaisePropertyChanged(() => Status5Label);
+            }
+        }
+
+        private string _watchedEpsLabel = "My watched\nepisodes :";
+        public string WatchedEpsLabel
+        {
+            get { return _watchedEpsLabel; }
+            set
+            {
+                _watchedEpsLabel = value;
+                RaisePropertyChanged(() => WatchedEpsLabel);
+            }
+        }
+
+        private string _updateEpsUpperLabel = "Watched eps :";
+        public string UpdateEpsUpperLabel
+        {
+            get { return _updateEpsUpperLabel; }
+            set
+            {
+                _updateEpsUpperLabel = value;
+                RaisePropertyChanged(() => UpdateEpsUpperLabel);
             }
         }
 
@@ -501,10 +545,26 @@ namespace MALClient.ViewModels
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
+
+            if (_animeMode)
+            {
+                Status1Label = "Watching";
+                Status5Label = "Plan to watch";
+                WatchedEpsLabel = "My watched\nepisodes :";
+                UpdateEpsUpperLabel = "Watched eps :";
+            }
+            else
+            {
+                Status1Label = "Reading";
+                Status5Label = "Plan to read";
+                WatchedEpsLabel = "My read\nchapters :";
+                UpdateEpsUpperLabel = "Read chapters : ";
+            }
+
             if (_animeItemReference == null || _animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItemViewModel).Auth)
             //if we are from search or from unauthenticated item let's look for proper abstraction
             {
-                if (!ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference))
+                if (!ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference,_animeMode))
                 // else we don't have this item
                 {
                     //we may only prepare for its creation
@@ -552,7 +612,7 @@ namespace MALClient.ViewModels
 
         private async void OpenMalPage()
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/anime/{Id}"));
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
         }
 
         private async void OpenAnnPage()

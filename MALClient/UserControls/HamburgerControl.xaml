@@ -44,7 +44,7 @@
                                 <Setter Property="Margin" Value="3,0,0,0"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Pivot Width="220">
+                        <Pivot Width="220" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
                                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}">
                                     <Setter Property="Margin" Value="2,0"/>
@@ -152,7 +152,7 @@
                                         </StackPanel>
                                     </Grid>
                                 </PivotItem>
-                                <PivotItem Header="Manga" Height="{Binding ElementName=AnimePivot ,Path=ActualHeight}">
+                                <PivotItem Header="Manga" Height="200">
                                     <Grid>
                                         <StackPanel VerticalAlignment="Top">
                                             <Button VerticalContentAlignment="Center" Background="Transparent"

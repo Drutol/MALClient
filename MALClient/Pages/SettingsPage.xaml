@@ -43,7 +43,7 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                 <Setter Property="BorderThickness" Value="3,0,0,0"/>
-                                <Setter Property="Margin" Value="0,1"></Setter>
+                                <Setter Property="Margin" Value="0,1"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
@@ -56,8 +56,27 @@
                 </StackPanel>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
-                    <StackPanel HorizontalAlignment="Stretch">
-                        <TextBlock Text="Default anime order values:" FontWeight="Medium" HorizontalAlignment="Center"
+                    <StackPanel>
+                        <TextBlock Text="Default menu tab" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".5*"/>
+                                <ColumnDefinition Width=".5*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="RadioTabAnime" Grid.Column="0" HorizontalAlignment="Center" GroupName="DefTab" Content="Anime" Margin="0,0,5,0" Click="ChangeDefaultTab" Tag="anime"/>
+                            <RadioButton x:Name="RadioTabManga" Grid.Column="1" HorizontalAlignment="Center" GroupName="DefTab" Content="Manga" Margin="5,0,0,0" Click="ChangeDefaultTab" Tag="manga"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <MenuFlyoutSeparator />
+                <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Margin="1,0">
+                        <TextBlock Text="Default anime sort values:" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
                         <Grid Margin="3,3" BorderBrush="LightGray" BorderThickness="2">
                             <StackPanel>
@@ -67,26 +86,61 @@
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="Watched" Click="SelectSortOrder" />
                                 <ToggleMenuFlyoutItem x:Name="Sort5" Text="Soonest airing" Click="SelectSortOrder"
                                                       BorderBrush="LightGray" BorderThickness="0,1,0,1" />
-                                <ToggleMenuFlyoutItem x:Name="Sort4" Text="Watched" Click="SelectSortOrder" />
+                                <ToggleMenuFlyoutItem x:Name="Sort4" Text="None" Click="SelectSortOrder" />
                                 <MenuFlyoutSeparator />
                                 <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending" Click="ChangeSortOrder" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>                    
+                    <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Margin="1,0">
+                        <TextBlock Text="Default manga sort values:" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <Grid Margin="3,3" BorderBrush="LightGray" BorderThickness="2">
+                            <StackPanel>
+                                <ToggleMenuFlyoutItem x:Name="SortM1" Text="Title" Click="SelectMSortOrder" />
+                                <ToggleMenuFlyoutItem x:Name="SortM2" Text="Score" Click="SelectMSortOrder"
+                                                      BorderBrush="LightGray" BorderThickness="0,1,0,1" />
+                                <ToggleMenuFlyoutItem x:Name="SortM3" Text="Read" Click="SelectMSortOrder" 
+                                                      BorderBrush="LightGray" BorderThickness="0,0,0,1"/>
+                                <ToggleMenuFlyoutItem x:Name="SortM4" Text="None" Click="SelectMSortOrder" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem x:Name="BtnMDescending" Text="Decsending" Click="ChangeMSortOrder" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Grid>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*"/>
+                    </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Text="Default filter value :" FontWeight="Medium" HorizontalAlignment="Center"
+                        <TextBlock Text="Default anime filter value :" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
                         <ComboBox x:Name="CmbDefaultFilter" SelectionChanged="ChangeDefaultFilter"
-                                  HorizontalAlignment="Center" Margin="10">
+                                  HorizontalAlignment="Stretch" Margin="10">
                             <ComboBox.Items>
                                 <ComboBoxItem Content="Watching" />
                                 <ComboBoxItem Content="Completed" />
                                 <ComboBoxItem Content="On hold" />
                                 <ComboBoxItem Content="Dropped" />
                                 <ComboBoxItem Content="Plan to watch" />
+                                <ComboBoxItem Content="All" />
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </StackPanel>                    
+                    <StackPanel Grid.Column="1" Margin="1,0">
+                        <TextBlock Text="Default manga filter value :" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <ComboBox x:Name="CmbDefaultMFilter" SelectionChanged="ChangeDefaultMFilter"
+                                  HorizontalAlignment="Stretch" Margin="10">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="Reading" />
+                                <ComboBoxItem Content="Completed" />
+                                <ComboBoxItem Content="On hold" />
+                                <ComboBoxItem Content="Dropped" />
+                                <ComboBoxItem Content="Plan to read" />
                                 <ComboBoxItem Content="All" />
                             </ComboBox.Items>
                         </ComboBox>

@@ -333,6 +333,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _sortAirDayVisibility;
+        public Visibility SortAirDayVisibility
+        {
+            get { return _sortAirDayVisibility; }
+            set
+            {
+                _sortAirDayVisibility = value;              
+                RaisePropertyChanged(() => SortAirDayVisibility);
+            }
+        }
+
         private int _animesPivotSelectedIndex;
         public int AnimesPivotSelectedIndex
         {
@@ -436,6 +447,7 @@ namespace MALClient.ViewModels
 
                     if (WorkMode == AnimeListWorkModes.Anime)
                     {                        
+                        SortAirDayVisibility = Visibility.Visible;
                         Sort3Label = "Watched";
                         StatusAllLabel = "All";
                         Filter1Label = "Watching";
@@ -443,6 +455,9 @@ namespace MALClient.ViewModels
                     }
                     else // manga
                     {
+                        SortAirDayVisibility = Visibility.Collapsed;
+                        Sort3Label = "Read";
+                        StatusAllLabel = "All";
                         Filter1Label = "Reading";
                         Filter5Label = "Plan to read";
                     }
@@ -537,7 +552,7 @@ namespace MALClient.ViewModels
 
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? Settings.GetSortOrder())
+            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.GetSortOrderM() : Settings.GetSortOrder()))
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
@@ -563,7 +578,9 @@ namespace MALClient.ViewModels
         {
             SetSortOrder(null);
             SetDesiredStatus(null);
-            SortDescending = Settings.IsSortDescending();
+            SortDescending = WorkMode == AnimeListWorkModes.Manga
+                ? Settings.IsSortDescendingM()
+                : Settings.IsSortDescending();
         }
 
         public async void UpdateUpperStatus(int retries = 5)
@@ -884,7 +901,7 @@ namespace MALClient.ViewModels
                         foreach (XElement item in anime)
                             _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_animedb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_watched_episodes").Value), Convert.ToInt32(item.Element("series_episodes").Value), Convert.ToInt32(item.Element("my_score").Value)));
 
-                        _allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
+                        //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
                         if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
                         break;
@@ -893,7 +910,7 @@ namespace MALClient.ViewModels
                         foreach (XElement item in manga)
                             _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value), Convert.ToInt32(item.Element("series_volumes").Value), Convert.ToInt32(item.Element("my_read_volumes").Value)));
 
-                        _allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
+                        //_allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
                         if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthMangaItems = _allLoadedMangaItems;
                         break;
@@ -907,13 +924,15 @@ namespace MALClient.ViewModels
             await RefreshList();
         }
 
-        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference)
+        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference,bool anime = true)
         {
             if (!Creditentials.Authenticated)
                 return false;
             try
             {
-                reference = _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel;
+                reference = anime 
+                    ? _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel 
+                    : _allLoadedAuthMangaItems.First(abstraction => abstraction.Id == id).ViewModel;
                 return true;
             }
             catch (Exception)
@@ -935,7 +954,7 @@ namespace MALClient.ViewModels
 
         private void SetDesiredStatus(int? value)
         {
-            value = value ?? Settings.GetDefaultAnimeFilter();
+            value = value ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.GetDefaultMangaFilter() : Settings.GetDefaultAnimeFilter());
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
@@ -1016,6 +1035,8 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => AnimePages);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+            _allLoadedMangaItems = new List<AnimeItemAbstraction>();
+            _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
             ListSource = string.Empty;
@@ -1029,6 +1050,8 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => AnimePages);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+            _allLoadedMangaItems = new List<AnimeItemAbstraction>();
+            _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
             ListSource = Creditentials.UserName;
             _prevListSource = "";

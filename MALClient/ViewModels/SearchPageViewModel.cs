@@ -22,6 +22,8 @@ namespace MALClient.ViewModels
     public class SearchPageViewModel : ViewModelBase
     {
         #region Properties
+
+        private List<AnimeSearchItem> _allAnimeSearchItems;
         public ObservableCollection<AnimeSearchItem> AnimeSearchItems { get; } = 
             new ObservableCollection<AnimeSearchItem>();
 
@@ -46,7 +48,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => EmptyNoticeVisibility);
             }
         }
-
+        private HashSet<string> _filters = new HashSet<string>();
+        private string _currrentFilter;
         #endregion
 
         public string PrevQuery;
@@ -54,6 +57,10 @@ namespace MALClient.ViewModels
 
         public void Init(SearchPageNavigationArgs args)
         {
+            if (_animeSearch != args.Anime)
+                PrevQuery = null;
+
+            _currrentFilter = null;
             _animeSearch = args.Anime;
             if(args.Query != null)
                 SubmitQuery(args.Query);
@@ -75,6 +82,8 @@ namespace MALClient.ViewModels
             EmptyNoticeVisibility = Visibility.Collapsed;
             AnimeSearchItems.Clear();
             var response = "";
+            _filters.Clear();
+            _allAnimeSearchItems = new List<AnimeSearchItem>();
             if (_animeSearch)
             {
                 await
@@ -86,7 +95,10 @@ namespace MALClient.ViewModels
                     XDocument parsedData = XDocument.Parse(response);
                     foreach (XElement item in parsedData.Element("anime").Elements("entry"))
                     {
-                        AnimeSearchItems.Add(new AnimeSearchItem(item));
+                        var type = item.Element("type").Value;
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(item));
+                        if (!_filters.Contains(type))
+                            _filters.Add(type);
                     }
                 }
                 catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
@@ -104,19 +116,39 @@ namespace MALClient.ViewModels
                 {
                     XDocument parsedData = XDocument.Parse(response);
                     foreach (XElement item in parsedData.Element("manga").Elements("entry"))
-                        AnimeSearchItems.Add(new AnimeSearchItem(item,false));
+                    {
+                        var type = item.Element("type").Value;
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(item,false));
+                        if (!_filters.Contains(type))
+                            _filters.Add(type);
+                    }
                 }
                 catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
                 {
                     EmptyNoticeVisibility = Visibility.Visible;
                 }
             }
+            ViewModelLocator.Main.PopulateSearchFilters(_filters);
+            PopulateItems();
             Loading = Visibility.Collapsed;
+        }
+
+        private void PopulateItems()
+        {
+            AnimeSearchItems.Clear();
+            foreach (var item in _allAnimeSearchItems.Where(item => string.IsNullOrWhiteSpace(_currrentFilter) || string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
+                AnimeSearchItems.Add(item);            
         }
 
         private void ResetQuery()
         {
             PrevQuery = null;
+        }
+
+        public void SubmitFilter(string filter)
+        {
+            _currrentFilter = filter == "None" ? "" : filter;
+            PopulateItems();
         }
     }
 }

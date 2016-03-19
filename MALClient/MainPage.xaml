@@ -31,14 +31,34 @@
                     Width="45" Height="45" Background="Transparent" FontSize="20"
                     Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                     Command="{Binding ReversePaneCommand}" />
-            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
-                       VerticalAlignment="Center"
+            <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}" TextTrimming="CharacterEllipsis"
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
                        Visibility="{Binding ElementName=SearchInput , Path=Visibility , Converter={StaticResource VisiblityInverterConverter}}" />
-            <TextBox x:Name="SearchInput" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchInput" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                      KeyDown="SearchInput_OnKeyDown"
                      Text="{Binding CurrentSearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                      Visibility="{Binding SearchInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                      PlaceholderText="Search..." />
+                <Button Grid.Column="1" Background="Transparent" Height="48" Width="45" Visibility="{Binding SearchFilterButtonVisibility}">
+                    <SymbolIcon Symbol="Filter" Foreground="{Binding SearchFilterButtonBrush}"/>
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView ItemsSource="{Binding SearchFilterOptions}" SelectedIndex="{Binding SearchFilterSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
             <ToggleButton x:Name="SearchToggle" HorizontalAlignment="Right" IsThreeState="False"
                           VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
                           IsChecked="{Binding SearchToggleStatus}"

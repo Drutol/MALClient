@@ -16,7 +16,6 @@ namespace MALClient.Items
     {
         private static bool _rowAlternator;
         private readonly XElement item;
-
         private Point _initialPoint;
 
         public AnimeSearchItem()
@@ -48,7 +47,7 @@ namespace MALClient.Items
             _animeMode = anime;
         }
 
-        private string Type { get; set; }
+        public string Type { get; set; }
         private string Status { get; }
 
         public int Id { get; set; }

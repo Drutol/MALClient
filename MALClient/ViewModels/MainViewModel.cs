@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -155,6 +158,42 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _searchFilterButtonVisibility = Visibility.Collapsed;
+        public Visibility SearchFilterButtonVisibility
+        {
+            get { return _searchFilterButtonVisibility; }
+            set
+            {
+                _searchFilterButtonVisibility = value;
+                RaisePropertyChanged(() => SearchFilterButtonVisibility);
+            }
+        }
+
+        private Brush _searchFilterButtonBrush = new SolidColorBrush(Colors.Black);
+        public Brush SearchFilterButtonBrush
+        {
+            get { return _searchFilterButtonBrush; }
+            set
+            {
+                _searchFilterButtonBrush = value;
+                RaisePropertyChanged(() => SearchFilterButtonBrush);
+            }
+        }
+
+        private int _searchFilterSelectedIndex;
+        public int SearchFilterSelectedIndex
+        {
+            get { return _searchFilterSelectedIndex; }
+            set
+            {
+                _searchFilterSelectedIndex = value;
+                OnSearchFilterSelected();
+                RaisePropertyChanged(() => SearchFilterSelectedIndex);
+            }
+        }
+
+        public ObservableCollection<string> SearchFilterOptions { get; } = new ObservableCollection<string>(); 
+
         #endregion
 
         internal async Task Navigate(PageIndex index, object args = null)
@@ -187,6 +226,8 @@ namespace MALClient.ViewModels
                     HideSearchStuff();
                 }
             }
+
+            ResetSearchFilter();
             switch (index)
             {
                 case PageIndex.PageAnimeList:
@@ -213,6 +254,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
+                    
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
@@ -285,12 +327,42 @@ namespace MALClient.ViewModels
         #endregion
 
         #region UIHelpers
-        //public void AnimeListScrollTo(AnimeItem animeItem)
-        //{
-        //    var content = View.GetCurrentContent();
-        //    if (content is AnimeListPage)
-        //        ((AnimeListPage)content).ScrollTo(animeItem);
-        //}
+
+        public void PopulateSearchFilters(HashSet<string> filters)
+        {
+            SearchFilterOptions.Clear();
+            if (filters.Count <= 1)
+            {
+                SearchFilterButtonVisibility = Visibility.Collapsed;
+                return;
+            }
+            SearchFilterButtonVisibility = Visibility.Visible;
+            foreach (var filter in filters)            
+                SearchFilterOptions.Add(filter);
+            SearchFilterOptions.Add("None");
+        }
+
+        private void OnSearchFilterSelected()
+        {
+            if (SearchFilterSelectedIndex < 0)
+            {
+                SearchFilterButtonVisibility = Visibility.Collapsed;
+                return;
+            }
+            if(SearchFilterSelectedIndex == SearchFilterOptions.Count -1)
+                SearchFilterButtonBrush = new SolidColorBrush(Colors.Black);
+            else
+                SearchFilterButtonBrush = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+
+            ViewModelLocator.SearchPage.SubmitFilter(SearchFilterOptions[SearchFilterSelectedIndex]);
+        }
+
+        public void ResetSearchFilter()
+        {
+            SearchFilterButtonVisibility = Visibility.Collapsed;
+            SearchFilterButtonBrush = new SolidColorBrush(Colors.Black);
+            SearchFilterOptions.Clear();
+        }
 
         private void ShowSearchStuff()
         {

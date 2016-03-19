@@ -146,7 +146,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Orientation _incrementButtonsOrientation = Orientation.Horizontal;
+        private Orientation _incrementButtonsOrientation = Orientation.Vertical;
         public Orientation IncrementButtonsOrientation
         {
             get { return _incrementButtonsOrientation; }
@@ -594,7 +594,7 @@ namespace MALClient.ViewModels
 
         private void AdjustIncrementButtonsVisibility()
         {
-            if (!Auth || !Creditentials.Authenticated || MyStatus == (int)AnimeStatus.PlanToWatch)
+            if (!Auth || !Creditentials.Authenticated || MyStatus == (int)AnimeStatus.Completed)
             {
                 IncrementEpsVisibility = Visibility.Collapsed;
                 DecrementEpsVisibility = Visibility.Collapsed;
@@ -622,16 +622,16 @@ namespace MALClient.ViewModels
         private void AdjustIncrementButtonsOrientation()
         {
             //Too wide update buttons
-            if (MyScore != 0)
-            {
-                IncrementButtonsOrientation = Orientation.Horizontal;
-                return;
-            }
-            if (MyStatus == (int) AnimeStatus.Dropped ||
-                MyStatus == (int) AnimeStatus.OnHold ||
-                MyStatus == (int) AnimeStatus.Completed ||
-                MyStatus == (int) AnimeStatus.Watching)
-                IncrementButtonsOrientation = Orientation.Vertical;
+            //if (MyScore != 0)
+            //{
+            //    IncrementButtonsOrientation = Orientation.Horizontal;
+            //    return;
+            //}
+            //if (MyStatus == (int) AnimeStatus.Dropped ||
+            //    MyStatus == (int) AnimeStatus.OnHold ||
+            //    MyStatus == (int) AnimeStatus.Completed ||
+            //    MyStatus == (int) AnimeStatus.Watching)
+            //    IncrementButtonsOrientation = Orientation.Vertical;
         }
 
         #endregion

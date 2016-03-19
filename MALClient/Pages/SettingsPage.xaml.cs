@@ -72,7 +72,8 @@ namespace MALClient.Pages
                     Sort5.IsChecked = true;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    Sort4.IsChecked = true;
+                    break;
             }
             switch (Settings.GetSortOrderM())
             {
@@ -89,7 +90,8 @@ namespace MALClient.Pages
                     SortM3.IsChecked = true;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    SortM4.IsChecked = true;
+                    break;
             }
         }
 

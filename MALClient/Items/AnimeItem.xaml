@@ -240,22 +240,22 @@
                        TextWrapping="WrapWholeWords" Margin="{Binding TitleMargin}" />
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <StackPanel Orientation="{Binding IncrementButtonsOrientation}" Margin="0,0,0,1">
-                    <Button
-                        VerticalAlignment="Center" HorizontalAlignment="Center" Height="40"
-                        Width="40" Command="{Binding DecrementWatchedCommand}" 
-                        Visibility="{Binding DecrementEpsVisibility}"
-                        Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <SymbolIcon Symbol="Remove" Foreground="White"/>
-                        <Button.RenderTransform>
-                            <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
-                        </Button.RenderTransform>
-                    </Button>
                     <Button Height="40" Width="40"
                         Command="{Binding IncrementWatchedCommand}" 
                         Visibility="{Binding IncrementEpsVisibility}" 
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon Symbol="Add" Foreground="White"/>
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
+                        </Button.RenderTransform>
+                    </Button>
+                    <Button
+                        VerticalAlignment="Center" HorizontalAlignment="Center" Height="40"
+                        Width="40" Command="{Binding DecrementWatchedCommand}" 
+                        Visibility="{Binding DecrementEpsVisibility}"
+                        Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Remove" Foreground="White"/>
                         <Button.RenderTransform>
                             <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
                         </Button.RenderTransform>

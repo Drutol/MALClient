@@ -62,7 +62,7 @@ namespace MALClient.ViewModels
 
             _currrentFilter = null;
             _animeSearch = args.Anime;
-            if(args.Query != null)
+            if(!string.IsNullOrWhiteSpace(args.Query))
                 SubmitQuery(args.Query);
             else
             {

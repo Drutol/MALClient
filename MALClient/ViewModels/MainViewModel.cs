@@ -253,8 +253,7 @@ namespace MALClient.ViewModels
                     View.Navigate(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
-                case PageIndex.PageMangaSearch:
-                    
+                case PageIndex.PageMangaSearch:                 
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
@@ -338,8 +337,9 @@ namespace MALClient.ViewModels
             }
             SearchFilterButtonVisibility = Visibility.Visible;
             foreach (var filter in filters)            
-                SearchFilterOptions.Add(filter);
+                SearchFilterOptions.Add(filter);           
             SearchFilterOptions.Add("None");
+            SearchFilterSelectedIndex = SearchFilterOptions.Count - 1;
         }
 
         private void OnSearchFilterSelected()

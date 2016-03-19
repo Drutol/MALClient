@@ -791,10 +791,13 @@ namespace MALClient.ViewModels
             foreach (var seasonalUrl in DataCache.SeasonalUrls)
             {
                 if (seasonalUrl.Key != "current")
+                {
                     SeasonSelection.Add(new ListViewItem
                     {
                         Content = seasonalUrl.Key, Tag = new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value}
                     });
+                    i++;
+                }
                 else
                     currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
                 if (seasonalUrl.Key == CurrentSeason.Name)
@@ -802,7 +805,7 @@ namespace MALClient.ViewModels
                     _seasonalUrlsSelectedIndex = i;
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
-                i++;
+                
             }
             //we have set artificial default one because we did not know what lays ahead of us
             if (setDefaultSeason && currSeasonIndex != -1)

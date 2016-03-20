@@ -150,7 +150,7 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime series per page : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Anime/Manga series per page : " FontWeight="Medium" HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderItemsPerPage,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -163,7 +163,7 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime reviews to display : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Reviews to display : " FontWeight="Medium" HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderReviewsToPull,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -176,7 +176,7 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime recommendations to display : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Recommendations to display : " FontWeight="Medium" HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderReccommsToPull,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />

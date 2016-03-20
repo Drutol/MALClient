@@ -620,7 +620,7 @@ namespace MALClient.ViewModels
 
         private void AdjustIncrementButtonsVisibility()
         {
-            if (!Auth || !Creditentials.Authenticated || MyStatus == (int)AnimeStatus.Completed)
+            if (!Auth || !Creditentials.Authenticated)
             {
                 IncrementEpsVisibility = Visibility.Collapsed;
                 DecrementEpsVisibility = Visibility.Collapsed;

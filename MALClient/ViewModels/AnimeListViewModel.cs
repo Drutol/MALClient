@@ -714,7 +714,10 @@ namespace MALClient.ViewModels
         {
             CanLoadPages = false;
             if (updatePerPage) //called from settings
+            {
                 _itemsPerPage = Settings.GetItemsPerPage();
+                return;
+            }
             int realPage = CurrentPage;
             _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
             AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
@@ -918,7 +921,10 @@ namespace MALClient.ViewModels
                     case AnimeListWorkModes.Manga:
                         List<XElement> manga = parsedData.Root.Elements("manga").ToList();
                         foreach (XElement item in manga)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value), Convert.ToInt32(item.Element("series_volumes").Value), Convert.ToInt32(item.Element("my_read_volumes").Value)));
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value,
+                                Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value),
+                                Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value),
+                                Convert.ToInt32(item.Element("my_read_volumes").Value), Convert.ToInt32(item.Element("series_volumes").Value)));
 
                         //_allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
                         if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))

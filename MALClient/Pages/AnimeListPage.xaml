@@ -112,7 +112,7 @@
                SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
                ItemsSource="{Binding AnimePages}" 
                PivotItemLoading="AnimesPivot_OnPivotItemLoading"
-               VerticalAlignment="Top">
+               VerticalAlignment="Stretch">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}"/>
             </Pivot.Resources>

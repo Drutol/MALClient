@@ -9,16 +9,18 @@ using MALClient.Models;
 
 namespace MALClient.Comm
 {
-    class DirectRecommendationsQuery : Query
+    class AnimeDirectRecommendationsQuery : Query
     {
         private int _animeId;
+        private bool _animeMode;
 
-        public DirectRecommendationsQuery(int id)
+        public AnimeDirectRecommendationsQuery(int id,bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/anime/{id}/whatever/userrecs"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/userrecs"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
+            _animeMode = anime;
         }
 
         public async Task<List<DirectRecommendationData>> GetDirectRecommendations(bool force = false)
@@ -63,8 +65,11 @@ namespace MALClient.Comm
                             .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
                     var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
                     current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
-                    current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Split('/')[2]);
-
+                    var link = titleNode.Attributes["href"].Value.Split('/');
+                    current.Id = Convert.ToInt32(link[2]);
+                    current.Type = link[1] == "anime"
+                        ? RelatedItemType.Anime
+                        : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
                     output.Add(current);
                 }
                 catch (Exception)
@@ -74,7 +79,7 @@ namespace MALClient.Comm
                 
             }
 
-            DataCache.SaveDirectRecommendationsData(_animeId,output);
+            DataCache.SaveDirectRecommendationsData(_animeId,output,_animeMode);
 
             return output;
         }

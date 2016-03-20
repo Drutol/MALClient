@@ -25,14 +25,29 @@ namespace MALClient
             return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
         }
 
+        public static SortOptions GetSortOrderM()
+        {
+            return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 2);
+        }
+
         public static bool IsSortDescending()
         {
             return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
         }
 
+        public static bool IsSortDescendingM()
+        {
+            return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescendingM"] ?? true);
+        }
+
         public static int GetDefaultAnimeFilter()
         {
             return (int)(ApplicationData.Current.LocalSettings.Values["DefaultFilter"] ?? (int)AnimeStatus.Watching);
+        }
+
+        public static int GetDefaultMangaFilter()
+        {
+            return (int)(ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] ?? (int)AnimeStatus.Watching);
         }
 
         public static int GetItemsPerPage()
@@ -48,6 +63,11 @@ namespace MALClient
         public static int GetRecommsToPull()
         {
             return (int)(ApplicationData.Current.LocalSettings.Values["RecommsToPull"] ?? 8);
+        }
+
+        public static string GetDefaultMenuTab()
+        {
+            return (string)(ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] ?? "anime");
         }
     }
 }

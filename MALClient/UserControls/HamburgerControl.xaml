@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     DataContext="{Binding Hamburger , Source={StaticResource Locator}}"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400" IsTabStop="False">
     
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -44,7 +44,7 @@
                                 <Setter Property="Margin" Value="3,0,0,0"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Pivot Width="220">
+                        <Pivot Width="220" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
                                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}">
                                     <Setter Property="Margin" Value="2,0"/>
@@ -152,14 +152,14 @@
                                         </StackPanel>
                                     </Grid>
                                 </PivotItem>
-                                <PivotItem Header="Manga" Height="{Binding ElementName=AnimePivot ,Path=ActualHeight}">
+                                <PivotItem Header="Manga" Height="200">
                                     <Grid>
                                         <StackPanel VerticalAlignment="Top">
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="0">
+                                                    CommandParameter="9">
                                                 <Grid Width="220" Height="50">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
@@ -170,8 +170,8 @@
                                                             Grid.ColumnSpan="2" />          
                                                     <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink" Grid.Column="0"
                                                         VerticalAlignment="Center"
-                                                        Foreground="{Binding ElementName=TxtList , Path=Foreground}" /> 
-                                                    <TextBlock Text="Manga List" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[MangaList]}"
+                                                        Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" /> 
+                                                    <TextBlock x:Name="TxtMangaList" Text="Manga List" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                                         HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center"
                                                         TextAlignment="Center" />
                                                 </Grid>
@@ -180,19 +180,19 @@
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="3">
+                                                    CommandParameter="10">
                                                 <Grid Width="220" Height="50">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
-                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="35"/>
+                                                        <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Border BorderThickness="{Binding TxtBorderBrushThicknesses[MangaSearch]}"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                             Grid.ColumnSpan="2" />
                                                     <SymbolIcon Symbol="Find" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
-                                                Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                                    <TextBlock Text="Anime Search" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
+                                                Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
+                                                    <TextBlock x:Name="TxtMangaSearch" Text="Manga Search" FontWeight="Medium" Foreground ="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
                                                HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center"
                                                TextAlignment="Center" />
                                                 </Grid>

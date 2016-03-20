@@ -13,6 +13,7 @@
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter"/>
+        <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
@@ -135,21 +136,19 @@
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyout.Items>
-                                        <MenuFlyoutItem Text="Watching" Command="{Binding ChangeStatusCommand}" CommandParameter="Watching" />
+                                        <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}" CommandParameter="Watching" />
                                         <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}" CommandParameter="Completed" />
                                         <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}" CommandParameter="On hold" />
                                         <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}" CommandParameter="Dropped" />
-                                        <MenuFlyoutItem Text="Plan to watch" Command="{Binding ChangeStatusCommand}" CommandParameter="Plan to watch" />
+                                        <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}" CommandParameter="Plan to watch" />
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
                     </StackPanel>
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-                        <TextBlock  FontWeight="SemiLight" VerticalAlignment="Center" Width="90">
-                                My watched<LineBreak/>
-                                episodes :
-                        </TextBlock>
+                        <TextBlock  FontWeight="SemiLight" VerticalAlignment="Center" Width="90" 
+                                    Text="{Binding WatchedEpsLabel}"/>
                         <Button FontWeight="Medium" Margin="1" 
                                 Background="Transparent" BorderThickness="0,0,0,2"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
@@ -158,7 +157,7 @@
                             <Button.Flyout>
                                 <Flyout x:Name="WatchedEpsFlyout">
                                     <StackPanel>
-                                        <TextBlock Text="Watched eps :" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                        <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBox x:Name="TxtBoxWatchedEps" Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SubmitWatchedEps" />
                                             <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
@@ -175,7 +174,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Pivot Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
+        <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}">
                     <Setter Property="Margin" Value="2,0"/>
@@ -186,7 +185,6 @@
                 </Style>
             </Pivot.Resources>
             <Pivot.Items>
-                
                 <PivotItem Tag="General">
                     <PivotItem.Header>
                         General
@@ -495,7 +493,7 @@
                                         <DataTemplate>
                                             <Grid>
                                                 <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}" 
-                                                        IsEnabled="{Binding IsAnime}" Background="Transparent" 
+                                                        IsEnabled="{Binding Type , Converter={StaticResource RelatedAnimeTypeToBoolConverter}}" Background="Transparent" 
                                                         HorizontalAlignment="Stretch" 
                                                         Command="{Binding Source={StaticResource Locator} ,Path=AnimeDetails.NavigateDetailsCommand}"
                                                         CommandParameter="{Binding}">

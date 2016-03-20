@@ -126,6 +126,7 @@ namespace MALClient.Pages
                     ViewModel.SortOption = SortOptions.SortScore;
                     break;
                 case "Watched":
+                case "Read":
                     ViewModel.SortOption = SortOptions.SortWatched;
                     break;
                 case "Soonest airing":
@@ -156,11 +157,12 @@ namespace MALClient.Pages
         {
             if ((sender == null && e == null) || e.Key == VirtualKey.Enter)
             {
+                e.Handled = true;
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
-                await ViewModel.FetchData();
+                await ViewModel.FetchData();           
             }
         }
 

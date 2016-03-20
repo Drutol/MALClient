@@ -29,7 +29,9 @@ namespace MALClient.UserControls
         Profile,
         Seasonal,
         About,
-        Recommendations
+        Recommendations,
+        MangaList,
+        MangaSearch
     }
 
     public sealed partial class HamburgerControl : UserControl , IHamburgerControlView

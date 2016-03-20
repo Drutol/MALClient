@@ -29,9 +29,14 @@ namespace MALClient.Pages
             ComboCachePersistency.SelectedIndex = SecondsToIndexHelper(Settings.GetCachePersitence());
             SetSortOrder();
             BtnDescending.IsChecked = Settings.IsSortDescending();
+            BtnMDescending.IsChecked = Settings.IsSortDescendingM();
             PopulateCachedEntries();
             SetDesiredStatus();
             SliderSetup();
+            if (Settings.GetDefaultMenuTab() == "anime")
+                RadioTabAnime.IsChecked = true;
+            else
+                RadioTabManga.IsChecked = true;
             Utils.GetMainPageInstance().CurrentStatus = $"Settings - {Utils.GetAppVersion()}";
             _initialized = true;
 
@@ -67,7 +72,26 @@ namespace MALClient.Pages
                     Sort5.IsChecked = true;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    Sort4.IsChecked = true;
+                    break;
+            }
+            switch (Settings.GetSortOrderM())
+            {
+                case SortOptions.SortNothing:
+                    SortM4.IsChecked = true;
+                    break;
+                case SortOptions.SortTitle:
+                    SortM1.IsChecked = true;
+                    break;
+                case SortOptions.SortScore:
+                    SortM2.IsChecked = true;
+                    break;
+                case SortOptions.SortWatched:
+                    SortM3.IsChecked = true;
+                    break;
+                default:
+                    SortM4.IsChecked = true;
+                    break;
             }
         }
 
@@ -182,7 +206,7 @@ namespace MALClient.Pages
                 case "Title":
                     sortOptions = SortOptions.SortTitle;
                     break;
-                case "MyScore":
+                case "Score":
                     sortOptions = SortOptions.SortScore;
                     break;
                 case "Watched":
@@ -218,6 +242,11 @@ namespace MALClient.Pages
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
             CmbDefaultFilter.SelectedIndex = value;
+
+            value = Settings.GetDefaultMangaFilter();
+            value = value == 6 || value == 7 ? value - 1 : value;
+            value--;
+            CmbDefaultMFilter.SelectedIndex = value;
         }
 
         private void ChangeItemsPerPage(object sender, RangeBaseValueChangedEventArgs e)
@@ -260,8 +289,55 @@ namespace MALClient.Pages
             }
             catch (Exception)
             {
-
+                //
             }
+        }
+
+        private void SelectMSortOrder(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as ToggleMenuFlyoutItem;
+            SortM1.IsChecked = false;
+            SortM2.IsChecked = false;
+            SortM3.IsChecked = false;
+            SortM4.IsChecked = false;
+            btn.IsChecked = true;
+            SortOptions sortOptions;
+            switch (btn.Text)
+            {
+                case "Title":
+                    sortOptions = SortOptions.SortTitle;
+                    break;
+                case "Score":
+                    sortOptions = SortOptions.SortScore;
+                    break;
+                case "Read":
+                    sortOptions = SortOptions.SortWatched;
+                    break;
+                default:
+                    sortOptions = SortOptions.SortNothing;
+                    break;
+            }
+            ApplicationData.Current.LocalSettings.Values["SortOrderM"] = (int)sortOptions;
+        }
+
+        private void ChangeMSortOrder(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as ToggleMenuFlyoutItem;
+            ApplicationData.Current.LocalSettings.Values["SortDescendingM"] = btn.IsChecked;
+        }
+
+        private void ChangeDefaultMFilter(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_initialized)
+                return;
+            ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] =
+                Utils.StatusToInt((string)((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
+        }
+
+        private void ChangeDefaultTab(object sender, RoutedEventArgs e)
+        {
+            var radio = sender as RadioButton;
+            ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] = radio.Tag;
         }
     }
 }

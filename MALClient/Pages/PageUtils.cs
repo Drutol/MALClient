@@ -7,12 +7,10 @@
             switch (page)
             {
                 case PageIndex.PageAnimeDetails:
-                    return true;
                 case PageIndex.PageSearch:
-                    return true;
                 case PageIndex.PageProfile:
-                    return true;
                 case PageIndex.PageRecomendations:
+                case PageIndex.PageMangaSearch:
                     return true;
                 default:
                     return false;

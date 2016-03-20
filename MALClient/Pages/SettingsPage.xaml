@@ -10,40 +10,20 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <ToggleSwitch x:Name="ToggleCache" VerticalAlignment="Center" Toggled="ToggleDataCaching" />
-                    <TextBlock Text="Enable list data caching." VerticalAlignment="Center" TextAlignment="Center" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium"
-                               TextWrapping="WrapWholeWords" HorizontalAlignment="Center" />
-                    <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5"
-                              SelectionChanged="ChangeCachePersistency">
-                        <ComboBox.Items>
-                            <ComboBoxItem Content="10 minutes" />
-                            <ComboBoxItem Content="1 hour" />
-                            <ComboBoxItem Content="2 hours" />
-                            <ComboBoxItem Content="3 hours" />
-                            <ComboBoxItem Content="5 hours" />
-                            <ComboBoxItem Content="10 hours" />
-                            <ComboBoxItem Content="1 day" />
-                        </ComboBox.Items>
-                    </ComboBox>
-                </StackPanel>
                 <StackPanel HorizontalAlignment="Stretch">
                     <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
                     <ListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="190" HorizontalAlignment="Stretch"
                               SelectionMode="None" Margin="0,10,0,5">
                         <ListView.Header>
                             <TextBlock x:Name="ListEmptyNotice" Visibility="Collapsed" Text="No cached entries."
-                                       VerticalAlignment="Center" />
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </ListView.Header>
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                 <Setter Property="BorderThickness" Value="3,0,0,0"/>
-                                <Setter Property="Margin" Value="0,1"></Setter>
+                                <Setter Property="Margin" Value="0,1"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
@@ -53,11 +33,50 @@
                             <TextBlock x:Name="TxtRemoveAllDetails" Text="Remove all anime details data" VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0"/>
                         </StackPanel>
                     </Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ToggleSwitch x:Name="ToggleCache" VerticalAlignment="Center" Toggled="ToggleDataCaching" />
+                        <TextBlock Text="Enable list data caching." VerticalAlignment="Center" TextAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium"
+                               TextWrapping="WrapWholeWords" HorizontalAlignment="Center" />
+                        <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5"
+                              SelectionChanged="ChangeCachePersistency">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="10 minutes" />
+                                <ComboBoxItem Content="1 hour" />
+                                <ComboBoxItem Content="2 hours" />
+                                <ComboBoxItem Content="3 hours" />
+                                <ComboBoxItem Content="5 hours" />
+                                <ComboBoxItem Content="10 hours" />
+                                <ComboBoxItem Content="1 day" />
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
-                    <StackPanel HorizontalAlignment="Stretch">
-                        <TextBlock Text="Default anime order values:" FontWeight="Medium" HorizontalAlignment="Center"
+                    <StackPanel>
+                        <TextBlock Text="Default menu tab" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".5*"/>
+                                <ColumnDefinition Width=".5*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="RadioTabAnime" Grid.Column="0" HorizontalAlignment="Center" GroupName="DefTab" Content="Anime" Margin="0,0,5,0" Click="ChangeDefaultTab" Tag="anime"/>
+                            <RadioButton x:Name="RadioTabManga" Grid.Column="1" HorizontalAlignment="Center" GroupName="DefTab" Content="Manga" Margin="5,0,0,0" Click="ChangeDefaultTab" Tag="manga"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <MenuFlyoutSeparator />
+                <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Margin="1,0">
+                        <TextBlock Text="Default anime sort values:" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
                         <Grid Margin="3,3" BorderBrush="LightGray" BorderThickness="2">
                             <StackPanel>
@@ -67,20 +86,40 @@
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="Watched" Click="SelectSortOrder" />
                                 <ToggleMenuFlyoutItem x:Name="Sort5" Text="Soonest airing" Click="SelectSortOrder"
                                                       BorderBrush="LightGray" BorderThickness="0,1,0,1" />
-                                <ToggleMenuFlyoutItem x:Name="Sort4" Text="Watched" Click="SelectSortOrder" />
+                                <ToggleMenuFlyoutItem x:Name="Sort4" Text="None" Click="SelectSortOrder" />
                                 <MenuFlyoutSeparator />
                                 <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending" Click="ChangeSortOrder" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>                    
+                    <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Margin="1,0">
+                        <TextBlock Text="Default manga sort values:" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <Grid Margin="3,3" BorderBrush="LightGray" BorderThickness="2">
+                            <StackPanel>
+                                <ToggleMenuFlyoutItem x:Name="SortM1" Text="Title" Click="SelectMSortOrder" />
+                                <ToggleMenuFlyoutItem x:Name="SortM2" Text="Score" Click="SelectMSortOrder"
+                                                      BorderBrush="LightGray" BorderThickness="0,1,0,1" />
+                                <ToggleMenuFlyoutItem x:Name="SortM3" Text="Read" Click="SelectMSortOrder" 
+                                                      BorderBrush="LightGray" BorderThickness="0,0,0,1"/>
+                                <ToggleMenuFlyoutItem x:Name="SortM4" Text="None" Click="SelectMSortOrder" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem x:Name="BtnMDescending" Text="Decsending" Click="ChangeMSortOrder" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Grid>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*"/>
+                    </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Text="Default filter value :" FontWeight="Medium" HorizontalAlignment="Center"
+                        <TextBlock Text="Default anime filter value :" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
                         <ComboBox x:Name="CmbDefaultFilter" SelectionChanged="ChangeDefaultFilter"
-                                  HorizontalAlignment="Center" Margin="10">
+                                  HorizontalAlignment="Stretch" Margin="10">
                             <ComboBox.Items>
                                 <ComboBoxItem Content="Watching" />
                                 <ComboBoxItem Content="Completed" />
@@ -90,13 +129,28 @@
                                 <ComboBoxItem Content="All" />
                             </ComboBox.Items>
                         </ComboBox>
+                    </StackPanel>                    
+                    <StackPanel Grid.Column="1" Margin="1,0">
+                        <TextBlock Text="Default manga filter value :" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <ComboBox x:Name="CmbDefaultMFilter" SelectionChanged="ChangeDefaultMFilter"
+                                  HorizontalAlignment="Stretch" Margin="10">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="Reading" />
+                                <ComboBoxItem Content="Completed" />
+                                <ComboBoxItem Content="On hold" />
+                                <ComboBoxItem Content="Dropped" />
+                                <ComboBoxItem Content="Plan to read" />
+                                <ComboBoxItem Content="All" />
+                            </ComboBox.Items>
+                        </ComboBox>
                     </StackPanel>
                 </Grid>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime series per page : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Anime/Manga series per page : " FontWeight="Medium" HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderItemsPerPage,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -109,7 +163,7 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime reviews to display : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Reviews to display : " FontWeight="Medium" HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderReviewsToPull,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -122,7 +176,7 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime recommendations to display : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Recommendations to display : " FontWeight="Medium" HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderReccommsToPull,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />

@@ -9,12 +9,21 @@ using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
+    public class SearchPageNavigationArgs
+    {
+        public bool Anime { get; set; } = true;
+        public string Query { get; set; }
+    }
+
     public class SearchPageViewModel : ViewModelBase
     {
         #region Properties
+
+        private List<AnimeSearchItem> _allAnimeSearchItems;
         public ObservableCollection<AnimeSearchItem> AnimeSearchItems { get; } = 
             new ObservableCollection<AnimeSearchItem>();
 
@@ -39,12 +48,32 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => EmptyNoticeVisibility);
             }
         }
-
+        private HashSet<string> _filters = new HashSet<string>();
+        private string _currrentFilter;
         #endregion
 
         public string PrevQuery;
+        private bool _animeSearch; // default to anime
 
-        internal async void SubmitQuery(string query)
+        public void Init(SearchPageNavigationArgs args)
+        {
+            if (_animeSearch != args.Anime)
+                PrevQuery = null;
+
+            _currrentFilter = null;
+            _animeSearch = args.Anime;
+            if(!string.IsNullOrWhiteSpace(args.Query))
+                SubmitQuery(args.Query);
+            else
+            {
+                AnimeSearchItems.Clear();
+                ResetQuery();
+            }
+
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+        }
+
+        public async void SubmitQuery(string query)
         {
             if(query == PrevQuery)
                 return;
@@ -53,28 +82,73 @@ namespace MALClient.ViewModels
             EmptyNoticeVisibility = Visibility.Collapsed;
             AnimeSearchItems.Clear();
             var response = "";
-            await
-                Task.Run(
-                    async () => response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
-            try
+            _filters.Clear();
+            _allAnimeSearchItems = new List<AnimeSearchItem>();
+            if (_animeSearch)
             {
-                XDocument parsedData = XDocument.Parse(response);
-                foreach (XElement item in parsedData.Element("anime").Elements("entry"))
+                await
+                    Task.Run(
+                        async () =>
+                            response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
+                try
                 {
-                    AnimeSearchItems.Add(new AnimeSearchItem(item));
+                    XDocument parsedData = XDocument.Parse(response);
+                    foreach (XElement item in parsedData.Element("anime").Elements("entry"))
+                    {
+                        var type = item.Element("type").Value;
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(item));
+                        if (!_filters.Contains(type))
+                            _filters.Add(type);
+                    }
+                }
+                catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
+                {
+                    EmptyNoticeVisibility = Visibility.Visible;
                 }
             }
-            catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
+            else // manga search
             {
-                EmptyNoticeVisibility = Visibility.Visible;
+                await
+                    Task.Run(
+                        async () =>
+                            response = await new MangaSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
+                try
+                {
+                    XDocument parsedData = XDocument.Parse(response);
+                    foreach (XElement item in parsedData.Element("manga").Elements("entry"))
+                    {
+                        var type = item.Element("type").Value;
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(item,false));
+                        if (!_filters.Contains(type))
+                            _filters.Add(type);
+                    }
+                }
+                catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
+                {
+                    EmptyNoticeVisibility = Visibility.Visible;
+                }
             }
-
+            ViewModelLocator.Main.PopulateSearchFilters(_filters);
+            PopulateItems();
             Loading = Visibility.Collapsed;
         }
 
-        public void ResetQuery()
+        private void PopulateItems()
+        {
+            AnimeSearchItems.Clear();
+            foreach (var item in _allAnimeSearchItems.Where(item => string.IsNullOrWhiteSpace(_currrentFilter) || string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
+                AnimeSearchItems.Add(item);            
+        }
+
+        private void ResetQuery()
         {
             PrevQuery = null;
+        }
+
+        public void SubmitFilter(string filter)
+        {
+            _currrentFilter = filter == "None" ? "" : filter;
+            PopulateItems();
         }
     }
 }

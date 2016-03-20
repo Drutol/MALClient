@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MALClient.Comm;
 
 namespace MALClient.Pages
 {
@@ -10,5 +11,6 @@ namespace MALClient.Pages
     {
         int Id { get; set; }
         string Title { get; set; }
+        RelatedItemType Type { get; set; }
     }
 }

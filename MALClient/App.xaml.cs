@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -76,10 +78,29 @@ namespace MALClient
             UniversalRateReminder.RatePopup.Title = "Rate this app!";
             UniversalRateReminder.RatePopup.CancelButtonText = "Not now...";
             UniversalRateReminder.RatePopup.Content =
-                "Your feedback helps improve this app! Please take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
+                "Your feedback helps improve this app!\n\n Please take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
             UniversalRateReminder.RatePopup.ResetCountOnNewVersion = false;
             UniversalRateReminder.RatePopup.RateButtonText = "To the store!";
             await UniversalRateReminder.RatePopup.CheckRateReminderAsync();
+            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
+                || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utils.GetAppVersion())
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
+                        foreach (var file in await folder.GetFilesAsync())
+                        {
+                            if (file.Name.Contains("related") || file.Name.Contains("direct_recommendations"))
+                                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                       //
+                    }
+                });
+            ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
         }
 
         private async void LaunchUri(string url)

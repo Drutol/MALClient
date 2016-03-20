@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
-    ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia">
+    ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia" IsTabStop="False">
 
     <UserControl.Resources>
         <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />

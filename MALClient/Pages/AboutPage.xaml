@@ -79,23 +79,15 @@
                                         <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="17.03.2016"/>
-                                <TextBlock Text="Related anime bugfix."/>
-                                <TextBlock Text="Small visual tweaks (margins etc.)"/>
-                                <MenuFlyoutSeparator Margin="0,3"/>
-                                <TextBlock Text="16.03.2016"/>
-                                <TextBlock Text="Increased responsiveness."/>
-                                <TextBlock Text="General optimization." />
-                                <TextBlock Text="Added update prompts to details page."/>
-                                <TextBlock Text="Details page crashfix."/>
-                                <TextBlock Text="Tweaked increment/decrement button a bit. (more to come)"/>
-                                <MenuFlyoutSeparator Margin="0,3"/>
-                                <TextBlock Text="14.03.2016"/>
-                                <TextBlock Text="Added related anime section to details page."/>
-                                <TextBlock Text="Added additional sliders for amount of reviews/recommendations pulled." />
-                                <TextBlock Text="Upped amount of seasonal anime pulled from 30 to 40. - slider coming at a later date"/>
-                                <TextBlock Text="Crashfix for recommendation page."/>
-                                
+                                <TextBlock Text="20.03.2016"/>
+                                <TextBlock Text="Manga support!"/>
+                                <TextBlock Text="Scaling issues have been addressed. (?)"/>
+                                <TextBlock Text="Filters in search page."/>
+                                <TextBlock Text="Updated log in page." />
+                                <TextBlock Text="Additional settings for manga."/>
+                                <TextBlock Text="Hamburger menu visual update."/>
+                                <TextBlock Text="Season selection bugfix."/>
+                                <TextBlock Text="Addressed issues with tab control."/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

@@ -66,7 +66,7 @@
                                 <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode" />
+                                <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode" Visibility="{Binding SortAirDayVisibility}"/>
                                 <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
@@ -81,11 +81,11 @@
                         <ListView SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                   SelectionMode="Single">
                             <ListView.Items>
-                                <ListViewItem Content="Watching" />
+                                <ListViewItem Content="{Binding Filter1Label}" />
                                 <ListViewItem Content="Completed" />
                                 <ListViewItem Content="On hold" />
                                 <ListViewItem Content="Dropped" />
-                                <ListViewItem Content="Plan to watch" />
+                                <ListViewItem Content="{Binding Filter5Label}" />
                                 <ListViewItem Content="{Binding StatusAllLabel}" />
                             </ListView.Items>
                         </ListView>
@@ -112,7 +112,7 @@
                SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
                ItemsSource="{Binding AnimePages}" 
                PivotItemLoading="AnimesPivot_OnPivotItemLoading"
-               VerticalAlignment="Top">
+               VerticalAlignment="Stretch">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}"/>
             </Pivot.Resources>

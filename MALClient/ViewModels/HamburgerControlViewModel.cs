@@ -124,7 +124,7 @@ namespace MALClient.ViewModels
         }
 
 
-        public Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
+        private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
         public Visibility UsrImgPlaceholderVisibility
         {
             get { return _usrImgPlaceholderVisibility; }
@@ -132,6 +132,17 @@ namespace MALClient.ViewModels
             {
                 _usrImgPlaceholderVisibility = value;
                 RaisePropertyChanged(() => UsrImgPlaceholderVisibility);
+            }
+        }
+
+        private int _menuPivotSelectedIndex;
+        public int MenuPivotSelectedIndex
+        {
+            get { return _menuPivotSelectedIndex; }
+            set
+            {
+                _menuPivotSelectedIndex = value;
+                RaisePropertyChanged(() => MenuPivotSelectedIndex);
             }
         }
 
@@ -144,14 +155,32 @@ namespace MALClient.ViewModels
             {
                 await
                     Utils.GetMainPageInstance()
-                        .Navigate(page, page == PageIndex.PageSeasonal ? AnimeListPageNavigationArgs.Seasonal : null);
+                        .Navigate(page, GetAppropriateArgsForPage(page));
                 SetActiveButton(Utils.GetButtonForPage(page));
+            }
+        }
+
+        private object GetAppropriateArgsForPage(PageIndex page)
+        {
+            switch (page)
+            {
+                case PageIndex.PageSeasonal:
+                    return AnimeListPageNavigationArgs.Seasonal;
+                case PageIndex.PageMangaList:
+                    return AnimeListPageNavigationArgs.Manga;
+                case PageIndex.PageMangaSearch:
+                    return new SearchPageNavigationArgs {Anime = false};
+                case PageIndex.PageSearch:
+                    return new SearchPageNavigationArgs();
+                default:
+                    return null;
             }
         }
 
         public HamburgerControlViewModel()
         {
-            PaneOpenedCommand = new RelayCommand(this.PaneOpened);
+            PaneOpenedCommand = new RelayCommand(PaneOpened);
+            MenuPivotSelectedIndex = Settings.GetDefaultMenuTab() == "anime" ? 0 : 1;
         }
 
         public void ChangeBottomStackPanelMargin(bool up)

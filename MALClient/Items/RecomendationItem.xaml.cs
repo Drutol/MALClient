@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

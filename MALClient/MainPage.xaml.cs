@@ -43,18 +43,15 @@ namespace MALClient
                 SearchInput.IsEnabled = false; //reset input
                 SearchInput.IsEnabled = true;
                 ViewModelLocator.Main.OnSearchInputSubmit();
+                e.Handled = true;
             }
+            
         }
         #endregion
 
         public void Navigate(Type page, object args = null)
         {
             MainContent.Navigate(page, args);
-        }
-
-        public object GetCurrentContent()
-        {
-            return MainContent.Content;
         }
 
         public void SearchInputFocus(FocusState state)

@@ -356,8 +356,8 @@
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
                                             <Grid Background="#E1E1E1" Padding="0" Margin="0"  Height="30" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                                <PivotHeaderPanel x:Name="StaticHeader" Height="30" VerticalAlignment="Center" Visibility="Collapsed" />
-                                                <PivotHeaderPanel x:Name="Header" Height="30" VerticalAlignment="Center">
+                                                <PivotHeaderPanel x:Name="StaticHeader" Height="30" VerticalAlignment="Center" />
+                                                <PivotHeaderPanel x:Name="Header" Height="30">
                                                     <PivotHeaderPanel.RenderTransform>
                                                         <TransformGroup>
                                                             <CompositeTransform x:Name="HeaderTranslateTransform" />

@@ -43,6 +43,13 @@ namespace MALClient.ViewModels
             Id = id;
             Image = new BitmapImage(new Uri(_imgUrl));
             AdjustIncrementButtonsOrientation();
+            if (!_parentAbstraction.RepresentsAnime)
+            {
+                UpdateEpsUpperLabel = "Read chapters :";
+                Status1Label = "Reading";
+                Status5Label = "Plan to read";
+            }
+
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore,
@@ -69,6 +76,13 @@ namespace MALClient.ViewModels
             Airing = _parentAbstraction.AirDay >= 0;
 
         }
+        //manga
+        public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
+            int myScore,
+            AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes) : this(auth,name,img,id,myStatus,myEps,allEps,myScore,parent,setEpsAuth)
+        {
+            _allVolumes = allVolumes;
+        }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
             AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
@@ -93,7 +107,9 @@ namespace MALClient.ViewModels
 
         #region PropertyPairs
         private int _allEpisodes;
+        private int _allVolumes;
         public int AllEpisodes => _allEpisodes;
+        public int AllVolumes => _allVolumes;
 
         public string AirDayBind => Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
         private bool _airing;
@@ -134,7 +150,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Orientation _incrementButtonsOrientation = Orientation.Horizontal;
+        private Orientation _incrementButtonsOrientation = Orientation.Vertical;
         public Orientation IncrementButtonsOrientation
         {
             get { return _incrementButtonsOrientation; }
@@ -149,7 +165,7 @@ namespace MALClient.ViewModels
 
         public bool Auth { get; private set; }
 
-        public string MyStatusBind => Utils.StatusToString(MyStatus);
+        public string MyStatusBind => Utils.StatusToString(MyStatus,!_parentAbstraction.RepresentsAnime);
         public int MyStatus
         {
             get { return _parentAbstraction.MyStatus; }
@@ -188,7 +204,7 @@ namespace MALClient.ViewModels
                 if(_seasonalState)
                     return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
 
-                return Auth || MyEpisodes != 0 ? "Watched : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+                return Auth || MyEpisodes != 0 ? $"{(_parentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
             }
         } 
         public int MyEpisodes
@@ -200,6 +216,63 @@ namespace MALClient.ViewModels
                     return;
                 _parentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
+            }
+        }
+
+        public string MyVolumesBind => Auth || MyEpisodes != 0 ? "Read : " + $"{MyVolumes}/{(_allVolumes == 0 ? "?" : _allVolumes.ToString())}" : $"{(_allVolumes == 0 ? "?" : _allVolumes.ToString())} Volumes";
+        public int MyVolumes
+        {
+            get { return _parentAbstraction.MyVolumes; }
+            set
+            {
+                if (_parentAbstraction.MyVolumes == value)
+                    return;
+                _parentAbstraction.MyVolumes = value;
+                RaisePropertyChanged(() => MyVolumesBind);
+            }
+        }
+
+        private string _watchedEpsLabel = "My watched\nepisodes :";
+        public string WatchedEpsLabel
+        {
+            get { return _watchedEpsLabel; }
+            set
+            {
+                _watchedEpsLabel = value;
+                RaisePropertyChanged(() => WatchedEpsLabel);
+            }
+        }
+
+        private string _updateEpsUpperLabel = "Watched eps :";
+        public string UpdateEpsUpperLabel
+        {
+            get { return _updateEpsUpperLabel; }
+            set
+            {
+                _updateEpsUpperLabel = value;
+                RaisePropertyChanged(() => UpdateEpsUpperLabel);
+            }
+        }
+
+        private string _status1Label = "Watching";
+        public string Status1Label
+        {
+            get { return _status1Label; }
+            set
+            {
+                _status1Label = value;
+                RaisePropertyChanged(() => Status1Label);
+            }
+        }
+
+        private string _status5Label = "Plan to watch";
+        public string Status5Label
+        {
+            get { return _status5Label; }
+            set
+            {
+                _status5Label = value;
+                RaisePropertyChanged(() => Status5Label);
             }
         }
 
@@ -462,7 +535,10 @@ namespace MALClient.ViewModels
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
                         Utils.GetMainPageInstance().GetCurrentListOrderParams())
-                    { Source = PageIndex.PageAnimeList });
+                    {
+                        Source = _parentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList,
+                        AnimeMode = _parentAbstraction.RepresentsAnime
+                    });
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data)
@@ -488,7 +564,10 @@ namespace MALClient.ViewModels
 
         private async void AddThisToMyList()
         {
-            var response = await new AnimeAddQuery(Id.ToString()).GetRequestResponse();
+            var response = 
+                _parentAbstraction.RepresentsAnime
+                ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
+                : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             if (!response.Contains("Created"))
                 return;
             _seasonalState = false;
@@ -496,6 +575,8 @@ namespace MALClient.ViewModels
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
+            if (_parentAbstraction.RepresentsAnime)
+                MyVolumes = 0;
             
             
             AdjustIncrementButtonsVisibility();
@@ -539,7 +620,7 @@ namespace MALClient.ViewModels
 
         private void AdjustIncrementButtonsVisibility()
         {
-            if (!Auth || !Creditentials.Authenticated || MyStatus == (int)AnimeStatus.PlanToWatch)
+            if (!Auth || !Creditentials.Authenticated)
             {
                 IncrementEpsVisibility = Visibility.Collapsed;
                 DecrementEpsVisibility = Visibility.Collapsed;
@@ -567,21 +648,28 @@ namespace MALClient.ViewModels
         private void AdjustIncrementButtonsOrientation()
         {
             //Too wide update buttons
-            if (MyScore != 0)
-            {
-                IncrementButtonsOrientation = Orientation.Horizontal;
-                return;
-            }
-            if (MyStatus == (int) AnimeStatus.Dropped ||
-                MyStatus == (int) AnimeStatus.OnHold ||
-                MyStatus == (int) AnimeStatus.Completed ||
-                MyStatus == (int) AnimeStatus.Watching)
-                IncrementButtonsOrientation = Orientation.Vertical;
+            //if (MyScore != 0)
+            //{
+            //    IncrementButtonsOrientation = Orientation.Horizontal;
+            //    return;
+            //}
+            //if (MyStatus == (int) AnimeStatus.Dropped ||
+            //    MyStatus == (int) AnimeStatus.OnHold ||
+            //    MyStatus == (int) AnimeStatus.Completed ||
+            //    MyStatus == (int) AnimeStatus.Watching)
+            //    IncrementButtonsOrientation = Orientation.Vertical;
         }
 
         #endregion
 
         #region AnimeUpdate
+
+        private Query GetAppropriateUpdateQuery()
+        {
+            if (_parentAbstraction.RepresentsAnime)
+                return new AnimeUpdateQuery(this);
+            return new MangaUpdateQuery(this);
+        }
 
         #region Watched
 
@@ -595,7 +683,7 @@ namespace MALClient.ViewModels
 
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
             {
                 MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
@@ -613,7 +701,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
             {               
                 MyEpisodes++;
@@ -639,7 +727,7 @@ namespace MALClient.ViewModels
                 WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;
                 MyEpisodes = watched;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyEpisodes = prevWatched;
 
@@ -667,7 +755,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyStatus = myPrevStatus;
 
@@ -682,7 +770,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             var myPrevScore = MyScore;
             MyScore = Convert.ToInt32(score);
-            var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyScore = myPrevScore;
 
@@ -697,7 +785,7 @@ namespace MALClient.ViewModels
         {
             if (MyStatus == to)
                 return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus)}\nTo : {Utils.StatusToString(to)}",
+            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus,!_parentAbstraction.RepresentsAnime)}\nTo : {Utils.StatusToString(to)}",
                 "Would you like to change current status?");
             var confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
@@ -707,7 +795,7 @@ namespace MALClient.ViewModels
             {
                 var myPrevStatus = MyStatus;
                 MyStatus = to;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyStatus = myPrevStatus;
             }
@@ -727,7 +815,7 @@ namespace MALClient.ViewModels
             {
                 var myPrevEps = MyEpisodes;
                 MyEpisodes = to;
-                var response = await new AnimeUpdateQuery(this).GetRequestResponse();
+                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
                     MyStatus = myPrevEps;
 

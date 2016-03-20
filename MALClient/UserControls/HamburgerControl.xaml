@@ -44,7 +44,7 @@
                                 <Setter Property="Margin" Value="3,0,0,0"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Pivot Width="220" SelectedIndex="{Binding MenuPivotSelectedIndex}">
+                        <Pivot Width="220" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
                                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}">
                                     <Setter Property="Margin" Value="2,0"/>

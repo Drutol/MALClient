@@ -188,6 +188,7 @@
     <Compile Include="UserControls\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\LockableToggleButton.cs" />
     <Compile Include="UserControls\StackedBarChartControl.xaml.cs">
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>

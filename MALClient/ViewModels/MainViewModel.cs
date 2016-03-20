@@ -35,6 +35,9 @@ namespace MALClient.ViewModels
         private bool _onSearchPage;
         
         #region PropertyPairs
+
+        public bool SearchToggleLock => _onSearchPage;
+
         private IMainViewInteractions _view;
         public IMainViewInteractions View
         {
@@ -222,9 +225,7 @@ namespace MALClient.ViewModels
                 if (SearchToggleStatus)
                     ShowSearchStuff();
                 else
-                {
                     HideSearchStuff();
-                }
             }
 
             ResetSearchFilter();
@@ -279,6 +280,7 @@ namespace MALClient.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
+            RaisePropertyChanged(() => SearchToggleLock);
         }
 
         #region Search
@@ -375,6 +377,7 @@ namespace MALClient.ViewModels
         {
             SearchInputVisibility = false;
             SearchToggleVisibility = false;
+            SearchToggleStatus = false;
         }
 
         private void ToggleSearchStuff()

@@ -157,12 +157,12 @@ namespace MALClient.Pages
         {
             if ((sender == null && e == null) || e.Key == VirtualKey.Enter)
             {
+                e.Handled = true;
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
-                await ViewModel.FetchData();
-                e.Handled = true;
+                await ViewModel.FetchData();           
             }
         }
 

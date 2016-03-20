@@ -54,11 +54,6 @@ namespace MALClient
             MainContent.Navigate(page, args);
         }
 
-        public object GetCurrentContent()
-        {
-            return MainContent.Content;
-        }
-
         public void SearchInputFocus(FocusState state)
         {
             SearchInput.Focus(state);

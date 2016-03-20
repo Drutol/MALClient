@@ -897,7 +897,7 @@ namespace MALClient.ViewModels
                         }
                     }
                 }
-                //Now we can build elements here --- I know know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
+                //Now we can build elements here --- TODO: I know know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
                 int i = 1;
                 bool alternate1 = true, alternate2 = true;
                 foreach (var genre in data.Genres)

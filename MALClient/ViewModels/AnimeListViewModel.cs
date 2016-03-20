@@ -613,13 +613,17 @@ namespace MALClient.ViewModels
 
         public async Task RefreshList(bool searchSource = false, bool fakeDelay = false)
         {
+            bool finished = false;
             await Task.Run(() =>
             {
                 var query = ViewModelLocator.Main.CurrentSearchQuery;
                 var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
                 if (!_wasPreviousQuery && searchSource && !queryCondition)
                     // refresh was requested from search but there's nothing to update
+                {
+                    finished = true;
                     return;
+                }
 
                 _wasPreviousQuery = queryCondition;
 
@@ -689,6 +693,8 @@ namespace MALClient.ViewModels
                 foreach (AnimeItemAbstraction item in items)
                     _animeItemsSet.Add(item);
             });
+            if (finished)
+                return;
             //If we have items then we should hide EmptyNotice       
             EmptyNoticeVisibility = _animeItemsSet.Count == 0;
 

@@ -473,6 +473,7 @@ namespace MALClient.ViewModels
                         EmptyNoticeVisibility = true;
                         EmptyNoticeContent = "We have come up empty...\nList source is not set.\nLog in or set it manually.";
                         BtnSetSourceVisibility = true;
+                        Loading = false;
                     }
                     else
                         await FetchData(); //we have source we can fetch
@@ -595,7 +596,7 @@ namespace MALClient.ViewModels
                         if (!string.IsNullOrWhiteSpace(ListSource))
                             page.CurrentStatus = $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(),WorkMode == AnimeListWorkModes.Manga)}";
                         else
-                            page.CurrentStatus = "Anime list";
+                            page.CurrentStatus = $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
                     else
                         page.CurrentStatus = $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus(),WorkMode == AnimeListWorkModes.Manga)}";
 
@@ -808,7 +809,7 @@ namespace MALClient.ViewModels
                     currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
                 if (seasonalUrl.Key == CurrentSeason.Name)
                 {
-                    _seasonalUrlsSelectedIndex = i;
+                    _seasonalUrlsSelectedIndex = i - 1 ;
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
                 

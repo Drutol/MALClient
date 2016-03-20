@@ -27,7 +27,7 @@ namespace MALClient
 
         public static SortOptions GetSortOrderM()
         {
-            return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 3);
+            return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 2);
         }
 
         public static bool IsSortDescending()

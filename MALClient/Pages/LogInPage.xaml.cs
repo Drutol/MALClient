@@ -33,6 +33,7 @@ namespace MALClient.Pages
         {
             if(_authenticating)
                 return;
+            ProgressRing.Visibility = Visibility.Visible;
             _authenticating = true;
             Creditentials.Update(UserName.Text, UserPassword.Password);
             try
@@ -58,6 +59,7 @@ namespace MALClient.Pages
                 await msg.ShowAsync();
             }
             _authenticating = false;
+            ProgressRing.Visibility = Visibility.Collapsed;
         }
 
         private async void LogOut(object sender, RoutedEventArgs e)
@@ -84,13 +86,13 @@ namespace MALClient.Pages
         {
             if (e.Key == VirtualKey.Enter)
             {
+                e.Handled = true;
                 var txt = sender as PasswordBox;
                 if (txt.Password.Length == 0)
                     return;
                 txt.IsEnabled = false; //reset input
                 txt.IsEnabled = true;
-                AttemptAuthentication(null, null);
-                e.Handled = true;
+                AttemptAuthentication(null, null);             
             }
         }
 

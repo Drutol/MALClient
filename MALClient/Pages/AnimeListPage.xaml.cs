@@ -126,6 +126,7 @@ namespace MALClient.Pages
                     ViewModel.SortOption = SortOptions.SortScore;
                     break;
                 case "Watched":
+                case "Read":
                     ViewModel.SortOption = SortOptions.SortWatched;
                     break;
                 case "Soonest airing":

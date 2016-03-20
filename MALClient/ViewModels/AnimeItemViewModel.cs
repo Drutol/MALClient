@@ -43,9 +43,13 @@ namespace MALClient.ViewModels
             Id = id;
             Image = new BitmapImage(new Uri(_imgUrl));
             AdjustIncrementButtonsOrientation();
-            UpdateEpsUpperLabel = _parentAbstraction.RepresentsAnime 
-                ? "Watched eps :" 
-                : "Read chapters : ";
+            if (!_parentAbstraction.RepresentsAnime)
+            {
+                UpdateEpsUpperLabel = "Read chapters :";
+                Status1Label = "Reading";
+                Status5Label = "Plan to read";
+            }
+
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore,
@@ -247,6 +251,28 @@ namespace MALClient.ViewModels
             {
                 _updateEpsUpperLabel = value;
                 RaisePropertyChanged(() => UpdateEpsUpperLabel);
+            }
+        }
+
+        private string _status1Label = "Watching";
+        public string Status1Label
+        {
+            get { return _status1Label; }
+            set
+            {
+                _status1Label = value;
+                RaisePropertyChanged(() => Status1Label);
+            }
+        }
+
+        private string _status5Label = "Plan to watch";
+        public string Status5Label
+        {
+            get { return _status5Label; }
+            set
+            {
+                _status5Label = value;
+                RaisePropertyChanged(() => Status5Label);
             }
         }
 

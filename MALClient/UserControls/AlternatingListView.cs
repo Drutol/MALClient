@@ -17,7 +17,7 @@ namespace MALClient.UserControls
 
                 if ((index + 1)%2 == 0)
                 {
-                    listViewItem.Background = new SolidColorBrush(Colors.Transparent);
+                    listViewItem.Background = new SolidColorBrush(Colors.WhiteSmoke);
                 }
                 else
                 {

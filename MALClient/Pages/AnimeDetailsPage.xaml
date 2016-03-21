@@ -324,19 +324,10 @@
                                     </Grid.RowDefinitions>
                                     <Grid.Resources>
                                         <Style TargetType="controls:AlternatingListView">
-                                            <Setter Property="ItemContainerStyle">
-                                                <Setter.Value>
-                                                    <Style TargetType="ListViewItem">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                        <Setter Property="MinHeight" Value="35" />
-                                                        <Setter Property="Height" Value="35" />
-                                                    </Style>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Setter Property="SelectionMode" Value="None" />
+                                            <Setter Property="SelectionMode" Value="None"/>
                                         </Style>
                                     </Grid.Resources>
-                                    <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
+                                   <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
                                                HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2"
                                                Margin="0,5,0,5" />
                                     <StackPanel Grid.Row="1">
@@ -357,6 +348,14 @@
                                                                           ItemsSource="{Binding RightGenres}"
                                                                           BorderThickness="0,0,1,0"
                                                                           BorderBrush="LightGray">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                        <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                                                        <Setter Property="Margin" Value="1,1"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding}" TextAlignment="Center"
@@ -368,6 +367,14 @@
                                                                           ItemsSource="{Binding LeftGenres}"
                                                                           BorderThickness="1,0,0,0"
                                                                           BorderBrush="LightGray">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                        <Setter Property="BorderThickness" Value="0,0,2,0"/>
+                                                        <Setter Property="Margin" Value="1,1"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding}" TextAlignment="Center"
@@ -387,6 +394,14 @@
                                                    Foreground="#FFB9B9B9" />
                                         <controls:AlternatingListView ItemsSource="{Binding Episodes}"
                                                                       BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="2,0,2,0"/>
+                                                    <Setter Property="Margin" Value="1,1"/>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid HorizontalAlignment="Stretch">
@@ -413,6 +428,14 @@
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                    Foreground="#FFB9B9B9" />
                                         <controls:AlternatingListView ItemsSource="{Binding OPs}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="2,0,2,0"/>
+                                                    <Setter Property="Margin" Value="1,1"/>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -435,6 +458,14 @@
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                    Foreground="#FFB9B9B9" />
                                         <controls:AlternatingListView ItemsSource="{Binding EDs}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="2,0,2,0"/>
+                                                    <Setter Property="Margin" Value="1,1"/>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -452,7 +483,8 @@
                                                 Margin="0,15,0,0" HorizontalAlignment="Left"
                                                 Content="Source : AnimeNewsNetwork"
                                                 Command="{Binding OpenInAnnCommand}"
-                                                Visibility="{Binding AnnSourceButtonVisibility}" />
+                                                Visibility="{Binding AnnSourceButtonVisibility}"
+                                                Style="{StaticResource TextBlockButtonStyle}"/>
                                     </StackPanel>
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"

@@ -797,6 +797,8 @@ namespace MALClient.ViewModels
                 ((AnimeItemViewModel) _animeItemReference).Airing = day != -1;
                 DataCache.SaveVolatileData();
             }
+            LeftDetailsRow.Clear();
+            RightDetailsRow.Clear();
 
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));

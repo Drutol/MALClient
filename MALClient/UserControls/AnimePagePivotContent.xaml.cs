@@ -15,23 +15,23 @@ namespace MALClient.UserControls
 {
     public sealed partial class AnimePagePivotContent : UserControl
     {
-        private IEnumerable<AnimeItemAbstraction> _content;
-        private bool _loaded = false;
+        private readonly IEnumerable<AnimeItemAbstraction> _content;
+        private bool _loaded;
+
         public AnimePagePivotContent(IEnumerable<AnimeItemAbstraction> content)
         {
-            this.InitializeComponent();
+            InitializeComponent();
             _content = content;
             Loaded += (sender, args) =>
             {
                 var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
                 scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             };
-
         }
 
         public async void LoadContent()
         {
-            if(_loaded)
+            if (_loaded)
                 return;
             _loaded = true;
 
@@ -39,15 +39,15 @@ namespace MALClient.UserControls
             foreach (var abstraction in _content)
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                    () => { items.Add(abstraction.AnimeItem); });               
+                    () => { items.Add(abstraction.AnimeItem); });
             }
             Animes.ItemsSource = items;
         }
 
         private void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.AddedItems.Count == 0)
-                return;           
+            if (e.AddedItems.Count == 0)
+                return;
             ViewModelLocator.AnimeList.CurrentlySelectedAnimeItem = e.AddedItems.First() as AnimeItem;
         }
 

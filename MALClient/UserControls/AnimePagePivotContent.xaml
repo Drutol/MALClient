@@ -21,7 +21,7 @@
                             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="BorderThickness" Value="5,0,0,0"></Setter>
+                    <Setter Property="BorderThickness" Value="5,0,0,0" />
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>

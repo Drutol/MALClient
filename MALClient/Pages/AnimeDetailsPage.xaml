@@ -12,16 +12,16 @@
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter"/>
-        <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter"/>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
+        <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml"/>
+                    <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
         <Grid Row="0">
             <Grid.Background>
-                <SolidColorBrush Color="LightGray" Opacity=".25"/>
+                <SolidColorBrush Color="LightGray" Opacity=".25" />
             </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="122" />
@@ -44,26 +44,33 @@
                 <RowDefinition Height="150" />
                 <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
-            <Image Margin="1,1,1,0" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120" Height="148" />
-            <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" RenderTransformOrigin="0.5,0.5">
-                <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+            <Image Margin="1,1,1,0" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120"
+                   Height="148" />
+            <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
+                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
                     <SymbolIcon.RenderTransform>
-                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"></ScaleTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                     </SymbolIcon.RenderTransform>
                 </SymbolIcon>
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
-                            <Button Height="50" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}" Background="#E6E6E6">
+                            <Button Height="50" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}"
+                                    Background="#E6E6E6">
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Globe"/>
-                                    <TextBlock Margin="10,0,0,0" Text="Open in browser"/>
+                                    <SymbolIcon Symbol="Globe" />
+                                    <TextBlock Margin="10,0,0,0" Text="Open in browser" />
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50" Command="{Binding AddAnimeCommand}" Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Background="#E6E6E6" Margin="0,5,0,0">
+                            <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50"
+                                    Command="{Binding AddAnimeCommand}"
+                                    Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Background="#E6E6E6" Margin="0,5,0,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Add"/>
-                                    <TextBlock Margin="10,0,0,0" Text="Add to my list"/>
+                                    <SymbolIcon Symbol="Add" />
+                                    <TextBlock Margin="10,0,0,0" Text="Add to my list" />
                                 </StackPanel>
                             </Button>
                             <Button Height="50"
@@ -73,62 +80,76 @@
                                     Background="#E6E6E6"
                                     Margin="0,5,0,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Remove"/>
-                                    <TextBlock Margin="10,0,0,0" Text="Remove from my list"/>
+                                    <SymbolIcon Symbol="Remove" />
+                                    <TextBlock Margin="10,0,0,0" Text="Remove from my list" />
                                 </StackPanel>
-                            </Button>                            
+                            </Button>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <StackPanel Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock Text="This entry is not on your list yet." 
-                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}" 
-                           HorizontalAlignment="Center" Opacity=".75"/>
-                <Button HorizontalAlignment="Stretch"  Height="50" 
-                        Command="{Binding AddAnimeCommand}" 
-                        Background="{ThemeResource AppBarBackgroundThemeBrush}" 
+            <StackPanel Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock Text="This entry is not on your list yet."
+                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                           HorizontalAlignment="Center" Opacity=".75" />
+                <Button HorizontalAlignment="Stretch" Height="50"
+                        Command="{Binding AddAnimeCommand}"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         Margin="20,10,20,0"
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                     <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Add"/>
-                        <TextBlock Margin="10,0,0,0" Text="Add to my list"/>
+                        <SymbolIcon Symbol="Add" />
+                        <TextBlock Margin="10,0,0,0" Text="Add to my list" />
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <Grid Grid.Row="0" Grid.Column="1" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5,-10,0,0">
+            <Grid Grid.Row="0" Grid.Column="1"
+                  Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                  Margin="5,-10,0,0">
                 <ProgressRing Width="50" Height="50" HorizontalAlignment="Center"
-                                  VerticalAlignment="Center" IsActive="True" Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
+                              VerticalAlignment="Center" IsActive="True"
+                              Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
                 <StackPanel Orientation="Vertical" Margin="1,15,1,0" HorizontalAlignment="Left">
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-                        <TextBlock Text="My score : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90"/>
-                        <Button FontWeight="Medium" Margin="1" 
+                        <TextBlock Text="My score : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90" />
+                        <Button FontWeight="Medium" Margin="1"
                                 Background="Transparent"
-                                BorderThickness="0,0,0,2"                                
-                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" 
-                                Height="Auto"                              
+                                BorderThickness="0,0,0,2"
+                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                Height="Auto"
                                 VerticalAlignment="Center"
                                 Content="{Binding MyScoreBind}">
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyout.Items>
-                                        <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}" CommandParameter="10" />
-                                        <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}" CommandParameter="9" />
-                                        <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}" CommandParameter="8" />
-                                        <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}" CommandParameter="7" />
-                                        <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}" CommandParameter="6" />
-                                        <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}" CommandParameter="5" />
-                                        <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}" CommandParameter="4" />
-                                        <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}" CommandParameter="3" />
-                                        <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}" CommandParameter="2" />
-                                        <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}" CommandParameter="1" />
+                                        <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="10" />
+                                        <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="9" />
+                                        <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="8" />
+                                        <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="7" />
+                                        <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="6" />
+                                        <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="5" />
+                                        <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="4" />
+                                        <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="3" />
+                                        <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="2" />
+                                        <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="1" />
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
                     </StackPanel>
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-                        <TextBlock Text="My status : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90"/>
+                        <TextBlock Text="My status : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90" />
                         <Button FontWeight="Medium" Margin="1" Background="Transparent"
                                 BorderThickness="0,0,0,2"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Height="Auto"
@@ -137,20 +158,27 @@
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyout.Items>
-                                        <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}" CommandParameter="Watching" />
-                                        <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}" CommandParameter="Completed" />
-                                        <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}" CommandParameter="On hold" />
-                                        <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}" CommandParameter="Dropped" />
-                                        <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}" CommandParameter="Plan to watch" />
+                                        <MenuFlyoutItem Text="{Binding Status1Label}"
+                                                        Command="{Binding ChangeStatusCommand}"
+                                                        CommandParameter="Watching" />
+                                        <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
+                                                        CommandParameter="Completed" />
+                                        <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
+                                                        CommandParameter="On hold" />
+                                        <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
+                                                        CommandParameter="Dropped" />
+                                        <MenuFlyoutItem Text="{Binding Status5Label}"
+                                                        Command="{Binding ChangeStatusCommand}"
+                                                        CommandParameter="Plan to watch" />
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
                     </StackPanel>
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-                        <TextBlock  FontWeight="SemiLight" VerticalAlignment="Center" Width="90" 
-                                    Text="{Binding WatchedEpsLabel}"/>
-                        <Button FontWeight="Medium" Margin="1" 
+                        <TextBlock FontWeight="SemiLight" VerticalAlignment="Center" Width="90"
+                                   Text="{Binding WatchedEpsLabel}" />
+                        <Button FontWeight="Medium" Margin="1"
                                 Background="Transparent" BorderThickness="0,0,0,2"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                 VerticalAlignment="Center"
@@ -158,15 +186,19 @@
                             <Button.Flyout>
                                 <Flyout x:Name="WatchedEpsFlyout">
                                     <StackPanel>
-                                        <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                        <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
+                                                   FontWeight="SemiLight" />
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBox x:Name="TxtBoxWatchedEps" Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SubmitWatchedEps" />
+                                            <TextBox x:Name="TxtBoxWatchedEps"
+                                                     Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     KeyDown="SubmitWatchedEps" />
                                             <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
                                                 <SymbolIcon Symbol="Accept" />
                                             </Button>
                                         </StackPanel>
-                                        <TextBlock  Text="Wrong input!" FontWeight="SemiLight"
-                                                   HorizontalAlignment="Center" Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <TextBlock Text="Wrong input!" FontWeight="SemiLight"
+                                                   HorizontalAlignment="Center"
+                                                   Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
@@ -175,14 +207,15 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading" SelectedIndex="{Binding DetailsPivotSelectedIndex}" >
+        <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading"
+               SelectedIndex="{Binding DetailsPivotSelectedIndex}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}">
-                    <Setter Property="Margin" Value="2,0"/>
+                    <Setter Property="Margin" Value="2,0" />
                 </Style>
                 <Style TargetType="PivotItem">
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0" />
                 </Style>
             </Pivot.Resources>
             <Pivot.Items>
@@ -192,57 +225,65 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
-                  VerticalAlignment="Stretch">
+                                      VerticalAlignment="Stretch">
                             <StackPanel>
-                                <Grid >
+                                <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".5*"/>
-                                        <ColumnDefinition Width=".5*"/>
+                                        <ColumnDefinition Width=".5*" />
+                                        <ColumnDefinition Width=".5*" />
                                     </Grid.ColumnDefinitions>
-                                    <controls:AlternatingListView  SelectionMode="None" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="LightGray" ItemsSource="{Binding LeftDetailsRow}">
+                                    <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
+                                                                  BorderThickness="0,0,1,0" BorderBrush="LightGray"
+                                                                  ItemsSource="{Binding LeftDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left" FontWeight="SemiBold"/>
-                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}" HorizontalAlignment="Right" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
+                                                               FontWeight="SemiBold" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                               HorizontalAlignment="Right" FontWeight="SemiLight" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </controls:AlternatingListView>
-                                    <controls:AlternatingListView  SelectionMode="None" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="LightGray" ItemsSource="{Binding RightDetailsRow}">
+                                    <controls:AlternatingListView SelectionMode="None" Grid.Column="1"
+                                                                  BorderThickness="1,0,0,0" BorderBrush="LightGray"
+                                                                  ItemsSource="{Binding RightDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left" FontWeight="SemiBold"/>
-                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}" HorizontalAlignment="Right" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
+                                                               FontWeight="SemiBold" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                               HorizontalAlignment="Right" FontWeight="SemiLight" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </controls:AlternatingListView>
                                 </Grid>
-                                <MenuFlyoutSeparator  VerticalAlignment="Top" />
-                                <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock  Text="{Binding Synopsis}" HorizontalAlignment="Stretch" 
-                                            FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
-                                            TextWrapping="WrapWholeWords" Margin="3,1" />
+                                <MenuFlyoutSeparator VerticalAlignment="Top" />
+                                <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding Synopsis}" HorizontalAlignment="Stretch"
+                                           FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
+                                           TextWrapping="WrapWholeWords" Margin="3,1" />
                             </StackPanel>
                         </ScrollViewer>
                     </PivotItem.Content>
@@ -254,23 +295,24 @@
                     <PivotItem.Content>
                         <ScrollViewer>
                             <Grid VerticalAlignment="Stretch">
-                                <TextBlock Visibility="{Binding DetailedDataVisibility,Converter={StaticResource VisiblityInverterConverter}}"
-                                           Text="Data unavailable :(" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                           FontSize="30" FontWeight="SemiLight"
-                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                <TextBlock
+                                    Visibility="{Binding DetailedDataVisibility,Converter={StaticResource VisiblityInverterConverter}}"
+                                    Text="Data unavailable :("
+                                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    FontSize="30" FontWeight="SemiLight"
+                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <Grid Visibility="{Binding DetailedDataVisibility}" Margin="0,0,0,10">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.Resources>
                                         <Style TargetType="controls:AlternatingListView">
@@ -278,112 +320,140 @@
                                                 <Setter.Value>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                        <Setter Property="MinHeight" Value="35"></Setter>
-                                                        <Setter Property="Height" Value="35"></Setter>
+                                                        <Setter Property="MinHeight" Value="35" />
+                                                        <Setter Property="Height" Value="35" />
                                                     </Style>
                                                 </Setter.Value>
                                             </Setter>
-                                            <Setter Property="SelectionMode" Value="None"></Setter>
+                                            <Setter Property="SelectionMode" Value="None" />
                                         </Style>
                                     </Grid.Resources>
-                                    <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
+                                    <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
+                                               HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2"
+                                               Margin="0,5,0,5" />
                                     <StackPanel Grid.Row="1">
-                                        <TextBlock Visibility="{Binding NoGenresDataVisibility}" Text="No data available"
-                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
+                                        <TextBlock Visibility="{Binding NoGenresDataVisibility}"
+                                                   Text="No data available"
+                                                   TextWrapping="WrapWholeWords" TextAlignment="Center"
+                                                   Foreground="#FFB9B9B9" />
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=".5*"/>
-                                                <ColumnDefinition Width=".5*"/>
+                                                <ColumnDefinition Width=".5*" />
+                                                <ColumnDefinition Width=".5*" />
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="10"/>
-                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
-                                            <controls:AlternatingListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RightGenres}" BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                                            <controls:AlternatingListView Grid.Column="0" Grid.Row="1"
+                                                                          ItemsSource="{Binding RightGenres}"
+                                                                          BorderThickness="0,0,1,0"
+                                                                          BorderBrush="LightGray">
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}" TextAlignment="Center" HorizontalAlignment="Stretch" FontWeight="SemiLight"/>
+                                                        <TextBlock Text="{Binding}" TextAlignment="Center"
+                                                                   HorizontalAlignment="Stretch" FontWeight="SemiLight" />
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <controls:AlternatingListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LeftGenres}" BorderThickness="1,0,0,0" BorderBrush="LightGray">
+                                            <controls:AlternatingListView Grid.Column="1" Grid.Row="1"
+                                                                          ItemsSource="{Binding LeftGenres}"
+                                                                          BorderThickness="1,0,0,0"
+                                                                          BorderBrush="LightGray">
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}" TextAlignment="Center" HorizontalAlignment="Stretch" FontWeight="SemiLight"/>
+                                                        <TextBlock Text="{Binding}" TextAlignment="Center"
+                                                                   HorizontalAlignment="Stretch" FontWeight="SemiLight" />
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
                                         </Grid>
-                                        <MenuFlyoutSeparator/>
+                                        <MenuFlyoutSeparator />
                                     </StackPanel>
                                     <StackPanel Grid.ColumnSpan="2" Grid.Row="3">
-                                        <TextBlock Text="Episodes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5"/>
-                                        <TextBlock Visibility="{Binding NoEpisodesDataVisibility}" Text="No data available"
-                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <controls:AlternatingListView ItemsSource="{Binding Episodes}" BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                                        <TextBlock Text="Episodes" FontWeight="Bold" VerticalAlignment="Top"
+                                                   HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
+                                        <TextBlock Visibility="{Binding NoEpisodesDataVisibility}"
+                                                   Text="No data available"
+                                                   TextWrapping="WrapWholeWords" TextAlignment="Center"
+                                                   Foreground="#FFB9B9B9" />
+                                        <controls:AlternatingListView ItemsSource="{Binding Episodes}"
+                                                                      BorderThickness="0,0,1,0" BorderBrush="LightGray">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid HorizontalAlignment="Stretch">
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0" Text="{Binding Item1}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
-                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}" HorizontalAlignment="Center" FontWeight="SemiLight" TextTrimming="CharacterEllipsis"/>
+                                                        <TextBlock Grid.Column="0" Text="{Binding Item1}"
+                                                                   HorizontalAlignment="Center" FontWeight="SemiBold" />
+                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                                   HorizontalAlignment="Center" FontWeight="SemiLight"
+                                                                   TextTrimming="CharacterEllipsis" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
                                     </StackPanel>
-                                    <MenuFlyoutSeparator Grid.Row="4"/>
-                                    <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
+                                    <MenuFlyoutSeparator Grid.Row="4" />
+                                    <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold"
+                                               VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
+                                               Grid.ColumnSpan="2" Margin="0,5,0,5" />
                                     <StackPanel Grid.Row="6">
                                         <TextBlock Visibility="{Binding NoOPsDataVisibility}" Text="No data available"
-                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <controls:AlternatingListView  ItemsSource="{Binding OPs}">
+                                                   TextWrapping="WrapWholeWords" TextAlignment="Center"
+                                                   Foreground="#FFB9B9B9" />
+                                        <controls:AlternatingListView ItemsSource="{Binding OPs}">
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                                                    <Setter Property="IsTextSelectionEnabled" Value="True" />
                                                 </Style>
                                             </ListView.Resources>
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                                               FontWeight="SemiLight" />
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
                                     </StackPanel>
-                                    <MenuFlyoutSeparator Grid.Row="7"/>
-                                    <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
+                                    <MenuFlyoutSeparator Grid.Row="7" />
+                                    <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold"
+                                               VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
+                                               Grid.ColumnSpan="2" Margin="0,5,0,5" />
                                     <StackPanel Grid.Row="9">
                                         <TextBlock Visibility="{Binding NoEDsDataVisibility}" Text="No data available"
-                                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <controls:AlternatingListView  ItemsSource="{Binding EDs}">
+                                                   TextWrapping="WrapWholeWords" TextAlignment="Center"
+                                                   Foreground="#FFB9B9B9" />
+                                        <controls:AlternatingListView ItemsSource="{Binding EDs}">
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                                                    <Setter Property="IsTextSelectionEnabled" Value="True" />
                                                 </Style>
                                             </ListView.Resources>
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                                               FontWeight="SemiLight" />
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
-                                         
+
                                         </controls:AlternatingListView>
-                                        <Button VerticalAlignment="Bottom" 
-                                        Margin="0,15,0,0" HorizontalAlignment="Left" 
-                                        Content="Source : AnimeNewsNetwork"
-                                        Command="{Binding OpenInAnnCommand}"
-                                        Visibility="{Binding AnnSourceButtonVisibility}"/>
+                                        <Button VerticalAlignment="Bottom"
+                                                Margin="0,15,0,0" HorizontalAlignment="Left"
+                                                Content="Source : AnimeNewsNetwork"
+                                                Command="{Binding OpenInAnnCommand}"
+                                                Visibility="{Binding AnnSourceButtonVisibility}" />
                                     </StackPanel>
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
                                     </Grid.Background>
-                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
-                                    </ProgressRing>
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                                  Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                             </Grid>
                         </ScrollViewer>
@@ -398,26 +468,30 @@
                             <Grid>
                                 <Grid VerticalAlignment="Stretch">
                                     <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
-                                           Text="Reviews unavailable :(" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                           FontSize="30" FontWeight="SemiLight"
-                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                               Text="Reviews unavailable :("
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                                               FontSize="30" FontWeight="SemiLight"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
                                     </Grid.Background>
-                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
-                                    </ProgressRing>
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                                  Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                                 <Pivot ItemsSource="{Binding Reviews}">
                                     <Pivot.HeaderTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" MaxWidth="300">
-                                                <Image Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}" Width="Auto" Height="Auto" MaxHeight="35"/>
+                                                <Image
+                                                    Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
+                                                    Width="Auto" Height="Auto" MaxHeight="35" />
                                                 <StackPanel Margin="5,0,0,0">
-                                                    <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold"/>
-                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15" FontWeight="SemiLight"/>
+                                                    <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold" />
+                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15"
+                                                               FontWeight="SemiLight" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </DataTemplate>
@@ -426,16 +500,20 @@
                                         <DataTemplate>
                                             <Grid HorizontalAlignment="Stretch">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
-                                                <StackPanel BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Padding="5,0" Margin="5,5" BorderThickness="5,0,0,0" HorizontalAlignment="Left">
-                                                    <TextBlock Text="{Binding Date}" FontWeight="SemiLight"/>
-                                                    <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight"/>
-                                                    <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight"/>
+                                                <StackPanel
+                                                    BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                    Padding="5,0" Margin="5,5" BorderThickness="5,0,0,0"
+                                                    HorizontalAlignment="Left">
+                                                    <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
+                                                    <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
+                                                    <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
                                                 </StackPanel>
                                                 <Grid Grid.Row="1">
-                                                    <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords" Margin="0,5" Padding="5,5,5,0"/>
+                                                    <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords"
+                                                               Margin="0,5" Padding="5,5,5,0" />
                                                 </Grid>
                                             </Grid>
                                         </DataTemplate>
@@ -454,45 +532,51 @@
                             <Grid>
                                 <Grid VerticalAlignment="Stretch">
                                     <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility}"
-                                           Text="Recommendations unavailable :(" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                           FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
-                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                               Text="Recommendations unavailable :("
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                                               FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
                                     </Grid.Background>
-                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
-                                    </ProgressRing>
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                                  Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
-                                <Pivot ItemsSource="{Binding Recommendations}" SelectedItem="{Binding CurrentRecommendationsSelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <Pivot ItemsSource="{Binding Recommendations}"
+                                       SelectedItem="{Binding CurrentRecommendationsSelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                     <Pivot.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Title}" FontSize="17" MaxWidth="200" TextTrimming="WordEllipsis" FontWeight="SemiLight"/>
+                                            <TextBlock Text="{Binding Path=Title}" FontSize="17" MaxWidth="200"
+                                                       TextTrimming="WordEllipsis" FontWeight="SemiLight" />
                                         </DataTemplate>
                                     </Pivot.HeaderTemplate>
                                     <Pivot.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="145"/>
-                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="145" />
+                                                    <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Grid Width="Auto" Height="Auto">
-                                                        <Image x:Name="Image" Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}" 
+                                                        <Image x:Name="Image"
+                                                               Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                                Height="145" Width="Auto"
-                                                               HorizontalAlignment="Center" Stretch="Uniform" Margin="5,5,5,0"/>
+                                                               HorizontalAlignment="Center" Stretch="Uniform"
+                                                               Margin="5,5,5,0" />
                                                         <Grid Margin="{Binding ElementName=Image,Path=Margin}">
-                                                            <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" 
-                                                                Command="{Binding Source={StaticResource Locator}, Path=AnimeDetails.NavigateDetailsCommand}"
-                                                                CommandParameter="{Binding}"
-                                                                HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40">
+                                                            <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
+                                                                    Command="{Binding Source={StaticResource Locator}, Path=AnimeDetails.NavigateDetailsCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Bottom" Height="40">
                                                                 <Button.Background>
                                                                     <SolidColorBrush Color="Black" Opacity=".5" />
                                                                 </Button.Background>
@@ -500,16 +584,17 @@
                                                             </Button>
                                                         </Grid>
                                                     </Grid>
-                                                    <RichTextBlock Grid.Column="1" VerticalAlignment="Stretch" 
+                                                    <RichTextBlock Grid.Column="1" VerticalAlignment="Stretch"
                                                                    OverflowContentTarget="{Binding ElementName=DescriptionOverflow}"
                                                                    TextTrimming="None" TextWrapping="WrapWholeWords"
                                                                    IsTextSelectionEnabled="False" Margin="5">
                                                         <Paragraph>
-                                                            <Run Text="{Binding Description}"/>
+                                                            <Run Text="{Binding Description}" />
                                                         </Paragraph>
                                                     </RichTextBlock>
                                                 </Grid>
-                                                <RichTextBlockOverflow Grid.Row="1" x:Name="DescriptionOverflow" Margin="5"/>
+                                                <RichTextBlockOverflow Grid.Row="1" x:Name="DescriptionOverflow"
+                                                                       Margin="5" />
                                             </Grid>
                                         </DataTemplate>
                                     </Pivot.ItemTemplate>
@@ -527,39 +612,43 @@
                             <Grid>
                                 <Grid VerticalAlignment="Stretch">
                                     <TextBlock Visibility="{Binding NoRelatedDataNoticeVisibility}"
-                                                       Text="Related anime unavailable :(" 
-                                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                                       FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
-                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                               Text="Related anime unavailable :("
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                                               FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingRelated}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid Visibility="{Binding LoadingRelated}" VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
                                     <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
                                     </Grid.Background>
-                                    <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" Margin="0,50,0,0" VerticalAlignment="Top"  IsActive="True">
-                                    </ProgressRing>
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                                  Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                                 <ListView ItemsSource="{Binding RelatedAnime}" SelectionMode="None">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                            <Setter Property="BorderThickness" Value="5,0,0,0"/>
-                                            <Setter Property="Margin" Value="5"/>
-                                            <Setter Property="Background" Value="WhiteSmoke"/>
-                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="BorderBrush"
+                                                    Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            <Setter Property="BorderThickness" Value="5,0,0,0" />
+                                            <Setter Property="Margin" Value="5" />
+                                            <Setter Property="Background" Value="WhiteSmoke" />
+                                            <Setter Property="Padding" Value="0" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}" 
-                                                        IsEnabled="{Binding Type , Converter={StaticResource RelatedAnimeTypeToBoolConverter}}" Background="Transparent" 
-                                                        HorizontalAlignment="Stretch" 
+                                                <Button Margin="0" Style="{StaticResource TextBlockButtonStyle}"
+                                                        IsEnabled="{Binding Type , Converter={StaticResource RelatedAnimeTypeToBoolConverter}}"
+                                                        Background="Transparent"
+                                                        HorizontalAlignment="Stretch"
                                                         Command="{Binding Source={StaticResource Locator} ,Path=AnimeDetails.NavigateDetailsCommand}"
                                                         CommandParameter="{Binding}">
                                                     <Button.Content>
-                                                        <TextBlock Text="{Binding WholeRelation}" TextWrapping="WrapWholeWords" Margin="5,0"/>
+                                                        <TextBlock Text="{Binding WholeRelation}"
+                                                                   TextWrapping="WrapWholeWords" Margin="5,0" />
                                                     </Button.Content>
                                                 </Button>
                                             </Grid>
@@ -575,10 +664,10 @@
 
         <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}">
             <Grid.Background>
-                <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
             </Grid.Background>
-            <ProgressRing  HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"  IsActive="True">
-            </ProgressRing>
+            <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"
+                          IsActive="True" />
         </Grid>
 
     </Grid>

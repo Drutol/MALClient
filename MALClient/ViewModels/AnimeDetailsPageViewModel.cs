@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Popups;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -31,9 +28,9 @@ namespace MALClient.ViewModels
         public readonly int Id;
         public readonly object PrevPageSetup;
         public readonly string Title;
-        public PageIndex Source;
-        public bool RegisterBackNav = true;
         public bool AnimeMode = true;
+        public bool RegisterBackNav = true;
+        public PageIndex Source;
 
         public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
             object args = null)
@@ -53,24 +50,42 @@ namespace MALClient.ViewModels
 
     public class AnimeDetailsPageViewModel : ViewModelBase
     {
+        private int _allEpisodes;
         private IAnimeData _animeItemReference;
+        private bool _animeMode;
         private float _globalScore;
         private string _imgUrl;
         private bool _loadedDetails;
-        private bool _loadedReviews;
         private bool _loadedRecomm;
         private bool _loadedRelated;
-        public ObservableCollection<AnimeReviewData> Reviews { get;} = new ObservableCollection<AnimeReviewData>(); 
-        public ObservableCollection<DirectRecommendationData> Recommendations { get;} = new ObservableCollection<DirectRecommendationData>(); 
-        public ObservableCollection<RelatedAnimeData> RelatedAnime { get;} = new ObservableCollection<RelatedAnimeData>();
-        public ObservableCollection<Tuple<string,string>> LeftDetailsRow { get; set; } = new ObservableCollection<Tuple<string, string>>();
-        public ObservableCollection<Tuple<string, string>> RightDetailsRow { get; set; } = new ObservableCollection<Tuple<string, string>>();
+        private bool _loadedReviews;
+        private AnimeDetailsPageNavigationArgs _prevArgs;
+
+
+        private List<string> _synonyms = new List<string>();
+        private string _synopsis;
+        public ObservableCollection<AnimeReviewData> Reviews { get; } = new ObservableCollection<AnimeReviewData>();
+
+        public ObservableCollection<DirectRecommendationData> Recommendations { get; } =
+            new ObservableCollection<DirectRecommendationData>();
+
+        public ObservableCollection<RelatedAnimeData> RelatedAnime { get; } =
+            new ObservableCollection<RelatedAnimeData>();
+
+        public ObservableCollection<Tuple<string, string>> LeftDetailsRow { get; set; } =
+            new ObservableCollection<Tuple<string, string>>();
+
+        public ObservableCollection<Tuple<string, string>> RightDetailsRow { get; set; } =
+            new ObservableCollection<Tuple<string, string>>();
+
         public ObservableCollection<string> LeftGenres { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> RightGenres { get; } = new ObservableCollection<string>();
-        public ObservableCollection<Tuple<string,string>> Episodes { get; } = new ObservableCollection<Tuple<string, string>>();
+
+        public ObservableCollection<Tuple<string, string>> Episodes { get; } =
+            new ObservableCollection<Tuple<string, string>>();
+
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
-        private int _allEpisodes;
 
         private string AnnId { get; set; }
         private int Id { get; set; }
@@ -78,10 +93,7 @@ namespace MALClient.ViewModels
 
         private int AllEpisodes
         {
-            get
-            {
-                return _animeItemReference?.AllEpisodes ?? _allEpisodes;
-            }
+            get { return _animeItemReference?.AllEpisodes ?? _allEpisodes; }
             set { _allEpisodes = value; }
         }
 
@@ -89,22 +101,115 @@ namespace MALClient.ViewModels
 
         private string Type { get; set; }
         private string Status { get; set; }
-        private string _synopsis;
-        
-
-        private List<string> _synonyms = new List<string>();
 
         private string StartDate { get; set; }
         private string EndDate { get; set; }
-        private bool _animeMode;
-       
+
         public IDetailsViewInteraction View { get; set; }
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
-        private AnimeDetailsPageNavigationArgs _prevArgs;
+
+        public async void Init(AnimeDetailsPageNavigationArgs param)
+        {
+            LoadingGlobal = Visibility.Visible;
+            _animeMode = param.AnimeMode;
+            PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
+            _prevArgs = param;
+            Id = param.Id;
+            Title = param.Title;
+            _animeItemReference = param.AnimeItem;
+
+            if (_animeMode)
+            {
+                Status1Label = "Watching";
+                Status5Label = "Plan to watch";
+                WatchedEpsLabel = "My watched\nepisodes :";
+                UpdateEpsUpperLabel = "Watched eps :";
+            }
+            else
+            {
+                Status1Label = "Reading";
+                Status5Label = "Plan to read";
+                WatchedEpsLabel = "My read\nchapters :";
+                UpdateEpsUpperLabel = "Read chapters : ";
+            }
+
+            if (_animeItemReference == null || _animeItemReference is AnimeSearchItem ||
+                !(_animeItemReference as AnimeItemViewModel).Auth)
+                //if we are from search or from unauthenticated item let's look for proper abstraction
+            {
+                if (
+                    !ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference,
+                        _animeMode))
+                    // else we don't have this item
+                {
+                    //we may only prepare for its creation
+                    AddAnimeVisibility = true;
+                    MyDetailsVisibility = false;
+                }
+            } // else we already have it
+
+            if (_animeItemReference is AnimeItemViewModel && (_animeItemReference as AnimeItemViewModel).Auth)
+            {
+                //we have item on the list , so there's valid data here
+                MyDetailsVisibility = true;
+                AddAnimeVisibility = false;
+                RaisePropertyChanged(() => MyEpisodesBind);
+                RaisePropertyChanged(() => MyStatusBind);
+                RaisePropertyChanged(() => MyScoreBind);
+            }
+
+            switch (param.Source)
+            {
+                case PageIndex.PageSearch:
+                case PageIndex.PageMangaSearch:
+                    ExtractData(param.AnimeElement);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+                case PageIndex.PageAnimeList:
+                case PageIndex.PageMangaList:
+                    await FetchData(param.Id.ToString(), param.Title);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+                case PageIndex.PageAnimeDetails:
+                    await FetchData(param.Id.ToString(), param.Title);
+                    if (param.RegisterBackNav) //we are already going back
+                        NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
+                    break;
+                case PageIndex.PageRecomendations:
+                    ExtractData(param.AnimeElement);
+                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+            }
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
+            DetailsPivotSelectedIndex = 0;
+            Reviews.Clear();
+        }
+
+        private async void OpenMalPage()
+        {
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+        }
+
+        private async void OpenAnnPage()
+        {
+            await Launcher.LaunchUriAsync(new Uri($"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={AnnId}"));
+        }
+
+        private async void NavigateDetails(IDetailsPageArgs args)
+        {
+            await ViewModelLocator.Main
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
+                        {Source = PageIndex.PageAnimeDetails, RegisterBackNav = false, AnimeMode = _animeMode})
+                    {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
+        }
 
         #region Properties
+
         public string MyEpisodesBind => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
+
         private int MyEpisodes
         {
             get { return _animeItemReference?.MyEpisodes ?? 0; }
@@ -115,10 +220,11 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyStatusBind => Utils.StatusToString(MyStatus,!_animeMode);
+        public string MyStatusBind => Utils.StatusToString(MyStatus, !_animeMode);
+
         private int MyStatus
         {
-            get { return _animeItemReference?.MyStatus ?? (int)AnimeStatus.AllOrAiring; }
+            get { return _animeItemReference?.MyStatus ?? (int) AnimeStatus.AllOrAiring; }
             set
             {
                 _animeItemReference.MyStatus = value;
@@ -127,6 +233,7 @@ namespace MALClient.ViewModels
         }
 
         public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+
         private int MyScore
         {
             get { return _animeItemReference?.MyScore ?? 0; }
@@ -138,17 +245,15 @@ namespace MALClient.ViewModels
         }
 
         public string MyVolumesBind => MyVolumes.ToString();
+
         public int MyVolumes
         {
             get { return _animeItemReference?.MyVolumes ?? 0; }
-            set
-            {
-                _animeItemReference.MyVolumes = value;
-               
-            }
+            set { _animeItemReference.MyVolumes = value; }
         }
 
         private string _status1Label = "Watching";
+
         public string Status1Label
         {
             get { return _status1Label; }
@@ -160,6 +265,7 @@ namespace MALClient.ViewModels
         }
 
         private string _status5Label = "Plan to watch";
+
         public string Status5Label
         {
             get { return _status5Label; }
@@ -171,6 +277,7 @@ namespace MALClient.ViewModels
         }
 
         private string _watchedEpsLabel = "My watched\nepisodes :";
+
         public string WatchedEpsLabel
         {
             get { return _watchedEpsLabel; }
@@ -182,6 +289,7 @@ namespace MALClient.ViewModels
         }
 
         private string _updateEpsUpperLabel = "Watched eps :";
+
         public string UpdateEpsUpperLabel
         {
             get { return _updateEpsUpperLabel; }
@@ -193,6 +301,7 @@ namespace MALClient.ViewModels
         }
 
         private bool _loadingUpdate;
+
         public bool LoadingUpdate
         {
             get { return _loadingUpdate; }
@@ -225,6 +334,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _loadingGlobal;
+
         public Visibility LoadingGlobal
         {
             get { return _loadingGlobal; }
@@ -236,6 +346,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _loadingDetails;
+
         public Visibility LoadingDetails
         {
             get { return _loadingDetails; }
@@ -247,6 +358,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _loadingReviews;
+
         public Visibility LoadingReviews
         {
             get { return _loadingReviews; }
@@ -258,6 +370,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _loadingRelated;
+
         public Visibility LoadingRelated
         {
             get { return _loadingRelated; }
@@ -269,6 +382,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _loadingRecommendations;
+
         public Visibility LoadingRecommendations
         {
             get { return _loadingRecommendations; }
@@ -280,6 +394,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _detailedDataVisibility;
+
         public Visibility DetailedDataVisibility
         {
             get { return _detailedDataVisibility; }
@@ -291,15 +406,19 @@ namespace MALClient.ViewModels
         }
 
         private string _watchedEpsInput;
-        public string WatchedEpsInput {
+
+        public string WatchedEpsInput
+        {
             get { return _watchedEpsInput; }
             set
             {
                 _watchedEpsInput = value;
                 RaisePropertyChanged(() => WatchedEpsInput);
-            } }
+            }
+        }
 
         private bool _watchedEpsInputNoticeVisibility;
+
         public bool WatchedEpsInputNoticeVisibility
         {
             get { return _watchedEpsInputNoticeVisibility; }
@@ -311,6 +430,7 @@ namespace MALClient.ViewModels
         }
 
         private bool _myDetailsVisibility;
+
         public bool MyDetailsVisibility
         {
             get { return _myDetailsVisibility; }
@@ -322,6 +442,7 @@ namespace MALClient.ViewModels
         }
 
         private bool _addAnimeVisibility;
+
         public bool AddAnimeVisibility
         {
             get { return _addAnimeVisibility; }
@@ -333,79 +454,67 @@ namespace MALClient.ViewModels
         }
 
         private ICommand _changeStatusCommand;
+
         public ICommand ChangeStatusCommand
         {
-            get
-            {
-                return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus));
-            }
+            get { return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus)); }
         }
 
         private ICommand _navigateDetailsCommand;
+
         public ICommand NavigateDetailsCommand
         {
             get
             {
-                return _navigateDetailsCommand ?? (_navigateDetailsCommand = 
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand =
                     new RelayCommand<IDetailsPageArgs>(args => NavigateDetails(args)));
             }
         }
 
         private ICommand _changeScoreCommand;
+
         public ICommand ChangeScoreCommand
         {
-            get
-            {
-                return _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<Object>(ChangeScore));
-            }
+            get { return _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<object>(ChangeScore)); }
         }
 
         private ICommand _changeWatchedCommand;
+
         public ICommand ChangeWatchedCommand
         {
-            get
-            {
-                return _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps));
-            }
+            get { return _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps)); }
         }
 
         private ICommand _addAnimeCommand;
+
         public ICommand AddAnimeCommand
         {
-            get
-            {
-                return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddAnime));
-            }
+            get { return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddAnime)); }
         }
 
         private ICommand _removeAnimeCommand;
+
         public ICommand RemoveAnimeCommand
         {
-            get
-            {
-                return _removeAnimeCommand ?? (_removeAnimeCommand = new RelayCommand(RemoveAnime));
-            }
+            get { return _removeAnimeCommand ?? (_removeAnimeCommand = new RelayCommand(RemoveAnime)); }
         }
 
         private ICommand _openInMalCommand;
+
         public ICommand OpenInMalCommand
         {
-            get
-            {
-                return _openInMalCommand ?? (_openInMalCommand = new RelayCommand(OpenMalPage));
-            }
+            get { return _openInMalCommand ?? (_openInMalCommand = new RelayCommand(OpenMalPage)); }
         }
 
         private ICommand _openInAnnCommand;
+
         public ICommand OpenInAnnCommand
         {
-            get
-            {
-                return _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage));
-            }
+            get { return _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage)); }
         }
 
         private BitmapImage _detailImage;
+
         public BitmapImage DetailImage
         {
             get { return _detailImage; }
@@ -417,6 +526,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noEpisodesDataVisibility;
+
         public Visibility NoEpisodesDataVisibility
         {
             get { return _noEpisodesDataVisibility; }
@@ -428,6 +538,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noEDsDataVisibility;
+
         public Visibility NoEDsDataVisibility
         {
             get { return _noEDsDataVisibility; }
@@ -439,6 +550,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noOPsDataVisibility;
+
         public Visibility NoOPsDataVisibility
         {
             get { return _noOPsDataVisibility; }
@@ -450,6 +562,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noGenresDataVisibility;
+
         public Visibility NoGenresDataVisibility
         {
             get { return _noGenresDataVisibility; }
@@ -461,6 +574,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _annSourceButtonVisibility;
+
         public Visibility AnnSourceButtonVisibility
         {
             get { return _annSourceButtonVisibility; }
@@ -472,6 +586,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _pivotItemDetailsVisibility = Visibility.Visible;
+
         public Visibility PivotItemDetailsVisibility
         {
             get { return _pivotItemDetailsVisibility; }
@@ -483,6 +598,7 @@ namespace MALClient.ViewModels
         }
 
         private int _detailsPivotSelectedIndex;
+
         public int DetailsPivotSelectedIndex
         {
             get { return _detailsPivotSelectedIndex; }
@@ -494,6 +610,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noReviewsDataNoticeVisibility = Visibility.Collapsed;
+
         public Visibility NoReviewsDataNoticeVisibility
         {
             get { return _noReviewsDataNoticeVisibility; }
@@ -505,6 +622,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noRecommDataNoticeVisibility = Visibility.Collapsed;
+
         public Visibility NoRecommDataNoticeVisibility
         {
             get { return _noRecommDataNoticeVisibility; }
@@ -516,6 +634,7 @@ namespace MALClient.ViewModels
         }
 
         private Visibility _noRelatedDataNoticeVisibility = Visibility.Collapsed;
+
         public Visibility NoRelatedDataNoticeVisibility
         {
             get { return _noRelatedDataNoticeVisibility; }
@@ -526,94 +645,7 @@ namespace MALClient.ViewModels
             }
         }
 
-
-
-        
-#endregion
-
-        public async void Init(AnimeDetailsPageNavigationArgs param)
-        {
-            LoadingGlobal = Visibility.Visible;
-            _animeMode = param.AnimeMode;
-            PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
-            _prevArgs = param;
-            Id = param.Id;
-            Title = param.Title;
-            _animeItemReference = param.AnimeItem;
-
-            if (_animeMode)
-            {
-                Status1Label = "Watching";
-                Status5Label = "Plan to watch";
-                WatchedEpsLabel = "My watched\nepisodes :";
-                UpdateEpsUpperLabel = "Watched eps :";
-            }
-            else
-            {
-                Status1Label = "Reading";
-                Status5Label = "Plan to read";
-                WatchedEpsLabel = "My read\nchapters :";
-                UpdateEpsUpperLabel = "Read chapters : ";
-            }
-
-            if (_animeItemReference == null || _animeItemReference is AnimeSearchItem || !(_animeItemReference as AnimeItemViewModel).Auth)
-            //if we are from search or from unauthenticated item let's look for proper abstraction
-            {
-                if (!ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference,_animeMode))
-                // else we don't have this item
-                {
-                    //we may only prepare for its creation
-                    AddAnimeVisibility = true;
-                    MyDetailsVisibility = false;
-                }
-            } // else we already have it
-
-            if (_animeItemReference is AnimeItemViewModel && (_animeItemReference as AnimeItemViewModel).Auth)
-            {
-                //we have item on the list , so there's valid data here
-                MyDetailsVisibility = true;
-                AddAnimeVisibility = false;
-                RaisePropertyChanged(() => MyEpisodesBind);
-                RaisePropertyChanged(() => MyStatusBind);
-                RaisePropertyChanged(() => MyScoreBind);
-            }
-
-            switch (param.Source)
-            {
-                case PageIndex.PageSearch:
-                case PageIndex.PageMangaSearch:
-                    ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
-                    break;
-                case PageIndex.PageAnimeList:
-                case PageIndex.PageMangaList:
-                    await FetchData(param.Id.ToString(), param.Title);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
-                    break;
-                case PageIndex.PageAnimeDetails:
-                    await FetchData(param.Id.ToString(), param.Title);
-                    if(param.RegisterBackNav) //we are already going back
-                        NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup , PageIndex.PageAnimeDetails);
-                    break;
-                case PageIndex.PageRecomendations:
-                    ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
-                    break;
-            }
-            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
-            DetailsPivotSelectedIndex = 0;
-            Reviews.Clear();
-        }
-
-        private async void OpenMalPage()
-        {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
-        }
-
-        private async void OpenAnnPage()
-        {
-            await Launcher.LaunchUriAsync(new Uri($"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={AnnId}"));
-        }
+        #endregion
 
         #region ChangeStuff
 
@@ -658,7 +690,7 @@ namespace MALClient.ViewModels
         public async void ChangeWatchedEps()
         {
             LoadingUpdate = true;
-            int eps,prevEps = MyEpisodes;
+            int eps, prevEps = MyEpisodes;
             if (!int.TryParse(WatchedEpsInput, out eps))
             {
                 WatchedEpsInputNoticeVisibility = true;
@@ -675,17 +707,19 @@ namespace MALClient.ViewModels
                 if (response != "Updated")
                     MyEpisodes = prevWatched;
 
-                if(_animeItemReference is AnimeItemViewModel)
+                if (_animeItemReference is AnimeItemViewModel)
                     if (prevEps == 0 && AllEpisodes != 0 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
                     {
-                        await ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int)AnimeStatus.Watching);
+                        await
+                            ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Watching);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     else if (MyEpisodes == AllEpisodes && AllEpisodes != 0)
                     {
-                        await ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int)AnimeStatus.Completed);
+                        await
+                            ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                 WatchedEpsInput = "";
@@ -696,8 +730,6 @@ namespace MALClient.ViewModels
             }
             LoadingUpdate = false;
         }
-
-
 
         #endregion
 
@@ -713,7 +745,7 @@ namespace MALClient.ViewModels
             AddAnimeVisibility = false;
             var animeItem = _animeMode
                 ? new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0)
-                : new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0,0, AllVolumes);
+                : new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0, 0, AllVolumes);
             _animeItemReference = animeItem.ViewModel;
             MyScore = 0;
             MyStatus = 6;
@@ -756,17 +788,18 @@ namespace MALClient.ViewModels
         {
             if (_animeItemReference is AnimeItemViewModel && _animeMode)
             {
-                var day = Status == "Currently Airing" ? (int)DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
+                var day = Status == "Currently Airing" ? (int) DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
                 DataCache.RegisterVolatileData(Id, new VolatileDataCache
                 {
                     DayOfAiring = day,
                     GlobalScore = GlobalScore
                 });
-                ((AnimeItemViewModel)_animeItemReference).Airing = day != -1;
+                ((AnimeItemViewModel) _animeItemReference).Airing = day != -1;
                 DataCache.SaveVolatileData();
             }
 
-            LeftDetailsRow.Add(new Tuple<string,string>(_animeMode ? "Episodes" : "Chapters", AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
+            LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
+                AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
@@ -776,15 +809,15 @@ namespace MALClient.ViewModels
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentStatus = Title;
 
-            DetailImage  = new BitmapImage(new Uri(_imgUrl));
+            DetailImage = new BitmapImage(new Uri(_imgUrl));
             LoadingGlobal = Visibility.Collapsed;
-            if(Settings.DetailsAutoLoadDetails)
+            if (Settings.DetailsAutoLoadDetails)
                 LoadDetails();
-            if(Settings.DetailsAutoLoadReviews)
+            if (Settings.DetailsAutoLoadReviews)
                 LoadReviews();
-            if(Settings.DetailsAutoLoadRecomms)
+            if (Settings.DetailsAutoLoadRecomms)
                 LoadRecommendations();
-            if(Settings.DetailsAutoLoadRelated)
+            if (Settings.DetailsAutoLoadRelated)
                 LoadRelatedAnime();
         }
 
@@ -793,7 +826,7 @@ namespace MALClient.ViewModels
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
-            Synopsis = Utils.DecodeXmlSynopsisDetail(animeElement.Element("synopsis").Value);               
+            Synopsis = Utils.DecodeXmlSynopsisDetail(animeElement.Element("synopsis").Value);
             StartDate = animeElement.Element("start_date").Value;
             EndDate = animeElement.Element("end_date").Value;
             _imgUrl = animeElement.Element("image").Value;
@@ -801,8 +834,9 @@ namespace MALClient.ViewModels
             _synonyms.Add(animeElement.Element("english").Value);
             _synonyms.Add(Title);
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-            for(int i=0;i<_synonyms.Count;i++)
-                _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty); //removes string from brackets (sthsth) lol ->  lol
+            for (var i = 0; i < _synonyms.Count; i++)
+                _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
+                    //removes string from brackets (sthsth) lol ->  lol
             if (_animeItemReference == null)
                 AllEpisodes = Convert.ToInt32(animeElement.Element(_animeMode ? "episodes" : "chapters").Value);
             PopulateData();
@@ -812,23 +846,23 @@ namespace MALClient.ViewModels
         {
             LoadingGlobal = Visibility.Visible;
             var data = "";
-            await Task.Run(async () => data = _animeMode  
-                 ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse()
-                 : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
+            await Task.Run(async () => data = _animeMode
+                ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse()
+                : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
             data = WebUtility.HtmlDecode(data);
             data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 
-            XDocument parsedData = XDocument.Parse(data);
+            var parsedData = XDocument.Parse(data);
             var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
             ExtractData(elements.First(element => element.Element("id").Value == id));
         }
 
         public async void RefreshData()
         {
-            await FetchData(Id.ToString(),Title);
-            if(_loadedDetails)
+            await FetchData(Id.ToString(), Title);
+            if (_loadedDetails)
                 LoadDetails(true);
-            if(_loadedReviews)
+            if (_loadedReviews)
                 LoadReviews(true);
             if (_loadedRecomm)
                 LoadRecommendations(true);
@@ -847,7 +881,10 @@ namespace MALClient.ViewModels
             EDs.Clear();
             try
             {
-                var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id,Title).GetGeneralDetailsData(force);
+                var data =
+                    await
+                        new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms),
+                            Id, Title).GetGeneralDetailsData(force);
                 AnnId = data.AnnId;
 
                 //Let's try to pull moar Genres data from MAL
@@ -856,14 +893,17 @@ namespace MALClient.ViewModels
                 {
                     foreach (var genreMal in genresData.Genres)
                     {
-                        if (data.Genres.All(genreAnn => !String.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
+                        if (
+                            data.Genres.All(
+                                genreAnn =>
+                                    !string.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
                         {
                             data.Genres.Add(Utils.FirstCharToUpper(genreMal));
                         }
                     }
                 }
                 //Now we can build elements here --- TODO: I know I know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
-                int i = 1;
+                var i = 1;
                 foreach (var genre in data.Genres)
                 {
                     if (i%2 == 0)
@@ -881,18 +921,19 @@ namespace MALClient.ViewModels
                     OPs.Add(op);
                 foreach (var ed in data.EDs)
                     EDs.Add(ed);
-                
+
                 DetailedDataVisibility = Visibility.Visible;
                 AnnSourceButtonVisibility = Visibility.Visible;
             }
             catch (Exception)
             {
-                VolatileDataCache genresData; // we may fail to pull genres from ann so we have this from MAL season page 
+                VolatileDataCache genresData;
+                    // we may fail to pull genres from ann so we have this from MAL season page 
                 if (DataCache.TryRetrieveDataForId(Id, out genresData))
                 {
                     AnnSourceButtonVisibility = Visibility.Collapsed;
                     DetailedDataVisibility = Visibility.Visible;
-                    int i = 1;
+                    var i = 1;
                     foreach (var genre in genresData.Genres ?? new List<string>())
                     {
                         if (i%2 == 0)
@@ -909,22 +950,22 @@ namespace MALClient.ViewModels
             NoGenresDataVisibility = LeftGenres.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             NoEDsDataVisibility = EDs.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             NoOPsDataVisibility = OPs.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            if(Episodes.Count == 0 && LeftGenres.Count == 0 && EDs.Count == 0 && OPs.Count==0)
+            if (Episodes.Count == 0 && LeftGenres.Count == 0 && EDs.Count == 0 && OPs.Count == 0)
                 DetailedDataVisibility = Visibility.Collapsed;
-                       
+
             LoadingDetails = Visibility.Collapsed;
         }
 
         public async void LoadReviews(bool force = false)
         {
-            if(_loadedReviews && !force)
+            if (_loadedReviews && !force)
                 return;
             LoadingReviews = Visibility.Visible;
             _loadedReviews = true;
             Reviews.Clear();
-            List<AnimeReviewData> revs = new List<AnimeReviewData>();
-            await Task.Run( async () => revs = await new AnimeReviewsQuery(Id,_animeMode).GetAnimeReviews(force));
-            
+            var revs = new List<AnimeReviewData>();
+            await Task.Run(async () => revs = await new AnimeReviewsQuery(Id, _animeMode).GetAnimeReviews(force));
+
             foreach (var rev in revs)
             {
                 Reviews.Add(rev);
@@ -941,7 +982,11 @@ namespace MALClient.ViewModels
             _loadedRecomm = true;
             Recommendations.Clear();
             var recomm = new List<DirectRecommendationData>();
-            await Task.Run(async () => recomm = await new AnimeDirectRecommendationsQuery(Id,_animeMode).GetDirectRecommendations(force));
+            await
+                Task.Run(
+                    async () =>
+                        recomm =
+                            await new AnimeDirectRecommendationsQuery(Id, _animeMode).GetDirectRecommendations(force));
             foreach (var item in recomm)
                 Recommendations.Add(item);
             NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
@@ -956,22 +1001,13 @@ namespace MALClient.ViewModels
             _loadedRelated = true;
             RelatedAnime.Clear();
             var recomm = new List<RelatedAnimeData>();
-            await Task.Run(async () => recomm = await new AnimeRelatedQuery(Id,_animeMode).GetRelatedAnime(force));
+            await Task.Run(async () => recomm = await new AnimeRelatedQuery(Id, _animeMode).GetRelatedAnime(force));
             foreach (var item in recomm)
                 RelatedAnime.Add(item);
             NoRelatedDataNoticeVisibility = RelatedAnime.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingRelated = Visibility.Collapsed;
         }
-        #endregion
 
-        private async void NavigateDetails(IDetailsPageArgs args)
-        {
-            await ViewModelLocator.Main
-                .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(args.Id, args.Title , null, null,
-                        new AnimeDetailsPageNavigationArgs(Id, Title, null , _animeItemReference)
-                        { Source = PageIndex.PageAnimeDetails, RegisterBackNav = false , AnimeMode = _animeMode})
-                    {Source = PageIndex.PageAnimeDetails , AnimeMode = args.Type == RelatedItemType.Anime});
-        }
+        #endregion
     }
 }

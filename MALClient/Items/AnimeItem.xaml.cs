@@ -9,19 +9,21 @@ using MALClient.ViewModels;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeItem : UserControl , IAnimeItemInteractions
+    public sealed partial class AnimeItem : UserControl, IAnimeItemInteractions
     {
-
-        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
+        private bool _expandState;
 
         public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
             vm.View = this;
-            DataContext = vm;      
-        }  
+            DataContext = vm;
+        }
 
-        private bool _expandState;
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
+
+        public Flyout WatchedFlyout => WatchedEpsFlyout;
+
         private void ShowMore(object sender, RoutedEventArgs e)
         {
             if (!_expandState)
@@ -60,7 +62,7 @@ namespace MALClient.Items
         {
             if (e.IsInertial && _manipulating)
             {
-                Point currentpoint = e.Position;
+                var currentpoint = e.Position;
                 if (currentpoint.X - _initialPoint.X >= 70) // swipe right
                 {
                     e.Complete();
@@ -72,7 +74,7 @@ namespace MALClient.Items
         }
 
         #endregion
-       
+
         #region CustomTilePin
 
         private void TxtTileUrl_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -99,7 +101,5 @@ namespace MALClient.Items
         }
 
         #endregion
-
-        public Flyout WatchedFlyout => WatchedEpsFlyout;
     }
 }

@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.ApplicationInsights;
+using UniversalRateReminder;
 
 namespace MALClient
 {
@@ -75,13 +76,13 @@ namespace MALClient
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            UniversalRateReminder.RatePopup.Title = "Rate this app!";
-            UniversalRateReminder.RatePopup.CancelButtonText = "Not now...";
-            UniversalRateReminder.RatePopup.Content =
+            RatePopup.Title = "Rate this app!";
+            RatePopup.CancelButtonText = "Not now...";
+            RatePopup.Content =
                 "Your feedback helps improve this app!\n\n Please take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
-            UniversalRateReminder.RatePopup.ResetCountOnNewVersion = false;
-            UniversalRateReminder.RatePopup.RateButtonText = "To the store!";
-            await UniversalRateReminder.RatePopup.CheckRateReminderAsync();
+            RatePopup.ResetCountOnNewVersion = false;
+            RatePopup.RateButtonText = "To the store!";
+            await RatePopup.CheckRateReminderAsync();
             if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
                 || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utils.GetAppVersion())
                 Task.Run(async () =>
@@ -97,7 +98,7 @@ namespace MALClient
                     }
                     catch (Exception)
                     {
-                       //
+                        //
                     }
                 });
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
@@ -128,7 +129,7 @@ namespace MALClient
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
+            var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

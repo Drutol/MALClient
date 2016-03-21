@@ -21,513 +21,20 @@ namespace MALClient.ViewModels
         Flyout WatchedFlyout { get; }
     }
 
-    public class AnimeItemViewModel : ViewModelBase , IAnimeData
+    public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
         private readonly string _imgUrl;
-        
-        
-        //state fields
-        public int Id { get; set; }
-        private float _globalScore;
         public readonly AnimeItemAbstraction _parentAbstraction;
+        private float _globalScore;
         private bool _seasonalState;
         //prop field pairs
 
         public IAnimeItemInteractions View;
 
-        #region Constructors
-        private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
-        {           
-            _parentAbstraction = parent;
-            _imgUrl = img;
-            Id = id;
-            Image = new BitmapImage(new Uri(_imgUrl));
-            AdjustIncrementButtonsOrientation();
-            if (!_parentAbstraction.RepresentsAnime)
-            {
-                UpdateEpsUpperLabel = "Read chapters :";
-                Status1Label = "Reading";
-                Status5Label = "Plan to read";
-            }
 
-        }
+        //state fields
+        public int Id { get; set; }
 
-        public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps, int myScore,
-            AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
-            //We are loading an item that IS on the list
-        {
-            //Assign fields
-            Id = id;
-            _allEpisodes = allEps;
-            Auth = auth;
-            //Assign properties
-            MyScore = myScore;
-            MyStatus = myStatus;
-            Title = name;
-            MyEpisodes = myEps;
-            ShowMoreVisibility = Visibility.Collapsed;
-
-            //We are not seasonal so it's already on list            
-            AddToListVisibility = Visibility.Collapsed;
-            SetAuthStatus(auth, setEpsAuth);
-            AdjustIncrementButtonsVisibility();
-            //There may be additional data available
-            GlobalScore = _parentAbstraction.GlobalScore;
-            Airing = _parentAbstraction.AirDay >= 0;
-
-        }
-        //manga
-        public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,
-            AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes) : this(auth,name,img,id,myStatus,myEps,allEps,myScore,parent,setEpsAuth)
-        {
-            _allVolumes = allVolumes;
-        }
-
-        public AnimeItemViewModel(SeasonalAnimeData data,
-            AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
-            //We are loading an item that is NOT on the list and is seasonal
-        {
-            _seasonalState = true;
-            
-            Title = data.Title;
-            MyScore = 0;
-            MyStatus = (int)AnimeStatus.AllOrAiring;
-            GlobalScore = data.Score;
-            int.TryParse(data.Episodes, out _allEpisodes);
-            if (data.Genres != null)
-                Genres = data.Genres;
-            Airing = _parentAbstraction.AirDay >= 0;
-            Synopsis = data.Synopsis;
-            SetAuthStatus(false, true);
-            AdjustIncrementButtonsVisibility();
-            ShowMoreVisibility = Visibility.Collapsed;
-        }
-        #endregion
-
-        #region PropertyPairs
-        private int _allEpisodes;
-        private int _allVolumes;
-        public int AllEpisodes => _allEpisodes;
-        public int AllVolumes => _allVolumes;
-
-        public string AirDayBind => Utils.DayToString((DayOfWeek)(_parentAbstraction.AirDay - 1));
-        private bool _airing;
-        public bool Airing
-        {
-            get { return _airing; }
-            set
-            {
-                if (_parentAbstraction.TryRetrieveVolatileData())
-                {
-                    RaisePropertyChanged(() => AirDayBind);
-                    TitleMargin = new Thickness(5, 3, 50, 0);
-                }
-                _airing = value;
-                RaisePropertyChanged(() => Airing);
-            }
-        }
-
-        private Thickness _titleMargin = new Thickness(5,3,5,3);
-        public Thickness TitleMargin
-        {
-            get { return _titleMargin; }
-            set
-            {
-                _titleMargin = value;
-                RaisePropertyChanged(() => TitleMargin);
-            }
-        }
-
-        private List<string> _genres = new List<string>();
-        private List<string> Genres
-        {
-            get { return _genres; }
-            set
-            {
-                _genres = value;
-                RaisePropertyChanged(() => Genres);
-            }
-        }
-
-        private Orientation _incrementButtonsOrientation = Orientation.Vertical;
-        public Orientation IncrementButtonsOrientation
-        {
-            get { return _incrementButtonsOrientation; }
-            set
-            {
-                if(_incrementButtonsOrientation == value)
-                    return;
-                _incrementButtonsOrientation = value;
-                RaisePropertyChanged(() => IncrementButtonsOrientation);
-            }
-        }
-
-        public bool Auth { get; private set; }
-
-        public string MyStatusBind => Utils.StatusToString(MyStatus,!_parentAbstraction.RepresentsAnime);
-        public int MyStatus
-        {
-            get { return _parentAbstraction.MyStatus; }
-            set
-            {
-                
-                if (_parentAbstraction.MyStatus == value)
-                    return;
-                _parentAbstraction.MyStatus = value;
-                AdjustIncrementButtonsOrientation();
-                AdjustIncrementButtonsVisibility();
-                RaisePropertyChanged(() => MyStatusBind);             
-            }
-        }
-
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
-        public int MyScore
-        {
-            get { return _parentAbstraction.MyScore; }
-            set
-            {
-                if (_parentAbstraction.MyScore == value)
-                    return;
-                _parentAbstraction.MyScore = value;
-                AdjustIncrementButtonsOrientation();
-                AdjustIncrementButtonsVisibility();
-                RaisePropertyChanged(() => MyScoreBind);
-                
-            }
-        }
-
-        public string MyEpisodesBind
-        {
-            get
-            {
-                if(_seasonalState)
-                    return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
-
-                return Auth || MyEpisodes != 0 ? $"{(_parentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " + $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}" : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
-            }
-        } 
-        public int MyEpisodes
-        {
-            get { return _parentAbstraction.MyEpisodes; }
-            set
-            {
-                if (_parentAbstraction.MyEpisodes == value)
-                    return;
-                _parentAbstraction.MyEpisodes = value;
-                RaisePropertyChanged(() => MyEpisodesBind);
-            }
-        }
-
-        public string MyVolumesBind => Auth || MyEpisodes != 0 ? "Read : " + $"{MyVolumes}/{(_allVolumes == 0 ? "?" : _allVolumes.ToString())}" : $"{(_allVolumes == 0 ? "?" : _allVolumes.ToString())} Volumes";
-        public int MyVolumes
-        {
-            get { return _parentAbstraction.MyVolumes; }
-            set
-            {
-                if (_parentAbstraction.MyVolumes == value)
-                    return;
-                _parentAbstraction.MyVolumes = value;
-                RaisePropertyChanged(() => MyVolumesBind);
-            }
-        }
-
-        private string _watchedEpsLabel = "My watched\nepisodes :";
-        public string WatchedEpsLabel
-        {
-            get { return _watchedEpsLabel; }
-            set
-            {
-                _watchedEpsLabel = value;
-                RaisePropertyChanged(() => WatchedEpsLabel);
-            }
-        }
-
-        private string _updateEpsUpperLabel = "Watched eps :";
-        public string UpdateEpsUpperLabel
-        {
-            get { return _updateEpsUpperLabel; }
-            set
-            {
-                _updateEpsUpperLabel = value;
-                RaisePropertyChanged(() => UpdateEpsUpperLabel);
-            }
-        }
-
-        private string _status1Label = "Watching";
-        public string Status1Label
-        {
-            get { return _status1Label; }
-            set
-            {
-                _status1Label = value;
-                RaisePropertyChanged(() => Status1Label);
-            }
-        }
-
-        private string _status5Label = "Plan to watch";
-        public string Status5Label
-        {
-            get { return _status5Label; }
-            set
-            {
-                _status5Label = value;
-                RaisePropertyChanged(() => Status5Label);
-            }
-        }
-
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                _title = value;
-                RaisePropertyChanged(() => Title);
-            }
-        }
-
-        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString();
-        public float GlobalScore
-        {
-            get { return _globalScore; }
-            set
-            {
-                if (value == 0)
-                    return;
-                _globalScore = value;
-                RaisePropertyChanged(() => GlobalScoreBind);
-            }
-        }
-
-        private BitmapImage _image;
-        public BitmapImage Image
-        {
-            get { return _image; }
-            set
-            {
-                _image = value;
-                RaisePropertyChanged(() => Image);
-            }
-        }
-
-        private bool _updateButtonsEnableState;
-        public bool UpdateButtonsEnableState
-        {
-            get { return _updateButtonsEnableState; }
-            set
-            {
-                _updateButtonsEnableState = value;
-                RaisePropertyChanged(() => UpdateButtonsEnableState);
-            }
-        }
-
-        private string _synopsis;
-        public string Synopsis
-        {
-            get { return _synopsis; }
-            set
-            {
-                _synopsis = value;
-                RaisePropertyChanged(() => Synopsis);
-            }
-        }
-
-        private Visibility _addToListVisibility;
-        public Visibility AddToListVisibility
-        {
-            get { return _addToListVisibility; }
-            set
-            {
-                _addToListVisibility = value;
-                RaisePropertyChanged(() => AddToListVisibility);
-            }
-        }
-
-        private Visibility _incrementEpsVisibility;
-        public Visibility IncrementEpsVisibility
-        {
-            get { return _incrementEpsVisibility; }
-            set
-            {
-                _incrementEpsVisibility = value;
-                RaisePropertyChanged(() => IncrementEpsVisibility);
-            }
-        }
-
-        private Visibility _decrementEpsVisibility;
-        public Visibility DecrementEpsVisibility
-        {
-            get { return _decrementEpsVisibility; }
-            set
-            {
-                _decrementEpsVisibility = value;
-                RaisePropertyChanged(() => DecrementEpsVisibility);
-            }
-        }
-
-        private Visibility _showMoreVisiblity;
-        public Visibility ShowMoreVisibility
-        {
-            get { return _showMoreVisiblity; }
-            set
-            {
-                _showMoreVisiblity = value;
-                RaisePropertyChanged(() => ShowMoreVisibility);
-            }
-        }
-
-        private Visibility _updateButtonsVisibility;
-        public Visibility UpdateButtonsVisibility
-        {
-            get { return _updateButtonsVisibility; }
-            set
-            {
-                _updateButtonsVisibility = value;
-                RaisePropertyChanged(() => UpdateButtonsVisibility);
-            }
-        }
-
-        private Visibility _tileUrlInputVisibility = Visibility.Collapsed;
-        public Visibility TileUrlInputVisibility
-        {
-            get { return _tileUrlInputVisibility; }
-            set
-            {
-                _tileUrlInputVisibility = value;
-                RaisePropertyChanged(() => TileUrlInputVisibility);
-            }
-        }
-
-        private string _tileUrlInput;
-        public string TileUrlInput
-        {
-            get { return _tileUrlInput; }
-            set
-            {
-                _tileUrlInput = value;
-                RaisePropertyChanged(() => TileUrlInput);
-            }
-        }
-
-        private string _watchedEpsInput;
-        public string WatchedEpsInput
-        {
-            get { return _watchedEpsInput; }
-            set
-            {
-                _watchedEpsInput = value;
-                RaisePropertyChanged(() => WatchedEpsInput);
-            }
-        }
-
-        private Visibility _watchedEpsInputNoticeVisibility = Visibility.Collapsed;
-        public Visibility WatchedEpsInputNoticeVisibility
-        {
-            get { return _watchedEpsInputNoticeVisibility; }
-            set
-            {
-                _watchedEpsInputNoticeVisibility = value;
-                RaisePropertyChanged(() => WatchedEpsInputNoticeVisibility);
-            }
-        }
-
-        private Brush _rootBrush = new SolidColorBrush(Colors.WhiteSmoke);
-        public Brush RootBrush
-        {
-            get { return _rootBrush; }
-            set
-            {
-                _rootBrush = value;
-                RaisePropertyChanged(() => RootBrush);
-            }
-        }
-
-        private Visibility _loadingUpdate = Visibility.Collapsed;
-        public Visibility LoadingUpdate
-        {
-            get { return _loadingUpdate; }
-            set
-            {
-                _loadingUpdate = value;
-                RaisePropertyChanged(() => LoadingUpdate);
-            }
-        }
-
-        private ICommand _changeStatusCommand;
-        public ICommand ChangeStatusCommand
-        {
-            get
-            {
-                return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<Object>(ChangeStatus));
-            }
-        }
-
-        private ICommand _changeScoreCommand;
-        public ICommand ChangeScoreCommand
-        {
-            get
-            {
-                return _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<Object>(ChangeScore));
-            }
-        }
-
-        private ICommand _changeWatchedCommand;
-        public ICommand ChangeWatchedCommand
-        {
-            get
-            {
-                return _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps));
-            }
-        }
-
-        private ICommand _incrementWatchedCommand;
-        public ICommand IncrementWatchedCommand
-        {
-            get
-            {
-                return _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(IncrementWatchedEp));
-            }
-        }
-
-        private ICommand _decrementWatchedCommand;
-        public ICommand DecrementWatchedCommand
-        {
-            get
-            {
-                return _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(DecrementWatchedEp));
-            }
-        }
-
-        private ICommand _addAnimeCommand;
-        public ICommand AddAnimeCommand
-        {
-            get
-            {
-                return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList));
-            }
-        }
-
-        private ICommand _pinTileCommand;
-        public ICommand PinTileCommand
-        {
-            get
-            {
-                return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(() => PinTile()));
-            }
-        }
-
-        private ICommand _navigateDetailsCommand;
-        public ICommand NavigateDetailsCommand
-        {
-            get
-            {
-                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails));
-            }
-        }
-
-        #endregion
-        
 
         public async void NavigateDetails()
         {
@@ -553,7 +60,6 @@ namespace MALClient.ViewModels
                 _seasonalState = true;
             }
             RaisePropertyChanged(() => MyEpisodesBind);
-
         }
 
         public void SignalBackToList()
@@ -564,10 +70,10 @@ namespace MALClient.ViewModels
 
         private async void AddThisToMyList()
         {
-            var response = 
+            var response =
                 _parentAbstraction.RepresentsAnime
-                ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
-                : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
+                    ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
+                    : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             if (!response.Contains("Created"))
                 return;
             _seasonalState = false;
@@ -577,21 +83,538 @@ namespace MALClient.ViewModels
             MyEpisodes = 0;
             if (_parentAbstraction.RepresentsAnime)
                 MyVolumes = 0;
-            
-            
+
+
             AdjustIncrementButtonsVisibility();
             AddToListVisibility = Visibility.Collapsed;
             ViewModelLocator.AnimeList.AddAnimeEntry(_parentAbstraction);
         }
 
+        #region Constructors
+
+        private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
+        {
+            _parentAbstraction = parent;
+            _imgUrl = img;
+            Id = id;
+            Image = new BitmapImage(new Uri(_imgUrl));
+            AdjustIncrementButtonsOrientation();
+            if (!_parentAbstraction.RepresentsAnime)
+            {
+                UpdateEpsUpperLabel = "Read chapters :";
+                Status1Label = "Reading";
+                Status5Label = "Plan to read";
+            }
+        }
+
+        public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
+            int myScore,
+            AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
+            //We are loading an item that IS on the list
+        {
+            //Assign fields
+            Id = id;
+            _allEpisodes = allEps;
+            Auth = auth;
+            //Assign properties
+            MyScore = myScore;
+            MyStatus = myStatus;
+            Title = name;
+            MyEpisodes = myEps;
+            ShowMoreVisibility = Visibility.Collapsed;
+
+            //We are not seasonal so it's already on list            
+            AddToListVisibility = Visibility.Collapsed;
+            SetAuthStatus(auth, setEpsAuth);
+            AdjustIncrementButtonsVisibility();
+            //There may be additional data available
+            GlobalScore = _parentAbstraction.GlobalScore;
+            Airing = _parentAbstraction.AirDay >= 0;
+        }
+
+        //manga
+        public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
+            int myScore,
+            AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
+            : this(auth, name, img, id, myStatus, myEps, allEps, myScore, parent, setEpsAuth)
+        {
+            AllVolumes = allVolumes;
+        }
+
+        public AnimeItemViewModel(SeasonalAnimeData data,
+            AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
+            //We are loading an item that is NOT on the list and is seasonal
+        {
+            _seasonalState = true;
+
+            Title = data.Title;
+            MyScore = 0;
+            MyStatus = (int) AnimeStatus.AllOrAiring;
+            GlobalScore = data.Score;
+            int.TryParse(data.Episodes, out _allEpisodes);
+            if (data.Genres != null)
+                Genres = data.Genres;
+            Airing = _parentAbstraction.AirDay >= 0;
+            Synopsis = data.Synopsis;
+            SetAuthStatus(false, true);
+            AdjustIncrementButtonsVisibility();
+            ShowMoreVisibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region PropertyPairs
+
+        private readonly int _allEpisodes;
+        public int AllEpisodes => _allEpisodes;
+        public int AllVolumes { get; }
+
+        public string AirDayBind => Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
+        private bool _airing;
+
+        public bool Airing
+        {
+            get { return _airing; }
+            set
+            {
+                if (_parentAbstraction.TryRetrieveVolatileData())
+                {
+                    RaisePropertyChanged(() => AirDayBind);
+                    TitleMargin = new Thickness(5, 3, 50, 0);
+                }
+                _airing = value;
+                RaisePropertyChanged(() => Airing);
+            }
+        }
+
+        private Thickness _titleMargin = new Thickness(5, 3, 5, 3);
+
+        public Thickness TitleMargin
+        {
+            get { return _titleMargin; }
+            set
+            {
+                _titleMargin = value;
+                RaisePropertyChanged(() => TitleMargin);
+            }
+        }
+
+        private List<string> _genres = new List<string>();
+
+        private List<string> Genres
+        {
+            get { return _genres; }
+            set
+            {
+                _genres = value;
+                RaisePropertyChanged(() => Genres);
+            }
+        }
+
+        private Orientation _incrementButtonsOrientation = Orientation.Vertical;
+
+        public Orientation IncrementButtonsOrientation
+        {
+            get { return _incrementButtonsOrientation; }
+            set
+            {
+                if (_incrementButtonsOrientation == value)
+                    return;
+                _incrementButtonsOrientation = value;
+                RaisePropertyChanged(() => IncrementButtonsOrientation);
+            }
+        }
+
+        public bool Auth { get; private set; }
+
+        public string MyStatusBind => Utils.StatusToString(MyStatus, !_parentAbstraction.RepresentsAnime);
+
+        public int MyStatus
+        {
+            get { return _parentAbstraction.MyStatus; }
+            set
+            {
+                if (_parentAbstraction.MyStatus == value)
+                    return;
+                _parentAbstraction.MyStatus = value;
+                AdjustIncrementButtonsOrientation();
+                AdjustIncrementButtonsVisibility();
+                RaisePropertyChanged(() => MyStatusBind);
+            }
+        }
+
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+
+        public int MyScore
+        {
+            get { return _parentAbstraction.MyScore; }
+            set
+            {
+                if (_parentAbstraction.MyScore == value)
+                    return;
+                _parentAbstraction.MyScore = value;
+                AdjustIncrementButtonsOrientation();
+                AdjustIncrementButtonsVisibility();
+                RaisePropertyChanged(() => MyScoreBind);
+            }
+        }
+
+        public string MyEpisodesBind
+        {
+            get
+            {
+                if (_seasonalState)
+                    return $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+
+                return Auth || MyEpisodes != 0
+                    ? $"{(_parentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +
+                      $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}"
+                    : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
+            }
+        }
+
+        public int MyEpisodes
+        {
+            get { return _parentAbstraction.MyEpisodes; }
+            set
+            {
+                if (_parentAbstraction.MyEpisodes == value)
+                    return;
+                _parentAbstraction.MyEpisodes = value;
+                RaisePropertyChanged(() => MyEpisodesBind);
+            }
+        }
+
+        public string MyVolumesBind
+            =>
+                Auth || MyEpisodes != 0
+                    ? "Read : " + $"{MyVolumes}/{(AllVolumes == 0 ? "?" : AllVolumes.ToString())}"
+                    : $"{(AllVolumes == 0 ? "?" : AllVolumes.ToString())} Volumes";
+
+        public int MyVolumes
+        {
+            get { return _parentAbstraction.MyVolumes; }
+            set
+            {
+                if (_parentAbstraction.MyVolumes == value)
+                    return;
+                _parentAbstraction.MyVolumes = value;
+                RaisePropertyChanged(() => MyVolumesBind);
+            }
+        }
+
+        private string _watchedEpsLabel = "My watched\nepisodes :";
+
+        public string WatchedEpsLabel
+        {
+            get { return _watchedEpsLabel; }
+            set
+            {
+                _watchedEpsLabel = value;
+                RaisePropertyChanged(() => WatchedEpsLabel);
+            }
+        }
+
+        private string _updateEpsUpperLabel = "Watched eps :";
+
+        public string UpdateEpsUpperLabel
+        {
+            get { return _updateEpsUpperLabel; }
+            set
+            {
+                _updateEpsUpperLabel = value;
+                RaisePropertyChanged(() => UpdateEpsUpperLabel);
+            }
+        }
+
+        private string _status1Label = "Watching";
+
+        public string Status1Label
+        {
+            get { return _status1Label; }
+            set
+            {
+                _status1Label = value;
+                RaisePropertyChanged(() => Status1Label);
+            }
+        }
+
+        private string _status5Label = "Plan to watch";
+
+        public string Status5Label
+        {
+            get { return _status5Label; }
+            set
+            {
+                _status5Label = value;
+                RaisePropertyChanged(() => Status5Label);
+            }
+        }
+
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
+        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString();
+
+        public float GlobalScore
+        {
+            get { return _globalScore; }
+            set
+            {
+                if (value == 0)
+                    return;
+                _globalScore = value;
+                RaisePropertyChanged(() => GlobalScoreBind);
+            }
+        }
+
+        private BitmapImage _image;
+
+        public BitmapImage Image
+        {
+            get { return _image; }
+            set
+            {
+                _image = value;
+                RaisePropertyChanged(() => Image);
+            }
+        }
+
+        private bool _updateButtonsEnableState;
+
+        public bool UpdateButtonsEnableState
+        {
+            get { return _updateButtonsEnableState; }
+            set
+            {
+                _updateButtonsEnableState = value;
+                RaisePropertyChanged(() => UpdateButtonsEnableState);
+            }
+        }
+
+        private string _synopsis;
+
+        public string Synopsis
+        {
+            get { return _synopsis; }
+            set
+            {
+                _synopsis = value;
+                RaisePropertyChanged(() => Synopsis);
+            }
+        }
+
+        private Visibility _addToListVisibility;
+
+        public Visibility AddToListVisibility
+        {
+            get { return _addToListVisibility; }
+            set
+            {
+                _addToListVisibility = value;
+                RaisePropertyChanged(() => AddToListVisibility);
+            }
+        }
+
+        private Visibility _incrementEpsVisibility;
+
+        public Visibility IncrementEpsVisibility
+        {
+            get { return _incrementEpsVisibility; }
+            set
+            {
+                _incrementEpsVisibility = value;
+                RaisePropertyChanged(() => IncrementEpsVisibility);
+            }
+        }
+
+        private Visibility _decrementEpsVisibility;
+
+        public Visibility DecrementEpsVisibility
+        {
+            get { return _decrementEpsVisibility; }
+            set
+            {
+                _decrementEpsVisibility = value;
+                RaisePropertyChanged(() => DecrementEpsVisibility);
+            }
+        }
+
+        private Visibility _showMoreVisiblity;
+
+        public Visibility ShowMoreVisibility
+        {
+            get { return _showMoreVisiblity; }
+            set
+            {
+                _showMoreVisiblity = value;
+                RaisePropertyChanged(() => ShowMoreVisibility);
+            }
+        }
+
+        private Visibility _updateButtonsVisibility;
+
+        public Visibility UpdateButtonsVisibility
+        {
+            get { return _updateButtonsVisibility; }
+            set
+            {
+                _updateButtonsVisibility = value;
+                RaisePropertyChanged(() => UpdateButtonsVisibility);
+            }
+        }
+
+        private Visibility _tileUrlInputVisibility = Visibility.Collapsed;
+
+        public Visibility TileUrlInputVisibility
+        {
+            get { return _tileUrlInputVisibility; }
+            set
+            {
+                _tileUrlInputVisibility = value;
+                RaisePropertyChanged(() => TileUrlInputVisibility);
+            }
+        }
+
+        private string _tileUrlInput;
+
+        public string TileUrlInput
+        {
+            get { return _tileUrlInput; }
+            set
+            {
+                _tileUrlInput = value;
+                RaisePropertyChanged(() => TileUrlInput);
+            }
+        }
+
+        private string _watchedEpsInput;
+
+        public string WatchedEpsInput
+        {
+            get { return _watchedEpsInput; }
+            set
+            {
+                _watchedEpsInput = value;
+                RaisePropertyChanged(() => WatchedEpsInput);
+            }
+        }
+
+        private Visibility _watchedEpsInputNoticeVisibility = Visibility.Collapsed;
+
+        public Visibility WatchedEpsInputNoticeVisibility
+        {
+            get { return _watchedEpsInputNoticeVisibility; }
+            set
+            {
+                _watchedEpsInputNoticeVisibility = value;
+                RaisePropertyChanged(() => WatchedEpsInputNoticeVisibility);
+            }
+        }
+
+        private Brush _rootBrush = new SolidColorBrush(Colors.WhiteSmoke);
+
+        public Brush RootBrush
+        {
+            get { return _rootBrush; }
+            set
+            {
+                _rootBrush = value;
+                RaisePropertyChanged(() => RootBrush);
+            }
+        }
+
+        private Visibility _loadingUpdate = Visibility.Collapsed;
+
+        public Visibility LoadingUpdate
+        {
+            get { return _loadingUpdate; }
+            set
+            {
+                _loadingUpdate = value;
+                RaisePropertyChanged(() => LoadingUpdate);
+            }
+        }
+
+        private ICommand _changeStatusCommand;
+
+        public ICommand ChangeStatusCommand
+        {
+            get { return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus)); }
+        }
+
+        private ICommand _changeScoreCommand;
+
+        public ICommand ChangeScoreCommand
+        {
+            get { return _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<object>(ChangeScore)); }
+        }
+
+        private ICommand _changeWatchedCommand;
+
+        public ICommand ChangeWatchedCommand
+        {
+            get { return _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps)); }
+        }
+
+        private ICommand _incrementWatchedCommand;
+
+        public ICommand IncrementWatchedCommand
+        {
+            get
+            {
+                return _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(IncrementWatchedEp));
+            }
+        }
+
+        private ICommand _decrementWatchedCommand;
+
+        public ICommand DecrementWatchedCommand
+        {
+            get
+            {
+                return _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(DecrementWatchedEp));
+            }
+        }
+
+        private ICommand _addAnimeCommand;
+
+        public ICommand AddAnimeCommand
+        {
+            get { return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList)); }
+        }
+
+        private ICommand _pinTileCommand;
+
+        public ICommand PinTileCommand
+        {
+            get { return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(() => PinTile())); }
+        }
+
+        private ICommand _navigateDetailsCommand;
+
+        public ICommand NavigateDetailsCommand
+        {
+            get { return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails)); }
+        }
+
+        #endregion
+
         #region Utils/Helpers
-
-
 
         //Pinned with custom link.
         public void PinTile(string url = null)
         {
-            Utils.PinTile(url ?? TileUrlInput,Id,_imgUrl,Title);
+            Utils.PinTile(url ?? TileUrlInput, Id, _imgUrl, Title);
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 
@@ -606,7 +629,9 @@ namespace MALClient.ViewModels
             }
             else
             {
-                AddToListVisibility = _seasonalState && Creditentials.Authenticated ? Visibility.Visible : Visibility.Collapsed;
+                AddToListVisibility = _seasonalState && Creditentials.Authenticated
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
                 UpdateButtonsEnableState = false;
 
                 if (eps)
@@ -642,7 +667,6 @@ namespace MALClient.ViewModels
                 IncrementEpsVisibility = Visibility.Visible;
                 DecrementEpsVisibility = Visibility.Visible;
             }
-
         }
 
         private void AdjustIncrementButtonsOrientation()
@@ -677,9 +701,9 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
 
-            if (MyStatus == (int)AnimeStatus.PlanToWatch || MyStatus == (int)AnimeStatus.Dropped ||
-                MyStatus == (int)AnimeStatus.OnHold)
-                await PromptForStatusChange((int)AnimeStatus.Watching);
+            if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
+                MyStatus == (int) AnimeStatus.OnHold)
+                await PromptForStatusChange((int) AnimeStatus.Watching);
 
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
@@ -691,8 +715,8 @@ namespace MALClient.ViewModels
             }
 
             if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                await PromptForStatusChange((int)AnimeStatus.Completed);
-          
+                await PromptForStatusChange((int) AnimeStatus.Completed);
+
             LoadingUpdate = Visibility.Collapsed;
         }
 
@@ -703,12 +727,12 @@ namespace MALClient.ViewModels
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
-            {               
+            {
                 MyEpisodes++;
                 AdjustIncrementButtonsVisibility();
             }
 
-            
+
             LoadingUpdate = Visibility.Collapsed;
         }
 
@@ -732,7 +756,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                    await PromptForStatusChange((int)AnimeStatus.Completed);
+                    await PromptForStatusChange((int) AnimeStatus.Completed);
 
                 AdjustIncrementButtonsVisibility();
 
@@ -746,8 +770,6 @@ namespace MALClient.ViewModels
             }
         }
 
-
-
         #endregion
 
         private async void ChangeStatus(object status)
@@ -759,7 +781,7 @@ namespace MALClient.ViewModels
             if (response != "Updated")
                 MyStatus = myPrevStatus;
 
-            if (MyStatus == (int)AnimeStatus.Completed && _allEpisodes != 0)
+            if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
                 await PromptForWatchedEpsChange(_allEpisodes);
 
             LoadingUpdate = Visibility.Collapsed;
@@ -785,8 +807,10 @@ namespace MALClient.ViewModels
         {
             if (MyStatus == to)
                 return;
-            var msg = new MessageDialog($"From : {Utils.StatusToString(MyStatus,!_parentAbstraction.RepresentsAnime)}\nTo : {Utils.StatusToString(to)}",
-                "Would you like to change current status?");
+            var msg =
+                new MessageDialog(
+                    $"From : {Utils.StatusToString(MyStatus, !_parentAbstraction.RepresentsAnime)}\nTo : {Utils.StatusToString(to)}",
+                    "Would you like to change current status?");
             var confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
             msg.Commands.Add(new UICommand("No"));
@@ -824,9 +848,5 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-
-
     }
-
-
 }

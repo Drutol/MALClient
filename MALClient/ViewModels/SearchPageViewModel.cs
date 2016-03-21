@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.UI.Xaml;
@@ -21,39 +20,9 @@ namespace MALClient.ViewModels
 
     public class SearchPageViewModel : ViewModelBase
     {
-        #region Properties
-
-        private List<AnimeSearchItem> _allAnimeSearchItems;
-        public ObservableCollection<AnimeSearchItem> AnimeSearchItems { get; } = 
-            new ObservableCollection<AnimeSearchItem>();
-
-        private Visibility _loading = Visibility.Collapsed;
-        public Visibility Loading
-        {
-            get { return _loading; }
-            set
-            {
-                _loading = value;
-                RaisePropertyChanged(() => Loading);
-            }
-        }
-
-        private Visibility _emptyNoticeVisibility = Visibility.Collapsed;
-        public Visibility EmptyNoticeVisibility
-        {
-            get { return _emptyNoticeVisibility; }
-            set
-            {
-                _emptyNoticeVisibility = value;
-                RaisePropertyChanged(() => EmptyNoticeVisibility);
-            }
-        }
-        private HashSet<string> _filters = new HashSet<string>();
-        private string _currrentFilter;
-        #endregion
+        private bool _animeSearch; // default to anime
 
         public string PrevQuery;
-        private bool _animeSearch; // default to anime
 
         public void Init(SearchPageNavigationArgs args)
         {
@@ -62,7 +31,7 @@ namespace MALClient.ViewModels
 
             _currrentFilter = null;
             _animeSearch = args.Anime;
-            if(!string.IsNullOrWhiteSpace(args.Query))
+            if (!string.IsNullOrWhiteSpace(args.Query))
                 SubmitQuery(args.Query);
             else
             {
@@ -75,7 +44,7 @@ namespace MALClient.ViewModels
 
         public async void SubmitQuery(string query)
         {
-            if(query == PrevQuery)
+            if (query == PrevQuery)
                 return;
             PrevQuery = query;
             Loading = Visibility.Visible;
@@ -92,8 +61,8 @@ namespace MALClient.ViewModels
                             response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
                 try
                 {
-                    XDocument parsedData = XDocument.Parse(response);
-                    foreach (XElement item in parsedData.Element("anime").Elements("entry"))
+                    var parsedData = XDocument.Parse(response);
+                    foreach (var item in parsedData.Element("anime").Elements("entry"))
                     {
                         var type = item.Element("type").Value;
                         _allAnimeSearchItems.Add(new AnimeSearchItem(item));
@@ -114,11 +83,11 @@ namespace MALClient.ViewModels
                             response = await new MangaSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
                 try
                 {
-                    XDocument parsedData = XDocument.Parse(response);
-                    foreach (XElement item in parsedData.Element("manga").Elements("entry"))
+                    var parsedData = XDocument.Parse(response);
+                    foreach (var item in parsedData.Element("manga").Elements("entry"))
                     {
                         var type = item.Element("type").Value;
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(item,false));
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(item, false));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }
@@ -136,8 +105,13 @@ namespace MALClient.ViewModels
         private void PopulateItems()
         {
             AnimeSearchItems.Clear();
-            foreach (var item in _allAnimeSearchItems.Where(item => string.IsNullOrWhiteSpace(_currrentFilter) || string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
-                AnimeSearchItems.Add(item);            
+            foreach (
+                var item in
+                    _allAnimeSearchItems.Where(
+                        item =>
+                            string.IsNullOrWhiteSpace(_currrentFilter) ||
+                            string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
+                AnimeSearchItems.Add(item);
         }
 
         private void ResetQuery()
@@ -150,5 +124,41 @@ namespace MALClient.ViewModels
             _currrentFilter = filter == "None" ? "" : filter;
             PopulateItems();
         }
+
+        #region Properties
+
+        private List<AnimeSearchItem> _allAnimeSearchItems;
+
+        public ObservableCollection<AnimeSearchItem> AnimeSearchItems { get; } =
+            new ObservableCollection<AnimeSearchItem>();
+
+        private Visibility _loading = Visibility.Collapsed;
+
+        public Visibility Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged(() => Loading);
+            }
+        }
+
+        private Visibility _emptyNoticeVisibility = Visibility.Collapsed;
+
+        public Visibility EmptyNoticeVisibility
+        {
+            get { return _emptyNoticeVisibility; }
+            set
+            {
+                _emptyNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyNoticeVisibility);
+            }
+        }
+
+        private readonly HashSet<string> _filters = new HashSet<string>();
+        private string _currrentFilter;
+
+        #endregion
     }
 }

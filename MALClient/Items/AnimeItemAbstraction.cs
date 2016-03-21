@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MALClient.ViewModels;
+﻿using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
 
@@ -14,6 +12,7 @@ namespace MALClient.Items
     {
         private readonly bool _firstConstructor;
         private readonly int allEps;
+        private readonly int allVolumes;
 
         private readonly SeasonalAnimeData data;
         private readonly int id;
@@ -21,26 +20,27 @@ namespace MALClient.Items
         private readonly int myEps;
         private readonly int myScore;
         private readonly int myStatus;
-        private readonly string name;
-        private readonly int allVolumes;
         private readonly int myVolumes;
+        private readonly string name;
 
         private AnimeItem _animeItem;
-        public bool Loaded;
+
+        private AnimeItemViewModel _viewModel;
         public int AirDay = -1;
 
-        private bool auth;
+        private readonly bool auth;
         private bool authSetEps;
         public float GlobalScore;
         public int Id;
         public int Index;
+        public bool Loaded;
         public int MyEpisodes;
         public int MyScore;
         public int MyStatus;
         public int MyVolumes;
-        public string Title;
 
         public bool RepresentsAnime = true;
+        public string Title;
 
         private AnimeItemAbstraction(int id)
         {
@@ -81,10 +81,10 @@ namespace MALClient.Items
         }
 
         public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,int volumes,int allVolumes) : this(auth,name,img,id,myStatus,myEps,allEps,myScore)
+            int myScore, int volumes, int allVolumes) : this(auth, name, img, id, myStatus, myEps, allEps, myScore)
         {
             RepresentsAnime = false;
-            this.myVolumes = MyVolumes = volumes;
+            myVolumes = MyVolumes = volumes;
             this.allVolumes = allVolumes;
         }
 
@@ -95,13 +95,12 @@ namespace MALClient.Items
                 if (Loaded)
                     return _animeItem;
 
-                ViewModel = LoadElementModel();               
+                ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
                 return _animeItem;
             }
         }
 
-        private AnimeItemViewModel _viewModel;
         public AnimeItemViewModel ViewModel
         {
             get
@@ -129,11 +128,12 @@ namespace MALClient.Items
         //Load UIElement
         private AnimeItemViewModel LoadElementModel()
         {
-            if(RepresentsAnime)
-            return _firstConstructor
-                ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
-                : new AnimeItemViewModel(data, this);
-            return new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps, myVolumes,allVolumes);
+            if (RepresentsAnime)
+                return _firstConstructor
+                    ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
+                    : new AnimeItemViewModel(data, this);
+            return new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps,
+                myVolumes, allVolumes);
         }
 
         private AnimeItem LoadElement()

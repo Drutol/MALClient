@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Documents;
 using HtmlAgilityPack;
 using MALClient.Models;
 
@@ -17,14 +15,15 @@ namespace MALClient.Comm
         Unknown
     }
 
-    class AnimeRelatedQuery : Query
+    internal class AnimeRelatedQuery : Query
     {
-        private int _animeId;
-        private bool _animeMode;
+        private readonly int _animeId;
+        private readonly bool _animeMode;
 
-        public AnimeRelatedQuery(int id,bool anime = true)
+        public AnimeRelatedQuery(int id, bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/"));
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
@@ -33,9 +32,9 @@ namespace MALClient.Comm
 
         public async Task<List<RelatedAnimeData>> GetRelatedAnime(bool force = false)
         {
-            List<RelatedAnimeData> output = force
-            ? new List<RelatedAnimeData>()
-            : await DataCache.RetrieveRelatedAnimeData(_animeId) ?? new List<RelatedAnimeData>();
+            var output = force
+                ? new List<RelatedAnimeData>()
+                : await DataCache.RetrieveRelatedAnimeData(_animeId) ?? new List<RelatedAnimeData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();
@@ -55,7 +54,6 @@ namespace MALClient.Comm
 
                 foreach (var row in relationsNode.Descendants("tr"))
                 {
-
                     try
                     {
                         var current = new RelatedAnimeData();
@@ -63,7 +61,9 @@ namespace MALClient.Comm
                                                 " ";
                         var linkNode = row.Descendants("a").First();
                         var link = linkNode.Attributes["href"].Value.Split('/');
-                        current.Type = link[1] == "anime" ? RelatedItemType.Anime : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
+                        current.Type = link[1] == "anime"
+                            ? RelatedItemType.Anime
+                            : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
                         current.Id = Convert.ToInt32(link[2]);
                         current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
                         current.WholeRelation += current.Title;
@@ -73,14 +73,13 @@ namespace MALClient.Comm
                     {
                         //mystery
                     }
-
                 }
             }
             catch (Exception)
             {
                 //no recom
             }
-            DataCache.SaveRelatedAnimeData(_animeId,output,_animeMode);
+            DataCache.SaveRelatedAnimeData(_animeId, output, _animeMode);
 
             return output;
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,7 +21,7 @@ namespace MALClient.UserControls
             TxtUser.Text = user;
             SetDetails(file);
             if (_rowColorAlternator)
-                RootGrid.Background = new SolidColorBrush(Color.FromArgb(180,230,230,230));               
+                RootGrid.Background = new SolidColorBrush(Color.FromArgb(180, 230, 230, 230));
             _rowColorAlternator = !_rowColorAlternator;
         }
 
@@ -31,7 +30,7 @@ namespace MALClient.UserControls
 
         private async void SetDetails(StorageFile file)
         {
-            BasicProperties data = await file.GetBasicPropertiesAsync();
+            var data = await file.GetBasicPropertiesAsync();
 
             saveTime = data.DateModified.LocalDateTime;
             TxtDate.Text = saveTime.ToString("dd/MM/yyyy HH:mm");
@@ -40,7 +39,7 @@ namespace MALClient.UserControls
 
         private async void DeleteFile(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
+            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
             await file.DeleteAsync();
             IsEnabled = false;
             Background = new SolidColorBrush(Colors.DarkGray);

@@ -73,50 +73,51 @@
                             <StackPanel HorizontalAlignment="Stretch">
                                 <StackPanel.Resources>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Margin" Value="20,5,0,0"/>
-                                        <Setter Property="TextWrapping" Value="WrapWholeWords"/>
-                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="Margin" Value="20,5,0,0" />
+                                        <Setter Property="TextWrapping" Value="WrapWholeWords" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="20.03.2016"/>
-                                <TextBlock Text="Manga support!"/>
-                                <TextBlock Text="Scaling issues have been addressed. (?)"/>
-                                <TextBlock Text="Filters in search page."/>
+                                <TextBlock Text="20.03.2016" />
+                                <TextBlock Text="Manga support!" />
+                                <TextBlock Text="Scaling issues have been addressed. (?)" />
+                                <TextBlock Text="Filters in search page." />
                                 <TextBlock Text="Updated log in page." />
-                                <TextBlock Text="Additional settings for manga."/>
-                                <TextBlock Text="Hamburger menu visual update."/>
-                                <TextBlock Text="Season selection bugfix."/>
-                                <TextBlock Text="Addressed issues with tab control."/>
+                                <TextBlock Text="Additional settings for manga." />
+                                <TextBlock Text="Hamburger menu visual update." />
+                                <TextBlock Text="Season selection bugfix." />
+                                <TextBlock Text="Addressed issues with tab control." />
                             </StackPanel>
                         </StackPanel>
                     </Grid>
                     <Grid Margin="10" BorderThickness="5,0,0,0"
                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                         <TextBlock Text="TODOs" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
-                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            
-                            <ListView SelectionMode="None" x:Name="ListTodo" Margin="0,20,0,0">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Margin" Value="5"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="7"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+
+                        <ListView SelectionMode="None" x:Name="ListTodo" Margin="0,20,0,0">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="5" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="7" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
                                         <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
-                                         Height="5" />
-                                        <TextBlock Margin="15,0,0,0" Grid.Column="1" Text="{Binding}" TextWrapping="WrapWholeWords"></TextBlock>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            
+                                                 Height="5" />
+                                        <TextBlock Margin="15,0,0,0" Grid.Column="1" Text="{Binding}"
+                                                   TextWrapping="WrapWholeWords" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
                     </Grid>
                 </StackPanel>
             </Grid>

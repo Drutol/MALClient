@@ -12,10 +12,12 @@ using MALClient.ViewModels;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeSearchItem : UserControl , IAnimeData
+    public sealed partial class AnimeSearchItem : UserControl, IAnimeData
     {
         private static bool _rowAlternator;
         private readonly XElement item;
+
+        private readonly bool _animeMode;
         private Point _initialPoint;
 
         public AnimeSearchItem()
@@ -27,13 +29,13 @@ namespace MALClient.Items
             _rowAlternator = !_rowAlternator;
         }
 
-        public AnimeSearchItem(XElement animeElement,bool anime = true) : this()
+        public AnimeSearchItem(XElement animeElement, bool anime = true) : this()
         {
             item = animeElement;
             Id = int.Parse(animeElement.Element("id").Value);
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             AllEpisodes = int.Parse(animeElement.Element(anime ? "episodes" : "chapters").Value);
-            if(!anime)
+            if (!anime)
                 AllVolumes = int.Parse(animeElement.Element("volumes").Value);
             Title = animeElement.Element("title").Value;
             Type = animeElement.Element("type").Value;
@@ -55,8 +57,6 @@ namespace MALClient.Items
         public int AllEpisodes { get; set; }
         public int MyVolumes { get; set; }
         public int AllVolumes { get; set; }
-
-        private bool _animeMode;
         public string Title { get; set; }
 
         //They must be here because reasons (interface reasons)
@@ -76,7 +76,12 @@ namespace MALClient.Items
             await
                 Utils.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
-                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this, new SearchPageNavigationArgs { Query = ViewModelLocator.SearchPage.PrevQuery, Anime = _animeMode })
+                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this,
+                            new SearchPageNavigationArgs
+                            {
+                                Query = ViewModelLocator.SearchPage.PrevQuery,
+                                Anime = _animeMode
+                            })
                         {
                             Source = _animeMode ? PageIndex.PageSearch : PageIndex.PageMangaSearch,
                             AnimeMode = _animeMode
@@ -94,7 +99,12 @@ namespace MALClient.Items
             await
                 Utils.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
-                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this, new SearchPageNavigationArgs { Query = ViewModelLocator.SearchPage.PrevQuery , Anime = _animeMode})
+                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this,
+                            new SearchPageNavigationArgs
+                            {
+                                Query = ViewModelLocator.SearchPage.PrevQuery,
+                                Anime = _animeMode
+                            })
                         {
                             Source = _animeMode ? PageIndex.PageSearch : PageIndex.PageMangaSearch,
                             AnimeMode = _animeMode

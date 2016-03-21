@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MALClient.Models
+﻿namespace MALClient.Models
 {
     public class AnimeReviewData
     {
@@ -15,6 +9,5 @@ namespace MALClient.Models
         public string OverallRating { get; set; }
         public string EpisodesSeen { get; set; }
         public string HelpfulCount { get; set; }
-
     }
 }

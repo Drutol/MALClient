@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -12,6 +10,7 @@ namespace MALClient.Items
 {
     public class RecomendationData
     {
+        private bool _loaded;
         //Keys
         public string DependentTitle { get; set; }
         public int DependentId { get; set; }
@@ -43,18 +42,16 @@ namespace MALClient.Items
         public XElement DependentData { get; set; }
         public XElement RecommendationData { get; set; }
 
-        private bool _loaded;
-
         public async Task FetchData()
         {
             if (_loaded)
                 return;
             //Find for first
-            string data = await new AnimeSearchQuery(Utils.CleanAnimeTitle(DependentTitle)).GetRequestResponse();
+            var data = await new AnimeSearchQuery(Utils.CleanAnimeTitle(DependentTitle)).GetRequestResponse();
             data = WebUtility.HtmlDecode(data);
             data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 
-            XDocument parsedData = XDocument.Parse(data);
+            var parsedData = XDocument.Parse(data);
             var elements = parsedData.Element("anime").Elements("entry");
             DependentData = elements.First(element => Convert.ToInt32(element.Element("id").Value) == DependentId);
 
@@ -65,10 +62,11 @@ namespace MALClient.Items
 
             parsedData = XDocument.Parse(data);
             elements = parsedData.Element("anime").Elements("entry");
-            RecommendationData = elements.First(element => Convert.ToInt32(element.Element("id").Value) == RecommendationId);
-            
+            RecommendationData =
+                elements.First(element => Convert.ToInt32(element.Element("id").Value) == RecommendationId);
+
             //If for some reason we fail
-            if(DependentData == null || RecommendationData == null)
+            if (DependentData == null || RecommendationData == null)
                 throw new ArgumentNullException(); // I'm to lazy to create my own so this will suffice
 
             //Set data - Dependant
@@ -76,7 +74,11 @@ namespace MALClient.Items
             DependentGlobalScore = float.Parse(DependentData.Element("score").Value);
             DependentType = DependentData.Element("type").Value;
             DependentStatus = DependentData.Element("status").Value;
-            DependentSynopsis = Regex.Replace(DependentData.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "");
+            DependentSynopsis =
+                Regex.Replace(DependentData.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "");
             DependentStartDate = DependentData.Element("start_date").Value;
             DependentEndDate = DependentData.Element("end_date").Value;
             DependentImgUrl = DependentData.Element("image").Value;
@@ -86,7 +88,11 @@ namespace MALClient.Items
             RecommendationGlobalScore = float.Parse(RecommendationData.Element("score").Value);
             RecommendationType = RecommendationData.Element("type").Value;
             RecommendationStatus = RecommendationData.Element("status").Value;
-            RecommendationSynopsis = Regex.Replace(RecommendationData.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "");
+            RecommendationSynopsis =
+                Regex.Replace(RecommendationData.Element("synopsis").Value, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "");
             RecommendationStartDate = RecommendationData.Element("start_date").Value;
             RecommendationEndDate = RecommendationData.Element("end_date").Value;
             RecommendationImgUrl = RecommendationData.Element("image").Value;
@@ -95,7 +101,5 @@ namespace MALClient.Items
             //Okay we got this data
             _loaded = true;
         }
-
-
     }
 }

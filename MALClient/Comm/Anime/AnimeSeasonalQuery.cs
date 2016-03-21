@@ -12,8 +12,8 @@ namespace MALClient.Comm
 {
     internal class AnimeSeasonalQuery : Query
     {
-        private bool _overriden;
-        private AnimeSeason _season;
+        private readonly bool _overriden;
+        private readonly AnimeSeason _season;
 
         public AnimeSeasonalQuery(AnimeSeason season)
         {
@@ -26,9 +26,10 @@ namespace MALClient.Comm
 
         public async Task<List<SeasonalAnimeData>> GetSeasonalAnime(bool force = false)
         {
-            List<SeasonalAnimeData> output = force || DataCache.SeasonalUrls.Count == 0 //either force or urls are empty after update
+            var output = force || DataCache.SeasonalUrls.Count == 0 //either force or urls are empty after update
                 ? new List<SeasonalAnimeData>()
-                : await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>(); //current season without suffix
+                : await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>();
+                //current season without suffix
             if (output.Count != 0) return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
@@ -40,7 +41,7 @@ namespace MALClient.Comm
             {
                 var doc = new HtmlDocument();
                 doc.LoadHtml(raw);
-                HtmlNode mainNode =
+                var mainNode =
                     doc.DocumentNode.Descendants("div")
                         .First(
                             node =>
@@ -54,8 +55,8 @@ namespace MALClient.Comm
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
                             "horiznav_nav").Descendants("li").ToList();
-                    Dictionary<string, string> seasonData = new Dictionary<string, string>();
-                    for (int j = 1; j <= 4; j++)
+                    var seasonData = new Dictionary<string, string>();
+                    for (var j = 1; j <= 4; j++)
                     {
                         try
                         {
@@ -74,15 +75,15 @@ namespace MALClient.Comm
                 }
 
                 //Get anime data
-                IEnumerable<HtmlNode> nodes = mainNode.ChildNodes.Where(node => node.Name == "div").Take(Settings.SeasonalToPull);
+                var nodes = mainNode.ChildNodes.Where(node => node.Name == "div").Take(Settings.SeasonalToPull);
 
                 var i = 0;
-                foreach (HtmlNode htmlNode in nodes)
+                foreach (var htmlNode in nodes)
                 {
                     if (htmlNode.Attributes["class"]?.Value != "seasonal-anime js-seasonal-anime")
                         continue;
 
-                    HtmlNode imageNode =
+                    var imageNode =
                         htmlNode.Descendants("div")
                             .First(
                                 node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "image");
@@ -93,14 +94,14 @@ namespace MALClient.Comm
                             .First(
                                 node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "score")
                             .InnerText;
-                    HtmlNode infoNode =
+                    var infoNode =
                         htmlNode.Descendants("div")
                             .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "info");
                     int day;
                     try
                     {
                         var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
-                        day = (int)DateTime.Parse(date).DayOfWeek;
+                        day = (int) DateTime.Parse(date).DayOfWeek;
                         day++;
                     }
                     catch (Exception)
@@ -132,13 +133,13 @@ namespace MALClient.Comm
                                     node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "eps")
                                 .Descendants("a")
                                 .First()
-                                .InnerText.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0],
+                                .InnerText.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0],
                         Index = i,
                         Genres = htmlNode.Descendants("div").First(node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value == "genres-inner js-genre-inner").InnerText
                             .Replace('\n', ';')
-                            .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                             .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())
                             .ToList(),
                         AirDay = day
@@ -150,9 +151,9 @@ namespace MALClient.Comm
             {
                 //sumthing
             }
-            
 
-            DataCache.SaveSeasonalData(output,_overriden ? _season.Name : "");
+
+            DataCache.SaveSeasonalData(output, _overriden ? _season.Name : "");
 
             //We are done.
             return output;

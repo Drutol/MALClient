@@ -18,7 +18,7 @@ namespace MALClient.Pages
         public AboutPage()
         {
             InitializeComponent();
-            ListTodo.ItemsSource = new ObservableCollection<string>()
+            ListTodo.ItemsSource = new ObservableCollection<string>
             {
                 "Add non image live tiles with stats and such.Overhaul tiles in general.",
                 "Redesign profile page.",

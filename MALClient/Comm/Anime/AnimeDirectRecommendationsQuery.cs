@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models;
 
 namespace MALClient.Comm
 {
-    class AnimeDirectRecommendationsQuery : Query
+    internal class AnimeDirectRecommendationsQuery : Query
     {
-        private int _animeId;
-        private bool _animeMode;
+        private readonly int _animeId;
+        private readonly bool _animeMode;
 
-        public AnimeDirectRecommendationsQuery(int id,bool anime = true)
+        public AnimeDirectRecommendationsQuery(int id, bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/userrecs"));
+            Request =
+                WebRequest.Create(
+                    Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/userrecs"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
@@ -25,9 +26,9 @@ namespace MALClient.Comm
 
         public async Task<List<DirectRecommendationData>> GetDirectRecommendations(bool force = false)
         {
-            List<DirectRecommendationData> output = force
-            ? new List<DirectRecommendationData>()
-            : await DataCache.RetrieveDirectRecommendationData(_animeId) ?? new List<DirectRecommendationData>();
+            var output = force
+                ? new List<DirectRecommendationData>()
+                : await DataCache.RetrieveDirectRecommendationData(_animeId) ?? new List<DirectRecommendationData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();
@@ -38,10 +39,10 @@ namespace MALClient.Comm
             doc.LoadHtml(raw);
             var recommNodes = doc.DocumentNode.Descendants("div")
                 .Where(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            "borderClass").Take(Settings.RecommsToPull);
+                    node =>
+                        node.Attributes.Contains("class") &&
+                        node.Attributes["class"].Value ==
+                        "borderClass").Take(Settings.RecommsToPull);
 
             foreach (var recommNode in recommNodes)
             {
@@ -51,7 +52,8 @@ namespace MALClient.Comm
 
                     var tds = recommNode.Descendants("td").Take(2).ToList();
                     current.ImageUrl = tds[0].Descendants("img").First().Attributes["src"].Value;
-                    var pos = current.ImageUrl.LastIndexOf('t'); // we want to remove last "t" from url as this is much smaller image than we would want
+                    var pos = current.ImageUrl.LastIndexOf('t');
+                        // we want to remove last "t" from url as this is much smaller image than we would want
                     if (pos != -1)
                     {
                         current.ImageUrl = current.ImageUrl.Remove(pos, 1);
@@ -61,8 +63,8 @@ namespace MALClient.Comm
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
                             "borderClass bgColor1")
-                            .Descendants("div")
-                            .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
+                        .Descendants("div")
+                        .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
                     var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
                     current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
                     var link = titleNode.Attributes["href"].Value.Split('/');
@@ -76,10 +78,9 @@ namespace MALClient.Comm
                 {
                     //who knows...raw html is scary
                 }
-                
             }
 
-            DataCache.SaveDirectRecommendationsData(_animeId,output,_animeMode);
+            DataCache.SaveDirectRecommendationsData(_animeId, output, _animeMode);
 
             return output;
         }

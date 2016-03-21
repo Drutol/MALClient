@@ -47,7 +47,6 @@ namespace MALClient.Pages
         }
 
 
-
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -122,9 +121,8 @@ namespace MALClient.Pages
             catch (Exception)
             {
                 //No folder
-                BtnRemoveAllDetails.Visibility = Visibility.Collapsed;                
+                BtnRemoveAllDetails.Visibility = Visibility.Collapsed;
             }
-            
         }
 
 
@@ -279,7 +277,7 @@ namespace MALClient.Pages
         {
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
-            Settings.SeasonalToPull = (int)e.NewValue;
+            Settings.SeasonalToPull = (int) e.NewValue;
         }
 
         private void SliderSetup()
@@ -351,7 +349,7 @@ namespace MALClient.Pages
             if (!_initialized)
                 return;
             Settings.DefaultMangaFilter =
-                Utils.StatusToInt((string)((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
+                Utils.StatusToInt((string) ((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
         }
 
         private void ChangeDefaultTab(object sender, RoutedEventArgs e)
@@ -363,7 +361,7 @@ namespace MALClient.Pages
         private void ToggleSwitchDetailsAutoLoadChange(object sender, RoutedEventArgs e)
         {
             var btn = sender as ToggleSwitch;
-            switch ((string)btn.Tag)
+            switch ((string) btn.Tag)
             {
                 case "0":
                     Settings.DetailsAutoLoadDetails = btn.IsOn;

@@ -16,9 +16,9 @@ namespace MALClient.Comm
             var responseString = "";
             try
             {
-                WebResponse response = await Request.GetResponseAsync();
+                var response = await Request.GetResponseAsync();
 
-                using (Stream stream = response.GetResponseStream())
+                using (var stream = response.GetResponseStream())
                 {
                     var reader = new StreamReader(stream, Encoding.UTF8);
                     responseString = reader.ReadToEnd();

@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Comm;
-using MALClient.Items;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -20,12 +11,12 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class AnimeSearchPage : Page
     {
-        private SearchPageViewModel ViewModel => DataContext as SearchPageViewModel;
-
         public AnimeSearchPage()
         {
             InitializeComponent();
         }
+
+        private SearchPageViewModel ViewModel => DataContext as SearchPageViewModel;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -38,9 +29,5 @@ namespace MALClient.Pages
             base.OnNavigatedFrom(e);
             NavMgr.DeregisterBackNav();
         }
-
-
-
-
     }
 }

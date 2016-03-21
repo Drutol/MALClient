@@ -1,27 +1,29 @@
 ﻿using System;
-using System.Xml.Linq;
 using Windows.System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Items;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MALClient.Pages
 {
-
-
-    public sealed partial class AnimeDetailsPage : Page , IDetailsViewInteraction
+    public sealed partial class AnimeDetailsPage : Page, IDetailsViewInteraction
     {
-        private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;
         private static PivotItem _detailsPivotHoldingSpace;
+
         public AnimeDetailsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ViewModel.View = this;
+        }
+
+        private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;
+
+        public Flyout GetWatchedEpsFlyout()
+        {
+            return WatchedEpsFlyout;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -33,12 +35,12 @@ namespace MALClient.Pages
             ViewModel.Init(param);
             if (!param.AnimeMode)
             {
-                _detailsPivotHoldingSpace = (PivotItem)MainPivot.Items[1];
+                _detailsPivotHoldingSpace = (PivotItem) MainPivot.Items[1];
                 MainPivot.Items.RemoveAt(1);
             }
             else if (_detailsPivotHoldingSpace != null)
             {
-                MainPivot.Items.Insert(1,_detailsPivotHoldingSpace);
+                MainPivot.Items.Insert(1, _detailsPivotHoldingSpace);
                 _detailsPivotHoldingSpace = null;
             }
         }
@@ -48,7 +50,7 @@ namespace MALClient.Pages
             DataContext = null;
             base.OnNavigatedFrom(e);
             NavMgr.DeregisterBackNav();
-        }      
+        }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
@@ -57,11 +59,6 @@ namespace MALClient.Pages
                 ViewModel.ChangeWatchedEps();
                 e.Handled = true;
             }
-        }
-
-        public Flyout GetWatchedEpsFlyout()
-        {
-            return WatchedEpsFlyout;
         }
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
@@ -80,7 +77,7 @@ namespace MALClient.Pages
                 case "Related":
                     ViewModel.LoadRelatedAnime();
                     break;
-            }            
+            }
         }
     }
 }

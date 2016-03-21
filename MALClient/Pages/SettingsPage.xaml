@@ -21,16 +21,19 @@
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                <Setter Property="BorderThickness" Value="3,0,0,0"/>
-                                <Setter Property="Margin" Value="0,1"/>
+                                <Setter Property="BorderBrush"
+                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                <Setter Property="BorderThickness" Value="3,0,0,0" />
+                                <Setter Property="Margin" Value="0,1" />
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
-                    <Button x:Name="BtnRemoveAllDetails" Margin="2" Click="RemoveAllAnimeDetails" HorizontalAlignment="Center">
+                    <Button x:Name="BtnRemoveAllDetails" Margin="2" Click="RemoveAllAnimeDetails"
+                            HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Symbol="Delete" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtRemoveAllDetails" Text="Remove all anime details data" VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0"/>
+                            <SymbolIcon Symbol="Delete" VerticalAlignment="Center" />
+                            <TextBlock x:Name="TxtRemoveAllDetails" Text="Remove all anime details data"
+                                       VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0" />
                         </StackPanel>
                     </Button>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -39,9 +42,9 @@
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium"
-                               TextWrapping="WrapWholeWords" HorizontalAlignment="Center" />
+                                   TextWrapping="WrapWholeWords" HorizontalAlignment="Center" />
                         <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5"
-                              SelectionChanged="ChangeCachePersistency">
+                                  SelectionChanged="ChangeCachePersistency">
                             <ComboBox.Items>
                                 <ComboBoxItem Content="10 minutes" />
                                 <ComboBoxItem Content="1 hour" />
@@ -58,22 +61,26 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel>
                         <TextBlock Text="Default menu tab" FontWeight="Medium" HorizontalAlignment="Center"
-                                   TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" />
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width=".5*"/>
-                                <ColumnDefinition Width=".5*"/>
+                                <ColumnDefinition Width=".5*" />
+                                <ColumnDefinition Width=".5*" />
                             </Grid.ColumnDefinitions>
-                            <RadioButton x:Name="RadioTabAnime" Grid.Column="0" HorizontalAlignment="Center" GroupName="DefTab" Content="Anime" Margin="0,0,5,0" Click="ChangeDefaultTab" Tag="anime"/>
-                            <RadioButton x:Name="RadioTabManga" Grid.Column="1" HorizontalAlignment="Center" GroupName="DefTab" Content="Manga" Margin="5,0,0,0" Click="ChangeDefaultTab" Tag="manga"/>
+                            <RadioButton x:Name="RadioTabAnime" Grid.Column="0" HorizontalAlignment="Center"
+                                         GroupName="DefTab" Content="Anime" Margin="0,0,5,0" Click="ChangeDefaultTab"
+                                         Tag="anime" />
+                            <RadioButton x:Name="RadioTabManga" Grid.Column="1" HorizontalAlignment="Center"
+                                         GroupName="DefTab" Content="Manga" Margin="5,0,0,0" Click="ChangeDefaultTab"
+                                         Tag="manga" />
                         </Grid>
                     </StackPanel>
                 </Grid>
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".5*"/>
-                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
                     </Grid.ColumnDefinitions>
                     <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Margin="1,0">
                         <TextBlock Text="Default anime sort values:" FontWeight="Medium" HorizontalAlignment="Center"
@@ -91,7 +98,7 @@
                                 <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending" Click="ChangeSortOrder" />
                             </StackPanel>
                         </Grid>
-                    </StackPanel>                    
+                    </StackPanel>
                     <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" Margin="1,0">
                         <TextBlock Text="Default manga sort values:" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
@@ -100,11 +107,12 @@
                                 <ToggleMenuFlyoutItem x:Name="SortM1" Text="Title" Click="SelectMSortOrder" />
                                 <ToggleMenuFlyoutItem x:Name="SortM2" Text="Score" Click="SelectMSortOrder"
                                                       BorderBrush="LightGray" BorderThickness="0,1,0,1" />
-                                <ToggleMenuFlyoutItem x:Name="SortM3" Text="Read" Click="SelectMSortOrder" 
-                                                      BorderBrush="LightGray" BorderThickness="0,0,0,1"/>
+                                <ToggleMenuFlyoutItem x:Name="SortM3" Text="Read" Click="SelectMSortOrder"
+                                                      BorderBrush="LightGray" BorderThickness="0,0,0,1" />
                                 <ToggleMenuFlyoutItem x:Name="SortM4" Text="None" Click="SelectMSortOrder" />
                                 <MenuFlyoutSeparator />
-                                <ToggleMenuFlyoutItem x:Name="BtnMDescending" Text="Decsending" Click="ChangeMSortOrder" />
+                                <ToggleMenuFlyoutItem x:Name="BtnMDescending" Text="Decsending"
+                                                      Click="ChangeMSortOrder" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -112,8 +120,8 @@
                 <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".5*"/>
-                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <TextBlock Text="Default anime filter value :" FontWeight="Medium" HorizontalAlignment="Center"
@@ -129,7 +137,7 @@
                                 <ComboBoxItem Content="All" />
                             </ComboBox.Items>
                         </ComboBox>
-                    </StackPanel>                    
+                    </StackPanel>
                     <StackPanel Grid.Column="1" Margin="1,0">
                         <TextBlock Text="Default manga filter value :" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
@@ -150,7 +158,8 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Anime/Manga series per page : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Anime/Manga series per page : " FontWeight="Medium"
+                                       HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderItemsPerPage,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -176,7 +185,8 @@
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Recommendations to display : " FontWeight="Medium" HorizontalAlignment="Center"
+                            <TextBlock Text="Recommendations to display : " FontWeight="Medium"
+                                       HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
                             <TextBlock Margin="10,0,0,0" Text="{Binding ElementName=SliderReccommsToPull,Path=Value}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -185,7 +195,7 @@
                                 HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
                                 ValueChanged="ChangedRecommsToPull" />
                     </StackPanel>
-                </Grid>                
+                </Grid>
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -199,41 +209,43 @@
                                 ValueChanged="ChangedSeasonalToPull" />
                     </StackPanel>
                 </Grid>
-                <MenuFlyoutSeparator/>
+                <MenuFlyoutSeparator />
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".5*"/>
-                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                        </Style>                        
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
                         <Style TargetType="ToggleSwitch">
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center" />
                         </Style>
                     </Grid.Resources>
-                    <TextBlock Margin="0,7" Text="Details page tabs' to be loaded by default" TextWrapping="WrapWholeWords" Grid.ColumnSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
+                    <TextBlock Margin="0,7" Text="Details page tabs' to be loaded by default"
+                               TextWrapping="WrapWholeWords" Grid.ColumnSpan="2" FontWeight="Medium"
+                               HorizontalAlignment="Center" />
                     <StackPanel Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Details" FontWeight="SemiLight"/>
-                        <ToggleSwitch x:Name="ToggleSwitchDetails" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="0"/>
-                    </StackPanel>                    
+                        <TextBlock Text="Details" FontWeight="SemiLight" />
+                        <ToggleSwitch x:Name="ToggleSwitchDetails" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="0" />
+                    </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1">
-                        <TextBlock Text="Reviews" FontWeight="SemiLight"/>
-                        <ToggleSwitch x:Name="ToggleSwitchReviews" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="1"/>
-                    </StackPanel>                                   
+                        <TextBlock Text="Reviews" FontWeight="SemiLight" />
+                        <ToggleSwitch x:Name="ToggleSwitchReviews" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="1" />
+                    </StackPanel>
                     <StackPanel Grid.Row="2" Grid.Column="0">
-                        <TextBlock Text="Recommendations" FontWeight="SemiLight"/>
-                        <ToggleSwitch x:Name="ToggleSwitchRecomm" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="2"/>
-                    </StackPanel>                
+                        <TextBlock Text="Recommendations" FontWeight="SemiLight" />
+                        <ToggleSwitch x:Name="ToggleSwitchRecomm" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="2" />
+                    </StackPanel>
                     <StackPanel Grid.Row="2" Grid.Column="1">
-                        <TextBlock Text="Related" FontWeight="SemiLight"/>
-                        <ToggleSwitch x:Name="ToggleSwitchRelated" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="3"/>
+                        <TextBlock Text="Related" FontWeight="SemiLight" />
+                        <ToggleSwitch x:Name="ToggleSwitchRelated" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="3" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

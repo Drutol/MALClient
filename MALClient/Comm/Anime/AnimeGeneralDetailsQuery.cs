@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using HtmlAgilityPack;
-using MALClient.Items;
 using MALClient.Models;
 
 namespace MALClient.Comm
@@ -16,10 +12,12 @@ namespace MALClient.Comm
         private readonly int _id;
         private readonly string _rootTitle;
 
-        public AnimeGeneralDetailsQuery(string title,int id,string rootTitle)
+        public AnimeGeneralDetailsQuery(string title, int id, string rootTitle)
         {
             title = title.Replace('+', ' ');
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://cdn.animenewsnetwork.com/encyclopedia/api.xml?title=~{title}"));
+            Request =
+                WebRequest.Create(
+                    Uri.EscapeUriString($"http://cdn.animenewsnetwork.com/encyclopedia/api.xml?title=~{title}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _id = id;
@@ -32,7 +30,7 @@ namespace MALClient.Comm
             if (possibleData != null)
                 return possibleData;
 
-            string raw = await GetRequestResponse();
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
 
@@ -40,7 +38,7 @@ namespace MALClient.Comm
 
             try
             {
-                XDocument data = XDocument.Parse(raw);
+                var data = XDocument.Parse(raw);
                 var nodes = data.Element("ann").Elements("anime");
                 //there may be many things , maybe we are lucky enough to grab original title
                 var node =
@@ -70,7 +68,7 @@ namespace MALClient.Comm
                         node.Elements("info")
                             .Where(element => element.Attribute("type").Value == "Ending Theme")
                             .Select(element => element.Value)
-                            .ToList(),
+                            .ToList()
                 };
 
                 DataCache.SaveAnimeDetails(_id, output);
@@ -80,8 +78,7 @@ namespace MALClient.Comm
             catch (Exception)
             {
                 return null;
-            }        
+            }
         }
-
     }
 }

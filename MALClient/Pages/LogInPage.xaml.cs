@@ -18,6 +18,8 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class LogInPage : Page
     {
+        private bool _authenticating;
+
         public LogInPage()
         {
             InitializeComponent();
@@ -27,11 +29,9 @@ namespace MALClient.Pages
                 .CurrentStatus = Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In";
         }
 
-        private bool _authenticating;
-
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
         {
-            if(_authenticating)
+            if (_authenticating)
                 return;
             ProgressRing.Visibility = Visibility.Visible;
             _authenticating = true;
@@ -41,8 +41,8 @@ namespace MALClient.Pages
                 var response = await new AuthQuery().GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
-                XDocument doc = XDocument.Parse(response);
-                Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));               
+                var doc = XDocument.Parse(response);
+                Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
                 await Utils.RemoveProfileImg();
                 var hamburger = ViewModelLocator.Hamburger;
@@ -92,7 +92,7 @@ namespace MALClient.Pages
                     return;
                 txt.IsEnabled = false; //reset input
                 txt.IsEnabled = true;
-                AttemptAuthentication(null, null);             
+                AttemptAuthentication(null, null);
             }
         }
 

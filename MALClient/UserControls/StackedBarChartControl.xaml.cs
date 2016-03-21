@@ -39,7 +39,7 @@ namespace MALClient.UserControls
             var all = values.Aggregate(0.0f, (current, value) => current + value);
             double currX = _lineThickness/2 + margin/2, offset;
             var currColor = 0;
-            Dictionary<double, float> labels = new Dictionary<double, float>();
+            var labels = new Dictionary<double, float>();
             float totalPercentage = 0;
             float percentage;
 
@@ -98,7 +98,7 @@ namespace MALClient.UserControls
             }
 
             int? prevLabel = null;
-            foreach (KeyValuePair<double, float> label in labels)
+            foreach (var label in labels)
             {
                 if ((int) Math.Ceiling(label.Value) == 100)
                     break;

@@ -2,6 +2,6 @@
 {
     public enum UriType
     {
-        MalListQuery,
+        MalListQuery
     }
 }

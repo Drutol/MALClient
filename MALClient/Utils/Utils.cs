@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Core;
 using Windows.UI.StartScreen;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -22,7 +18,7 @@ namespace MALClient
     {
         private static readonly string[] SizeSuffixes = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
-        public static string StatusToString(int status,bool manga = false)
+        public static string StatusToString(int status, bool manga = false)
         {
             switch (status)
             {
@@ -96,7 +92,7 @@ namespace MALClient
         public static void RegisterTile(string id)
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (String.IsNullOrWhiteSpace(tiles))
+            if (string.IsNullOrWhiteSpace(tiles))
                 tiles = "";
             tiles += id + ";";
             ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
@@ -105,7 +101,7 @@ namespace MALClient
         public static async void CheckTiles()
         {
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (String.IsNullOrWhiteSpace(tiles))
+            if (string.IsNullOrWhiteSpace(tiles))
                 return;
 
 
@@ -116,7 +112,7 @@ namespace MALClient
                 {
                     try
                     {
-                        StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
+                        var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
                         await file.DeleteAsync();
                     }
                     catch (Exception)
@@ -146,23 +142,21 @@ namespace MALClient
         public static int ConvertToUnixTimestamp(DateTime date)
         {
             var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            TimeSpan diff = date.ToUniversalTime() - origin;
+            var diff = date.ToUniversalTime() - origin;
             return (int) Math.Floor(diff.TotalSeconds);
         }
 
         /// <summary>
-        /// http://stackoverflow.com/questions/28635208/retrieve-the-current-app-version-from-package
+        ///     http://stackoverflow.com/questions/28635208/retrieve-the-current-app-version-from-package
         /// </summary>
         /// <returns></returns>
         public static string GetAppVersion()
         {
-
-            Package package = Package.Current;
-            PackageId packageId = package.Id;
-            PackageVersion version = packageId.Version;
+            var package = Package.Current;
+            var packageId = package.Id;
+            var version = packageId.Version;
 
             return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-
         }
 
         /// <summary>
@@ -182,7 +176,7 @@ namespace MALClient
             var mag = (int) Math.Log(value, 1024);
             var adjustedSize = (decimal) value/(1L << (mag*10));
 
-            return String.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
+            return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
         public static async Task RemoveProfileImg()
@@ -196,7 +190,6 @@ namespace MALClient
             {
                 //no file
             }
-            
         }
 
         public static async Task DownloadProfileImg()
@@ -205,24 +198,30 @@ namespace MALClient
                 return;
             try
             {
-                StorageFolder folder = ApplicationData.Current.LocalFolder;
-                StorageFile thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
+                var folder = ApplicationData.Current.LocalFolder;
+                var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
                 byte[] response = {};
 
-                await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
-                    //get bytes
+                await
+                    Task.Run(
+                        async () =>
+                            response =
+                                await
+                                    http.GetByteArrayAsync(
+                                        $"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
+                //get bytes
 
-                Stream fs = await thumb.OpenStreamForWriteAsync(); //get stream
+                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
                 var writer = new DataWriter(fs.AsOutputStream());
 
                 writer.WriteBytes(response); //write
                 await writer.StoreAsync();
                 await writer.FlushAsync();
-                                             
+
                 writer.Dispose();
-                             
+
                 await ViewModelLocator.Hamburger.UpdateProfileImg(false);
             }
             catch (Exception)
@@ -244,17 +243,17 @@ namespace MALClient
             return input.First().ToString().ToUpper() + input.Substring(1);
         }
 
-        public static async void PinTile(string targetUrl,int id,string imgUrl,string title)
+        public static async void PinTile(string targetUrl, int id, string imgUrl, string title)
         {
             try
             {
-                StorageFolder folder = ApplicationData.Current.LocalFolder;
-                StorageFile thumb = await folder.CreateFileAsync($"{id}.png", CreationCollisionOption.ReplaceExisting);
+                var folder = ApplicationData.Current.LocalFolder;
+                var thumb = await folder.CreateFileAsync($"{id}.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
-                byte[] response = await http.GetByteArrayAsync(imgUrl); //get bytes
+                var response = await http.GetByteArrayAsync(imgUrl); //get bytes
 
-                Stream fs = await thumb.OpenStreamForWriteAsync(); //get stream
+                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
 
                 using (var writer = new DataWriter(fs.AsOutputStream()))
                 {
@@ -274,39 +273,38 @@ namespace MALClient
             {
                 //TODO : feedback
             }
-
         }
 
         public static int LevenshteinDistance(string s, string t)
         {
-            if (String.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(s))
             {
-                if (String.IsNullOrEmpty(t))
+                if (string.IsNullOrEmpty(t))
                     return 0;
                 return t.Length;
             }
 
-            if (String.IsNullOrEmpty(t))
+            if (string.IsNullOrEmpty(t))
             {
                 return s.Length;
             }
 
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
+            var n = s.Length;
+            var m = t.Length;
+            var d = new int[n + 1, m + 1];
 
             // initialize the top and right of the table to 0, 1, 2, ...
-            for (int i = 0; i <= n; d[i, 0] = i++) ;
-            for (int j = 1; j <= m; d[0, j] = j++) ;
+            for (var i = 0; i <= n; d[i, 0] = i++) ;
+            for (var j = 1; j <= m; d[0, j] = j++) ;
 
-            for (int i = 1; i <= n; i++)
+            for (var i = 1; i <= n; i++)
             {
-                for (int j = 1; j <= m; j++)
+                for (var j = 1; j <= m; j++)
                 {
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-                    int min1 = d[i - 1, j] + 1;
-                    int min2 = d[i, j - 1] + 1;
-                    int min3 = d[i - 1, j - 1] + cost;
+                    var cost = t[j - 1] == s[i - 1] ? 0 : 1;
+                    var min1 = d[i - 1, j] + 1;
+                    var min2 = d[i, j - 1] + 1;
+                    var min3 = d[i - 1, j - 1] + cost;
                     d[i, j] = Math.Min(Math.Min(min1, min2), min3);
                 }
             }
@@ -347,25 +345,25 @@ namespace MALClient
         public static string DecodeXmlSynopsisDetail(string txt)
         {
             return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                    .Trim()
-                    .Replace("[i]", "")
-                    .Replace("[/i]", "")
-                    .Replace("#039;", "'")
-                    .Replace("quot;", "\"")
-                    .Replace("mdash;", "—")
-                    .Replace("amp;", "&");
+                .Trim()
+                .Replace("[i]", "")
+                .Replace("[/i]", "")
+                .Replace("#039;", "'")
+                .Replace("quot;", "\"")
+                .Replace("mdash;", "—")
+                .Replace("amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
             return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                    .Trim()
-                    .Replace("[i]", "")
-                    .Replace("[/i]", "")
-                    .Replace("#039;", "'")
-                    .Replace("&quot;", "\"")
-                    .Replace("&mdash;", "—")
-                    .Replace("&amp;", "&");
+                .Trim()
+                .Replace("[i]", "")
+                .Replace("[/i]", "")
+                .Replace("#039;", "'")
+                .Replace("&quot;", "\"")
+                .Replace("&mdash;", "—")
+                .Replace("&amp;", "&");
         }
     }
 }

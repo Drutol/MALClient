@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models;
 
 namespace MALClient.Comm
 {
-    class AnimeReviewsQuery : Query
+    internal class AnimeReviewsQuery : Query
     {
-        private int _targetId;
-        private bool _anime;
+        private readonly bool _anime;
+        private readonly int _targetId;
 
-        public AnimeReviewsQuery(int id,bool anime = true)
+        public AnimeReviewsQuery(int id, bool anime = true)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/reviews"));
+            Request =
+                WebRequest.Create(
+                    Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/reviews"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _targetId = id;
@@ -25,9 +26,9 @@ namespace MALClient.Comm
 
         public async Task<List<AnimeReviewData>> GetAnimeReviews(bool force = false)
         {
-            List<AnimeReviewData> output = force
+            var output = force
                 ? new List<AnimeReviewData>()
-                : await DataCache.RetrieveReviewsData(_targetId,_anime) ?? new List<AnimeReviewData>();
+                : await DataCache.RetrieveReviewsData(_targetId, _anime) ?? new List<AnimeReviewData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();
@@ -49,7 +50,7 @@ namespace MALClient.Comm
                 {
                     try
                     {
-                        AnimeReviewData current = new AnimeReviewData();
+                        var current = new AnimeReviewData();
                         //Details
                         var detailsNode = reviewNode.Descendants("div").First();
                         var pictureNode = detailsNode.Descendants("div").Where(node =>
@@ -86,16 +87,15 @@ namespace MALClient.Comm
                     {
                         //something unexpected
                     }
-
                 }
             }
             catch (Exception)
             {
                 //no reviews
             }
-            DataCache.SaveAnimeReviews(_targetId,output,_anime);
+            DataCache.SaveAnimeReviews(_targetId, output, _anime);
 
             return output;
-        } 
+        }
     }
 }

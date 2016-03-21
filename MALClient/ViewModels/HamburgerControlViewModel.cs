@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 
@@ -28,49 +23,67 @@ namespace MALClient.ViewModels
 
     public class HamburgerControlViewModel : ViewModelBase
     {
+        private ICommand _buttonNavigationCommand;
+
+        private double _gridBtmMarginHeight;
+
+        private double _gridSeparatorHeight;
+
+        private int _menuPivotSelectedIndex;
         private bool? _prevState;
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 300 : 350; //base value , we are either on log in page or list page (app bar on/off)
+
+        private bool _profileButtonVisibility;
+
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 300 : 350;
+            //base value , we are either on log in page or list page (app bar on/off)
+
         private bool _subtractedHeightForButton = true;
+
+        private BitmapImage _userImage;
+
+
+        private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
+
+        public HamburgerControlViewModel()
+        {
+            PaneOpenedCommand = new RelayCommand(PaneOpened);
+            MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
+        }
 
 
         public IHamburgerControlView View { get; set; }
 
 
-        public Dictionary<string, Brush> TxtForegroundBrushes => _brushes;
-        public Dictionary<string, Thickness> TxtBorderBrushThicknesses => _thicknesses;
-            
-            
-        private readonly Dictionary<string, Brush> _brushes = new Dictionary<string, Brush>
+        public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>
         {
-            ["AnimeList"] =  new SolidColorBrush(Colors.Black),
-            ["MangaList"] =  new SolidColorBrush(Colors.Black),
-            ["AnimeSearch"] =  new SolidColorBrush(Colors.Black),
-            ["MangaSearch"] =  new SolidColorBrush(Colors.Black),
-            ["LogIn"] =  new SolidColorBrush(Colors.Black),
-            ["Settings"] =  new SolidColorBrush(Colors.Black),
-            ["Profile"] =  new SolidColorBrush(Colors.Black),
-            ["Seasonal"] =  new SolidColorBrush(Colors.Black),
-            ["About"] =  new SolidColorBrush(Colors.Black),
-            ["Recommendations"] =  new SolidColorBrush(Colors.Black),
+            ["AnimeList"] = new SolidColorBrush(Colors.Black),
+            ["MangaList"] = new SolidColorBrush(Colors.Black),
+            ["AnimeSearch"] = new SolidColorBrush(Colors.Black),
+            ["MangaSearch"] = new SolidColorBrush(Colors.Black),
+            ["LogIn"] = new SolidColorBrush(Colors.Black),
+            ["Settings"] = new SolidColorBrush(Colors.Black),
+            ["Profile"] = new SolidColorBrush(Colors.Black),
+            ["Seasonal"] = new SolidColorBrush(Colors.Black),
+            ["About"] = new SolidColorBrush(Colors.Black),
+            ["Recommendations"] = new SolidColorBrush(Colors.Black)
         };
 
-        private readonly Dictionary<string, Thickness> _thicknesses = new Dictionary<string, Thickness>
+        public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>
         {
-            ["AnimeList"] =  new Thickness(0),
-            ["MangaList"] =  new Thickness(0),
-            ["AnimeSearch"] =  new Thickness(0),
-            ["MangaSearch"] =  new Thickness(0),
-            ["LogIn"] =  new Thickness(0),
-            ["Settings"] =  new Thickness(0),
-            ["Profile"] =  new Thickness(0),
-            ["Seasonal"] =  new Thickness(0),
-            ["About"] =  new Thickness(0),
-            ["Recommendations"] =  new Thickness(0),
+            ["AnimeList"] = new Thickness(0),
+            ["MangaList"] = new Thickness(0),
+            ["AnimeSearch"] = new Thickness(0),
+            ["MangaSearch"] = new Thickness(0),
+            ["LogIn"] = new Thickness(0),
+            ["Settings"] = new Thickness(0),
+            ["Profile"] = new Thickness(0),
+            ["Seasonal"] = new Thickness(0),
+            ["About"] = new Thickness(0),
+            ["Recommendations"] = new Thickness(0)
         };
 
         public RelayCommand PaneOpenedCommand { get; private set; }
 
-        private double _gridSeparatorHeight;
         public double GridSeparatorHeight
         {
             get { return _gridSeparatorHeight; }
@@ -81,7 +94,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private double _gridBtmMarginHeight;
         public double GridBtmMarginHeight
         {
             get { return _gridBtmMarginHeight; }
@@ -92,10 +104,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private BitmapImage _userImage;
         public BitmapImage UserImage
         {
-            get { return _userImage; } 
+            get { return _userImage; }
             set
             {
                 _userImage = value;
@@ -103,7 +114,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _profileButtonVisibility;
         public bool ProfileButtonVisibility
         {
             get { return _profileButtonVisibility; }
@@ -114,17 +124,14 @@ namespace MALClient.ViewModels
             }
         }
 
-        private ICommand _buttonNavigationCommand;
         public ICommand ButtonNavigationCommand
         {
             get
             {
-                return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<Object>(ButtonClick));
+                return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<object>(ButtonClick));
             }
         }
 
-
-        private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
         public Visibility UsrImgPlaceholderVisibility
         {
             get { return _usrImgPlaceholderVisibility; }
@@ -135,7 +142,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _menuPivotSelectedIndex;
         public int MenuPivotSelectedIndex
         {
             get { return _menuPivotSelectedIndex; }
@@ -148,10 +154,10 @@ namespace MALClient.ViewModels
 
         private async void ButtonClick(object o)
         {
-            if(o == null)
+            if (o == null)
                 return;
             PageIndex page;
-            if (PageIndex.TryParse(o as string, out page))
+            if (Enum.TryParse(o as string, out page))
             {
                 await
                     Utils.GetMainPageInstance()
@@ -177,12 +183,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        public HamburgerControlViewModel()
-        {
-            PaneOpenedCommand = new RelayCommand(PaneOpened);
-            MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
-        }
-
         public void ChangeBottomStackPanelMargin(bool up)
         {
             if (up == _prevState)
@@ -191,7 +191,7 @@ namespace MALClient.ViewModels
             _prevState = up;
 
             _stackPanelHeightSum += up ? 50 : -50;
-        }    
+        }
 
         public void PaneOpened()
         {
@@ -206,8 +206,8 @@ namespace MALClient.ViewModels
             {
                 try
                 {
-                    StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
-                    BasicProperties props = await file.GetBasicPropertiesAsync();
+                    var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
+                    var props = await file.GetBasicPropertiesAsync();
                     if (props.Size == 0)
                         throw new FileNotFoundException();
                     var bitmap = new BitmapImage();
@@ -224,7 +224,7 @@ namespace MALClient.ViewModels
                     if (dl)
                         await Utils.DownloadProfileImg();
                     else
-                        UsrImgPlaceholderVisibility = Visibility.Visible;                   
+                        UsrImgPlaceholderVisibility = Visibility.Visible;
                 }
                 catch (Exception)
                 {
@@ -253,34 +253,35 @@ namespace MALClient.ViewModels
 
         private void ResetActiveButton()
         {
-            _brushes["AnimeList"] = new SolidColorBrush(Colors.Black);
-            _brushes["MangaList"] = new SolidColorBrush(Colors.Black);
-            _brushes["AnimeSearch"] = new SolidColorBrush(Colors.Black);
-            _brushes["MangaSearch"] = new SolidColorBrush(Colors.Black);
-            _brushes["LogIn"] = new SolidColorBrush(Colors.Black);
-            _brushes["Settings"] = new SolidColorBrush(Colors.Black);
-            _brushes["Profile"] = new SolidColorBrush(Colors.Black);
-            _brushes["Seasonal"] = new SolidColorBrush(Colors.Black);
-            _brushes["About"] = new SolidColorBrush(Colors.Black);
-            _brushes["Recommendations"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["AnimeList"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["MangaList"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["AnimeSearch"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["MangaSearch"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["LogIn"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["Settings"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["Profile"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["Seasonal"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["About"] = new SolidColorBrush(Colors.Black);
+            TxtForegroundBrushes["Recommendations"] = new SolidColorBrush(Colors.Black);
 
-            _thicknesses["AnimeList"] = new Thickness(0);
-            _thicknesses["MangaList"] = new Thickness(0);
-            _thicknesses["AnimeSearch"] = new Thickness(0);
-            _thicknesses["MangaSearch"] = new Thickness(0);
-            _thicknesses["LogIn"] = new Thickness(0);
-            _thicknesses["Settings"] = new Thickness(0);
-            _thicknesses["Profile"] = new Thickness(0);
-            _thicknesses["Seasonal"] = new Thickness(0);
-            _thicknesses["About"] = new Thickness(0);
-            _thicknesses["Recommendations"] = new Thickness(0);
+            TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
+            TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
+            TxtBorderBrushThicknesses["AnimeSearch"] = new Thickness(0);
+            TxtBorderBrushThicknesses["MangaSearch"] = new Thickness(0);
+            TxtBorderBrushThicknesses["LogIn"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Settings"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Profile"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Seasonal"] = new Thickness(0);
+            TxtBorderBrushThicknesses["About"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Recommendations"] = new Thickness(0);
         }
 
         public void SetActiveButton(HamburgerButtons val)
         {
             ResetActiveButton();
-            _brushes[val.ToString()] = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-            _thicknesses[val.ToString()] = new Thickness(3,0,0,0);
+            TxtForegroundBrushes[val.ToString()] =
+                Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+            TxtBorderBrushThicknesses[val.ToString()] = new Thickness(3, 0, 0, 0);
             RaisePropertyChanged(() => TxtForegroundBrushes);
             RaisePropertyChanged(() => TxtBorderBrushThicknesses);
         }

@@ -12,62 +12,67 @@
     <ScrollViewer>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*"/>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.4*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--LeftTop-->
             <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="170"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="170" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Image x:Name="DepImg" Height="170" Stretch="Uniform" Tapped="ButtonDependentDetails_OnClick"/>
-                <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonDependentDetails_OnClick">
+                <Image x:Name="DepImg" Height="170" Stretch="Uniform" Tapped="ButtonDependentDetails_OnClick" />
+                <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"
+                        Height="40" Click="ButtonDependentDetails_OnClick">
                     <Button.Background>
-                        <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+                        <SolidColorBrush Color="Black" Opacity=".5" />
                     </Button.Background>
-                    <SymbolIcon Symbol="More" Foreground="White"/>
+                    <SymbolIcon Symbol="More" Foreground="White" />
                 </Button>
             </Grid>
 
             <!--MidTop-->
-            <SymbolIcon Grid.Column="1" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Symbol="Switch" Foreground="LightGray" VerticalAlignment="Top" Margin="0,85,0,0" HorizontalAlignment="Center">
+            <SymbolIcon Grid.Column="1" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Symbol="Switch"
+                        Foreground="LightGray" VerticalAlignment="Top" Margin="0,85,0,0" HorizontalAlignment="Center">
                 <SymbolIcon.RenderTransform>
-                    <ScaleTransform ScaleY="3" ScaleX="3"/>
+                    <ScaleTransform ScaleY="3" ScaleX="3" />
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
             <!--RightTop-->
             <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="170"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="170" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Image x:Name="RecImg" Height="170" Stretch="Uniform" Tapped="ButtonRecomDetails_OnClick" />
-                <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" Click="ButtonRecomDetails_OnClick">
+                <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"
+                        Height="40" Click="ButtonRecomDetails_OnClick">
                     <Button.Background>
-                        <SolidColorBrush Color="Black" Opacity=".5"></SolidColorBrush>
+                        <SolidColorBrush Color="Black" Opacity=".5" />
                     </Button.Background>
-                    <SymbolIcon Symbol="More" Foreground="White"/>
+                    <SymbolIcon Symbol="More" Foreground="White" />
                 </Button>
             </Grid>
             <!-- TitleMid -->
             <Grid Grid.Row="1" Grid.Column="0">
-                <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
-            </Grid>            
+                <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" FontWeight="Bold"
+                           TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2" />
+            </Grid>
             <Grid Grid.Row="1" Grid.Column="2">
-                <TextBlock x:Name="TxtRecTitle" IsTextSelectionEnabled="True" FontWeight="Bold" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2"/>
+                <TextBlock x:Name="TxtRecTitle" IsTextSelectionEnabled="True" FontWeight="Bold"
+                           TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2" />
             </Grid>
             <!--Details-->
-            <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0" >
+            <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
-                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutSeparator />
                     <ListView x:Name="DetailsListView" SelectionMode="None">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -78,22 +83,22 @@
                 </StackPanel>
             </Grid>
             <!--Description-->
-            <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" >
+            <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
-                    <MenuFlyoutSeparator/>
-                    <TextBlock Text="Recommendtion description" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5"/>
+                    <MenuFlyoutSeparator />
+                    <TextBlock Text="Recommendtion description" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" x:Name="SpinnerLoading">
                 <Grid.Background>
-                    <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                    <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
                 </Grid.Background>
                 <ProgressRing
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
-                      IsActive="True" />
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                    IsActive="True" />
             </Grid>
-            
+
         </Grid>
     </ScrollViewer>
 </UserControl>

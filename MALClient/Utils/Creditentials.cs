@@ -10,8 +10,8 @@ namespace MALClient
 
         private static string Password { get; set; } =
             (string) ApplicationData.Current.LocalSettings.Values["password"];
-           
-        public static int Id { get; private set; } = 
+
+        public static int Id { get; private set; } =
             (int) (ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
 
         public static bool Authenticated { get; private set; } =

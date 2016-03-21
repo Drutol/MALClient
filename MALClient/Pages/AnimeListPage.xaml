@@ -12,22 +12,26 @@
 
 
     <Page.Resources>
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar" Background="LightGray">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}" 
-                              Visibility="{Binding AppBtnGoBackToMyListVisibility}"/>
-                <AppBarButton Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Contact2" Label="List source">
+                <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
+                              Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
+                <AppBarButton
+                    Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                    Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
                             <StackPanel>
                                 <TextBlock VerticalAlignment="Center" Text="MAL Username:" />
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtListSource" Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="5,5" KeyDown="ListSource_OnKeyDown" />
+                                    <TextBox x:Name="TxtListSource"
+                                             Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="5,5" KeyDown="ListSource_OnKeyDown" />
                                     <Button Click="SetListSource">
                                         <SymbolIcon Symbol="Accept" />
                                     </Button>
@@ -38,7 +42,9 @@
                 </AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton x:Name="AppbarBtnPinTile" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Icon="Pin" Label="Pin to start" IsEnabled="{Binding AppbarBtnPinTileIsEnabled}">
+            <AppBarButton x:Name="AppbarBtnPinTile"
+                          Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                          Icon="Pin" Label="Pin to start" IsEnabled="{Binding AppbarBtnPinTileIsEnabled}">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="MyAnimeList" Command="{Binding PinTileMALCommand}" />
@@ -46,10 +52,12 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Calendar" Label="Select season" Visibility="{Binding ElementName=AppbarBtnPinTile,Converter={StaticResource VisiblityInverterConverter},Path=Visibility}">
+            <AppBarButton Icon="Calendar" Label="Select season"
+                          Visibility="{Binding ElementName=AppbarBtnPinTile,Converter={StaticResource VisiblityInverterConverter},Path=Visibility}">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
-                        <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single" SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
+                                  SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -66,7 +74,8 @@
                                 <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode" Visibility="{Binding SortAirDayVisibility}"/>
+                                <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
+                                                      Visibility="{Binding SortAirDayVisibility}" />
                                 <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
@@ -78,8 +87,9 @@
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <ListView SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                  SelectionMode="Single">
+                        <ListView
+                            SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectionMode="Single">
                             <ListView.Items>
                                 <ListViewItem Content="{Binding Filter1Label}" />
                                 <ListViewItem Content="Completed" />
@@ -99,52 +109,59 @@
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">
-                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
                 <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="../XamlResources/DictionaryAnimeList.xaml"/>
+                    <ResourceDictionary Source="../XamlResources/DictionaryAnimeList.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
-        <Pivot x:Name="AnimesPivot"  
-               Style="{StaticResource PivotStyleAnimeList}"  
-               SelectionChanged="AnimesPivot_OnSelectionChanged" 
-               SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
-               ItemsSource="{Binding AnimePages}" 
+        <Pivot x:Name="AnimesPivot"
+               Style="{StaticResource PivotStyleAnimeList}"
+               SelectionChanged="AnimesPivot_OnSelectionChanged"
+               SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+               ItemsSource="{Binding AnimePages}"
                PivotItemLoading="AnimesPivot_OnPivotItemLoading"
                VerticalAlignment="Stretch">
             <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}"/>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}" />
             </Pivot.Resources>
             <Pivot.ItemContainerStyle>
                 <Style TargetType="PivotItem">
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="1"/>
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="1" />
                 </Style>
             </Pivot.ItemContainerStyle>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Width="30" Height="30" Margin="2,0" VerticalAlignment="Top" Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
-                        <TextBlock Text="{Binding}" FontSize="20" Foreground="White" FontWeight="SemiLight" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <Grid Width="30" Height="30" Margin="2,0" VerticalAlignment="Top"
+                          Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
+                        <TextBlock Text="{Binding}" FontSize="20" Foreground="White" FontWeight="SemiLight"
+                                   VerticalAlignment="Top" HorizontalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
         <StackPanel Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <TextBlock Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding EmptyNoticeContent}"
-                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
+            <TextBlock
+                Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                Text="{Binding EmptyNoticeContent}"
+                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
             <Button x:Name="BtnSetSource" Content="Set source" Margin="0,10,0,0" VerticalAlignment="Center"
-                    HorizontalAlignment="Center" Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Click="ShowListSourceFlyout" />
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                    Click="ShowListSourceFlyout" />
         </StackPanel>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>
-                <SolidColorBrush Color="#E6E6E6" Opacity=".75"/>
+                <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
             </Grid.Background>
-            <ProgressRing 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
-                      IsActive="True" />
+            <ProgressRing
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
+                IsActive="True" />
         </Grid>
     </Grid>
 </Page>

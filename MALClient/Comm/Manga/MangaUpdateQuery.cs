@@ -7,12 +7,13 @@ namespace MALClient.Comm
 {
     internal class MangaUpdateQuery : Query
     {
-        public MangaUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.MyVolumes)
+        public MangaUpdateQuery(IAnimeData item)
+            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.MyVolumes)
         {
         }
 
 
-        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore,int myVol)
+        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol)
         {
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

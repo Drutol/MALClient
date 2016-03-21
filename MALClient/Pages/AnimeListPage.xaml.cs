@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.System;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.Popups;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Comm;
-using MALClient.Items;
 using MALClient.UserControls;
 using MALClient.ViewModels;
 
@@ -37,13 +24,14 @@ namespace MALClient.Pages
         public readonly int CurrPage;
         public readonly bool Descending;
         public readonly string ListSource;
-        public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
         public readonly bool NavArgs;
         public readonly int Status;
-        public SortOptions SortOption;
         public AnimeSeason CurrSeason;
+        public SortOptions SortOption;
+        public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
+
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
-            AnimeListWorkModes seasonal, string source,AnimeSeason season)
+            AnimeListWorkModes seasonal, string source, AnimeSeason season)
         {
             SortOption = sort;
             Status = status;
@@ -57,18 +45,20 @@ namespace MALClient.Pages
 
         private AnimeListPageNavigationArgs()
         {
-            
         }
 
-        public static AnimeListPageNavigationArgs Seasonal => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.SeasonalAnime};
-        public static AnimeListPageNavigationArgs Manga => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.Manga };
+        public static AnimeListPageNavigationArgs Seasonal
+            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.SeasonalAnime};
+
+        public static AnimeListPageNavigationArgs Manga
+            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.Manga};
     }
 
     public enum SortOptions
     {
         SortTitle,
         SortScore,
-        SortWatched,                           
+        SortWatched,
         SortAirDay,
         SortNothing
     }
@@ -78,7 +68,33 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class AnimeListPage : Page
     {
-        private AnimeListViewModel ViewModel => (DataContext as AnimeListViewModel);
+        private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
+
+        public void FlyoutSeasonSelectionHide()
+        {
+            FlyoutSeasonSelection.Hide();
+        }
+
+        private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
+        {
+            if (ViewModel.CanLoadPages)
+                (args.Item.Content as AnimePagePivotContent).LoadContent();
+        }
+
+
+        private void AnimesPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (e.RemovedItems.Count > 0)
+                    ((e.RemovedItems.First() as PivotItem).Content as AnimePagePivotContent).ResetSelection();
+            }
+            catch (Exception)
+            {
+                //
+            }
+        }
+
         #region Init
 
         public AnimeListPage()
@@ -89,7 +105,7 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);           
+            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
         }
 
         #endregion
@@ -111,7 +127,7 @@ namespace MALClient.Pages
         //}
 
         #endregion
-             
+
         #region ActionHandlersPin
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
@@ -145,7 +161,6 @@ namespace MALClient.Pages
         }
 
 
-
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {
             var chbox = sender as ToggleMenuFlyoutItem;
@@ -162,7 +177,7 @@ namespace MALClient.Pages
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
                 BottomCommandBar.IsOpen = false;
-                await ViewModel.FetchData();           
+                await ViewModel.FetchData();
             }
         }
 
@@ -181,7 +196,7 @@ namespace MALClient.Pages
             TxtListSource.SelectAll();
         }
 
-        internal void InitSortOptions(SortOptions option,bool descending)
+        internal void InitSortOptions(SortOptions option, bool descending)
         {
             switch (option)
             {
@@ -207,32 +222,5 @@ namespace MALClient.Pages
         }
 
         #endregion
-
-        public void FlyoutSeasonSelectionHide()
-        {
-            FlyoutSeasonSelection.Hide();
-        }
-
-        private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
-        {
-            if(ViewModel.CanLoadPages)
-            (args.Item.Content as AnimePagePivotContent).LoadContent();
-
-
-        }
-
-
-        private void AnimesPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (e.RemovedItems.Count > 0)
-                    ((e.RemovedItems.First() as PivotItem).Content as AnimePagePivotContent).ResetSelection();
-            }
-            catch (Exception)
-            {
-                //
-            }
-        }
     }
 }

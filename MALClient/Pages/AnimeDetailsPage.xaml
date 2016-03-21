@@ -238,6 +238,9 @@
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="Margin" Value="1,1"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2,0,0,0"/>
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
@@ -248,9 +251,9 @@
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
-                                                               FontWeight="SemiBold" />
+                                                               FontWeight="Normal" />
                                                     <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                               HorizontalAlignment="Right" FontWeight="SemiLight" />
+                                                               HorizontalAlignment="Right" Margin="3,0" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" FontWeight="SemiLight" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
@@ -261,6 +264,9 @@
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="Margin" Value="1,1"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                <Setter Property="BorderThickness" Value="0,0,2,0"/>
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
@@ -271,9 +277,11 @@
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
-                                                               FontWeight="SemiBold" />
+                                                               FontWeight="Normal" VerticalAlignment="Center" />
                                                     <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                               HorizontalAlignment="Right" FontWeight="SemiLight" />
+                                                               HorizontalAlignment="Right" Margin="3,0" TextTrimming="CharacterEllipsis" 
+                                                               TextWrapping="WrapWholeWords" MaxLines="2" TextAlignment="Center" 
+                                                               FontWeight="SemiLight" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>

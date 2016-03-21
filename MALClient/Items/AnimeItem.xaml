@@ -159,7 +159,6 @@
                                TextAlignment="Center" />
                 </Grid>
             </StackPanel>
-
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="42"/>
@@ -168,7 +167,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="42"/>
-                    <RowDefinition Height="42"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Button Grid.Column="1" Grid.ColumnSpan="2" Content="{Binding MyEpisodesBind}" Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiLight"
                         Margin="0,0,0,5" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0,0,0,2"
@@ -264,13 +263,8 @@
                     </Button>
                 </StackPanel>
             </Grid>
-
-
-
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" Margin="{Binding TitleMargin}" />
-            
-
         </Grid>
         <Grid Visibility="{Binding TileUrlInputVisibility}" Height="75" BorderThickness="1"
               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center"

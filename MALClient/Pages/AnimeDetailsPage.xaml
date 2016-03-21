@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
+    xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
@@ -198,20 +199,44 @@
                                         <ColumnDefinition Width=".5*"/>
                                         <ColumnDefinition Width=".5*"/>
                                     </Grid.ColumnDefinitions>
-                                    <ListView  SelectionMode="None" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="LightGray" ItemsSource="{Binding LeftDetailsRow}">
+                                    <controls:AlternatingListView  SelectionMode="None" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="LightGray" ItemsSource="{Binding LeftDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                             </Style>
                                         </ListView.ItemContainerStyle>
-                                    </ListView>
-                                    <ListView  SelectionMode="None" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="LightGray" ItemsSource="{Binding RightDetailsRow}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}" HorizontalAlignment="Right" FontWeight="SemiLight"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </controls:AlternatingListView>
+                                    <controls:AlternatingListView  SelectionMode="None" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="LightGray" ItemsSource="{Binding RightDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                             </Style>
                                         </ListView.ItemContainerStyle>
-                                    </ListView>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}" HorizontalAlignment="Right" FontWeight="SemiLight"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </controls:AlternatingListView>
                                 </Grid>
                                 <MenuFlyoutSeparator  VerticalAlignment="Top" />
                                 <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -248,7 +273,7 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.Resources>
-                                        <Style TargetType="ListView">
+                                        <Style TargetType="controls:AlternatingListView">
                                             <Setter Property="ItemContainerStyle">
                                                 <Setter.Value>
                                                     <Style TargetType="ListViewItem">
@@ -274,8 +299,20 @@
                                                 <RowDefinition Height="10"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RightGenres}" BorderThickness="0,0,1,0" BorderBrush="LightGray"/>
-                                            <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LeftGenres}" BorderThickness="1,0,0,0" BorderBrush="LightGray"/>
+                                            <controls:AlternatingListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RightGenres}" BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}" TextAlignment="Center" HorizontalAlignment="Stretch" FontWeight="SemiLight"/>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </controls:AlternatingListView>
+                                            <controls:AlternatingListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LeftGenres}" BorderThickness="1,0,0,0" BorderBrush="LightGray">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}" TextAlignment="Center" HorizontalAlignment="Stretch" FontWeight="SemiLight"/>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </controls:AlternatingListView>
                                         </Grid>
                                         <MenuFlyoutSeparator/>
                                     </StackPanel>
@@ -283,36 +320,60 @@
                                         <TextBlock Text="Episodes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5"/>
                                         <TextBlock Visibility="{Binding NoEpisodesDataVisibility}" Text="No data available"
                                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <ListView ItemsSource="{Binding Episodes}" BorderThickness="0,0,1,0" BorderBrush="LightGray"/>
+                                        <controls:AlternatingListView ItemsSource="{Binding Episodes}" BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Text="{Binding Item1}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}" HorizontalAlignment="Center" FontWeight="SemiLight" TextTrimming="CharacterEllipsis"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </controls:AlternatingListView>
                                     </StackPanel>
                                     <MenuFlyoutSeparator Grid.Row="4"/>
                                     <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
                                     <StackPanel Grid.Row="6">
                                         <TextBlock Visibility="{Binding NoOPsDataVisibility}" Text="No data available"
                                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <ListView  ItemsSource="{Binding OPs}">
+                                        <controls:AlternatingListView  ItemsSource="{Binding OPs}">
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="IsTextSelectionEnabled" Value="True"/>
                                                 </Style>
                                             </ListView.Resources>
-                                        </ListView>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </controls:AlternatingListView>
                                     </StackPanel>
                                     <MenuFlyoutSeparator Grid.Row="7"/>
                                     <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2" Margin="0,5,0,5"/>
                                     <StackPanel Grid.Row="9">
                                         <TextBlock Visibility="{Binding NoEDsDataVisibility}" Text="No data available"
                                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"/>
-                                        <ListView  ItemsSource="{Binding EDs}">
+                                        <controls:AlternatingListView  ItemsSource="{Binding EDs}">
                                             <ListView.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="IsTextSelectionEnabled" Value="True"/>
                                                 </Style>
                                             </ListView.Resources>
-                                        </ListView>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                         
+                                        </controls:AlternatingListView>
                                         <Button VerticalAlignment="Bottom" 
                                         Margin="0,15,0,0" HorizontalAlignment="Left" 
-                                        Content="Source : Anime News Network"
+                                        Content="Source : AnimeNewsNetwork"
                                         Command="{Binding OpenInAnnCommand}"
                                         Visibility="{Binding AnnSourceButtonVisibility}"/>
                                     </StackPanel>

@@ -33,19 +33,20 @@ namespace MALClient.Comm
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
-            var doc = new HtmlDocument();
-            doc.LoadHtml(raw);
-            HtmlNode mainNode =
-                doc.DocumentNode.Descendants("div")
-                    .First(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
+
 
             //Get season data - we are getting this only from current season
             try
             {
+                var doc = new HtmlDocument();
+                doc.LoadHtml(raw);
+                HtmlNode mainNode =
+                    doc.DocumentNode.Descendants("div")
+                        .First(
+                            node =>
+                                node.Attributes.Contains("class") &&
+                                node.Attributes["class"].Value ==
+                                "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
                 if (!_overriden)
                 {
                     var seasonInfoNodes = doc.DocumentNode.Descendants("div").First(
@@ -73,7 +74,7 @@ namespace MALClient.Comm
                 }
 
                 //Get anime data
-                IEnumerable<HtmlNode> nodes = mainNode.ChildNodes.Where(node => node.Name == "div");
+                IEnumerable<HtmlNode> nodes = mainNode.ChildNodes.Where(node => node.Name == "div").Take(Settings.SeasonalToPull);
 
                 var i = 0;
                 foreach (HtmlNode htmlNode in nodes)
@@ -143,8 +144,6 @@ namespace MALClient.Comm
                         AirDay = day
                     });
                     i++;
-                    if (i ==40)
-                        break;
                 }
             }
             catch (Exception)

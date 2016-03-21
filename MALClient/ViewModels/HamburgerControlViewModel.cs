@@ -180,7 +180,7 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             PaneOpenedCommand = new RelayCommand(PaneOpened);
-            MenuPivotSelectedIndex = Settings.GetDefaultMenuTab() == "anime" ? 0 : 1;
+            MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
         }
 
         public void ChangeBottomStackPanelMargin(bool up)

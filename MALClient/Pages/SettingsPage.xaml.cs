@@ -25,15 +25,16 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ToggleCache.IsOn = Settings.IsCachingEnabled();
-            ComboCachePersistency.SelectedIndex = SecondsToIndexHelper(Settings.GetCachePersitence());
+            ToggleCache.IsOn = Settings.IsCachingEnabled;
+            ComboCachePersistency.SelectedIndex = SecondsToIndexHelper(Settings.CachePersitence);
             SetSortOrder();
-            BtnDescending.IsChecked = Settings.IsSortDescending();
-            BtnMDescending.IsChecked = Settings.IsSortDescendingM();
+            BtnDescending.IsChecked = Settings.IsSortDescending;
+            BtnMDescending.IsChecked = Settings.IsMangaSortDescending;
             PopulateCachedEntries();
             SetDesiredStatus();
             SliderSetup();
-            if (Settings.GetDefaultMenuTab() == "anime")
+            ToggleSwitchSetup();
+            if (Settings.DefaultMenuTab == "anime")
                 RadioTabAnime.IsChecked = true;
             else
                 RadioTabManga.IsChecked = true;
@@ -45,6 +46,8 @@ namespace MALClient.Pages
             base.OnNavigatedTo(e);
         }
 
+
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -54,7 +57,7 @@ namespace MALClient.Pages
 
         private void SetSortOrder()
         {
-            switch (Settings.GetSortOrder())
+            switch (Settings.AnimeSortOrder)
             {
                 case SortOptions.SortNothing:
                     Sort4.IsChecked = true;
@@ -75,7 +78,7 @@ namespace MALClient.Pages
                     Sort4.IsChecked = true;
                     break;
             }
-            switch (Settings.GetSortOrderM())
+            switch (Settings.MangaSortOrder)
             {
                 case SortOptions.SortNothing:
                     SortM4.IsChecked = true;
@@ -181,14 +184,14 @@ namespace MALClient.Pages
                 return;
             ;
             var cmb = sender as ComboBox;
-            ApplicationData.Current.LocalSettings.Values["CachePersistency"] = IndexToSecondsHelper(cmb.SelectedIndex);
+            Settings.CachePersitence = IndexToSecondsHelper(cmb.SelectedIndex);
         }
 
         private void ToggleDataCaching(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
                 return;
-            ApplicationData.Current.LocalSettings.Values["EnableCache"] = ToggleCache.IsOn;
+            Settings.IsCachingEnabled = ToggleCache.IsOn;
         }
 
         private void SelectSortOrder(object sender, RoutedEventArgs e)
@@ -219,31 +222,31 @@ namespace MALClient.Pages
                     sortOptions = SortOptions.SortNothing;
                     break;
             }
-            ApplicationData.Current.LocalSettings.Values["SortOrder"] = (int) sortOptions;
+            Settings.AnimeSortOrder = sortOptions;
         }
 
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {
             var btn = sender as ToggleMenuFlyoutItem;
-            ApplicationData.Current.LocalSettings.Values["SortDescending"] = btn.IsChecked;
+            Settings.IsSortDescending = btn.IsChecked;
         }
 
         private void ChangeDefaultFilter(object sender, SelectionChangedEventArgs e)
         {
             if (!_initialized)
                 return;
-            ApplicationData.Current.LocalSettings.Values["DefaultFilter"] =
+            Settings.DefaultAnimeFilter =
                 Utils.StatusToInt((string) ((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
         }
 
         private void SetDesiredStatus()
         {
-            var value = Settings.GetDefaultAnimeFilter();
+            var value = Settings.DefaultAnimeFilter;
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
             CmbDefaultFilter.SelectedIndex = value;
 
-            value = Settings.GetDefaultMangaFilter();
+            value = Settings.DefaultMangaFilter;
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
             CmbDefaultMFilter.SelectedIndex = value;
@@ -253,7 +256,7 @@ namespace MALClient.Pages
         {
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
-            ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = (int) e.NewValue;
+            Settings.ItemsPerPage = (int) e.NewValue;
             ViewModelLocator.AnimeList.UpdatePageSetup(true);
         }
 
@@ -261,21 +264,38 @@ namespace MALClient.Pages
         {
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
-            ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] = (int) e.NewValue;
+            Settings.ReviewsToPull = (int) e.NewValue;
         }
 
         private void ChangedRecommsToPull(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
-            ApplicationData.Current.LocalSettings.Values["RecommsToPull"] = (int) e.NewValue;
+            Settings.RecommsToPull = (int) e.NewValue;
+        }
+
+
+        private void ChangedSeasonalToPull(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
+                return;
+            Settings.SeasonalToPull = (int)e.NewValue;
         }
 
         private void SliderSetup()
         {
-            SliderItemsPerPage.Value = Settings.GetItemsPerPage();
-            SliderReccommsToPull.Value = Settings.GetRecommsToPull();
-            SliderReviewsToPull.Value = Settings.GetReviewsToPull();
+            SliderItemsPerPage.Value = Settings.ItemsPerPage;
+            SliderReccommsToPull.Value = Settings.RecommsToPull;
+            SliderReviewsToPull.Value = Settings.ReviewsToPull;
+            SliderSeasonalToPull.Value = Settings.SeasonalToPull;
+        }
+
+        private void ToggleSwitchSetup()
+        {
+            ToggleSwitchDetails.IsOn = Settings.DetailsAutoLoadDetails;
+            ToggleSwitchReviews.IsOn = Settings.DetailsAutoLoadReviews;
+            ToggleSwitchRecomm.IsOn = Settings.DetailsAutoLoadRecomms;
+            ToggleSwitchRelated.IsOn = Settings.DetailsAutoLoadRelated;
         }
 
         private async void RemoveAllAnimeDetails(object sender, RoutedEventArgs e)
@@ -317,27 +337,47 @@ namespace MALClient.Pages
                     sortOptions = SortOptions.SortNothing;
                     break;
             }
-            ApplicationData.Current.LocalSettings.Values["SortOrderM"] = (int)sortOptions;
+            Settings.MangaSortOrder = sortOptions;
         }
 
         private void ChangeMSortOrder(object sender, RoutedEventArgs e)
         {
             var btn = sender as ToggleMenuFlyoutItem;
-            ApplicationData.Current.LocalSettings.Values["SortDescendingM"] = btn.IsChecked;
+            Settings.IsMangaSortDescending = btn.IsChecked;
         }
 
         private void ChangeDefaultMFilter(object sender, SelectionChangedEventArgs e)
         {
             if (!_initialized)
                 return;
-            ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] =
+            Settings.DefaultMangaFilter =
                 Utils.StatusToInt((string)((sender as ComboBox).SelectedItem as ComboBoxItem).Content);
         }
 
         private void ChangeDefaultTab(object sender, RoutedEventArgs e)
         {
             var radio = sender as RadioButton;
-            ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] = radio.Tag;
+            Settings.DefaultMenuTab = radio.Tag as string;
+        }
+
+        private void ToggleSwitchDetailsAutoLoadChange(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as ToggleSwitch;
+            switch ((string)btn.Tag)
+            {
+                case "0":
+                    Settings.DetailsAutoLoadDetails = btn.IsOn;
+                    break;
+                case "1":
+                    Settings.DetailsAutoLoadReviews = btn.IsOn;
+                    break;
+                case "2":
+                    Settings.DetailsAutoLoadRecomms = btn.IsOn;
+                    break;
+                case "3":
+                    Settings.DetailsAutoLoadRelated = btn.IsOn;
+                    break;
+            }
         }
     }
 }

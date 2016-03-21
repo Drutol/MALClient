@@ -50,7 +50,7 @@
                                     <Setter Property="Margin" Value="2,0"/>
                                 </Style>
                                 <Style TargetType="PivotItem">
-                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Margin" Value="0,4,0,0"/>
                                     <Setter Property="Padding" Value="0"/>
                                 </Style>
                             </Pivot.Resources>

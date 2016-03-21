@@ -10,64 +10,158 @@ namespace MALClient
 {
     public static class Settings
     {
-        public static int GetCachePersitence()
+        public static int CachePersitence
         {
-            return (int)(ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["CachePersistency"] = value; }
+        } 
+
+        public static bool IsCachingEnabled
+        {
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false); ;
+            }
+            set { ApplicationData.Current.LocalSettings.Values["EnableCache"] = value; }
         }
 
-        public static bool IsCachingEnabled()
+        public static SortOptions AnimeSortOrder
         {
-            return (bool)(ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
+            get
+            {
+                return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["SortOrder"] = (int)value; }
         }
 
-        public static SortOptions GetSortOrder()
+        public static SortOptions MangaSortOrder
         {
-            return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3);
+            get
+            {
+                return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 2);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["SortOrderM"] = (int)value; }
         }
 
-        public static SortOptions GetSortOrderM()
+        public static bool IsSortDescending
         {
-            return (SortOptions)(int)(ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 2);
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["SortDescending"] = value; }
         }
 
-        public static bool IsSortDescending()
+        public static bool IsMangaSortDescending
         {
-            return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true);
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescendingM"] ?? true);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["SortDescendingM"] = value; }
         }
 
-        public static bool IsSortDescendingM()
+        public static int DefaultAnimeFilter
         {
-            return (bool)(ApplicationData.Current.LocalSettings.Values["SortDescendingM"] ?? true);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["DefaultFilter"] ?? (int)AnimeStatus.Watching);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DefaultFilter"] = value; }
         }
 
-        public static int GetDefaultAnimeFilter()
+        public static int DefaultMangaFilter
         {
-            return (int)(ApplicationData.Current.LocalSettings.Values["DefaultFilter"] ?? (int)AnimeStatus.Watching);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] ?? (int)AnimeStatus.Watching);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] = value; }
         }
 
-        public static int GetDefaultMangaFilter()
+        public static int ItemsPerPage
         {
-            return (int)(ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] ?? (int)AnimeStatus.Watching);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 5);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = value; }
         }
 
-        public static int GetItemsPerPage()
+        public static int ReviewsToPull
         {
-            return (int)(ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 5);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] ?? 4);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] = value; }
         }
 
-        public static int GetReviewsToPull()
+        public static int RecommsToPull
         {
-            return (int)(ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] ?? 4);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["RecommsToPull"] ?? 8);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["RecommsToPull"] = value; }
         }
 
-        public static int GetRecommsToPull()
+        public static int SeasonalToPull
         {
-            return (int)(ApplicationData.Current.LocalSettings.Values["RecommsToPull"] ?? 8);
+            get
+            {
+                return (int)(ApplicationData.Current.LocalSettings.Values["SeasonalToPull"] ?? 30);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["SeasonalToPull"] = value; }
         }
 
-        public static string GetDefaultMenuTab()
+        public static string DefaultMenuTab
         {
-            return (string)(ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] ?? "anime");
+            get
+            {
+                return (string)(ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] ?? "anime");
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] = value; }
         }
+
+        public static bool DetailsAutoLoadDetails // hehe
+        {
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadDetails"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadDetails"] = value; }
+        }
+
+        public static bool DetailsAutoLoadReviews
+        {
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadReviews"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadReviews"] = value; }
+        }
+
+        public static bool DetailsAutoLoadRelated
+        {
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRelated"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRelated"] = value; }
+        }
+
+        public static bool DetailsAutoLoadRecomms
+        {
+            get
+            {
+                return (bool)(ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRecomms"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRecomms"] = value; }
+        }
+
     }
 }

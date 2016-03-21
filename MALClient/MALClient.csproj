@@ -179,6 +179,7 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\AnimePagePivotContent.xaml.cs">
       <DependentUpon>AnimePagePivotContent.xaml</DependentUpon>
     </Compile>

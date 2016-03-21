@@ -31,7 +31,7 @@ namespace MALClient
 
         public static async void SaveDataForUser(string user, string data, AnimeListWorkModes mode)
         {
-            if (!Settings.IsCachingEnabled())
+            if (!Settings.IsCachingEnabled)
                 return;
             try
             {
@@ -51,7 +51,7 @@ namespace MALClient
 
         public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user,AnimeListWorkModes mode)
         {
-            if (!Settings.IsCachingEnabled())
+            if (!Settings.IsCachingEnabled)
                 return null;
             try
             {
@@ -75,7 +75,7 @@ namespace MALClient
         private static bool CheckForOldData(DateTime timestamp)
         {
             TimeSpan diff = DateTime.Now.ToUniversalTime().Subtract(timestamp);
-            if (diff.TotalSeconds > Settings.GetCachePersitence())
+            if (diff.TotalSeconds > Settings.CachePersitence)
                 return false;
             return true;
         }

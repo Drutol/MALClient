@@ -60,23 +60,16 @@ namespace MALClient.ViewModels
         private bool _loadedReviews;
         private bool _loadedRecomm;
         private bool _loadedRelated;
-        public ObservableCollection<ListViewItem> LeftDetailsRow => _loadedItems1; 
-        public ObservableCollection<ListViewItem> RightDetailsRow => _loadedItems2; 
-        public ObservableCollection<ListViewItem> LeftGenres => _genres1;
-        public ObservableCollection<ListViewItem> RightGenres => _genres2; 
-        public ObservableCollection<ListViewItem> Episodes => _episodes; 
-        public ObservableCollection<ListViewItem> OPs => _ops; 
-        public ObservableCollection<ListViewItem> EDs => _eds;
         public ObservableCollection<AnimeReviewData> Reviews { get;} = new ObservableCollection<AnimeReviewData>(); 
         public ObservableCollection<DirectRecommendationData> Recommendations { get;} = new ObservableCollection<DirectRecommendationData>(); 
-        public ObservableCollection<RelatedAnimeData> RelatedAnime { get;} = new ObservableCollection<RelatedAnimeData>(); 
-        private readonly ObservableCollection<ListViewItem> _loadedItems1 = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _loadedItems2 = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _genres1 = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _genres2 = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _episodes = new ObservableCollection<ListViewItem>();     
-        private readonly ObservableCollection<ListViewItem> _ops = new ObservableCollection<ListViewItem>();
-        private readonly ObservableCollection<ListViewItem> _eds = new ObservableCollection<ListViewItem>();
+        public ObservableCollection<RelatedAnimeData> RelatedAnime { get;} = new ObservableCollection<RelatedAnimeData>();
+        public ObservableCollection<Tuple<string,string>> LeftDetailsRow { get; set; } = new ObservableCollection<Tuple<string, string>>();
+        public ObservableCollection<Tuple<string, string>> RightDetailsRow { get; set; } = new ObservableCollection<Tuple<string, string>>();
+        public ObservableCollection<string> LeftGenres { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> RightGenres { get; } = new ObservableCollection<string>();
+        public ObservableCollection<Tuple<string,string>> Episodes { get; } = new ObservableCollection<Tuple<string, string>>();
+        public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
         private int _allEpisodes;
 
         private string AnnId { get; set; }
@@ -533,6 +526,8 @@ namespace MALClient.ViewModels
             }
         }
 
+
+
         
 #endregion
 
@@ -770,58 +765,28 @@ namespace MALClient.ViewModels
                 ((AnimeItemViewModel)_animeItemReference).Airing = day != -1;
                 DataCache.SaveVolatileData();
             }
-            _loadedItems1.Clear();
-            _loadedItems2.Clear();
-            _loadedItems1.Add(BuildListViewItem("Episodes", AllEpisodes == 0 ? "?" : AllEpisodes.ToString(), true));
-            _loadedItems1.Add(BuildListViewItem("Score", GlobalScore.ToString()));
-            _loadedItems1.Add(BuildListViewItem("Start", StartDate == "0000-00-00" ? "?" : StartDate, true));
-            _loadedItems2.Add(BuildListViewItem("Type", Type, true, 0.3f, 0.7f));
-            _loadedItems2.Add(BuildListViewItem("Status", Status, false, 0.3f, 0.7f));
-            _loadedItems2.Add(BuildListViewItem("End", EndDate == "0000-00-00" ? "?" : EndDate, true, 0.3f, 0.7f));
+
+            LeftDetailsRow.Add(new Tuple<string,string>(_animeMode ? "Episodes" : "Chapters", AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
+            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString()));
+            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" ? "?" : StartDate));
+            RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
+            RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
+            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" ? "?" : EndDate));
 
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentStatus = Title;
 
             DetailImage  = new BitmapImage(new Uri(_imgUrl));
             LoadingGlobal = Visibility.Collapsed;
+            if(Settings.DetailsAutoLoadDetails)
+                LoadDetails();
+            if(Settings.DetailsAutoLoadReviews)
+                LoadReviews();
+            if(Settings.DetailsAutoLoadRecomms)
+                LoadRecommendations();
+            if(Settings.DetailsAutoLoadRelated)
+                LoadRelatedAnime();
         }
-
-        private ListViewItem BuildListViewItem(string label, string val1, bool alternate = false, float left = 0.4f, float right = 0.6f)
-        {
-            return new ListViewItem
-            {
-                Content = new Grid
-                {
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition {Width = new GridLength(left,GridUnitType.Star)},
-                        new ColumnDefinition {Width = new GridLength(right,GridUnitType.Star)}
-                    },
-                    Children =
-                    {
-                        BuildTextBlock(label,val1 == "" ? FontWeights.SemiLight :FontWeights.SemiBold,0),
-                        BuildTextBlock(val1,FontWeights.SemiLight,1),
-                    },
-                },
-                Background = new SolidColorBrush(alternate ? Color.FromArgb(170, 230, 230, 230) : Color.FromArgb(255, 245, 245, 245)),
-                Height = 20
-            };
-        }
-
-        private TextBlock BuildTextBlock(string value, FontWeight weight, int column)
-        {
-            var txt = new TextBlock
-            {
-                Text = value,
-                FontWeight = weight,
-                FontSize = 13,
-                Height = 20,
-                TextAlignment = !weight.Equals(FontWeights.SemiBold) ? TextAlignment.Center : TextAlignment.Left
-            };
-            txt.SetValue(Grid.ColumnProperty, column);
-            return txt;
-        }
-
 
         private void ExtractData(XElement animeElement)
         {
@@ -875,11 +840,11 @@ namespace MALClient.ViewModels
                 return;
             _loadedDetails = true;
             LoadingDetails = Visibility.Visible;
-            _genres1.Clear();
-            _genres2.Clear();
-            _episodes.Clear();
-            _ops.Clear();
-            _eds.Clear();
+            LeftGenres.Clear();
+            RightGenres.Clear();
+            Episodes.Clear();
+            OPs.Clear();
+            EDs.Clear();
             try
             {
                 var data = await new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~",_synonyms),Id,Title).GetGeneralDetailsData(force);
@@ -893,54 +858,29 @@ namespace MALClient.ViewModels
                     {
                         if (data.Genres.All(genreAnn => !String.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
                         {
-                            data.Genres.Add(genreMal);
+                            data.Genres.Add(Utils.FirstCharToUpper(genreMal));
                         }
                     }
                 }
-                //Now we can build elements here --- TODO: I know know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
+                //Now we can build elements here --- TODO: I know I know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
                 int i = 1;
-                bool alternate1 = true, alternate2 = true;
                 foreach (var genre in data.Genres)
                 {
-                    if (i % 2 == 0)
-                    {
-                        _genres1.Add(BuildListViewItem(Utils.FirstCharToUpper(genre),"", alternate1, 1f, 0f));
-                        alternate1 = !alternate1;
-                    }
+                    if (i%2 == 0)
+                        LeftGenres.Add(Utils.FirstCharToUpper(genre));
                     else
-                    {
-                        _genres2.Add(BuildListViewItem(Utils.FirstCharToUpper(genre), "", alternate2, 1f, 0f));
-                        alternate2 = !alternate2;
-                    }
+                        RightGenres.Add(Utils.FirstCharToUpper(genre));
                     i++;
                 }
                 i = 1;
-                alternate1 = false;
                 foreach (var episode in data.Episodes.Take(40))
-                {
-                        _episodes.Add(BuildListViewItem($"{i++}.", episode, alternate1, 0.1f, 0.9f));
-                        alternate1 = !alternate1;
-                }
+                    Episodes.Add(new Tuple<string, string>($"{i++}.", episode));
                 if (data.Episodes.Count > 40)
-                {
-                    _episodes.Add(BuildListViewItem("?.", $"{data.Episodes.Count - 40} More episodes...", alternate1, 0.1f, 0.9f));
-                }
-                i = 1;
-                alternate1 = true;
+                    Episodes.Add(new Tuple<string, string>("?.", $"{data.Episodes.Count - 40} More episodes..."));
                 foreach (var op in data.OPs)
-                {
-                    _ops.Add(BuildListViewItem(op,"", alternate1, 1f, 0f));
-                    alternate1 = !alternate1;
-                    i++;
-                }
-                i = 1;
-                alternate1 = true;
+                    OPs.Add(op);
                 foreach (var ed in data.EDs)
-                {
-                    _eds.Add(BuildListViewItem( ed,"", alternate1, 1f, 0f));
-                    alternate1 = !alternate1;
-                    i++;
-                }
+                    EDs.Add(ed);
                 
                 DetailedDataVisibility = Visibility.Visible;
                 AnnSourceButtonVisibility = Visibility.Visible;
@@ -952,32 +892,24 @@ namespace MALClient.ViewModels
                 {
                     AnnSourceButtonVisibility = Visibility.Collapsed;
                     DetailedDataVisibility = Visibility.Visible;
-
                     int i = 1;
-                    bool alternate1 = true, alternate2 = true;
                     foreach (var genre in genresData.Genres ?? new List<string>())
                     {
-                        if (i % 2 == 0)
-                        {
-                            _genres1.Add(BuildListViewItem(Utils.FirstCharToUpper(genre), "", alternate1, 1f, 0f));
-                            alternate1 = !alternate1;
-                        }
+                        if (i%2 == 0)
+                            LeftGenres.Add(Utils.FirstCharToUpper(genre));
                         else
-                        {
-                            _genres2.Add(BuildListViewItem(Utils.FirstCharToUpper(genre), "", alternate2, 1f, 0f));
-                            alternate2 = !alternate2;
-                        }
+                            RightGenres.Add(Utils.FirstCharToUpper(genre));
                         i++;
                     }
                 }
                 else
                     DetailedDataVisibility = Visibility.Collapsed;
             }
-            NoEpisodesDataVisibility = _episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoGenresDataVisibility = _genres1.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoEDsDataVisibility = _eds.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoOPsDataVisibility = _ops.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            if(_episodes.Count == 0 && _genres1.Count == 0 && _eds.Count == 0 && _ops.Count==0)
+            NoEpisodesDataVisibility = Episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoGenresDataVisibility = LeftGenres.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoEDsDataVisibility = EDs.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoOPsDataVisibility = OPs.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            if(Episodes.Count == 0 && LeftGenres.Count == 0 && EDs.Count == 0 && OPs.Count==0)
                 DetailedDataVisibility = Visibility.Collapsed;
                        
             LoadingDetails = Visibility.Collapsed;
@@ -1032,7 +964,7 @@ namespace MALClient.ViewModels
         }
         #endregion
 
-        public async void NavigateDetails(IDetailsPageArgs args)
+        private async void NavigateDetails(IDetailsPageArgs args)
         {
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,

@@ -47,7 +47,7 @@ namespace MALClient.ViewModels
         private readonly ObservableCollection<AnimeItemAbstraction> _animeItemsSet =
             new ObservableCollection<AnimeItemAbstraction>(); //All for current list
 
-        private int _itemsPerPage = Settings.GetItemsPerPage();
+        private int _itemsPerPage = Settings.ItemsPerPage;
 
         private int _allPages;
 
@@ -304,7 +304,7 @@ namespace MALClient.ViewModels
                     await msg.ShowAsync();
                     return;
                 }
-                CurrentlySelectedAnimeItem.ViewModel.PinTile($"http://www.myanimelist.net/anime/{id}");
+                CurrentlySelectedAnimeItem.ViewModel.PinTile($"http://www.myanimelist.net/{(WorkMode == AnimeListWorkModes.Anime ? "anime" : "manga")}/{id}");
             })); }
         }
 
@@ -553,7 +553,7 @@ namespace MALClient.ViewModels
 
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.GetSortOrderM() : Settings.GetSortOrder()))
+            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder))
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
@@ -580,8 +580,8 @@ namespace MALClient.ViewModels
             SetSortOrder(null);
             SetDesiredStatus(null);
             SortDescending = WorkMode == AnimeListWorkModes.Manga
-                ? Settings.IsSortDescendingM()
-                : Settings.IsSortDescending();
+                ? Settings.IsMangaSortDescending
+                : Settings.IsSortDescending;
         }
 
         public async void UpdateUpperStatus(int retries = 5)
@@ -715,7 +715,7 @@ namespace MALClient.ViewModels
             CanLoadPages = false;
             if (updatePerPage) //called from settings
             {
-                _itemsPerPage = Settings.GetItemsPerPage();
+                _itemsPerPage = Settings.ItemsPerPage;
                 return;
             }
             int realPage = CurrentPage;
@@ -970,7 +970,7 @@ namespace MALClient.ViewModels
 
         private void SetDesiredStatus(int? value)
         {
-            value = value ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.GetDefaultMangaFilter() : Settings.GetDefaultAnimeFilter());
+            value = value ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.DefaultMangaFilter : Settings.DefaultAnimeFilter);
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;

@@ -79,6 +79,14 @@
                                         <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="22.03.2016" />
+                                <TextBlock Text="Typos and misc fixes." />
+                                <TextBlock Text="Added slider for amount of seasonal anime to pull." />
+                                <TextBlock Text="Fixed floating episodes/chapters button." />
+                                <TextBlock Text="Added option to enable which tabs of details page are going to be populated automatically." />
+                                <TextBlock Text="Slight visual update to details page." />
+                                <TextBlock Text="Crucial behind the scene code refactoring." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="20.03.2016" />
                                 <TextBlock Text="Manga support!" />
                                 <TextBlock Text="Scaling issues have been addressed. (?)" />

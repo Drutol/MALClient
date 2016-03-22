@@ -158,7 +158,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyStatusBind);
                 RaisePropertyChanged(() => MyScoreBind);
             }
-
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
             switch (param.Source)
             {
                 case PageIndex.PageSearch:
@@ -180,10 +180,8 @@ namespace MALClient.ViewModels
                     ExtractData(param.AnimeElement);
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
-            }
-            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
+            }           
             DetailsPivotSelectedIndex = 0;
-            Reviews.Clear();
         }
 
         private async void OpenMalPage()
@@ -813,6 +811,7 @@ namespace MALClient.ViewModels
 
             DetailImage = new BitmapImage(new Uri(_imgUrl));
             LoadingGlobal = Visibility.Collapsed;
+
             if (Settings.DetailsAutoLoadDetails)
                 LoadDetails();
             if (Settings.DetailsAutoLoadReviews)
@@ -904,7 +903,7 @@ namespace MALClient.ViewModels
                         }
                     }
                 }
-                //Now we can build elements here --- TODO: I know I know , I shoud've used data templates here but I learned about them a bit later ^^ TODO : Refactor This
+                //Now we can build elements here
                 var i = 1;
                 foreach (var genre in data.Genres)
                 {

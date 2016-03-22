@@ -444,7 +444,7 @@
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding}" HorizontalAlignment="Center"
-                                                               FontWeight="SemiLight" />
+                                                               FontWeight="SemiLight" TextTrimming="CharacterEllipsis" />
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
@@ -474,7 +474,7 @@
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding}" HorizontalAlignment="Center"
-                                                               FontWeight="SemiLight" />
+                                                               FontWeight="SemiLight" TextTrimming="CharacterEllipsis"/>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
 

@@ -17,6 +17,7 @@
             <SolidColorBrush x:Key="BrushDetailsRelatedBackground" Color="WhiteSmoke"/>
             <SolidColorBrush x:Key="BrushDetailsBackground" Color="#f0f0f0"/>
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="LightGray" Opacity=".25"/>
+            <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6"/>
         </ResourceDictionary>        
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="Black"/>
@@ -28,9 +29,10 @@
             <SolidColorBrush x:Key="BrushRowAlternate1" Color="#2a2c2a"/>
             <SolidColorBrush x:Key="BrushRowAlternate2" Color="#AA404040"/>
             <SolidColorBrush x:Key="BrushDetailsGeneralBorder" Color="#151515"/>
-            <SolidColorBrush x:Key="BrushDetailsRelatedBackground" Color="#2a2c2a"/>
+            <SolidColorBrush x:Key="BrushDetailsRelatedBackground" Color="#1E1E1E"/>
             <SolidColorBrush x:Key="BrushDetailsBackground" Color="#0d0d0d"/>
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="#1a1a1a"/>
+            <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#404040"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     

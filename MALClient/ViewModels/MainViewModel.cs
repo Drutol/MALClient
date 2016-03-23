@@ -379,7 +379,7 @@ namespace MALClient.ViewModels
                 return;
             }
             if (SearchFilterSelectedIndex == SearchFilterOptions.Count - 1)
-                SearchFilterButtonBrush = new SolidColorBrush(Colors.Black);
+                SearchFilterButtonBrush = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light ?  Colors.Black : Colors.FloralWhite);
             else
                 SearchFilterButtonBrush = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
 
@@ -389,7 +389,7 @@ namespace MALClient.ViewModels
         public void ResetSearchFilter()
         {
             SearchFilterButtonVisibility = Visibility.Collapsed;
-            SearchFilterButtonBrush = new SolidColorBrush(Colors.Black);
+            SearchFilterButtonBrush = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light ? Colors.Black : Colors.FloralWhite);
             SearchFilterOptions.Clear();
         }
 

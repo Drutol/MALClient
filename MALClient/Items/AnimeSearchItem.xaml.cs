@@ -17,15 +17,18 @@ namespace MALClient.Items
         private static bool _rowAlternator;
         private readonly XElement item;
 
+        private static Brush _b2 = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Color.FromArgb(170, 44, 44, 44) : Color.FromArgb(170, 230, 230, 230));
+        private static Brush _b1 = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Color.FromArgb(255, 11, 11, 11) : Colors.WhiteSmoke);
+
         private readonly bool _animeMode;
         private Point _initialPoint;
 
         public AnimeSearchItem()
         {
             InitializeComponent();
-            Setbackground(_rowAlternator
-                ? new SolidColorBrush(Color.FromArgb(170, 230, 230, 230))
-                : new SolidColorBrush(Colors.Transparent));
+            Root.Background = _rowAlternator
+                ? _b2
+                : _b1;
             _rowAlternator = !_rowAlternator;
         }
 

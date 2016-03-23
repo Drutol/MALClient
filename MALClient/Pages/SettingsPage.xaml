@@ -3,16 +3,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
+    xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                 <StackPanel HorizontalAlignment="Stretch">
                     <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
-                    <ListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="190" HorizontalAlignment="Stretch"
+                    <controls:AlternatingListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="190" HorizontalAlignment="Stretch"
                               SelectionMode="None" Margin="0,10,0,5">
                         <ListView.Header>
                             <TextBlock x:Name="ListEmptyNotice" Visibility="Collapsed" Text="No cached entries."
@@ -27,7 +28,7 @@
                                 <Setter Property="Margin" Value="0,1" />
                             </Style>
                         </ListView.ItemContainerStyle>
-                    </ListView>
+                    </controls:AlternatingListView>
                     <Button x:Name="BtnRemoveAllDetails" Margin="2" Click="RemoveAllAnimeDetails"
                             HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">

@@ -55,7 +55,7 @@
                     <Flyout>
                         <StackPanel>
                             <Button Height="50" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}"
-                                    Background="#E6E6E6">
+                                    Background="{ThemeResource BrushDetailsMoreButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Globe" />
                                     <TextBlock Margin="10,0,0,0" Text="Open in browser" />
@@ -74,7 +74,7 @@
                                     Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
                                     Command="{Binding RemoveAnimeCommand}"
                                     HorizontalAlignment="Stretch"
-                                    Background="#E6E6E6"
+                                    Background="{ThemeResource BrushDetailsMoreButton}"
                                     Margin="0,5,0,0">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Remove" />
@@ -344,7 +344,7 @@
                                             <controls:AlternatingListView Grid.Column="0" Grid.Row="1"
                                                                           ItemsSource="{Binding RightGenres}"
                                                                           BorderThickness="0,0,1,0"
-                                                                          BorderBrush="LightGray">
+                                                                          BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
@@ -363,7 +363,7 @@
                                             <controls:AlternatingListView Grid.Column="1" Grid.Row="1"
                                                                           ItemsSource="{Binding LeftGenres}"
                                                                           BorderThickness="1,0,0,0"
-                                                                          BorderBrush="LightGray">
+                                                                          BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>

@@ -14,7 +14,7 @@
     </Page.Resources>
 
 
-    <Grid Background="{StaticResource AppBarBackgroundThemeBrush}">
+    <Grid Background="{StaticResource BrushDetailsBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>

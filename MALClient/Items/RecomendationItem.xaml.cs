@@ -87,10 +87,6 @@ namespace MALClient.Items
                         BuildTextBlock(val2, FontWeights.SemiLight, 2)
                     }
                 },
-                Background =
-                    new SolidColorBrush((_detailItems.Count + 1)%2 == 0
-                        ? Color.FromArgb(170, 230, 230, 230)
-                        : Colors.Transparent)
             };
         }
 

@@ -113,13 +113,43 @@
         <Image Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
                Width="Auto"
                MaxWidth="120" Margin="1,1" />
-        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" Command="{Binding NavigateDetailsCommand}"
+        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
-                Visibility="{Binding ElementName=BtnShowMore,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
+                Visibility="Visible">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
+            <Button.Flyout>
+                <Flyout x:Name="FlyoutMore">
+                    <StackPanel Padding="0">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Height" Value="35"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Margin" Value="1"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <SymbolIcon Symbol="World" VerticalAlignment="Center"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <Button  Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
+                                <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <MenuFlyoutSeparator/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                            <SymbolIcon Symbol="Pin" VerticalAlignment="Center"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
+                                <Button Content="Pin with custom url" Command="{Binding PinTileCustomCommand}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
             <SymbolIcon Symbol="More" Foreground="White" />
+            
         </Button>
         <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{Binding AddAnimeCommand}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40"

@@ -32,7 +32,7 @@
                                     <TextBox x:Name="TxtListSource"
                                              Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              Margin="5,5" KeyDown="ListSource_OnKeyDown" />
-                                    <Button Click="SetListSource">
+                                    <Button Command="{Binding RefreshCommand}">
                                         <SymbolIcon Symbol="Accept" />
                                     </Button>
                                 </StackPanel>
@@ -42,18 +42,18 @@
                 </AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton x:Name="AppbarBtnPinTile"
+            <!--<AppBarButton x:Name="AppbarBtnPinTile"
                           Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                          Icon="Pin" Label="Pin to start" IsEnabled="{Binding AppbarBtnPinTileIsEnabled}">
+                          Icon="World" Label="Visit anime's MAL page." IsEnabled="{Binding AppbarBtnPinTileIsEnabled}" >
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="MyAnimeList" Command="{Binding PinTileMALCommand}" />
-                        <MenuFlyoutItem Text="Custom link" Command="{Binding PinTileCustomCommand}" />
+                        <MenuFlyoutItem Text="Copy link to clipboard" Command="{Binding CopyLinkToClipboardCommand}"/>
+                        <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
-            </AppBarButton>
+            </AppBarButton>-->
             <AppBarButton Icon="Calendar" Label="Select season"
-                          Visibility="{Binding ElementName=AppbarBtnPinTile,Converter={StaticResource VisiblityInverterConverter},Path=Visibility}">
+                          Visibility="{Binding AppbarBtnPinTileVisibility}">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
                         <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
@@ -104,8 +104,7 @@
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
-    <!--{ThemeResource AppBarBackgroundThemeBrush}-->
-    <Grid Background="#E6E6E6">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">

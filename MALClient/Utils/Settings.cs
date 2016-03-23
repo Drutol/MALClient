@@ -23,25 +23,25 @@ namespace MALClient
 
         public static SortOptions AnimeSortOrder
         {
-            get { return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 3); }
+            get { return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrder"] ?? 0); }
             set { ApplicationData.Current.LocalSettings.Values["SortOrder"] = (int) value; }
         }
 
         public static SortOptions MangaSortOrder
         {
-            get { return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 2); }
+            get { return (SortOptions) (int) (ApplicationData.Current.LocalSettings.Values["SortOrderM"] ?? 0); }
             set { ApplicationData.Current.LocalSettings.Values["SortOrderM"] = (int) value; }
         }
 
         public static bool IsSortDescending
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SortDescending"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SortDescending"] = value; }
         }
 
         public static bool IsMangaSortDescending
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SortDescendingM"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SortDescendingM"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SortDescendingM"] = value; }
         }
 

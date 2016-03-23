@@ -79,7 +79,7 @@ namespace MALClient
             RatePopup.Title = "Rate this app!";
             RatePopup.CancelButtonText = "Not now...";
             RatePopup.Content =
-                "Your feedback helps improve this app!\n\n Please take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
+                "Your feedback helps improve this app!\n\nPlease take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
             RatePopup.ResetCountOnNewVersion = false;
             RatePopup.RateButtonText = "To the store!";
             await RatePopup.CheckRateReminderAsync();

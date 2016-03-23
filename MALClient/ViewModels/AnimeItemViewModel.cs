@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -19,6 +22,7 @@ namespace MALClient.ViewModels
     public interface IAnimeItemInteractions
     {
         Flyout WatchedFlyout { get; }
+        Flyout MoreFlyout { get; }
     }
 
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
@@ -598,6 +602,80 @@ namespace MALClient.ViewModels
         public ICommand PinTileCommand
         {
             get { return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(() => PinTile())); }
+        }
+
+        private ICommand _pinTileCustomCommand;
+
+        public ICommand PinTileCustomCommand
+        {
+            get
+            {
+                return _pinTileCustomCommand ??
+                       (_pinTileCustomCommand =
+                           new RelayCommand(() =>
+                           {
+                               View.MoreFlyout.Hide();
+                               TileUrlInputVisibility = Visibility.Visible;
+                           }));
+            }
+        }
+
+        private ICommand _copyLinkToClipboardCommand;
+
+        public ICommand CopyLinkToClipboardCommand
+        {
+            get
+            {
+                return _copyLinkToClipboardCommand ??
+                       (_copyLinkToClipboardCommand = new RelayCommand(() =>
+                       {
+                           var dp = new DataPackage();
+                           dp.SetText($"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           Clipboard.SetContent(dp);
+                           View.MoreFlyout.Hide();
+                       }));
+
+            }
+        }
+
+        private ICommand _openInMALCommand;
+
+        public ICommand OpenInMALCommand
+        {
+            get
+            {
+                return _openInMALCommand ??
+                       (_openInMALCommand = new RelayCommand(async () =>
+                       {
+                           View.MoreFlyout.Hide();
+                           await
+                               Launcher.LaunchUriAsync(
+                                   new Uri(
+                                       $"http://myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                       }));
+
+            }
+        }
+
+        private ICommand _pinTileMALCommand;
+
+        public ICommand PinTileMALCommand
+        {
+            get
+            {
+                return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
+                {
+                    View.MoreFlyout.Hide();
+                    if (SecondaryTile.Exists(Id.ToString()))
+                    {
+                        var msg = new MessageDialog("Tile for this anime already exists.");
+                        await msg.ShowAsync();
+                        return;
+                    }               
+                    PinTile(
+                        $"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                }));
+            }
         }
 
         private ICommand _navigateDetailsCommand;

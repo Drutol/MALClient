@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
@@ -112,7 +114,7 @@ namespace MALClient.ViewModels
                         SetDefaults();
 
                     AppBtnListSourceVisibility = true;
-                    AppbarBtnPinTileVisibility = true;
+                    AppbarBtnPinTileVisibility = Visibility.Collapsed;
 
                     if (WorkMode == AnimeListWorkModes.Anime)
                     {
@@ -150,9 +152,10 @@ namespace MALClient.ViewModels
 
                     break;
                 case AnimeListWorkModes.SeasonalAnime:
+                    NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
                     Loading = true;
                     EmptyNoticeVisibility = false;
-                    AppbarBtnPinTileVisibility = false;
+                    AppbarBtnPinTileVisibility = Visibility.Visible;
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
@@ -384,9 +387,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private bool _appbarBtnPinTileVisibility = true;
+        private Visibility _appbarBtnPinTileVisibility;
 
-        public bool AppbarBtnPinTileVisibility
+        public Visibility AppbarBtnPinTileVisibility
         {
             get { return _appbarBtnPinTileVisibility; }
             set
@@ -550,39 +553,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private ICommand _pinTileCustomCommand;
-
-        public ICommand PinTileCustomCommand
-        {
-            get
-            {
-                return _pinTileCustomCommand ??
-                       (_pinTileCustomCommand =
-                           new RelayCommand(() => { CurrentlySelectedAnimeItem.OpenTileUrlInput(); }));
-            }
-        }
-
-        private ICommand _pinTileMALCommand;
-
-        public ICommand PinTileMALCommand
-        {
-            get
-            {
-                return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
-                {
-                    var id = CurrentlySelectedAnimeItem.ViewModel.Id.ToString();
-                    if (SecondaryTile.Exists(id))
-                    {
-                        var msg = new MessageDialog("Tile for this anime already exists.");
-                        await msg.ShowAsync();
-                        return;
-                    }
-                    CurrentlySelectedAnimeItem.ViewModel.PinTile(
-                        $"http://www.myanimelist.net/{(WorkMode == AnimeListWorkModes.Anime ? "anime" : "manga")}/{id}");
-                }));
-            }
-        }
-
         public AnimeListPage View { get; set; }
 
         public AnimeListWorkModes WorkMode { get; set; }
@@ -621,7 +591,7 @@ namespace MALClient.ViewModels
             {
                 _animesPivotSelectedIndex = value;
                 CurrentPage = value + 1;
-                AppbarBtnPinTileIsEnabled = false;
+                //AppbarBtnPinTileIsEnabled = false;
                 RaisePropertyChanged(() => AnimesPivotSelectedIndex);
             }
         }
@@ -652,7 +622,7 @@ namespace MALClient.ViewModels
             set
             {
                 _currentlySelectedAnimeItem = value;
-                AppbarBtnPinTileIsEnabled = true;
+                //AppbarBtnPinTileIsEnabled = true;
             }
         }
 

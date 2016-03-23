@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
@@ -44,11 +45,16 @@ namespace MALClient.UserControls
             Animes.ItemsSource = items;
         }
 
-        private void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0)
                 return;
-            ViewModelLocator.AnimeList.CurrentlySelectedAnimeItem = e.AddedItems.First() as AnimeItem;
+            //var item = e.AddedItems.First() as AnimeItem;
+            await Task.Delay(1);
+            (e.AddedItems.First() as AnimeItem).ViewModel.NavigateDetails();
+            //ViewModelLocator.AnimeList.CurrentlySelectedAnimeItem = item;
+
+            //item.ViewModel.NavigateDetails();
         }
 
         public void ResetSelection()

@@ -15,13 +15,12 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"
-              Background="LightGray">
+        <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Background="{ThemeResource BrushAppBars}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />

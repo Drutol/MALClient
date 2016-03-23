@@ -10,14 +10,12 @@
     DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
-
     <Page.Resources>
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="BottomCommandBar" Background="LightGray">
+        <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
                               Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
@@ -154,10 +152,7 @@
         </StackPanel>
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.Background>
-                <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
-            </Grid.Background>
+              Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushLoading}">
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
                 IsActive="True" />

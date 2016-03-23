@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Stretch">
-        <Grid Background="#E6E6E6">
+        <Grid Background="{ThemeResource BrushHamburgerBackground}">
             <Grid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>

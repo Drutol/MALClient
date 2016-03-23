@@ -6,9 +6,31 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#E6E6E6"/>
+            <SolidColorBrush x:Key="BrushAppBars" Color="LightGray"/>
+            <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1"/>
+            <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#E6E6E6"/>
+            <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="WhiteSmoke"/>
+            <SolidColorBrush x:Key="BrushLoading" Color="#E6E6E6" Opacity=".75"/>
+            <SolidColorBrush x:Key="BrushRowAlternate1" Color="WhiteSmoke"/>
+            <SolidColorBrush x:Key="BrushRowAlternate2" Color="#AAE6E6E6"/>
+            <SolidColorBrush x:Key="BrushDetailsGeneralBorder" Color="LightGray"/>
+            <SolidColorBrush x:Key="BrushDetailsRelatedBackground" Color="WhiteSmoke"/>
+            <SolidColorBrush x:Key="BrushDetailsBackground" Color="#f0f0f0"/>
+            <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="LightGray" Opacity=".25"/>
         </ResourceDictionary>        
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="Black"/>
+            <SolidColorBrush x:Key="BrushAppBars" Color="#151515"/>
+            <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020"/>
+            <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1a1a1a"/>
+            <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2a2c2a"/>
+            <SolidColorBrush x:Key="BrushLoading" Color="#2a2c2a" Opacity=".75"/>
+            <SolidColorBrush x:Key="BrushRowAlternate1" Color="#2a2c2a"/>
+            <SolidColorBrush x:Key="BrushRowAlternate2" Color="#AA404040"/>
+            <SolidColorBrush x:Key="BrushDetailsGeneralBorder" Color="#151515"/>
+            <SolidColorBrush x:Key="BrushDetailsRelatedBackground" Color="#2a2c2a"/>
+            <SolidColorBrush x:Key="BrushDetailsBackground" Color="#0d0d0d"/>
+            <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="#1a1a1a"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     

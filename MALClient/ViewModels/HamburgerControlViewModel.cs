@@ -41,11 +41,14 @@ namespace MALClient.ViewModels
 
         private BitmapImage _userImage;
 
+        private Color RequestedFontColor
+            => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
         private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
 
         public HamburgerControlViewModel()
         {
+            ResetActiveButton();
             PaneOpenedCommand = new RelayCommand(PaneOpened);
             MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
         }
@@ -54,33 +57,9 @@ namespace MALClient.ViewModels
         public IHamburgerControlView View { get; set; }
 
 
-        public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>
-        {
-            ["AnimeList"] = new SolidColorBrush(Colors.Black),
-            ["MangaList"] = new SolidColorBrush(Colors.Black),
-            ["AnimeSearch"] = new SolidColorBrush(Colors.Black),
-            ["MangaSearch"] = new SolidColorBrush(Colors.Black),
-            ["LogIn"] = new SolidColorBrush(Colors.Black),
-            ["Settings"] = new SolidColorBrush(Colors.Black),
-            ["Profile"] = new SolidColorBrush(Colors.Black),
-            ["Seasonal"] = new SolidColorBrush(Colors.Black),
-            ["About"] = new SolidColorBrush(Colors.Black),
-            ["Recommendations"] = new SolidColorBrush(Colors.Black)
-        };
+        public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
-        public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>
-        {
-            ["AnimeList"] = new Thickness(0),
-            ["MangaList"] = new Thickness(0),
-            ["AnimeSearch"] = new Thickness(0),
-            ["MangaSearch"] = new Thickness(0),
-            ["LogIn"] = new Thickness(0),
-            ["Settings"] = new Thickness(0),
-            ["Profile"] = new Thickness(0),
-            ["Seasonal"] = new Thickness(0),
-            ["About"] = new Thickness(0),
-            ["Recommendations"] = new Thickness(0)
-        };
+        public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>();
 
         public RelayCommand PaneOpenedCommand { get; private set; }
 
@@ -253,16 +232,17 @@ namespace MALClient.ViewModels
 
         private void ResetActiveButton()
         {
-            TxtForegroundBrushes["AnimeList"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["MangaList"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["AnimeSearch"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["MangaSearch"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["LogIn"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["Settings"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["Profile"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["Seasonal"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["About"] = new SolidColorBrush(Colors.Black);
-            TxtForegroundBrushes["Recommendations"] = new SolidColorBrush(Colors.Black);
+            var color = RequestedFontColor;
+            TxtForegroundBrushes["AnimeList"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["MangaList"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["AnimeSearch"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["MangaSearch"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["LogIn"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Settings"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Profile"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Seasonal"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["About"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Recommendations"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);

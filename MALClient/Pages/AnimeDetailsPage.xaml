@@ -17,7 +17,7 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -30,10 +30,7 @@
             <!--Img + Details-->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0">
-            <Grid.Background>
-                <SolidColorBrush Color="LightGray" Opacity=".25" />
-            </Grid.Background>
+        <Grid Row="0" Background="{ThemeResource BrushDetailsUpperBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="122" />
                 <!--Img-->
@@ -44,7 +41,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
-            <Image Margin="1,1,1,0" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120"
+            <Image Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120"
                    Height="148" />
             <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Background="Transparent" RenderTransformOrigin="0.5,0.5">
@@ -233,7 +230,7 @@
                                         <ColumnDefinition Width=".5*" />
                                     </Grid.ColumnDefinitions>
                                     <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
-                                                                  BorderThickness="0,0,1,0" BorderBrush="LightGray"
+                                                                  BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding LeftDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
@@ -259,7 +256,7 @@
                                         </ListView.ItemTemplate>
                                     </controls:AlternatingListView>
                                     <controls:AlternatingListView SelectionMode="None" Grid.Column="1"
-                                                                  BorderThickness="1,0,0,0" BorderBrush="LightGray"
+                                                                  BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding RightDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
@@ -488,10 +485,7 @@
                                     </StackPanel>
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
-                                    </Grid.Background>
+                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
@@ -514,10 +508,7 @@
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
-                                    </Grid.Background>
+                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
@@ -578,10 +569,7 @@
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
-                                    </Grid.Background>
+                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
@@ -658,10 +646,7 @@
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingRelated}" VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
-                                    </Grid.Background>
+                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
@@ -673,7 +658,7 @@
                                                     Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                                             <Setter Property="BorderThickness" Value="5,0,0,0" />
                                             <Setter Property="Margin" Value="5" />
-                                            <Setter Property="Background" Value="WhiteSmoke" />
+                                            <Setter Property="Background" Value="{ThemeResource BrushDetailsRelatedBackground}" />
                                             <Setter Property="Padding" Value="0" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
@@ -702,10 +687,7 @@
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}">
-            <Grid.Background>
-                <SolidColorBrush Color="#E6E6E6" Opacity=".75" />
-            </Grid.Background>
+        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" Background="{ThemeResource BrushLoading}">
             <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>

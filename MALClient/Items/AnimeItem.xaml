@@ -102,7 +102,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root"
-          Background="{Binding RootBrush}">
+          Background="{ThemeResource BrushAnimeItemBackground}">
         <!--ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
           ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia"-->
         <Grid.ColumnDefinitions>
@@ -192,7 +192,7 @@
                                TextAlignment="Center" />
                 </Grid>
             </StackPanel>
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="42" />
                     <ColumnDefinition Width="*" />
@@ -295,7 +295,7 @@
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
-                <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Bottom" Margin="1,0,1,3">
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Bottom" Margin="1,0,1,1">
                     <Button Height="40" Width="40"
                             Command="{Binding IncrementWatchedCommand}"
                             Visibility="{Binding IncrementEpsVisibility}"

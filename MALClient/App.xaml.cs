@@ -2,8 +2,11 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -102,6 +105,20 @@ namespace MALClient
                     }
                 });
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
+            // If we have a phone contract, hide the status bar
+
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+
+                var statusBar = StatusBar.GetForCurrentView();
+                if (statusBar != null)
+                {
+                    statusBar.BackgroundOpacity = 1;
+                    statusBar.BackgroundColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                        ? Colors.Black
+                        : Colors.White;
+                }
+            }
         }
 
         private async void LaunchUri(string url)

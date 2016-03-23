@@ -525,17 +525,17 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Brush _rootBrush = new SolidColorBrush(Colors.WhiteSmoke);
+        //private Brush _rootBrush = new SolidColorBrush(Colors.WhiteSmoke);
 
-        public Brush RootBrush
-        {
-            get { return _rootBrush; }
-            set
-            {
-                _rootBrush = value;
-                RaisePropertyChanged(() => RootBrush);
-            }
-        }
+        //public Brush RootBrush
+        //{
+        //    get { return _rootBrush; }
+        //    set
+        //    {
+        //        _rootBrush = value;
+        //        RaisePropertyChanged(() => RootBrush);
+        //    }
+        //}
 
         private Visibility _loadingUpdate = Visibility.Collapsed;
 

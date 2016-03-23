@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150" />
             <RowDefinition Height="*" />
@@ -19,7 +19,7 @@
                 Height="50" Click="LogOut" Visibility="Collapsed">
             <Grid>
                 <!--<Ellipse Width="30" Height="30" Fill="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-                <SymbolIcon Symbol="Cancel" Foreground="Black" />
+                <SymbolIcon Symbol="Cancel" />
             </Grid>
         </Button>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"

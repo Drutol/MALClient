@@ -29,6 +29,7 @@ namespace MALClient
             WindowsAppInitializer.InitializeAsync(
                 WindowsCollectors.Metadata |
                 WindowsCollectors.Session);
+            Application.Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -46,7 +47,7 @@ namespace MALClient
             {
                 LaunchUri(e.Arguments);
             }
-
+            
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -79,16 +80,18 @@ namespace MALClient
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            RatePopup.Title = "Rate this app!";
-            RatePopup.CancelButtonText = "Not now...";
-            RatePopup.Content =
-                "Your feedback helps improve this app!\n\nPlease take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
-            RatePopup.ResetCountOnNewVersion = false;
-            RatePopup.RateButtonText = "To the store!";
-            await RatePopup.CheckRateReminderAsync();
+            await ProcessPopUp();
+            ProcessStatusBar();
+            ProcessUpdate();
+
+
+        }
+
+        private async void ProcessUpdate()
+        {
             if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
                 || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utils.GetAppVersion())
-                Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     try
                     {
@@ -105,8 +108,21 @@ namespace MALClient
                     }
                 });
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
-            // If we have a phone contract, hide the status bar
+        }
 
+        private async Task ProcessPopUp()
+        {
+            RatePopup.Title = "Rate this app!";
+            RatePopup.CancelButtonText = "Not now...";
+            RatePopup.Content =
+                "Your feedback helps improve this app!\n\nPlease take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
+            RatePopup.ResetCountOnNewVersion = false;
+            RatePopup.RateButtonText = "To the store!";
+            await RatePopup.CheckRateReminderAsync();
+        }
+
+        private void ProcessStatusBar()
+        {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
 
@@ -117,6 +133,9 @@ namespace MALClient
                     statusBar.BackgroundColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
                         ? Colors.Black
                         : Colors.White;
+                    statusBar.ForegroundColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                        ? Colors.White
+                        : Colors.Black;
                 }
             }
         }

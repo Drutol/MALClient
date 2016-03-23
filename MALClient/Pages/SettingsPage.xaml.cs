@@ -34,6 +34,10 @@ namespace MALClient.Pages
             SetDesiredStatus();
             SliderSetup();
             ToggleSwitchSetup();
+            ComboThemes.SelectedIndex = (int)Settings.SelectedTheme;
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+                ? Visibility.Visible
+                : Visibility.Collapsed;
             if (Settings.DefaultMenuTab == "anime")
                 RadioTabAnime.IsChecked = true;
             else
@@ -376,6 +380,14 @@ namespace MALClient.Pages
                     Settings.DetailsAutoLoadRelated = btn.IsOn;
                     break;
             }
+        }
+
+        private void ChangeTheme(object sender, SelectionChangedEventArgs e)
+        {
+            Settings.SelectedTheme = (ApplicationTheme)ComboThemes.SelectedIndex;
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
     }
 }

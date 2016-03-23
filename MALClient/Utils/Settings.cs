@@ -1,14 +1,23 @@
 ﻿using Windows.Storage;
+using Windows.UI.Xaml;
 using MALClient.Pages;
 
 namespace MALClient
 {
+
+
     public static class Settings
     {
         public static int CachePersitence
         {
             get { return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600); }
             set { ApplicationData.Current.LocalSettings.Values["CachePersistency"] = value; }
+        }
+
+        public static ApplicationTheme SelectedTheme
+        {
+            get { return (ApplicationTheme) (ApplicationData.Current.LocalSettings.Values["SelectedTheme"] ?? (int)ApplicationTheme.Light); }
+            set { ApplicationData.Current.LocalSettings.Values["SelectedTheme"] = (int)value; }
         }
 
         public static bool IsCachingEnabled

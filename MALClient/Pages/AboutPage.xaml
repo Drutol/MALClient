@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <Grid>
                 <Grid.RowDefinitions>
@@ -79,6 +79,14 @@
                                         <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="24.03.2016" />
+                                <TextBlock Text="Added dark theme." />
+                                <TextBlock Text="Fixed crash when changing list source using button." />
+                                <TextBlock Text="Changed details navigation. The small (...) button brings additional options now and clicking on anime entry as a whole opens details." />
+                                <TextBlock Text="Added option to copy MAL link to clipboard." />
+                                <TextBlock Text="Seasonal anime page will now properly navigate back to standard anime list." />
+                                <TextBlock Text="Changed default sorting to Title." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="22.03.2016" />
                                 <TextBlock Text="Typos and misc fixes." />
                                 <TextBlock Text="Added slider for amount of seasonal anime to pull." />
@@ -86,16 +94,7 @@
                                 <TextBlock Text="Added option to enable which tabs of details page are going to be populated automatically." />
                                 <TextBlock Text="Slight visual update to details page." />
                                 <TextBlock Text="Crucial behind the scene code refactoring." />
-                                <MenuFlyoutSeparator Margin="0,5"/>
-                                <TextBlock Text="20.03.2016" />
-                                <TextBlock Text="Manga support!" />
-                                <TextBlock Text="Scaling issues have been addressed. (?)" />
-                                <TextBlock Text="Filters in search page." />
-                                <TextBlock Text="Updated log in page." />
-                                <TextBlock Text="Additional settings for manga." />
-                                <TextBlock Text="Hamburger menu visual update." />
-                                <TextBlock Text="Season selection bugfix." />
-                                <TextBlock Text="Addressed issues with tab control." />
+     
                             </StackPanel>
                         </StackPanel>
                     </Grid>

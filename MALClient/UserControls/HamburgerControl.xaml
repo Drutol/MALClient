@@ -236,7 +236,7 @@
                             </Pivot.Items>
                         </Pivot>
                         <Grid Height="{Binding GridSeparatorHeight}" />
-                        <StackPanel x:Name="StckBtm">
+                        <StackPanel x:Name="StckBtm" Margin="0,0,0,5">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited"

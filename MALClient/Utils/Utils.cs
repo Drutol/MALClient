@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
+using Windows.UI.Xaml;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -365,5 +366,6 @@ namespace MALClient
                 .Replace("&mdash;", "—")
                 .Replace("&amp;", "&");
         }
+
     }
 }

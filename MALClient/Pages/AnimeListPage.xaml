@@ -13,13 +13,14 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility"/>
+        <converters:DivideValueConverter x:Key="DivideValueConverter"/>
         <x:String x:Key="PivotPagesString">PivotPages</x:String>
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
+        <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}" >
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
                               Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
@@ -44,16 +45,20 @@
                 </AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <!--<AppBarButton x:Name="AppbarBtnPinTile"
-                          Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                          Icon="World" Label="Visit anime's MAL page." IsEnabled="{Binding AppbarBtnPinTileIsEnabled}" >
+            <AppBarButton x:Name="AppbarBtnSelectView"
+                          Icon="View" Label="Select list display mode." >
                 <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Copy link to clipboard" Command="{Binding CopyLinkToClipboardCommand}"/>
-                        <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}"/>
-                    </MenuFlyout>
+                    <Flyout>
+                        <ListView ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Item2}" Height="20"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
                 </AppBarButton.Flyout>
-            </AppBarButton>-->
+            </AppBarButton>
             <AppBarButton Icon="Calendar" Label="Select season"
                           Visibility="{Binding AppbarBtnPinTileVisibility}">
                 <AppBarButton.Flyout>
@@ -145,6 +150,7 @@
             </Pivot.HeaderTemplate>
         </Pivot>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" 
+                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -156,6 +162,15 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <GridView  x:Name="AnimesGridIndefinite" ItemsSource="{Binding AnimeGridtems}"
+            Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
+            <GridView.ItemsPanel>
+
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
         <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Items;
 using MALClient.UserControls;
 using MALClient.ViewModels;
 
@@ -30,9 +32,10 @@ namespace MALClient.Pages
         public AnimeSeason CurrSeason;
         public SortOptions SortOption;
         public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
+        public AnimeListDisplayModes DisplayMode;
 
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
-            AnimeListWorkModes seasonal, string source, AnimeSeason season)
+            AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
         {
             SortOption = sort;
             Status = status;
@@ -42,6 +45,7 @@ namespace MALClient.Pages
             ListSource = source;
             NavArgs = true;
             CurrSeason = season;
+            DisplayMode = dispMode;
         }
 
         private AnimeListPageNavigationArgs()
@@ -233,5 +237,13 @@ namespace MALClient.Pages
         }
 
         #endregion
+
+        private async void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+                return;
+            await Task.Delay(1);
+            (e.AddedItems.First() as AnimeItem).ViewModel.NavigateDetails();
+        }
     }
 }

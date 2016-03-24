@@ -118,10 +118,11 @@ namespace MALClient.ViewModels
                 page.SortOption,
                 page.CurrentStatus,
                 page.SortDescending,
-                page.CurrentPage,
+                page.CurrentPosition,
                 page.WorkMode,
                 page.ListSource,
-                page.CurrentSeason);
+                page.CurrentSeason,
+                page.DisplayMode);
         }
 
         #endregion

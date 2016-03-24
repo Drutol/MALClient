@@ -50,6 +50,8 @@ namespace MALClient.ViewModels
         public ObservableCollection<PivotItem> AnimePages => _animePages;
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>();
         public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
+        private ObservableCollection<AnimeGridItem> _animeGridItems = new ObservableCollection<AnimeGridItem>();
+        public ObservableCollection<AnimeGridItem> AnimeGridtems => _animeGridItems;
 
         private bool _initiazlized;
 
@@ -72,7 +74,7 @@ namespace MALClient.ViewModels
             set
             {
                 _sortOption = value;
-                CurrentPage = 1;
+                CurrentPosition = 1;
             }
         }
 
@@ -93,14 +95,17 @@ namespace MALClient.ViewModels
         public async void Init(AnimeListPageNavigationArgs args)
         {
             //base
+            _scrollHandlerAdded = false;
             _initiazlized = false;
             NavMgr.ResetBackNav();
             //take out trash
             _animeItemsSet.Clear();
             _animePages = new ObservableCollection<PivotItem>();
             _animeItems = new ObservableCollection<AnimeItem>();
+            _animeGridItems = new ObservableCollection<AnimeGridItem>();
             RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
+            RaisePropertyChanged(() => AnimeGridtems);
 
             //give visual feedback
             Loading = true;
@@ -117,16 +122,18 @@ namespace MALClient.ViewModels
                     SortDescending = SortDescending = args.Descending;
                     SetSortOrder(args.SortOption); //index
                     SetDesiredStatus(args.Status);
-                    CurrentPage = args.CurrPage;
+                    CurrentPosition = args.CurrPage;
                     CurrentSeason = args.CurrSeason;
+                    DisplayMode = args.DisplayMode;
                     gotArgs = true;
                 }
             }
             else //assume default AnimeList
             {
                 WorkMode = AnimeListWorkModes.Anime;
+                DisplayMode = AnimeListDisplayModes.IndefiniteList; //TODO Setting
             }
-
+            RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             switch (WorkMode)
             {
                 case AnimeListWorkModes.Manga:
@@ -304,373 +311,7 @@ namespace MALClient.ViewModels
             UpdateUpperStatus();
         }
 
-        private void SwitchSortingToSeasonal()
-        {
-            Sort3Label = "Index";
-        }
-
-        private void SwitchFiltersToSeasonal()
-        {
-            StatusAllLabel = "Airing";
-        }
-
-        private async void ReloadList()
-        {
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
-                await FetchSeasonalData(true);
-            else
-                await FetchData(true);
-        }
-
-        public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
-        {
-            if (_allLoadedAuthAnimeItems.Count > 0)
-            {
-                if (parentAbstraction.RepresentsAnime)
-                    _allLoadedAuthAnimeItems.Add(parentAbstraction);
-                else
-                    _allLoadedAuthMangaItems.Add(parentAbstraction);
-            }
-        }
-
-        public void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction)
-        {
-            if (_allLoadedAuthAnimeItems.Count > 0)
-            {
-                if (parentAbstraction.RepresentsAnime)
-                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);
-                else
-                    _allLoadedAuthMangaItems.Remove(parentAbstraction);
-            }
-        }
-
-        #region PropertyPairs
-
-        private string _listSource;
-
-        public string ListSource
-        {
-            get { return _listSource; }
-            set
-            {
-                _listSource = value;
-                RaisePropertyChanged(() => ListSource);
-            }
-        }
-
-        private string _emptyNoticeContent;
-
-        public string EmptyNoticeContent
-        {
-            get { return _emptyNoticeContent; }
-            set
-            {
-                _emptyNoticeContent = value;
-                RaisePropertyChanged(() => EmptyNoticeContent);
-            }
-        }
-
-        public int CurrentPage { get; set; } = 1;
-
-        private bool _emptyNoticeVisibility;
-
-        public bool EmptyNoticeVisibility
-        {
-            get { return _emptyNoticeVisibility; }
-            set
-            {
-                _emptyNoticeVisibility = value;
-                RaisePropertyChanged(() => EmptyNoticeVisibility);
-            }
-        }
-
-        private bool _updateNoticeVisibility;
-
-        public bool UpdateNoticeVisibility
-        {
-            get { return _updateNoticeVisibility; }
-            set
-            {
-                _updateNoticeVisibility = value;
-                RaisePropertyChanged(() => UpdateNoticeVisibility);
-            }
-        }
-
-        private bool _btnSetSourceVisibility;
-
-        public bool BtnSetSourceVisibility
-        {
-            get { return _btnSetSourceVisibility; }
-            set
-            {
-                _btnSetSourceVisibility = value;
-                RaisePropertyChanged(() => BtnSetSourceVisibility);
-            }
-        }
-
-        private Visibility _appbarBtnPinTileVisibility;
-
-        public Visibility AppbarBtnPinTileVisibility
-        {
-            get { return _appbarBtnPinTileVisibility; }
-            set
-            {
-                _appbarBtnPinTileVisibility = value;
-                RaisePropertyChanged(() => AppbarBtnPinTileVisibility);
-            }
-        }
-
-        private bool _appBtnListSourceVisibility = true;
-
-        public bool AppBtnListSourceVisibility
-        {
-            get { return _appBtnListSourceVisibility; }
-            set
-            {
-                _appBtnListSourceVisibility = value;
-                RaisePropertyChanged(() => AppBtnListSourceVisibility);
-            }
-        }
-
-        private Visibility _appBtnGoBackToMyListVisibility = Visibility.Collapsed;
-
-        public Visibility AppBtnGoBackToMyListVisibility
-        {
-            get { return _appBtnGoBackToMyListVisibility; }
-            set
-            {
-                _appBtnGoBackToMyListVisibility = value;
-                RaisePropertyChanged(() => AppBtnGoBackToMyListVisibility);
-            }
-        }
-
-        private int _statusSelectorSelectedIndex;
-
-        public int StatusSelectorSelectedIndex
-        {
-            get { return _statusSelectorSelectedIndex; }
-            set
-            {
-                if (value == _statusSelectorSelectedIndex)
-                    return;
-
-                _statusSelectorSelectedIndex = value;
-                RaisePropertyChanged(() => StatusSelectorSelectedIndex);
-                Loading = true;
-                CurrentPage = 1;
-                if (_initiazlized)
-                    RefreshList(false, true);
-            }
-        }
-
-        //For hiding/showing header bar - XamlResources/DictionaryAnimeList.xml
-        private GridLength _pivotHeaerGridRowHeight = new GridLength(0);
-
-        public GridLength PivotHeaerGridRowHeight
-        {
-            get { return _pivotHeaerGridRowHeight; }
-            set
-            {
-                _pivotHeaerGridRowHeight = value;
-                RaisePropertyChanged(() => PivotHeaerGridRowHeight);
-            }
-        }
-
-        private bool _loading;
-
-        public bool Loading
-        {
-            get { return _loading; }
-            set
-            {
-                _loading = value;
-                RaisePropertyChanged(() => Loading);
-            }
-        }
-
-        private bool _sortDescending;
-
-        public bool SortDescending
-        {
-            get { return _sortDescending; }
-            set
-            {
-                _sortDescending = value;
-                RaisePropertyChanged(() => SortDescending);
-            }
-        }
-
-        private string _sort3Label = "Watched";
-
-        public string Sort3Label
-        {
-            get { return _sort3Label; }
-            set
-            {
-                _sort3Label = value;
-                RaisePropertyChanged(() => Sort3Label);
-            }
-        }
-
-        private string _filter1Label = "Watching";
-
-        public string Filter1Label
-        {
-            get { return _filter1Label; }
-            set
-            {
-                _filter1Label = value;
-                RaisePropertyChanged(() => Filter1Label);
-            }
-        }
-
-        private string _filter5Label = "Plan to watch";
-
-        public string Filter5Label
-        {
-            get { return _filter5Label; }
-            set
-            {
-                _filter5Label = value;
-                RaisePropertyChanged(() => Filter5Label);
-            }
-        }
-
-        private string _statusAllLabel = "All";
-
-        public string StatusAllLabel
-        {
-            get { return _statusAllLabel; }
-            set
-            {
-                _statusAllLabel = value;
-                RaisePropertyChanged(() => StatusAllLabel);
-            }
-        }
-
-        private ICommand _refreshCommand;
-
-        public ICommand RefreshCommand
-        {
-            get
-            {
-                return _refreshCommand ??
-                       (_refreshCommand = new RelayCommand(ReloadList));
-            }
-        }
-
-        private ICommand _goBackToMyListCommand;
-
-        public ICommand GoBackToMyListCommand
-        {
-            get
-            {
-                return _goBackToMyListCommand ??
-                       (_goBackToMyListCommand = new RelayCommand(() =>
-                       {
-                           ListSource = Creditentials.UserName;
-                           FetchData();
-                       }));
-            }
-        }
-
-        public AnimeListPage View { get; set; }
-
-        public AnimeListWorkModes WorkMode { get; set; }
-        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteList;
-
-        private Visibility _animesPivotHeaderVisibility;
-
-        public Visibility AnimesPivotHeaderVisibility
-        {
-            get { return _animesPivotHeaderVisibility; }
-            set
-            {
-                _animesPivotHeaderVisibility = value;
-                PivotHeaerGridRowHeight = value == Visibility.Collapsed ? new GridLength(0) : new GridLength(40);
-                RaisePropertyChanged(() => AnimesPivotHeaderVisibility);
-            }
-        }
-
-        private Visibility _sortAirDayVisibility;
-
-        public Visibility SortAirDayVisibility
-        {
-            get { return _sortAirDayVisibility; }
-            set
-            {
-                _sortAirDayVisibility = value;
-                RaisePropertyChanged(() => SortAirDayVisibility);
-            }
-        }
-
-        private int _animesPivotSelectedIndex;
-
-        public int AnimesPivotSelectedIndex
-        {
-            get { return _animesPivotSelectedIndex; }
-            set
-            {
-                _animesPivotSelectedIndex = value;
-                CurrentPage = value + 1;
-                //AppbarBtnPinTileIsEnabled = false;
-                RaisePropertyChanged(() => AnimesPivotSelectedIndex);
-            }
-        }
-
-        private int _seasonalUrlsSelectedIndex;
-
-        public int SeasonalUrlsSelectedIndex
-        {
-            get { return _seasonalUrlsSelectedIndex; }
-            set
-            {
-                if (value == _seasonalUrlsSelectedIndex || value < 0)
-                    return;
-                _seasonalUrlsSelectedIndex = value;
-                CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
-                RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-                View.FlyoutSeasonSelectionHide();
-                CurrentPage = 1;
-                FetchSeasonalData();
-            }
-        }
-
-        public AnimeItem _currentlySelectedAnimeItem;
-
-        public AnimeItem CurrentlySelectedAnimeItem
-        {
-            get { return _currentlySelectedAnimeItem; }
-            set
-            {
-                _currentlySelectedAnimeItem = value;
-                //AppbarBtnPinTileIsEnabled = true;
-            }
-        }
-
-        public bool _appbarBtnPinTileIsEnabled;
-
-        public bool AppbarBtnPinTileIsEnabled
-        {
-            get { return _appbarBtnPinTileIsEnabled; }
-            set
-            {
-                _appbarBtnPinTileIsEnabled = value;
-                RaisePropertyChanged(() => AppbarBtnPinTileIsEnabled);
-            }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        public override void Cleanup()
-        {
-            _animeItemsSet.Clear();
-            _animePages = new ObservableCollection<PivotItem>();
-            RaisePropertyChanged(() => AnimePages);
-            base.Cleanup();
-        }
+       
 
         //private string GetLastUpdatedStatus()
         //{
@@ -739,7 +380,7 @@ namespace MALClient.ViewModels
                 : Settings.IsSortDescending;
         }
 
-        public async void UpdateUpperStatus(int retries = 5)
+        private async void UpdateUpperStatus(int retries = 5)
         {
             while (true)
             {
@@ -768,32 +409,33 @@ namespace MALClient.ViewModels
             }
         }
 
-        #endregion
-
-        #region IndefiniteScrollino
+        #region IndefiniteScrollerino
         private int _lastOffset;
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs args)
         {
+            var offset = (int)Math.Ceiling(args.FinalView.VerticalOffset);
+            CurrentPosition = offset;
             if (_animeItemsSet.Count == 0)
             {
-                View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging; //this the owari... no need to subscribe to this event anymore
-                _scrollHandlerAdded = false; // we have just unsubsribed
+                //View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging; //this the owari... no need to subscribe to this event anymore
+                //_scrollHandlerAdded = false; // we have just unsubsribed
                 return;
             }
-            var offset = (int)Math.Ceiling(args.FinalView.VerticalOffset);
-            if (offset - _lastOffset > 75) //Anime item height/2
+
+            if (offset - _lastOffset > 75 || _animeItemsSet.Count == 1) //Anime item height/2
             {
                 _lastOffset = offset;
                 AnimeItems.Add(_animeItemsSet.First().AnimeItem);
                 _animeItemsSet.RemoveAt(0);
             }
         }
+
         #endregion
 
         #region Pagination
 
         public bool CanLoadPages;
-        public void UpdatePageSetup(bool updatePerPage = false)
+        public async void UpdatePageSetup(bool updatePerPage = false)
         {
             CanLoadPages = false;
             if (updatePerPage) //called from settings
@@ -801,14 +443,15 @@ namespace MALClient.ViewModels
                 _itemsPerPage = Settings.ItemsPerPage; //TODO: refactor
                 return;
             }
-            var realPage = CurrentPage;
-            _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
-            AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
+            var realPage = CurrentPosition;
             _animePages = new ObservableCollection<PivotItem>();
             _animeItems = new ObservableCollection<AnimeItem>();
+            _animeGridItems = new ObservableCollection<AnimeGridItem>();
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.PivotPages:
+                    _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
+                    AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
                     for (var i = 0; i < _allPages; i++)
                     {
                         AnimePages.Add(new PivotItem
@@ -817,38 +460,58 @@ namespace MALClient.ViewModels
                             Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage * i).Take(_itemsPerPage))
                         });
                     }
+                    CanLoadPages = true;
+                    RaisePropertyChanged(() => AnimePages);
+                    RaisePropertyChanged(() => AnimeItems);
+                    RaisePropertyChanged(() => AnimeGridtems);
+                    try
+                    {
+                        AnimesPivotSelectedIndex = realPage - 1;
+                    }
+                    catch (Exception)
+                    {
+                        CurrentPosition = 1;
+                    }
+                    if (AnimePages.Count > 0)
+                        (AnimePages[AnimesPivotSelectedIndex].Content as AnimePagePivotContent).LoadContent();
+
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
-                    foreach (var itemAbstraction in _animeItemsSet.Take(6))
+                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition/100))
                     {
                         _animeItems.Add(itemAbstraction.AnimeItem);
                     }
-                    for (int i = 0; i < 6 && _animeItemsSet.Count > 0; i++)
+                    for (int i = 0; i < 6 + CurrentPosition / 100 && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
+                    RaisePropertyChanged(() => AnimePages);
+                    RaisePropertyChanged(() => AnimeItems);
+                    RaisePropertyChanged(() => AnimeGridtems);
+                    View.IndefiniteScrollViewer.UpdateLayout();
+                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+                    AddScrollHandler(); //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
+                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition / 100))
+                    {
+                        _animeGridItems.Add(itemAbstraction.AnimeGridItem);
+                    }
+                    for (int i = 0; i < 6 + CurrentPosition / 100 && _animeItemsSet.Count > 0; i++)
+                    {
+                        _animeItemsSet.RemoveAt(0);
+                    }
+                    RaisePropertyChanged(() => AnimePages);
+                    RaisePropertyChanged(() => AnimeItems);
+                    RaisePropertyChanged(() => AnimeGridtems);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-            RaisePropertyChanged(() => AnimePages);
-            RaisePropertyChanged(() => AnimeItems);
-            AddScrollHandler(); //if we got to the end of the list we have unsubsribed from this event => we have to do it again
-            CanLoadPages = true;
-            try
-            {
-                AnimesPivotSelectedIndex = realPage - 1;
-            }
-            catch (Exception)
-            {
-                CurrentPage = 1;
-            }
-            if (AnimePages.Count > 0)
-                (AnimePages[AnimesPivotSelectedIndex].Content as AnimePagePivotContent).LoadContent();
+            }           
             Loading = false;
         }
+
+
 
         #endregion
 
@@ -1058,6 +721,393 @@ namespace MALClient.ViewModels
 
         #endregion
 
+        private void SwitchSortingToSeasonal()
+        {
+            Sort3Label = "Index";
+        }
+
+        private void SwitchFiltersToSeasonal()
+        {
+            StatusAllLabel = "Airing";
+        }
+
+        private async void ReloadList()
+        {
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+                await FetchSeasonalData(true);
+            else
+                await FetchData(true);
+        }
+
+        public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
+        {
+            if (_allLoadedAuthAnimeItems.Count > 0)
+            {
+                if (parentAbstraction.RepresentsAnime)
+                    _allLoadedAuthAnimeItems.Add(parentAbstraction);
+                else
+                    _allLoadedAuthMangaItems.Add(parentAbstraction);
+            }
+        }
+
+        public void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction)
+        {
+            if (_allLoadedAuthAnimeItems.Count > 0)
+            {
+                if (parentAbstraction.RepresentsAnime)
+                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);
+                else
+                    _allLoadedAuthMangaItems.Remove(parentAbstraction);
+            }
+        }
+
+        #region PropertyPairs
+
+        private string _listSource;
+
+        public string ListSource
+        {
+            get { return _listSource; }
+            set
+            {
+                _listSource = value;
+                RaisePropertyChanged(() => ListSource);
+            }
+        }
+
+        private string _emptyNoticeContent;
+
+        public string EmptyNoticeContent
+        {
+            get { return _emptyNoticeContent; }
+            set
+            {
+                _emptyNoticeContent = value;
+                RaisePropertyChanged(() => EmptyNoticeContent);
+            }
+        }
+
+        public int CurrentPosition { get; set; } = 1;
+
+        private bool _emptyNoticeVisibility;
+
+        public bool EmptyNoticeVisibility
+        {
+            get { return _emptyNoticeVisibility; }
+            set
+            {
+                _emptyNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyNoticeVisibility);
+            }
+        }
+
+        private bool _updateNoticeVisibility;
+
+        public bool UpdateNoticeVisibility
+        {
+            get { return _updateNoticeVisibility; }
+            set
+            {
+                _updateNoticeVisibility = value;
+                RaisePropertyChanged(() => UpdateNoticeVisibility);
+            }
+        }
+
+        private bool _btnSetSourceVisibility;
+
+        public bool BtnSetSourceVisibility
+        {
+            get { return _btnSetSourceVisibility; }
+            set
+            {
+                _btnSetSourceVisibility = value;
+                RaisePropertyChanged(() => BtnSetSourceVisibility);
+            }
+        }
+
+        private Visibility _appbarBtnPinTileVisibility;
+
+        public Visibility AppbarBtnPinTileVisibility
+        {
+            get { return _appbarBtnPinTileVisibility; }
+            set
+            {
+                _appbarBtnPinTileVisibility = value;
+                RaisePropertyChanged(() => AppbarBtnPinTileVisibility);
+            }
+        }
+
+        private bool _appBtnListSourceVisibility = true;
+
+        public bool AppBtnListSourceVisibility
+        {
+            get { return _appBtnListSourceVisibility; }
+            set
+            {
+                _appBtnListSourceVisibility = value;
+                RaisePropertyChanged(() => AppBtnListSourceVisibility);
+            }
+        }
+
+        private Visibility _appBtnGoBackToMyListVisibility = Visibility.Collapsed;
+
+        public Visibility AppBtnGoBackToMyListVisibility
+        {
+            get { return _appBtnGoBackToMyListVisibility; }
+            set
+            {
+                _appBtnGoBackToMyListVisibility = value;
+                RaisePropertyChanged(() => AppBtnGoBackToMyListVisibility);
+            }
+        }
+
+        private int _statusSelectorSelectedIndex;
+
+        public int StatusSelectorSelectedIndex
+        {
+            get { return _statusSelectorSelectedIndex; }
+            set
+            {
+                if (value == _statusSelectorSelectedIndex)
+                    return;
+
+                _statusSelectorSelectedIndex = value;
+                RaisePropertyChanged(() => StatusSelectorSelectedIndex);
+                Loading = true;
+                CurrentPosition = 1;
+                if (_initiazlized)
+                    RefreshList(false, true);
+            }
+        }
+
+        //For hiding/showing header bar - XamlResources/DictionaryAnimeList.xml
+        private GridLength _pivotHeaerGridRowHeight = new GridLength(0);
+
+        public GridLength PivotHeaerGridRowHeight
+        {
+            get { return _pivotHeaerGridRowHeight; }
+            set
+            {
+                _pivotHeaerGridRowHeight = value;
+                RaisePropertyChanged(() => PivotHeaerGridRowHeight);
+            }
+        }
+
+        private bool _loading;
+
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged(() => Loading);
+            }
+        }
+
+        private bool _sortDescending;
+
+        public bool SortDescending
+        {
+            get { return _sortDescending; }
+            set
+            {
+                _sortDescending = value;
+                RaisePropertyChanged(() => SortDescending);
+            }
+        }
+
+        private string _sort3Label = "Watched";
+
+        public string Sort3Label
+        {
+            get { return _sort3Label; }
+            set
+            {
+                _sort3Label = value;
+                RaisePropertyChanged(() => Sort3Label);
+            }
+        }
+
+        private string _filter1Label = "Watching";
+
+        public string Filter1Label
+        {
+            get { return _filter1Label; }
+            set
+            {
+                _filter1Label = value;
+                RaisePropertyChanged(() => Filter1Label);
+            }
+        }
+
+        private string _filter5Label = "Plan to watch";
+
+        public string Filter5Label
+        {
+            get { return _filter5Label; }
+            set
+            {
+                _filter5Label = value;
+                RaisePropertyChanged(() => Filter5Label);
+            }
+        }
+
+        private string _statusAllLabel = "All";
+
+        public string StatusAllLabel
+        {
+            get { return _statusAllLabel; }
+            set
+            {
+                _statusAllLabel = value;
+                RaisePropertyChanged(() => StatusAllLabel);
+            }
+        }
+
+        private ICommand _refreshCommand;
+
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return _refreshCommand ??
+                       (_refreshCommand = new RelayCommand(ReloadList));
+            }
+        }
+
+        private ICommand _goBackToMyListCommand;
+
+        public ICommand GoBackToMyListCommand
+        {
+            get
+            {
+                return _goBackToMyListCommand ??
+                       (_goBackToMyListCommand = new RelayCommand(() =>
+                       {
+                           ListSource = Creditentials.UserName;
+                           FetchData();
+                       }));
+            }
+        }
+
+        public AnimeListPage View { get; set; }
+
+        public AnimeListWorkModes WorkMode { get; set; }
+        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteList;
+        public Tuple<AnimeListDisplayModes, string> CurrentlySelectedDisplayMode
+        {
+            get { return DisplayModes[(int)DisplayMode]; }
+            set
+            {
+                DisplayMode = value.Item1;
+                CurrentPosition = 1;
+                RaisePropertyChanged(() => DisplayMode);
+                RefreshList();
+                RaisePropertyChanged(() => CurrentlySelectedAnimeItem);
+            }
+        }
+        public ObservableCollection<Tuple<AnimeListDisplayModes, string>> DisplayModes { get; } = new ObservableCollection<Tuple<AnimeListDisplayModes, string>>
+        {
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.PivotPages, "Pages"),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
+        };
+
+        private Visibility _animesPivotHeaderVisibility;
+
+        public Visibility AnimesPivotHeaderVisibility
+        {
+            get { return _animesPivotHeaderVisibility; }
+            set
+            {
+                _animesPivotHeaderVisibility = value;
+                PivotHeaerGridRowHeight = value == Visibility.Collapsed ? new GridLength(0) : new GridLength(40);
+                RaisePropertyChanged(() => AnimesPivotHeaderVisibility);
+            }
+        }
+
+        private Visibility _sortAirDayVisibility;
+
+        public Visibility SortAirDayVisibility
+        {
+            get { return _sortAirDayVisibility; }
+            set
+            {
+                _sortAirDayVisibility = value;
+                RaisePropertyChanged(() => SortAirDayVisibility);
+            }
+        }
+
+        private int _animesPivotSelectedIndex;
+
+        public int AnimesPivotSelectedIndex
+        {
+            get { return _animesPivotSelectedIndex; }
+            set
+            {
+                _animesPivotSelectedIndex = value;
+                CurrentPosition = value + 1;
+                //AppbarBtnPinTileIsEnabled = false;
+                RaisePropertyChanged(() => AnimesPivotSelectedIndex);
+            }
+        }
+
+        private int _seasonalUrlsSelectedIndex;
+
+        public int SeasonalUrlsSelectedIndex
+        {
+            get { return _seasonalUrlsSelectedIndex; }
+            set
+            {
+                if (value == _seasonalUrlsSelectedIndex || value < 0)
+                    return;
+                _seasonalUrlsSelectedIndex = value;
+                CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
+                RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                View.FlyoutSeasonSelectionHide();
+                CurrentPosition = 1;
+                FetchSeasonalData();
+            }
+        }
+
+        public AnimeItem _currentlySelectedAnimeItem;
+
+        public AnimeItem CurrentlySelectedAnimeItem
+        {
+            get { return _currentlySelectedAnimeItem; }
+            set
+            {
+                _currentlySelectedAnimeItem = value;
+                //AppbarBtnPinTileIsEnabled = true;
+            }
+        }
+
+        public bool _appbarBtnPinTileIsEnabled;
+
+        public bool AppbarBtnPinTileIsEnabled
+        {
+            get { return _appbarBtnPinTileIsEnabled; }
+            set
+            {
+                _appbarBtnPinTileIsEnabled = value;
+                RaisePropertyChanged(() => AppbarBtnPinTileIsEnabled);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        public override void Cleanup()
+        {
+            _animeItemsSet.Clear();
+            _animePages = new ObservableCollection<PivotItem>();
+            RaisePropertyChanged(() => AnimePages);
+            base.Cleanup();
+        }
+        #endregion
+
         #region StatusRelatedStuff
 
         private int GetDesiredStatus()
@@ -1107,7 +1157,11 @@ namespace MALClient.ViewModels
         {
             _animeItemsSet.Clear();
             _animePages = new ObservableCollection<PivotItem>();
+            _animeItems = new ObservableCollection<AnimeItem>();
+            _animeGridItems = new ObservableCollection<AnimeGridItem>();
             RaisePropertyChanged(() => AnimePages);
+            RaisePropertyChanged(() => AnimeItems);
+            RaisePropertyChanged(() => AnimeGridtems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();
@@ -1122,7 +1176,11 @@ namespace MALClient.ViewModels
         {
             _animeItemsSet.Clear();
             _animePages = new ObservableCollection<PivotItem>();
+            _animeItems = new ObservableCollection<AnimeItem>();
+            _animeGridItems = new ObservableCollection<AnimeGridItem>();
             RaisePropertyChanged(() => AnimePages);
+            RaisePropertyChanged(() => AnimeItems);
+            RaisePropertyChanged(() => AnimeGridtems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();

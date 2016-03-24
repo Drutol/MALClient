@@ -2,10 +2,10 @@
 {
     public interface IAnimeData
     {
-        int Id { get; set; }
+        int Id { get; }
         int MyScore { get; set; }
         int MyEpisodes { get; set; }
-        string Title { get; set; }
+        string Title { get; }
         int MyStatus { get; set; }
         float GlobalScore { get; set; }
         int AllEpisodes { get; }

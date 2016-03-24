@@ -16,7 +16,7 @@ namespace MALClient.Items
 
         private readonly SeasonalAnimeData data;
         private readonly int id;
-        private readonly string img;
+        public readonly string img;
         private readonly int myEps;
         private readonly int myScore;
         private readonly int myStatus;
@@ -24,8 +24,8 @@ namespace MALClient.Items
         private readonly string name;
 
         private AnimeItem _animeItem;
-
         private AnimeItemViewModel _viewModel;
+        private AnimeGridItemViewModel _gridViewModel;
         public int AirDay = -1;
 
         private readonly bool auth;
@@ -72,7 +72,7 @@ namespace MALClient.Items
             : this(data.Id)
         {
             this.data = data;
-
+            img = data.ImgUrl;
             Title = data.Title;
             GlobalScore = data.Score;
             Index = data.Index;
@@ -100,6 +100,23 @@ namespace MALClient.Items
                 return _animeItem;
             }
         }
+
+        private AnimeGridItem _gridItem;
+        public AnimeGridItem AnimeGridItem
+        {
+            get
+            {
+                if (GridLoaded)
+                    return _gridItem;
+
+                _gridViewModel = new AnimeGridItemViewModel(this);
+                _gridItem = new AnimeGridItem(_gridViewModel);
+                return _gridItem;
+
+            }
+        }
+
+        public bool GridLoaded = false;
 
         public AnimeItemViewModel ViewModel
         {

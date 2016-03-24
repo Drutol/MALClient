@@ -111,6 +111,7 @@ namespace MALClient.ViewModels
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
+            await Task.Delay(10);
             LoadingGlobal = Visibility.Visible;
             _animeMode = param.AnimeMode;
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;

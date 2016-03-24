@@ -389,8 +389,7 @@
                                                    Text="No data available"
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                    Foreground="#FFB9B9B9" />
-                                        <controls:AlternatingListView ItemsSource="{Binding Episodes}"
-                                                                      BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                                        <controls:AlternatingListView ItemsSource="{Binding Episodes}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>

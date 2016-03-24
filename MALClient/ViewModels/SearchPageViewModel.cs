@@ -132,6 +132,12 @@ namespace MALClient.ViewModels
         public ObservableCollection<AnimeSearchItem> AnimeSearchItems { get; } =
             new ObservableCollection<AnimeSearchItem>();
 
+        public AnimeSearchItem CurrentlySelectedItem
+        {
+            get { return null; } //One way to VM
+            set { value.NavigateDetails(); }
+        }
+
         private Visibility _loading = Visibility.Collapsed;
 
         public Visibility Loading

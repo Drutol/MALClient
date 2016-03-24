@@ -10,6 +10,8 @@
     d:DesignWidth="400">
 
     <Grid Padding="0">
+        <ProgressRing x:Name="LoadingData" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="True" Width="50" 
+                      Height="50" Margin="{Binding ElementName=Animes,Path=Margin}" Padding="5" Visibility="Collapsed"/>
         <ListView x:Name="Animes" Padding="0" SelectionMode="Single" SelectionChanged="Animes_OnSelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

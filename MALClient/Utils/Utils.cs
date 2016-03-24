@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -365,6 +366,16 @@ namespace MALClient
                 .Replace("&quot;", "\"")
                 .Replace("&mdash;", "—")
                 .Replace("&amp;", "&");
+        }
+
+        public static async void GiveStatusBarFeedback(string text)
+        {
+            var sb = StatusBar.GetForCurrentView().ProgressIndicator;
+            sb.Text = text;
+            sb.ProgressValue = 1;
+            await sb.ShowAsync();
+            await Task.Delay(1000);
+            await sb.HideAsync();
         }
 
     }

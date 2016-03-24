@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Xml.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -92,13 +96,9 @@ namespace MALClient.Items
             e.Complete();
         }
 
-        private void Setbackground(SolidColorBrush brush) //Used to alternate rows
+        public async void NavigateDetails()
         {
-            Root.Background = brush;
-        }
-
-        private async void NavigateDetails(object sender, RoutedEventArgs e)
-        {
+            await Task.Delay(10);
             await
                 Utils.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
@@ -112,6 +112,25 @@ namespace MALClient.Items
                             Source = _animeMode ? PageIndex.PageSearch : PageIndex.PageMangaSearch,
                             AnimeMode = _animeMode
                         });
+        }
+
+        private async void CopyLinkToClipboardCommand(object sender, RoutedEventArgs e)
+        {
+            var dp = new DataPackage();
+            dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+            Clipboard.SetContent(dp);
+            FlyoutMore.Hide();
+            Utils.GiveStatusBarFeedback("Copied to clipboard...");
+        }
+
+        private async void OpenInMALCommand(object sender, RoutedEventArgs e)
+        {
+            FlyoutMore.Hide();
+            await
+                Launcher.LaunchUriAsync(
+                    new Uri(
+                        $"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+
         }
     }
 }

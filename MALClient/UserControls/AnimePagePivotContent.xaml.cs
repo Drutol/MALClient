@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using MALClient.Items;
@@ -23,11 +24,11 @@ namespace MALClient.UserControls
         {
             InitializeComponent();
             _content = content;
-            Loaded += (sender, args) =>
-            {
-                var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            };
+            //Loaded += (sender, args) =>
+            //{
+            //    var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
+            //    scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            //};
         }
 
         public async void LoadContent()
@@ -35,7 +36,8 @@ namespace MALClient.UserControls
             if (_loaded)
                 return;
             _loaded = true;
-
+            LoadingData.Visibility = Visibility.Visible;
+            await Task.Delay(5);
             var items = new ObservableCollection<AnimeItem>();
             foreach (var abstraction in _content)
             {
@@ -43,6 +45,7 @@ namespace MALClient.UserControls
                     () => { items.Add(abstraction.AnimeItem); });
             }
             Animes.ItemsSource = items;
+            LoadingData.Visibility = Visibility.Collapsed;
         }
 
         private async void Animes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

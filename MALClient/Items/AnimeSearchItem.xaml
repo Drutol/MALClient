@@ -23,12 +23,33 @@
         </Grid.ColumnDefinitions>
         <Image x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
                Width="Auto" MaxWidth="120" Margin="1,1" />
-        <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1" Click="NavigateDetails"
+        <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
             <SymbolIcon Symbol="More" Foreground="White" />
+            <Button.Flyout>
+                <Flyout x:Name="FlyoutMore">
+                    <StackPanel Padding="0">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Height" Value="35"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Margin" Value="1"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <SymbolIcon Symbol="World" VerticalAlignment="Center"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <Button  Content="Copy url to clipboard" Click="CopyLinkToClipboardCommand" />
+                                <Button Content="Open in browser" Click="OpenInMALCommand" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
         </Button>
         <Grid VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,11,11">
             <Grid.RowDefinitions>

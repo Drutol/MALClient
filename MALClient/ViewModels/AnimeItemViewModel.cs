@@ -633,6 +633,7 @@ namespace MALClient.ViewModels
                            dp.SetText($"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
                            View.MoreFlyout.Hide();
+                           Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
 
             }

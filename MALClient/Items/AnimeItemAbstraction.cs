@@ -28,7 +28,7 @@ namespace MALClient.Items
         private AnimeGridItemViewModel _gridViewModel;
         public int AirDay = -1;
 
-        private readonly bool auth;
+        public readonly bool auth;
         private bool authSetEps;
         public float GlobalScore;
         public int Id;

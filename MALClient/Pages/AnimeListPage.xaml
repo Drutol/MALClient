@@ -162,7 +162,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <GridView  x:Name="AnimesGridIndefinite" ItemsSource="{Binding AnimeGridtems}"
+        <GridView  x:Name="AnimesGridIndefinite" ItemsSource="{Binding AnimeGridtems}" SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
             Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
 

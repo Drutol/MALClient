@@ -20,6 +20,7 @@ namespace MALClient.Items
 {
     public sealed partial class AnimeGridItem : UserControl
     {
+        public AnimeGridItemViewModel ViewModel => DataContext as AnimeGridItemViewModel;
         public AnimeGridItem(AnimeGridItemViewModel vm)
         {
             this.InitializeComponent();

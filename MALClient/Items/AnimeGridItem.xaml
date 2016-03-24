@@ -15,6 +15,15 @@
     </UserControl.Resources>
     
     <Grid>
-        <Image Stretch="UniformToFill" Source="{Binding Img,Converter={StaticResource BitmapImageConverter}}" MaxWidth="{Binding MaxWidth}"/>
+        <Image Stretch="UniformToFill" Source="{Binding Img,Converter={StaticResource BitmapImageConverter}}" 
+               MaxWidth="{Binding MaxWidth}"/>
+        <Grid Height="50" VerticalAlignment="Bottom">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".75"/>
+            </Grid.Background>
+            <StackPanel>
+                <TextBlock Text="{Binding Title}" Foreground="WhiteSmoke" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

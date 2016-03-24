@@ -9,6 +9,7 @@ using Windows.Graphics.Display;
 using Windows.UI.ViewManagement;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Pages;
 
@@ -17,6 +18,8 @@ namespace MALClient.ViewModels
     public class AnimeGridItemViewModel : ViewModelBase , IAnimeData
     {
         private AnimeItemAbstraction _parentAbstraction;
+        public bool Auth => _parentAbstraction.auth;
+
 
         public int Id
         {

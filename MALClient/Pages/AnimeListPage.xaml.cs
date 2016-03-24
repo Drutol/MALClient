@@ -4,6 +4,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -70,6 +71,15 @@ namespace MALClient.Pages
     {
         private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
 
+        private ScrollViewer _indefiniteScrollViewer;
+
+        public ScrollViewer IndefiniteScrollViewer
+            =>
+                _indefiniteScrollViewer ??
+                (_indefiniteScrollViewer =
+                    VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(AnimesItemsIndefinite, 0), 0) as ScrollViewer);
+
+
         public void FlyoutSeasonSelectionHide()
         {
             FlyoutSeasonSelection.Hide();
@@ -101,6 +111,7 @@ namespace MALClient.Pages
         {
             InitializeComponent();
             ViewModel.View = this;
+            Loaded += (sender, args) => ViewModel.AddScrollHandler();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

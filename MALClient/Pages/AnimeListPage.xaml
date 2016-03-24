@@ -12,6 +12,10 @@
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility"/>
+        <x:String x:Key="PivotPagesString">PivotPages</x:String>
+        <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
+        <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
 
     <Page.BottomAppBar>
@@ -119,7 +123,8 @@
                SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                ItemsSource="{Binding AnimePages}"
                PivotItemLoading="AnimesPivot_OnPivotItemLoading"
-               VerticalAlignment="Stretch">
+               VerticalAlignment="Stretch"
+               Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource PivotPagesString}}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}" />
             </Pivot.Resources>
@@ -139,7 +144,19 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <StackPanel Margin="{Binding ElementName=Animes, Path=Margin}" HorizontalAlignment="Center"
+        <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" 
+                  Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="5,5" />
+                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                    <Setter Property="BorderThickness" Value="5,0,0,0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock
                 Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"

@@ -116,6 +116,7 @@ namespace MALClient.Items
 
         private async void CopyLinkToClipboardCommand(object sender, RoutedEventArgs e)
         {
+            FlyoutMore.Hide();
             var dp = new DataPackage();
             dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
             Clipboard.SetContent(dp);

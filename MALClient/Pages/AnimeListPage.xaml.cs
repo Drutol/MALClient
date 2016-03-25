@@ -124,13 +124,13 @@ namespace MALClient.Pages
         {
             InitializeComponent();
             ViewModel.View = this;
-            Loaded += (sender, args) => ViewModel.AddScrollHandler();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
         }
+
 
         #endregion
 

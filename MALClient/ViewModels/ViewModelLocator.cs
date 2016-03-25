@@ -23,6 +23,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<AnimeListViewModel>();
             SimpleIoc.Default.Register<AnimeDetailsPageViewModel>();
             SimpleIoc.Default.Register<SearchPageViewModel>();
+            SimpleIoc.Default.Register<SettingsPageViewModel>();
 
             _initialized = true;
         }
@@ -41,5 +42,6 @@ namespace MALClient.ViewModels
             => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
 
         public static SearchPageViewModel SearchPage => ServiceLocator.Current.GetInstance<SearchPageViewModel>();
+        public static SettingsPageViewModel SettingsPage => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
     }
 }

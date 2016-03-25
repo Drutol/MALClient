@@ -1,6 +1,7 @@
 ﻿using Windows.Storage;
 using Windows.UI.Xaml;
 using MALClient.Pages;
+using MALClient.ViewModels;
 
 namespace MALClient
 {
@@ -127,5 +128,45 @@ namespace MALClient
             get { return (bool) (ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRecomms"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRecomms"] = value; }
         }
+
+        #region Views
+
+        public static AnimeListDisplayModes WatchingDisplayMode
+        {
+            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
+            set { ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] = (int)value; }
+        }
+
+        public static AnimeListDisplayModes CompletedDisplayMode
+        {
+            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
+            set { ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] = (int)value; }
+        }
+
+        public static AnimeListDisplayModes OnHoldDisplayMode
+        {
+            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
+            set { ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] = (int)value; }
+        }
+
+        public static AnimeListDisplayModes DroppedDisplayMode
+        {
+            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
+            set { ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] = (int)value; }
+        }
+
+        public static AnimeListDisplayModes PlannedDisplayMode
+        {
+            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
+            set { ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] = (int)value; }
+        }
+
+        public static AnimeListDisplayModes AllDisplayMode
+        {
+            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
+            set { ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] = (int)value; }
+        }
+
+        #endregion
     }
 }

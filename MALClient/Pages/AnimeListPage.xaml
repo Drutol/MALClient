@@ -45,8 +45,7 @@
                 </AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton x:Name="AppbarBtnSelectView"
-                          Icon="View" Label="Select list display mode." >
+            <AppBarButton Icon="View" Label="Display mode" >
                 <AppBarButton.Flyout>
                     <Flyout>
                         <ListView ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">

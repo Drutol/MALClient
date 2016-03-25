@@ -131,7 +131,6 @@ namespace MALClient.ViewModels
             else //assume default AnimeList
             {
                 WorkMode = AnimeListWorkModes.Anime;
-                //DisplayMode = AnimeListDisplayModes.IndefiniteList; //TODO Setting
             }
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             switch (WorkMode)
@@ -192,7 +191,7 @@ namespace MALClient.ViewModels
                     {
                         SortDescending = false;
                         SetSortOrder(SortOptions.SortWatched); //index
-                        SetDesiredStatus((int) AnimeStatus.AllOrAiring);
+                        SetDesiredStatus(null);
                         CurrentSeason = null;
                     }
                     SwitchFiltersToSeasonal();
@@ -423,7 +422,7 @@ namespace MALClient.ViewModels
                 return;
             }
 
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 25) || 
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 150) || 
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) || 
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
@@ -452,7 +451,6 @@ namespace MALClient.ViewModels
         {
             await Task.Delay(delay);
             View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
-            AddScrollHandler();
         }
 
         public void ScrollToTop()
@@ -467,7 +465,7 @@ namespace MALClient.ViewModels
 
         public bool CanLoadPages;
 
-        public void UpdatePageSetup(bool updatePerPage = false)
+        public async void UpdatePageSetup(bool updatePerPage = false)
         {
             CanLoadPages = false;
             if (updatePerPage) //called from settings
@@ -480,6 +478,8 @@ namespace MALClient.ViewModels
             _animeItems = new ObservableCollection<AnimeItem>();
             _animeGridItems = new ObservableCollection<AnimeGridItem>();
             _lastOffset = 0;
+            RaisePropertyChanged(() => DisplayMode);
+            await Task.Delay(10);
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.PivotPages:
@@ -538,6 +538,7 @@ namespace MALClient.ViewModels
                     RaisePropertyChanged(() => AnimeGridItems);
                     View.IndefiniteScrollViewer.UpdateLayout();                    
                     ScrollToWithDelay(500);
+                    AddScrollHandler();             
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -908,9 +909,12 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 Loading = true;
                 CurrentPosition = 1;
-                _lastOffset = 0;
+                _lastOffset = 0;                
                 if (_initiazlized)
+                {
                     RefreshList(false, true);
+                    SetDisplayMode((AnimeStatus)GetDesiredStatus());
+                }
             }
         }
 
@@ -1023,11 +1027,11 @@ namespace MALClient.ViewModels
         public AnimeListPage View { get; set; }
 
         public AnimeListWorkModes WorkMode { get; set; }
-        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteList;
 
-        public Tuple<AnimeListDisplayModes, string> CurrentlySelectedDisplayMode
+        private AnimeListDisplayModes _displayMode;
+        public AnimeListDisplayModes DisplayMode
         {
-            get { return DisplayModes[(int) DisplayMode]; }
+            get { return _displayMode; }
             set
             {
                 if (DisplayMode != AnimeListDisplayModes.PivotPages)
@@ -1037,12 +1041,21 @@ namespace MALClient.ViewModels
                     _scrollHandlerAdded = false;
                 }
                 View.IndefiniteScrollViewer = null;
+                _displayMode = value;
+            }
+        }
+
+        public Tuple<AnimeListDisplayModes, string> CurrentlySelectedDisplayMode
+        {
+            get { return DisplayModes[(int) DisplayMode]; }
+            set
+            {
                 DisplayMode = value.Item1;
                 _lastOffset = 0;
                 CurrentPosition = 1;
 
                 RaisePropertyChanged(() => DisplayMode);
-                RefreshList();
+                RefreshList(false,true);
             }
         }
 
@@ -1155,9 +1168,44 @@ namespace MALClient.ViewModels
             return value == 0 ? 1 : value == 5 || value == 6 ? value + 1 : value;
         }
 
+        private void SetDisplayMode(AnimeStatus val)
+        {
+            switch (val)
+            {
+                case AnimeStatus.Watching:
+                    DisplayMode = Settings.WatchingDisplayMode;
+                    break;
+                case AnimeStatus.Completed:
+                    DisplayMode = Settings.CompletedDisplayMode;
+                    break;
+                case AnimeStatus.OnHold:
+                    DisplayMode = Settings.OnHoldDisplayMode;
+                    break;
+                case AnimeStatus.Dropped:
+                    DisplayMode = Settings.DroppedDisplayMode;
+                    break;
+                case AnimeStatus.PlanToWatch:
+                    DisplayMode = Settings.PlannedDisplayMode;
+                    break;
+                case AnimeStatus.AllOrAiring:
+                    DisplayMode = Settings.AllDisplayMode;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(val), val, null);
+            }
+            RaisePropertyChanged(() => DisplayMode);
+
+        }
+
         private void SetDesiredStatus(int? value)
         {
+            bool setDisp = value == null;
+            if (value == null && WorkMode == AnimeListWorkModes.SeasonalAnime)
+                value = (int) AnimeStatus.AllOrAiring;
+
             value = value ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.DefaultMangaFilter : Settings.DefaultAnimeFilter);
+            if(setDisp)
+                SetDisplayMode((AnimeStatus)value);
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;

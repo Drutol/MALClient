@@ -136,8 +136,7 @@ namespace MALClient.ViewModels
             }
 
             if (_animeItemReference == null || _animeItemReference is AnimeSearchItem ||
-                (_animeItemReference is AnimeItemViewModel && !(_animeItemReference as AnimeItemViewModel).Auth) ||
-                (_animeItemReference is AnimeGridItemViewModel && !(_animeItemReference as AnimeGridItemViewModel).Auth))
+                (_animeItemReference is AnimeItemViewModel && !(_animeItemReference as AnimeItemViewModel).Auth) )
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 if (
@@ -151,7 +150,7 @@ namespace MALClient.ViewModels
                 }
             } // else we already have it
 
-            if ((_animeItemReference is AnimeItemViewModel && (_animeItemReference as AnimeItemViewModel).Auth) || (_animeItemReference is AnimeGridItemViewModel && (_animeItemReference as AnimeGridItemViewModel).Auth))
+            if ((_animeItemReference is AnimeItemViewModel && (_animeItemReference as AnimeItemViewModel).Auth) )
             {
                 //we have item on the list , so there's valid data here
                 MyDetailsVisibility = true;

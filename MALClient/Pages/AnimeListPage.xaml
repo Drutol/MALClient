@@ -111,7 +111,7 @@
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">
@@ -162,12 +162,11 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <GridView  x:Name="AnimesGridIndefinite" ItemsSource="{Binding AnimeGridtems}" SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
+        <GridView  x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}" SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
             Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
-
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2"/>
+                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>

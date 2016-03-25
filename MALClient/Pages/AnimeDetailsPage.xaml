@@ -64,7 +64,7 @@
                             <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50"
                                     Command="{Binding AddAnimeCommand}"
                                     Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                    Background="#E6E6E6" Margin="0,5,0,0">
+                                    Background="{ThemeResource BrushDetailsMoreButton}" Margin="0,5,0,0">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Add" />
                                     <TextBlock Margin="10,0,0,0" Text="Add to my list" />

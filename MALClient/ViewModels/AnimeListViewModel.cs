@@ -51,7 +51,7 @@ namespace MALClient.ViewModels
         private ObservableCollection<AnimeItem> _animeItems = new ObservableCollection<AnimeItem>();
         public ObservableCollection<AnimeItem> AnimeItems => _animeItems;
         private ObservableCollection<AnimeGridItem> _animeGridItems = new ObservableCollection<AnimeGridItem>();
-        public ObservableCollection<AnimeGridItem> AnimeGridtems => _animeGridItems;
+        public ObservableCollection<AnimeGridItem> AnimeGridItems => _animeGridItems;
 
         private bool _initiazlized;
 
@@ -83,7 +83,7 @@ namespace MALClient.ViewModels
         private bool _scrollHandlerAdded;
         public void AddScrollHandler()
         {
-            if(DisplayMode != AnimeListDisplayModes.IndefiniteList)
+            if(DisplayMode == AnimeListDisplayModes.PivotPages)
                 return;
             if(_scrollHandlerAdded)
                 return;
@@ -105,7 +105,7 @@ namespace MALClient.ViewModels
             _animeGridItems = new ObservableCollection<AnimeGridItem>();
             RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridtems);
+            RaisePropertyChanged(() => AnimeGridItems);
 
             //give visual feedback
             Loading = true;
@@ -131,7 +131,7 @@ namespace MALClient.ViewModels
             else //assume default AnimeList
             {
                 WorkMode = AnimeListWorkModes.Anime;
-                DisplayMode = AnimeListDisplayModes.IndefiniteList; //TODO Setting
+                //DisplayMode = AnimeListDisplayModes.IndefiniteList; //TODO Setting
             }
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             switch (WorkMode)
@@ -422,11 +422,28 @@ namespace MALClient.ViewModels
                 return;
             }
 
-            if (offset - _lastOffset > 75 || _animeItemsSet.Count == 1) //Anime item height/2
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 25) || 
+                (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) || 
+                (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
                 _lastOffset = offset;
-                AnimeItems.Add(_animeItemsSet.First().AnimeItem);
-                _animeItemsSet.RemoveAt(0);
+                switch (DisplayMode)
+                {
+                    case AnimeListDisplayModes.IndefiniteList:
+                        AnimeItems.Add(_animeItemsSet.First().AnimeItem);
+                        _animeItemsSet.RemoveAt(0);
+                        break;
+                    case AnimeListDisplayModes.IndefiniteGrid:
+                        AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
+                        _animeItemsSet.RemoveAt(0);
+                        if (_animeItemsSet.Count > 0)
+                        {
+                            AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
+                            _animeItemsSet.RemoveAt(0);
+                        }
+                        break;
+                }
+                
             }
         }
 
@@ -435,7 +452,8 @@ namespace MALClient.ViewModels
         #region Pagination
 
         public bool CanLoadPages;
-        public async void UpdatePageSetup(bool updatePerPage = false)
+
+        public void UpdatePageSetup(bool updatePerPage = false)
         {
             CanLoadPages = false;
             if (updatePerPage) //called from settings
@@ -447,23 +465,23 @@ namespace MALClient.ViewModels
             _animePages = new ObservableCollection<PivotItem>();
             _animeItems = new ObservableCollection<AnimeItem>();
             _animeGridItems = new ObservableCollection<AnimeGridItem>();
+            _lastOffset = 0;
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.PivotPages:
-                    _allPages = (int)Math.Ceiling((double)_animeItemsSet.Count / _itemsPerPage);
+                    _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
                     AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
                     for (var i = 0; i < _allPages; i++)
                     {
                         AnimePages.Add(new PivotItem
                         {
-                            Header = $"{i + 1}",
-                            Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage * i).Take(_itemsPerPage))
+                            Header = $"{i + 1}", Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage*i).Take(_itemsPerPage))
                         });
                     }
                     CanLoadPages = true;
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
-                    RaisePropertyChanged(() => AnimeGridtems);
+                    RaisePropertyChanged(() => AnimeGridItems);
                     try
                     {
                         AnimesPivotSelectedIndex = realPage - 1;
@@ -481,37 +499,38 @@ namespace MALClient.ViewModels
                     {
                         _animeItems.Add(itemAbstraction.AnimeItem);
                     }
-                    for (int i = 0; i < 6 + CurrentPosition / 100 && _animeItemsSet.Count > 0; i++)
+                    for (int i = 0; i < 6 + CurrentPosition/100 && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
-                    RaisePropertyChanged(() => AnimeGridtems);
+                    RaisePropertyChanged(() => AnimeGridItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
                     View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
                     AddScrollHandler(); //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
-                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition / 100))
+                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition/100))
                     {
                         _animeGridItems.Add(itemAbstraction.AnimeGridItem);
                     }
-                    for (int i = 0; i < 6 + CurrentPosition / 100 && _animeItemsSet.Count > 0; i++)
+                    for (int i = 0; i < 6 + CurrentPosition/100 && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
-                    RaisePropertyChanged(() => AnimeGridtems);
+                    RaisePropertyChanged(() => AnimeGridItems);
+                    View.IndefiniteScrollViewer.UpdateLayout();
+                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+                    AddScrollHandler();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }           
+            }
             Loading = false;
         }
-
-
 
         #endregion
 
@@ -875,6 +894,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 Loading = true;
                 CurrentPosition = 1;
+                _lastOffset = 0;
                 if (_initiazlized)
                     RefreshList(false, true);
             }
@@ -969,11 +989,7 @@ namespace MALClient.ViewModels
 
         public ICommand RefreshCommand
         {
-            get
-            {
-                return _refreshCommand ??
-                       (_refreshCommand = new RelayCommand(ReloadList));
-            }
+            get { return _refreshCommand ?? (_refreshCommand = new RelayCommand(ReloadList)); }
         }
 
         private ICommand _goBackToMyListCommand;
@@ -982,36 +998,43 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return _goBackToMyListCommand ??
-                       (_goBackToMyListCommand = new RelayCommand(() =>
-                       {
-                           ListSource = Creditentials.UserName;
-                           FetchData();
-                       }));
+                return _goBackToMyListCommand ?? (_goBackToMyListCommand = new RelayCommand(() =>
+                {
+                    ListSource = Creditentials.UserName;
+                    FetchData();
+                }));
             }
         }
 
         public AnimeListPage View { get; set; }
 
         public AnimeListWorkModes WorkMode { get; set; }
-        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteList;
+        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteGrid;
+
         public Tuple<AnimeListDisplayModes, string> CurrentlySelectedDisplayMode
         {
-            get { return DisplayModes[(int)DisplayMode]; }
+            get { return DisplayModes[(int) DisplayMode]; }
             set
             {
+                if (DisplayMode != AnimeListDisplayModes.PivotPages)
+                {
+                    //we don't want to be subscribed to wrong srollviewer
+                    View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    _scrollHandlerAdded = false;
+                }
+                View.IndefiniteScrollViewer = null;
                 DisplayMode = value.Item1;
+                _lastOffset = 0;
                 CurrentPosition = 1;
+
                 RaisePropertyChanged(() => DisplayMode);
                 RefreshList();
-                RaisePropertyChanged(() => CurrentlySelectedAnimeItem);
             }
         }
+
         public ObservableCollection<Tuple<AnimeListDisplayModes, string>> DisplayModes { get; } = new ObservableCollection<Tuple<AnimeListDisplayModes, string>>
         {
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.PivotPages, "Pages"),
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"),
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.PivotPages, "Pages"), new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"), new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
         };
 
         private Visibility _animesPivotHeaderVisibility;
@@ -1106,6 +1129,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => AnimePages);
             base.Cleanup();
         }
+
         #endregion
 
         #region StatusRelatedStuff
@@ -1161,7 +1185,7 @@ namespace MALClient.ViewModels
             _animeGridItems = new ObservableCollection<AnimeGridItem>();
             RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridtems);
+            RaisePropertyChanged(() => AnimeGridItems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();
@@ -1180,7 +1204,7 @@ namespace MALClient.ViewModels
             _animeGridItems = new ObservableCollection<AnimeGridItem>();
             RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridtems);
+            RaisePropertyChanged(() => AnimeGridItems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();

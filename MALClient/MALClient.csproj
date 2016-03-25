@@ -203,7 +203,6 @@
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
-    <Compile Include="ViewModels\AnimeGridItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />

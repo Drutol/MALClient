@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeGridItem : UserControl
+    public sealed partial class AnimeGridItem : UserControl , IAnimeItemInteractions
     {
-        public AnimeGridItemViewModel ViewModel => DataContext as AnimeGridItemViewModel;
-        public AnimeGridItem(AnimeGridItemViewModel vm)
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
+        public AnimeGridItem(AnimeItemViewModel vm)
         {
-            this.InitializeComponent();
             this.DataContext = vm;
+            this.InitializeComponent();           
         }
+
+        public Flyout WatchedFlyout => null;
+        public Flyout MoreFlyout => FlyoutMore;
     }
 }

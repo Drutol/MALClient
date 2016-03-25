@@ -149,7 +149,6 @@
                 </Flyout>
             </Button.Flyout>
             <SymbolIcon Symbol="More" Foreground="White" />
-            
         </Button>
         <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{Binding AddAnimeCommand}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40"

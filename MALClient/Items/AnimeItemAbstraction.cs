@@ -25,7 +25,6 @@ namespace MALClient.Items
 
         private AnimeItem _animeItem;
         private AnimeItemViewModel _viewModel;
-        private AnimeGridItemViewModel _gridViewModel;
         public int AirDay = -1;
 
         public readonly bool auth;
@@ -109,8 +108,8 @@ namespace MALClient.Items
                 if (GridLoaded)
                     return _gridItem;
 
-                _gridViewModel = new AnimeGridItemViewModel(this);
-                _gridItem = new AnimeGridItem(_gridViewModel);
+                ViewModel = LoadElementModel();
+                _gridItem = new AnimeGridItem(_viewModel);
                 return _gridItem;
 
             }

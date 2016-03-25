@@ -11,19 +11,59 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <converters:UrlToBitmapImageConverter x:Key="BitmapImageConverter"/>
+        <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
     </UserControl.Resources>
-    
+
     <Grid>
-        <Image Stretch="UniformToFill" Source="{Binding Img,Converter={StaticResource BitmapImageConverter}}" 
-               MaxWidth="{Binding MaxWidth}"/>
-        <Grid Height="50" VerticalAlignment="Bottom">
+        <Image Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
+        <Grid Height="55" MaxWidth="{Binding MaxWidth}" VerticalAlignment="Bottom">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>
-            <StackPanel>
-                <TextBlock Text="{Binding Title}" Foreground="WhiteSmoke" TextTrimming="CharacterEllipsis"/>
-            </StackPanel>
+            <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" Foreground="WhiteSmoke" FontWeight="SemiBold"
+                       TextWrapping ="WrapWholeWords"  TextTrimming="CharacterEllipsis"/>
         </Grid>
+        <Button
+                HorizontalAlignment="Left" VerticalAlignment="Top" Height="30"
+                Visibility="Visible" RenderTransformOrigin="0.5,0.5" >
+            <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
+                            Foreground="WhiteSmoke">
+                <SymbolIcon.RenderTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+            <Button.Background>
+                <SolidColorBrush Color="Black" Opacity=".75"/>
+            </Button.Background>
+            <Button.Flyout>
+                <Flyout x:Name="FlyoutMore">
+                    <StackPanel Padding="0">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Height" Value="35"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Margin" Value="1"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <SymbolIcon Symbol="World" VerticalAlignment="Center"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <Button  Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
+                                <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <MenuFlyoutSeparator/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                            <SymbolIcon Symbol="Pin" VerticalAlignment="Center"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
+                                <Button Content="Pin with custom url" Command="{Binding PinTileCustomCommand}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </Grid>
 </UserControl>

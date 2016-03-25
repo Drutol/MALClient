@@ -78,10 +78,19 @@ namespace MALClient.Pages
         private ScrollViewer _indefiniteScrollViewer;
 
         public ScrollViewer IndefiniteScrollViewer
-            =>
-                _indefiniteScrollViewer ??
-                (_indefiniteScrollViewer =
-                    VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(AnimesItemsIndefinite, 0), 0) as ScrollViewer);
+        {
+            get
+            {
+               return _indefiniteScrollViewer ??
+                 (_indefiniteScrollViewer =
+                     VisualTreeHelper.GetChild(
+                         VisualTreeHelper.GetChild(
+                             (ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteList
+                                 ? (DependencyObject)AnimesItemsIndefinite
+                                 : AnimesGridIndefinite), 0), 0) as ScrollViewer);
+            }
+            set { _indefiniteScrollViewer = value; }
+        } 
 
 
         public void FlyoutSeasonSelectionHide()

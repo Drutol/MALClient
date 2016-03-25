@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -39,6 +41,13 @@ namespace MALClient.ViewModels
         //state fields
         public int Id { get; set; }
 
+        public static double MaxWidth { get; set; }
+        static AnimeItemViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width/2.1;
+        }
 
         public async void NavigateDetails()
         {

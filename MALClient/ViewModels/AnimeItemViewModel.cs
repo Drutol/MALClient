@@ -35,7 +35,8 @@ namespace MALClient.ViewModels
         private bool _seasonalState;
         //prop field pairs
 
-        public IAnimeItemInteractions View;
+        public IAnimeItemInteractions ViewGrid;
+        public IAnimeItemInteractions ViewList;
 
 
         //state fields
@@ -623,7 +624,8 @@ namespace MALClient.ViewModels
                        (_pinTileCustomCommand =
                            new RelayCommand(() =>
                            {
-                               View.MoreFlyout.Hide();
+                               ViewList?.MoreFlyout.Hide();
+                               ViewGrid?.MoreFlyout.Hide();
                                TileUrlInputVisibility = Visibility.Visible;
                            }));
             }
@@ -641,7 +643,8 @@ namespace MALClient.ViewModels
                            var dp = new DataPackage();
                            dp.SetText($"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
-                           View.MoreFlyout.Hide();
+                           ViewList?.MoreFlyout.Hide();
+                           ViewGrid?.MoreFlyout.Hide();
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
 
@@ -657,7 +660,8 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           View.MoreFlyout.Hide();
+                           ViewList?.MoreFlyout.Hide();
+                           ViewGrid?.MoreFlyout.Hide();
                            await
                                Launcher.LaunchUriAsync(
                                    new Uri(
@@ -675,7 +679,8 @@ namespace MALClient.ViewModels
             {
                 return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
                 {
-                    View.MoreFlyout.Hide();
+                    ViewList?.MoreFlyout.Hide();
+                    ViewGrid?.MoreFlyout.Hide();
                     if (SecondaryTile.Exists(Id.ToString()))
                     {
                         var msg = new MessageDialog("Tile for this anime already exists.");
@@ -834,7 +839,7 @@ namespace MALClient.ViewModels
             }
             if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
             {
-                View.WatchedFlyout.Hide();
+                ViewList.WatchedFlyout.Hide();
                 LoadingUpdate = Visibility.Visible;
                 WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;

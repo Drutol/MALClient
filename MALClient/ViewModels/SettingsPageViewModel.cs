@@ -45,5 +45,11 @@ namespace MALClient.ViewModels
             get { return DisplayModes[(int)Settings.AllDisplayMode]; }
             set { Settings.AllDisplayMode = value.Item1; }
         }
+
+        public bool LockDisplayMode
+        {
+            get { return Settings.LockDisplayMode; }
+            set { Settings.LockDisplayMode = value; }
+        }
     }
 }

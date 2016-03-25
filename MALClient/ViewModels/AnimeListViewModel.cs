@@ -60,6 +60,7 @@ namespace MALClient.ViewModels
 
 
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
+        private AnimeListDisplayModes? _manuallySelectedViewMode;
 
         private SortOptions _sortOption = SortOptions.SortNothing;
         private bool _wasPreviousQuery;
@@ -82,7 +83,7 @@ namespace MALClient.ViewModels
 
         public bool CanAddScrollHandler;
         private bool _scrollHandlerAdded;
-        public void AddScrollHandler()
+        private void AddScrollHandler()
         {
             if(DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
                 return;
@@ -96,6 +97,7 @@ namespace MALClient.ViewModels
             //base
             _scrollHandlerAdded = false;
             _initiazlized = false;
+            _manuallySelectedViewMode = null;
             NavMgr.ResetBackNav();
             //take out trash
             _animeItemsSet.Clear();
@@ -1041,6 +1043,8 @@ namespace MALClient.ViewModels
                 }
                 View.IndefiniteScrollViewer = null;
                 _displayMode = value;
+                RaisePropertyChanged(() => DisplayMode);
+                RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             }
         }
 
@@ -1050,6 +1054,8 @@ namespace MALClient.ViewModels
             set
             {
                 DisplayMode = value.Item1;
+                if(Settings.LockDisplayMode)
+                    _manuallySelectedViewMode = value.Item1;
                 _lastOffset = 0;
                 CurrentPosition = 1;
 
@@ -1169,30 +1175,33 @@ namespace MALClient.ViewModels
 
         private void SetDisplayMode(AnimeStatus val)
         {
-            switch (val)
+            if (_manuallySelectedViewMode == null)
             {
-                case AnimeStatus.Watching:
-                    DisplayMode = Settings.WatchingDisplayMode;
-                    break;
-                case AnimeStatus.Completed:
-                    DisplayMode = Settings.CompletedDisplayMode;
-                    break;
-                case AnimeStatus.OnHold:
-                    DisplayMode = Settings.OnHoldDisplayMode;
-                    break;
-                case AnimeStatus.Dropped:
-                    DisplayMode = Settings.DroppedDisplayMode;
-                    break;
-                case AnimeStatus.PlanToWatch:
-                    DisplayMode = Settings.PlannedDisplayMode;
-                    break;
-                case AnimeStatus.AllOrAiring:
-                    DisplayMode = Settings.AllDisplayMode;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(val), val, null);
+                switch (val)
+                {
+                    case AnimeStatus.Watching:
+                        DisplayMode = Settings.WatchingDisplayMode;
+                        break;
+                    case AnimeStatus.Completed:
+                        DisplayMode = Settings.CompletedDisplayMode;
+                        break;
+                    case AnimeStatus.OnHold:
+                        DisplayMode = Settings.OnHoldDisplayMode;
+                        break;
+                    case AnimeStatus.Dropped:
+                        DisplayMode = Settings.DroppedDisplayMode;
+                        break;
+                    case AnimeStatus.PlanToWatch:
+                        DisplayMode = Settings.PlannedDisplayMode;
+                        break;
+                    case AnimeStatus.AllOrAiring:
+                        DisplayMode = Settings.AllDisplayMode;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(val), val, null);
+                }
+                RaisePropertyChanged(() => DisplayMode);
             }
-            RaisePropertyChanged(() => DisplayMode);
 
         }
 

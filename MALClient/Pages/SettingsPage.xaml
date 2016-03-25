@@ -142,6 +142,10 @@
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForAll,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
                                 </StackPanel>
+                                <StackPanel Margin="0,5">
+                                    <TextBlock Text="Lock display mode when chainging it manually" TextWrapping="WrapWholeWords"/>
+                                    <ToggleSwitch HorizontalAlignment="Center" IsOn="{Binding LockDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
                             </StackPanel>
                             <MenuFlyoutSeparator Margin="0,5"/>
                             <Grid HorizontalAlignment="Stretch" Margin="5,5">

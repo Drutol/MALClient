@@ -13,7 +13,8 @@ namespace MALClient.Items
         public AnimeGridItem(AnimeItemViewModel vm)
         {
             this.DataContext = vm;
-            this.InitializeComponent();           
+            this.InitializeComponent();
+            vm.ViewGrid = this;
         }
 
         public Flyout WatchedFlyout => null;

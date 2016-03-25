@@ -16,7 +16,7 @@ namespace MALClient.Items
         public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
-            vm.View = this;
+            vm.ViewList = this;
             DataContext = vm;
         }
 

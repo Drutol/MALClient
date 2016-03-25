@@ -167,6 +167,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] = (int)value; }
         }
 
+        public static bool LockDisplayMode
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] = value; }
+        }
+
         #endregion
     }
 }

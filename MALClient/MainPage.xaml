@@ -61,6 +61,10 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
+                <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
+                        Visibility="{Binding ScrollToTopButtonVisibility}" Command="{Binding GoTopCommand}">
+                    <SymbolIcon Symbol="Up" />
+                </Button>
             </Grid>
             <controls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
                                            HorizontalAlignment="Right" IsThreeState="False"

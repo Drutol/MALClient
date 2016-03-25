@@ -10,10 +10,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.Resources>
-        <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
-    </UserControl.Resources>
-
     <Grid>
         <Image Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
         <Grid Height="55" MaxWidth="{Binding MaxWidth}" VerticalAlignment="Bottom">

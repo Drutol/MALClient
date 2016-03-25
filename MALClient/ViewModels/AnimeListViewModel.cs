@@ -415,6 +415,7 @@ namespace MALClient.ViewModels
         {
             var offset = (int)Math.Ceiling(args.FinalView.VerticalOffset);
             CurrentPosition = offset;
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300 ? Visibility.Visible : Visibility.Collapsed;
             if (_animeItemsSet.Count == 0)
             {
                 //View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging; //this the owari... no need to subscribe to this event anymore
@@ -447,6 +448,19 @@ namespace MALClient.ViewModels
             }
         }
 
+        private async void ScrollToWithDelay(int delay)
+        {
+            await Task.Delay(delay);
+            View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+            AddScrollHandler();
+        }
+
+        public void ScrollToTop()
+        {
+            CurrentPosition = 0;
+            View.IndefiniteScrollViewer.ScrollToVerticalOffset(0);
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
+        }
         #endregion
 
         #region Pagination
@@ -522,13 +536,13 @@ namespace MALClient.ViewModels
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
                     RaisePropertyChanged(() => AnimeGridItems);
-                    View.IndefiniteScrollViewer.UpdateLayout();
-                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
-                    AddScrollHandler();
+                    View.IndefiniteScrollViewer.UpdateLayout();                    
+                    ScrollToWithDelay(500);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300 ? Visibility.Visible : Visibility.Collapsed;
             Loading = false;
         }
 
@@ -1009,7 +1023,7 @@ namespace MALClient.ViewModels
         public AnimeListPage View { get; set; }
 
         public AnimeListWorkModes WorkMode { get; set; }
-        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteGrid;
+        public AnimeListDisplayModes DisplayMode { get; set; } = AnimeListDisplayModes.IndefiniteList;
 
         public Tuple<AnimeListDisplayModes, string> CurrentlySelectedDisplayMode
         {

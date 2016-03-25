@@ -37,7 +37,7 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
-
+            ScrollToTopButtonVisibility = Visibility.Collapsed;
             RefreshButtonVisibility = Visibility.Collapsed;
 
             if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList)
@@ -256,6 +256,16 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _goTopCommand;
+        public ICommand GoTopCommand
+        {
+            get
+            {
+                return _goTopCommand ??
+                       (_goTopCommand = new RelayCommand(() => ViewModelLocator.AnimeList.ScrollToTop()));
+            }
+        }
+
         private Visibility _refreshButtonVisibility;
 
         public Visibility RefreshButtonVisibility
@@ -265,6 +275,20 @@ namespace MALClient.ViewModels
             {
                 _refreshButtonVisibility = value;
                 RaisePropertyChanged(() => RefreshButtonVisibility);
+            }
+        }
+
+        private Visibility _scrollToTopButtonVisibility = Visibility.Collapsed;
+
+        public Visibility ScrollToTopButtonVisibility
+        {
+            get { return _scrollToTopButtonVisibility; }
+            set
+            {
+                if(value == _scrollToTopButtonVisibility)
+                    return;
+                _scrollToTopButtonVisibility = value;
+                RaisePropertyChanged(() => ScrollToTopButtonVisibility);
             }
         }
 

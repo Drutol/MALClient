@@ -24,9 +24,6 @@
                 Visibility="Visible" RenderTransformOrigin="0.5,0.5" >
             <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                             Foreground="WhiteSmoke">
-                <SymbolIcon.RenderTransform>
-                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                </SymbolIcon.RenderTransform>
             </SymbolIcon>
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>

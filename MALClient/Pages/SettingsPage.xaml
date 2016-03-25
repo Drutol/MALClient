@@ -143,7 +143,7 @@
                                     </Grid>
                                 </StackPanel>
                                 <StackPanel Margin="0,5">
-                                    <TextBlock Text="Lock display mode when chainging it manually" TextWrapping="WrapWholeWords"/>
+                                    <TextBlock Text="Lock display mode when changing it manually" TextWrapping="WrapWholeWords"/>
                                     <ToggleSwitch HorizontalAlignment="Center" IsOn="{Binding LockDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
                             </StackPanel>
@@ -233,7 +233,7 @@
                     <ScrollViewer>
                         <StackPanel HorizontalAlignment="Stretch">
                             <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
-                            <controls:AlternatingListView x:Name="ListCurrentlyCached" Height="Auto" MaxHeight="190" HorizontalAlignment="Stretch"
+                            <controls:AlternatingListView x:Name="ListCurrentlyCached" Height="Auto" HorizontalAlignment="Stretch"
                               SelectionMode="None" Margin="0,10,0,5">
                                 <ListView.Header>
                                     <TextBlock x:Name="ListEmptyNotice" Visibility="Collapsed" Text="No cached entries."

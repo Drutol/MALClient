@@ -79,6 +79,14 @@
                                         <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="26.03.2016" />
+                                <TextBlock Text="Added grid display mode." />
+                                <TextBlock Text="Added list display mode." />
+                                <TextBlock Text="Copy to clipboard now gives visual feedback." />
+                                <TextBlock Text="Search page now follows same navigation pattern as main list." />
+                                <TextBlock Text="Fixed a few issues with dark theme." />
+                                <TextBlock Text="Settings page reorganisation." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="24.03.2016" />
                                 <TextBlock Text="Added dark theme." />
                                 <TextBlock Text="Fixed crash when changing list source using button." />
@@ -86,14 +94,6 @@
                                 <TextBlock Text="Added option to copy MAL link to clipboard." />
                                 <TextBlock Text="Seasonal anime page will now properly navigate back to standard anime list." />
                                 <TextBlock Text="Changed default sorting to Title." />
-                                <MenuFlyoutSeparator Margin="0,5"/>
-                                <TextBlock Text="22.03.2016" />
-                                <TextBlock Text="Typos and misc fixes." />
-                                <TextBlock Text="Added slider for amount of seasonal anime to pull." />
-                                <TextBlock Text="Fixed floating episodes/chapters button." />
-                                <TextBlock Text="Added option to enable which tabs of details page are going to be populated automatically." />
-                                <TextBlock Text="Slight visual update to details page." />
-                                <TextBlock Text="Crucial behind the scene code refactoring." />
      
                             </StackPanel>
                         </StackPanel>

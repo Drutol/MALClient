@@ -363,6 +363,8 @@
       <ReservedName>MALClient</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
-  <AccountPackageIdentityNames />
+  <AccountPackageIdentityNames>
+    <MainPackageIdentityName>6252Drutol.Wingur</MainPackageIdentityName>
+  </AccountPackageIdentityNames>
   <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH5F3BL" />
 </StoreAssociation>

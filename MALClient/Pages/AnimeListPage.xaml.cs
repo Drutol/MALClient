@@ -124,6 +124,7 @@ namespace MALClient.Pages
         {
             InitializeComponent();
             ViewModel.View = this;
+            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

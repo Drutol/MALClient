@@ -49,9 +49,14 @@
                 <AppBarButton.Flyout>
                     <Flyout>
                         <ListView ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Height" Value="25"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Item2}" Height="20"/>
+                                    <TextBlock Text="{Binding Item2}" Height="25"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

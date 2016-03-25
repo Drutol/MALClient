@@ -20,7 +20,7 @@
                        TextWrapping ="WrapWholeWords"  TextTrimming="CharacterEllipsis"/>
         </Grid>
         <Button
-                HorizontalAlignment="Left" VerticalAlignment="Top" Height="30"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="40"
                 Visibility="Visible" RenderTransformOrigin="0.5,0.5" >
             <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                             Foreground="WhiteSmoke">

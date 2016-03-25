@@ -80,12 +80,11 @@ namespace MALClient.ViewModels
 
         public int CurrentStatus => GetDesiredStatus();
 
+        public bool CanAddScrollHandler;
         private bool _scrollHandlerAdded;
         public void AddScrollHandler()
         {
-            if(DisplayMode == AnimeListDisplayModes.PivotPages)
-                return;
-            if(_scrollHandlerAdded)
+            if(DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
                 return;
             _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
             _scrollHandlerAdded = true;
@@ -121,7 +120,7 @@ namespace MALClient.ViewModels
                     ListSource = args.ListSource;
                     SortDescending = SortDescending = args.Descending;
                     SetSortOrder(args.SortOption); //index
-                    SetDesiredStatus(args.Status);
+                   SetDesiredStatus(args.Status);
                     CurrentPosition = args.CurrPage;
                     CurrentSeason = args.CurrSeason;
                     DisplayMode = args.DisplayMode;
@@ -479,7 +478,7 @@ namespace MALClient.ViewModels
             _animeGridItems = new ObservableCollection<AnimeGridItem>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
-            await Task.Delay(10);
+            await Task.Delay(30);
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.PivotPages:
@@ -521,7 +520,7 @@ namespace MALClient.ViewModels
                     RaisePropertyChanged(() => AnimeItems);
                     RaisePropertyChanged(() => AnimeGridItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
-                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);      
                     AddScrollHandler(); //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
@@ -536,7 +535,7 @@ namespace MALClient.ViewModels
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
                     RaisePropertyChanged(() => AnimeGridItems);
-                    View.IndefiniteScrollViewer.UpdateLayout();                    
+                    View.IndefiniteScrollViewer.UpdateLayout();
                     ScrollToWithDelay(500);
                     AddScrollHandler();             
                     break;
@@ -1034,7 +1033,7 @@ namespace MALClient.ViewModels
             get { return _displayMode; }
             set
             {
-                if (DisplayMode != AnimeListDisplayModes.PivotPages)
+                if (DisplayMode != AnimeListDisplayModes.PivotPages && _scrollHandlerAdded && CanAddScrollHandler)
                 {
                     //we don't want to be subscribed to wrong srollviewer
                     View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging;

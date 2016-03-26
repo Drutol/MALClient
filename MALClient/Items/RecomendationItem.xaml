@@ -24,18 +24,20 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--LeftTop-->
-            <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="170" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Image x:Name="DepImg" Height="170" Stretch="Uniform" Tapped="ButtonDependentDetails_OnClick" />
-                <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"
-                        Height="40" Click="ButtonDependentDetails_OnClick">
-                    <Button.Background>
-                        <SolidColorBrush Color="Black" Opacity=".5" />
-                    </Button.Background>
-                    <SymbolIcon Symbol="More" Foreground="White" />
+            <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" MaxHeight="200">
+                <Button Grid.Row="0" Grid.Column="0" Margin="1"
+                        Click="ButtonDependentDetails_OnClick"
+                        HorizontalAlignment="Left" Background="Transparent" Padding="0"
+                        VerticalAlignment="Bottom">
+                    <Grid>
+                        <Image x:Name="DepImg" Stretch="Uniform"/>
+                        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
+                            <Grid.Background>
+                                <SolidColorBrush Color="Black" Opacity=".5" />
+                            </Grid.Background>
+                            <SymbolIcon Symbol="Go" Foreground="White"/>
+                        </Grid>
+                    </Grid>
                 </Button>
             </Grid>
 
@@ -47,18 +49,20 @@
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
             <!--RightTop-->
-            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="170" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Image x:Name="RecImg" Height="170" Stretch="Uniform" Tapped="ButtonRecomDetails_OnClick" />
-                <Button Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"
-                        Height="40" Click="ButtonRecomDetails_OnClick">
-                    <Button.Background>
-                        <SolidColorBrush Color="Black" Opacity=".5" />
-                    </Button.Background>
-                    <SymbolIcon Symbol="More" Foreground="White" />
+            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" MaxHeight="200">
+                <Button Grid.Row="0" Grid.Column="0" Margin="1"
+                        Click="ButtonRecomDetails_OnClick"
+                        HorizontalAlignment="Left" Background="Transparent" Padding="0"
+                        VerticalAlignment="Bottom">
+                    <Grid>
+                        <Image x:Name="RecImg" Stretch="Uniform"/>
+                        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
+                            <Grid.Background>
+                                <SolidColorBrush Color="Black" Opacity=".5" />
+                            </Grid.Background>
+                            <SymbolIcon Symbol="Go" Foreground="White"/>
+                        </Grid>
+                    </Grid>
                 </Button>
             </Grid>
             <!-- TitleMid -->

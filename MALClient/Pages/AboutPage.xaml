@@ -79,6 +79,12 @@
                                         <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="27.03.2016" />
+                                <TextBlock Text="Modifications to grid view." />
+                                <TextBlock Text="Resolved a few bugs regarding synchronization of views" />
+                                <TextBlock Text="Made details navigation more consistent (recoms)" />
+                                <TextBlock Text="Resolved more issues with dark/light theme." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="26.03.2016" />
                                 <TextBlock Text="Added grid display mode." />
                                 <TextBlock Text="Added list display mode." />
@@ -86,14 +92,6 @@
                                 <TextBlock Text="Search page now follows same navigation pattern as main list." />
                                 <TextBlock Text="Fixed a few issues with dark theme." />
                                 <TextBlock Text="Settings page reorganisation." />
-                                <MenuFlyoutSeparator Margin="0,5"/>
-                                <TextBlock Text="24.03.2016" />
-                                <TextBlock Text="Added dark theme." />
-                                <TextBlock Text="Fixed crash when changing list source using button." />
-                                <TextBlock Text="Changed details navigation. The small (...) button brings additional options now and clicking on anime entry as a whole opens details." />
-                                <TextBlock Text="Added option to copy MAL link to clipboard." />
-                                <TextBlock Text="Seasonal anime page will now properly navigate back to standard anime list." />
-                                <TextBlock Text="Changed default sorting to Title." />
      
                             </StackPanel>
                         </StackPanel>

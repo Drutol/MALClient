@@ -636,7 +636,7 @@ namespace MALClient.ViewModels
         {
             if (!force && _prevListSource == ListSource && _prevWorkMode == WorkMode)
             {
-                foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.Loaded))
+                foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.LoadedAnime))
                 {
                     item.ViewModel.SignalBackToList();
                 }

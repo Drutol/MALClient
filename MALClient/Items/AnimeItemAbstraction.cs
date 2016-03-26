@@ -15,13 +15,13 @@ namespace MALClient.Items
         private readonly int allVolumes;
 
         private readonly SeasonalAnimeData data;
-        private readonly int id;
-        public readonly string img;
-        private readonly int myEps;
-        private readonly int myScore;
-        private readonly int myStatus;
-        private readonly int myVolumes;
-        private readonly string name;
+        private  int id;
+        public  string img;
+        private int myEps;
+        private int myScore;
+        private int myStatus;
+        private int myVolumes;
+        private string name;
 
         private AnimeItem _animeItem;
         private AnimeItemViewModel _viewModel;
@@ -32,10 +32,26 @@ namespace MALClient.Items
         public float GlobalScore;
         public int Id;
         public int Index;
-        public bool Loaded;
-        public int MyEpisodes;
-        public int MyScore;
-        public int MyStatus;
+        public bool LoadedAnime;
+
+
+        public int MyEpisodes
+        {
+            get { return myEps; }
+            set { myEps = value; }
+        }
+
+        public int MyScore
+        {
+            get { return myScore; }
+            set { myScore = value; }
+        }
+
+        public int MyStatus
+        {
+            get { return myStatus; }
+            set { myStatus = value; }
+        }
         public int MyVolumes;
 
         public bool RepresentsAnime = true;
@@ -91,7 +107,7 @@ namespace MALClient.Items
         {
             get
             {
-                if (Loaded)
+                if (LoadedAnime)
                     return _animeItem;
 
                 ViewModel = LoadElementModel();
@@ -105,23 +121,25 @@ namespace MALClient.Items
         {
             get
             {
-                if (GridLoaded)
+                if (LoadedGrid)
                     return _gridItem;
 
                 ViewModel = LoadElementModel();
                 _gridItem = new AnimeGridItem(_viewModel);
+                LoadedGrid = true;
                 return _gridItem;
 
             }
         }
 
-        public bool GridLoaded = false;
+        public bool LoadedGrid = false;
+        public bool LoadedModel = false;
 
         public AnimeItemViewModel ViewModel
         {
             get
             {
-                if (Loaded)
+                if (LoadedAnime)
                     return _viewModel;
                 ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
@@ -144,6 +162,9 @@ namespace MALClient.Items
         //Load UIElement
         private AnimeItemViewModel LoadElementModel()
         {
+            if (LoadedModel)
+                return _viewModel;
+            LoadedModel = true;
             if (RepresentsAnime)
                 return _firstConstructor
                     ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
@@ -154,7 +175,7 @@ namespace MALClient.Items
 
         private AnimeItem LoadElement()
         {
-            Loaded = true;
+            LoadedAnime = true;
             return new AnimeItem(ViewModel);
         }
     }

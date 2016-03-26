@@ -255,6 +255,7 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsOrientation();
                 AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyStatusBind);
+                RaisePropertyChanged(() => MyStatusBindShort);
             }
         }
 
@@ -272,6 +273,7 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsOrientation();
                 AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyScoreBind);
+                RaisePropertyChanged(() => MyScoreBindShort);
             }
         }
 
@@ -300,6 +302,7 @@ namespace MALClient.ViewModels
                     return;
                 _parentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
+                RaisePropertyChanged(() => MyEpisodesBindShort);
             }
         }
 

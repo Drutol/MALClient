@@ -9,18 +9,44 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <Grid>
-        <Image Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
-        <Grid Height="55" MaxWidth="{Binding MaxWidth}" VerticalAlignment="Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Image Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
+        <Grid Grid.Row="0" Width="37" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>
-            <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" Foreground="WhiteSmoke" FontWeight="SemiBold"
+            <StackPanel Margin="1">
+                <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding MyEpisodesBindShort}" Foreground="White" FontWeight="SemiLight" HorizontalAlignment="Center"/>
+                <MenuFlyoutSeparator Background="LightGray" />
+                <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" 
+              Visibility="{Binding Airing,Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".75"/>
+            </Grid.Background>
+            <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" Margin="1"
+                                   Foreground="White" FontSize="20" />
+        </Grid>
+        <Grid Grid.Row="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1.5,0,0"
+              MaxWidth="{Binding MaxWidth}" VerticalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}">
+            <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping ="WrapWholeWords"  TextTrimming="CharacterEllipsis"/>
         </Grid>
-        <Button
-                HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="40"
+        <Button Grid.Row="0"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"
                 Visibility="Visible" RenderTransformOrigin="0.5,0.5" >
             <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                             Foreground="WhiteSmoke">

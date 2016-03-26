@@ -115,7 +115,7 @@
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">

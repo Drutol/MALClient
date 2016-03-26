@@ -43,6 +43,29 @@ namespace MALClient
             }
         }
 
+        public static string StatusToShortString(int status, bool manga = false)
+        {
+            switch (status)
+            {
+                case 1:
+                    return manga ? "R" : "W";
+                case 2:
+                    return "C";
+                case 3:
+                    return "H";
+                case 4:
+                    return "D";
+                case 6:
+                    return "P";
+                case 7:
+                    return "";
+                case 8:
+                    return "";
+                default:
+                    return "N/A";
+            }
+        }
+
         public static int StatusToInt(string status)
         {
             switch (status)
@@ -377,6 +400,5 @@ namespace MALClient
             await Task.Delay(1000);
             await sb.HideAsync();
         }
-
     }
 }

@@ -109,7 +109,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\MalListParameters.cs" />
     <Compile Include="Comm\MalListQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -141,7 +141,7 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
-    <Compile Include="Models\AnimeGeneralDetailsData.cs" />
+    <Compile Include="Models\AnimeDetailsData.cs" />
     <Compile Include="Models\AnimeReviewData.cs" />
     <Compile Include="Models\DirectRecommendationData.cs" />
     <Compile Include="Models\IAnimeData.cs" />

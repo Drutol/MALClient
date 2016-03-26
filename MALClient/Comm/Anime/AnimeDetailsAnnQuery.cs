@@ -7,12 +7,12 @@ using MALClient.Models;
 
 namespace MALClient.Comm
 {
-    public class AnimeGeneralDetailsQuery : Query
+    public class AnimeDetailsAnnQuery : Query
     {
         private readonly int _id;
         private readonly string _rootTitle;
 
-        public AnimeGeneralDetailsQuery(string title, int id, string rootTitle)
+        public AnimeDetailsAnnQuery(string title, int id, string rootTitle)
         {
             title = title.Replace('+', ' ');
             Request =
@@ -24,7 +24,7 @@ namespace MALClient.Comm
             _rootTitle = rootTitle;
         }
 
-        public async Task<AnimeGeneralDetailsData> GetGeneralDetailsData(bool force = false)
+        public async Task<AnimeDetailsData> GetGeneralDetailsData(bool force = false)
         {
             var possibleData = force ? null : await DataCache.RetrieveAnimeGeneralDetailsData(_id);
             if (possibleData != null)
@@ -34,7 +34,7 @@ namespace MALClient.Comm
             if (string.IsNullOrEmpty(raw))
                 return null;
 
-            AnimeGeneralDetailsData output;
+            AnimeDetailsData output;
 
             try
             {
@@ -50,7 +50,7 @@ namespace MALClient.Comm
                 if (node == null)
                     node = nodes.First();
 
-                output = new AnimeGeneralDetailsData
+                output = new AnimeDetailsData
                 {
                     AnnId = node.Attribute("id").Value,
                     Genres =

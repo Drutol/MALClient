@@ -2,7 +2,7 @@
 
 namespace MALClient.Models
 {
-    public class AnimeGeneralDetailsData
+    public class AnimeDetailsData
     {
         public string AnnId;
         public List<string> EDs;

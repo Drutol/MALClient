@@ -885,7 +885,7 @@ namespace MALClient.ViewModels
             {
                 var data =
                     await
-                        new AnimeGeneralDetailsQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms),
+                        new AnimeDetailsAnnQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms),
                             Id, Title).GetGeneralDetailsData(force);
                 AnnId = data.AnnId;
 

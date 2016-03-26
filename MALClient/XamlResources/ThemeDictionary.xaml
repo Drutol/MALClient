@@ -20,7 +20,7 @@
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6"/>
         </ResourceDictionary>        
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="BrushDeepBackground" Color="Black"/>
+            <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d"/>
             <SolidColorBrush x:Key="BrushAppBars" Color="#151515"/>
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020"/>
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1a1a1a"/>

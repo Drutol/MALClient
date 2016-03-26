@@ -320,8 +320,8 @@
                        TextWrapping="WrapWholeWords" Margin="{Binding TitleMargin}" />
         </Grid>
         <Grid Visibility="{Binding TileUrlInputVisibility}" Height="75" BorderThickness="1"
-              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center"
-              Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" Margin="5,5">
+              BorderBrush="{StaticResource FlyoutBorderThemeBrush}" VerticalAlignment="Center"
+              Grid.Column="0" Grid.ColumnSpan="2" Background="{ThemeResource FlyoutBackgroundThemeBrush}" Margin="5,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="35" />
                 <ColumnDefinition Width="*" />

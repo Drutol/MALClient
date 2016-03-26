@@ -52,12 +52,8 @@ namespace MALClient.UserControls
         {
             if (e.AddedItems.Count == 0)
                 return;
-            //var item = e.AddedItems.First() as AnimeItem;
             await Task.Delay(1);
             (e.AddedItems.First() as AnimeItem).ViewModel.NavigateDetails();
-            //ViewModelLocator.AnimeList.CurrentlySelectedAnimeItem = item;
-
-            //item.ViewModel.NavigateDetails();
         }
 
         public void ResetSelection()

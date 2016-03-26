@@ -242,6 +242,7 @@ namespace MALClient.ViewModels
         public bool Auth { get; private set; }
 
         public string MyStatusBind => Utils.StatusToString(MyStatus, !_parentAbstraction.RepresentsAnime);
+        public string MyStatusBindShort => Utils.StatusToShortString(MyStatus, !_parentAbstraction.RepresentsAnime);
 
         public int MyStatus
         {
@@ -258,6 +259,7 @@ namespace MALClient.ViewModels
         }
 
         public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/10";
 
         public int MyScore
         {
@@ -286,6 +288,8 @@ namespace MALClient.ViewModels
                     : $"{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())} Episodes";
             }
         }
+
+        public string MyEpisodesBindShort => MyEpisodes.ToString();
 
         public int MyEpisodes
         {

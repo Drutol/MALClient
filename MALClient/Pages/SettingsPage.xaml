@@ -205,8 +205,8 @@
                                         </Style>
                                     </Grid.Resources>
                                     <TextBlock Margin="0,7" Text="Details page tabs' to be loaded by default"
-                               TextWrapping="WrapWholeWords" Grid.ColumnSpan="2" FontWeight="Medium"
-                               HorizontalAlignment="Center" />
+                                           TextWrapping="WrapWholeWords" Grid.ColumnSpan="2" FontWeight="Medium"
+                                           HorizontalAlignment="Center" />
                                     <StackPanel Grid.Row="1" Grid.Column="0">
                                         <TextBlock Text="Details" FontWeight="SemiLight" />
                                         <ToggleSwitch x:Name="ToggleSwitchDetails" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="0" />
@@ -224,6 +224,15 @@
                                         <ToggleSwitch x:Name="ToggleSwitchRelated" Toggled="ToggleSwitchDetailsAutoLoadChange" Tag="3" />
                                     </StackPanel>
                                 </Grid>
+                            </StackPanel>                            
+                            <MenuFlyoutSeparator Margin="0,5"/>
+                            <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
+                                <TextBlock Margin="0,7" Text="Hide selection flyouts after change:"
+                                           TextWrapping="WrapWholeWords" FontWeight="Medium"
+                                           HorizontalAlignment="Center" />
+                                <ToggleSwitch HorizontalAlignment="Center" Header="View flyout" OnContent="Hide" OffContent="Keep" IsOn="{Binding HideViewSelectionFlyout,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ToggleSwitch HorizontalAlignment="Center" Header="Sorting flyout" OnContent="Hide" OffContent="Keep" IsOn="{Binding HideSortingSelectionFlyout,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ToggleSwitch HorizontalAlignment="Center" Header="Filter flyout" OnContent="Hide" OffContent="Keep" IsOn="{Binding HideFilterSelectionFlyout,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

@@ -74,6 +74,8 @@ namespace MALClient.ViewModels
             get { return _sortOption; }
             set
             {
+                if(_initiazlized && Settings.HideSortingSelectionFlyout)
+                    View.FlyoutSorting.Hide();
                 _sortOption = value;
                 CurrentPosition = 1;
             }
@@ -913,8 +915,12 @@ namespace MALClient.ViewModels
                 _lastOffset = 0;                
                 if (_initiazlized)
                 {
-                    RefreshList(false, true);
+                    if(Settings.HideFilterSelectionFlyout)
+                        View.FlyoutFilters.Hide();
+
                     SetDisplayMode((AnimeStatus)GetDesiredStatus());
+                    RefreshList(false, true);
+                    
                 }
             }
         }
@@ -951,6 +957,8 @@ namespace MALClient.ViewModels
             get { return _sortDescending; }
             set
             {
+                if(_initiazlized && Settings.HideSortingSelectionFlyout)
+                    View.FlyoutSorting.Hide();
                 _sortDescending = value;
                 RaisePropertyChanged(() => SortDescending);
             }
@@ -1058,7 +1066,8 @@ namespace MALClient.ViewModels
                     _manuallySelectedViewMode = value.Item1;
                 _lastOffset = 0;
                 CurrentPosition = 1;
-
+                if(Settings.HideViewSelectionFlyout)
+                    View.FlyoutViews.Hide();
                 RaisePropertyChanged(() => DisplayMode);
                 RefreshList(false,true);
             }

@@ -51,5 +51,23 @@ namespace MALClient.ViewModels
             get { return Settings.LockDisplayMode; }
             set { Settings.LockDisplayMode = value; }
         }
+
+        public bool HideFilterSelectionFlyout
+        {
+            get { return Settings.HideFilterSelectionFlyout; }
+            set { Settings.HideFilterSelectionFlyout = value; }
+        }
+
+        public bool HideViewSelectionFlyout
+        {
+            get { return Settings.HideViewSelectionFlyout; }
+            set { Settings.HideViewSelectionFlyout = value; }
+        }
+
+        public bool HideSortingSelectionFlyout
+        {
+            get { return Settings.HideSortingSelectionFlyout; }
+            set { Settings.HideSortingSelectionFlyout = value; }
+        }
     }
 }

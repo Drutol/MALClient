@@ -90,8 +90,28 @@ namespace MALClient.Pages
                                  : AnimesGridIndefinite), 0), 0) as ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
-        } 
+        }
 
+        public Flyout FlyoutViews => ViewsFlyout;
+        public Flyout FlyoutFilters => FiltersFlyout;
+        public Flyout FlyoutSorting => SortingFlyout;
+
+        #region Init
+
+        public AnimeListPage()
+        {
+            InitializeComponent();
+            ViewModel.View = this;
+            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
+        }
+
+
+        #endregion
 
         public void FlyoutSeasonSelectionHide()
         {
@@ -118,22 +138,6 @@ namespace MALClient.Pages
             }
         }
 
-        #region Init
-
-        public AnimeListPage()
-        {
-            InitializeComponent();
-            ViewModel.View = this;
-            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
-        }
-
-
-        #endregion
 
         #region UIHelpers
 

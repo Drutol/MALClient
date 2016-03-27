@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -512,6 +513,19 @@ namespace MALClient.ViewModels
             get { return _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage)); }
         }
 
+        private ICommand _copyToClipboardCommand;
+
+        public object CopyToClipboardCommand
+        {
+            get { return _copyToClipboardCommand ?? (_copyToClipboardCommand = new RelayCommand(() =>
+            {
+                var dp = new DataPackage();
+                dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                Clipboard.SetContent(dp);
+                Utils.GiveStatusBarFeedback("Copied to clipboard...");
+            })); }
+        }
+
         private BitmapImage _detailImage;
 
         public BitmapImage DetailImage
@@ -643,6 +657,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => NoRelatedDataNoticeVisibility);
             }
         }
+
+
 
         #endregion
 

@@ -174,5 +174,24 @@ namespace MALClient
         }
 
         #endregion
+
+
+        public static bool HideFilterSelectionFlyout
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideFilterSelectionFlyout"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["HideFilterSelectionFlyout"] = value; }
+        }
+
+        public static bool HideViewSelectionFlyout
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideViewSelectionFlyout"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["HideViewSelectionFlyout"] = value; }
+        }
+
+        public static bool HideSortingSelectionFlyout
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] = value; }
+        }
     }
 }

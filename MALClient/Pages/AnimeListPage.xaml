@@ -47,7 +47,7 @@
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="View" Label="Display mode" >
                 <AppBarButton.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="ViewsFlyout">
                         <ListView ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -74,7 +74,7 @@
             </AppBarButton>
             <AppBarButton Icon="Sort" Label="Order by">
                 <AppBarButton.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="SortingFlyout">
                         <StackPanel>
                             <StackPanel.Resources>
                                 <Style TargetType="ToggleMenuFlyoutItem">
@@ -97,7 +97,7 @@
             </AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="FiltersFlyout">
                         <ListView
                             SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             SelectionMode="Single">

@@ -54,14 +54,21 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
-                            <Button Height="50" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}"
+                            <Button Height="40" HorizontalAlignment="Stretch" Command="{Binding CopyToClipboardCommand}"
+                                    Background="{ThemeResource BrushDetailsMoreButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Copy" />
+                                    <TextBlock Margin="10,0,0,0" Text="Copy link to clipboard" />
+                                </StackPanel>
+                            </Button>                            
+                            <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}"
                                     Background="{ThemeResource BrushDetailsMoreButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Globe" />
-                                    <TextBlock Margin="10,0,0,0" Text="Open in browser" />
+                                    <TextBlock Margin="10,0,0,0" Text="       Open in browser" />
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="50"
+                            <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
                                     Command="{Binding AddAnimeCommand}"
                                     Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                     Background="{ThemeResource BrushDetailsMoreButton}" Margin="0,5,0,0">

@@ -851,6 +851,7 @@ namespace MALClient.ViewModels
             _synonyms = animeElement.Element("synonyms").Value.Split(',').ToList();
             _synonyms.Add(animeElement.Element("english").Value);
             _synonyms.Add(Title);
+            
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
             for (var i = 0; i < _synonyms.Count; i++)
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);

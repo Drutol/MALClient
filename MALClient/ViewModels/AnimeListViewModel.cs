@@ -206,9 +206,9 @@ namespace MALClient.ViewModels
                         SetDesiredStatus(null);
                         CurrentSeason = null;
                     }
-                    SwitchFiltersToSeasonal();
-                    SwitchSortingToSeasonal();
+                    StatusAllLabel = WorkMode == AnimeListWorkModes.SeasonalAnime ? "Airing" : "All";
 
+                    Sort3Label = "Index";
                     await FetchSeasonalData();
                     break;
                 default:
@@ -826,19 +826,12 @@ namespace MALClient.ViewModels
 
         #endregion
 
-        private void SwitchSortingToSeasonal()
-        {
-            Sort3Label = "Index";
-        }
 
-        private void SwitchFiltersToSeasonal()
-        {
-            StatusAllLabel = "Airing";
-        }
+
 
         private async void ReloadList()
         {
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                 await FetchSeasonalData(true);
             else
                 await FetchData(true);

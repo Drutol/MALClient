@@ -451,7 +451,7 @@ namespace MALClient.ViewModels
                 return;
             }
 
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 100) ||
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 50 : 100) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {

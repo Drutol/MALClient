@@ -440,6 +440,45 @@ namespace MALClient
             return null;
         }
 
+        #endregion        
+        
+        #region TopAnime
+
+        public static async void SaveTopAnimeData(List<TopAnimeData> data, bool anime = true)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, List<TopAnimeData>>(DateTime.UtcNow, data));
+                    var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"top_{(anime ? "anime" : "manga")}.json",CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+        }
+
+        public static async Task<List<TopAnimeData>> RetrieveTopAnimeData(bool anime = true)
+        {
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"top_{(anime ? "anime" : "manga")}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, List<TopAnimeData>>>(data);
+                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
         #endregion
     }
 }

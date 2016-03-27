@@ -25,7 +25,11 @@ namespace MALClient.Comm
 
         public async Task<List<TopAnimeData>> GetTopAnimeData(bool force = false)
         {
-            var output = new List<TopAnimeData>();
+            var output = force
+                ? new List<TopAnimeData>()
+                : (await DataCache.RetrieveTopAnimeData(_animeMode) ?? new List<TopAnimeData>());
+            if (output.Count > 0)
+                return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
@@ -80,6 +84,8 @@ namespace MALClient.Comm
                     //
                 }
             }
+            DataCache.SaveTopAnimeData(output,_animeMode);
+
             return output;
         }
     }

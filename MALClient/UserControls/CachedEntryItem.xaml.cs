@@ -15,9 +15,7 @@ namespace MALClient.UserControls
         public CachedEntryItem(StorageFile file, bool nonUser)
         {
             InitializeComponent();
-            var user = nonUser ? file.DisplayName.Split('_')[2] : file.DisplayName.Replace('_', ' ');
-            fileName = file.Name;
-            TxtUser.Text = user;
+            TxtUser.Text = file.Name; 
             SetDetails(file);
         }
 

@@ -117,27 +117,27 @@
                                             <Setter Property="Margin" Value="5,5"/>
                                         </Style>
                                     </StackPanel.Resources>
-                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="5,0,0,0">
+                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="3,0,0,0" Padding="5">
                                         <TextBlock Text="Watching/Reading" VerticalAlignment="Center"/>
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForWatching,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
-                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="5,0,0,0">
+                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushRowAlternate1}" BorderThickness="3,0,0,0" Padding="5">
                                         <TextBlock Text="Completed" VerticalAlignment="Center"/>
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForCompleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
-                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="5,0,0,0">
+                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="3,0,0,0" Padding="5">
                                         <TextBlock Text="On hold" VerticalAlignment="Center"/>
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForOnHold,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
-                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="5,0,0,0">
+                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushRowAlternate1}" BorderThickness="3,0,0,0" Padding="5">
                                         <TextBlock Text="Dropped" VerticalAlignment="Center"/>
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForDropped,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
-                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="5,0,0,0">
+                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="3,0,0,0" Padding="5">
                                         <TextBlock Text="Plan to watch/read" VerticalAlignment="Center"/>
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForPlanned,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
-                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="5,0,0,0">
+                                    <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushRowAlternate1}" BorderThickness="3,0,0,0" Padding="5">
                                         <TextBlock Text="All" VerticalAlignment="Center"/>
                                         <ComboBox ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding SelectedDefaultViewForAll,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>

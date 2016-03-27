@@ -169,7 +169,6 @@ namespace MALClient.ViewModels
             if (data.Genres != null)
                 Genres = data.Genres;
             Airing = _parentAbstraction.AirDay >= 0;
-            Synopsis = data.Synopsis;
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
             ShowMoreVisibility = Visibility.Collapsed;
@@ -419,18 +418,6 @@ namespace MALClient.ViewModels
             {
                 _updateButtonsEnableState = value;
                 RaisePropertyChanged(() => UpdateButtonsEnableState);
-            }
-        }
-
-        private string _synopsis;
-
-        public string Synopsis
-        {
-            get { return _synopsis; }
-            set
-            {
-                _synopsis = value;
-                RaisePropertyChanged(() => Synopsis);
             }
         }
 

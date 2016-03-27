@@ -116,16 +116,8 @@ namespace MALClient.Comm
                     {
                         Title = WebUtility.HtmlDecode(imageNode.InnerText.Trim()),
                         //there are some \n that we need to get rid of
-                        MalLink = link,
                         Id = int.Parse(link.Substring(7).Split('/')[2]), //extracted from anime link
                         ImgUrl = img.Split('(', ')')[1], // from image style attr it's between ( )
-                        Synopsis =
-                            HtmlUtilities.ConvertToText(htmlNode.Descendants("div")
-                                .First(
-                                    node =>
-                                        node.Attributes.Contains("class") &&
-                                        node.Attributes["class"].Value == "synopsis js-synopsis")
-                                .InnerText),
                         Score = score, //0 for N/A
                         Episodes =
                             htmlNode.Descendants("div")

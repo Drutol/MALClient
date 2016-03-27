@@ -72,7 +72,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Sort" Label="Order by">
+            <AppBarButton Icon="Sort" Label="Order by" Visibility="{Binding AppBtnSortingVisibility}">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="SortingFlyout">
                         <StackPanel>

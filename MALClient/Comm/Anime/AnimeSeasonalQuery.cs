@@ -33,7 +33,7 @@ namespace MALClient.Comm
             if (output.Count != 0) return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
-                return null;
+                return output;
 
 
             //Get season data - we are getting this only from current season

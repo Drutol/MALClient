@@ -23,7 +23,7 @@ namespace MALClient.Comm
             _animeMode = animeMode;
         }
 
-        public async Task<List<TopAnimeData>> GetTopAnimeData()
+        public async Task<List<TopAnimeData>> GetTopAnimeData(bool force = false)
         {
             var output = new List<TopAnimeData>();
             var raw = await GetRequestResponse();
@@ -40,7 +40,7 @@ namespace MALClient.Comm
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
                             "top-ranking-table"); //constant 20 recommendations
-
+            int i = 0;
             foreach (var item in topNodes.Descendants("tr").Where(node =>
                 node.Attributes.Contains("class") &&
                 node.Attributes["class"].Value ==
@@ -70,7 +70,7 @@ namespace MALClient.Comm
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
                         "text on").InnerText.Trim());
-
+                    current.Index = ++i;
 
 
                     output.Add(current);

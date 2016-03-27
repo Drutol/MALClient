@@ -34,7 +34,7 @@ namespace MALClient.ViewModels
 
         private bool _profileButtonVisibility;
 
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 310 : 360;
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 360 : 410;
             //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;
@@ -157,6 +157,10 @@ namespace MALClient.ViewModels
                     return new SearchPageNavigationArgs {Anime = false};
                 case PageIndex.PageSearch:
                     return new SearchPageNavigationArgs();
+                case PageIndex.PageTopAnime:
+                    return AnimeListPageNavigationArgs.TopAnime;
+                case PageIndex.PageTopManga:
+                    return AnimeListPageNavigationArgs.TopManga;
                 default:
                     return null;
             }
@@ -243,6 +247,8 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["Seasonal"] = new SolidColorBrush(color);
             TxtForegroundBrushes["About"] = new SolidColorBrush(color);
             TxtForegroundBrushes["Recommendations"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["TopAnime"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["TopManga"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -254,6 +260,8 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["Seasonal"] = new Thickness(0);
             TxtBorderBrushThicknesses["About"] = new Thickness(0);
             TxtBorderBrushThicknesses["Recommendations"] = new Thickness(0);
+            TxtBorderBrushThicknesses["TopAnime"] = new Thickness(0);
+            TxtBorderBrushThicknesses["TopManga"] = new Thickness(0);
         }
 
         public void SetActiveButton(HamburgerButtons val)

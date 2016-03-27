@@ -12,6 +12,8 @@
         PageRecomendations,
         PageSeasonal, // it's the same as AnimeList
         PageMangaList,
-        PageMangaSearch
+        PageMangaSearch,
+        PageTopAnime,
+        PageTopManga,
     }
 }

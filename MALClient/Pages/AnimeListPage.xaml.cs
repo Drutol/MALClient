@@ -19,7 +19,9 @@ namespace MALClient.Pages
     {
         Anime,
         SeasonalAnime,
-        Manga
+        Manga,
+        TopAnime,
+        TopManga
     }
 
     public class AnimeListPageNavigationArgs
@@ -57,6 +59,12 @@ namespace MALClient.Pages
 
         public static AnimeListPageNavigationArgs Manga
             => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.Manga};
+
+        public static AnimeListPageNavigationArgs TopAnime
+            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.TopAnime};
+
+        public static AnimeListPageNavigationArgs TopManga
+            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.TopManga};
     }
 
     public enum SortOptions

@@ -142,6 +142,7 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
     <Compile Include="Models\TopAnimeData.cs" />
     <Compile Include="Models\AnimeDetailsData.cs" />
     <Compile Include="Models\AnimeReviewData.cs" />
@@ -168,7 +169,7 @@
     <Compile Include="Pages\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\EnumPages.cs" />
+    <Compile Include="Pages\PageIndex.cs" />
     <Compile Include="Pages\IDetailsPageArgs.cs" />
     <Compile Include="Pages\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>

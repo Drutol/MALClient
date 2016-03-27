@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using MALClient.Models;
 
 namespace MALClient.Items
 {
-    public class SeasonalAnimeData
+    public class SeasonalAnimeData : ISeasonalAnimeBaseData
     {
         public int Id { get; set; }
         public string Title { get; set; }

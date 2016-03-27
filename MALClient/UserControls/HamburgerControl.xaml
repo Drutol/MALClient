@@ -171,11 +171,38 @@
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
+                                            </Button>                                            
+                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                    BorderThickness="0"
+                                                    PointerEntered="Button_PointerEntered"
+                                                    PointerExited="Button_PointerExited"
+                                                    Command="{Binding ButtonNavigationCommand}"
+                                                    CommandParameter="11">
+                                                <Grid Width="220" Height="50">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border
+                                                        BorderThickness="{Binding TxtBorderBrushThicknesses[TopAnime]}"
+                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Grid.ColumnSpan="2" />
+                                                    <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
+                                                    <TextBlock x:Name="TxtTop" Text="Top Anime"
+                                                               FontWeight="Medium"
+                                                               Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
+                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center" />
+                                                </Grid>
                                             </Button>
                                         </StackPanel>
                                     </Grid>
                                 </PivotItem>
-                                <PivotItem Header="Manga" Height="200">
+                                <PivotItem Header="Manga" Height="250">
                                     <Grid>
                                         <StackPanel VerticalAlignment="Top">
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
@@ -225,6 +252,33 @@
                                                     <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
+                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center" />
+                                                </Grid>
+                                            </Button>
+                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                    BorderThickness="0"
+                                                    PointerEntered="Button_PointerEntered"
+                                                    PointerExited="Button_PointerExited"
+                                                    Command="{Binding ButtonNavigationCommand}"
+                                                    CommandParameter="12">
+                                                <Grid Width="220" Height="50">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border
+                                                        BorderThickness="{Binding TxtBorderBrushThicknesses[TopManga]}"
+                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Grid.ColumnSpan="2" />
+                                                    <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
+                                                    <TextBlock x:Name="TxtTopManga" Text="Top Manga"
+                                                               FontWeight="Medium"
+                                                               Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />

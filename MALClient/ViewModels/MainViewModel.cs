@@ -40,7 +40,7 @@ namespace MALClient.ViewModels
             ScrollToTopButtonVisibility = Visibility.Collapsed;
             RefreshButtonVisibility = Visibility.Collapsed;
 
-            if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList)
+            if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList || index == PageIndex.PageTopManga || index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
 
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);

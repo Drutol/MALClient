@@ -65,8 +65,6 @@ namespace MALClient.ViewModels
         public void UpdateWithSeasonData(SeasonalAnimeData data)
         {
             GlobalScore = data.Score;
-            if (data.Genres != null)
-                Genres = data.Genres;
             Airing = data.AirDay >= 0;
             if (!Auth)
             {
@@ -80,6 +78,7 @@ namespace MALClient.ViewModels
         {
             _seasonalState = false;
             RaisePropertyChanged(() => MyEpisodesBind);
+            RaisePropertyChanged(() => AirDayBind);
         }
 
         private async void AddThisToMyList()
@@ -166,8 +165,6 @@ namespace MALClient.ViewModels
             MyStatus = (int) AnimeStatus.AllOrAiring;
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
-            if (data.Genres != null)
-                Genres = data.Genres;
             Airing = _parentAbstraction.AirDay >= 0;
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
@@ -182,7 +179,7 @@ namespace MALClient.ViewModels
         public int AllEpisodes => _allEpisodes;
         public int AllVolumes { get; }
 
-        public string AirDayBind => Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
+        public string AirDayBind => (int)ViewModelLocator.AnimeList.WorkMode >= 11 ? _parentAbstraction.Index.ToString() : Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
         private bool _airing;
 
         public bool Airing
@@ -209,18 +206,6 @@ namespace MALClient.ViewModels
             {
                 _titleMargin = value;
                 RaisePropertyChanged(() => TitleMargin);
-            }
-        }
-
-        private List<string> _genres = new List<string>();
-
-        private List<string> Genres
-        {
-            get { return _genres; }
-            set
-            {
-                _genres = value;
-                RaisePropertyChanged(() => Genres);
             }
         }
 

@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.Models;
 using MALClient.Pages;
 using MALClient.UserControls;
 
@@ -124,7 +125,7 @@ namespace MALClient.ViewModels
                     ListSource = args.ListSource;
                     SortDescending = SortDescending = args.Descending;
                     SetSortOrder(args.SortOption); //index
-                   SetDesiredStatus(args.Status);
+                    SetDesiredStatus(args.Status);
                     CurrentPosition = args.CurrPage;
                     CurrentSeason = args.CurrSeason;
                     DisplayMode = args.DisplayMode;
@@ -145,7 +146,7 @@ namespace MALClient.ViewModels
 
                     AppBtnListSourceVisibility = true;
                     AppbarBtnPinTileVisibility = Visibility.Collapsed;
-
+                    AppBtnSortingVisibility = Visibility.Visible;
                     if (WorkMode == AnimeListWorkModes.Anime)
                     {
                         SortAirDayVisibility = Visibility.Visible;
@@ -182,10 +183,16 @@ namespace MALClient.ViewModels
 
                     break;
                 case AnimeListWorkModes.SeasonalAnime:
+                case AnimeListWorkModes.TopAnime:
+                case AnimeListWorkModes.TopManga:
                     NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
                     Loading = true;
                     EmptyNoticeVisibility = false;
-                    AppbarBtnPinTileVisibility = Visibility.Visible;
+                    if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Collapsed;
+                    else
+                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Visible;
+
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
@@ -237,6 +244,8 @@ namespace MALClient.ViewModels
                         items = _allLoadedAnimeItems;
                         break;
                     case AnimeListWorkModes.SeasonalAnime:
+                    case AnimeListWorkModes.TopAnime:
+                    case AnimeListWorkModes.TopManga:
                         items = _allLoadedSeasonalAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
@@ -250,50 +259,53 @@ namespace MALClient.ViewModels
 
                 if (queryCondition)
                     items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
+                if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+                    items = items.OrderBy(item => item.Index);
+                else
+                    switch (SortOption)
+                    {
+                        case SortOptions.SortTitle:
+                            items = items.OrderBy(item => item.Title);
+                            break;
+                        case SortOptions.SortScore:
+                            if (WorkMode != AnimeListWorkModes.SeasonalAnime)
+                                items = items.OrderBy(item => item.MyScore);
+                            else
+                                items = items.OrderBy(item => item.GlobalScore);
+                            break;
+                        case SortOptions.SortWatched:
+                            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+                                items = items.OrderBy(item => item.Index);
+                            else
+                                items = items.OrderBy(item => item.MyEpisodes);
+                            break;
+                        case SortOptions.SortNothing:
+                            break;
+                        case SortOptions.SortAirDay:
+                            var today = (int) DateTime.Now.DayOfWeek;
+                            today++;
+                            var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
+                            var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
+                            var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
+                            var airingBeforeToday = airingItems.Where(abstraction => abstraction.AirDay < today);
+                            if (SortDescending)
+                                items =
+                                    airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                                        .Concat(
+                                            airingBeforeToday.OrderByDescending(
+                                                abstraction => today - abstraction.AirDay)
+                                                .Concat(nonAiringItems));
+                            else
+                                items =
+                                    airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                        .Concat(
+                                            airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                                .Concat(nonAiringItems));
 
-                switch (SortOption)
-                {
-                    case SortOptions.SortTitle:
-                        items = items.OrderBy(item => item.Title);
-                        break;
-                    case SortOptions.SortScore:
-                        if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                            items = items.OrderBy(item => item.MyScore);
-                        else
-                            items = items.OrderBy(item => item.GlobalScore);
-                        break;
-                    case SortOptions.SortWatched:
-                        if (WorkMode == AnimeListWorkModes.SeasonalAnime)
-                            items = items.OrderBy(item => item.Index);
-                        else
-                            items = items.OrderBy(item => item.MyEpisodes);
-                        break;
-                    case SortOptions.SortNothing:
-                        break;
-                    case SortOptions.SortAirDay:
-                        var today = (int) DateTime.Now.DayOfWeek;
-                        today++;
-                        var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
-                        var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
-                        var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
-                        var airingBeforeToday = airingItems.Where(abstraction => abstraction.AirDay < today);
-                        if (SortDescending)
-                            items =
-                                airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                                    .Concat(
-                                        airingBeforeToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                                            .Concat(nonAiringItems));
-                        else
-                            items =
-                                airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                    .Concat(
-                                        airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                            .Concat(nonAiringItems));
-
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
-                }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
+                    }
                 //If we are descending then reverse order
                 if (SortDescending && SortOption != SortOptions.SortAirDay)
                     items = items.Reverse();
@@ -391,7 +403,13 @@ namespace MALClient.ViewModels
                 if (page != null)
 
                     if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                        if (!string.IsNullOrWhiteSpace(ListSource))
+                        if(WorkMode == AnimeListWorkModes.TopAnime)
+                            page.CurrentStatus =
+                                $"Top Anime - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                        else if(WorkMode == AnimeListWorkModes.TopManga)
+                            page.CurrentStatus =
+                                $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                        else if (!string.IsNullOrWhiteSpace(ListSource))
                             page.CurrentStatus =
                                 $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                         else
@@ -558,77 +576,102 @@ namespace MALClient.ViewModels
         {
             Loading = true;
             EmptyNoticeVisibility = false;
-            var setDefaultSeason = false;
-            if (CurrentSeason == null)
+            switch (WorkMode)
             {
-                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
-                setDefaultSeason = true;
-            }
-            Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
-            var data = new List<SeasonalAnimeData>();
-            await Task.Run(async () => data = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force));
-            if (data == null)
-            {
-                await RefreshList();
-                Loading = false;
-                return;
-            }
-            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-            var source = _allLoadedAuthAnimeItems.Count > 0 ? _allLoadedAuthAnimeItems : new List<AnimeItemAbstraction>();
-            foreach (var animeData in data)
-            {
-                try
-                {
-                    DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
+                case AnimeListWorkModes.SeasonalAnime:
+                case AnimeListWorkModes.TopAnime:
+                    var setDefaultSeason = false;
+                    if (CurrentSeason == null)
                     {
-                        DayOfAiring = animeData.AirDay, GlobalScore = animeData.Score, Genres = animeData.Genres
-                    });
-                    var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
-                    if (abstraction == null)
-                        _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData));
-                    else
-                    {
-                        abstraction.AirDay = animeData.AirDay;
-                        abstraction.GlobalScore = animeData.Score;
-                        abstraction.ViewModel.UpdateWithSeasonData(animeData);
-                        _allLoadedSeasonalAnimeItems.Add(abstraction);
+                        CurrentSeason = new AnimeSeason { Name = "Airing", Url = "http://myanimelist.net/anime/season" };
+                        setDefaultSeason = true;
                     }
-                }
-                catch (Exception e)
-                {
-                    // wat
-                }
-            }
-
-            SeasonSelection.Clear();
-            var i = 0;
-            var currSeasonIndex = -1;
-            foreach (var seasonalUrl in DataCache.SeasonalUrls)
-            {
-                if (seasonalUrl.Key != "current")
-                {
-                    SeasonSelection.Add(new ListViewItem
+                    Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
+                    List<ISeasonalAnimeBaseData> data = new List<ISeasonalAnimeBaseData>();
+                    switch (WorkMode)
                     {
-                        Content = seasonalUrl.Key, Tag = new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value}
-                    });
-                    i++;
-                }
-                else
-                    currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
-                if (seasonalUrl.Key == CurrentSeason.Name)
-                {
-                    _seasonalUrlsSelectedIndex = i - 1;
-                    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-                }
+                        case AnimeListWorkModes.SeasonalAnime:
+                            await Task.Run(async () =>
+                             data.AddRange(await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
+                            break;
+                        case AnimeListWorkModes.TopAnime:
+                            await Task.Run(async () =>
+                            data.AddRange(await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
+                            break;
+                    }
+                    
+                    if (data.Count == 0)
+                    {
+                        await RefreshList();
+                        Loading = false;
+                        return;
+                    }
+                    _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
+                    var source = _allLoadedAuthAnimeItems.Count > 0 ? _allLoadedAuthAnimeItems : new List<AnimeItemAbstraction>();
+                    foreach (var animeData in data)
+                    {
+                        try
+                        {
+                            DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
+                            {
+                                DayOfAiring = animeData.AirDay,
+                                GlobalScore = animeData.Score,
+                                Genres = animeData.Genres
+                            });
+                            var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
+                            if (abstraction == null)
+                                _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData));
+                            else
+                            {
+                                abstraction.AirDay = animeData.AirDay;
+                                abstraction.GlobalScore = animeData.Score;
+                                abstraction.Index = animeData.Index;
+                                abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData);
+                                _allLoadedSeasonalAnimeItems.Add(abstraction);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // wat
+                        }
+                    }
+
+                    SeasonSelection.Clear();
+                    var i = 0;
+                    var currSeasonIndex = -1;
+                    foreach (var seasonalUrl in DataCache.SeasonalUrls)
+                    {
+                        if (seasonalUrl.Key != "current")
+                        {
+                            SeasonSelection.Add(new ListViewItem
+                            {
+                                Content = seasonalUrl.Key,
+                                Tag = new AnimeSeason { Name = seasonalUrl.Key, Url = seasonalUrl.Value }
+                            });
+                            i++;
+                        }
+                        else
+                            currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
+                        if (seasonalUrl.Key == CurrentSeason.Name)
+                        {
+                            _seasonalUrlsSelectedIndex = i - 1;
+                            RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                        }
+                    }
+                    //we have set artificial default one because we did not know what lays ahead of us
+                    if (setDefaultSeason && currSeasonIndex != -1)
+                    {
+                        CurrentSeason = SeasonSelection[currSeasonIndex].Tag as AnimeSeason;
+                        _seasonalUrlsSelectedIndex = currSeasonIndex;
+                        RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                    }
+                    DataCache.SaveVolatileData();
+                    break;
+                case AnimeListWorkModes.TopManga:
+
+                    break;
             }
-            //we have set artificial default one because we did not know what lays ahead of us
-            if (setDefaultSeason && currSeasonIndex != -1)
-            {
-                CurrentSeason = SeasonSelection[currSeasonIndex].Tag as AnimeSeason;
-                _seasonalUrlsSelectedIndex = currSeasonIndex;
-                RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-            }
-            DataCache.SaveVolatileData();
+            
 
             await RefreshList();
             Loading = false;
@@ -895,6 +938,18 @@ namespace MALClient.ViewModels
             {
                 _appBtnGoBackToMyListVisibility = value;
                 RaisePropertyChanged(() => AppBtnGoBackToMyListVisibility);
+            }
+        }
+
+        private Visibility _appBtnSortingVisibility = Visibility.Collapsed;
+
+        public Visibility AppBtnSortingVisibility
+        {
+            get { return _appBtnSortingVisibility; }
+            set
+            {
+                _appBtnSortingVisibility = value;
+                RaisePropertyChanged(() => AppBtnSortingVisibility);
             }
         }
 
@@ -1217,7 +1272,7 @@ namespace MALClient.ViewModels
         private void SetDesiredStatus(int? value)
         {
             bool setDisp = value == null;
-            if (value == null && WorkMode == AnimeListWorkModes.SeasonalAnime)
+            if (value == null && (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga))
                 value = (int) AnimeStatus.AllOrAiring;
 
             value = value ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.DefaultMangaFilter : Settings.DefaultAnimeFilter);

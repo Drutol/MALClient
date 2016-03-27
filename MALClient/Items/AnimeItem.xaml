@@ -163,10 +163,10 @@
         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch">
             <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right">
-                <Grid Visibility="{Binding Airing,Converter={StaticResource BoolToVisibilityConverter}}"
+                <Grid Visibility="{Binding AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter}}"
                       HorizontalAlignment="Right">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                          Width="50" Height="30">
+                          Width="45" Height="30">
                         <Grid.Background>
                             <SolidColorBrush Color="Black" Opacity=".5" />
                         </Grid.Background>

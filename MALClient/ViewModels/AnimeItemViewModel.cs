@@ -179,7 +179,12 @@ namespace MALClient.ViewModels
         public int AllEpisodes => _allEpisodes;
         public int AllVolumes { get; }
 
-        public string AirDayBind => (int)ViewModelLocator.AnimeList.WorkMode >= 11 ? _parentAbstraction.Index.ToString() : Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
+        public string AirDayBind
+            =>
+                ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopAnime ||
+                ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopManga
+                    ? _parentAbstraction.Index.ToString()
+                    : Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
         private bool _airing;
 
         public bool Airing

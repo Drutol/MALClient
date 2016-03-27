@@ -44,6 +44,7 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedMangaItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
+        private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
         private int _allPages;
 
@@ -66,7 +67,7 @@ namespace MALClient.ViewModels
         private SortOptions _sortOption = SortOptions.SortNothing;
         private bool _wasPreviousQuery;
         public AnimeSeason CurrentSeason;
-        
+
 
         public ObservableCollection<ListViewItem> SeasonSelection { get; } = new ObservableCollection<ListViewItem>();
 
@@ -75,7 +76,7 @@ namespace MALClient.ViewModels
             get { return _sortOption; }
             set
             {
-                if(_initiazlized && Settings.HideSortingSelectionFlyout)
+                if (_initiazlized && Settings.HideSortingSelectionFlyout)
                     View.FlyoutSorting.Hide();
                 _sortOption = value;
                 CurrentPosition = 1;
@@ -86,9 +87,10 @@ namespace MALClient.ViewModels
 
         public bool CanAddScrollHandler;
         private bool _scrollHandlerAdded;
+
         private void AddScrollHandler()
         {
-            if(DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
+            if (DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
                 return;
             _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
             _scrollHandlerAdded = true;
@@ -245,11 +247,13 @@ namespace MALClient.ViewModels
                         break;
                     case AnimeListWorkModes.SeasonalAnime:
                     case AnimeListWorkModes.TopAnime:
-                    case AnimeListWorkModes.TopManga:
                         items = _allLoadedSeasonalAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
                         items = _allLoadedMangaItems;
+                        break;
+                    case AnimeListWorkModes.TopManga:
+                        items = _allLoadedSeasonalMangaItems;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -325,7 +329,7 @@ namespace MALClient.ViewModels
             UpdateUpperStatus();
         }
 
-       
+
 
         //private string GetLastUpdatedStatus()
         //{
@@ -403,10 +407,10 @@ namespace MALClient.ViewModels
                 if (page != null)
 
                     if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                        if(WorkMode == AnimeListWorkModes.TopAnime)
+                        if (WorkMode == AnimeListWorkModes.TopAnime)
                             page.CurrentStatus =
                                 $"Top Anime - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else if(WorkMode == AnimeListWorkModes.TopManga)
+                        else if (WorkMode == AnimeListWorkModes.TopManga)
                             page.CurrentStatus =
                                 $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                         else if (!string.IsNullOrWhiteSpace(ListSource))
@@ -430,12 +434,16 @@ namespace MALClient.ViewModels
         }
 
         #region IndefiniteScrollerino
+
         private int _lastOffset;
+
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs args)
         {
-            var offset = (int)Math.Ceiling(args.FinalView.VerticalOffset);
+            var offset = (int) Math.Ceiling(args.FinalView.VerticalOffset);
             CurrentPosition = offset;
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300 ? Visibility.Visible : Visibility.Collapsed;
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300
+                ? Visibility.Visible
+                : Visibility.Collapsed;
             if (_animeItemsSet.Count == 0)
             {
                 //View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging; //this the owari... no need to subscribe to this event anymore
@@ -443,8 +451,8 @@ namespace MALClient.ViewModels
                 return;
             }
 
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 150) || 
-                (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) || 
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 100) ||
+                (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
                 _lastOffset = offset;
@@ -464,7 +472,7 @@ namespace MALClient.ViewModels
                         }
                         break;
                 }
-                
+
             }
         }
 
@@ -480,6 +488,7 @@ namespace MALClient.ViewModels
             View.IndefiniteScrollViewer.ScrollToVerticalOffset(0);
             ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
+
         #endregion
 
         #region Pagination
@@ -510,7 +519,9 @@ namespace MALClient.ViewModels
                     {
                         AnimePages.Add(new PivotItem
                         {
-                            Header = $"{i + 1}", Content = new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage*i).Take(_itemsPerPage))
+                            Header = $"{i + 1}",
+                            Content =
+                                new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage*i).Take(_itemsPerPage))
                         });
                     }
                     CanLoadPages = true;
@@ -542,15 +553,16 @@ namespace MALClient.ViewModels
                     RaisePropertyChanged(() => AnimeItems);
                     RaisePropertyChanged(() => AnimeGridItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
-                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);      
-                    AddScrollHandler(); //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
+                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+                    AddScrollHandler();
+                        //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
-                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition/100))
+                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition/200))
                     {
                         _animeGridItems.Add(itemAbstraction.AnimeGridItem);
                     }
-                    for (int i = 0; i < 6 + CurrentPosition/100 && _animeItemsSet.Count > 0; i++)
+                    for (int i = 0; i < 6 + CurrentPosition/200 && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
@@ -559,12 +571,14 @@ namespace MALClient.ViewModels
                     RaisePropertyChanged(() => AnimeGridItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
                     ScrollToWithDelay(500);
-                    AddScrollHandler();             
+                    AddScrollHandler();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300 ? Visibility.Visible : Visibility.Collapsed;
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300
+                ? Visibility.Visible
+                : Visibility.Collapsed;
             Loading = false;
         }
 
@@ -576,105 +590,116 @@ namespace MALClient.ViewModels
         {
             Loading = true;
             EmptyNoticeVisibility = false;
+            var setDefaultSeason = false;
+            if (CurrentSeason == null)
+            {
+                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
+                setDefaultSeason = true;
+            }
+            Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
+            //get top or seasonal anime
+            List<ISeasonalAnimeBaseData> data = new List<ISeasonalAnimeBaseData>();
             switch (WorkMode)
             {
                 case AnimeListWorkModes.SeasonalAnime:
-                case AnimeListWorkModes.TopAnime:
-                    var setDefaultSeason = false;
-                    if (CurrentSeason == null)
-                    {
-                        CurrentSeason = new AnimeSeason { Name = "Airing", Url = "http://myanimelist.net/anime/season" };
-                        setDefaultSeason = true;
-                    }
-                    Utils.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
-                    List<ISeasonalAnimeBaseData> data = new List<ISeasonalAnimeBaseData>();
-                    switch (WorkMode)
-                    {
-                        case AnimeListWorkModes.SeasonalAnime:
-                            await Task.Run(async () =>
-                             data.AddRange(await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
-                            break;
-                        case AnimeListWorkModes.TopAnime:
-                            await Task.Run(async () =>
-                            data.AddRange(await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
-                            break;
-                    }
-                    
-                    if (data.Count == 0)
-                    {
-                        await RefreshList();
-                        Loading = false;
-                        return;
-                    }
-                    _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-                    var source = _allLoadedAuthAnimeItems.Count > 0 ? _allLoadedAuthAnimeItems : new List<AnimeItemAbstraction>();
-                    foreach (var animeData in data)
-                    {
-                        try
-                        {
-                            DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
-                            {
-                                DayOfAiring = animeData.AirDay,
-                                GlobalScore = animeData.Score,
-                                Genres = animeData.Genres
-                            });
-                            var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
-                            if (abstraction == null)
-                                _allLoadedSeasonalAnimeItems.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData));
-                            else
-                            {
-                                abstraction.AirDay = animeData.AirDay;
-                                abstraction.GlobalScore = animeData.Score;
-                                abstraction.Index = animeData.Index;
-                                abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData);
-                                _allLoadedSeasonalAnimeItems.Add(abstraction);
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            // wat
-                        }
-                    }
-
-                    SeasonSelection.Clear();
-                    var i = 0;
-                    var currSeasonIndex = -1;
-                    foreach (var seasonalUrl in DataCache.SeasonalUrls)
-                    {
-                        if (seasonalUrl.Key != "current")
-                        {
-                            SeasonSelection.Add(new ListViewItem
-                            {
-                                Content = seasonalUrl.Key,
-                                Tag = new AnimeSeason { Name = seasonalUrl.Key, Url = seasonalUrl.Value }
-                            });
-                            i++;
-                        }
-                        else
-                            currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
-                        if (seasonalUrl.Key == CurrentSeason.Name)
-                        {
-                            _seasonalUrlsSelectedIndex = i - 1;
-                            RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-                        }
-                    }
-                    //we have set artificial default one because we did not know what lays ahead of us
-                    if (setDefaultSeason && currSeasonIndex != -1)
-                    {
-                        CurrentSeason = SeasonSelection[currSeasonIndex].Tag as AnimeSeason;
-                        _seasonalUrlsSelectedIndex = currSeasonIndex;
-                        RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-                    }
-                    DataCache.SaveVolatileData();
+                    await Task.Run(async () =>
+                        data.AddRange(await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
                     break;
+                case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-
+                    await Task.Run(async () =>
+                        data.AddRange(
+                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
                     break;
             }
-            
+            //if we don't have any we cannot do anything I guess...
+            if (data.Count == 0)
+            {
+                await RefreshList();
+                Loading = false;
+                return;
+            }
+            List<AnimeItemAbstraction> source;
+            List<AnimeItemAbstraction> target;
+            if (WorkMode == AnimeListWorkModes.TopManga)
+            {
+                target = _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
+                source = _allLoadedAuthMangaItems.Count > 0
+                    ? _allLoadedAuthMangaItems
+                    : new List<AnimeItemAbstraction>();
+            }       
+            else
+            {
+                target = _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
+                source = _allLoadedAuthAnimeItems.Count > 0
+                    ? _allLoadedAuthAnimeItems
+                    : new List<AnimeItemAbstraction>();
 
+            }
+
+
+            foreach (var animeData in data)
+            {
+                try
+                {
+                    if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+                        DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
+                        {
+                            DayOfAiring = animeData.AirDay,
+                            GlobalScore = animeData.Score,
+                            Genres = animeData.Genres
+                        });
+                    var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
+                    if (abstraction == null)
+                        target.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData,WorkMode != AnimeListWorkModes.TopManga));
+                    else
+                    {
+                        abstraction.AirDay = animeData.AirDay;
+                        abstraction.GlobalScore = animeData.Score;
+                        abstraction.Index = animeData.Index;
+                        abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData);
+                        target.Add(abstraction);
+                    }
+                }
+                catch (Exception)
+                {
+                    // wat
+                }
+            }
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+            {
+                SeasonSelection.Clear();
+                var i = 0;
+                var currSeasonIndex = -1;
+                foreach (var seasonalUrl in DataCache.SeasonalUrls)
+                {
+                    if (seasonalUrl.Key != "current")
+                    {
+                        SeasonSelection.Add(new ListViewItem
+                        {
+                            Content = seasonalUrl.Key,
+                            Tag = new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value}
+                        });
+                        i++;
+                    }
+                    else
+                        currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
+                    if (seasonalUrl.Key == CurrentSeason.Name)
+                    {
+                        _seasonalUrlsSelectedIndex = i - 1;
+                        RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                    }
+                }
+                //we have set artificial default one because we did not know what lays ahead of us
+                if (setDefaultSeason && currSeasonIndex != -1)
+                {
+                    CurrentSeason = SeasonSelection[currSeasonIndex].Tag as AnimeSeason;
+                    _seasonalUrlsSelectedIndex = currSeasonIndex;
+                    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                }
+                DataCache.SaveVolatileData();
+            }
             await RefreshList();
-            Loading = false;
         }
 
         public async Task FetchData(bool force = false)

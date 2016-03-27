@@ -12,6 +12,7 @@
     
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -31,8 +32,8 @@
                 <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" 
-              Visibility="{Binding Airing,Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid Grid.Row="0" Width="45" HorizontalAlignment="Left" VerticalAlignment="Top" 
+              Visibility="{Binding AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>

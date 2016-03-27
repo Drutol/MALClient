@@ -17,7 +17,7 @@ namespace MALClient.Comm
         public AnimeTopQuery(bool animeMode = true)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString("http://myanimelist.net/topanime.php"));
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(animeMode ? "topanime" : "topmanga")}.php"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeMode = animeMode;

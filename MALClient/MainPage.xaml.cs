@@ -21,7 +21,6 @@ namespace MALClient
             InitializeComponent();
             Utils.CheckTiles();
             ViewModelLocator.Main.View = this;
-            new AnimeTopQuery().GetTopAnimeData();
         }
 #pragma warning restore 4014
 

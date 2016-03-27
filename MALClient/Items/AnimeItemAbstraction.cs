@@ -83,7 +83,7 @@ namespace MALClient.Items
             Title = name;
         }
 
-        public AnimeItemAbstraction(SeasonalAnimeData data)
+        public AnimeItemAbstraction(SeasonalAnimeData data,bool anime)
             : this(data.Id)
         {
             this.data = data;
@@ -91,7 +91,7 @@ namespace MALClient.Items
             Title = data.Title;
             GlobalScore = data.Score;
             Index = data.Index;
-
+            RepresentsAnime = anime;
             MyStatus = (int) AnimeStatus.AllOrAiring;
         }
 
@@ -169,8 +169,10 @@ namespace MALClient.Items
                 return _firstConstructor
                     ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
                     : new AnimeItemViewModel(data, this);
-            return new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps,
-                myVolumes, allVolumes);
+            return
+                _firstConstructor
+                    ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps,myVolumes, allVolumes)
+                    : new AnimeItemViewModel(data, this); 
         }
 
         private AnimeItem LoadElement()

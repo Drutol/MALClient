@@ -623,6 +623,10 @@ namespace MALClient.ViewModels
             List<AnimeItemAbstraction> target;
             if (WorkMode == AnimeListWorkModes.TopManga)
             {
+                //We have to load base mnga item first if not loaded before.
+                if (_allLoadedMangaItems.Count == 0 && !_attemptedMangaFetch)
+                    await FetchData(false, AnimeListWorkModes.Manga);
+
                 target = _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
                 source = _allLoadedAuthMangaItems.Count > 0
                     ? _allLoadedAuthMangaItems
@@ -702,9 +706,14 @@ namespace MALClient.ViewModels
             await RefreshList();
         }
 
-        public async Task FetchData(bool force = false)
+
+        private bool _attemptedMangaFetch;
+        public async Task FetchData(bool force = false,AnimeListWorkModes? modeOverride = null)
         {
-            if (!force && _prevListSource == ListSource && _prevWorkMode == WorkMode)
+            AnimeListWorkModes requestedMode;
+            requestedMode = modeOverride ?? WorkMode;
+
+            if (!force && _prevListSource == ListSource && _prevWorkMode == requestedMode)
             {
                 foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.LoadedAnime))
                 {
@@ -713,7 +722,8 @@ namespace MALClient.ViewModels
                 await RefreshList();
                 return;
             }
-            _prevWorkMode = WorkMode;
+            if (WorkMode == requestedMode)
+                _prevWorkMode = WorkMode;
             _prevListSource = ListSource;
 
             Loading = true;
@@ -731,7 +741,7 @@ namespace MALClient.ViewModels
                 EmptyNoticeContent = "We have come up empty...";
             }
 
-            switch (WorkMode)
+            switch (requestedMode)
             {
                 case AnimeListWorkModes.Anime:
                     _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
@@ -741,6 +751,7 @@ namespace MALClient.ViewModels
                         _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
                     break;
                 case AnimeListWorkModes.Manga:
+                    _attemptedMangaFetch = true;
                     _allLoadedMangaItems = new List<AnimeItemAbstraction>();
                     if (force)
                         _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
@@ -752,9 +763,9 @@ namespace MALClient.ViewModels
             }
 
 
-            if (WorkMode == AnimeListWorkModes.Anime ? _allLoadedAnimeItems.Count == 0 : _allLoadedMangaItems.Count == 0)
+            if (requestedMode == AnimeListWorkModes.Anime ? _allLoadedAnimeItems.Count == 0 : _allLoadedMangaItems.Count == 0)
             {
-                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource, WorkMode);
+                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource, requestedMode);
                 var data = "";
                 if (possibleCachedData != null)
                 {
@@ -765,7 +776,7 @@ namespace MALClient.ViewModels
                 {
                     var args = new MalListParameters
                     {
-                        Status = "all", Type = WorkMode == AnimeListWorkModes.Anime ? "anime" : "manga", User = ListSource
+                        Status = "all", Type = requestedMode == AnimeListWorkModes.Anime ? "anime" : "manga", User = ListSource
                     };
                     await Task.Run(async () => data = await new MalListQuery(args).GetRequestResponse());
                     if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
@@ -775,11 +786,11 @@ namespace MALClient.ViewModels
                         Loading = false;
                         return;
                     }
-                    DataCache.SaveDataForUser(ListSource, data, WorkMode);
+                    DataCache.SaveDataForUser(ListSource, data, requestedMode);
                 }
                 var parsedData = XDocument.Parse(data);
                 var auth = Creditentials.Authenticated && string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase);
-                switch (WorkMode)
+                switch (requestedMode)
                 {
                     case AnimeListWorkModes.Anime:
                         var anime = parsedData.Root.Elements("anime").ToList();
@@ -803,6 +814,9 @@ namespace MALClient.ViewModels
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            if (WorkMode != requestedMode)
+                return; // manga is loaded top manga can proceed loading
 
             AppBtnGoBackToMyListVisibility = Creditentials.Authenticated && !string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
 

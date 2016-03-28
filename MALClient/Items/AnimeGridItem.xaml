@@ -32,7 +32,7 @@
                 <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="0" Width="45" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+        <Grid Grid.Row="0" Width="45" HorizontalAlignment="Left" VerticalAlignment="Top" 
               Visibility="{Binding AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>
@@ -41,12 +41,12 @@
                                    HorizontalAlignment="Center" Margin="1"
                                    Foreground="White" FontSize="20" />
         </Grid>        
-        <Grid Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Top" 
+        <Grid Grid.Row="0"  HorizontalAlignment="Right" VerticalAlignment="Bottom" 
               Visibility="{Binding Type,Converter={StaticResource AnyTextToVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>
-            <TextBlock Text="{Binding Type}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic" FontSize="13" VerticalAlignment="Bottom"  Margin="0,0,5,5"/>
+            <TextBlock Text="{Binding Type}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic" FontSize="13" VerticalAlignment="Bottom"  Margin="5,0,5,5"/>
         </Grid>
         <Grid Grid.Row="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1.5,0,0"
               MaxWidth="{Binding MaxWidth}" VerticalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}">

@@ -32,9 +32,13 @@ namespace MALClient.ViewModels
             _currrentFilter = null;
             _animeSearch = args.Anime;
             if (!string.IsNullOrWhiteSpace(args.Query))
+            {
+                ViewModelLocator.Main.PopulateSearchFilters(_filters);
                 SubmitQuery(args.Query);
+            }
             else
             {
+                _filters.Clear();
                 AnimeSearchItems.Clear();
                 ResetQuery();
             }

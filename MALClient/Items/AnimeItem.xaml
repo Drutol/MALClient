@@ -201,32 +201,35 @@
                     <RowDefinition Height="42" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Button Grid.Column="1" Grid.ColumnSpan="2" Content="{Binding MyEpisodesBind}"
+                <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13" VerticalAlignment="Bottom"  Margin="0,0,5,5"/>
+                    <Button  Content="{Binding MyEpisodesBind}"
                         Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiLight"
                         Margin="0,0,0,5" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0,0,0,2"
                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         IsEnabled="{Binding UpdateButtonsEnableState}"
                         HorizontalAlignment="Right">
-                    <Button.Flyout>
-                        <Flyout x:Name="WatchedEpsFlyout">
-                            <StackPanel>
-                                <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
+                        <Button.Flyout>
+                            <Flyout x:Name="WatchedEpsFlyout">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
                                            FontWeight="SemiLight" />
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
                                              Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              KeyDown="SubmitWatchedEps" />
-                                    <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
-                                        <SymbolIcon Symbol="Accept" />
-                                    </Button>
-                                </StackPanel>
-                                <TextBlock Text="Wrong input!"
+                                        <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
+                                            <SymbolIcon Symbol="Accept" />
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock Text="Wrong input!"
                                            HorizontalAlignment="Center" FontWeight="SemiLight"
                                            Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
                 <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind}" Margin="0,0,1,0"
                         Style="{StaticResource ButtonDisabledStyle}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}"

@@ -56,6 +56,15 @@ namespace MALClient
             else //take an element from stack otherwise
                 await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
 
+            if (_args is AnimeListPageNavigationArgs)
+            {
+                var param = (AnimeListPageNavigationArgs) _args;
+                if (param.WorkMode == AnimeListWorkModes.TopManga)
+                    _pageTo = PageIndex.PageTopManga;
+                else if(param.WorkMode == AnimeListWorkModes.TopAnime)
+                    _pageTo = PageIndex.PageTopAnime;
+            }
+
             ViewModelLocator.Hamburger.SetActiveButton(Utils.GetButtonForPage(_pageTo));
         }
 

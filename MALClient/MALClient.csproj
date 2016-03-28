@@ -200,6 +200,7 @@
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\AnimeStatusEnum.cs" />
+    <Compile Include="Utils\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Creditentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\NavMgr.cs" />

@@ -411,7 +411,7 @@ namespace MALClient.ViewModels
             ViewModelLocator.SearchPage.SubmitFilter(SearchFilterOptions[SearchFilterSelectedIndex]);
         }
 
-        public void ResetSearchFilter()
+        private void ResetSearchFilter()
         {
             SearchFilterButtonVisibility = Visibility.Collapsed;
             SearchFilterButtonBrush = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light ? Colors.Black : Colors.FloralWhite);

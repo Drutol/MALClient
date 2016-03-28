@@ -784,7 +784,7 @@ namespace MALClient.ViewModels
                     case AnimeListWorkModes.Anime:
                         var anime = parsedData.Root.Elements("anime").ToList();
                         foreach (var item in anime)
-                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_animedb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_watched_episodes").Value), Convert.ToInt32(item.Element("series_episodes").Value), Convert.ToInt32(item.Element("my_score").Value)));
+                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_type").Value), Convert.ToInt32(item.Element("series_animedb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_watched_episodes").Value), Convert.ToInt32(item.Element("series_episodes").Value), Convert.ToInt32(item.Element("my_score").Value)));
 
                         //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
                         if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
@@ -793,7 +793,7 @@ namespace MALClient.ViewModels
                     case AnimeListWorkModes.Manga:
                         var manga = parsedData.Root.Elements("manga").ToList();
                         foreach (var item in manga)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value), Convert.ToInt32(item.Element("my_read_volumes").Value), Convert.ToInt32(item.Element("series_volumes").Value)));
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value, item.Element("series_image").Value, Convert.ToInt32(item.Element("series_type").Value), Convert.ToInt32(item.Element("series_mangadb_id").Value), Convert.ToInt32(item.Element("my_status").Value), Convert.ToInt32(item.Element("my_read_chapters").Value), Convert.ToInt32(item.Element("series_chapters").Value), Convert.ToInt32(item.Element("my_score").Value), Convert.ToInt32(item.Element("my_read_volumes").Value), Convert.ToInt32(item.Element("series_volumes").Value)));
 
                         //_allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
                         if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))

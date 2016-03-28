@@ -52,6 +52,9 @@ namespace MALClient.Items
             get { return myStatus; }
             set { myStatus = value; }
         }
+
+        public int Type { get; set; }
+
         public int MyVolumes;
 
         public bool RepresentsAnime = true;
@@ -67,7 +70,7 @@ namespace MALClient.Items
         }
 
         //three constructors depending on original init
-        public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
+        public AnimeItemAbstraction(bool auth, string name, string img,int type, int id, int myStatus, int myEps, int allEps,
             int myScore) : this(id)
         {
             this.auth = auth;
@@ -78,6 +81,7 @@ namespace MALClient.Items
             this.myEps = MyEpisodes = myEps;
             this.allEps = allEps;
             this.myScore = MyScore = myScore;
+            Type = type;
             _firstConstructor = true;
 
             Title = name;
@@ -95,8 +99,8 @@ namespace MALClient.Items
             MyStatus = (int) AnimeStatus.AllOrAiring;
         }
 
-        public AnimeItemAbstraction(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, int volumes, int allVolumes) : this(auth, name, img, id, myStatus, myEps, allEps, myScore)
+        public AnimeItemAbstraction(bool auth, string name, string img,int type, int id, int myStatus, int myEps, int allEps,
+            int myScore, int volumes, int allVolumes) : this(auth, name, img, type,id, myStatus, myEps, allEps, myScore)
         {
             RepresentsAnime = false;
             myVolumes = MyVolumes = volumes;

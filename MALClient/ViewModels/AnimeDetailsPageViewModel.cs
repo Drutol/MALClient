@@ -758,9 +758,14 @@ namespace MALClient.ViewModels
             if (!response.Contains("Created") && _animeMode)
                 return;
             AddAnimeVisibility = false;
+            int type = 0;
+            if(_animeMode)
+                AnimeType.TryParse(Type, out type);
+            else
+                MangaType.TryParse(Type.Replace("-",""), out type);
             var animeItem = _animeMode
-                ? new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0)
-                : new AnimeItemAbstraction(true, Title, _imgUrl, Id, 6, 0, AllEpisodes, 0, 0, AllVolumes);
+                ? new AnimeItemAbstraction(true, Title, _imgUrl, type ,Id, 6, 0, AllEpisodes, 0)
+                : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, 0, 0, AllVolumes);
             _animeItemReference = animeItem.ViewModel;
             MyScore = 0;
             MyStatus = 6;

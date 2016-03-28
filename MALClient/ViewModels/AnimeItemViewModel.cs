@@ -230,6 +230,16 @@ namespace MALClient.ViewModels
 
         public bool Auth { get; private set; }
 
+
+        public string Type
+            =>
+                _parentAbstraction.Type == 0
+                    ? ""
+                    : _parentAbstraction.RepresentsAnime
+                        ? ((AnimeType) _parentAbstraction.Type).ToString()
+                        : ((MangaType) _parentAbstraction.Type).ToString();
+
+
         public string MyStatusBind => Utils.StatusToString(MyStatus, !_parentAbstraction.RepresentsAnime);
         public string MyStatusBindShort => Utils.StatusToShortString(MyStatus, !_parentAbstraction.RepresentsAnime);
 

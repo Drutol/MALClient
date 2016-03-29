@@ -204,6 +204,7 @@
     <Compile Include="Utils\Creditentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\NavMgr.cs" />
+    <Compile Include="Utils\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />

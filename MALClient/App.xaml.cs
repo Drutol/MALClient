@@ -11,7 +11,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.ApplicationInsights;
-using UniversalRateReminder;
 
 namespace MALClient
 {
@@ -80,11 +79,9 @@ namespace MALClient
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            await ProcessPopUp();
+            RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();
             ProcessUpdate();
-
-
         }
 
         private async void ProcessUpdate()
@@ -108,17 +105,6 @@ namespace MALClient
                     }
                 });
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
-        }
-
-        private async Task ProcessPopUp()
-        {
-            RatePopup.Title = "Rate this app!";
-            RatePopup.CancelButtonText = "Not now...";
-            RatePopup.Content =
-                "Your feedback helps improve this app!\n\nPlease take a minute to review this application , if you want to fill in bug report check out the about page. :) ";
-            RatePopup.ResetCountOnNewVersion = false;
-            RatePopup.RateButtonText = "To the store!";
-            await RatePopup.CheckRateReminderAsync();
         }
 
         private void ProcessStatusBar()

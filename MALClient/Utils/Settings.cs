@@ -193,5 +193,19 @@ namespace MALClient
             get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] = value; }
         }
+
+        #region RatePopUp
+        public static bool RatePopUpEnable
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["RatePopUpEnable"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["RatePopUpEnable"] = value; }
+        }
+
+        public static int RatePopUpStartupCounter
+        {
+            get { return (int)(ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] ?? 0); }
+            set { ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] = value; }
+        }
+        #endregion
     }
 }

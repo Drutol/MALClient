@@ -4,12 +4,25 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.ApplicationModel;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace MALClient.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
+        private ICommand _reviewCommand;
+
+        public ICommand ReviewCommand => _reviewCommand ?? (_reviewCommand = new RelayCommand(async () =>
+        {
+            Settings.RatePopUpEnable = false;
+            await
+                Windows.System.Launcher.LaunchUriAsync(
+                    new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
+        }));
+
         public ObservableCollection<Tuple<AnimeListDisplayModes, string>> DisplayModes { get; } = new ObservableCollection<Tuple<AnimeListDisplayModes, string>>
         {
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.PivotPages, "Pages"), new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"), new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
@@ -68,6 +81,21 @@ namespace MALClient.ViewModels
         {
             get { return Settings.HideSortingSelectionFlyout; }
             set { Settings.HideSortingSelectionFlyout = value; }
+        }
+
+        public bool RatePopUpEnable
+        {
+            get { return Settings.RatePopUpEnable; }
+            set
+            {
+                Settings.RatePopUpEnable = value;
+                RaisePropertyChanged(() => RatePopUpEnable);
+            }
+        }
+
+        public int RatePopUpStartupCounter
+        {
+            get { return RateReminderPopUp.LaunchThresholdValue - Settings.RatePopUpStartupCounter; }
         }
     }
 }

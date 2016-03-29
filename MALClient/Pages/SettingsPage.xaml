@@ -4,10 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
     xmlns:controls="using:MALClient.UserControls"
+    xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding Source={StaticResource Locator},Path=SettingsPage}"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Pivot>
@@ -349,6 +354,25 @@
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
+                </PivotItem>
+                <PivotItem Header="Misc">
+                    <StackPanel>
+                        <TextBlock Text="Enable review reminder pop up." FontWeight="Medium" HorizontalAlignment="Center"
+                                       TextWrapping="WrapWholeWords" />
+                        <ToggleSwitch HorizontalAlignment="Center" OnContent="Enabled" OffContent="Disabled" IsOn="{Binding RatePopUpEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <StackPanel Visibility="{Binding RatePopUpEnable, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="Next reminder after :"
+                               FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
+                                   HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding RatePopUpStartupCounter}" Margin="0,10" FontWeight="Medium" HorizontalAlignment="Center"
+                                       TextWrapping="WrapWholeWords" />
+                            <TextBlock Text="app launches."
+                               FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
+                                   HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Content="Rate now!" Command="{Binding ReviewCommand}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+                    </StackPanel>
                 </PivotItem>
 
             </Pivot.Items>

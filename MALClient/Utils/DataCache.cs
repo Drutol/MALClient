@@ -211,7 +211,7 @@ namespace MALClient
                         JsonConvert.SerializeObject(new Tuple<DateTime, AnimeDetailsData>(DateTime.UtcNow, data));
                     var file =
                         await
-                            folder.CreateFileAsync($"{id}.json",
+                            folder.CreateFileAsync($"{data.Source}_{id}.json",
                                 CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(file, json);
                 });
@@ -222,7 +222,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<AnimeDetailsData> RetrieveAnimeGeneralDetailsData(int id, bool anime = true)
+        public static async Task<AnimeDetailsData> RetrieveAnimeGeneralDetailsData(int id,DataSource source, bool anime = true)
         {
             try
             {
@@ -230,7 +230,7 @@ namespace MALClient
                     await
                         ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
                             CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"{id}.json");
+                var file = await folder.GetFileAsync($"{source}_{id}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, AnimeDetailsData>>(data);

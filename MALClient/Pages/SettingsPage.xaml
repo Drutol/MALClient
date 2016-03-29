@@ -98,6 +98,26 @@
                             </Grid>
                             <MenuFlyoutSeparator Margin="0,5"/>
                             <StackPanel>
+                                <TextBlock Text="Anime details data provider:" FontWeight="Medium" HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" Margin="0,5"/>
+                                <StackPanel Orientation="Vertical" Margin="5" HorizontalAlignment="Center">
+                                    <RadioButton x:Name="RadioSourceAnn"  HorizontalAlignment="Center"
+                                         GroupName="SourceTab" Content="AnimeNewsNetwork" Margin="0,0,5,0" IsChecked="{Binding DataSourceAnn,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <RadioButton x:Name="RadioSourceHum"  HorizontalAlignment="Center" IsChecked="{Binding DataSourceHum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                         GroupName="SourceTab" Content="Hummingbird" Margin="5,0,0,0"  />
+                                </StackPanel>
+                                <TextBlock Text="AnimeNewsNetwork provides more info such as OPs , EDs and full list of episodes but it much less reliable due to searching by anime's title , synonyms etc. 'Data Unavailable' message will be present quite often." 
+                               FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" Visibility="{Binding ElementName=RadioSourceAnn,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}"
+                                   HorizontalAlignment="Center" Margin="0,5"/>                                
+                                <TextBlock Text="Hummingbird thanks to it's API capable of searching by mal ID will be able to almost always find data , but it won't display OPs/EDs and list episodes may be incomplete." 
+                               FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" Visibility="{Binding ElementName=RadioSourceHum,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}"
+                                   HorizontalAlignment="Center" Margin="0,5"/>                                
+                                <TextBlock Text="Official MyAnimeList API does not provide any methods to pull this data." Margin="0,10,0,0"
+                               FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" Visibility="Visible"
+                                   HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            <MenuFlyoutSeparator Margin="0,5"/>
+                            <StackPanel>
                                 <TextBlock Text="Default view modes for status:" FontWeight="Medium" HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
                                 <StackPanel Margin="5" Orientation="Vertical">

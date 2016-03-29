@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Windows.ApplicationModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models;
 
 namespace MALClient.ViewModels
 {
@@ -96,6 +97,18 @@ namespace MALClient.ViewModels
         public int RatePopUpStartupCounter
         {
             get { return RateReminderPopUp.LaunchThresholdValue - Settings.RatePopUpStartupCounter; }
+        }
+
+        public bool DataSourceAnn
+        {
+            get { return Settings.PrefferedDataSource == DataSource.Ann; }
+            set { if(value)Settings.PrefferedDataSource = DataSource.Ann;}
+        }
+
+        public bool DataSourceHum
+        {
+            get { return Settings.PrefferedDataSource == DataSource.Hummingbird; }
+            set { if(value)Settings.PrefferedDataSource = DataSource.Hummingbird;}
         }
     }
 }

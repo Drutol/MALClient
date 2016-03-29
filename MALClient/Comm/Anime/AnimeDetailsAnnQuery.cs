@@ -26,7 +26,7 @@ namespace MALClient.Comm
 
         public async Task<AnimeDetailsData> GetGeneralDetailsData(bool force = false)
         {
-            var possibleData = force ? null : await DataCache.RetrieveAnimeGeneralDetailsData(_id);
+            var possibleData = force ? null : await DataCache.RetrieveAnimeGeneralDetailsData(_id,DataSource.Ann);
             if (possibleData != null)
                 return possibleData;
 
@@ -67,7 +67,7 @@ namespace MALClient.Comm
 
                 output = new AnimeDetailsData
                 {
-                    AnnId = node.Attribute("id").Value,
+                    SourceId = node.Attribute("id").Value,
                     Genres =
                         node.Elements("info")
                             .Where(element => element.Attribute("type").Value == "Genres")

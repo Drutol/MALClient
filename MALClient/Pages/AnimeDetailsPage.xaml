@@ -325,6 +325,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.Resources>
                                         <Style TargetType="controls:AlternatingListView">
@@ -422,11 +423,11 @@
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
                                     </StackPanel>
-                                    <MenuFlyoutSeparator Grid.Row="4" />
+                                    <MenuFlyoutSeparator Grid.Row="4" Visibility="{Binding DetailsOpsVisibility}"/>
                                     <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
-                                               Grid.ColumnSpan="2" Margin="0,5,0,5" />
-                                    <StackPanel Grid.Row="6">
+                                               Grid.ColumnSpan="2" Margin="0,5,0,5" Visibility="{Binding DetailsOpsVisibility}"/>
+                                    <StackPanel Grid.Row="6" Visibility="{Binding DetailsOpsVisibility}">
                                         <TextBlock Visibility="{Binding NoOPsDataVisibility}" Text="No data available"
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                    Foreground="#FFB9B9B9" />
@@ -452,12 +453,12 @@
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
                                     </StackPanel>
-                                    <MenuFlyoutSeparator Grid.Row="7" />
-                                    <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold"
+                                    <MenuFlyoutSeparator Grid.Row="7" Visibility="{Binding DetailsEdsVisibility}"/>
+                                    <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold" Visibility="{Binding DetailsEdsVisibility}"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                Grid.ColumnSpan="2" Margin="0,5,0,5" />
-                                    <StackPanel Grid.Row="9">
-                                        <TextBlock Visibility="{Binding NoEDsDataVisibility}" Text="No data available"
+                                    <StackPanel Grid.Row="9" Visibility="{Binding DetailsEdsVisibility}">
+                                        <TextBlock  Text="No data available" Visibility="{Binding NoEDsDataVisibility}"
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                    Foreground="#FFB9B9B9" />
                                         <controls:AlternatingListView ItemsSource="{Binding EDs}">
@@ -482,13 +483,13 @@
                                             </ListView.ItemTemplate>
 
                                         </controls:AlternatingListView>
-                                        <Button VerticalAlignment="Bottom"
-                                                Margin="0,15,0,0" HorizontalAlignment="Left"
-                                                Content="Source : AnimeNewsNetwork"
-                                                Command="{Binding OpenInAnnCommand}"
-                                                Visibility="{Binding AnnSourceButtonVisibility}"
-                                                Style="{StaticResource TextBlockButtonStyle}"/>
                                     </StackPanel>
+                                    <Button VerticalAlignment="Bottom" Grid.Row="10"
+                                            Margin="0,15,0,0" HorizontalAlignment="Left"
+                                            Content="{Binding DetailsSource}"
+                                            Command="{Binding OpenInAnnCommand}"
+                                            Visibility="{Binding AnnSourceButtonVisibility}"
+                                            Style="{StaticResource TextBlockButtonStyle}"/>
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">

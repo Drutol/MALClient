@@ -103,6 +103,7 @@
     </Content>
     <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
+    <PRIResource Include="MalClientResources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -110,6 +111,7 @@
     </Compile>
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
     <Compile Include="Comm\MalListParameters.cs" />
     <Compile Include="Comm\MalListQuery.cs" />
@@ -142,6 +144,7 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
     <Compile Include="Models\TopAnimeData.cs" />
     <Compile Include="Models\AnimeDetailsData.cs" />

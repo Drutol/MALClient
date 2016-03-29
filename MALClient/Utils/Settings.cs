@@ -1,5 +1,6 @@
 ﻿using Windows.Storage;
 using Windows.UI.Xaml;
+using MALClient.Models;
 using MALClient.Pages;
 using MALClient.ViewModels;
 
@@ -207,5 +208,11 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] = value; }
         }
         #endregion
+
+        public static DataSource PrefferedDataSource
+        {
+            get { return (DataSource)(ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.Hummingbird); }
+            set { ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] = (int)value; }
+        }
     }
 }

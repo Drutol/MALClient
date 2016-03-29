@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
+using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
 using MALClient.Pages;
@@ -90,7 +91,7 @@ namespace MALClient.ViewModels
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
 
-        private string AnnId { get; set; }
+        private string SourceLink { get; set; }
         private int Id { get; set; }
         public string Title { get; set; }
 
@@ -198,7 +199,7 @@ namespace MALClient.ViewModels
 
         private async void OpenAnnPage()
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={AnnId}"));
+            await Launcher.LaunchUriAsync(new Uri(SourceLink));
         }
 
         private async void NavigateDetails(IDetailsPageArgs args)
@@ -669,6 +670,41 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _detailsOpsVisibility = Visibility.Collapsed;
+
+        public Visibility DetailsOpsVisibility
+        {
+            get { return _detailsOpsVisibility; }
+            set
+            {
+                _detailsOpsVisibility = value;
+                RaisePropertyChanged(() => DetailsOpsVisibility);
+            }
+        }
+
+        private Visibility _detailsEdsVisibility = Visibility.Collapsed;
+
+        public Visibility DetailsEdsVisibility
+        {
+            get { return _detailsEdsVisibility; }
+            set
+            {
+                _detailsEdsVisibility = value;
+                RaisePropertyChanged(() => DetailsEdsVisibility);
+            }
+        }
+
+        private string _detailsSource;
+
+        public string DetailsSource
+        {
+            get { return _detailsSource; }
+            set
+            {
+                _detailsSource = value;
+                RaisePropertyChanged(() => DetailsSource);
+            }
+        }   
 
 
         #endregion
@@ -922,26 +958,43 @@ namespace MALClient.ViewModels
             Episodes.Clear();
             OPs.Clear();
             EDs.Clear();
+            DataSource currSource = DataSource.Hummingbird;
             try
             {
-                var data =
-                    await
-                        new AnimeDetailsAnnQuery(_synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms),
-                            Id, Title).GetGeneralDetailsData(force);
-                AnnId = data.AnnId;
-
-                //Let's try to pull moar Genres data from MAL
-                VolatileDataCache genresData;
-                if (DataCache.TryRetrieveDataForId(Id, out genresData) && genresData.Genres != null)
+                AnimeDetailsData data;
+                switch (Settings.PrefferedDataSource)
                 {
-                    foreach (var genreMal in genresData.Genres)
+                    case DataSource.Ann:
+                        data =
+                            await
+                                new AnimeDetailsAnnQuery(
+                                    _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
+                                    .GetGeneralDetailsData(force);
+                        break;
+                    case DataSource.Hummingbird:
+                        data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                
+
+                SourceLink = data.Source == DataSource.Ann ? SourceLink = $"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={data.SourceId}" : $"https://hummingbird.me/anime/{data.SourceId}";
+                //Let's try to pull moar Genres data from MAL
+
+                DetailsSource = data.Source == DataSource.Ann ? "Source : AnimeNewsNetwork" : "Source : Hummingbird";
+                currSource = data.Source;
+                if (data.Source == DataSource.Ann)
+                {
+                    VolatileDataCache genresData;
+                    if (DataCache.TryRetrieveDataForId(Id, out genresData) && genresData.Genres != null)
                     {
-                        if (
-                            data.Genres.All(
-                                genreAnn =>
-                                    !string.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
+                        foreach (var genreMal in genresData.Genres)
                         {
-                            data.Genres.Add(Utils.FirstCharToUpper(genreMal));
+                            if (data.Genres.All(genreAnn => !string.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
+                            {
+                                data.Genres.Add(Utils.FirstCharToUpper(genreMal));
+                            }
                         }
                     }
                 }
@@ -960,30 +1013,46 @@ namespace MALClient.ViewModels
                     Episodes.Add(new Tuple<string, string>($"{i++}.", episode));
                 if (data.Episodes.Count > 40)
                     Episodes.Add(new Tuple<string, string>("?.", $"{data.Episodes.Count - 40} More episodes..."));
-                foreach (var op in data.OPs)
-                    OPs.Add(op);
-                foreach (var ed in data.EDs)
-                    EDs.Add(ed);
+
+                if (data.Source == DataSource.Ann)
+                {
+                    DetailsOpsVisibility = Visibility.Visible;
+                    DetailsEdsVisibility = Visibility.Visible;
+
+                    foreach (var op in data.OPs)
+                        OPs.Add(op);
+                    foreach (var ed in data.EDs)
+                        EDs.Add(ed);
+                }
+                else
+                {
+                    DetailsOpsVisibility = Visibility.Collapsed;
+                    DetailsEdsVisibility = Visibility.Collapsed;
+                }
+
 
                 DetailedDataVisibility = Visibility.Visible;
                 AnnSourceButtonVisibility = Visibility.Visible;
             }
             catch (Exception)
             {
-                VolatileDataCache genresData;
-                    // we may fail to pull genres from ann so we have this from MAL season page 
-                if (DataCache.TryRetrieveDataForId(Id, out genresData))
+                if (currSource == DataSource.Ann)
                 {
-                    AnnSourceButtonVisibility = Visibility.Collapsed;
-                    DetailedDataVisibility = Visibility.Visible;
-                    var i = 1;
-                    foreach (var genre in genresData.Genres ?? new List<string>())
+                    VolatileDataCache genresData;
+                    // we may fail to pull genres from ann so we have this from MAL season page 
+                    if (DataCache.TryRetrieveDataForId(Id, out genresData))
                     {
-                        if (i%2 == 0)
-                            LeftGenres.Add(Utils.FirstCharToUpper(genre));
-                        else
-                            RightGenres.Add(Utils.FirstCharToUpper(genre));
-                        i++;
+                        AnnSourceButtonVisibility = Visibility.Collapsed;
+                        DetailedDataVisibility = Visibility.Visible;
+                        var i = 1;
+                        foreach (var genre in genresData.Genres ?? new List<string>())
+                        {
+                            if (i%2 == 0)
+                                LeftGenres.Add(Utils.FirstCharToUpper(genre));
+                            else
+                                RightGenres.Add(Utils.FirstCharToUpper(genre));
+                            i++;
+                        }
                     }
                 }
                 else
@@ -991,8 +1060,8 @@ namespace MALClient.ViewModels
             }
             NoEpisodesDataVisibility = Episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             NoGenresDataVisibility = LeftGenres.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoEDsDataVisibility = EDs.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoOPsDataVisibility = OPs.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            NoEDsDataVisibility = EDs.Count == 0 && currSource == DataSource.Ann ? Visibility.Visible : Visibility.Collapsed;
+            NoOPsDataVisibility = OPs.Count == 0 && currSource == DataSource.Ann ? Visibility.Visible : Visibility.Collapsed;
             if (Episodes.Count == 0 && LeftGenres.Count == 0 && EDs.Count == 0 && OPs.Count == 0)
                 DetailedDataVisibility = Visibility.Collapsed;
 
@@ -1025,11 +1094,7 @@ namespace MALClient.ViewModels
             _loadedRecomm = true;
             Recommendations.Clear();
             var recomm = new List<DirectRecommendationData>();
-            await
-                Task.Run(
-                    async () =>
-                        recomm =
-                            await new AnimeDirectRecommendationsQuery(Id, _animeMode).GetDirectRecommendations(force));
+            await Task.Run(async () => recomm = await new AnimeDirectRecommendationsQuery(Id, _animeMode).GetDirectRecommendations(force));
             foreach (var item in recomm)
                 Recommendations.Add(item);
             NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;

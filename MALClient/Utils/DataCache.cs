@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.Storage;
 using MALClient.Items;
 using MALClient.Models;
@@ -242,10 +243,10 @@ namespace MALClient
             return null;
         }
 
-        private static bool CheckForOldDataDetails(DateTime date)
+        private static bool CheckForOldDataDetails(DateTime date,int days = 7)
         {
             var diff = DateTime.Now.ToUniversalTime().Subtract(date);
-            if (diff.TotalDays > 7)
+            if (diff.TotalDays >= days)
                 return false;
             return true;
         }
@@ -432,6 +433,57 @@ namespace MALClient
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, List<RelatedAnimeData>>>(data);
                 return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+        #endregion 
+        
+        #region AnimeSerachResults
+
+        public static async void SaveAnimeSearchResultsData(int id, XElement data, bool anime = true)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var folder =
+                        await
+                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
+                                anime ? "AnimeDetails" : "MangaDetails",
+                                CreationCollisionOption.OpenIfExists);
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, XElement>(DateTime.UtcNow, data));
+                    var file =
+                        await
+                            folder.CreateFileAsync($"mal_details_{id}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+        }
+
+        public static async Task<XElement> RetrieveAnimeSearchResultsData(int animeId, bool anime = true)
+        {
+            try
+            {
+                var folder =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
+                            CreationCollisionOption.OpenIfExists);
+                var file = await folder.GetFileAsync($"mal_details_{animeId}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, XElement>>(data);
+                return CheckForOldDataDetails(tuple.Item1,1) ? tuple.Item2 : null;
             }
             catch (Exception)
             {

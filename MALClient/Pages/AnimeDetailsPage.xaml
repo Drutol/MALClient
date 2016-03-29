@@ -212,7 +212,7 @@
             </Grid>
         </Grid>
         <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading"
-               SelectedIndex="{Binding DetailsPivotSelectedIndex}">
+               SelectedIndex="{Binding DetailsPivotSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}">
                     <Setter Property="Margin" Value="2,0" />

@@ -22,6 +22,15 @@ using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
+    public enum DetailsPageTabs
+    {
+        General,
+        Details,
+        Reviews,
+        Recoms,
+        Related,
+    }
+
     public class AnimeDetailsPageNavigationArgs
     {
         public readonly XElement AnimeElement;
@@ -32,6 +41,7 @@ namespace MALClient.ViewModels
         public bool AnimeMode = true;
         public bool RegisterBackNav = true;
         public PageIndex Source;
+        public DetailsPageTabs SourceTab = DetailsPageTabs.General;
 
         public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
             object args = null)
@@ -183,7 +193,7 @@ namespace MALClient.ViewModels
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }           
-            DetailsPivotSelectedIndex = 0;
+            DetailsPivotSelectedIndex = (int)param.SourceTab;
         }
 
         private async void OpenMalPage()
@@ -202,7 +212,7 @@ namespace MALClient.ViewModels
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
                         new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
-                        {Source = PageIndex.PageAnimeDetails, RegisterBackNav = false, AnimeMode = _animeMode})
+                        {Source = PageIndex.PageAnimeDetails, RegisterBackNav = false, AnimeMode = _animeMode, SourceTab = (DetailsPageTabs)DetailsPivotSelectedIndex })
                     {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
         }
 
@@ -842,10 +852,13 @@ namespace MALClient.ViewModels
                 LoadRecommendations();
             if (Settings.DetailsAutoLoadRelated)
                 LoadRelatedAnime();
+
+
         }
 
         private void ExtractData(XElement animeElement)
         {
+            DataCache.SaveAnimeSearchResultsData(Id,animeElement,_animeMode);
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
@@ -866,24 +879,29 @@ namespace MALClient.ViewModels
             PopulateData();
         }
 
-        private async Task FetchData(string id, string title)
+        private async Task FetchData(string id, string title,bool force = false)
         {
             LoadingGlobal = Visibility.Visible;
-            var data = "";
-            await Task.Run(async () => data = _animeMode
-                ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse()
-                : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
-            data = WebUtility.HtmlDecode(data);
-            data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
+            XElement elem = force ? null : await DataCache.RetrieveAnimeSearchResultsData(Id, _animeMode);
+            if (elem == null)
+            {
+                var data = "";
+                await Task.Run(async () => data = _animeMode
+                    ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse()
+                    : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
+                data = WebUtility.HtmlDecode(data);
+                data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 
-            var parsedData = XDocument.Parse(data);
-            var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
-            ExtractData(elements.First(element => element.Element("id").Value == id));
+                var parsedData = XDocument.Parse(data);
+                var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
+                elem = elements.First(element => element.Element("id").Value == id);
+            }
+            ExtractData(elem);
         }
 
         public async void RefreshData()
         {
-            await FetchData(Id.ToString(), Title);
+            await FetchData(Id.ToString(), Title,true);
             if (_loadedDetails)
                 LoadDetails(true);
             if (_loadedReviews)

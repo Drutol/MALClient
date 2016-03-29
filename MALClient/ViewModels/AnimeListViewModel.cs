@@ -634,6 +634,9 @@ namespace MALClient.ViewModels
             }       
             else
             {
+                if (_allLoadedAnimeItems.Count == 0 && !_attemptedAnimeFetch)
+                    await FetchData(false, AnimeListWorkModes.Anime);
+
                 target = _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
                 source = _allLoadedAuthAnimeItems.Count > 0
                     ? _allLoadedAuthAnimeItems
@@ -708,6 +711,7 @@ namespace MALClient.ViewModels
 
 
         private bool _attemptedMangaFetch;
+        private bool _attemptedAnimeFetch;
         public async Task FetchData(bool force = false,AnimeListWorkModes? modeOverride = null)
         {
             AnimeListWorkModes requestedMode;
@@ -744,6 +748,7 @@ namespace MALClient.ViewModels
             switch (requestedMode)
             {
                 case AnimeListWorkModes.Anime:
+                    _attemptedAnimeFetch = true;
                     _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
                     if (force)
                         _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
@@ -823,18 +828,23 @@ namespace MALClient.ViewModels
             await RefreshList();
         }
 
-        public bool TryRetrieveAuthenticatedAnimeItem(int id, ref IAnimeData reference, bool anime = true)
+        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true)
         {
             if (!Creditentials.Authenticated)
-                return false;
+                return null;
             try
             {
-                reference = anime ? _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel : _allLoadedAuthMangaItems.First(abstraction => abstraction.Id == id).ViewModel;
-                return true;
+                if(anime)
+                    if (_allLoadedAnimeItems.Count == 0 && !_attemptedAnimeFetch)
+                        await FetchData(false, AnimeListWorkModes.Anime);
+                else if (_allLoadedMangaItems.Count == 0 && !_attemptedMangaFetch)
+                    await FetchData(false, AnimeListWorkModes.Manga);
+
+                return anime ? _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel : _allLoadedAuthMangaItems.First(abstraction => abstraction.Id == id).ViewModel;
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
 

@@ -22,14 +22,6 @@ using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
-    public enum DetailsPageTabs
-    {
-        General,
-        Details,
-        Reviews,
-        Recoms,
-        Related,
-    }
 
     public class AnimeDetailsPageNavigationArgs
     {
@@ -41,7 +33,7 @@ namespace MALClient.ViewModels
         public bool AnimeMode = true;
         public bool RegisterBackNav = true;
         public PageIndex Source;
-        public DetailsPageTabs SourceTab = DetailsPageTabs.General;
+        public int SourceTabIndex = 0;
 
         public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
             object args = null)
@@ -122,8 +114,8 @@ namespace MALClient.ViewModels
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
-            await Task.Delay(10);
             LoadingGlobal = Visibility.Visible;
+            await Task.Delay(5);        
             _animeMode = param.AnimeMode;
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
             _prevArgs = param;
@@ -150,15 +142,16 @@ namespace MALClient.ViewModels
                 (_animeItemReference is AnimeItemViewModel && !(_animeItemReference as AnimeItemViewModel).Auth) )
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
-                if (
-                    !ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, ref _animeItemReference,
-                        _animeMode))
-                    // else we don't have this item
+                var possibleRef =
+                    await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, _animeMode);
+                if (possibleRef == null) // else we don't have this item
                 {
                     //we may only prepare for its creation
                     AddAnimeVisibility = true;
                     MyDetailsVisibility = false;
                 }
+                else
+                    _animeItemReference = possibleRef;
             } // else we already have it
 
             if ((_animeItemReference is AnimeItemViewModel && (_animeItemReference as AnimeItemViewModel).Auth) )
@@ -192,8 +185,10 @@ namespace MALClient.ViewModels
                     ExtractData(param.AnimeElement);
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
-            }           
-            DetailsPivotSelectedIndex = (int)param.SourceTab;
+            }
+            DetailsPivotSelectedIndex = param.SourceTabIndex;
+                //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
+
         }
 
         private async void OpenMalPage()
@@ -212,7 +207,13 @@ namespace MALClient.ViewModels
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
                         new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
-                        {Source = PageIndex.PageAnimeDetails, RegisterBackNav = false, AnimeMode = _animeMode, SourceTab = (DetailsPageTabs)DetailsPivotSelectedIndex })
+                        {
+                            Source = PageIndex.PageAnimeDetails,
+                            RegisterBackNav = false,
+                            AnimeMode = _animeMode,
+                            SourceTabIndex = DetailsPivotSelectedIndex
+
+                        })
                     {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
         }
 

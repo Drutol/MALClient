@@ -292,7 +292,7 @@ namespace MALClient
 
         #region Reviews
 
-        public static async void SaveAnimeReviews(int id, List<AnimeReviewData> data, bool anime = true)
+        public static async void SaveAnimeReviews(int id, List<AnimeReviewData> data, bool anime)
         {
             try
             {
@@ -317,7 +317,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<List<AnimeReviewData>> RetrieveReviewsData(int animeId, bool anime = true)
+        public static async Task<List<AnimeReviewData>> RetrieveReviewsData(int animeId, bool anime)
         {
             try
             {
@@ -343,7 +343,7 @@ namespace MALClient
         #region DirectRecommendations
 
         public static async void SaveDirectRecommendationsData(int id, List<DirectRecommendationData> data,
-            bool anime = true)
+            bool anime)
         {
             try
             {
@@ -370,7 +370,7 @@ namespace MALClient
         }
 
         public static async Task<List<DirectRecommendationData>> RetrieveDirectRecommendationData(int id,
-            bool anime = true)
+            bool anime)
         {
             try
             {
@@ -395,7 +395,7 @@ namespace MALClient
 
         #region RelatedAnime
 
-        public static async void SaveRelatedAnimeData(int id, List<RelatedAnimeData> data, bool anime = true)
+        public static async void SaveRelatedAnimeData(int id, List<RelatedAnimeData> data, bool anime)
         {
             try
             {
@@ -420,7 +420,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<List<RelatedAnimeData>> RetrieveRelatedAnimeData(int animeId, bool anime = true)
+        public static async Task<List<RelatedAnimeData>> RetrieveRelatedAnimeData(int animeId, bool anime)
         {
             try
             {
@@ -445,7 +445,7 @@ namespace MALClient
         
         #region AnimeSerachResults
 
-        public static async void SaveAnimeSearchResultsData(int id, XElement data, bool anime = true)
+        public static async void SaveAnimeSearchResultsData(int id, XElement data, bool anime)
         {
             try
             {
@@ -471,7 +471,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<XElement> RetrieveAnimeSearchResultsData(int animeId, bool anime = true)
+        public static async Task<XElement> RetrieveAnimeSearchResultsData(int animeId, bool anime)
         {
             try
             {
@@ -496,7 +496,7 @@ namespace MALClient
         
         #region TopAnime
 
-        public static async void SaveTopAnimeData(List<TopAnimeData> data, bool anime = true)
+        public static async void SaveTopAnimeData(List<TopAnimeData> data, bool anime)
         {
             try
             {
@@ -514,7 +514,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<List<TopAnimeData>> RetrieveTopAnimeData(bool anime = true)
+        public static async Task<List<TopAnimeData>> RetrieveTopAnimeData(bool anime)
         {
             try
             {

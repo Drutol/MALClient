@@ -28,7 +28,7 @@ namespace MALClient.Comm
         {
             var output = force
                 ? new List<DirectRecommendationData>()
-                : await DataCache.RetrieveDirectRecommendationData(_animeId) ?? new List<DirectRecommendationData>();
+                : await DataCache.RetrieveDirectRecommendationData(_animeId,_animeMode) ?? new List<DirectRecommendationData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();

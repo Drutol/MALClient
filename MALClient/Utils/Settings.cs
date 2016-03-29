@@ -17,7 +17,7 @@ namespace MALClient
 
         public static ApplicationTheme SelectedTheme
         {
-            get { return (ApplicationTheme) (ApplicationData.Current.LocalSettings.Values["SelectedTheme"] ?? (int)ApplicationTheme.Light); }
+            get { return (ApplicationTheme) (ApplicationData.Current.LocalSettings.Values["SelectedTheme"] ?? (int)ApplicationTheme.Dark); }
             set { ApplicationData.Current.LocalSettings.Values["SelectedTheme"] = (int)value; }
         }
 

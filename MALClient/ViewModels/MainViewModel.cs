@@ -40,6 +40,9 @@ namespace MALClient.ViewModels
             ScrollToTopButtonVisibility = Visibility.Collapsed;
             RefreshButtonVisibility = Visibility.Collapsed;
 
+            if (index == PageIndex.PageMangaList && args == null) // navigating from startup
+                args = AnimeListPageNavigationArgs.Manga;
+
             if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList || index == PageIndex.PageTopManga || index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
 
@@ -139,7 +142,7 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-                Navigate(Creditentials.Authenticated ? PageIndex.PageAnimeList : PageIndex.PageLogIn);
+                Navigate(Creditentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList) : PageIndex.PageLogIn);
                     //entry point whatnot
             }
         } //entry point

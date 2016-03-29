@@ -11,7 +11,6 @@ namespace MALClient.Pages
 {
     public sealed partial class AnimeDetailsPage : Page, IDetailsViewInteraction
     {
-        private static PivotItem _detailsPivotHoldingSpace;
 
         public AnimeDetailsPage()
         {
@@ -32,17 +31,10 @@ namespace MALClient.Pages
             var param = e.Parameter as AnimeDetailsPageNavigationArgs;
             if (param == null)
                 throw new Exception("No paramaters for this page");
-            ViewModel.Init(param);
             if (!param.AnimeMode)
-            {
-                _detailsPivotHoldingSpace = (PivotItem) MainPivot.Items[1];
                 MainPivot.Items.RemoveAt(1);
-            }
-            else if (_detailsPivotHoldingSpace != null)
-            {
-                MainPivot.Items.Insert(1, _detailsPivotHoldingSpace);
-                _detailsPivotHoldingSpace = null;
-            }
+            ViewModel.Init(param);
+
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

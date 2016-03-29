@@ -974,10 +974,15 @@ namespace MALClient.ViewModels
                     case DataSource.Hummingbird:
                         data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
                         break;
+                    case DataSource.AnnHum:
+                        data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force) ??
+                               await new AnimeDetailsAnnQuery(
+                            _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
+                            .GetGeneralDetailsData(force);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                
 
                 SourceLink = data.Source == DataSource.Ann ? SourceLink = $"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={data.SourceId}" : $"https://hummingbird.me/anime/{data.SourceId}";
                 //Let's try to pull moar Genres data from MAL

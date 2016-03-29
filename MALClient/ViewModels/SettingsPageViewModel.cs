@@ -110,5 +110,11 @@ namespace MALClient.ViewModels
             get { return Settings.PrefferedDataSource == DataSource.Hummingbird; }
             set { if(value)Settings.PrefferedDataSource = DataSource.Hummingbird;}
         }
+
+        public bool DataSourceAnnHum
+        {
+            get { return Settings.PrefferedDataSource == DataSource.AnnHum; }
+            set { if(value)Settings.PrefferedDataSource = DataSource.AnnHum;}
+        }
     }
 }

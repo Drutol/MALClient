@@ -5,7 +5,8 @@ namespace MALClient.Models
     public enum DataSource
     {
         Ann,
-        Hummingbird
+        Hummingbird,
+        AnnHum,
     }
 
 

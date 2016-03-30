@@ -28,7 +28,7 @@ namespace MALClient
             WindowsAppInitializer.InitializeAsync(
                 WindowsCollectors.Metadata |
                 WindowsCollectors.Session);
-            Application.Current.RequestedTheme = Settings.SelectedTheme;
+            Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -46,7 +46,7 @@ namespace MALClient
             {
                 LaunchUri(e.Arguments);
             }
-            
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -111,15 +111,14 @@ namespace MALClient
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
                     statusBar.BackgroundOpacity = 1;
-                    statusBar.BackgroundColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                    statusBar.BackgroundColor = Current.RequestedTheme == ApplicationTheme.Dark
                         ? Colors.Black
                         : Colors.White;
-                    statusBar.ForegroundColor = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                    statusBar.ForegroundColor = Current.RequestedTheme == ApplicationTheme.Dark
                         ? Colors.White
                         : Colors.Black;
                 }

@@ -6,8 +6,6 @@ using MALClient.ViewModels;
 
 namespace MALClient
 {
-
-
     public static class Settings
     {
         public static int CachePersitence
@@ -18,8 +16,13 @@ namespace MALClient
 
         public static ApplicationTheme SelectedTheme
         {
-            get { return (ApplicationTheme) (ApplicationData.Current.LocalSettings.Values["SelectedTheme"] ?? (int)ApplicationTheme.Dark); }
-            set { ApplicationData.Current.LocalSettings.Values["SelectedTheme"] = (int)value; }
+            get
+            {
+                return
+                    (ApplicationTheme)
+                        (ApplicationData.Current.LocalSettings.Values["SelectedTheme"] ?? (int) ApplicationTheme.Dark);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["SelectedTheme"] = (int) value; }
         }
 
         public static bool IsCachingEnabled
@@ -130,89 +133,132 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["DetailsAutoLoadRecomms"] = value; }
         }
 
-        #region Views
-
-        public static AnimeListDisplayModes WatchingDisplayMode
-        {
-            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
-            set { ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] = (int)value; }
-        }
-
-        public static AnimeListDisplayModes CompletedDisplayMode
-        {
-            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
-            set { ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] = (int)value; }
-        }
-
-        public static AnimeListDisplayModes OnHoldDisplayMode
-        {
-            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
-            set { ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] = (int)value; }
-        }
-
-        public static AnimeListDisplayModes DroppedDisplayMode
-        {
-            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
-            set { ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] = (int)value; }
-        }
-
-        public static AnimeListDisplayModes PlannedDisplayMode
-        {
-            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
-            set { ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] = (int)value; }
-        }
-
-        public static AnimeListDisplayModes AllDisplayMode
-        {
-            get { return (AnimeListDisplayModes)(ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] ?? AnimeListDisplayModes.IndefiniteList); }
-            set { ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] = (int)value; }
-        }
-
-        public static bool LockDisplayMode
-        {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] ?? false); }
-            set { ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] = value; }
-        }
-
-        #endregion
-
 
         public static bool HideFilterSelectionFlyout
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideFilterSelectionFlyout"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HideFilterSelectionFlyout"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["HideFilterSelectionFlyout"] = value; }
         }
 
         public static bool HideViewSelectionFlyout
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideViewSelectionFlyout"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HideViewSelectionFlyout"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["HideViewSelectionFlyout"] = value; }
         }
 
         public static bool HideSortingSelectionFlyout
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] = value; }
         }
 
+        public static DataSource PrefferedDataSource
+        {
+            get
+            {
+                return
+                    (DataSource)
+                        (ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.Hummingbird);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] = (int) value; }
+        }
+
+        #region Views
+
+        public static AnimeListDisplayModes WatchingDisplayMode
+        {
+            get
+            {
+                return
+                    (AnimeListDisplayModes)
+                        (ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] ??
+                         AnimeListDisplayModes.IndefiniteList);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] = (int) value; }
+        }
+
+        public static AnimeListDisplayModes CompletedDisplayMode
+        {
+            get
+            {
+                return
+                    (AnimeListDisplayModes)
+                        (ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] ??
+                         AnimeListDisplayModes.IndefiniteList);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] = (int) value; }
+        }
+
+        public static AnimeListDisplayModes OnHoldDisplayMode
+        {
+            get
+            {
+                return
+                    (AnimeListDisplayModes)
+                        (ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] ??
+                         AnimeListDisplayModes.IndefiniteList);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] = (int) value; }
+        }
+
+        public static AnimeListDisplayModes DroppedDisplayMode
+        {
+            get
+            {
+                return
+                    (AnimeListDisplayModes)
+                        (ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] ??
+                         AnimeListDisplayModes.IndefiniteList);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] = (int) value; }
+        }
+
+        public static AnimeListDisplayModes PlannedDisplayMode
+        {
+            get
+            {
+                return
+                    (AnimeListDisplayModes)
+                        (ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] ??
+                         AnimeListDisplayModes.IndefiniteList);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] = (int) value; }
+        }
+
+        public static AnimeListDisplayModes AllDisplayMode
+        {
+            get
+            {
+                return
+                    (AnimeListDisplayModes)
+                        (ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] ??
+                         AnimeListDisplayModes.IndefiniteList);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] = (int) value; }
+        }
+
+        public static bool LockDisplayMode
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] = value; }
+        }
+
+        #endregion
+
         #region RatePopUp
+
         public static bool RatePopUpEnable
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["RatePopUpEnable"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["RatePopUpEnable"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["RatePopUpEnable"] = value; }
         }
 
         public static int RatePopUpStartupCounter
         {
-            get { return (int)(ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] ?? 0); }
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] ?? 0); }
             set { ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] = value; }
         }
-        #endregion
 
-        public static DataSource PrefferedDataSource
-        {
-            get { return (DataSource)(ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.Hummingbird); }
-            set { ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] = (int)value; }
-        }
+        #endregion
     }
 }

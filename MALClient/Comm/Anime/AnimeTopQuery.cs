@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MALClient.Items;
 using MALClient.Models;
 
 namespace MALClient.Comm
 {
-    class AnimeTopQuery : Query
+    internal class AnimeTopQuery : Query
     {
-        private bool _animeMode;
+        private readonly bool _animeMode;
 
         public AnimeTopQuery(bool animeMode = true)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(animeMode ? "topanime" : "topmanga")}.php"));
+                WebRequest.Create(
+                    Uri.EscapeUriString($"http://myanimelist.net/{(animeMode ? "topanime" : "topmanga")}.php"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeMode = animeMode;
@@ -44,7 +43,7 @@ namespace MALClient.Comm
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
                             "top-ranking-table"); //constant 20 recommendations
-            int i = 0;
+            var i = 0;
             foreach (var item in topNodes.Descendants("tr").Where(node =>
                 node.Attributes.Contains("class") &&
                 node.Attributes["class"].Value ==
@@ -53,7 +52,7 @@ namespace MALClient.Comm
                 try
                 {
                     var current = new TopAnimeData();
-                    string epsText = item.Descendants("div").First(node =>
+                    var epsText = item.Descendants("div").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
                         "information di-ib mt4").ChildNodes[0].InnerText;
@@ -84,7 +83,7 @@ namespace MALClient.Comm
                     //
                 }
             }
-            DataCache.SaveTopAnimeData(output,_animeMode);
+            DataCache.SaveTopAnimeData(output, _animeMode);
 
             return output;
         }

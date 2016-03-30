@@ -34,7 +34,7 @@ namespace MALClient.Pages
             SetDesiredStatus();
             SliderSetup();
             ToggleSwitchSetup();
-            ComboThemes.SelectedIndex = (int)Settings.SelectedTheme;
+            ComboThemes.SelectedIndex = (int) Settings.SelectedTheme;
             TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
@@ -384,7 +384,7 @@ namespace MALClient.Pages
 
         private void ChangeTheme(object sender, SelectionChangedEventArgs e)
         {
-            Settings.SelectedTheme = (ApplicationTheme)ComboThemes.SelectedIndex;
+            Settings.SelectedTheme = (ApplicationTheme) ComboThemes.SelectedIndex;
             TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;

@@ -10,15 +10,16 @@
     d:DesignWidth="400">
 
     <Grid Padding="0">
-        <ProgressRing x:Name="LoadingData" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="True" Width="50" 
-                      Height="50" Margin="{Binding ElementName=Animes,Path=Margin}" Padding="5" Visibility="Collapsed"/>
+        <ProgressRing x:Name="LoadingData" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="True"
+                      Width="50"
+                      Height="50" Margin="{Binding ElementName=Animes,Path=Margin}" Padding="5" Visibility="Collapsed" />
         <ListView x:Name="Animes" Padding="0" SelectionMode="Single" SelectionChanged="Animes_OnSelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Padding" Value="5,5" />
                     <Setter Property="Margin" Value="0,5" />
-                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                     <Setter Property="BorderThickness" Value="5,0,0,0" />
                 </Style>
             </ListView.ItemContainerStyle>

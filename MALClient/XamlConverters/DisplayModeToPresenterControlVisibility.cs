@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using MALClient.ViewModels;
 
 namespace MALClient.XamlConverters
 {
-    class DisplayModeToPresenterControlVisibility : IValueConverter
+    internal class DisplayModeToPresenterControlVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            AnimeListDisplayModes mode = (AnimeListDisplayModes) value;
+            var mode = (AnimeListDisplayModes) value;
             switch (parameter as string)
             {
                 case "PivotPages":

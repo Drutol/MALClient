@@ -16,7 +16,7 @@
     </Page.Resources>
 
     <Page.DataContext>
-        <Binding Path="Main" Source="{StaticResource Locator}"/>
+        <Binding Path="Main" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -24,37 +24,38 @@
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Background="{ThemeResource BrushAppBars}">
+        <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"
+              Background="{ThemeResource BrushAppBars}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             <Button IsTabStop="False" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets"
-				Content="&#xE700;"
-				Width="45" Height="45" Background="Transparent" FontSize="20"
-				Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-				Command="{Binding ReversePaneCommand}" />
+                    Content="&#xE700;"
+                    Width="45" Height="45" Background="Transparent" FontSize="20"
+                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                    Command="{Binding ReversePaneCommand}" />
             <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
-				TextTrimming="CharacterEllipsis"
-				VerticalAlignment="Center" HorizontalAlignment="Stretch"
-				Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
+                       TextTrimming="CharacterEllipsis"
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="SearchInput" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-					KeyDown="SearchInput_OnKeyDown"
-					Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-					Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
-					PlaceholderText="Search..." />
+                         KeyDown="SearchInput_OnKeyDown"
+                         Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                         PlaceholderText="Search..." />
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
-					Visibility="{Binding SearchFilterButtonVisibility}">
+                        Visibility="{Binding SearchFilterButtonVisibility}">
                     <Button.Flyout>
                         <Flyout>
                             <ListView ItemsSource="{Binding SearchFilterOptions}"
-								SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                      SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding}" />
@@ -66,29 +67,29 @@
                     <SymbolIcon Symbol="Filter" Foreground="{Binding SearchFilterButtonBrush}" />
                 </Button>
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
-					Visibility="{Binding ScrollToTopButtonVisibility}" Command="{Binding GoTopCommand}">
+                        Visibility="{Binding ScrollToTopButtonVisibility}" Command="{Binding GoTopCommand}">
                     <SymbolIcon Symbol="Up" />
                 </Button>
             </Grid>
             <controls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
-				HorizontalAlignment="Right" IsThreeState="False"
-				VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2"
-				Background="Transparent"
-				IsChecked="{Binding SearchToggleStatus}"
-				Command="{Binding ToggleSearchCommand}"
-				Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                                           HorizontalAlignment="Right" IsThreeState="False"
+                                           VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2"
+                                           Background="Transparent"
+                                           IsChecked="{Binding SearchToggleStatus}"
+                                           Command="{Binding ToggleSearchCommand}"
+                                           Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
             </controls:LockableToggleButton>
             <Button IsTabStop="False" HorizontalAlignment="Right"
-				VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
-				Command="{Binding RefreshDataCommand}"
-				Visibility="{Binding RefreshButtonVisibility}">
+                    VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
+                    Command="{Binding RefreshDataCommand}"
+                    Visibility="{Binding RefreshButtonVisibility}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
         </Grid>
         <SplitView IsTabStop="False" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
-			IsPaneOpen="{Binding MenuPaneState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-			DisplayMode="CompactOverlay" Grid.Row="1">
+                   IsPaneOpen="{Binding MenuPaneState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>
                 <controls:HamburgerControl />
             </SplitView.Pane>

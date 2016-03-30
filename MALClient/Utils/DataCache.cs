@@ -222,7 +222,8 @@ namespace MALClient
             }
         }
 
-        public static async Task<AnimeDetailsData> RetrieveAnimeGeneralDetailsData(int id,DataSource source, bool anime = true)
+        public static async Task<AnimeDetailsData> RetrieveAnimeGeneralDetailsData(int id, DataSource source,
+            bool anime = true)
         {
             try
             {
@@ -243,7 +244,7 @@ namespace MALClient
             return null;
         }
 
-        private static bool CheckForOldDataDetails(DateTime date,int days = 7)
+        private static bool CheckForOldDataDetails(DateTime date, int days = 7)
         {
             var diff = DateTime.Now.ToUniversalTime().Subtract(date);
             if (diff.TotalDays >= days)
@@ -441,8 +442,8 @@ namespace MALClient
             return null;
         }
 
-        #endregion 
-        
+        #endregion
+
         #region AnimeSerachResults
 
         public static async void SaveAnimeSearchResultsData(int id, XElement data, bool anime)
@@ -483,7 +484,7 @@ namespace MALClient
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, XElement>>(data);
-                return CheckForOldDataDetails(tuple.Item1,1) ? tuple.Item2 : null;
+                return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
             }
             catch (Exception)
             {
@@ -492,8 +493,8 @@ namespace MALClient
             return null;
         }
 
-        #endregion        
-        
+        #endregion
+
         #region TopAnime
 
         public static async void SaveTopAnimeData(List<TopAnimeData> data, bool anime)
@@ -504,7 +505,10 @@ namespace MALClient
                 {
                     var json =
                         JsonConvert.SerializeObject(new Tuple<DateTime, List<TopAnimeData>>(DateTime.UtcNow, data));
-                    var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"top_{(anime ? "anime" : "manga")}.json",CreationCollisionOption.ReplaceExisting);
+                    var file =
+                        await
+                            ApplicationData.Current.LocalFolder.CreateFileAsync(
+                                $"top_{(anime ? "anime" : "manga")}.json", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(file, json);
                 });
             }
@@ -518,7 +522,8 @@ namespace MALClient
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"top_{(anime ? "anime" : "manga")}.json");
+                var file =
+                    await ApplicationData.Current.LocalFolder.GetFileAsync($"top_{(anime ? "anime" : "manga")}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, List<TopAnimeData>>>(data);

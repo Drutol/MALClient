@@ -21,8 +21,9 @@
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
-                <TextBlock Text="I know that this page is dreadful and it will be remade from scratch soon™ Update: 23.03.2016" 
-                           HorizontalAlignment="Center" TextWrapping="WrapWholeWords"/>
+                <TextBlock
+                    Text="I know that this page is dreadful and it will be remade from scratch soon™ Update: 23.03.2016"
+                    HorizontalAlignment="Center" TextWrapping="WrapWholeWords" />
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
@@ -79,7 +80,8 @@
                             </charting:Stacked100BarSeries.SeriesDefinitions>
                         </charting:Stacked100BarSeries>
                     </charting:Chart >-->
-                    <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
                                 <Grid HorizontalAlignment="Stretch">
@@ -260,7 +262,8 @@
                             </charting:Stacked100BarSeries.SeriesDefinitions>
                         </charting:Stacked100BarSeries>
                     </charting:Chart >-->
-                    <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
                             <StackPanel HorizontalAlignment="Center" Width="Auto">
                                 <Grid HorizontalAlignment="Stretch">

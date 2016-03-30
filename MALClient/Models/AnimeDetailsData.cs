@@ -6,17 +6,17 @@ namespace MALClient.Models
     {
         Ann,
         Hummingbird,
-        AnnHum,
+        AnnHum
     }
 
 
     public class AnimeDetailsData
     {
-        public string SourceId;
-        public DataSource Source = DataSource.Ann;
         public List<string> EDs;
         public List<string> Episodes;
         public List<string> Genres;
         public List<string> OPs;
+        public DataSource Source = DataSource.Ann;
+        public string SourceId;
     }
 }

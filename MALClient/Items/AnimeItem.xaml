@@ -124,22 +124,22 @@
                     <StackPanel Padding="0">
                         <StackPanel.Resources>
                             <Style TargetType="Button">
-                                <Setter Property="Height" Value="35"/>
-                                <Setter Property="HorizontalAlignment" Value="Left"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Margin" Value="1"></Setter>
+                                <Setter Property="Height" Value="35" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Margin" Value="1" />
                             </Style>
                         </StackPanel.Resources>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="World" VerticalAlignment="Center"/>
+                            <SymbolIcon Symbol="World" VerticalAlignment="Center" />
                             <StackPanel HorizontalAlignment="Left">
-                                <Button  Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
+                                <Button Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
                                 <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
                             </StackPanel>
                         </StackPanel>
-                        <MenuFlyoutSeparator/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                            <SymbolIcon Symbol="Pin" VerticalAlignment="Center"/>
+                        <MenuFlyoutSeparator />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
                             <StackPanel HorizontalAlignment="Left">
                                 <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
                                 <Button Content="Pin with custom url" Command="{Binding PinTileCustomCommand}" />
@@ -202,29 +202,31 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13" VerticalAlignment="Bottom"  Margin="0,0,5,5"/>
-                    <Button  Content="{Binding MyEpisodesBind}"
-                        Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiLight"
-                        Margin="0,0,0,5" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0,0,0,2"
-                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                        IsEnabled="{Binding UpdateButtonsEnableState}"
-                        HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                               VerticalAlignment="Bottom" Margin="0,0,5,5" />
+                    <Button Content="{Binding MyEpisodesBind}"
+                            Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiLight"
+                            Margin="0,0,0,5" VerticalAlignment="Bottom" Background="Transparent"
+                            BorderThickness="0,0,0,2"
+                            BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                            IsEnabled="{Binding UpdateButtonsEnableState}"
+                            HorizontalAlignment="Right">
                         <Button.Flyout>
                             <Flyout x:Name="WatchedEpsFlyout">
                                 <StackPanel>
                                     <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
-                                           FontWeight="SemiLight" />
+                                               FontWeight="SemiLight" />
                                     <StackPanel Orientation="Horizontal">
                                         <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
-                                             Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                             KeyDown="SubmitWatchedEps" />
+                                                 Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 KeyDown="SubmitWatchedEps" />
                                         <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
                                             <SymbolIcon Symbol="Accept" />
                                         </Button>
                                     </StackPanel>
                                     <TextBlock Text="Wrong input!"
-                                           HorizontalAlignment="Center" FontWeight="SemiLight"
-                                           Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
+                                               HorizontalAlignment="Center" FontWeight="SemiLight"
+                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>

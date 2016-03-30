@@ -34,16 +34,16 @@
                     <StackPanel Padding="0">
                         <StackPanel.Resources>
                             <Style TargetType="Button">
-                                <Setter Property="Height" Value="35"/>
-                                <Setter Property="HorizontalAlignment" Value="Left"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Margin" Value="1"></Setter>
+                                <Setter Property="Height" Value="35" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Margin" Value="1" />
                             </Style>
                         </StackPanel.Resources>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="World" VerticalAlignment="Center"/>
+                            <SymbolIcon Symbol="World" VerticalAlignment="Center" />
                             <StackPanel HorizontalAlignment="Left">
-                                <Button  Content="Copy url to clipboard" Click="CopyLinkToClipboardCommand" />
+                                <Button Content="Copy url to clipboard" Click="CopyLinkToClipboardCommand" />
                                 <Button Content="Open in browser" Click="OpenInMALCommand" />
                             </StackPanel>
                         </StackPanel>

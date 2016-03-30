@@ -1,4 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
+
 namespace MALClient
 {
     public enum AnimeType
@@ -8,7 +9,7 @@ namespace MALClient
         Movie = 3,
         Special = 4,
         ONA = 5,
-        Music = 6,
+        Music = 6
     }
 
     public enum MangaType
@@ -18,6 +19,6 @@ namespace MALClient
         Manhwa = 5,
         OneShot = 3,
         Manhua = 6,
-        Doujinshi = 4,
+        Doujinshi = 4
     }
 }

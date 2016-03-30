@@ -30,12 +30,12 @@
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
                         VerticalAlignment="Bottom">
                     <Grid>
-                        <Image x:Name="DepImg" Stretch="Uniform"/>
+                        <Image x:Name="DepImg" Stretch="Uniform" />
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
                             <Grid.Background>
                                 <SolidColorBrush Color="Black" Opacity=".5" />
                             </Grid.Background>
-                            <SymbolIcon Symbol="Go" Foreground="White"/>
+                            <SymbolIcon Symbol="Go" Foreground="White" />
                         </Grid>
                     </Grid>
                 </Button>
@@ -55,12 +55,12 @@
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
                         VerticalAlignment="Bottom">
                     <Grid>
-                        <Image x:Name="RecImg" Stretch="Uniform"/>
+                        <Image x:Name="RecImg" Stretch="Uniform" />
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
                             <Grid.Background>
                                 <SolidColorBrush Color="Black" Opacity=".5" />
                             </Grid.Background>
-                            <SymbolIcon Symbol="Go" Foreground="White"/>
+                            <SymbolIcon Symbol="Go" Foreground="White" />
                         </Grid>
                     </Grid>
                 </Button>
@@ -95,7 +95,8 @@
                     <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" x:Name="SpinnerLoading" Background="{ThemeResource BrushLoading}">
+            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" x:Name="SpinnerLoading"
+                  Background="{ThemeResource BrushLoading}">
                 <ProgressRing
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                     IsActive="True" />

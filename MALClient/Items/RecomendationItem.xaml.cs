@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,8 +16,8 @@ namespace MALClient.Items
     public sealed partial class RecomendationItem : UserControl
     {
         private readonly RecomendationData _data;
-        private bool _dataLoaded;
         private readonly ObservableCollection<ListViewItem> _detailItems = new ObservableCollection<ListViewItem>();
+        private bool _dataLoaded;
 
         public RecomendationItem(RecomendationData data, int index)
         {
@@ -86,7 +85,7 @@ namespace MALClient.Items
                         BuildTextBlock(val1, FontWeights.SemiLight, 1),
                         BuildTextBlock(val2, FontWeights.SemiLight, 2)
                     }
-                },
+                }
             };
         }
 

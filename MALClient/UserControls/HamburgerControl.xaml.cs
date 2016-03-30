@@ -22,7 +22,7 @@ namespace MALClient.UserControls
         MangaList,
         MangaSearch,
         TopAnime,
-        TopManga,
+        TopManga
     }
 
     public sealed partial class HamburgerControl : UserControl, IHamburgerControlView

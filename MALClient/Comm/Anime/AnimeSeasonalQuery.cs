@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Windows.Data.Html;
 using HtmlAgilityPack;
 using MALClient.Items;
 using MALClient.ViewModels;
@@ -29,7 +28,7 @@ namespace MALClient.Comm
             var output = force || DataCache.SeasonalUrls.Count == 0 //either force or urls are empty after update
                 ? new List<SeasonalAnimeData>()
                 : await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>();
-                //current season without suffix
+            //current season without suffix
             if (output.Count != 0) return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))

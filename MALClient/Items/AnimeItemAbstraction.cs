@@ -14,48 +14,29 @@ namespace MALClient.Items
         private readonly int allEps;
         private readonly int allVolumes;
 
+        public readonly bool auth;
+
         private readonly SeasonalAnimeData data;
-        private  int id;
-        public  string img;
-        private int myEps;
-        private int myScore;
-        private int myStatus;
-        private int myVolumes;
-        private string name;
 
         private AnimeItem _animeItem;
+
+        private AnimeGridItem _gridItem;
         private AnimeItemViewModel _viewModel;
         public int AirDay = -1;
-
-        public readonly bool auth;
         private bool authSetEps;
         public float GlobalScore;
+        private readonly int id;
         public int Id;
+        public string img;
         public int Index;
         public bool LoadedAnime;
 
-
-        public int MyEpisodes
-        {
-            get { return myEps; }
-            set { myEps = value; }
-        }
-
-        public int MyScore
-        {
-            get { return myScore; }
-            set { myScore = value; }
-        }
-
-        public int MyStatus
-        {
-            get { return myStatus; }
-            set { myStatus = value; }
-        }
-
-        public int Type { get; set; }
+        public bool LoadedGrid;
+        public bool LoadedModel;
+        private readonly int myVolumes;
 
         public int MyVolumes;
+        private readonly string name;
 
         public bool RepresentsAnime = true;
         public string Title;
@@ -70,24 +51,25 @@ namespace MALClient.Items
         }
 
         //three constructors depending on original init
-        public AnimeItemAbstraction(bool auth, string name, string img,int type, int id, int myStatus, int myEps, int allEps,
+        public AnimeItemAbstraction(bool auth, string name, string img, int type, int id, int myStatus, int myEps,
+            int allEps,
             int myScore) : this(id)
         {
             this.auth = auth;
             this.name = name;
             this.img = img;
             this.id = id;
-            this.myStatus = MyStatus = myStatus;
-            this.myEps = MyEpisodes = myEps;
+            MyStatus = MyStatus = myStatus;
+            MyEpisodes = MyEpisodes = myEps;
             this.allEps = allEps;
-            this.myScore = MyScore = myScore;
+            MyScore = MyScore = myScore;
             Type = type;
             _firstConstructor = true;
 
             Title = name;
         }
 
-        public AnimeItemAbstraction(SeasonalAnimeData data,bool anime)
+        public AnimeItemAbstraction(SeasonalAnimeData data, bool anime)
             : this(data.Id)
         {
             this.data = data;
@@ -99,13 +81,24 @@ namespace MALClient.Items
             MyStatus = (int) AnimeStatus.AllOrAiring;
         }
 
-        public AnimeItemAbstraction(bool auth, string name, string img,int type, int id, int myStatus, int myEps, int allEps,
-            int myScore, int volumes, int allVolumes) : this(auth, name, img, type,id, myStatus, myEps, allEps, myScore)
+        public AnimeItemAbstraction(bool auth, string name, string img, int type, int id, int myStatus, int myEps,
+            int allEps,
+            int myScore, int volumes, int allVolumes)
+            : this(auth, name, img, type, id, myStatus, myEps, allEps, myScore)
         {
             RepresentsAnime = false;
             myVolumes = MyVolumes = volumes;
             this.allVolumes = allVolumes;
         }
+
+
+        public int MyEpisodes { get; set; }
+
+        public int MyScore { get; set; }
+
+        public int MyStatus { get; set; }
+
+        public int Type { get; set; }
 
         public AnimeItem AnimeItem
         {
@@ -120,7 +113,6 @@ namespace MALClient.Items
             }
         }
 
-        private AnimeGridItem _gridItem;
         public AnimeGridItem AnimeGridItem
         {
             get
@@ -132,12 +124,8 @@ namespace MALClient.Items
                 _gridItem = new AnimeGridItem(_viewModel);
                 LoadedGrid = true;
                 return _gridItem;
-
             }
         }
-
-        public bool LoadedGrid = false;
-        public bool LoadedModel = false;
 
         public AnimeItemViewModel ViewModel
         {
@@ -171,12 +159,14 @@ namespace MALClient.Items
             LoadedModel = true;
             if (RepresentsAnime)
                 return _firstConstructor
-                    ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps)
+                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, this,
+                        authSetEps)
                     : new AnimeItemViewModel(data, this);
             return
                 _firstConstructor
-                    ? new AnimeItemViewModel(auth, name, img, id, myStatus, myEps, allEps, myScore, this, authSetEps,myVolumes, allVolumes)
-                    : new AnimeItemViewModel(data, this); 
+                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, this,
+                        authSetEps, myVolumes, allVolumes)
+                    : new AnimeItemViewModel(data, this);
         }
 
         private AnimeItem LoadElement()

@@ -29,7 +29,7 @@ namespace MALClient
             {
                 _wasOnStack = true;
                 _detailsNavStack.Push(args as AnimeDetailsPageNavigationArgs);
-                    //we can only navigate to details from details so...
+                //we can only navigate to details from details so...
             }
             else //non details navigation
             {
@@ -61,7 +61,7 @@ namespace MALClient
                 var param = (AnimeListPageNavigationArgs) _args;
                 if (param.WorkMode == AnimeListWorkModes.TopManga)
                     _pageTo = PageIndex.PageTopManga;
-                else if(param.WorkMode == AnimeListWorkModes.TopAnime)
+                else if (param.WorkMode == AnimeListWorkModes.TopAnime)
                     _pageTo = PageIndex.PageTopAnime;
             }
 

@@ -171,7 +171,7 @@
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
-                                            </Button>                                            
+                                            </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     PointerEntered="Button_PointerEntered"
@@ -300,15 +300,19 @@
                                         <ColumnDefinition Width="35" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" Grid.Column="0"
-                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="{Binding AdLoadingSpinner,Converter={StaticResource VisiblityInverterConverter}}"
-                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
+                                               HorizontalAlignment="Center" Grid.Column="0"
+                                               VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                               Visibility="{Binding AdLoadingSpinner,Converter={StaticResource VisiblityInverterConverter}}"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
                                         <TextBlock.RenderTransform>
-                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                         </TextBlock.RenderTransform>
                                     </TextBlock>
-                                    <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" IsActive="True" Visibility="{Binding AdLoadingSpinner}"/>
-                                    <TextBlock  Text="Support me! Watch ad!" HorizontalAlignment="Stretch"
+                                    <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Grid.Column="0" IsActive="True"
+                                                  Visibility="{Binding AdLoadingSpinner}" />
+                                    <TextBlock Text="Support me! Watch ad!" HorizontalAlignment="Stretch"
                                                TextWrapping="WrapWholeWords" FontSize="14" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>

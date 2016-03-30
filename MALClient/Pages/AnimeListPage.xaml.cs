@@ -32,9 +32,9 @@ namespace MALClient.Pages
         public readonly bool NavArgs;
         public readonly int Status;
         public AnimeSeason CurrSeason;
+        public AnimeListDisplayModes DisplayMode;
         public SortOptions SortOption;
         public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
-        public AnimeListDisplayModes DisplayMode;
 
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
             AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
@@ -81,21 +81,20 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class AnimeListPage : Page
     {
-        private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
-
         private ScrollViewer _indefiniteScrollViewer;
+        private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
 
         public ScrollViewer IndefiniteScrollViewer
         {
             get
             {
-               return _indefiniteScrollViewer ??
-                 (_indefiniteScrollViewer =
-                     VisualTreeHelper.GetChild(
-                         VisualTreeHelper.GetChild(
-                             (ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteList
-                                 ? (DependencyObject)AnimesItemsIndefinite
-                                 : AnimesGridIndefinite), 0), 0) as ScrollViewer);
+                return _indefiniteScrollViewer ??
+                       (_indefiniteScrollViewer =
+                           VisualTreeHelper.GetChild(
+                               VisualTreeHelper.GetChild(
+                                   ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteList
+                                       ? (DependencyObject) AnimesItemsIndefinite
+                                       : AnimesGridIndefinite, 0), 0) as ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
         }
@@ -103,23 +102,6 @@ namespace MALClient.Pages
         public Flyout FlyoutViews => ViewsFlyout;
         public Flyout FlyoutFilters => FiltersFlyout;
         public Flyout FlyoutSorting => SortingFlyout;
-
-        #region Init
-
-        public AnimeListPage()
-        {
-            InitializeComponent();
-            ViewModel.View = this;
-            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
-        }
-
-
-        #endregion
 
         public void FlyoutSeasonSelectionHide()
         {
@@ -146,6 +128,37 @@ namespace MALClient.Pages
             }
         }
 
+        private async void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+                return;
+            await Task.Delay(1);
+            (e.AddedItems.First() as AnimeItem).ViewModel.NavigateDetails();
+        }
+
+        private async void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+                return;
+            await Task.Delay(1);
+            (e.AddedItems.First() as AnimeGridItem).ViewModel.NavigateDetails();
+        }
+
+        #region Init
+
+        public AnimeListPage()
+        {
+            InitializeComponent();
+            ViewModel.View = this;
+            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
+        }
+
+        #endregion
 
         #region UIHelpers
 
@@ -259,21 +272,5 @@ namespace MALClient.Pages
         }
 
         #endregion
-
-        private async void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
-            await Task.Delay(1);
-            (e.AddedItems.First() as AnimeItem).ViewModel.NavigateDetails();
-        }
-
-        private async void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
-            await Task.Delay(1);
-            (e.AddedItems.First() as AnimeGridItem).ViewModel.NavigateDetails();
-        }
     }
 }

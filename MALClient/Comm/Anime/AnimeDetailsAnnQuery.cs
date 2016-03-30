@@ -26,7 +26,7 @@ namespace MALClient.Comm
 
         public async Task<AnimeDetailsData> GetGeneralDetailsData(bool force = false)
         {
-            var possibleData = force ? null : await DataCache.RetrieveAnimeGeneralDetailsData(_id,DataSource.Ann);
+            var possibleData = force ? null : await DataCache.RetrieveAnimeGeneralDetailsData(_id, DataSource.Ann);
             if (possibleData != null)
                 return possibleData;
 
@@ -47,13 +47,15 @@ namespace MALClient.Comm
                             string.Equals(element.Attribute("name").Value, _rootTitle,
                                 StringComparison.CurrentCultureIgnoreCase));
                 if (node == null)
-                    node = await Task.Run(() => {
+                    node = await Task.Run(() =>
+                    {
                         foreach (var bigNode in nodes)
                         {
                             foreach (var infoNode in bigNode.Elements("info"))
                                 foreach (var attr in infoNode.Attributes("type"))
                                     if (attr.Value == "Alternative title")
-                                        if (string.Equals(infoNode.Value, _rootTitle, StringComparison.CurrentCultureIgnoreCase))
+                                        if (string.Equals(infoNode.Value, _rootTitle,
+                                            StringComparison.CurrentCultureIgnoreCase))
                                         {
                                             return bigNode;
                                         }

@@ -34,7 +34,7 @@ namespace MALClient.Comm
         {
             var output = force
                 ? new List<RelatedAnimeData>()
-                : await DataCache.RetrieveRelatedAnimeData(_animeId,_animeMode) ?? new List<RelatedAnimeData>();
+                : await DataCache.RetrieveRelatedAnimeData(_animeId, _animeMode) ?? new List<RelatedAnimeData>();
             if (output.Count != 0) return output;
 
             var raw = await GetRequestResponse();

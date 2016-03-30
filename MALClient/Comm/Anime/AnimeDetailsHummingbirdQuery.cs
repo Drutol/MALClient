@@ -2,26 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using MALClient.Models;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm.Anime
 {
-
-
-    class AnimeDetailsHummingbirdQuery : Query
+    internal class AnimeDetailsHummingbirdQuery : Query
     {
-        private static string _apiKey;
+        private static readonly string _apiKey;
+
+        private readonly int _id;
 
         static AnimeDetailsHummingbirdQuery()
         {
-            var resources = new Windows.ApplicationModel.Resources.ResourceLoader("MalClientResources");
+            var resources = new ResourceLoader("MalClientResources");
             _apiKey = resources.GetString("secret");
         }
-
-        private int _id;
 
         public AnimeDetailsHummingbirdQuery(int id)
         {
@@ -35,7 +33,9 @@ namespace MALClient.Comm.Anime
 
         public async Task<AnimeDetailsData> GetAnimeDetails(bool force = false)
         {
-            var possibleData = force ? null : await DataCache.RetrieveAnimeGeneralDetailsData(_id, DataSource.Hummingbird);
+            var possibleData = force
+                ? null
+                : await DataCache.RetrieveAnimeGeneralDetailsData(_id, DataSource.Hummingbird);
             if (possibleData != null)
                 return possibleData;
             Request.Headers["X-Client-Id"] = _apiKey;
@@ -53,7 +53,7 @@ namespace MALClient.Comm.Anime
                 var eps = new List<Tuple<string, int>>();
 
                 foreach (var episode in obj.linked.episodes)
-                    eps.Add(new Tuple<string, int>(episode.title.Value,(int)episode.number.Value));
+                    eps.Add(new Tuple<string, int>(episode.title.Value, (int) episode.number.Value));
 
                 eps = eps.OrderBy(tuple => tuple.Item2).ToList();
                 current.Episodes.AddRange(eps.Select(tuple => tuple.Item1));
@@ -61,14 +61,13 @@ namespace MALClient.Comm.Anime
 
                 var output = current.ToAnimeDetailsData();
 
-                DataCache.SaveAnimeDetails(_id,output);
+                DataCache.SaveAnimeDetails(_id, output);
                 return output;
             }
             catch (Exception)
             {
                 return null;
             }
-
         }
     }
 }

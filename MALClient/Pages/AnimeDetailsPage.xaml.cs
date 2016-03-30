@@ -11,7 +11,6 @@ namespace MALClient.Pages
 {
     public sealed partial class AnimeDetailsPage : Page, IDetailsViewInteraction
     {
-
         public AnimeDetailsPage()
         {
             InitializeComponent();
@@ -34,7 +33,6 @@ namespace MALClient.Pages
             if (!param.AnimeMode)
                 MainPivot.Items.RemoveAt(1);
             ViewModel.Init(param);
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -55,7 +53,7 @@ namespace MALClient.Pages
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            if(!ViewModel._initialized)
+            if (!ViewModel._initialized)
                 return;
             switch (args.Item.Tag as string)
             {

@@ -11,11 +11,10 @@ namespace MALClient.UserControls
 {
     public sealed partial class CachedEntryItem : UserControl
     {
-
         public CachedEntryItem(StorageFile file, bool nonUser)
         {
             InitializeComponent();
-            TxtUser.Text = file.Name; 
+            TxtUser.Text = file.Name;
             SetDetails(file);
         }
 

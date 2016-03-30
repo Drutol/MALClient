@@ -7,8 +7,15 @@ namespace MALClient.UserControls
 {
     public class AlternatingListView : ListView
     {
-        private static Brush _b2 = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Color.FromArgb(170,44,44,44) : Color.FromArgb(170,230,230,230) );
-        private static Brush _b1 = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Color.FromArgb(255,11,11,11) : Colors.WhiteSmoke );
+        private static readonly Brush _b2 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(170, 44, 44, 44)
+                : Color.FromArgb(170, 230, 230, 230));
+
+        private static readonly Brush _b1 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(255, 11, 11, 11)
+                : Colors.WhiteSmoke);
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {

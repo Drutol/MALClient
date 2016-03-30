@@ -12,15 +12,15 @@
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility"/>
-        <converters:DivideValueConverter x:Key="DivideValueConverter"/>
+        <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility" />
+        <converters:DivideValueConverter x:Key="DivideValueConverter" />
         <x:String x:Key="PivotPagesString">PivotPages</x:String>
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}" >
+        <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
                               Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
@@ -45,18 +45,19 @@
                 </AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="View" Label="Display mode" >
+            <AppBarButton Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ViewsFlyout">
-                        <ListView ItemsSource="{Binding DisplayModes}" SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ListView ItemsSource="{Binding DisplayModes}"
+                                  SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
-                                    <Setter Property="Height" Value="25"/>
+                                    <Setter Property="Height" Value="25" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Item2}" Height="25"/>
+                                    <TextBlock Text="{Binding Item2}" Height="25" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -153,7 +154,7 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" 
+        <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <ListView.ItemContainerStyle>
@@ -161,13 +162,14 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Padding" Value="5,5" />
                     <Setter Property="Margin" Value="0,5" />
-                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                     <Setter Property="BorderThickness" Value="5,0,0,0" />
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <GridView  x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}" SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
-            Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
+        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
+                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
+                  Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
@@ -187,7 +189,8 @@
         </StackPanel>
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushLoading}">
+              Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{ThemeResource BrushLoading}">
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
                 IsActive="True" />

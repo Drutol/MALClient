@@ -43,7 +43,8 @@ namespace MALClient.ViewModels
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;
 
-            if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList || index == PageIndex.PageTopManga || index == PageIndex.PageTopAnime)
+            if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList || index == PageIndex.PageTopManga ||
+                index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
 
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
@@ -142,8 +143,10 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-                Navigate(Creditentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList) : PageIndex.PageLogIn);
-                    //entry point whatnot
+                Navigate(Creditentials.Authenticated
+                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
+                    : PageIndex.PageLogIn);
+                //entry point whatnot
             }
         } //entry point
 
@@ -260,6 +263,7 @@ namespace MALClient.ViewModels
         }
 
         private ICommand _goTopCommand;
+
         public ICommand GoTopCommand
         {
             get
@@ -288,7 +292,7 @@ namespace MALClient.ViewModels
             get { return _scrollToTopButtonVisibility; }
             set
             {
-                if(value == _scrollToTopButtonVisibility)
+                if (value == _scrollToTopButtonVisibility)
                     return;
                 _scrollToTopButtonVisibility = value;
                 RaisePropertyChanged(() => ScrollToTopButtonVisibility);
@@ -407,7 +411,10 @@ namespace MALClient.ViewModels
                 return;
             }
             if (SearchFilterSelectedIndex == SearchFilterOptions.Count - 1)
-                SearchFilterButtonBrush = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light ?  Colors.Black : Colors.FloralWhite);
+                SearchFilterButtonBrush =
+                    new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light
+                        ? Colors.Black
+                        : Colors.FloralWhite);
             else
                 SearchFilterButtonBrush = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
 
@@ -417,7 +424,10 @@ namespace MALClient.ViewModels
         private void ResetSearchFilter()
         {
             SearchFilterButtonVisibility = Visibility.Collapsed;
-            SearchFilterButtonBrush = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light ? Colors.Black : Colors.FloralWhite);
+            SearchFilterButtonBrush =
+                new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light
+                    ? Colors.Black
+                    : Colors.FloralWhite);
             SearchFilterOptions.Clear();
         }
 

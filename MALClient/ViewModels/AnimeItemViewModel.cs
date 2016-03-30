@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Graphics.Display;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -38,17 +34,18 @@ namespace MALClient.ViewModels
         public IAnimeItemInteractions ViewGrid;
         public IAnimeItemInteractions ViewList;
 
-
-        //state fields
-        public int Id { get; set; }
-
-        public static double MaxWidth { get; set; }
         static AnimeItemViewModel()
         {
             var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
             MaxWidth = bounds.Width/2.1;
         }
+
+        public static double MaxWidth { get; set; }
+
+
+        //state fields
+        public int Id { get; set; }
 
         public async void NavigateDetails()
         {
@@ -185,6 +182,7 @@ namespace MALClient.ViewModels
                 ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopManga
                     ? _parentAbstraction.Index.ToString()
                     : Utils.DayToString((DayOfWeek) (_parentAbstraction.AirDay - 1));
+
         private bool _airing;
 
         public bool Airing
@@ -635,13 +633,13 @@ namespace MALClient.ViewModels
                        (_copyLinkToClipboardCommand = new RelayCommand(() =>
                        {
                            var dp = new DataPackage();
-                           dp.SetText($"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           dp.SetText(
+                               $"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
                            ViewList?.MoreFlyout.Hide();
                            ViewGrid?.MoreFlyout.Hide();
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
-
             }
         }
 
@@ -661,7 +659,6 @@ namespace MALClient.ViewModels
                                    new Uri(
                                        $"http://myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                        }));
-
             }
         }
 
@@ -680,7 +677,7 @@ namespace MALClient.ViewModels
                         var msg = new MessageDialog("Tile for this anime already exists.");
                         await msg.ShowAsync();
                         return;
-                    }               
+                    }
                     PinTile(
                         $"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                 }));

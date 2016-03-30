@@ -54,14 +54,16 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
-                            <Button Height="40" HorizontalAlignment="Stretch" Command="{Binding CopyToClipboardCommand}"
+                            <Button Height="40" HorizontalAlignment="Stretch"
+                                    Command="{Binding CopyToClipboardCommand}"
                                     Background="{ThemeResource BrushDetailsMoreButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Copy" />
                                     <TextBlock Margin="10,0,0,0" Text="Copy link to clipboard" />
                                 </StackPanel>
-                            </Button>                            
-                            <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding OpenInMalCommand}"
+                            </Button>
+                            <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
+                                    Command="{Binding OpenInMalCommand}"
                                     Background="{ThemeResource BrushDetailsMoreButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Globe" />
@@ -237,14 +239,16 @@
                                         <ColumnDefinition Width=".5*" />
                                     </Grid.ColumnDefinitions>
                                     <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
-                                                                  BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                  BorderThickness="0,0,1,0"
+                                                                  BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding LeftDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="1,1"/>
-                                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                                                <Setter Property="Margin" Value="1,1" />
+                                                <Setter Property="BorderBrush"
+                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                <Setter Property="BorderThickness" Value="2,0,0,0" />
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
@@ -257,20 +261,25 @@
                                                     <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
                                                                FontWeight="Normal" />
                                                     <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                               HorizontalAlignment="Right" Margin="3,0" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" FontWeight="SemiLight" />
+                                                               HorizontalAlignment="Right" Margin="3,0"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               TextWrapping="WrapWholeWords" MaxLines="2"
+                                                               FontWeight="SemiLight" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </controls:AlternatingListView>
                                     <controls:AlternatingListView SelectionMode="None" Grid.Column="1"
-                                                                  BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                  BorderThickness="1,0,0,0"
+                                                                  BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding RightDetailsRow}">
                                         <ListView.ItemContainerStyle>
                                             <Style TargetType="ListViewItem">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="1,1"/>
-                                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                <Setter Property="BorderThickness" Value="0,0,2,0"/>
+                                                <Setter Property="Margin" Value="1,1" />
+                                                <Setter Property="BorderBrush"
+                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                <Setter Property="BorderThickness" Value="0,0,2,0" />
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
@@ -283,8 +292,10 @@
                                                     <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
                                                                FontWeight="Normal" VerticalAlignment="Center" />
                                                     <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                               HorizontalAlignment="Right" Margin="3,0" TextTrimming="CharacterEllipsis" 
-                                                               TextWrapping="WrapWholeWords" MaxLines="2" TextAlignment="Center" 
+                                                               HorizontalAlignment="Right" Margin="3,0"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               TextWrapping="WrapWholeWords" MaxLines="2"
+                                                               TextAlignment="Center"
                                                                FontWeight="SemiLight" />
                                                 </Grid>
                                             </DataTemplate>
@@ -329,10 +340,10 @@
                                     </Grid.RowDefinitions>
                                     <Grid.Resources>
                                         <Style TargetType="controls:AlternatingListView">
-                                            <Setter Property="SelectionMode" Value="None"/>
+                                            <Setter Property="SelectionMode" Value="None" />
                                         </Style>
                                     </Grid.Resources>
-                                   <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
+                                    <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
                                                HorizontalAlignment="Center" FontSize="17" Grid.ColumnSpan="2"
                                                Margin="0,5,0,5" />
                                     <StackPanel Grid.Row="1">
@@ -355,9 +366,10 @@
                                                                           BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
-                                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                        <Setter Property="BorderThickness" Value="2,0,0,0"/>
-                                                        <Setter Property="Margin" Value="1,1"/>
+                                                        <Setter Property="BorderBrush"
+                                                                Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                        <Setter Property="BorderThickness" Value="2,0,0,0" />
+                                                        <Setter Property="Margin" Value="1,1" />
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
@@ -374,9 +386,10 @@
                                                                           BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
-                                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                        <Setter Property="BorderThickness" Value="0,0,2,0"/>
-                                                        <Setter Property="Margin" Value="1,1"/>
+                                                        <Setter Property="BorderBrush"
+                                                                Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                        <Setter Property="BorderThickness" Value="0,0,2,0" />
+                                                        <Setter Property="Margin" Value="1,1" />
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
@@ -400,9 +413,10 @@
                                         <controls:AlternatingListView ItemsSource="{Binding Episodes}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
-                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                    <Setter Property="BorderThickness" Value="2,0,2,0"/>
-                                                    <Setter Property="Margin" Value="1,1"/>
+                                                    <Setter Property="BorderBrush"
+                                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
+                                                    <Setter Property="Margin" Value="1,1" />
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                 </Style>
                                             </ListView.ItemContainerStyle>
@@ -423,10 +437,11 @@
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
                                     </StackPanel>
-                                    <MenuFlyoutSeparator Grid.Row="4" Visibility="{Binding DetailsOpsVisibility}"/>
+                                    <MenuFlyoutSeparator Grid.Row="4" Visibility="{Binding DetailsOpsVisibility}" />
                                     <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
-                                               Grid.ColumnSpan="2" Margin="0,5,0,5" Visibility="{Binding DetailsOpsVisibility}"/>
+                                               Grid.ColumnSpan="2" Margin="0,5,0,5"
+                                               Visibility="{Binding DetailsOpsVisibility}" />
                                     <StackPanel Grid.Row="6" Visibility="{Binding DetailsOpsVisibility}">
                                         <TextBlock Visibility="{Binding NoOPsDataVisibility}" Text="No data available"
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
@@ -434,9 +449,10 @@
                                         <controls:AlternatingListView ItemsSource="{Binding OPs}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
-                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                    <Setter Property="BorderThickness" Value="2,0,2,0"/>
-                                                    <Setter Property="Margin" Value="1,1"/>
+                                                    <Setter Property="BorderBrush"
+                                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
+                                                    <Setter Property="Margin" Value="1,1" />
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                 </Style>
                                             </ListView.ItemContainerStyle>
@@ -453,20 +469,22 @@
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
                                     </StackPanel>
-                                    <MenuFlyoutSeparator Grid.Row="7" Visibility="{Binding DetailsEdsVisibility}"/>
-                                    <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold" Visibility="{Binding DetailsEdsVisibility}"
+                                    <MenuFlyoutSeparator Grid.Row="7" Visibility="{Binding DetailsEdsVisibility}" />
+                                    <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold"
+                                               Visibility="{Binding DetailsEdsVisibility}"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                Grid.ColumnSpan="2" Margin="0,5,0,5" />
                                     <StackPanel Grid.Row="9" Visibility="{Binding DetailsEdsVisibility}">
-                                        <TextBlock  Text="No data available" Visibility="{Binding NoEDsDataVisibility}"
+                                        <TextBlock Text="No data available" Visibility="{Binding NoEDsDataVisibility}"
                                                    TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                    Foreground="#FFB9B9B9" />
                                         <controls:AlternatingListView ItemsSource="{Binding EDs}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
-                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                    <Setter Property="BorderThickness" Value="2,0,2,0"/>
-                                                    <Setter Property="Margin" Value="1,1"/>
+                                                    <Setter Property="BorderBrush"
+                                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
+                                                    <Setter Property="Margin" Value="1,1" />
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                 </Style>
                                             </ListView.ItemContainerStyle>
@@ -478,7 +496,7 @@
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding}" HorizontalAlignment="Center"
-                                                               FontWeight="SemiLight" TextTrimming="CharacterEllipsis"/>
+                                                               FontWeight="SemiLight" TextTrimming="CharacterEllipsis" />
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
 
@@ -489,7 +507,7 @@
                                             Content="{Binding DetailsSource}"
                                             Command="{Binding OpenInAnnCommand}"
                                             Visibility="{Binding AnnSourceButtonVisibility}"
-                                            Style="{StaticResource TextBlockButtonStyle}"/>
+                                            Style="{StaticResource TextBlockButtonStyle}" />
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
@@ -604,17 +622,20 @@
                                                         <Button Grid.Row="0" Grid.Column="0" Margin="1"
                                                                 Command="{Binding Source={StaticResource Locator}, Path=AnimeDetails.NavigateDetailsCommand}"
                                                                 CommandParameter="{Binding}"
-                                                                HorizontalAlignment="Left" Background="Transparent" Padding="0"
+                                                                HorizontalAlignment="Left" Background="Transparent"
+                                                                Padding="0"
                                                                 VerticalAlignment="Bottom">
                                                             <Grid>
-                                                                <Image Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
+                                                                <Image
+                                                                    Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                                     Height="Auto" Width="Auto"
-                                                                    HorizontalAlignment="Center" Stretch="Uniform"/>
-                                                                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="30" Height="30">
+                                                                    HorizontalAlignment="Center" Stretch="Uniform" />
+                                                                <Grid VerticalAlignment="Bottom"
+                                                                      HorizontalAlignment="Left" Width="30" Height="30">
                                                                     <Grid.Background>
                                                                         <SolidColorBrush Color="Black" Opacity=".5" />
                                                                     </Grid.Background>
-                                                                    <SymbolIcon Symbol="Go" Foreground="White"/>
+                                                                    <SymbolIcon Symbol="Go" Foreground="White" />
                                                                 </Grid>
                                                             </Grid>
                                                         </Button>
@@ -665,7 +686,8 @@
                                                     Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                                             <Setter Property="BorderThickness" Value="5,0,0,0" />
                                             <Setter Property="Margin" Value="5" />
-                                            <Setter Property="Background" Value="{ThemeResource BrushDetailsRelatedBackground}" />
+                                            <Setter Property="Background"
+                                                    Value="{ThemeResource BrushDetailsRelatedBackground}" />
                                             <Setter Property="Padding" Value="0" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
@@ -694,7 +716,8 @@
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" Background="{ThemeResource BrushLoading}">
+        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}"
+              Background="{ThemeResource BrushLoading}">
             <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>

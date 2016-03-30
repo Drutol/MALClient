@@ -79,20 +79,29 @@
                                         <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="27.03.2016" />
-                                <TextBlock Text="Modifications to grid view." />
-                                <TextBlock Text="Resolved a few bugs regarding synchronization of views" />
-                                <TextBlock Text="Made details navigation more consistent (recoms)" />
-                                <TextBlock Text="Resolved more issues with dark/light theme." />
-                                <MenuFlyoutSeparator Margin="0,5"/>
-                                <TextBlock Text="26.03.2016" />
-                                <TextBlock Text="Added grid display mode." />
-                                <TextBlock Text="Added list display mode." />
-                                <TextBlock Text="Copy to clipboard now gives visual feedback." />
-                                <TextBlock Text="Search page now follows same navigation pattern as main list." />
-                                <TextBlock Text="Fixed a few issues with dark theme." />
-                                <TextBlock Text="Settings page reorganisation." />
-     
+                                <TextBlock Text="31.03.2016 - v3.1.2.0" />
+                                <TextBlock
+                                    Text="Added setting whether to keep or dismiss flyouts (filters/sorting/view) in main list page." />
+                                <TextBlock Text="Added Top Anime page." />
+                                <TextBlock Text="Added Top Manga page." />
+                                <TextBlock Text="Selecting default tab will now open manga page too." />
+                                <TextBlock
+                                    Text="Added mechanism which will fetch user's list data when accessing top/details pages." />
+                                <TextBlock Text="Added copy to clipboard button in details page." />
+                                <TextBlock
+                                    Text="Navigating back to details page will now properly set tab originating from." />
+                                <TextBlock
+                                    Text="Fixed issue with navigating back to search page with activated filter." />
+                                <TextBlock Text="Added option to choose detailed data provider." />
+                                <TextBlock Text="Added Hummingbird as data provider." />
+                                <TextBlock Text="Added Hybrid option with Ann + hummingbird." />
+                                <TextBlock Text="Details page basic data will be now cached for 1 day." />
+                                <TextBlock Text="Added new rate popup." />
+                                <TextBlock Text="Added setting for new rate pop-up." />
+                                <TextBlock
+                                    Text="Added button which will display advertisement on demand. You can support me that way ^^" />
+                                <TextBlock Text="Adjusted indefinite lists' scrolling offsets." />
+                                <TextBlock Text="Added anime/manga type information on grid and list view items." />
                             </StackPanel>
                         </StackPanel>
                     </Grid>

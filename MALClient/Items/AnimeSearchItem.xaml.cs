@@ -5,7 +5,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -19,12 +18,19 @@ namespace MALClient.Items
     public sealed partial class AnimeSearchItem : UserControl, IAnimeData
     {
         private static bool _rowAlternator;
-        private readonly XElement item;
 
-        private static Brush _b2 = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Color.FromArgb(170, 44, 44, 44) : Color.FromArgb(170, 230, 230, 230));
-        private static Brush _b1 = new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark ? Color.FromArgb(255, 11, 11, 11) : Colors.WhiteSmoke);
+        private static readonly Brush _b2 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(170, 44, 44, 44)
+                : Color.FromArgb(170, 230, 230, 230));
+
+        private static readonly Brush _b1 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(255, 11, 11, 11)
+                : Colors.WhiteSmoke);
 
         private readonly bool _animeMode;
+        private readonly XElement item;
         private Point _initialPoint;
 
         public AnimeSearchItem()
@@ -131,7 +137,6 @@ namespace MALClient.Items
                 Launcher.LaunchUriAsync(
                     new Uri(
                         $"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
-
         }
     }
 }

@@ -12,7 +12,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Pages;
 using MALClient.UserControls;
-using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
@@ -39,7 +38,7 @@ namespace MALClient.ViewModels
 
         private bool _profileButtonVisibility;
 
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 370 : 420;
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 330 : 390;
         //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;
@@ -117,34 +116,34 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ICommand ButtonAdCommand
-        {
-            get
-            {
-                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
-                {
-                    var ad = new InterstitialAd();
-                    AdLoadingSpinner = Visibility.Visible;
-                    ad.AdReady += (sender, o1) =>
-                    {
-                        AdLoadingSpinner = Visibility.Collapsed;
-                        ad.Show();
-                    };
-                    ad.ErrorOccurred += (sender, args) =>
-                    {
-                        Utils.GiveStatusBarFeedback("Error . It's something on their end :(");
-                        AdLoadingSpinner = Visibility.Collapsed;
-                    };
-                    ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
-#if DEBUG
-                    ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
-#else
-                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
-#endif
-                }
-                    ));
-            }
-        }
+//        public ICommand ButtonAdCommand
+//        {
+//            get
+//            {
+//                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
+//                {
+//                    var ad = new InterstitialAd();
+//                    AdLoadingSpinner = Visibility.Visible;
+//                    ad.AdReady += (sender, o1) =>
+//                    {
+//                        AdLoadingSpinner = Visibility.Collapsed;
+//                        ad.Show();
+//                    };
+//                    ad.ErrorOccurred += (sender, args) =>
+//                    {
+//                        Utils.GiveStatusBarFeedback("Error . It's something on their end :(");
+//                        AdLoadingSpinner = Visibility.Collapsed;
+//                    };
+//                    ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
+//#if DEBUG
+//                    ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
+//#else
+//                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
+//#endif
+//                }
+//                    ));
+//            }
+//        }
 
         public Visibility UsrImgPlaceholderVisibility
         {

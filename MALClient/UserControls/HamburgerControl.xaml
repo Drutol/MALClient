@@ -291,7 +291,7 @@
                         </Pivot>
                         <Grid Height="{Binding GridSeparatorHeight}" />
                         <StackPanel Margin="0,0,0,5">
-                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                            <!--<Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonAdCommand}">
@@ -316,7 +316,7 @@
                                                TextWrapping="WrapWholeWords" FontSize="14" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
-                            </Button>
+                            </Button>-->
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited"

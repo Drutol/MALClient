@@ -109,12 +109,15 @@ namespace MALClient.ViewModels
         private string StartDate { get; set; }
         private string EndDate { get; set; }
 
+        public bool _initialized;
+
         public IDetailsViewInteraction View { get; set; }
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
+            _initialized = false;
             LoadingGlobal = Visibility.Visible;
             await Task.Delay(5);        
             _animeMode = param.AnimeMode;
@@ -123,7 +126,7 @@ namespace MALClient.ViewModels
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;
-
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
             if (_animeMode)
             {
                 Status1Label = "Watching";
@@ -164,7 +167,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyStatusBind);
                 RaisePropertyChanged(() => MyScoreBind);
             }
-            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
+            
             switch (param.Source)
             {
                 case PageIndex.PageSearch:
@@ -187,6 +190,7 @@ namespace MALClient.ViewModels
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
+            _initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
                 //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
 
@@ -949,7 +953,7 @@ namespace MALClient.ViewModels
 
         public async void LoadDetails(bool force = false)
         {
-            if (_loadedDetails && !force)
+            if (_loadedDetails && !force && _initialized)
                 return;
             _loadedDetails = true;
             LoadingDetails = Visibility.Visible;
@@ -975,10 +979,11 @@ namespace MALClient.ViewModels
                         data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
                         break;
                     case DataSource.AnnHum:
-                        data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force) ??
-                               await new AnimeDetailsAnnQuery(
+                        data = await new AnimeDetailsAnnQuery(
                             _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
-                            .GetGeneralDetailsData(force);
+                            .GetGeneralDetailsData(force) ??
+                               await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
+                               
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -1075,7 +1080,7 @@ namespace MALClient.ViewModels
 
         public async void LoadReviews(bool force = false)
         {
-            if (_loadedReviews && !force)
+            if (_loadedReviews && !force && _initialized)
                 return;
             LoadingReviews = Visibility.Visible;
             _loadedReviews = true;
@@ -1093,7 +1098,7 @@ namespace MALClient.ViewModels
 
         public async void LoadRecommendations(bool force = false)
         {
-            if (_loadedRecomm && !force)
+            if (_loadedRecomm && !force && _initialized)
                 return;
             LoadingRecommendations = Visibility.Visible;
             _loadedRecomm = true;
@@ -1108,7 +1113,7 @@ namespace MALClient.ViewModels
 
         public async void LoadRelatedAnime(bool force = false)
         {
-            if (_loadedRelated && !force)
+            if (_loadedRelated && !force && _initialized)
                 return;
             LoadingRelated = Visibility.Visible;
             _loadedRelated = true;

@@ -55,6 +55,8 @@ namespace MALClient.Pages
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
+            if(!ViewModel._initialized)
+                return;
             switch (args.Item.Tag as string)
             {
                 case "Details":

@@ -139,7 +139,7 @@ namespace MALClient.ViewModels
         public AnimeSearchItem CurrentlySelectedItem
         {
             get { return null; } //One way to VM
-            set { value.NavigateDetails(); }
+            set { value?.NavigateDetails(); }
         }
 
         private Visibility _loading = Visibility.Collapsed;

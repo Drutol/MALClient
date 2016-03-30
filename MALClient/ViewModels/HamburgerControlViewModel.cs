@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Pages;
 using MALClient.UserControls;
+using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
@@ -34,7 +36,7 @@ namespace MALClient.ViewModels
 
         private bool _profileButtonVisibility;
 
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 360 : 410;
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 370 : 420;
             //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;
@@ -44,7 +46,7 @@ namespace MALClient.ViewModels
         private Color RequestedFontColor
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
-        private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
+        
 
         public HamburgerControlViewModel()
         {
@@ -111,6 +113,37 @@ namespace MALClient.ViewModels
             }
         }
 
+
+        private ICommand _buttonAdCommand;
+        public ICommand ButtonAdCommand
+        {
+            get
+            {
+                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
+                {            
+                    var ad = new InterstitialAd();
+                    AdLoadingSpinner = Visibility.Visible;
+                    ad.AdReady += (sender, o1) =>
+                    {
+                        AdLoadingSpinner = Visibility.Collapsed;
+                        ad.Show();                     
+                    }; ad.ErrorOccurred += (sender, args) =>
+                    {
+                        Utils.GiveStatusBarFeedback("It's something on their end :(");
+                        AdLoadingSpinner = Visibility.Collapsed;
+                    };
+                    ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
+#if DEBUG
+                    ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
+#else
+                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
+#endif
+                }
+                ));
+            }
+        }
+
+        private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
         public Visibility UsrImgPlaceholderVisibility
         {
             get { return _usrImgPlaceholderVisibility; }
@@ -118,6 +151,17 @@ namespace MALClient.ViewModels
             {
                 _usrImgPlaceholderVisibility = value;
                 RaisePropertyChanged(() => UsrImgPlaceholderVisibility);
+            }
+        }
+
+        private Visibility _adLoadingSpinner = Visibility.Collapsed;
+        public Visibility AdLoadingSpinner
+        {
+            get { return _adLoadingSpinner; }
+            set
+            {
+                _adLoadingSpinner = value;
+                RaisePropertyChanged(() => AdLoadingSpinner);
             }
         }
 
@@ -130,6 +174,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MenuPivotSelectedIndex);
             }
         }
+
 
         private async void ButtonClick(object o)
         {

@@ -451,7 +451,7 @@ namespace MALClient.ViewModels
                 return;
             }
 
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 50 : 100) ||
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 25 : 100) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
@@ -834,11 +834,13 @@ namespace MALClient.ViewModels
                 return null;
             try
             {
-                if(anime)
+                if (anime)
+                {
                     if (_allLoadedAnimeItems.Count == 0 && !_attemptedAnimeFetch)
                         await FetchData(false, AnimeListWorkModes.Anime);
+                }
                 else if (_allLoadedMangaItems.Count == 0 && !_attemptedMangaFetch)
-                    await FetchData(false, AnimeListWorkModes.Manga);
+                    await FetchData(false, AnimeListWorkModes.Manga);           
 
                 return anime ? _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel : _allLoadedAuthMangaItems.First(abstraction => abstraction.Id == id).ViewModel;
             }

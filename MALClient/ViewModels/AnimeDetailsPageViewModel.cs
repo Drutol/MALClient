@@ -809,11 +809,20 @@ namespace MALClient.ViewModels
             if (!response.Contains("Created") && _animeMode)
                 return;
             AddAnimeVisibility = false;
-            int type = 0;
-            if(_animeMode)
-                AnimeType.TryParse(Type, out type);
+            AnimeType typeA;
+            MangaType typeM;
+            int type;
+            if (_animeMode)
+            {
+                AnimeType.TryParse(Type, out typeA);
+                type = (int) typeA;
+            }
             else
-                MangaType.TryParse(Type.Replace("-",""), out type);
+            {
+                MangaType.TryParse(Type.Replace("-",""), out typeM);
+                type = (int)typeM;
+            }
+            
             var animeItem = _animeMode
                 ? new AnimeItemAbstraction(true, Title, _imgUrl, type ,Id, 6, 0, AllEpisodes, 0)
                 : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, 0, 0, AllVolumes);

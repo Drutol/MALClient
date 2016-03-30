@@ -72,7 +72,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="0">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -97,7 +97,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="3">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -124,7 +124,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="8">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -151,7 +151,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="7">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -178,7 +178,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="11">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -202,7 +202,7 @@
                                         </StackPanel>
                                     </Grid>
                                 </PivotItem>
-                                <PivotItem Header="Manga" Height="250">
+                                <PivotItem Header="Manga" Height="225">
                                     <Grid>
                                         <StackPanel VerticalAlignment="Top">
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
@@ -210,7 +210,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="9">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -236,7 +236,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="10">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -263,7 +263,7 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="12">
-                                                <Grid Width="220" Height="50">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="35" />
                                                         <ColumnDefinition Width="*" />
@@ -290,7 +290,29 @@
                             </Pivot.Items>
                         </Pivot>
                         <Grid Height="{Binding GridSeparatorHeight}" />
-                        <StackPanel x:Name="StckBtm" Margin="0,0,0,5">
+                        <StackPanel Margin="0,0,0,5">
+                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
+                                    PointerExited="Button_PointerExited"
+                                    Command="{Binding ButtonAdCommand}">
+                                <Grid Width="220" Height="35">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" Grid.Column="0"
+                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="{Binding AdLoadingSpinner,Converter={StaticResource VisiblityInverterConverter}}"
+                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                                        <TextBlock.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                    <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" IsActive="True" Visibility="{Binding AdLoadingSpinner}"/>
+                                    <TextBlock  Text="Support me! Watch ad!" HorizontalAlignment="Stretch"
+                                               TextWrapping="WrapWholeWords" FontSize="14" FontWeight="SemiLight"
+                                               Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                                </Grid>
+                            </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited"

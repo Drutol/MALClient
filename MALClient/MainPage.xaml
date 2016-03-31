@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
-    xmlns:Universal="using:Microsoft.AdMediator.Universal"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 

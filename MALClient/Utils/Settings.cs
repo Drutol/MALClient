@@ -158,7 +158,7 @@ namespace MALClient
             {
                 return
                     (DataSource)
-                        (ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.Hummingbird);
+                        (ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.AnnHum);
             }
             set { ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] = (int) value; }
         }

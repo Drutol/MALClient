@@ -398,9 +398,9 @@ namespace MALClient
         {
             var sb = StatusBar.GetForCurrentView().ProgressIndicator;
             sb.Text = text;
-            sb.ProgressValue = 1;
+            sb.ProgressValue = null;
             await sb.ShowAsync();
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             await sb.HideAsync();
         }
     }

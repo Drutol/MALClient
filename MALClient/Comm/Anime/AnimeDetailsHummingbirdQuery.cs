@@ -39,7 +39,7 @@ namespace MALClient.Comm.Anime
             if (possibleData != null)
                 return possibleData;
             Request.Headers["X-Client-Id"] = _apiKey;
-            var raw = await GetRequestResponse();
+            var raw = await GetRequestResponse(false);
 
             try
             {

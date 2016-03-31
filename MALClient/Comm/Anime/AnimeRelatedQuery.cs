@@ -37,7 +37,7 @@ namespace MALClient.Comm
                 : await DataCache.RetrieveRelatedAnimeData(_animeId, _animeMode) ?? new List<RelatedAnimeData>();
             if (output.Count != 0) return output;
 
-            var raw = await GetRequestResponse();
+            var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
                 return null;
 

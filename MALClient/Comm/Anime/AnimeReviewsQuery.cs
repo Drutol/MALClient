@@ -31,7 +31,7 @@ namespace MALClient.Comm
                 : await DataCache.RetrieveReviewsData(_targetId, _anime) ?? new List<AnimeReviewData>();
             if (output.Count != 0) return output;
 
-            var raw = await GetRequestResponse();
+            var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
                 return null;
 
@@ -76,7 +76,7 @@ namespace MALClient.Comm
                         //Review Content
                         var reviewNodeContent = reviewNode.Descendants("div").First(node =>
                             node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value == "spaceit textReadability");
+                            node.Attributes["class"].Value == "spaceit textReadability word-break");
                         reviewNodeContent.ChildNodes.Remove(1);
                         current.Review =
                             WebUtility.HtmlDecode(reviewNodeContent.InnerText.Trim().Replace("read more", ""));

@@ -11,7 +11,7 @@ namespace MALClient.Comm
     {
         protected WebRequest Request;
 
-        public async Task<string> GetRequestResponse(bool wantMsg = true)
+        public async Task<string> GetRequestResponse(bool wantMsg = true,string statusBarMsg = null)
         {
             var responseString = "";
             try
@@ -32,6 +32,10 @@ namespace MALClient.Comm
                 {
                     var msg = new MessageDialog(e.Message, "An error occured");
                     await msg.ShowAsync();
+                }
+                if (statusBarMsg != null)
+                {
+                   Utils.GiveStatusBarFeedback(statusBarMsg);
                 }
             }
             return responseString;

@@ -32,7 +32,7 @@ namespace MALClient.Comm
                   new List<DirectRecommendationData>();
             if (output.Count != 0) return output;
 
-            var raw = await GetRequestResponse();
+            var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
                 return null;
 

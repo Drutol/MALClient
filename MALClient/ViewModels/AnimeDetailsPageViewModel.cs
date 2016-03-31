@@ -64,8 +64,6 @@ namespace MALClient.ViewModels
         private bool _loadedRecomm;
         private bool _loadedRelated;
         private bool _loadedReviews;
-        private AnimeDetailsPageNavigationArgs _prevArgs;
-
 
         private List<string> _synonyms = new List<string>();
         private string _synopsis;
@@ -121,7 +119,6 @@ namespace MALClient.ViewModels
             await Task.Delay(5);
             _animeMode = param.AnimeMode;
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
-            _prevArgs = param;
             Id = param.Id;
             Title = param.Title;
             _animeItemReference = param.AnimeItem;

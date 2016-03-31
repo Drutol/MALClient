@@ -182,7 +182,7 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.SeasonalAnime:
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+                    NavMgr.RegisterBackNav(WorkMode == AnimeListWorkModes.TopManga ? PageIndex.PageMangaList : PageIndex.PageAnimeList, null);
                     Loading = true;
                     EmptyNoticeVisibility = false;
                     if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)

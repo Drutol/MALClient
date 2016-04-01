@@ -54,7 +54,7 @@ namespace MALClient.ViewModels
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
         private bool _scrollHandlerAdded;
 
-        private SortOptions _sortOption = SortOptions.SortNothing;
+        
         private bool _wasPreviousQuery;
 
         public bool CanAddScrollHandler;
@@ -66,31 +66,10 @@ namespace MALClient.ViewModels
         public ObservableCollection<AnimeGridItem> AnimeGridItems { get; private set; } =
             new ObservableCollection<AnimeGridItem>();
 
-
         public ObservableCollection<ListViewItem> SeasonSelection { get; } = new ObservableCollection<ListViewItem>();
 
-        public SortOptions SortOption
-        {
-            get { return _sortOption; }
-            set
-            {
-                if (_initiazlized && Settings.HideSortingSelectionFlyout)
-                    View.FlyoutSorting.Hide();
-                _sortOption = value;
-                CurrentPosition = 1;
-            }
-        }
 
         public int CurrentStatus => GetDesiredStatus();
-
-        private void AddScrollHandler()
-        {
-            if (DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
-                return;
-            _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
-            _scrollHandlerAdded = true;
-            View.IndefiniteScrollViewer.ViewChanging += IndefiniteScrollViewerOnViewChanging;
-        }
 
         public async void Init(AnimeListPageNavigationArgs args)
         {
@@ -215,6 +194,16 @@ namespace MALClient.ViewModels
             _initiazlized = true;
         }
 
+        /// <summary>
+        /// Main refresh function
+        /// </summary>
+        /// <param name="searchSource">
+        /// If it's from search -> check if there's anuthing to update before refreshing.
+        /// </param>
+        /// <param name="fakeDelay">
+        /// To make app more responsive micro delays are good to trigger spinners and such.
+        /// </param>
+        /// <returns></returns>
         public async Task RefreshList(bool searchSource = false, bool fakeDelay = false)
         {
             var finished = false;
@@ -324,44 +313,13 @@ namespace MALClient.ViewModels
             UpdateUpperStatus();
         }
 
-
-        //private string GetLastUpdatedStatus()
-        //{
-        //    if (WorkMode == AnimeListWorkModes.SeasonalAnime)
-        //        return "";
-        //    var output = "Updated ";
-        //    try
-        //    {
-        //        TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
-        //        if (lastUpdateDiff.Days > 0)
-        //            output += lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
-        //        else if (lastUpdateDiff.Hours > 0)
-        //        {
-        //            output += lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
-        //        }
-        //        else if (lastUpdateDiff.Minutes > 0)
-        //        {
-        //            output += $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
-        //        }
-        //        else
-        //        {
-        //            output += "just now.";
-        //        }
-        //        if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
-        //            UpdateNoticeVisibility = true;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        output = "";
-        //    }
-
-        //    return output;
-        //}
-
+        /// <summary>
+        /// Sets provided sort mode or takes one from settings
+        /// </summary>
+        /// <param name="option"></param>
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder)
-                )
+            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder))              
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
@@ -392,50 +350,9 @@ namespace MALClient.ViewModels
                 : Settings.IsSortDescending;
         }
 
-        private async void UpdateUpperStatus(int retries = 5)
-        {
-            while (true)
-            {
-                var page = Utils.GetMainPageInstance();
-
-                if (page != null)
-
-                    if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                        if (WorkMode == AnimeListWorkModes.TopAnime)
-                            page.CurrentStatus =
-                                $"Top Anime - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else if (WorkMode == AnimeListWorkModes.TopManga)
-                            page.CurrentStatus =
-                                $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else if (!string.IsNullOrWhiteSpace(ListSource))
-                            page.CurrentStatus =
-                                $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else
-                            page.CurrentStatus =
-                                $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
-                    else
-                        page.CurrentStatus =
-                            $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-
-                else if (retries >= 0)
-                {
-                    await Task.Delay(1000);
-                    retries = retries - 1;
-                    continue;
-                }
-                break;
-            }
-        }
 
 
-        private async void ReloadList()
-        {
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime ||
-                WorkMode == AnimeListWorkModes.TopManga)
-                await FetchSeasonalData(true);
-            else
-                await FetchData(true);
-        }
+        #region CacheManip
 
         public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
         {
@@ -459,22 +376,18 @@ namespace MALClient.ViewModels
             }
         }
 
-        #region Helpers
-
-        public override void Cleanup()
-        {
-            _animeItemsSet.Clear();
-            AnimePages = new ObservableCollection<PivotItem>();
-            RaisePropertyChanged(() => AnimePages);
-            base.Cleanup();
-        }
-
-        #endregion
+#endregion
 
         #region IndefiniteScrollerino
 
         private int _lastOffset;
 
+        /// <summary>
+        /// Event handler for event fired by one of two scroll viewrs in List and Grid view mode.
+        /// It loads more items as user is scroling further.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs args)
         {
             var offset = (int) Math.Ceiling(args.FinalView.VerticalOffset);
@@ -483,12 +396,9 @@ namespace MALClient.ViewModels
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (_animeItemsSet.Count == 0)
-            {
-                //View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging; //this the owari... no need to subscribe to this event anymore
-                //_scrollHandlerAdded = false; // we have just unsubsribed
                 return;
-            }
-
+            //Depending on display mode we load more or less items.
+            //This is the place where offset thresholds are defined
             if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 25 : 100) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
@@ -513,12 +423,32 @@ namespace MALClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Adds handler to scroll viewer provided by view.
+        /// </summary>
+        private void AddScrollHandler()
+        {
+            if (DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
+                return;
+            _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
+            _scrollHandlerAdded = true;
+            View.IndefiniteScrollViewer.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+        }
+
+        /// <summary>
+        /// To make it more probable that the list will scroll to right position wait a bit before srolling there.
+        /// It works more or less...
+        /// </summary>
+        /// <param name="delay"></param>
         private async void ScrollToWithDelay(int delay)
         {
             await Task.Delay(delay);
             View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
         }
 
+        /// <summary>
+        /// Scrolls to top of current indefinite scroll viewer.
+        /// </summary>
         public void ScrollToTop()
         {
             CurrentPosition = 0;
@@ -529,9 +459,17 @@ namespace MALClient.ViewModels
         #endregion
 
         #region Pagination
-
+        /// <summary>
+        /// Used by pages view to determine which page has to be loaded first and avoid loading multiple pages
+        /// before init finishes.
+        /// </summary>
         public bool CanLoadPages;
 
+        /// <summary>
+        /// This method is fully responsible for preparing the view.
+        /// Depending on display mode it distributes items to right containers.
+        /// </summary>
+        /// <param name="updatePerPage"></param>
         public async void UpdatePageSetup(bool updatePerPage = false)
         {
             CanLoadPages = false;
@@ -622,7 +560,12 @@ namespace MALClient.ViewModels
         #endregion
 
         #region FetchAndPopulate
-
+        /// <summary>
+        /// Fetches seasonal data and top manga/anime.
+        /// Results are saved in appropriate containers for further operations.
+        /// </summary>
+        /// <param name="force"></param>
+        /// <returns></returns>
         private async Task FetchSeasonalData(bool force = false)
         {
             Loading = true;
@@ -746,10 +689,28 @@ namespace MALClient.ViewModels
             await RefreshList();
         }
 
+        /// <summary>
+        /// Forces currently loaded page to download new data.
+        /// </summary>
+        private async void ReloadList()
+        {
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime ||
+                WorkMode == AnimeListWorkModes.TopManga)
+                await FetchSeasonalData(true);
+            else
+                await FetchData(true);
+        }
 
         private bool _attemptedMangaFetch;
         private bool _attemptedAnimeFetch;
-
+        /// <summary>
+        /// Feteches manga and anime data for currstnt ListSource.
+        /// </summary>
+        /// <param name="force">Forces downloading new data from MAL.</param>
+        /// <param name="modeOverride">When we are accessing deatils or top anime/manga without having it pulled we can use this
+        /// override to fetch this data and do nothing else with it.That way we will avoid situation where item is on user's list
+        /// but it wasn't downloaded by the application.</param>
+        /// <returns></returns>
         public async Task FetchData(bool force = false, AnimeListWorkModes? modeOverride = null)
         {
             AnimeListWorkModes requestedMode;
@@ -891,6 +852,12 @@ namespace MALClient.ViewModels
             await RefreshList();
         }
 
+        /// <summary>
+        /// Method used by details page to associate itself with authenticated item in order to allow for list updates.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="anime"></param>
+        /// <returns></returns>
         public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true)
         {
             if (!Creditentials.Authenticated)
@@ -1269,33 +1236,58 @@ namespace MALClient.ViewModels
             }
         }
 
-        public AnimeItem _currentlySelectedAnimeItem;
+        private SortOptions _sortOption = SortOptions.SortNothing;
 
-        public AnimeItem CurrentlySelectedAnimeItem
+        public SortOptions SortOption
         {
-            get { return _currentlySelectedAnimeItem; }
+            get { return _sortOption; }
             set
             {
-                _currentlySelectedAnimeItem = value;
-                //AppbarBtnPinTileIsEnabled = true;
+                if (_initiazlized && Settings.HideSortingSelectionFlyout)
+                    View.FlyoutSorting.Hide();
+                _sortOption = value;
+                CurrentPosition = 1;
             }
         }
-
-        public bool _appbarBtnPinTileIsEnabled;
-
-        public bool AppbarBtnPinTileIsEnabled
-        {
-            get { return _appbarBtnPinTileIsEnabled; }
-            set
-            {
-                _appbarBtnPinTileIsEnabled = value;
-                RaisePropertyChanged(() => AppbarBtnPinTileIsEnabled);
-            }
-        }
-
         #endregion
 
         #region StatusRelatedStuff
+
+
+        private async void UpdateUpperStatus(int retries = 5)
+        {
+            while (true)
+            {
+                var page = Utils.GetMainPageInstance();
+
+                if (page != null)
+
+                    if (WorkMode != AnimeListWorkModes.SeasonalAnime)
+                        if (WorkMode == AnimeListWorkModes.TopAnime)
+                            page.CurrentStatus =
+                                $"Top Anime - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                        else if (WorkMode == AnimeListWorkModes.TopManga)
+                            page.CurrentStatus =
+                                $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                        else if (!string.IsNullOrWhiteSpace(ListSource))
+                            page.CurrentStatus =
+                                $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                        else
+                            page.CurrentStatus =
+                                $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
+                    else
+                        page.CurrentStatus =
+                            $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+
+                else if (retries >= 0)
+                {
+                    await Task.Delay(1000);
+                    retries = retries - 1;
+                    continue;
+                }
+                break;
+            }
+        }
 
         private int GetDesiredStatus()
         {
@@ -1374,6 +1366,39 @@ namespace MALClient.ViewModels
         //        if (j == AnimeStatus.AllOrAiring)
         //            return;
         //    }
+        //}
+
+        //private string GetLastUpdatedStatus()
+        //{
+        //    if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+        //        return "";
+        //    var output = "Updated ";
+        //    try
+        //    {
+        //        TimeSpan lastUpdateDiff = DateTime.Now.Subtract(_lastUpdate);
+        //        if (lastUpdateDiff.Days > 0)
+        //            output += lastUpdateDiff.Days + "day" + (lastUpdateDiff.Days > 1 ? "s" : "") + " ago.";
+        //        else if (lastUpdateDiff.Hours > 0)
+        //        {
+        //            output += lastUpdateDiff.Hours + "hour" + (lastUpdateDiff.Hours > 1 ? "s" : "") + " ago.";
+        //        }
+        //        else if (lastUpdateDiff.Minutes > 0)
+        //        {
+        //            output += $"{lastUpdateDiff.Minutes} minute" + (lastUpdateDiff.Minutes > 1 ? "s" : "") + " ago.";
+        //        }
+        //        else
+        //        {
+        //            output += "just now.";
+        //        }
+        //        if (lastUpdateDiff.Days < 20000) //Seems like reasonable workaround
+        //            UpdateNoticeVisibility = true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        output = "";
+        //    }
+
+        //    return output;
         //}
 
         #endregion

@@ -100,7 +100,7 @@ namespace MALClient.ViewModels
             set { _allEpisodes = value; }
         }
 
-        public int AllVolumes => _animeItemReference.AllVolumes;
+        public int AllVolumes => _animeItemReference?.AllVolumes ?? 0;
 
         private string Type { get; set; }
         private string Status { get; set; }
@@ -807,17 +807,25 @@ namespace MALClient.ViewModels
             AddAnimeVisibility = false;
             AnimeType typeA;
             MangaType typeM;
-            int type;
-            if (_animeMode)
+            int type = 0;
+            try
             {
-                Enum.TryParse(Type, out typeA);
-                type = (int) typeA;
+                if (_animeMode)
+                {
+                    Enum.TryParse(Type, out typeA);
+                    type = (int)typeA;
+                }
+                else
+                {
+                    Enum.TryParse(Type.Replace("-", ""), out typeM);
+                    type = (int)typeM;
+                }
             }
-            else
+            catch (Exception)
             {
-                Enum.TryParse(Type.Replace("-", ""), out typeM);
-                type = (int) typeM;
+               //who knows what MAL has thrown at us...
             }
+
 
             var animeItem = _animeMode
                 ? new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, 0)

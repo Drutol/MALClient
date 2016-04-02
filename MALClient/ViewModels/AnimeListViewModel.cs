@@ -367,13 +367,33 @@ namespace MALClient.ViewModels
 
         public void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction)
         {
+            try
+            {
+                switch (DisplayMode)
+                {
+                    case AnimeListDisplayModes.IndefiniteGrid:
+                        AnimeGridItems.Remove(parentAbstraction.AnimeGridItem);
+                        break;
+                    case AnimeListDisplayModes.IndefiniteList:
+                        AnimeItems.Remove(parentAbstraction.AnimeItem);
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                //
+            }
+            
+
             if (_allLoadedAuthAnimeItems.Count > 0)
             {
                 if (parentAbstraction.RepresentsAnime)
-                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);
+                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);                
                 else
                     _allLoadedAuthMangaItems.Remove(parentAbstraction);
             }
+
+
         }
 
 #endregion

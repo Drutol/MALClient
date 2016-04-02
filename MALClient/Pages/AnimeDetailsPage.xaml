@@ -510,7 +510,7 @@
                                             Style="{StaticResource TextBlockButtonStyle}" />
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
+                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonOpaque}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>

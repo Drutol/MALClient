@@ -30,6 +30,7 @@ namespace MALClient.ViewModels
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             MenuPaneState = false;
+            
             await Task.Delay(1);
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
@@ -43,9 +44,13 @@ namespace MALClient.ViewModels
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;
 
-            if (index == PageIndex.PageSeasonal || index == PageIndex.PageMangaList || index == PageIndex.PageTopManga ||
+            if (index == PageIndex.PageSeasonal ||
+                index == PageIndex.PageMangaList ||
+                index == PageIndex.PageTopManga ||
                 index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
+
+
 
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
 
@@ -57,13 +62,13 @@ namespace MALClient.ViewModels
                 else
                     HideSearchStuff();
             }
-
+            
             ResetSearchFilter();
             switch (index)
             {
                 case PageIndex.PageAnimeList:
                     ShowSearchStuff();
-                    if (wasOnSearchPage || _wasOnDetailsFromSearch)
+                    if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) && (wasOnSearchPage || _wasOnDetailsFromSearch))
                     {
                         CurrentSearchQuery = "";
                         _wasOnDetailsFromSearch = false;
@@ -85,6 +90,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
+                    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
@@ -173,6 +179,7 @@ namespace MALClient.ViewModels
             {
                 _searchToggleStatus = value;
                 RaisePropertyChanged(() => SearchToggleStatus);
+                ReverseSearchInput();
             }
         }
 
@@ -246,7 +253,12 @@ namespace MALClient.ViewModels
             get
             {
                 return _toggleSearchCommand ??
-                       (_toggleSearchCommand = new RelayCommand(ReverseSearchInput));
+                       (_toggleSearchCommand = new RelayCommand(() =>
+                       {
+                           if (!SearchToggleLock) return;
+                           if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
+                               OnSearchInputSubmit();
+                       }));
             }
         }
 
@@ -350,8 +362,6 @@ namespace MALClient.ViewModels
                     OnSearchInputSubmit();
                 return;
             }
-
-            SearchToggleStatus = !SearchToggleStatus;
             SearchInputVisibility = SearchToggleStatus;
             if (!SearchToggleLock)
             {
@@ -373,7 +383,6 @@ namespace MALClient.ViewModels
         private void NavigateSearch(object args)
         {
             SearchToggleLock = true;
-            _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
             ShowSearchStuff();
             ToggleSearchStuff();
             if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
@@ -433,28 +442,29 @@ namespace MALClient.ViewModels
 
         private void ShowSearchStuff()
         {
-            SearchToggleVisibility = true;
+           SearchToggleVisibility = true;
             if (SearchToggleStatus)
                 SearchInputVisibility = true;
         }
 
         private void HideSearchStuff()
         {
-            SearchInputVisibility = false;
-            SearchToggleVisibility = false;
             SearchToggleStatus = false;
+            SearchInputVisibility = false;
+            SearchToggleVisibility = false;       
         }
 
         private void ToggleSearchStuff()
         {
-            SearchInputVisibility = true;
             SearchToggleStatus = true;
+            SearchInputVisibility = true;
+           
         }
 
         private void UnToggleSearchStuff()
         {
-            SearchInputVisibility = false;
             SearchToggleStatus = false;
+            SearchInputVisibility = false;         
         }
 
         #endregion

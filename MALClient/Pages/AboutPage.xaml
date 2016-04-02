@@ -76,9 +76,15 @@
                                         <Setter Property="Margin" Value="20,5,0,0" />
                                         <Setter Property="TextWrapping" Value="WrapWholeWords" />
                                         <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                        <Setter Property="TextAlignment" Value="Center" />
+                                        <Setter Property="TextAlignment" Value="Left" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="03.04.2016 - v3.1.6.0" />
+                                <TextBlock Text="Fixed oddities of search button." />
+                                <TextBlock Text="Fixed crashfix when trying to add manga in details page when navigated from related anime." />
+                                <TextBlock Text="Loading details now hides obscure empty fields." />
+                                <TextBlock Text="Added 'Support me button' you can watch advertisement on demand ^^." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="31.03.2016 - v3.1.2.0" />
                                 <TextBlock
                                     Text="Added setting whether to keep or dismiss flyouts (filters/sorting/view) in main list page." />

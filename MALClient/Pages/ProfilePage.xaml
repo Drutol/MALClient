@@ -22,7 +22,8 @@
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <TextBlock
-                    Text="I know that this page is dreadful and it will be remade from scratch soon™ Update: 23.03.2016"
+                    Text="I know that this page is dreadful and it will be remade from scratch soon™
+                    Next bigger update should contain new profile page... Update: 02.04.2016"
                     HorizontalAlignment="Center" TextWrapping="WrapWholeWords" />
                 <Grid>
                     <Grid.RowDefinitions>

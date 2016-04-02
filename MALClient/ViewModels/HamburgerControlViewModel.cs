@@ -132,7 +132,7 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += (sender, args) =>
                     {
-                        Utils.GiveStatusBarFeedback("Error . It's something on their end :(");
+                        Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
                         AdLoadingSpinner = Visibility.Collapsed;
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");

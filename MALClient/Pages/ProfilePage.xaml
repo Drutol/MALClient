@@ -6,6 +6,7 @@
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource Locator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -36,51 +37,6 @@
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                     <controls:StackedBarChartControl x:Name="ChartAnime" Grid.Row="1" VerticalAlignment="Center"
                                                      HorizontalAlignment="Center" MinWidth="350" />
-                    <!--<charting:Chart Background="#E6E6E6" Grid.Row="1" Height="180" VerticalAlignment="Top" UseLayoutRounding="True">
-                        <charting:Chart.Palette>
-                            <charting:ResourceDictionaryCollection>
-                                <ResourceDictionary>
-                                    <Style x:Key="DataPointStyle" TargetType="Control">
-                                        <Setter Property="Background" Value="{StaticResource Watching}"/>
-                                    </Style>
-                                </ResourceDictionary>
-                                <ResourceDictionary>
-                                    <Style x:Key="DataPointStyle" TargetType="Control">
-                                        <Setter Property="Background" Value="{StaticResource Completed}"/>
-                                    </Style>
-                                </ResourceDictionary>
-                                <ResourceDictionary>
-                                    <Style x:Key="DataPointStyle" TargetType="Control">
-                                        <Setter Property="Background" Value="{StaticResource OnHold}"/>
-                                    </Style>
-                                </ResourceDictionary>
-                                <ResourceDictionary>
-                                    <Style x:Key="DataPointStyle" TargetType="Control">
-                                        <Setter Property="Background" Value="{StaticResource Dropped}"/>
-                                    </Style>
-                                </ResourceDictionary>
-                                <ResourceDictionary>
-                                    <Style x:Key="DataPointStyle" TargetType="Control">
-                                        <Setter Property="Background" Value="{StaticResource Planned}"/>
-                                    </Style>
-                                </ResourceDictionary>
-                            </charting:ResourceDictionaryCollection>
-                        </charting:Chart.Palette>
-                        <charting:Chart.LegendStyle>
-                            <Style TargetType="dataVisualization:Legend">
-                                <Setter Property="Width" Value="0" />
-                            </Style>
-                        </charting:Chart.LegendStyle>
-                        <charting:Stacked100BarSeries x:Name="AnimeStats">
-                            <charting:Stacked100BarSeries.SeriesDefinitions>
-                                <charting:SeriesDefinition x:Name="SeriesWatching" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
-                                <charting:SeriesDefinition x:Name="SeriesCompleted" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
-                                <charting:SeriesDefinition x:Name="SeriesOnHold" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
-                                <charting:SeriesDefinition x:Name="SeriesDropped" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
-                                <charting:SeriesDefinition x:Name="SeriesPlanned" DependentValuePath="Value" IndependentValuePath="Key"></charting:SeriesDefinition>
-                            </charting:Stacked100BarSeries.SeriesDefinitions>
-                        </charting:Stacked100BarSeries>
-                    </charting:Chart >-->
                     <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -146,7 +146,11 @@
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\Favourites\FavAnime.cs" />
+    <Compile Include="Models\Favourites\FavCharacter.cs" />
+    <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
+    <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\TopAnimeData.cs" />
     <Compile Include="Models\AnimeDetailsData.cs" />
     <Compile Include="Models\AnimeReviewData.cs" />
@@ -216,6 +220,7 @@
     <Compile Include="ViewModels\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />

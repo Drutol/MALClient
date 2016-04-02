@@ -21,7 +21,6 @@ namespace MALClient.ViewModels
 
     public class MainViewModel : ViewModelBase
     {
-        private Tuple<DateTime, ProfileData> _profileDataCache;
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
 
@@ -99,7 +98,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    View.Navigate(typeof (ProfilePage), RetrieveProfileData());
+                    View.Navigate(typeof (ProfilePage));
                     break;
                 case PageIndex.PageAbout:
                     HideSearchStuff();
@@ -465,26 +464,6 @@ namespace MALClient.ViewModels
         {
             SearchToggleStatus = false;
             SearchInputVisibility = false;         
-        }
-
-        #endregion
-
-        #region SmallDataCaching
-
-        //Profile
-        public void SaveProfileData(ProfileData data)
-        {
-            _profileDataCache = new Tuple<DateTime, ProfileData>(DateTime.Now, data);
-        }
-
-        private ProfileData RetrieveProfileData()
-        {
-            if (_profileDataCache == null)
-                return null;
-            var diff = DateTime.Now.ToUniversalTime().Subtract(_profileDataCache.Item1);
-            if (diff.TotalSeconds < 3600)
-                return _profileDataCache.Item2;
-            return null;
         }
 
         #endregion

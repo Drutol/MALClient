@@ -334,6 +334,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="XamlResources\DictionaryProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="XamlResources\DictionaryRecommendations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

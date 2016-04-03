@@ -173,6 +173,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
+                case PageIndex.PageProfile:
                     await FetchData(param.Id.ToString(), param.Title);
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;

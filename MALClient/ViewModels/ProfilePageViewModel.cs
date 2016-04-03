@@ -4,10 +4,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.UI.ViewManagement;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Models;
+using MALClient.Models.Favourites;
+using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
@@ -41,9 +46,29 @@ namespace MALClient.ViewModels
             }
         }
 
+        public ProfilePageViewModel()
+        {
+
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width / 2.2;
+        }
+
+        public static double MaxWidth { get; set; }
+
+        private ICommand _navigateDetailsCommand;
+
+        public ICommand NavigateDetailsCommand
+            => _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand<FavCharacter>(NavigateDetails));
+
+        private ICommand _navigateCharPageCommand;
+
+        public ICommand NavigateCharPageCommand
+            => _navigateCharPageCommand ?? (_navigateCharPageCommand = new RelayCommand<FavCharacter>(NavigateCharacterWebPage));
+
         public async void LoadProfileData()
         {
-            CurrentData = await new MALProfileQuery().GetProfileData(false);
+            await Task.Run(async () => CurrentData = await new MalProfileQuery().GetProfileData(false));
             RaisePropertyChanged(() => CurrentData);
             foreach (var id in CurrentData.RecentAnime)
             {
@@ -79,5 +104,18 @@ namespace MALClient.ViewModels
             };
         }
 
-    } 
+        private async void NavigateDetails(FavCharacter character)
+        {
+            await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
+                new AnimeDetailsPageNavigationArgs(int.Parse(character.ShowId), character.OriginatingShowName, null,
+                    null, null) {Source = PageIndex.PageProfile , AnimeMode = character.FromAnime});
+            
+        }
+
+        private void NavigateCharacterWebPage(FavCharacter character)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
 }

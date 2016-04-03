@@ -10,6 +10,7 @@
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="White" />
             <SolidColorBrush x:Key="BrushLoading" Color="#E6E6E6" Opacity=".75" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#efefef"/>
             <SolidColorBrush x:Key="BrushRowAlternate1" Color="WhiteSmoke" />
@@ -19,6 +20,7 @@
             <SolidColorBrush x:Key="BrushDetailsBackground" Color="#f0f0f0" />
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="LightGray" Opacity=".25" />
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6" />
+            <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="WhiteSmoke" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d" />
@@ -26,6 +28,7 @@
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1a1a1a" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2a2c2a" />
+            <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#212121" />
             <SolidColorBrush x:Key="BrushLoading" Color="#2a2c2a" Opacity=".75" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#0a0a0a"/>
             <SolidColorBrush x:Key="BrushRowAlternate1" Color="#AA2a2c2a" />
@@ -35,6 +38,7 @@
             <SolidColorBrush x:Key="BrushDetailsBackground" Color="#0d0d0d" />
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="#1a1a1a" />
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#404040" />
+            <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#101010" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

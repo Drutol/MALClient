@@ -9,10 +9,10 @@ namespace MALClient.Models.Favourites
     public class FavCharacter
     {
         public string Name { get; set; }
-        /// <summary>
-        /// Originating show.
-        /// </summary>
-        public string Origin { get; set; }
+        public string OriginatingShowName { get; set; }
         public string ImgUrl { get; set; }
+        public string Id { get; set; }
+        public string ShowId { get; set; }
+        public bool FromAnime { get; set; }
     }
 }

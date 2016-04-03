@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -25,14 +26,43 @@ namespace MALClient.UserControls
 
         private readonly int _lineThickness = 30;
 
-
         public StackedBarChartControl()
         {
             InitializeComponent();
+            DataContextChanged += (sender, args) =>
+            {
+                if (args.NewValue is List<int>)
+                    PopulateData();
+            };
+        
         }
 
-        public void PopulateData(List<int> values, int margin = 10)
+        public static readonly DependencyProperty DataSourceProperty =
+            DependencyProperty.Register(
+                "DataSource",
+                typeof (List<int>),
+                typeof (StackedBarChartControl),
+                new PropertyMetadata(
+                    new List<int>(), PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
+            (dependencyObject as StackedBarChartControl).PopulateData(); 
+        }
+
+        public List<int> DataSource
+        {
+            get { return (List<int>)GetValue(DataSourceProperty); }
+            set { SetValue(DataSourceProperty, value); }
+        }
+
+
+        public void PopulateData()
+        {
+            int margin = 10;
+            var values = DataSource;
+            if(values.Count == 0)
+                return;
             var nonZeroValuesCount = values.Count(i => i != 0);
             var maxWidth = ChartCanvas.ActualWidth - _lineThickness*3/4*nonZeroValuesCount - margin*2;
             var height = 0; //(ChartCanvas.ActualHeight / 2) ;
@@ -104,7 +134,7 @@ namespace MALClient.UserControls
                     break;
                 var txt = new TextBlock
                 {
-                    Text = Math.Ceiling(label.Value) + "%",
+                    Text = Math.Floor(label.Value) + "%",
                     TextAlignment = TextAlignment.Center
                 };
                 var lblHeight = height + 30;
@@ -117,15 +147,6 @@ namespace MALClient.UserControls
                 txt.SetValue(Canvas.LeftProperty, label.Key);
                 ChartCanvas.Children.Add(txt);
             }
-
-            var txt100 = new TextBlock
-            {
-                Text = "100%",
-                TextAlignment = TextAlignment.Center
-            };
-            txt100.SetValue(Canvas.TopProperty, height + 30);
-            txt100.SetValue(Canvas.LeftProperty, ChartCanvas.ActualWidth - 40);
-            ChartCanvas.Children.Add(txt100);
         }
 
         private void LineOnPointerExited(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)

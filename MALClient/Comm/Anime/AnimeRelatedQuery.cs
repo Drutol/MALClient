@@ -15,7 +15,7 @@ namespace MALClient.Comm
         Unknown
     }
 
-    internal class AnimeRelatedQuery : Query
+    public class AnimeRelatedQuery : Query
     {
         private readonly int _animeId;
         private readonly bool _animeMode;

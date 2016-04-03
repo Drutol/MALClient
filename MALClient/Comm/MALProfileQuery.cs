@@ -82,6 +82,30 @@ namespace MALClient.Comm
                     AnimeDays = float.Parse(days[0].ChildNodes[1].InnerText.Replace(",", "")),
                     MangaDays = float.Parse(days[1].ChildNodes[1].InnerText.Replace(",", ""))
                 };
+                int i = 1;
+                foreach (var recentNode in doc.DocumentNode.Descendants("div").Where(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            "statistics-updates di-b w100 mb8"))
+                {
+                    if (i <= 3)
+                    {
+                        currernt.RecentAnime.Add(
+                            int.Parse(
+                                recentNode.Descendants("a").First().Attributes["href"].Value.Substring(8).Split('/')[2]));
+                    }
+                    else
+                    {
+                        currernt.RecentManga.Add(
+                            int.Parse(
+                                recentNode.Descendants("a").First().Attributes["href"].Value.Substring(8).Split('/')[2]));
+                    }
+                    i++;
+
+                }
+
+
                 return currernt;
             }
             catch (Exception)

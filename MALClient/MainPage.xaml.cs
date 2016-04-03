@@ -3,6 +3,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.ViewModels;
 
@@ -21,7 +22,9 @@ namespace MALClient
             InitializeComponent();
             Utils.CheckTiles();
             ViewModelLocator.Main.View = this;
-            new AnimeDetailsHummingbirdQuery(31043).GetAnimeDetails();
+#if DEBUG
+            //new MALProfileQuery().GetProfileData();
+#endif
         }
 #pragma warning restore 4014
 

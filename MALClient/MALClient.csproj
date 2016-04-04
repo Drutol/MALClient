@@ -146,7 +146,6 @@
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
-    <Compile Include="Models\Favourites\FavAnime.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />

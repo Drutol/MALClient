@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -57,8 +58,9 @@ namespace MALClient.UserControls
         }
 
 
-        public void PopulateData()
+        private async void PopulateData()
         {
+            await Task.Delay(10);
             int margin = 10;
             var values = DataSource;
             if(values.Count == 0)
@@ -72,15 +74,6 @@ namespace MALClient.UserControls
             var labels = new Dictionary<double, float>();
             float totalPercentage = 0;
             float percentage;
-
-            var txt0 = new TextBlock
-            {
-                Text = "0%",
-                TextAlignment = TextAlignment.Center
-            };
-            txt0.SetValue(Canvas.TopProperty, height + 30);
-            txt0.SetValue(Canvas.LeftProperty, currX/2);
-            ChartCanvas.Children.Add(txt0);
 
             ChartCanvas.Children.Add(new Line
             {

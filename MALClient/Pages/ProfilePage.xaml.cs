@@ -47,6 +47,7 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            (DataContext as ProfilePageViewModel).Cleanup();
             base.OnNavigatedFrom(e);
             NavMgr.DeregisterBackNav();
         }

@@ -10,7 +10,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
         <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
-        <Setter Property="Height" Value="70" />
+        <Setter Property="Height" Value="60" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
@@ -541,7 +541,7 @@
                                     <Grid x:Name="PivotLayoutElement">
                                         <Grid.RowDefinitions>
                                             <RowDefinition
-                                                Height="70" />
+                                                Height="60" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>

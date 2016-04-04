@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.System;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -16,12 +18,45 @@ using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
-    public class ProfilePageViewModel : ViewModelBase
+    public sealed class ProfilePageViewModel : ViewModelBase
     {
+        private bool _loadedFavManga;
+        private bool _loadedFavAnime;
+        private bool _loadedRecent;
+        private bool _loadedStats;
+
         public ProfileData CurrentData { get; set; } = new ProfileData();
-        public ObservableCollection<AnimeItem> RecentAnime { get; set; } = new ObservableCollection<AnimeItem>(); 
-        public ObservableCollection<AnimeItem> RecentManga { get; set; } = new ObservableCollection<AnimeItem>(); 
-        
+        public ObservableCollection<AnimeItem> RecentAnime { get; private set; }
+        public ObservableCollection<AnimeItem> RecentManga { get; private set; }
+        public ObservableCollection<AnimeItem> FavAnime { get; private set; } 
+        public ObservableCollection<AnimeItem> FavManga { get; private set; }
+
+        private PivotItem _currentlySelectedOuterPivotItem;
+
+        public PivotItem CurrentlySelectedOuterPivotItem
+        {
+            get { return _currentlySelectedOuterPivotItem; }
+            set
+            {
+                _currentlySelectedOuterPivotItem = value;
+                //RaisePropertyChanged(() => CurrentlySelectedOuterPivotItem);
+                OuterPivotItemChanged(value.Tag as string);
+            }
+        }
+
+        private PivotItem _currentlySelectedInnerPivotItem;
+
+        public PivotItem CurrentlySelectedInnerPivotItem
+        {
+            get { return _currentlySelectedInnerPivotItem; }
+            set
+            {
+                _currentlySelectedInnerPivotItem = value;
+                //RaisePropertyChanged(() => CurrentlySelectedInnerPivotItem);
+                InnerPivotItemChanged(value.Tag as string);
+            }
+        }
+
         private List<int> _animeChartValues = new List<int>();
 
         public List<int> AnimeChartValues
@@ -46,14 +81,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ProfilePageViewModel()
-        {
-
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width / 2.2;
-        }
-
         public static double MaxWidth { get; set; }
 
         private ICommand _navigateDetailsCommand;
@@ -66,42 +93,126 @@ namespace MALClient.ViewModels
         public ICommand NavigateCharPageCommand
             => _navigateCharPageCommand ?? (_navigateCharPageCommand = new RelayCommand<FavCharacter>(NavigateCharacterWebPage));
 
+        private ICommand _navigatePersonPageCommand;
+
+        public ICommand NavigatePersonPageCommand
+            => _navigatePersonPageCommand ?? (_navigatePersonPageCommand = new RelayCommand<FavPerson>(NavigatePersonWebPage));
+
+
+
+        private bool _initialized;
+
+        public ProfilePageViewModel()
+        {
+            FavAnime = new ObservableCollection<AnimeItem>();
+            FavManga = new ObservableCollection<AnimeItem>();
+            RecentAnime = new ObservableCollection<AnimeItem>();
+            RecentManga = new ObservableCollection<AnimeItem>();
+            RaisePropertyChanged(() => FavAnime);       
+            RaisePropertyChanged(() => FavManga);       
+            RaisePropertyChanged(() => RecentAnime);       
+            RaisePropertyChanged(() => RecentManga);       
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width / 2.2;
+        }
+
         public async void LoadProfileData()
         {
             await Task.Run(async () => CurrentData = await new MalProfileQuery().GetProfileData(false));
             RaisePropertyChanged(() => CurrentData);
-            foreach (var id in CurrentData.RecentAnime)
+            _initialized = true;
+            InnerPivotItemChanged(CurrentlySelectedInnerPivotItem.Tag as string);
+        }
+
+        private async void InnerPivotItemChanged(string tag)
+        {
+            if(!_initialized)
+                return;
+            switch (tag)
             {
-                var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
-                if (data != null)
-                {
-                    RecentAnime.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
-                }
+                case "Chars":
+                    break;
+                case "Anime":
+                    if (_loadedFavAnime)
+                        break;
+                    _loadedFavAnime = true;
+                    foreach (var id in CurrentData.FavouriteAnime)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                        if (data != null)
+                        {
+                            FavAnime.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                        }
+                    }
+                    break;
+                case "Manga":
+                    if (_loadedFavManga)
+                        break;
+                    _loadedFavManga = true;
+                    foreach (var id in CurrentData.FavouriteManga)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                        if (data != null)
+                        {
+                            FavManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                        }
+                    }
+                    break;
+                case "Ppl":
+                    break;
             }
-            foreach (var id in CurrentData.RecentManga)
+        }
+
+        private async void OuterPivotItemChanged(string tag)
+        {
+            if (!_initialized)
+                return;
+            switch (tag)
             {
-                var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id,false);
-                if (data != null)
-                {
-                    RecentManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
-                }
+                case "Recent":
+                    if (_loadedRecent)
+                        break;
+                    _loadedRecent = true;
+                    foreach (var id in CurrentData.RecentAnime)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                        if (data != null)
+                        {
+                            RecentAnime.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                        }
+                    }
+                    foreach (var id in CurrentData.RecentManga)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                        if (data != null)
+                        {
+                            RecentManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                        }
+                    }
+                    break;
+                case "Stats":
+                    if(_loadedStats)
+                        return;
+                    _loadedStats = true;
+                    AnimeChartValues = new List<int>
+                    {
+                        CurrentData.AnimeWatching,
+                        CurrentData.AnimeCompleted,
+                        CurrentData.AnimeOnHold,
+                        CurrentData.AnimeDropped,
+                        CurrentData.AnimePlanned
+                    };
+                    MangaChartValues = new List<int>
+                    {
+                        CurrentData.MangaReading,
+                        CurrentData.MangaCompleted,
+                        CurrentData.MangaOnHold,
+                        CurrentData.MangaDropped,
+                        CurrentData.MangaPlanned
+                    };
+                    break;
             }
-            AnimeChartValues = new List<int>
-            {
-                CurrentData.AnimeWatching,
-                CurrentData.AnimeCompleted,
-                CurrentData.AnimeOnHold,
-                CurrentData.AnimeDropped,
-                CurrentData.AnimePlanned
-            };
-            MangaChartValues = new List<int>
-            {
-                CurrentData.MangaReading,
-                CurrentData.MangaCompleted,
-                CurrentData.MangaOnHold,
-                CurrentData.MangaDropped,
-                CurrentData.MangaPlanned
-            };
         }
 
         private async void NavigateDetails(FavCharacter character)
@@ -112,10 +223,28 @@ namespace MALClient.ViewModels
             
         }
 
-        private void NavigateCharacterWebPage(FavCharacter character)
+        private async void NavigateCharacterWebPage(FavCharacter character)
         {
-            throw new NotImplementedException();
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/character/{character.Id}"));
         }
 
+        private async void NavigatePersonWebPage(FavPerson person)
+        {
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/people/{person.Id}"));
+        }
+
+        public override void Cleanup()
+        {
+            FavAnime = new ObservableCollection<AnimeItem>();
+            FavManga = new ObservableCollection<AnimeItem>();
+            RecentAnime = new ObservableCollection<AnimeItem>();
+            RecentManga = new ObservableCollection<AnimeItem>();
+            _loadedFavManga = false;
+            _loadedFavAnime = false;
+            _loadedRecent = false;
+            _loadedStats = false;
+            _initialized = false;
+            base.Cleanup();
+        }
     }
 }

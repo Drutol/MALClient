@@ -105,31 +105,101 @@ namespace MALClient.Comm
                     i++;
 
                 }
-                foreach (var favCharNode in doc.DocumentNode.Descendants("ul").First(
-                    node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        "favorites-list characters").Descendants("li"))
+                try
                 {
-                    var curr = new FavCharacter();
-                    var imgNode = favCharNode.Descendants("a").First();
-                    var styleString = imgNode.Attributes["style"].Value.Substring(22);
-                    curr.ImgUrl = styleString.Replace("/r/80x120", "");
-                    curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?') );
-                    var infoNode = favCharNode.Descendants("div").Skip(1).First();
-                    var nameNode = infoNode.Descendants("a").First();
-                    curr.Name = nameNode.InnerText.Trim();
-                    curr.Id = nameNode.Attributes["href"].Value.Substring(9).Split('/')[2];
-                    var originNode = infoNode.Descendants("a").Skip(1).First();
-                    curr.OriginatingShowName = originNode.InnerText.Trim();
-                    curr.ShowId = originNode.Attributes["href"].Value.Split('/')[2];
-                    curr.FromAnime = originNode.Attributes["href"].Value.Split('/')[1] == "anime";
-                    currernt.FavouriteCharacters.Add(curr);
+                    foreach (var favCharNode in doc.DocumentNode.Descendants("ul").First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            "favorites-list characters").Descendants("li"))
+                    {
+                        var curr = new FavCharacter();
+                        var imgNode = favCharNode.Descendants("a").First();
+                        var styleString = imgNode.Attributes["style"].Value.Substring(22);
+                        curr.ImgUrl = styleString.Replace("/r/80x120", "");
+                        curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
+                        var infoNode = favCharNode.Descendants("div").Skip(1).First();
+                        var nameNode = infoNode.Descendants("a").First();
+                        curr.Name = nameNode.InnerText.Trim();
+                        curr.Id = nameNode.Attributes["href"].Value.Substring(9).Split('/')[2];
+                        var originNode = infoNode.Descendants("a").Skip(1).First();
+                        curr.OriginatingShowName = originNode.InnerText.Trim();
+                        curr.ShowId = originNode.Attributes["href"].Value.Split('/')[2];
+                        curr.FromAnime = originNode.Attributes["href"].Value.Split('/')[1] == "anime";
+                        currernt.FavouriteCharacters.Add(curr);
+                    }
+                }
+                catch (Exception)
+                {
+                    //no favs
+                }
+                try
+                {
+                    foreach (var favMangaNode in doc.DocumentNode.Descendants("ul").First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            "favorites-list manga").Descendants("li"))
+                    {
+                        currernt.FavouriteManga.Add(
+                            int.Parse(
+                                favMangaNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2]));
+                    }
+                }
+                catch (Exception)
+                {
+                    //no favs
+                }
+
+                try
+                {
+                    foreach (var favAnimeNode in doc.DocumentNode.Descendants("ul").First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            "favorites-list anime").Descendants("li"))
+                    {
+                        currernt.FavouriteAnime.Add(
+                            int.Parse(
+                                favAnimeNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2]));
+                    }
+                }
+                catch (Exception)
+                {
+
+                    //no favs
+                }
+
+                try
+                {
+                    foreach (var favPersonNode in doc.DocumentNode.Descendants("ul").First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            "favorites-list people").Descendants("li"))
+                    {
+                        var curr = new FavPerson();
+                        var aElems = favPersonNode.Descendants("a");
+                        var styleString = aElems.First().Attributes["style"].Value.Substring(22);
+                        curr.ImgUrl = styleString.Replace("/r/80x120", "");
+                        curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
+
+                        curr.Name = aElems.Skip(1).First().InnerText.Trim();
+                        curr.Id = aElems.Skip(1).First().Attributes["href"].Value.Substring(9).Split('/')[2];
+
+                        currernt.FavouritePeople.Add(curr);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    //no favs
                 }
 
 
 
-                    return currernt;
+
+                return currernt;
             }
             catch (Exception)
             {

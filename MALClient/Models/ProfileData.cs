@@ -32,9 +32,9 @@ namespace MALClient.Models
         public float AnimeDays { get; set; }
         public float MangaDays { get; set; }      
         //Fav Anime
-        public List<FavAnime> FavouriteAnime { get; set; } = new List<FavAnime>();
+        public List<int> FavouriteAnime { get; set; } = new List<int>();
         //Fav Manga
-        public List<FavAnime> FavouriteManga { get; set; } = new List<FavAnime>();
+        public List<int> FavouriteManga { get; set; } = new List<int>();
         //Fav Characters
         public List<FavCharacter> FavouriteCharacters { get; set; } = new List<FavCharacter>();
         //Fav Ppl

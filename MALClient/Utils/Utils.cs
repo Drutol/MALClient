@@ -377,6 +377,7 @@ namespace MALClient
                 .Replace("[i]", "")
                 .Replace("[/i]", "")
                 .Replace("#039;", "'")
+                .Replace("&quot;", "\"")
                 .Replace("quot;", "\"")
                 .Replace("mdash;", "—")
                 .Replace("amp;", "&");

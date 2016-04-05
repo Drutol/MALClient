@@ -303,7 +303,7 @@
                                     <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
                                                HorizontalAlignment="Center" Grid.Column="0"
                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
-                                               Visibility="{Binding AdLoadingSpinner,Converter={StaticResource VisiblityInverterConverter}}"
+                                               Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
                                         <TextBlock.RenderTransform>
                                             <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
@@ -311,7 +311,7 @@
                                     </TextBlock>
                                     <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
                                                   Grid.Column="0" IsActive="True"
-                                                  Visibility="{Binding AdLoadingSpinner}" />
+                                                  Visibility="{Binding AdLoadingSpinnerVisibility}" />
                                     <TextBlock Text="Support me! Watch ad!" HorizontalAlignment="Stretch"
                                                TextWrapping="WrapWholeWords" FontSize="14" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />

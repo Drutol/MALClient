@@ -708,6 +708,30 @@ namespace MALClient.ViewModels
             }
         }
 
+        private bool _addAnimeBtnEnableState = true;
+
+        public bool AddAnimeBtnEnableState
+        {
+            get { return _addAnimeBtnEnableState; }
+            set
+            {
+                _addAnimeBtnEnableState = value;
+                RaisePropertyChanged(() => AddAnimeBtnEnableState);
+            }
+        }
+
+        private bool _removeAnimeBtnEnableState = true;
+
+        public bool RemoveAnimeBtnEnableState
+        {
+            get { return _removeAnimeBtnEnableState; }
+            set
+            {
+                _removeAnimeBtnEnableState = value;
+                RaisePropertyChanged(() => RemoveAnimeBtnEnableState);
+            }
+        }
+
         #endregion
 
         #region ChangeStuff
@@ -800,9 +824,13 @@ namespace MALClient.ViewModels
 
         private async void AddAnime()
         {
+            LoadingUpdate = true;
+            AddAnimeBtnEnableState = false;
             var response = _animeMode
                 ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                 : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
+            LoadingUpdate = false;
+            AddAnimeBtnEnableState = true;
             if (!response.Contains("Created") && _animeMode)
                 return;
             AddAnimeVisibility = false;
@@ -844,6 +872,7 @@ namespace MALClient.ViewModels
 
         private async void RemoveAnime()
         {
+
             var uSure = false;
             var msg = new MessageDialog("Are you sure about deleting this entry from your list?");
             msg.Commands.Add(new UICommand("I'm sure", command => uSure = true));
@@ -851,10 +880,16 @@ namespace MALClient.ViewModels
             await msg.ShowAsync();
             if (!uSure)
                 return;
+            LoadingUpdate = true;
+            RemoveAnimeBtnEnableState = false;
 
             var response = _animeMode
                 ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
                 : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
+
+            LoadingUpdate = false;
+            RemoveAnimeBtnEnableState = true;
+
             if (!response.Contains("Deleted"))
                 return;
 

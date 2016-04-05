@@ -24,7 +24,7 @@ namespace MALClient.ViewModels
 
     public class HamburgerControlViewModel : ViewModelBase
     {
-        private Visibility _adLoadingSpinner = Visibility.Collapsed;
+        private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
 
 
         private ICommand _buttonAdCommand;
@@ -124,16 +124,16 @@ namespace MALClient.ViewModels
                 return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
                 {
                     var ad = new InterstitialAd();
-                    AdLoadingSpinner = Visibility.Visible;
+                    AdLoadingSpinnerVisibility = Visibility.Visible;
                     ad.AdReady += (sender, o1) =>
                     {
-                        AdLoadingSpinner = Visibility.Collapsed;
+                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
                         ad.Show();
                     };
                     ad.ErrorOccurred += (sender, args) =>
                     {
                         Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
-                        AdLoadingSpinner = Visibility.Collapsed;
+                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
 #if DEBUG
@@ -156,13 +156,13 @@ namespace MALClient.ViewModels
             }
         }
 
-        public Visibility AdLoadingSpinner
+        public Visibility AdLoadingSpinnerVisibility
         {
-            get { return _adLoadingSpinner; }
+            get { return _adLoadingSpinnerVisibility; }
             set
             {
-                _adLoadingSpinner = value;
-                RaisePropertyChanged(() => AdLoadingSpinner);
+                _adLoadingSpinnerVisibility = value;
+                RaisePropertyChanged(() => AdLoadingSpinnerVisibility);
             }
         }
 

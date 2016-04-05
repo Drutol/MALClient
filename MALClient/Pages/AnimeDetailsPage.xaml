@@ -72,6 +72,7 @@
                             </Button>
                             <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
                                     Command="{Binding AddAnimeCommand}"
+                                    IsEnabled="{Binding AddAnimeBtnEnableState}"
                                     Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                     Background="{ThemeResource BrushDetailsMoreButton}" Margin="0,5,0,0">
                                 <StackPanel Orientation="Horizontal">
@@ -82,6 +83,7 @@
                             <Button Height="40"
                                     Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
                                     Command="{Binding RemoveAnimeCommand}"
+                                    IsEnabled="{Binding RemoveAnimeBtnEnableState}"
                                     HorizontalAlignment="Stretch"
                                     Background="{ThemeResource BrushDetailsMoreButton}"
                                     Margin="0,5,0,0">
@@ -101,6 +103,7 @@
                            HorizontalAlignment="Center" Opacity=".75" />
                 <Button HorizontalAlignment="Stretch" Height="50"
                         Command="{Binding AddAnimeCommand}"
+                        IsEnabled="{Binding AddAnimeBtnEnableState}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         Margin="20,10,20,0"
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
@@ -110,12 +113,12 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
+            <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right"
+                              VerticalAlignment="Top" IsActive="True"
+                              Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Grid.Row="0" Grid.Column="1"
                   Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                   Margin="5,-10,0,0">
-                <ProgressRing Width="50" Height="50" HorizontalAlignment="Center"
-                              VerticalAlignment="Center" IsActive="True"
-                              Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
                 <StackPanel Orientation="Vertical" Margin="1,15,1,0" HorizontalAlignment="Left">
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
                         <TextBlock Text="My score : " FontWeight="SemiLight" VerticalAlignment="Center" Width="90" />

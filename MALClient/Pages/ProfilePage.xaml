@@ -36,147 +36,145 @@
                         <TextBlock Text="Favourites" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Pivot Style="{StaticResource PivotStyleInnerProfilePage}" SelectedItem="{Binding CurrentlySelectedInnerPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                        <Pivot.Resources>
-                            <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}" />
-                        </Pivot.Resources>
-                        <PivotItem Padding="0" Margin="0" Tag="Anime">
-                            <PivotItem.Header>
-                                <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
-                                    <TextBlock Margin="0,5,0,0" Text="Anime" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
-                                </StackPanel>
-                            </PivotItem.Header>
-                            <ListView ItemsSource="{Binding FavAnime}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="Padding" Value="5,5" />
-                                        <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Property="BorderThickness" Value="5,0,0,0" />
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
-                        </PivotItem>
-                        <PivotItem Padding="0" Margin="0" Tag="Manga">
-                            <PivotItem.Header>
-                                <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
-                                    <TextBlock Margin="0,5,0,0" Text="Manga" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
-                                </StackPanel>
-                            </PivotItem.Header>
-                            <ListView ItemsSource="{Binding FavManga}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="Padding" Value="5,5" />
-                                        <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Property="BorderThickness" Value="5,0,0,0" />
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
-                        </PivotItem>
-                        <PivotItem Padding="0" Margin="0" Tag="Chars">
-                            <PivotItem.Header>
-                                <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
-                                    <TextBlock Margin="0,5,0,0" Text="Characters" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
-                                </StackPanel>
-                            </PivotItem.Header>
-                            <GridView ItemsSource="{Binding CurrentData.FavouriteCharacters}" HorizontalAlignment="Center">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="52"/>
-                                            </Grid.RowDefinitions>
-                                            <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
-                                                <Image Source="{Binding ImgUrl,Converter={StaticResource BitmapImageConverter}}" Stretch="Uniform"/>
-                                                <Button.Flyout>
-                                                    <Flyout>
-                                                        <StackPanel>
-                                                            <Button Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateCharPageCommand}" CommandParameter="{Binding}"
+                <Pivot Style="{StaticResource PivotStyleInnerProfilePage}" SelectedItem="{Binding CurrentlySelectedInnerPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <Pivot.Resources>
+                        <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}" />
+                    </Pivot.Resources>
+                    <PivotItem Padding="0" Margin="0" Tag="Anime">
+                        <PivotItem.Header>
+                            <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                                <TextBlock Margin="0,5,0,0" Text="Anime" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                            </StackPanel>
+                        </PivotItem.Header>
+                        <ListView ItemsSource="{Binding FavAnime}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="5,5" />
+                                    <Setter Property="Margin" Value="0,5" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <Setter Property="BorderThickness" Value="5,0,0,0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </PivotItem>
+                    <PivotItem Padding="0" Margin="0" Tag="Manga">
+                        <PivotItem.Header>
+                            <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                                <TextBlock Margin="0,5,0,0" Text="Manga" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                            </StackPanel>
+                        </PivotItem.Header>
+                        <ListView ItemsSource="{Binding FavManga}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="5,5" />
+                                    <Setter Property="Margin" Value="0,5" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <Setter Property="BorderThickness" Value="5,0,0,0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </PivotItem>
+                    <PivotItem Padding="0" Margin="0" Tag="Chars">
+                        <PivotItem.Header>
+                            <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                                <TextBlock Margin="0,5,0,0" Text="Characters" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                            </StackPanel>
+                        </PivotItem.Header>
+                        <GridView ItemsSource="{Binding CurrentData.FavouriteCharacters}" HorizontalAlignment="Center" x:Name="CharactersGrid">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="52"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
+                                            <Image Source="{Binding ImgUrl,Converter={StaticResource BitmapImageConverter}}" Stretch="Uniform"/>
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <StackPanel>
+                                                        <Button Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateCharPageCommand}" CommandParameter="{Binding}"
                                                             Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Margin="0,5" HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <SymbolIcon Symbol="Globe"/>
-                                                                    <TextBlock Margin="10,0,0,0" Text="Open in browser."/>
-                                                                </StackPanel>
-                                                            </Button>
-                                                            <Button Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateDetailsCommand}" CommandParameter="{Binding}"
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <SymbolIcon Symbol="Globe"/>
+                                                                <TextBlock Margin="10,0,0,0" Text="Open in browser."/>
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateDetailsCommand}" CommandParameter="{Binding}"
                                                                 Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Margin="0,5" HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <SymbolIcon Symbol="Go"/>
-                                                                    <TextBlock Margin="10,0,0,0" Text="Open show details."/>
-                                                                </StackPanel>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </Button.Flyout>
-                                            </Button>
-                                            <Grid Margin="3,1" Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1.5,0,0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height=".5*"/>
-                                                    <RowDefinition Height=".5*"/>
-                                                </Grid.RowDefinitions>
-                                                <TextBlock Text="{Binding Name}"/>
-                                                <TextBlock Grid.Row="1" Text="{Binding OriginatingShowName}" FontWeight="SemiLight" FontStyle="Italic" TextTrimming="CharacterEllipsis"/>
-                                            </Grid>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </PivotItem>
-                        <PivotItem Padding="0" Margin="0" Tag="Ppl">
-                            <PivotItem.Header>
-                                <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
-                                    <TextBlock Margin="0,5,0,0" Text="People" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
-                                </StackPanel>
-                            </PivotItem.Header>
-                            <GridView ItemsSource="{Binding CurrentData.FavouritePeople}" HorizontalAlignment="Center">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <SymbolIcon Symbol="Go"/>
+                                                                <TextBlock Margin="10,0,0,0" Text="Open show details."/>
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
+                                        <Grid Margin="3,1" Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1.5,0,0">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="52"/>
+                                                <RowDefinition Height=".5*"/>
+                                                <RowDefinition Height=".5*"/>
                                             </Grid.RowDefinitions>
-                                            <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
-                                                <Image Source="{Binding ImgUrl,Converter={StaticResource BitmapImageConverter}}" Stretch="Uniform"/>
-                                                <Button.Flyout>
-                                                    <Flyout>
-                                                        <StackPanel>
-                                                            <Button Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigatePersonPageCommand}" CommandParameter="{Binding}"
-                                                            Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Margin="0,5" HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <SymbolIcon Symbol="Globe"/>
-                                                                    <TextBlock Margin="10,0,0,0" Text="Open in browser."/>
-                                                                </StackPanel>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </Button.Flyout>
-                                            </Button>
-                                            <Grid Margin="3,1" Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1.5,0,0">
-                                                <TextBlock Text="{Binding Name}"/>
-                                            </Grid>
+                                            <TextBlock Text="{Binding Name}"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding OriginatingShowName}" FontWeight="SemiLight" FontStyle="Italic" TextTrimming="CharacterEllipsis"/>
                                         </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </PivotItem>
-                    </Pivot>
-                </ScrollViewer>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </PivotItem>
+                    <PivotItem Padding="0" Margin="0" Tag="Ppl">
+                        <PivotItem.Header>
+                            <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                                <TextBlock Margin="0,5,0,0" Text="People" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                            </StackPanel>
+                        </PivotItem.Header>
+                        <GridView ItemsSource="{Binding CurrentData.FavouritePeople}" HorizontalAlignment="Center">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="52"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
+                                            <Image Source="{Binding ImgUrl,Converter={StaticResource BitmapImageConverter}}" Stretch="Uniform"/>
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <StackPanel>
+                                                        <Button Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigatePersonPageCommand}" CommandParameter="{Binding}"
+                                                            Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Margin="0,5" HorizontalAlignment="Stretch">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <SymbolIcon Symbol="Globe"/>
+                                                                <TextBlock Margin="10,0,0,0" Text="Open in browser."/>
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
+                                        <Grid Margin="3,1" Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1.5,0,0">
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </PivotItem>
+                </Pivot>
             </PivotItem>
             <PivotItem Tag="Recent">
                 <PivotItem.Header>

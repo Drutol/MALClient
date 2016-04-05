@@ -25,6 +25,8 @@ namespace MALClient.ViewModels
         private bool _loadedRecent;
         private bool _loadedStats;
 
+        //public ProfilePage View { get; set; }
+
         public ProfileData CurrentData { get; set; } = new ProfileData();
         public ObservableCollection<AnimeItem> RecentAnime { get; private set; }
         public ObservableCollection<AnimeItem> RecentManga { get; private set; }

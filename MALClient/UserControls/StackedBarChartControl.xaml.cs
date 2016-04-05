@@ -32,15 +32,16 @@ namespace MALClient.UserControls
 
         private readonly int _lineThickness = 30;
 
+        private bool _loaded;
         public StackedBarChartControl()
         {
             InitializeComponent();
-            DataContextChanged += (sender, args) =>
+            Loaded += (sender, args) =>
             {
-                if (args.NewValue is List<int>)
-                    PopulateData();
+                _loaded = true;
+                PopulateData();
             };
-        
+
         }
 
         public static readonly DependencyProperty DataSourceProperty =
@@ -53,7 +54,9 @@ namespace MALClient.UserControls
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            (dependencyObject as StackedBarChartControl).PopulateData(); 
+            var chart = dependencyObject as StackedBarChartControl;
+            if (chart._loaded)
+                chart.PopulateData();
         }
 
         public List<int> DataSource
@@ -62,9 +65,11 @@ namespace MALClient.UserControls
             set { SetValue(DataSourceProperty, value); }
         }
 
-
         private async void PopulateData()
         {
+            if(DataSource == null)
+                return;
+            ChartCanvas.Children.Clear();
             await Task.Delay(50); // raceeee... wrooom!
             int margin = 10;
             var values = DataSource;

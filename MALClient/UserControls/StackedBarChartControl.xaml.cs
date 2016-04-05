@@ -16,7 +16,12 @@ namespace MALClient.UserControls
 {
     public sealed partial class StackedBarChartControl : UserControl
     {
-        private readonly List<Color> _colorsOrder = new List<Color>
+        private static readonly Brush B2 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(255, 88, 88, 88)
+                : Colors.Gainsboro);
+
+        private static readonly List<Color> ColorsOrder = new List<Color>
         {
             Colors.ForestGreen,
             Colors.DodgerBlue,
@@ -60,7 +65,7 @@ namespace MALClient.UserControls
 
         private async void PopulateData()
         {
-            await Task.Delay(10);
+            await Task.Delay(50); // raceeee... wrooom!
             int margin = 10;
             var values = DataSource;
             if(values.Count == 0)
@@ -81,8 +86,8 @@ namespace MALClient.UserControls
                 X2 = ChartCanvas.ActualWidth - margin*2,
                 Y1 = height,
                 Y2 = height,
-                Stroke = new SolidColorBrush(Colors.Gainsboro),
-                Fill = new SolidColorBrush(Colors.Gainsboro),
+                Stroke = B2,
+                Fill = B2,
                 StrokeThickness = 40,
                 StrokeDashCap = PenLineCap.Round,
                 StrokeStartLineCap = PenLineCap.Round,
@@ -106,8 +111,8 @@ namespace MALClient.UserControls
                     X2 = currX + offset,
                     Y1 = height,
                     Y2 = height,
-                    Stroke = new SolidColorBrush(_colorsOrder[currColor]),
-                    Fill = new SolidColorBrush(Colors.Gainsboro),
+                    Stroke = new SolidColorBrush(ColorsOrder[currColor]),
+                    Fill = B2,
                     StrokeThickness = _lineThickness,
                     StrokeDashCap = PenLineCap.Round,
                     StrokeStartLineCap = PenLineCap.Round,

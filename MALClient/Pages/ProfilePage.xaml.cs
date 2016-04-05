@@ -24,22 +24,23 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class ProfilePage : Page
     {
+        
+        private static ProfilePageNavigationArgs _lastArgs;
+
         public ProfilePage()
         {
             InitializeComponent();
-            SpinnerLoading.Background = new SolidColorBrush(Color.FromArgb(160, 230, 230, 230));
             Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            //(DataContext as ProfilePageViewModel).View = this;
-            (DataContext as ProfilePageViewModel).LoadProfileData();
+            (DataContext as ProfilePageViewModel).LoadProfileData(_lastArgs);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
+            _lastArgs = e.Parameter as ProfilePageNavigationArgs;
             Utils.GetMainPageInstance().CurrentStatus = $"{Creditentials.UserName} - Profile";
 
             NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);

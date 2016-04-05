@@ -98,7 +98,9 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    View.Navigate(typeof (ProfilePage));
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
+                    View.Navigate(typeof (ProfilePage),args);
                     break;
                 case PageIndex.PageAbout:
                     HideSearchStuff();

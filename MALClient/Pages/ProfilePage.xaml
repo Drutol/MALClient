@@ -25,7 +25,7 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDetailsBackground}">
-        <Pivot Style="{StaticResource PivotStyleOuterProfilePage}" SelectedItem="{Binding CurrentlySelectedOuterPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+        <Pivot Style="{StaticResource PivotStyleOuterProfilePage}" SelectedIndex="{Binding CurrentlySelectedOuterPivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding CurrentlySelectedOuterPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
             </Pivot.Resources>
@@ -36,7 +36,7 @@
                         <TextBlock Text="Favourites" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <Pivot Style="{StaticResource PivotStyleInnerProfilePage}" SelectedItem="{Binding CurrentlySelectedInnerPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <Pivot Style="{StaticResource PivotStyleInnerProfilePage}" SelectedIndex="{Binding CurrentlySelectedInnerPivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding CurrentlySelectedInnerPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                     <Pivot.Resources>
                         <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}" />
                     </Pivot.Resources>
@@ -46,7 +46,7 @@
                                 <TextBlock Margin="0,5,0,0" Text="Anime" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <ListView ItemsSource="{Binding FavAnime}">
+                        <ListView ItemsSource="{Binding FavAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -64,7 +64,7 @@
                                 <TextBlock Margin="0,5,0,0" Text="Manga" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <ListView ItemsSource="{Binding FavManga}">
+                        <ListView ItemsSource="{Binding FavManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -82,7 +82,7 @@
                                 <TextBlock Margin="0,5,0,0" Text="Characters" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <GridView ItemsSource="{Binding CurrentData.FavouriteCharacters}" HorizontalAlignment="Center" x:Name="CharactersGrid">
+                        <GridView ItemsSource="{Binding FavCharacters}" HorizontalAlignment="Center"  Margin="0,5,0,0">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
@@ -96,7 +96,7 @@
                                             <RowDefinition Height="52"/>
                                         </Grid.RowDefinitions>
                                         <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
-                                            <Image Source="{Binding ImgUrl,Converter={StaticResource BitmapImageConverter}}" Stretch="Uniform"/>
+                                            <Image Source="{Binding ImgBitmap}" Stretch="Uniform"/>
                                             <Button.Flyout>
                                                 <Flyout>
                                                     <StackPanel>
@@ -137,7 +137,7 @@
                                 <TextBlock Margin="0,5,0,0" Text="People" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <GridView ItemsSource="{Binding CurrentData.FavouritePeople}" HorizontalAlignment="Center">
+                        <GridView ItemsSource="{Binding FavPeople}" HorizontalAlignment="Center">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
@@ -145,13 +145,13 @@
                             </GridView.ItemsPanel>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
+                                    <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}" Margin="0,5,0,0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="52"/>
                                         </Grid.RowDefinitions>
                                         <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
-                                            <Image Source="{Binding ImgUrl,Converter={StaticResource BitmapImageConverter}}" Stretch="Uniform"/>
+                                            <Image Source="{Binding ImgBitmap}" Stretch="Uniform"/> 
                                             <Button.Flyout>
                                                 <Flyout>
                                                     <StackPanel>
@@ -176,7 +176,7 @@
                     </PivotItem>
                 </Pivot>
             </PivotItem>
-            <PivotItem Tag="Recent">
+            <PivotItem Tag="Recent" Margin="0" Padding="0">
                 <PivotItem.Header>
                     <StackPanel Margin="5,0" Padding="5">
                         <SymbolIcon Symbol="Clock" HorizontalAlignment="Center"/>
@@ -200,18 +200,20 @@
                                 </Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <TextBlock Text="Recent anime updates" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <ListView ItemsSource="{Binding RecentAnime}"/>
-                        <TextBlock Text="Recent manga updates" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <ListView ItemsSource="{Binding RecentManga}"/>
+                        <Grid Margin="0,0,5,0" Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="50">
+                            <TextBlock Text="Recently updated anime:" FontWeight="SemiLight" FontSize="23" HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                        </Grid>
+                        <ListView ItemsSource="{Binding RecentAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Grid Margin="0,5" Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="50">
+                            <TextBlock Text="Recently updated manga:" FontWeight="SemiLight" FontSize="23" HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                        </Grid>
+                        <ListView ItemsSource="{Binding RecentManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Tag="Stats">
+            <PivotItem Tag="Stats" Margin="0" Padding="0">
                 <PivotItem.Header>
                     <StackPanel Margin="5,0" Padding="5">
                         <SymbolIcon Symbol="AllApps" HorizontalAlignment="Center"/>
@@ -229,7 +231,7 @@
                             <TextBlock Text="Anime Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <controls:StackedBarChartControl x:Name="ChartAnime" Grid.Row="1" VerticalAlignment="Center"
+                            <controls:StackedBarChartControl Grid.Row="1" VerticalAlignment="Center"
                                                      HorizontalAlignment="Center" MinWidth="350"  DataSource="{Binding AnimeChartValues}"/>
                             <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -348,7 +350,7 @@
                                                HorizontalAlignment="Center" TextAlignment="Center" />
                                         </Grid>
                                         <MenuFlyoutSeparator Margin="5,5" />
-                                        <TextBlock Text="{Binding CurrentData.AnimeDays}" VerticalAlignment="Center"
+                                        <TextBlock Text="{Binding CurrentData.AnimeDaysBind}" VerticalAlignment="Center"
                                            HorizontalAlignment="Center" Margin="10"
                                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                            FontWeight="Bold" FontSize="20" />
@@ -499,7 +501,7 @@
                                                HorizontalAlignment="Center" TextAlignment="Center" />
                                         </Grid>
                                         <MenuFlyoutSeparator Margin="5,5" />
-                                        <TextBlock Text="{Binding CurrentData.MangaDays}" VerticalAlignment="Center"
+                                        <TextBlock Text="{Binding CurrentData.MangaDaysBind}" VerticalAlignment="Center"
                                            HorizontalAlignment="Center" Margin="10,5"
                                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                            FontWeight="Bold" FontSize="20" />
@@ -514,7 +516,7 @@
             
         </Pivot>
         
-        <Grid x:Name="SpinnerLoading" Visibility="Collapsed">
+        <Grid Visibility="{Binding LoadingVisibility}" Background="{ThemeResource BrushLoading}" Margin="0,100,0,0">
             <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
                           IsActive="True" />
         </Grid>

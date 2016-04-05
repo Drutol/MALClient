@@ -66,7 +66,7 @@ namespace MALClient.Comm
                     var titleNode = item.Descendants("a").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        "hoverinfo_trigger fs14 fw-b");
+                        "hoverinfo_trigger fl-l fs14 fw-b");
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(7).Split('/')[2]);
                     current.Score = float.Parse(item.Descendants("span").First(node =>

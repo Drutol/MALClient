@@ -47,14 +47,14 @@ namespace MALClient.ViewModels
         //state fields
         public int Id { get; set; }
 
-        public async void NavigateDetails()
+        public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
-                        Utils.GetMainPageInstance().GetCurrentListOrderParams())
+                        argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
                     {
-                        Source = _parentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList,
+                        Source = sourceOverride ?? (_parentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
                         AnimeMode = _parentAbstraction.RepresentsAnime
                     });
         }
@@ -688,7 +688,7 @@ namespace MALClient.ViewModels
 
         public ICommand NavigateDetailsCommand
         {
-            get { return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(NavigateDetails)); }
+            get { return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() =>NavigateDetails())); }
         }
 
         #endregion

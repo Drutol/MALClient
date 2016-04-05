@@ -29,8 +29,10 @@ namespace MALClient.Models
         public int MangaVolumes { get; set; }
         public int MangaChapters { get; set; }
         //Days
-        public float AnimeDays { get; set; }
-        public float MangaDays { get; set; }      
+        public float AnimeDays;
+        public string AnimeDaysBind { get { return $"Days: {AnimeDays}"; } }
+        public float MangaDays;
+        public string MangaDaysBind { get { return $"Days: {MangaDays}"; } }      
         //Fav Anime
         public List<int> FavouriteAnime { get; set; } = new List<int>();
         //Fav Manga

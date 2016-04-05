@@ -221,7 +221,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource BrushAnimeItemInnerBackground}" />
+                                                                    Value="{ThemeResource BrushAnimeItemBackground}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -560,7 +560,7 @@
                                             VerticalAlignment="Stretch" />
                                         <ContentControl
                                             x:Name="HeaderClipper"
-                                            Grid.Column="1"
+                                            Grid.Column="0" Grid.ColumnSpan="3"
                                             Height="70"
                                             UseSystemFocusVisuals="True"
                                             HorizontalContentAlignment="Stretch">
@@ -893,7 +893,7 @@
                                             VerticalAlignment="Stretch" />
                                         <ContentControl
                                             x:Name="HeaderClipper"
-                                            Grid.Column="1"
+                                            Grid.Column="0" Grid.ColumnSpan="3"
                                             Height="40"
                                             UseSystemFocusVisuals="True"
                                             HorizontalContentAlignment="Stretch">

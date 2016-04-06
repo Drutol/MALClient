@@ -42,12 +42,12 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "top-ranking-table"); //constant 20 recommendations
+                            HttpClassMgr.ClassDefs["#Top:mainNode:class"]);
             var i = 0;
             foreach (var item in topNodes.Descendants("tr").Where(node =>
                 node.Attributes.Contains("class") &&
                 node.Attributes["class"].Value ==
-                "ranking-list"))
+                HttpClassMgr.ClassDefs["#Top:topNode:class"]))
             {
                 try
                 {
@@ -55,7 +55,7 @@ namespace MALClient.Comm
                     var epsText = item.Descendants("div").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        "information di-ib mt4").ChildNodes[0].InnerText;
+                        HttpClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
@@ -66,13 +66,13 @@ namespace MALClient.Comm
                     var titleNode = item.Descendants("a").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        "hoverinfo_trigger fl-l fs14 fw-b");
+                        HttpClassMgr.ClassDefs["#Top:topNode:titleNode:class"]);
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(7).Split('/')[2]);
                     current.Score = float.Parse(item.Descendants("span").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        "text on").InnerText.Trim());
+                        HttpClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());
                     current.Index = ++i;
 
 

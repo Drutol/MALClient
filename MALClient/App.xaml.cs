@@ -10,6 +10,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Comm;
 using Microsoft.ApplicationInsights;
 
 namespace MALClient
@@ -78,6 +79,7 @@ namespace MALClient
                 rootFrame.Navigate(typeof (MainPage), e.Arguments);
             }
             // Ensure the current window is active
+            HttpClassMgr.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();

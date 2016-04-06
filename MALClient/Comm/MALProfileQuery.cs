@@ -88,7 +88,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "statistics-updates di-b w100 mb8"))
+                            HttpClassMgr.ClassDefs["#Profile:recentUpdateNode:class"]))
                 {
                     if (i <= 3)
                     {
@@ -111,7 +111,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "favorites-list characters").Descendants("li"))
+                            HttpClassMgr.ClassDefs["#Profile:favCharacterNode:class"]).Descendants("li"))
                     {
                         var curr = new FavCharacter();
                         var imgNode = favCharNode.Descendants("a").First();
@@ -139,7 +139,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "favorites-list manga").Descendants("li"))
+                             HttpClassMgr.ClassDefs["#Profile:favMangaNode:class"]).Descendants("li"))
                     {
                         currernt.FavouriteManga.Add(
                             int.Parse(
@@ -157,7 +157,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "favorites-list anime").Descendants("li"))
+                            HttpClassMgr.ClassDefs["#Profile:favAnimeNode:class"]).Descendants("li"))
                     {
                         currernt.FavouriteAnime.Add(
                             int.Parse(
@@ -176,7 +176,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "favorites-list people").Descendants("li"))
+                            HttpClassMgr.ClassDefs["#Profile:favPeopleNode:class"]).Descendants("li"))
                     {
                         var curr = new FavPerson();
                         var aElems = favPersonNode.Descendants("a");

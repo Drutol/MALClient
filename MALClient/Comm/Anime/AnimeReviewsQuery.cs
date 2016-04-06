@@ -44,7 +44,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "borderDark pt4 pb8 pl4 pr4 mb8").Take(Settings.ReviewsToPull);
+                            HttpClassMgr.ClassDefs["#Reviews:reviewNode:class"]).Take(Settings.ReviewsToPull);
 
                 foreach (var reviewNode in reviewNodes)
                 {
@@ -55,7 +55,7 @@ namespace MALClient.Comm
                         var detailsNode = reviewNode.Descendants("div").First();
                         var pictureNode = detailsNode.Descendants("div").Where(node =>
                             node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value == "picSurround")
+                            node.Attributes["class"].Value == HttpClassMgr.ClassDefs["#Reviews:reviewNode:pictureNodeClass"])
                             .Skip(1)
                             .First() //2nd picSurround
                             .Descendants("a").First(); //2nd a tag
@@ -66,7 +66,7 @@ namespace MALClient.Comm
                             .First(node =>
                                 node.Attributes.Contains("class") &&
                                 node.Attributes["class"].Value ==
-                                "lightLink spaceit").InnerText;
+                                HttpClassMgr.ClassDefs["#Reviews:reviewNode:helpfulCountNode"]).InnerText;
                         //
                         var rightTableNodeDivs =
                             detailsNode.Descendants("td").Skip(2).First().Descendants("div").ToList();
@@ -76,7 +76,7 @@ namespace MALClient.Comm
                         //Review Content
                         var reviewNodeContent = reviewNode.Descendants("div").First(node =>
                             node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value == "spaceit textReadability word-break");
+                            node.Attributes["class"].Value == HttpClassMgr.ClassDefs["#Reviews:reviewNode:contentNode"]);
                         reviewNodeContent.ChildNodes.Remove(1);
                         current.Review =
                             WebUtility.HtmlDecode(reviewNodeContent.InnerText.Trim().Replace("read more", ""));

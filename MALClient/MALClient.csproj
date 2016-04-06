@@ -114,6 +114,8 @@
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
+    <Compile Include="Comm\HttpClassDefinitionsQuery.cs" />
+    <Compile Include="Comm\HttpClassMgr.cs" />
     <Compile Include="Comm\MalListParameters.cs" />
     <Compile Include="Comm\MalListQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -241,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Comm\HtmlClassesDefinitions.json" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

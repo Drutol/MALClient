@@ -43,7 +43,7 @@ namespace MALClient.Comm
                     node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        "borderClass").Take(Settings.RecommsToPull);
+                        HttpClassMgr.ClassDefs["#DirectRecomm:recommNode:class"]).Take(Settings.RecommsToPull);
 
             foreach (var recommNode in recommNodes)
             {
@@ -63,7 +63,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            "borderClass bgColor1")
+                            HttpClassMgr.ClassDefs["#DirectRecomm:recommNode:descClass"])
                         .Descendants("div")
                         .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
                     var titleNode = tds[1].ChildNodes[3].Descendants("a").First();

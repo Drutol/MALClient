@@ -79,35 +79,22 @@
                                         <Setter Property="TextAlignment" Value="Left" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="07.04.2016 - v3.2.10.0" />
+                                <TextBlock Text="Profile page remade almost from scratch." />
+                                <TextBlock Text="Added favourites and recently updated anime/manga to profile page." />
+                                <TextBlock Text="Fixed crash when trying to remove cached item." />
+                                <TextBlock Text="Fixed top anime empty list." />
+                                <TextBlock Text="Added mechanism which will make http scrapping operations a bit more reliable and I'll be able to fix things remotely without pushing out new build." />
+                                <TextBlock Text="Scaled down application tile images." />
+                                <TextBlock Text="Add/Remove anime button in detail page now has proper spinner." />
+                                <TextBlock Text="There should no longer be any '&amp;' in synopsis." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="03.04.2016 - v3.1.6.0" />
                                 <TextBlock Text="Fixed oddities of search button." />
                                 <TextBlock Text="Fixed crashfix when trying to add manga in details page when navigated from related anime." />
                                 <TextBlock Text="Loading details now hides obscure empty fields." />
                                 <TextBlock Text="Added 'Support me button' you can watch advertisement on demand ^^." />
-                                <MenuFlyoutSeparator Margin="0,5"/>
-                                <TextBlock Text="31.03.2016 - v3.1.2.0" />
-                                <TextBlock
-                                    Text="Added setting whether to keep or dismiss flyouts (filters/sorting/view) in main list page." />
-                                <TextBlock Text="Added Top Anime page." />
-                                <TextBlock Text="Added Top Manga page." />
-                                <TextBlock Text="Selecting default tab will now open manga page too." />
-                                <TextBlock
-                                    Text="Added mechanism which will fetch user's list data when accessing top/details pages." />
-                                <TextBlock Text="Added copy to clipboard button in details page." />
-                                <TextBlock
-                                    Text="Navigating back to details page will now properly set tab originating from." />
-                                <TextBlock
-                                    Text="Fixed issue with navigating back to search page with activated filter." />
-                                <TextBlock Text="Added option to choose detailed data provider." />
-                                <TextBlock Text="Added Hummingbird as data provider." />
-                                <TextBlock Text="Added Hybrid option with Ann + hummingbird." />
-                                <TextBlock Text="Details page basic data will be now cached for 1 day." />
-                                <TextBlock Text="Added new rate popup." />
-                                <TextBlock Text="Added setting for new rate pop-up." />
-                                <TextBlock
-                                    Text="Added button which will display advertisement on demand. You can support me that way ^^" />
-                                <TextBlock Text="Adjusted indefinite lists' scrolling offsets." />
-                                <TextBlock Text="Added anime/manga type information on grid and list view items." />
+
                             </StackPanel>
                         </StackPanel>
                     </Grid>

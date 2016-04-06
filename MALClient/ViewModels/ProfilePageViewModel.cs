@@ -160,7 +160,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _currentlySelectedOuterPivotIndex = 0;
+        private int _currentlySelectedOuterPivotIndex;
 
         public int CurrentlySelectedOuterPivotIndex
         {
@@ -172,7 +172,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _currentlySelectedInnerPivotIndex = 0;
+        private int _currentlySelectedInnerPivotIndex;
 
         public int CurrentlySelectedInnerPivotIndex
         {
@@ -247,9 +247,8 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => CurrentData);
             _initialized = true;
             CurrentlySelectedInnerPivotIndex = args?.InnerPivotSelectedIndex ?? 0;
-            CurrentlySelectedOuterPivotIndex = args?.OuterPivotSelectedIndex ?? 0;
+            CurrentlySelectedOuterPivotIndex = args?.OuterPivotSelectedIndex ?? 2;
             OuterPivotItemChanged(CurrentlySelectedOuterPivotItem.Tag as string);
-            InnerPivotItemChanged(CurrentlySelectedInnerPivotItem.Tag as string);
             LoadingVisibility = Visibility.Collapsed;
         }
 

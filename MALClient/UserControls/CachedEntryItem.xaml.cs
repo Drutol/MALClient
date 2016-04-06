@@ -18,21 +18,21 @@ namespace MALClient.UserControls
             SetDetails(file);
         }
 
-        public string fileName { get; set; }
-        public DateTime saveTime { get; set; }
+        private string _fileName { get; set; }
+        private DateTime _saveTime { get; set; }
 
         private async void SetDetails(StorageFile file)
         {
             var data = await file.GetBasicPropertiesAsync();
-
-            saveTime = data.DateModified.LocalDateTime;
-            TxtDate.Text = saveTime.ToString("dd/MM/yyyy HH:mm");
+            _fileName = file.Name;
+            _saveTime = data.DateModified.LocalDateTime;
+            TxtDate.Text = _saveTime.ToString("dd/MM/yyyy HH:mm");
             TxtSize.Text = Utils.SizeSuffix((long) data.Size);
         }
 
         private async void DeleteFile(object sender, RoutedEventArgs e)
         {
-            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(fileName);
+            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(_fileName);
             await file.DeleteAsync();
             IsEnabled = false;
             Background = new SolidColorBrush(Colors.DarkGray);

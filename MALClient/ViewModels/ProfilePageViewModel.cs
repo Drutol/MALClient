@@ -226,6 +226,71 @@ namespace MALClient.ViewModels
             => _navigatePersonPageCommand ?? (_navigatePersonPageCommand = new RelayCommand<FavPerson>(NavigatePersonWebPage));
 
 
+        private Visibility _emptyFavAnimeNoticeVisibility = Visibility.Collapsed;
+        public Visibility EmptyFavAnimeNoticeVisibility
+        {
+            get { return _emptyFavAnimeNoticeVisibility; }
+            set
+            {
+                _emptyFavAnimeNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyFavAnimeNoticeVisibility);
+            }
+        }
+
+        private Visibility _emptyFavCharactersNoticeVisibility = Visibility.Collapsed;
+        public Visibility EmptyFavCharactersNoticeVisibility
+        {
+            get { return _emptyFavCharactersNoticeVisibility; }
+            set
+            {
+                _emptyFavCharactersNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyFavCharactersNoticeVisibility);
+            }
+        }
+        private Visibility _emptyFavMangaNoticeVisibility = Visibility.Collapsed;
+        public Visibility EmptyFavMangaNoticeVisibility
+        {
+            get { return _emptyFavMangaNoticeVisibility; }
+            set
+            {
+                _emptyFavMangaNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyFavMangaNoticeVisibility);
+            }
+        }
+
+        private Visibility _emptyRecentMangaNoticeVisibility = Visibility.Collapsed;
+        public Visibility EmptyRecentMangaNoticeVisibility
+        {
+            get { return _emptyRecentMangaNoticeVisibility; }
+            set
+            {
+                _emptyRecentMangaNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyRecentMangaNoticeVisibility);
+            }
+        }
+
+        private Visibility _emptyRecentAnimeNoticeVisibility = Visibility.Collapsed;
+        public Visibility EmptyRecentAnimeNoticeVisibility
+        {
+            get { return _emptyRecentAnimeNoticeVisibility; }
+            set
+            {
+                _emptyRecentAnimeNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyRecentAnimeNoticeVisibility);
+            }
+        }
+
+        private Visibility _emptyFavPeopleNoticeVisibility = Visibility.Collapsed;
+        public Visibility EmptyFavPeopleNoticeVisibility
+        {
+            get { return _emptyFavPeopleNoticeVisibility; }
+            set
+            {
+                _emptyFavPeopleNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyFavPeopleNoticeVisibility);
+            }
+        }
+
 
         private bool _initialized;
 
@@ -269,6 +334,9 @@ namespace MALClient.ViewModels
                         favCharacter.LoadBitmap();
                         FavCharacters.Add(favCharacter);
                     }
+                    EmptyFavCharactersNoticeVisibility = FavCharacters.Count == 0
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
                     break;
                 case "Anime":
                     if (_loadedFavAnime)
@@ -283,6 +351,9 @@ namespace MALClient.ViewModels
                             FavAnime.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
                         }
                     }
+                    EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
                     break;
                 case "Manga":
                     if (_loadedFavManga)
@@ -297,6 +368,9 @@ namespace MALClient.ViewModels
                             FavManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
                         }
                     }
+                    EmptyFavMangaNoticeVisibility = FavManga.Count == 0
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
                     break;
                 case "Ppl":
                     if (_loadedPpl)
@@ -309,6 +383,9 @@ namespace MALClient.ViewModels
                         favPerson.LoadBitmap();
                         FavPeople.Add(favPerson);
                     }
+                    EmptyFavPeopleNoticeVisibility = FavPeople.Count == 0
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
                     break;
             }
         }
@@ -350,6 +427,12 @@ namespace MALClient.ViewModels
                             RecentManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
                         }
                     }
+                    EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                    EmptyRecentMangaNoticeVisibility = RecentManga.Count == 0
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
                     break;
                 case "Stats":
                     if(_loadedStats)

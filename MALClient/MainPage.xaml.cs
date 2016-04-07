@@ -33,6 +33,11 @@ namespace MALClient
             MainContent.Navigate(page, args);
         }
 
+        public void NavigateOff(Type page, object args = null)
+        {
+            OffContent.Navigate(page, args);
+        }
+
         public void SearchInputFocus(FocusState state)
         {
             SearchInput.Focus(state);

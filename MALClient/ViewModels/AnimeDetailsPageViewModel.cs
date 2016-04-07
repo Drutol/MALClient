@@ -929,7 +929,7 @@ namespace MALClient.ViewModels
             RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" ? "?" : EndDate));
 
             Synopsis = Synopsis;
-            Utils.GetMainPageInstance().CurrentStatus = Title;
+            Utils.GetMainPageInstance().CurrentOffStatus = Title;
 
             DetailImage = new BitmapImage(new Uri(_imgUrl));
             LoadingGlobal = Visibility.Collapsed;

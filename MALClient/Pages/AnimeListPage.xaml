@@ -154,19 +154,20 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}"
-                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
+        <GridView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" 
+                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" HorizontalAlignment="Stretch"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Padding" Value="5,5" />
-                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="Margin" Value="5,5" />
+                    <Setter Property="Width" Value="395"/>
                     <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    <Setter Property="BorderThickness" Value="5,0,0,0" />
+                    <Setter Property="BorderThickness" Value="2,0,2,0" />
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+            </GridView.ItemContainerStyle>
+        </GridView>
         <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
                   SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">

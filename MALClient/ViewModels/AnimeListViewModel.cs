@@ -419,7 +419,7 @@ namespace MALClient.ViewModels
                 return;
             //Depending on display mode we load more or less items.
             //This is the place where offset thresholds are defined
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 25 : 100) ||
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 100 : 100) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
@@ -427,8 +427,11 @@ namespace MALClient.ViewModels
                 switch (DisplayMode)
                 {
                     case AnimeListDisplayModes.IndefiniteList:
-                        AnimeItems.Add(_animeItemsSet.First().AnimeItem);
-                        _animeItemsSet.RemoveAt(0);
+                        for (int i = 0; (_animeItemsSet.Count > 0 && i < (sender as FrameworkElement).ActualWidth/400) ; i++)
+                        {
+                            AnimeItems.Add(_animeItemsSet[0].AnimeItem);
+                            _animeItemsSet.RemoveAt(0);
+                        }
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
                         AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
@@ -536,11 +539,12 @@ namespace MALClient.ViewModels
 
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
-                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition/100))
+                    var items = GetItemsToLoad();
+                    foreach (var itemAbstraction in _animeItemsSet.Take(items))
                     {
                         AnimeItems.Add(itemAbstraction.AnimeItem);
                     }
-                    for (var i = 0; i < 6 + CurrentPosition/100 && _animeItemsSet.Count > 0; i++)
+                    for (var i = 0; i < items && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
@@ -575,6 +579,16 @@ namespace MALClient.ViewModels
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             Loading = false;
+        }
+
+        private int GetItemsToLoad()
+        {
+            var width = View.ListGridView.ActualWidth;
+            var height = View.ListGridView.ActualHeight;
+            int result = (int)width/400;
+            result *= (int)height/150;
+            result = (int)(result * 1.5);
+            return result;
         }
 
         #endregion

@@ -21,6 +21,7 @@
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="LightGray" Opacity=".25" />
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#e6e6e6" />
+            <SolidColorBrush x:Key="BrushSplitter" Color="LightGray" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d" />
@@ -39,6 +40,7 @@
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="#1a1a1a" />
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#404040" />
             <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#252525" />
+            <SolidColorBrush x:Key="BrushSplitter" Color="DarkGray" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

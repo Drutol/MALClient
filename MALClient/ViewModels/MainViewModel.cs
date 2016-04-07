@@ -16,6 +16,7 @@ namespace MALClient.ViewModels
     public interface IMainViewInteractions
     {
         void Navigate(Type page, object args = null);
+        void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
     }
 
@@ -51,7 +52,7 @@ namespace MALClient.ViewModels
 
 
 
-            ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
+            //ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
@@ -81,7 +82,8 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
-                    View.Navigate(typeof (AnimeDetailsPage), args);
+                    OffContentVisibility = Visibility.Visible;
+                    View.NavigateOff(typeof (AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
@@ -166,8 +168,6 @@ namespace MALClient.ViewModels
             {
                 _menuPaneState = value;
                 RaisePropertyChanged(() => MenuPaneState);
-                if (value)
-                    ViewModelLocator.Hamburger.PaneOpened();
             }
         }
 
@@ -217,6 +217,18 @@ namespace MALClient.ViewModels
             {
                 _currentStatus = value;
                 RaisePropertyChanged(() => CurrentStatus);
+            }
+        }
+
+        private string _currentOffStatus;
+
+        public string CurrentOffStatus
+        {
+            get { return _currentOffStatus; }
+            set
+            {
+                _currentOffStatus = value;
+                RaisePropertyChanged(() => CurrentOffStatus);
             }
         }
 
@@ -321,6 +333,18 @@ namespace MALClient.ViewModels
             {
                 _searchFilterButtonVisibility = value;
                 RaisePropertyChanged(() => SearchFilterButtonVisibility);
+            }
+        }
+
+        private Visibility _offContentVisibility = Visibility.Collapsed;
+
+        public Visibility OffContentVisibility
+        {
+            get { return _offContentVisibility; }
+            set
+            {
+                _offContentVisibility = value;
+                RaisePropertyChanged(() => OffContentVisibility);
             }
         }
 

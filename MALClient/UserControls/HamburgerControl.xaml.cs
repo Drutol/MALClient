@@ -25,7 +25,7 @@ namespace MALClient.UserControls
         TopManga
     }
 
-    public sealed partial class HamburgerControl : UserControl, IHamburgerControlView
+    public sealed partial class HamburgerControl : UserControl
     {
         public HamburgerControl()
         {
@@ -35,16 +35,10 @@ namespace MALClient.UserControls
 
         private HamburgerControlViewModel _viewModel => (HamburgerControlViewModel) DataContext;
 
-        public double GetScrollBurgerActualHeight()
-        {
-            return ScrlBurger.ActualHeight;
-        }
-
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             _viewModel.UpdateProfileImg();
             _viewModel.SetActiveButton(Creditentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList) : HamburgerButtons.LogIn);
-            _viewModel.View = this;
         }
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)

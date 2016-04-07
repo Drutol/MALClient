@@ -16,10 +16,7 @@ using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
-    public interface IHamburgerControlView
-    {
-        double GetScrollBurgerActualHeight();
-    }
+
 
 
     public class HamburgerControlViewModel : ViewModelBase
@@ -52,15 +49,12 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             ResetActiveButton();
-            PaneOpenedCommand = new RelayCommand(PaneOpened);
             MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
         }
 
         private Color RequestedFontColor
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
-
-        public IHamburgerControlView View { get; set; }
 
 
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
@@ -222,13 +216,6 @@ namespace MALClient.ViewModels
             _stackPanelHeightSum += up ? 50 : -50;
         }
 
-        public void PaneOpened()
-        {
-            var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
-            GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
-        }
-
         internal async Task UpdateProfileImg(bool dl = true)
         {
             if (Creditentials.Authenticated)
@@ -277,7 +264,6 @@ namespace MALClient.ViewModels
                     _subtractedHeightForButton = true;
                 }
             }
-            PaneOpened();
         }
 
         private void ResetActiveButton()

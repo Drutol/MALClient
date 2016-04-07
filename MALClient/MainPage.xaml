@@ -18,28 +18,64 @@
         <Binding Path="Main" Source="{StaticResource Locator}" />
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainContent.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainContent.(Grid.ColumnSpan)" Value="3" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"
               Background="{ThemeResource BrushAppBars}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button IsTabStop="False" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE700;"
-                    Width="45" Height="45" Background="Transparent" FontSize="20"
-                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-                    Command="{Binding ReversePaneCommand}" />
+            <Grid>
+                <Image Source="../Assets/Wide310x150Logo.scale-200.png" Stretch="Uniform"/>
+            </Grid>
+            <Grid Column="3" Visibility="{Binding OffContentVisibility}" Width="460">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentOffStatus}"
+                       TextTrimming="CharacterEllipsis"
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                <Button IsTabStop="False" HorizontalAlignment="Right"
+                    VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
+                    Command="{Binding RefreshDataCommand}"
+                    Visibility="{Binding RefreshButtonVisibility}">
+                    <SymbolIcon Symbol="Refresh" />
+                </Button>
+            </Grid>
             <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
-            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />            
+
+            <Grid Margin="10,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -79,23 +115,26 @@
                                            Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
             </controls:LockableToggleButton>
-            <Button IsTabStop="False" HorizontalAlignment="Right"
-                    VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
-                    Command="{Binding RefreshDataCommand}"
-                    Visibility="{Binding RefreshButtonVisibility}">
-                <SymbolIcon Symbol="Refresh" />
-            </Button>
         </Grid>
-        <SplitView IsTabStop="False" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
-                   IsPaneOpen="{Binding MenuPaneState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                   DisplayMode="CompactOverlay" Grid.Row="1">
-            <SplitView.Pane>
-                <controls:HamburgerControl />
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Frame x:Name="MainContent" />
-            </SplitView.Content>
-        </SplitView>
+        <Grid VerticalAlignment="Stretch" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <controls:HamburgerControl Grid.Column="0"/>
+            <Grid Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Column="0" x:Name="MainContent"/>
+                <Grid Grid.Column="1" Margin="3,0" Visibility="{Binding OffContentVisibility}" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Frame Grid.Column="2" x:Name="OffContent" Width="460" Visibility="{Binding OffContentVisibility}"/>
+            </Grid>
+
+        </Grid>
 
     </Grid>
 </Page>

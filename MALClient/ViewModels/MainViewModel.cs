@@ -19,6 +19,7 @@ namespace MALClient.ViewModels
         void Navigate(Type page, object args = null);
         void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
+        void InitSplitter();
     }
 
     public class MainViewModel : ViewModelBase
@@ -382,6 +383,15 @@ namespace MALClient.ViewModels
             {
                 _offContentVisibility = value;
                 RaisePropertyChanged(() => OffContentVisibility);
+                if (value == Visibility.Visible)
+                {
+                    MainContentColumnSpan = 1;
+                    View.InitSplitter();
+                }
+                else
+                {
+                    MainContentColumnSpan = 3;
+                }
             }
         }
 
@@ -397,6 +407,20 @@ namespace MALClient.ViewModels
             }
         }
 
+        private double _offContentStatusBarWidth = 460;
+
+        public double OffContentStatusBarWidth
+        {
+            get { return _offContentStatusBarWidth; }
+            set
+            {
+                _offContentStatusBarWidth = value;
+                RaisePropertyChanged(() => OffContentStatusBarWidth);
+            }
+        }
+
+
+
         private int _searchFilterSelectedIndex;
 
         public int SearchFilterSelectedIndex
@@ -407,6 +431,18 @@ namespace MALClient.ViewModels
                 _searchFilterSelectedIndex = value;
                 OnSearchFilterSelected();
                 RaisePropertyChanged(() => SearchFilterSelectedIndex);
+            }
+        }
+
+        private int _mainContentColumnSpan = 3;
+
+        public int MainContentColumnSpan
+        {
+            get { return _mainContentColumnSpan; }
+            set
+            {
+                _mainContentColumnSpan = value;
+                RaisePropertyChanged(() => MainContentColumnSpan);
             }
         }
 

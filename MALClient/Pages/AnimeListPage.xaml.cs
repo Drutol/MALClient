@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -104,6 +105,7 @@ namespace MALClient.Pages
         public Flyout FlyoutSorting => SortingFlyout;
 
         public GridView ListGridView => AnimesItemsIndefinite;
+        public GridView GridView => AnimesGridIndefinite;
 
         public void FlyoutSeasonSelectionHide()
         {
@@ -148,11 +150,24 @@ namespace MALClient.Pages
 
         #region Init
 
+        private double _prevWidth;
+        private double _prevHeight;
+
         public AnimeListPage()
         {
             InitializeComponent();
             ViewModel.View = this;
             Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
+            SizeChanged += (sender, args) =>
+            {
+                if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 &&
+                    Math.Abs(args.NewSize.Width - _prevWidth) > 100)
+                {
+                    _prevHeight = args.NewSize.Height;
+                    _prevWidth = args.NewSize.Width;
+                    ViewModelLocator.AnimeList.RefreshList();
+                }
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

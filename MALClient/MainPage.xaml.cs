@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Input;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.ViewModels;
+using WinRTXamlToolkit.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -43,6 +44,12 @@ namespace MALClient
             SearchInput.Focus(state);
         }
 
+        private double _prevOffContntWidth = 0;
+        public void InitSplitter()
+        {
+            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 460) : _prevOffContntWidth);            
+        }
+
         #region Search
 
         private void SearchInput_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -57,5 +64,16 @@ namespace MALClient
         }
 
         #endregion
+
+        private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
+        {
+            if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth && RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
+            {           
+                ViewModelLocator.AnimeList.RefreshList();
+            }
+            
+            _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
+            (DataContext as MainViewModel).OffContentStatusBarWidth = _prevOffContntWidth;
+        }
     }
 }

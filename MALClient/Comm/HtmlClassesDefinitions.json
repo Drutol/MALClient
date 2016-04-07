@@ -19,6 +19,7 @@
   "#Top:topNode:class": "ranking-list",
   "#Top:topNode:eps:class": "information di-ib mt4",
   "#Top:topNode:titleNode:class": "hoverinfo_trigger fl-l fs14 fw-b",
+  "#Top:topMangaNode:titleNode:class": "hoverinfo_trigger fs14 fw-b",
   "#Top:topNode:score:class": "text on",
   "#Profile:recentUpdateNode:class": "statistics-updates di-b w100 mb8",
   "#Profile:favCharacterNode:class": "favorites-list characters",
@@ -27,6 +28,4 @@
   "#Profile:favPeopleNode:class": "favorites-list people",
   "#Recommendations:recommNode:class": "spaceit borderClass",
   "#Recommendations:recommNodeDesc:class": "spaceit"
-
-
 }

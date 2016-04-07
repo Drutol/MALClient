@@ -8,7 +8,8 @@
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "MvvmLight": "5.2.0",
     "Newtonsoft.Json": "8.0.3",
-    "System.Net.Http": "4.0.0"
+    "System.Net.Http": "4.0.0",
+    "winrtxamltoolkit": "2.0.0"
   },
   "frameworks": {
     "uap10.0": {}

@@ -419,7 +419,7 @@ namespace MALClient.ViewModels
                 return;
             //Depending on display mode we load more or less items.
             //This is the place where offset thresholds are defined
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 100 : 100) ||
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 100) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
@@ -539,12 +539,12 @@ namespace MALClient.ViewModels
 
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
-                    var items = GetItemsToLoad();
-                    foreach (var itemAbstraction in _animeItemsSet.Take(items))
+                    var itemsToLoad = GetItemsToLoad();
+                    foreach (var itemAbstraction in _animeItemsSet.Take(itemsToLoad))
                     {
                         AnimeItems.Add(itemAbstraction.AnimeItem);
                     }
-                    for (var i = 0; i < items && _animeItemsSet.Count > 0; i++)
+                    for (var i = 0; i < itemsToLoad && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
@@ -557,11 +557,12 @@ namespace MALClient.ViewModels
                     //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
-                    foreach (var itemAbstraction in _animeItemsSet.Take(6 + CurrentPosition/200))
+                    var gridItemsToLoad = GetGridItemsToLoad();
+                    foreach (var itemAbstraction in _animeItemsSet.Take(gridItemsToLoad))
                     {
                         AnimeGridItems.Add(itemAbstraction.AnimeGridItem);
                     }
-                    for (var i = 0; i < 6 + CurrentPosition/200 && _animeItemsSet.Count > 0; i++)
+                    for (var i = 0; i < gridItemsToLoad && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
@@ -587,6 +588,16 @@ namespace MALClient.ViewModels
             var height = View.ListGridView.ActualHeight;
             int result = (int)width/400;
             result *= (int)height/150;
+            result = (int)(result * 1.5);
+            return result;
+        }
+
+        private int GetGridItemsToLoad()
+        {
+            var width = View.GridView.ActualWidth;
+            var height = View.GridView.ActualHeight;
+            int result = (int)width/200;
+            result *= (int)height/230;
             result = (int)(result * 1.5);
             return result;
         }

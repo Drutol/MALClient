@@ -39,7 +39,7 @@ namespace MALClient.ViewModels
 
         private bool _profileButtonVisibility;
 
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 370 : 420;
+        private int _stackPanelHeightSum = Creditentials.Authenticated ? 330 : 380;
         //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;

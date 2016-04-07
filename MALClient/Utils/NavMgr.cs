@@ -24,28 +24,28 @@ namespace MALClient
         public static void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
             //about because it is not used anywhere...
         {
-            //if we are navigating inside details we have to create stack
-            if (source == PageIndex.PageAnimeDetails)
-            {
-                _wasOnStack = true;
-                _detailsNavStack.Push(args as AnimeDetailsPageNavigationArgs);
-                //we can only navigate to details from details so...
-            }
-            else //non details navigation
-            {
-                _detailsNavStack.Clear();
-                _wasOnStack = false;
-                _pageTo = page;
-                _args = args;
-            }
+            ////if we are navigating inside details we have to create stack
+            //if (source == PageIndex.PageAnimeDetails)
+            //{
+            //    _wasOnStack = true;
+            //    _detailsNavStack.Push(args as AnimeDetailsPageNavigationArgs);
+            //    //we can only navigate to details from details so...
+            //}
+            //else //non details navigation
+            //{
+            //    _detailsNavStack.Clear();
+            //    _wasOnStack = false;
+            //    _pageTo = page;
+            //    _args = args;
+            //}
 
-            if (!_handlerRegistered)
-            {
-                var currentView = SystemNavigationManager.GetForCurrentView();
-                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                currentView.BackRequested += CurrentViewOnBackRequested;
-                _handlerRegistered = true;
-            }
+            //if (!_handlerRegistered)
+            //{
+            //    var currentView = SystemNavigationManager.GetForCurrentView();
+            //    currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            //    currentView.BackRequested += CurrentViewOnBackRequested;
+            //    _handlerRegistered = true;
+            //}
         }
 
         private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)

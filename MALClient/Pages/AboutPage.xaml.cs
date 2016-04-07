@@ -26,18 +26,6 @@ namespace MALClient.Pages
             };
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-            NavMgr.DeregisterBackNav();
-        }
-
         private async void Donate(object sender, RoutedEventArgs e)
         {
             try

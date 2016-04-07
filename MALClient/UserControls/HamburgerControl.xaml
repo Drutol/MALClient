@@ -41,251 +41,225 @@
                         <Setter Property="Margin" Value="3,0,0,0" />
                     </Style>
                 </Grid.Resources>
-                <Pivot Width="220" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
-                    <Pivot.Resources>
-                        <Style TargetType="PivotHeaderItem"
-                                       BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}">
-                            <Setter Property="Margin" Value="2,0" />
-                        </Style>
-                        <Style TargetType="PivotItem">
-                            <Setter Property="Margin" Value="0,4,0,0" />
-                            <Setter Property="Padding" Value="0" />
-                        </Style>
-                    </Pivot.Resources>
-                    <Pivot.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <TextBlock FontWeight="SemiBold" FontSize="15" Margin="0,0,0,18"
-                                                   Text="{Binding}" />
-                            </Grid>
-                        </DataTemplate>
-                    </Pivot.HeaderTemplate>
-                    <Pivot.Items>
-                        <PivotItem Header="Anime" x:Name="AnimePivot">
-                            <Grid>
-                                <StackPanel VerticalAlignment="Top">
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                <StackPanel Width="220">
+                    <Grid Background="{ThemeResource BrushPivotHeaderBackground}" HorizontalAlignment="Stretch" Padding="5">
+                        <TextBlock Text="Anime" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center"/>
+                    </Grid>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="0">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeList]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon HorizontalAlignment="Center" Symbol="List"
+                            <SymbolIcon HorizontalAlignment="Center" Symbol="List"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium"
+                            <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="3">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeSearch]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
+                            <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtSearch" Text="Anime Search"
+                            <TextBlock x:Name="TxtSearch" Text="Anime Search"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="8">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Seasonal]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center"
+                            <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
+                            <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Seasonal]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="7">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Recommendations]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon Symbol="VideoChat" HorizontalAlignment="Center"
+                            <SymbolIcon Symbol="VideoChat" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtRecom , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtRecom" Text="Recommendations"
+                            <TextBlock x:Name="TxtRecom" Text="Recommendations"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Recommendations]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="11">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[TopAnime]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                            <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtTop" Text="Top Anime"
+                            <TextBlock x:Name="TxtTop" Text="Top Anime"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </PivotItem>
-                        <PivotItem Header="Manga" Height="225">
-                            <Grid>
-                                <StackPanel VerticalAlignment="Top">
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Grid Background="{ThemeResource BrushPivotHeaderBackground}" HorizontalAlignment="Stretch" Padding="5">
+                        <TextBlock Text="Manga" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center"/>
+                    </Grid>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="9">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink"
+                            <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtMangaList" Text="Manga List"
+                            <TextBlock x:Name="TxtMangaList" Text="Manga List"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="10">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[MangaSearch]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
+                            <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
+                            <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                    <Button VerticalContentAlignment="Center" Background="Transparent"
+                        </Grid>
+                    </Button>
+                    <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="12">
-                                        <Grid Width="220" Height="45">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border
+                        <Grid Width="220" Height="45">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[TopManga]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                            <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                            <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
-                                            <TextBlock x:Name="TxtTopManga" Text="Top Manga"
+                            <TextBlock x:Name="TxtTopManga" Text="Top Manga"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                        </Grid>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </PivotItem>
-                    </Pivot.Items>
-                </Pivot>
+                        </Grid>
+                    </Button>
+                </StackPanel>
                 <StackPanel Margin="0,0,0,48" VerticalAlignment="Bottom">
                     <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"

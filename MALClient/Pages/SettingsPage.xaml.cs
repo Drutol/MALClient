@@ -42,7 +42,7 @@ namespace MALClient.Pages
                 RadioTabAnime.IsChecked = true;
             else
                 RadioTabManga.IsChecked = true;
-            Utils.GetMainPageInstance().CurrentStatus = $"Settings - {Utils.GetAppVersion()}";
+            Utils.GetMainPageInstance().CurrentOffStatus = $"Settings - {Utils.GetAppVersion()}";
             _initialized = true;
 
             NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);

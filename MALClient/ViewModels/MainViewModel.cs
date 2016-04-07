@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -62,7 +63,6 @@ namespace MALClient.ViewModels
                 else
                     HideSearchStuff();
             }
-            
             ResetSearchFilter();
             switch (index)
             {
@@ -87,7 +87,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
-                    View.Navigate(typeof (SettingsPage));
+                    OffContentVisibility = Visibility.Visible;
+                    View.NavigateOff(typeof (SettingsPage));
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
@@ -107,7 +108,8 @@ namespace MALClient.ViewModels
                 case PageIndex.PageAbout:
                     HideSearchStuff();
                     CurrentStatus = "About";
-                    View.Navigate(typeof (AboutPage));
+                    OffContentVisibility = Visibility.Visible;
+                    View.NavigateOff(typeof (AboutPage));
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
@@ -287,6 +289,18 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _refreshOffDataCommand;
+
+        public ICommand RefreshOffDataCommand
+        {
+            get { return _refreshOffDataCommand; }
+            private set
+            {
+                _refreshOffDataCommand = value;
+                RaisePropertyChanged(() => RefreshOffDataCommand);
+            }
+        }
+
         private ICommand _goTopCommand;
 
         public ICommand GoTopCommand
@@ -295,6 +309,17 @@ namespace MALClient.ViewModels
             {
                 return _goTopCommand ??
                        (_goTopCommand = new RelayCommand(() => ViewModelLocator.AnimeList.ScrollToTop()));
+            }
+        }
+
+        private ICommand _hideOffContentCommand;
+
+        public ICommand HideOffContentCommand
+        {
+            get
+            {
+                return _hideOffContentCommand ??
+                       (_hideOffContentCommand = new RelayCommand(() => OffContentVisibility = Visibility.Collapsed));
             }
         }
 
@@ -307,6 +332,18 @@ namespace MALClient.ViewModels
             {
                 _refreshButtonVisibility = value;
                 RaisePropertyChanged(() => RefreshButtonVisibility);
+            }
+        }
+
+        private Visibility _offRefreshButtonVisibility;
+
+        public Visibility OffRefreshButtonVisibility
+        {
+            get { return _offRefreshButtonVisibility; }
+            set
+            {
+                _offRefreshButtonVisibility = value;
+                RaisePropertyChanged(() => OffRefreshButtonVisibility);
             }
         }
 

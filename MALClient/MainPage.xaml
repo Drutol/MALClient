@@ -49,32 +49,43 @@
                 <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="16"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid>
                 <Image Source="../Assets/Wide310x150Logo.scale-200.png" Stretch="Uniform"/>
             </Grid>
-            <Grid Column="3" Visibility="{Binding OffContentVisibility}" Width="460">
+            <Grid Column="4" Visibility="{Binding OffContentVisibility}" Width="460">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
+                <Button IsTabStop="False" HorizontalAlignment="Right"
+                    VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0" Background="Transparent"
+                    Command="{Binding HideOffContentCommand}">
+                    <SymbolIcon Symbol="Clear" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                </Button>
                 <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentOffStatus}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                 <Button IsTabStop="False" HorizontalAlignment="Right"
                     VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
-                    Command="{Binding RefreshDataCommand}"
-                    Visibility="{Binding RefreshButtonVisibility}">
+                    Command="{Binding RefreshOffDataCommand}"
+                    Visibility="{Binding OffRefreshButtonVisibility}">
                     <SymbolIcon Symbol="Refresh" />
                 </Button>
             </Grid>
             <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
                        TextTrimming="CharacterEllipsis"
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />            
-
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"
+                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
+            <Button IsTabStop="False" HorizontalAlignment="Right"
+                    VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
+                    Command="{Binding RefreshDataCommand}"
+                    Visibility="{Binding RefreshButtonVisibility}">
+                <SymbolIcon Symbol="Refresh" />
+            </Button>
             <Grid Margin="10,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

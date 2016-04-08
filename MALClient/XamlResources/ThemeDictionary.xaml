@@ -8,7 +8,7 @@
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushAppBars" Color="LightGray" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1" />
-            <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#E6E6E6" />
+            <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#dbdbdb" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="BrushLoading" Color="#E6E6E6" Opacity=".75" />
@@ -22,13 +22,15 @@
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#e6e6e6" />
             <SolidColorBrush x:Key="BrushSplitter" Color="LightGray" />
+            <SolidColorBrush x:Key="BrushHamburgerMenuButtonsBorder" Color="#1f1f1f" />
+            <SolidColorBrush x:Key="BrushHamburgerSplitter" Color="#c8c8c8" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d" />
+            <SolidColorBrush x:Key="BrushDeepBackground" Color="#2a2a2a" />
             <SolidColorBrush x:Key="BrushAppBars" Color="#151515" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020" />
-            <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1a1a1a" />
-            <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2a2c2a" />
+            <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1f1f1f" />
+            <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#3a3c3a" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#212121" />
             <SolidColorBrush x:Key="BrushLoading" Color="#2a2c2a" Opacity=".75" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#0a0a0a"/>
@@ -36,11 +38,13 @@
             <SolidColorBrush x:Key="BrushRowAlternate2" Color="#111111" />
             <SolidColorBrush x:Key="BrushDetailsGeneralBorder" Color="#151515" />
             <SolidColorBrush x:Key="BrushDetailsRelatedBackground" Color="#1E1E1E" />
-            <SolidColorBrush x:Key="BrushDetailsBackground" Color="#0d0d0d" />
+            <SolidColorBrush x:Key="BrushDetailsBackground" Color="#1d1d1d" />
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="#1a1a1a" />
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#404040" />
             <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#252525" />
-            <SolidColorBrush x:Key="BrushSplitter" Color="DarkGray" />
+            <SolidColorBrush x:Key="BrushSplitter" Color="#151515" />
+            <SolidColorBrush x:Key="BrushHamburgerMenuButtonsBorder" Color="#e6e6e6" />
+            <SolidColorBrush x:Key="BrushHamburgerSplitter" Color="#9a5a5a5a" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

@@ -160,7 +160,7 @@ namespace MALClient.Pages
             Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
             SizeChanged += (sender, args) =>
             {
-                if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 &&
+                if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad && Math.Abs(args.NewSize.Height - _prevHeight) > 100 &&
                     Math.Abs(args.NewSize.Width - _prevWidth) > 100)
                 {
                     _prevHeight = args.NewSize.Height;

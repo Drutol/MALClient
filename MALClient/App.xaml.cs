@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
@@ -31,6 +32,7 @@ namespace MALClient
                 WindowsCollectors.Session);
             Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
+
             Suspending += OnSuspending;
         }
 
@@ -41,6 +43,7 @@ namespace MALClient
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             var rootFrame = Window.Current.Content as Frame;
 
             if (!string.IsNullOrWhiteSpace(e.Arguments))
@@ -79,10 +82,10 @@ namespace MALClient
                 rootFrame.Navigate(typeof (MainPage), e.Arguments);
             }
             // Ensure the current window is active
+            
             HttpClassMgr.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
-            ProcessStatusBar();
             ProcessUpdate();
         }
 
@@ -107,24 +110,6 @@ namespace MALClient
                     }
                 });
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
-        }
-
-        private void ProcessStatusBar()
-        {
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                var statusBar = StatusBar.GetForCurrentView();
-                if (statusBar != null)
-                {
-                    statusBar.BackgroundOpacity = 1;
-                    statusBar.BackgroundColor = Current.RequestedTheme == ApplicationTheme.Dark
-                        ? Colors.Black
-                        : Colors.White;
-                    statusBar.ForegroundColor = Current.RequestedTheme == ApplicationTheme.Dark
-                        ? Colors.White
-                        : Colors.Black;
-                }
-            }
         }
 
         private async void LaunchUri(string url)

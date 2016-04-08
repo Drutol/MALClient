@@ -169,22 +169,17 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
                     await FetchData(param.Id.ToString(), param.Title);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeDetails:
                     await FetchData(param.Id.ToString(), param.Title);
-                    if (param.RegisterBackNav) //we are already going back
-                        NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
             _initialized = true;

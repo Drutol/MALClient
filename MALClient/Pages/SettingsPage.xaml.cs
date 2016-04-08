@@ -45,8 +45,6 @@ namespace MALClient.Pages
             Utils.GetMainPageInstance().CurrentOffStatus = $"Settings - {Utils.GetAppVersion()}";
             _initialized = true;
 
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-
             base.OnNavigatedTo(e);
         }
 
@@ -54,7 +52,6 @@ namespace MALClient.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            NavMgr.DeregisterBackNav();
         }
 
 

@@ -43,7 +43,6 @@ namespace MALClient.Pages
             _lastArgs = e.Parameter as ProfilePageNavigationArgs;
             Utils.GetMainPageInstance().CurrentStatus = $"{Creditentials.UserName} - Profile";
 
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
 
             base.OnNavigatedTo(e);
         }
@@ -52,7 +51,6 @@ namespace MALClient.Pages
         {
             (DataContext as ProfilePageViewModel).Cleanup();
             base.OnNavigatedFrom(e);
-            NavMgr.DeregisterBackNav();
         }
 
 

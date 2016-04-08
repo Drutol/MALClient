@@ -1,5 +1,7 @@
 ﻿using System;
+using Windows.Foundation;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -28,6 +30,8 @@ namespace MALClient
 #endif
         }
 #pragma warning restore 4014
+
+        public Grid RootGrid => RootContentGrid;
 
         public void Navigate(Type page, object args = null)
         {
@@ -68,8 +72,10 @@ namespace MALClient
         private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
         {
             if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth && RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
-            {           
-                ViewModelLocator.AnimeList.RefreshList();
+            {
+                var vm = ViewModelLocator.AnimeList;
+                if(vm.AreThereItemsWaitingForLoad)
+                    ViewModelLocator.AnimeList.RefreshList();
             }
             
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;

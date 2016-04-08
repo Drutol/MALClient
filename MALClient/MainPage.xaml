@@ -31,7 +31,9 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MainContent.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="RootContentGrid.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="RootContentGrid.(Grid.Column)" Value="1" />
+                        <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -39,7 +41,9 @@
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MainContent.(Grid.ColumnSpan)" Value="3" />
+                        <Setter Target="RootContentGrid.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="RootContentGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="HamburgerButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -54,9 +58,14 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid>
+                <Button x:Name="HamburgerButton" IsTabStop="False" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE700;"
+                    Width="45" Height="45" Background="Transparent" FontSize="20"
+                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                    Command="{Binding ReversePaneCommand}" />
                 <Image Source="../Assets/Wide310x150Logo.scale-200.png" Stretch="Uniform"/>
             </Grid>
-            <Grid Grid.Column="3" Background="DarkGray"/>
+            <Grid Grid.Column="3" Background="{ThemeResource BrushSplitter}"/>
             <Grid Column="4" Visibility="{Binding OffContentVisibility}" Width="{Binding OffContentStatusBarWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>

@@ -397,12 +397,7 @@ namespace MALClient
 
         public static async void GiveStatusBarFeedback(string text)
         {
-            var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-            sb.Text = text;
-            sb.ProgressValue = null;
-            await sb.ShowAsync();
-            await Task.Delay(2000);
-            await sb.HideAsync();
+
         }
     }
 }

@@ -39,7 +39,6 @@ namespace MALClient.Pages
         {
             DataContext = null;
             base.OnNavigatedFrom(e);
-            NavMgr.DeregisterBackNav();
         }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)

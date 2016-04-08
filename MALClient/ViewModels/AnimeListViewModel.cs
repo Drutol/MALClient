@@ -69,6 +69,7 @@ namespace MALClient.ViewModels
         public ObservableCollection<ListViewItem> SeasonSelection { get; } = new ObservableCollection<ListViewItem>();
 
 
+        public bool AreThereItemsWaitingForLoad => _animeItemsSet.Count != 0;
         public int CurrentStatus => GetDesiredStatus();
 
         public async void Init(AnimeListPageNavigationArgs args)
@@ -77,7 +78,6 @@ namespace MALClient.ViewModels
             _scrollHandlerAdded = false;
             _initiazlized = false;
             _manuallySelectedViewMode = null;
-            NavMgr.ResetBackNav();
             //take out trash
             _animeItemsSet.Clear();
             AnimePages = new ObservableCollection<PivotItem>();
@@ -161,7 +161,6 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.SeasonalAnime:
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    NavMgr.RegisterBackNav(WorkMode == AnimeListWorkModes.TopManga ? PageIndex.PageMangaList : PageIndex.PageAnimeList, null);
                     Loading = true;
                     EmptyNoticeVisibility = false;
                     if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
@@ -427,18 +426,16 @@ namespace MALClient.ViewModels
                 switch (DisplayMode)
                 {
                     case AnimeListDisplayModes.IndefiniteList:
-                        for (int i = 0; (_animeItemsSet.Count > 0 && i < (sender as FrameworkElement).ActualWidth/400) ; i++)
+                        for (int i = 0; (_animeItemsSet.Count > 0 && i < (sender as FrameworkElement).ActualWidth/400) ; i++) //const 400 width
                         {
                             AnimeItems.Add(_animeItemsSet[0].AnimeItem);
                             _animeItemsSet.RemoveAt(0);
                         }
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
-                        _animeItemsSet.RemoveAt(0);
-                        if (_animeItemsSet.Count > 0)
+                        for (int i = 0; (_animeItemsSet.Count > 0 && i < (sender as FrameworkElement).ActualWidth / 200); i++) //const 200 width
                         {
-                            AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
+                            AnimeGridItems.Add(_animeItemsSet[0].AnimeGridItem);
                             _animeItemsSet.RemoveAt(0);
                         }
                         break;

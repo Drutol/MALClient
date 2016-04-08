@@ -20,6 +20,7 @@ namespace MALClient.ViewModels
         void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
         void InitSplitter();
+        Grid RootGrid { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -169,8 +170,17 @@ namespace MALClient.ViewModels
             get { return _menuPaneState; }
             private set
             {
-                _menuPaneState = value;
-                RaisePropertyChanged(() => MenuPaneState);
+                if (!_menuPaneState)
+                {
+                    View.RootGrid.SetValue(Grid.ColumnProperty,1);
+                    View.RootGrid.SetValue(Grid.ColumnSpanProperty,1);
+                }
+                else
+                {
+                    View.RootGrid.SetValue(Grid.ColumnProperty, 0);
+                    View.RootGrid.SetValue(Grid.ColumnSpanProperty, 2);
+                }
+                _menuPaneState = value;              
             }
         }
 
@@ -258,7 +268,7 @@ namespace MALClient.ViewModels
             get
             {
                 return _reversePaneCommand ??
-                       (_reversePaneCommand = new RelayCommand(() => MenuPaneState = true));
+                       (_reversePaneCommand = new RelayCommand(() => MenuPaneState = !MenuPaneState));
             }
         }
 

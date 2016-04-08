@@ -42,8 +42,6 @@ namespace MALClient.ViewModels
                 AnimeSearchItems.Clear();
                 ResetQuery();
             }
-
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         public async void SubmitQuery(string query)

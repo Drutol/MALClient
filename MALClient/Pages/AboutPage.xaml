@@ -84,7 +84,7 @@
                                 <TextBlock Text="Added favourites and recently updated anime/manga to profile page." />
                                 <TextBlock Text="Fixed crash when trying to remove cached item." />
                                 <TextBlock Text="Fixed top anime empty list." />
-                                <TextBlock Text="Added mechanism which will make http scrapping operations a bit more reliable and I'll be able to fix things remotely without pushing out new build." />
+                                <TextBlock Text="Added mechanism which will make html scrapping operations a bit more reliable and I'll be able to fix things remotely without pushing out new build." />
                                 <TextBlock Text="Scaled down application tile images." />
                                 <TextBlock Text="Add/Remove anime button in detail page now has proper spinner." />
                                 <TextBlock Text="There should no longer be any '&amp;' in synopsis." />

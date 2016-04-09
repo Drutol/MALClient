@@ -42,8 +42,9 @@
                     </Style>
                 </Grid.Resources>
                 <StackPanel Width="220">
-                    <Grid Background="{ThemeResource BrushHamburgerSplitter}" HorizontalAlignment="Stretch"
-                          Padding="5">
+                    <Grid Background="{ThemeResource BrushHamburgerSplitter}" HorizontalAlignment="Stretch" 
+                          BorderThickness="10,0,0,0" BorderBrush="{ThemeResource BrushHamburgerSplitterBorder}"
+                          Padding="5" Margin="0,0,0,5">
                         <TextBlock Text="Anime" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center" />
                     </Grid>
                     <Button VerticalContentAlignment="Center" Background="Transparent"
@@ -179,7 +180,8 @@
                         </Grid>
                     </Button>
                     <Grid Background="{ThemeResource BrushHamburgerSplitter}" HorizontalAlignment="Stretch"
-                          Padding="5">
+                          BorderThickness="10,0,0,0" BorderBrush="{ThemeResource BrushHamburgerSplitterBorder}"
+                          Padding="5" Margin="0,0,0,5">
                         <TextBlock Text="Manga" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center" />
                     </Grid>
                     <Button VerticalContentAlignment="Center" Background="Transparent"

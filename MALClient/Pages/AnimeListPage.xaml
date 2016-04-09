@@ -117,6 +117,68 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AnimesItemsIndefinite.ItemContainerStyle">
+                            <Setter.Value>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="5,5" />
+                                    <Setter Property="Margin" Value="5,5" />
+                                    <Setter Property="Width" Value="395"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AnimesItemsIndefinite" Storyboard.TargetProperty="HorizontalAlignment">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.25" Value="Stretch"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AnimesGridIndefinite" Storyboard.TargetProperty="HorizontalAlignment">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.25" Value="Stretch"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AnimesItemsIndefinite.ItemContainerStyle">
+                            <Setter.Value>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="5,5" />
+                                    <Setter Property="Margin" Value="5,5" />
+                                    <Setter Property="Width" Value="490"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AnimesItemsIndefinite" Storyboard.TargetProperty="HorizontalAlignment">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Stretch"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AnimesGridIndefinite" Storyboard.TargetProperty="HorizontalAlignment">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Stretch"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">
@@ -169,7 +231,7 @@
             </GridView.ItemContainerStyle>
         </GridView>
         <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
-                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
+                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Stretch"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">

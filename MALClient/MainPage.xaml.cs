@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
+using MALClient.UserControls;
 using MALClient.ViewModels;
 using WinRTXamlToolkit.Controls;
 
@@ -19,19 +20,13 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
-#pragma warning disable 4014
+
         public MainPage()
         {
             InitializeComponent();
             Utils.CheckTiles();
             ViewModelLocator.Main.View = this;
-#if DEBUG
-            //new MALProfileQuery().GetProfileData();
-#endif
         }
-#pragma warning restore 4014
-
-        public Grid RootGrid => RootContentGrid;
 
         public void Navigate(Type page, object args = null)
         {
@@ -53,6 +48,8 @@ namespace MALClient
         {
             RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 460) : _prevOffContntWidth);            
         }
+
+        public HamburgerControl Hamburger => HamburgerControl;
 
         #region Search
 

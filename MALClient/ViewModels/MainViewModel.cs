@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Pages;
+using MALClient.UserControls;
 
 namespace MALClient.ViewModels
 {
@@ -20,7 +21,7 @@ namespace MALClient.ViewModels
         void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
         void InitSplitter();
-        Grid RootGrid { get; }
+        HamburgerControl Hamburger { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -32,7 +33,6 @@ namespace MALClient.ViewModels
         {
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
-            MenuPaneState = false;
             
             await Task.Delay(1);
             if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
@@ -79,9 +79,8 @@ namespace MALClient.ViewModels
                     View.Navigate(typeof (AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
-                    HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
+                    OffRefreshButtonVisibility = Visibility.Visible;
+                    RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     OffContentVisibility = Visibility.Visible;
@@ -170,16 +169,7 @@ namespace MALClient.ViewModels
             get { return _menuPaneState; }
             private set
             {
-                if (!_menuPaneState)
-                {
-                    View.RootGrid.SetValue(Grid.ColumnProperty,1);
-                    View.RootGrid.SetValue(Grid.ColumnSpanProperty,1);
-                }
-                else
-                {
-                    View.RootGrid.SetValue(Grid.ColumnProperty, 0);
-                    View.RootGrid.SetValue(Grid.ColumnSpanProperty, 2);
-                }
+                View.Hamburger.Width = View.Hamburger.Width == 220.0 ? 0 : 220.0;
                 _menuPaneState = value;              
             }
         }

@@ -31,30 +31,38 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootContentGrid.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="RootContentGrid.(Grid.Column)" Value="1" />
                         <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
+                        <Setter Target="LogoImage.Visibility" Value="Visible"/>
                     </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="HamburgerControl" Storyboard.TargetProperty="Width" From="0.0" To="220.0" SpeedRatio="4.0"/>
+                        </Storyboard>
+                    </VisualState.Storyboard>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootContentGrid.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="RootContentGrid.(Grid.Column)" Value="0" />
                         <Setter Target="HamburgerButton.Visibility" Value="Visible" />
+                        <Setter Target="LogoImage.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <DoubleAnimation EnableDependentAnimation="True"  Storyboard.TargetName="HamburgerControl" Storyboard.TargetProperty="Width" From="220.0" To="0.0" SpeedRatio="4.0"/>
+                        </Storyboard>
+                    </VisualState.Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"
               Background="{ThemeResource BrushAppBars}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*" MaxWidth="50" />
+                <ColumnDefinition Width="*" MaxWidth="16"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid>
@@ -63,7 +71,7 @@
                     Width="45" Height="45" Background="Transparent" FontSize="20"
                     Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                     Command="{Binding ReversePaneCommand}" />
-                <Image Source="../Assets/Wide310x150Logo.scale-200.png" Stretch="Uniform"/>
+                <Image x:Name="LogoImage" Width="220" Source="../Assets/Wide310x150Logo.scale-200.png" Stretch="Uniform"/>
             </Grid>
             <Grid Grid.Column="3" Background="{ThemeResource BrushSplitter}"/>
             <Grid Column="4" Visibility="{Binding OffContentVisibility}" Width="{Binding OffContentStatusBarWidth}">
@@ -75,7 +83,7 @@
                 <Button IsTabStop="False" HorizontalAlignment="Right"
                     VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0" Background="Transparent"
                     Command="{Binding HideOffContentCommand}">
-                    <SymbolIcon Symbol="Clear" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                    <SymbolIcon Symbol="Clear"/>
                 </Button>
                 <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentOffStatus}"
                        TextTrimming="CharacterEllipsis" Margin="10,0,0,0"
@@ -140,13 +148,13 @@
         </Grid>
         <Grid VerticalAlignment="Stretch" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <controls:HamburgerControl Grid.Column="0"/>
+            <controls:HamburgerControl x:Name="HamburgerControl" Width="220" Grid.Column="0"/>
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="410"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="Auto" MaxWidth="600"/>
                 </Grid.ColumnDefinitions>
@@ -155,7 +163,7 @@
                 <toolkit:CustomGridSplitter x:Name="CustomGridSplitter" DraggingCompleted="CustomGridSplitter_OnDraggingCompleted" 
                                             Grid.Column="1" IsTabStop="False" Visibility="{Binding OffContentVisibility}"
                                             Background="{ThemeResource BrushSplitter}"  ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
-                <Frame Grid.Column="2" x:Name="OffContent" Width="Auto" MinWidth="460" HorizontalAlignment="Stretch" Visibility="{Binding OffContentVisibility}"/>
+                <Frame Grid.Column="2" x:Name="OffContent" Width="Auto" MinWidth="420" HorizontalAlignment="Stretch" Visibility="{Binding OffContentVisibility}"/>
             </Grid>
 
         </Grid>

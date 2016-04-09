@@ -46,7 +46,8 @@ namespace MALClient
         private double _prevOffContntWidth = 0;
         public void InitSplitter()
         {
-            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 460) : _prevOffContntWidth);            
+            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 420) : _prevOffContntWidth);
+            OffContent.UpdateLayout();
         }
 
         public HamburgerControl Hamburger => HamburgerControl;
@@ -76,7 +77,7 @@ namespace MALClient
             }
             
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
-            (DataContext as MainViewModel).OffContentStatusBarWidth = _prevOffContntWidth;
+            (DataContext as MainViewModel).OffContentStatusBarWidth = _prevOffContntWidth ;
         }
     }
 }

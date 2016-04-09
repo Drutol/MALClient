@@ -165,7 +165,7 @@
             <controls:HamburgerControl x:Name="HamburgerControl" Width="220" Grid.Column="0" />
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MinWidth="48"/>
                     <ColumnDefinition Width="16" />
                     <ColumnDefinition Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>

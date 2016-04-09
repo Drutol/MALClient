@@ -144,12 +144,16 @@ namespace MALClient.Pages
             Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
             SizeChanged += (sender, args) =>
             {
-                if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad && Math.Abs(args.NewSize.Height - _prevHeight) > 100 &&
-                    Math.Abs(args.NewSize.Width - _prevWidth) > 100)
+                if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 && Math.Abs(args.NewSize.Width - _prevWidth) > 100)
                 {
+                    ViewModelLocator.Main.View.InitSplitter();
                     _prevHeight = args.NewSize.Height;
                     _prevWidth = args.NewSize.Width;
-                    ViewModelLocator.AnimeList.RefreshList();
+                    if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad)
+                    {
+
+                        ViewModelLocator.AnimeList.RefreshList();
+                    }
                 }
             };
         }

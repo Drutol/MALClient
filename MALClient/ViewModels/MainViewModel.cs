@@ -47,6 +47,11 @@ namespace MALClient.ViewModels
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;
 
+            if(index == PageIndex.PageAbout ||
+                index == PageIndex.PageSettings ||
+                index == PageIndex.PageAbout)
+                NavMgr.ResetBackNav();
+
             if (index == PageIndex.PageSeasonal ||
                 index == PageIndex.PageMangaList ||
                 index == PageIndex.PageTopManga ||
@@ -313,6 +318,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        public ICommand _navigateBackCommand;
+        public ICommand NavigateBackCommand
+        {
+            get
+            {
+                return _navigateBackCommand ??
+                       (_navigateBackCommand = new RelayCommand(NavMgr.CurrentViewOnBackRequested));
+            }
+        }
+
+
         private ICommand _hideOffContentCommand;
 
         public ICommand HideOffContentCommand
@@ -320,7 +336,11 @@ namespace MALClient.ViewModels
             get
             {
                 return _hideOffContentCommand ??
-                       (_hideOffContentCommand = new RelayCommand(() => OffContentVisibility = Visibility.Collapsed));
+                       (_hideOffContentCommand = new RelayCommand(() =>
+                       {
+                           OffContentVisibility = Visibility.Collapsed;
+                           NavMgr.ResetBackNav();
+                       }));
             }
         }
 
@@ -345,6 +365,18 @@ namespace MALClient.ViewModels
             {
                 _offRefreshButtonVisibility = value;
                 RaisePropertyChanged(() => OffRefreshButtonVisibility);
+            }
+        }
+
+
+        public Visibility _navigateBackButtonVisibility = Visibility.Collapsed;
+        public Visibility NavigateBackButtonVisibility
+        {
+            get { return _navigateBackButtonVisibility; }
+            set
+            {
+                _navigateBackButtonVisibility = value;
+                RaisePropertyChanged(() => NavigateBackButtonVisibility);
             }
         }
 
@@ -447,6 +479,8 @@ namespace MALClient.ViewModels
         }
 
         public ObservableCollection<string> SearchFilterOptions { get; } = new ObservableCollection<string>();
+
+
 
         #endregion
 

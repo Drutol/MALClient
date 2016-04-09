@@ -42,7 +42,7 @@
                             <MenuFlyoutSeparator Margin="0,5" />
                             <Grid HorizontalAlignment="Stretch" Margin="5,5">
                                 <StackPanel>
-                                    <TextBlock Text="Default menu tab" FontWeight="Medium" HorizontalAlignment="Center"
+                                    <TextBlock Text="Start page" FontWeight="Medium" HorizontalAlignment="Center"
                                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
                                     <Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
@@ -51,12 +51,12 @@
                                         </Grid.ColumnDefinitions>
                                         <RadioButton x:Name="RadioTabAnime" Grid.Column="0"
                                                      HorizontalAlignment="Center"
-                                                     GroupName="DefTab" Content="Anime" Margin="0,0,5,0"
+                                                     GroupName="DefTab" Content="Anime list" Margin="0,0,5,0"
                                                      Click="ChangeDefaultTab"
                                                      Tag="anime" />
                                         <RadioButton x:Name="RadioTabManga" Grid.Column="1"
                                                      HorizontalAlignment="Center"
-                                                     GroupName="DefTab" Content="Manga" Margin="5,0,0,0"
+                                                     GroupName="DefTab" Content="Manga list" Margin="5,0,0,0"
                                                      Click="ChangeDefaultTab"
                                                      Tag="manga" />
                                     </Grid>

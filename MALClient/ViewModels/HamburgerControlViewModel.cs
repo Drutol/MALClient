@@ -49,7 +49,6 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             ResetActiveButton();
-            MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
         }
 
         private Color RequestedFontColor

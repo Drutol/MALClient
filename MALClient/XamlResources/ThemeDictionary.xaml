@@ -24,7 +24,8 @@
             <SolidColorBrush x:Key="BrushSplitter" Color="LightGray" />
             <SolidColorBrush x:Key="BrushHamburgerMenuButtonsBorder" Color="#1f1f1f" />
             <SolidColorBrush x:Key="BrushHamburgerSplitter" Color="#c8c8c8" />
-            <SolidColorBrush x:Key="BrushHamburgerSplitterBorder" Color="#d8d8d8" />
+            <SolidColorBrush x:Key="BrushHamburgerSplitterBorder" Color="#afafaf" />
+            <SolidColorBrush x:Key="BrushAppBarInner" Color="#a7b3b3b3" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#2a2a2a" />
@@ -47,6 +48,7 @@
             <SolidColorBrush x:Key="BrushHamburgerMenuButtonsBorder" Color="#e6e6e6" />
             <SolidColorBrush x:Key="BrushHamburgerSplitter" Color="#303030" />
             <SolidColorBrush x:Key="BrushHamburgerSplitterBorder" Color="#606060" />
+            <SolidColorBrush x:Key="BrushAppBarInner" Color="#a7353535" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

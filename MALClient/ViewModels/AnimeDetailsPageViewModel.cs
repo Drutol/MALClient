@@ -91,7 +91,7 @@ namespace MALClient.ViewModels
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
 
         private string SourceLink { get; set; }
-        private int Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
 
         private int AllEpisodes
@@ -110,10 +110,13 @@ namespace MALClient.ViewModels
 
         public IDetailsViewInteraction View { get; set; }
 
+        private AnimeDetailsPageNavigationArgs _prevArgs;
+
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
+            
             _initialized = false;
             LoadingGlobal = Visibility.Visible;
             await Task.Delay(5);
@@ -169,19 +172,30 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
+                    if (_prevArgs != null)
+                        NavMgr.RegisterBackNav(_prevArgs);
                     break;
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
                     await FetchData(param.Id.ToString(), param.Title);
+                    if(_prevArgs != null)
+                        NavMgr.RegisterBackNav(_prevArgs);
                     break;
                 case PageIndex.PageAnimeDetails:
                     await FetchData(param.Id.ToString(), param.Title);
+                    if (param.RegisterBackNav) //we are already going back
+                        NavMgr.RegisterBackNav(param.PrevPageSetup);
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
+                    if (_prevArgs != null)
+                        NavMgr.RegisterBackNav(_prevArgs);
                     break;
             }
+            _prevArgs = param;
+            _prevArgs.RegisterBackNav = false;
+            _prevArgs.Source = PageIndex.PageAnimeDetails;
             _initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
             //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;

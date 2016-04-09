@@ -24,7 +24,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
+    <Grid Background="{ThemeResource BrushDeepBackground}" Padding="2">
         <Pivot Style="{StaticResource PivotStyleOuterProfilePage}" SelectedIndex="{Binding CurrentlySelectedOuterPivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding CurrentlySelectedOuterPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />

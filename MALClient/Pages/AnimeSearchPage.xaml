@@ -9,7 +9,7 @@
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid>
             <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
                       SelectedItem="{Binding CurrentlySelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"

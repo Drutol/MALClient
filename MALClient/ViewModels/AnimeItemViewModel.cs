@@ -54,10 +54,14 @@ namespace MALClient.ViewModels
                     new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
                         argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
                     {
-                        Source = sourceOverride ?? (_parentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
+                        Source =
+                            sourceOverride ??
+                            (_parentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
                         AnimeMode = _parentAbstraction.RepresentsAnime
                     });
         }
+
+
 
         public void UpdateWithSeasonData(SeasonalAnimeData data)
         {
@@ -273,6 +277,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyScoreBindShort);
             }
         }
+
+
 
         public string MyEpisodesBind
         {
@@ -688,7 +694,10 @@ namespace MALClient.ViewModels
 
         public ICommand NavigateDetailsCommand
         {
-            get { return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() =>NavigateDetails())); }
+            get
+            {
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() => NavigateDetails()));
+            }
         }
 
         #endregion

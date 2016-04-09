@@ -1077,6 +1077,28 @@ namespace MALClient.ViewModels
             }
         }
 
+        public AnimeItem TemporarilySelectedAnimeItem
+        {
+            get { return null; }
+            set
+            {
+                if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
+                    value.ViewModel.NavigateDetails();
+                RaisePropertyChanged(() => TemporarilySelectedAnimeItem);
+            }
+        }
+
+        public AnimeGridItem TemporarilySelectedGridAnimeItem
+        {
+            get { return null; }
+            set
+            {
+                if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
+                    value.ViewModel.NavigateDetails();
+                RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
+            }
+        }
+
         private bool _loading;
 
         public bool Loading

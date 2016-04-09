@@ -132,22 +132,6 @@ namespace MALClient.Pages
             }
         }
 
-        private async void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
-            await Task.Delay(1);
-            (e.AddedItems.First() as AnimeItem).ViewModel.NavigateDetails();
-        }
-
-        private async void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
-            await Task.Delay(1);
-            (e.AddedItems.First() as AnimeGridItem).ViewModel.NavigateDetails();
-        }
-
         #region Init
 
         private double _prevWidth;

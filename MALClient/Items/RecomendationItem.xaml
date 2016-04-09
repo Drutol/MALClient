@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ScrollViewer Padding="0" Background="{ThemeResource BrushDetailsBackground}">
+    <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}">
         <Grid Padding="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*" />

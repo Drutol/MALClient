@@ -77,7 +77,12 @@ namespace MALClient
             }
             
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
-            (DataContext as MainViewModel).OffContentStatusBarWidth = _prevOffContntWidth ;
+            
+        }
+
+        private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
         }
     }
 }

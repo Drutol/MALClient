@@ -43,6 +43,7 @@ namespace MALClient.ViewModels
             }
             ScrollToTopButtonVisibility = Visibility.Collapsed;
             RefreshButtonVisibility = Visibility.Collapsed;
+            OffRefreshButtonVisibility = Visibility.Collapsed;
 
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;
@@ -55,8 +56,21 @@ namespace MALClient.ViewModels
             if (index == PageIndex.PageSeasonal ||
                 index == PageIndex.PageMangaList ||
                 index == PageIndex.PageTopManga ||
-                index == PageIndex.PageTopAnime)
+                index == PageIndex.PageTopAnime ||
+                index == PageIndex.PageAnimeList)
+            {
+                ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
                 index = PageIndex.PageAnimeList;
+            }
+            else if(index == PageIndex.PageSearch || 
+                index == PageIndex.PageRecomendations ||
+                index == PageIndex.PageProfile ||
+                index == PageIndex.PageLogIn ||
+                index == PageIndex.PageMangaSearch)
+            {
+                ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(false);
+            }
+
 
 
 
@@ -439,7 +453,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private double _offContentStatusBarWidth = 460;
+        private double _offContentStatusBarWidth = 420;
 
         public double OffContentStatusBarWidth
         {

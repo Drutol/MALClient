@@ -25,6 +25,26 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}" Padding="2">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1080" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="StatsStackPanel.Orientation" Value="Horizontal"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="920" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="StatsStackPanel.Orientation" Value="Vertical"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Pivot Style="{StaticResource PivotStyleOuterProfilePage}" SelectedIndex="{Binding CurrentlySelectedOuterPivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding CurrentlySelectedOuterPivotItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
@@ -46,22 +66,23 @@
                                 <TextBlock Margin="0,5,0,0" Text="Anime" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <Grid>
+                        <Grid HorizontalAlignment="Center">
                             <TextBlock
                                 Visibility="{Binding EmptyFavAnimeNoticeVisibility}"
                                 Text="No favourite anime added yet..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
-                            <ListView ItemsSource="{Binding FavAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
+                            <GridView ItemsSource="{Binding FavAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="Padding" Value="5,5" />
                                         <Setter Property="Margin" Value="0,5" />
+                                        <Setter Property="Width" Value="450" />
                                         <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Property="BorderThickness" Value="5,0,0,0" />
+                                        <Setter Property="BorderThickness" Value="2,0" />
                                     </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
                         </Grid>
                     </PivotItem>
                     <PivotItem Padding="0" Margin="0" Tag="Manga">
@@ -70,21 +91,22 @@
                                 <TextBlock Margin="0,5,0,0" Text="Manga" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <Grid>
+                        <Grid HorizontalAlignment="Center">
                             <TextBlock Visibility="{Binding EmptyFavMangaNoticeVisibility}"
                                 Text="No favourite anime added yet..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
-                            <ListView ItemsSource="{Binding FavManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
+                            <GridView ItemsSource="{Binding FavManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="Padding" Value="5,5" />
                                         <Setter Property="Margin" Value="0,5" />
+                                        <Setter Property="Width" Value="450" />
                                         <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Property="BorderThickness" Value="5,0,0,0" />
+                                        <Setter Property="BorderThickness" Value="2,0" />
                                     </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
                         </Grid>
                     </PivotItem>
                     <PivotItem Padding="0" Margin="0" Tag="Chars">
@@ -93,19 +115,14 @@
                                 <TextBlock Margin="0,5,0,0" Text="Characters" FontSize="16" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                             </StackPanel>
                         </PivotItem.Header>
-                        <Grid>
+                        <Grid HorizontalAlignment="Center">
                             <TextBlock Visibility="{Binding EmptyFavCharactersNoticeVisibility}"
                                 Text="No favourite characters added yet..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
                             <GridView ItemsSource="{Binding FavCharacters}" HorizontalAlignment="Center"  Margin="0,5,0,0">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
+                                        <Grid MaxWidth="200">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="52"/>
@@ -158,14 +175,9 @@
                                 Text="No favourite people added yet..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
                             <GridView ItemsSource="{Binding FavPeople}" HorizontalAlignment="Center">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}" Margin="0,5,0,0">
+                                        <Grid MaxWidth="200" Margin="0,5,0,0">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="52"/>
@@ -204,7 +216,7 @@
                         <TextBlock Text="Recent updates" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <ScrollViewer>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
                         <StackPanel.Resources>
                             <Style TargetType="ListView">
@@ -247,9 +259,9 @@
                         <TextBlock Text="Stats" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <StackPanel>
-                        <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center">
+                    <StackPanel x:Name="StatsStackPanel" HorizontalAlignment="Center">
+                        <Grid Margin="10,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="140" />
@@ -261,7 +273,7 @@
                             <controls:StackedBarChartControl Grid.Row="1" VerticalAlignment="Center"
                                                      HorizontalAlignment="Center" MinWidth="350"  DataSource="{Binding AnimeChartValues}"/>
                             <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                          HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8,8,8,8">
                                 <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
                                     <StackPanel HorizontalAlignment="Center" Width="Auto">
                                         <Grid HorizontalAlignment="Stretch">
@@ -385,8 +397,8 @@
                                 </StackPanel>
 
                             </Grid>
-                        </Grid>
-                        <Grid>
+                        </Grid >
+                        <Grid Margin="10,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="140" />
@@ -398,7 +410,7 @@
                             <controls:StackedBarChartControl  VerticalAlignment="Center" Grid.Row="1"
                                                      HorizontalAlignment="Center" MinWidth="350" DataSource="{Binding MangaChartValues}" />
                             <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                          HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8,8,8,8">
                                 <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
                                     <StackPanel HorizontalAlignment="Center" Width="Auto">
                                         <Grid HorizontalAlignment="Stretch">

@@ -25,7 +25,6 @@ namespace MALClient.ViewModels
 
     public enum AnimeListDisplayModes
     {
-        PivotPages,
         IndefiniteList,
         IndefiniteGrid
     }
@@ -448,7 +447,7 @@ namespace MALClient.ViewModels
         /// </summary>
         private void AddScrollHandler()
         {
-            if (DisplayMode == AnimeListDisplayModes.PivotPages || !CanAddScrollHandler || _scrollHandlerAdded)
+            if (!CanAddScrollHandler || _scrollHandlerAdded)
                 return;
             _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
             _scrollHandlerAdded = true;
@@ -506,35 +505,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => DisplayMode);
             await Task.Delay(30);
             switch (DisplayMode)
-            {
-                case AnimeListDisplayModes.PivotPages:
-                    _allPages = (int) Math.Ceiling((double) _animeItemsSet.Count/_itemsPerPage);
-                    AnimesPivotHeaderVisibility = _allPages == 1 ? Visibility.Collapsed : Visibility.Visible;
-                    for (var i = 0; i < _allPages; i++)
-                    {
-                        AnimePages.Add(new PivotItem
-                        {
-                            Header = $"{i + 1}",
-                            Content =
-                                new AnimePagePivotContent(_animeItemsSet.Skip(_itemsPerPage*i).Take(_itemsPerPage))
-                        });
-                    }
-                    CanLoadPages = true;
-                    RaisePropertyChanged(() => AnimePages);
-                    RaisePropertyChanged(() => AnimeItems);
-                    RaisePropertyChanged(() => AnimeGridItems);
-                    try
-                    {
-                        AnimesPivotSelectedIndex = realPage - 1;
-                    }
-                    catch (Exception)
-                    {
-                        CurrentPosition = 1;
-                    }
-                    if (AnimePages.Count > 0)
-                        (AnimePages[AnimesPivotSelectedIndex].Content as AnimePagePivotContent).LoadContent();
-
-                    break;
+            {               
                 case AnimeListDisplayModes.IndefiniteList:
                     var itemsToLoad = GetItemsToLoad();
                     foreach (var itemAbstraction in _animeItemsSet.Take(itemsToLoad))
@@ -1205,7 +1176,7 @@ namespace MALClient.ViewModels
             get { return _displayMode; }
             set
             {
-                if (DisplayMode != AnimeListDisplayModes.PivotPages && _scrollHandlerAdded && CanAddScrollHandler)
+                if (_scrollHandlerAdded && CanAddScrollHandler)
                 {
                     //we don't want to be subscribed to wrong srollviewer
                     View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging;

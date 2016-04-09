@@ -12,8 +12,6 @@ namespace MALClient.XamlConverters
             var mode = (AnimeListDisplayModes) value;
             switch (parameter as string)
             {
-                case "PivotPages":
-                    return mode == AnimeListDisplayModes.PivotPages ? Visibility.Visible : Visibility.Collapsed;
                 case "IndefiniteList":
                     return mode == AnimeListDisplayModes.IndefiniteList ? Visibility.Visible : Visibility.Collapsed;
                 case "IndefiniteGrid":

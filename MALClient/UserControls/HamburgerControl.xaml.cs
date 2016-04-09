@@ -41,7 +41,6 @@ namespace MALClient.UserControls
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             _viewModel.UpdateProfileImg();
-            _viewModel.SetActiveButton(Creditentials.Authenticated ? HamburgerButtons.AnimeList : HamburgerButtons.LogIn);
         }
 
         private static readonly Brush _b2 =

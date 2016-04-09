@@ -27,19 +27,11 @@ namespace MALClient.ViewModels
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
 
-        private double _gridBtmMarginHeight;
 
-        private double _gridSeparatorHeight;
-
-        private int _menuPivotSelectedIndex;
         private bool? _prevState;
 
         private bool _profileButtonVisibility;
-
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 370 : 420;
         //base value , we are either on log in page or list page (app bar on/off)
-
-        private bool _subtractedHeightForButton = true;
 
         private BitmapImage _userImage;
 
@@ -49,6 +41,7 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             ResetActiveButton();
+            SetActiveButton(Creditentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList) : HamburgerButtons.LogIn);
         }
 
         private Color RequestedFontColor
@@ -59,28 +52,6 @@ namespace MALClient.ViewModels
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
         public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>();
-
-        public RelayCommand PaneOpenedCommand { get; private set; }
-
-        public double GridSeparatorHeight
-        {
-            get { return _gridSeparatorHeight; }
-            set
-            {
-                _gridSeparatorHeight = value;
-                RaisePropertyChanged(() => GridSeparatorHeight);
-            }
-        }
-
-        public double GridBtmMarginHeight
-        {
-            get { return _gridBtmMarginHeight; }
-            set
-            {
-                _gridBtmMarginHeight = value;
-                RaisePropertyChanged(() => GridBtmMarginHeight);
-            }
-        }
 
         public BitmapImage UserImage
         {
@@ -159,13 +130,14 @@ namespace MALClient.ViewModels
             }
         }
 
-        public int MenuPivotSelectedIndex
+        public Thickness _bottomStackPanelMargin = new Thickness(0);
+        public Thickness BottomStackPanelMargin
         {
-            get { return _menuPivotSelectedIndex; }
+            get { return _bottomStackPanelMargin; }
             set
             {
-                _menuPivotSelectedIndex = value;
-                RaisePropertyChanged(() => MenuPivotSelectedIndex);
+                _bottomStackPanelMargin = value;
+                RaisePropertyChanged(() => BottomStackPanelMargin);
             }
         }
 
@@ -212,7 +184,7 @@ namespace MALClient.ViewModels
 
             _prevState = up;
 
-            _stackPanelHeightSum += up ? 50 : -50;
+            BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 50) : new Thickness(0);
         }
 
         internal async Task UpdateProfileImg(bool dl = true)
@@ -248,20 +220,6 @@ namespace MALClient.ViewModels
                 }
 
                 ProfileButtonVisibility = true;
-                if (_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum += 35;
-                    _subtractedHeightForButton = false;
-                }
-            }
-            else
-            {
-                ProfileButtonVisibility = false;
-                if (!_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum -= 35;
-                    _subtractedHeightForButton = true;
-                }
             }
         }
 
@@ -300,7 +258,7 @@ namespace MALClient.ViewModels
             ResetActiveButton();
             TxtForegroundBrushes[val.ToString()] =
                 Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-            TxtBorderBrushThicknesses[val.ToString()] = new Thickness(3, 0, 0, 0);
+            TxtBorderBrushThicknesses[val.ToString()] = new Thickness(4, 0, 0, 0);
             RaisePropertyChanged(() => TxtForegroundBrushes);
             RaisePropertyChanged(() => TxtBorderBrushThicknesses);
         }

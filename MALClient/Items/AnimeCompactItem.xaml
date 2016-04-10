@@ -13,6 +13,135 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Title}"  FontWeight="SemiLight"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Button Background="{StaticResource SystemControlBackgroundAccentBrush}" Opacity=".75">
+            <SymbolIcon Symbol="More" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" FontWeight="SemiLight"/>
+            <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                               VerticalAlignment="Top" Margin="5,5,0,0" />
+        </StackPanel>
+        
+        <Grid Grid.Column="2" HorizontalAlignment="Right">
+            <StackPanel Margin="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button Content="{Binding MyStatusBind}" Margin="5"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                        BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                        Height="Auto"
+                        HorizontalAlignment="Right"
+                        IsEnabled="{Binding UpdateButtonsEnableState}"
+                        Visibility="{Binding UpdateButtonsVisibility}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Watching" />
+                                <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Completed" />
+                                <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="On hold" />
+                                <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Dropped" />
+                                <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Plan to watch" />
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Content="{Binding MyScoreBind}" Margin="5"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                        BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                        Height="Auto"
+                        HorizontalAlignment="Right"
+                        IsEnabled="{Binding UpdateButtonsEnableState}"
+                        Visibility="{Binding UpdateButtonsVisibility}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="10" />
+                                <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="9" />
+                                <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="8" />
+                                <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="7" />
+                                <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="6" />
+                                <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="5" />
+                                <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="4" />
+                                <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="3" />
+                                <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="2" />
+                                <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="1" />
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                <Button VerticalAlignment="Center" Height="40" Margin="5"
+                            Width="40" Command="{Binding DecrementWatchedCommand}"
+                            Visibility="{Binding DecrementEpsVisibility}"
+                            Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                    <SymbolIcon Symbol="Remove" Foreground="White"/>
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
+                    </Button.RenderTransform>
+                </Button>
+                <Button Content="{Binding MyEpisodesBind}" FontWeight="SemiLight" Height="40"
+                            Margin="0,5" VerticalAlignment="Center" Background="Transparent"
+                            BorderThickness="0,0,0,2" Width="100"
+                            BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                            IsEnabled="{Binding UpdateButtonsEnableState}" Padding="0">
+                    <Button.Flyout>
+                        <Flyout x:Name="WatchedEpsFlyout">
+                            <StackPanel>
+                                <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
+                                               FontWeight="SemiLight" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
+                                                 Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 KeyDown="SubmitWatchedEps" />
+                                    <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
+                                        <SymbolIcon Symbol="Accept" />
+                                    </Button>
+                                </StackPanel>
+                                <TextBlock Text="Wrong input!"
+                                               HorizontalAlignment="Center" FontWeight="SemiLight"
+                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Height="40" Width="40" Margin="5"
+                            Command="{Binding IncrementWatchedCommand}"
+                            Visibility="{Binding IncrementEpsVisibility}"
+                            VerticalAlignment="Center"
+                            Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="0">
+                        <SymbolIcon Symbol="Add" Foreground="White"/>
+                        <Button.RenderTransform>
+                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
+                    </Button.RenderTransform>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

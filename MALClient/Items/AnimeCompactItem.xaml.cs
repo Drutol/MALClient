@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -24,6 +25,15 @@ namespace MALClient.Items
         {
             this.InitializeComponent();
             DataContext = vm;
+        }
+
+        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                (DataContext as AnimeItemViewModel).ChangeWatchedEps();
+                e.Handled = true;
+            }
         }
 
         public Flyout WatchedFlyout { get; }

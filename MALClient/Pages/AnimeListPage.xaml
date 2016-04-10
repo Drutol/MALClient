@@ -195,7 +195,11 @@
         </Grid.Resources>
         <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" HorizontalAlignment="Stretch" ItemsSource="{Binding AnimeCompactItems}"
                                       Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
-            
+            <controls:AlternatingListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </controls:AlternatingListView.ItemContainerStyle>
         </controls:AlternatingListView>
         <GridView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"

@@ -19,9 +19,10 @@ namespace MALClient.Items
         private readonly SeasonalAnimeData data;
 
         private AnimeItem _animeItem;
-
         private AnimeGridItem _gridItem;
         private AnimeItemViewModel _viewModel;
+        private AnimeCompactItem _compactItem;
+
         public int AirDay = -1;
         private bool authSetEps;
         public float GlobalScore;
@@ -30,8 +31,8 @@ namespace MALClient.Items
         public string img;
         public int Index;
         public bool LoadedAnime;
-
         public bool LoadedGrid;
+        public bool LoadedCompact;
         public bool LoadedModel;
         private readonly int myVolumes;
 
@@ -124,6 +125,20 @@ namespace MALClient.Items
                 _gridItem = new AnimeGridItem(_viewModel);
                 LoadedGrid = true;
                 return _gridItem;
+            }
+        }
+
+        public AnimeCompactItem AnimeCompactItem
+        {
+            get
+            {
+                if (LoadedCompact)
+                    return _compactItem;
+
+                ViewModel = LoadElementModel();
+                _compactItem = new AnimeCompactItem(_viewModel);
+                LoadedCompact = true;
+                return _compactItem;
             }
         }
 

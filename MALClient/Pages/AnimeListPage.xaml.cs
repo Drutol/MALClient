@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Items;
 using MALClient.UserControls;
 using MALClient.ViewModels;
 
@@ -56,7 +53,7 @@ namespace MALClient.Pages
         {
         }
 
-        public AnimeListPageNavigationArgs(int index,AnimeListWorkModes workMode)
+        public AnimeListPageNavigationArgs(int index, AnimeListWorkModes workMode)
         {
             WorkMode = workMode;
             StatusIndex = index;
@@ -90,7 +87,7 @@ namespace MALClient.Pages
     public sealed partial class AnimeListPage : Page
     {
         private ScrollViewer _indefiniteScrollViewer;
-        private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
+        public AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
 
         public ScrollViewer IndefiniteScrollViewer
         {
@@ -99,10 +96,8 @@ namespace MALClient.Pages
                 return _indefiniteScrollViewer ??
                        (_indefiniteScrollViewer =
                            VisualTreeHelper.GetChild(
-                               VisualTreeHelper.GetChild(
-                                   ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteList
-                                       ? (DependencyObject) AnimesItemsIndefinite
-                                       : AnimesGridIndefinite, 0), 0) as ScrollViewer);
+                               VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
+                               ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
         }
@@ -139,6 +134,21 @@ namespace MALClient.Pages
             }
         }
 
+        private object GetScrollingContainer()
+        {
+            switch (ViewModel.DisplayMode)
+            {
+                case AnimeListDisplayModes.IndefiniteList:
+                    return AnimesItemsIndefinite;
+                case AnimeListDisplayModes.IndefiniteGrid:
+                    return AnimesGridIndefinite;
+                case AnimeListDisplayModes.IndefiniteCompactList:
+                    return AnimeCompactItemsIndefinite;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         #region Init
 
         private double _prevWidth;
@@ -158,7 +168,6 @@ namespace MALClient.Pages
                     _prevWidth = args.NewSize.Width;
                     if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad)
                     {
-
                         ViewModelLocator.AnimeList.RefreshList();
                     }
                 }

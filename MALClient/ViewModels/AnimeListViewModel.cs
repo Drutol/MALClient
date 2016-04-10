@@ -26,7 +26,8 @@ namespace MALClient.ViewModels
     public enum AnimeListDisplayModes
     {
         IndefiniteList,
-        IndefiniteGrid
+        IndefiniteGrid,
+        IndefiniteCompactList
     }
 
     public class AnimeListViewModel : ViewModelBase
@@ -58,7 +59,7 @@ namespace MALClient.ViewModels
 
         public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
-        public ObservableCollection<PivotItem> AnimePages { get; private set; } = new ObservableCollection<PivotItem>();
+        public ObservableCollection<AnimeCompactItem> AnimeCompactItems { get; private set; } = new ObservableCollection<AnimeCompactItem>();
 
         public ObservableCollection<AnimeItem> AnimeItems { get; private set; } = new ObservableCollection<AnimeItem>();
 
@@ -79,10 +80,10 @@ namespace MALClient.ViewModels
             _manuallySelectedViewMode = null;
             //take out trash
             _animeItemsSet.Clear();
-            AnimePages = new ObservableCollection<PivotItem>();
+            AnimeCompactItems = new ObservableCollection<AnimeCompactItem>();
             AnimeItems = new ObservableCollection<AnimeItem>();
             AnimeGridItems = new ObservableCollection<AnimeGridItem>();
-            RaisePropertyChanged(() => AnimePages);
+            RaisePropertyChanged(() => AnimeCompactItems);
             RaisePropertyChanged(() => AnimeItems);
             RaisePropertyChanged(() => AnimeGridItems);
 
@@ -502,14 +503,25 @@ namespace MALClient.ViewModels
                 return;
             }
             var realPage = CurrentPosition;
-            AnimePages = new ObservableCollection<PivotItem>();
+            AnimeCompactItems = new ObservableCollection<AnimeCompactItem>();
             AnimeItems = new ObservableCollection<AnimeItem>();
             AnimeGridItems = new ObservableCollection<AnimeGridItem>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
             await Task.Delay(30);
             switch (DisplayMode)
-            {               
+            {    
+                case AnimeListDisplayModes.IndefiniteCompactList:
+                    var compactItemsToLoad = 30;
+                    foreach (var itemAbstraction in _animeItemsSet.Take(compactItemsToLoad))
+                    {
+                        AnimeCompactItems.Add(itemAbstraction.AnimeCompactItem);
+                    }
+                    for (var i = 0; i < compactItemsToLoad && _animeItemsSet.Count > 0; i++)
+                    {
+                        _animeItemsSet.RemoveAt(0);
+                    }
+                    break;
                 case AnimeListDisplayModes.IndefiniteList:
                     var itemsToLoad = GetItemsToLoad();
                     foreach (var itemAbstraction in _animeItemsSet.Take(itemsToLoad))
@@ -520,12 +532,8 @@ namespace MALClient.ViewModels
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
-                    RaisePropertyChanged(() => AnimePages);
-                    RaisePropertyChanged(() => AnimeItems);
-                    RaisePropertyChanged(() => AnimeGridItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
                     View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
-                    AddScrollHandler();
                     //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
@@ -537,17 +545,17 @@ namespace MALClient.ViewModels
                     for (var i = 0; i < gridItemsToLoad && _animeItemsSet.Count > 0; i++)
                     {
                         _animeItemsSet.RemoveAt(0);
-                    }
-                    RaisePropertyChanged(() => AnimePages);
-                    RaisePropertyChanged(() => AnimeItems);
-                    RaisePropertyChanged(() => AnimeGridItems);
+                    }                   
                     View.IndefiniteScrollViewer.UpdateLayout();
-                    ScrollToWithDelay(500);
-                    AddScrollHandler();
+                    ScrollToWithDelay(500);                   
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            RaisePropertyChanged(() => AnimeCompactItems);
+            RaisePropertyChanged(() => AnimeItems);
+            RaisePropertyChanged(() => AnimeGridItems);
+            AddScrollHandler();
             ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300
                 ? Visibility.Visible
                 : Visibility.Collapsed;
@@ -1215,7 +1223,8 @@ namespace MALClient.ViewModels
             <Tuple<AnimeListDisplayModes, string>>
         {
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"),
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid"),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteCompactList, "Compact list")
         };
 
         private Visibility _animesPivotHeaderVisibility;
@@ -1443,14 +1452,14 @@ namespace MALClient.ViewModels
         #endregion
 
         #region LogInOut
-
+            //TODO : Refactor
         public void LogOut()
         {
             _animeItemsSet.Clear();
-            AnimePages = new ObservableCollection<PivotItem>();
+            AnimeCompactItems = new ObservableCollection<AnimeCompactItem>();
             AnimeItems = new ObservableCollection<AnimeItem>();
             AnimeGridItems = new ObservableCollection<AnimeGridItem>();
-            RaisePropertyChanged(() => AnimePages);
+            RaisePropertyChanged(() => AnimeCompactItems);
             RaisePropertyChanged(() => AnimeItems);
             RaisePropertyChanged(() => AnimeGridItems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
@@ -1466,10 +1475,10 @@ namespace MALClient.ViewModels
         public void LogIn()
         {
             _animeItemsSet.Clear();
-            AnimePages = new ObservableCollection<PivotItem>();
+            AnimeCompactItems = new ObservableCollection<AnimeCompactItem>();
             AnimeItems = new ObservableCollection<AnimeItem>();
             AnimeGridItems = new ObservableCollection<AnimeGridItem>();
-            RaisePropertyChanged(() => AnimePages);
+            RaisePropertyChanged(() => AnimeCompactItems);
             RaisePropertyChanged(() => AnimeItems);
             RaisePropertyChanged(() => AnimeGridItems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();

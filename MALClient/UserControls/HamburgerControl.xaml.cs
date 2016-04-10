@@ -28,11 +28,12 @@ namespace MALClient.UserControls
         TopManga
     }
 
-    public sealed partial class HamburgerControl : UserControl
+    public sealed partial class HamburgerControl : UserControl , IHamburgerInteraction
     {
         public HamburgerControl()
         {
             InitializeComponent();
+            _viewModel.View = this;
             Loaded += OnLoaded;
         }
 
@@ -53,9 +54,47 @@ namespace MALClient.UserControls
             (sender as Button).Background = _b2;
         }
 
+        private bool _animeFiltersExpanded;
+        private bool _mangaFiltersExpanded;
+
         private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             (sender as Button).Background = new SolidColorBrush(Colors.Transparent);
         }
+
+        private void ButtonExpandAnimeFiltersOnClick(object sender, RoutedEventArgs e)
+        {
+            if (!_animeFiltersExpanded)
+            {
+                ExpandAnimeListFiltersStoryboard.Begin();
+                RotateAnimeListFiltersStoryboard.Begin();
+            }
+            else
+            {
+                CollapseAnimeListFiltersStoryboard.Begin();
+                RotateBackAnimeListFiltersStoryboard.Begin();
+            }
+
+            _animeFiltersExpanded = !_animeFiltersExpanded;
+        }
+
+        private void ButtonExpandMangaFiltersOnClick(object sender, RoutedEventArgs e)
+        {
+            if (!_mangaFiltersExpanded)
+            {
+                ExpandMangaListFiltersStoryboard.Begin();
+                RotateMangaListFiltersStoryboard.Begin();
+            }
+            else
+            {
+                CollapseMangaListFiltersStoryboard.Begin();
+                RotateBackMangaListFiltersStoryboard.Begin();
+            }
+
+            _mangaFiltersExpanded = !_mangaFiltersExpanded;
+        }
+
+        public AlternatingListView AnimeFilters => AlternatingListViewAnime;
+        public AlternatingListView MangaFilters => AlternatingListViewManga;
     }
 }

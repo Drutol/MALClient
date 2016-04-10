@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,8 +17,11 @@ using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
-
-
+    public interface IHamburgerInteraction
+    {
+        AlternatingListView AnimeFilters { get; }
+        AlternatingListView MangaFilters { get; }
+    }
 
     public class HamburgerControlViewModel : ViewModelBase
     {
@@ -27,6 +31,7 @@ namespace MALClient.ViewModels
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
 
+        public IHamburgerInteraction View { get; set; }
 
         private bool? _prevState;
 
@@ -47,11 +52,55 @@ namespace MALClient.ViewModels
         private Color RequestedFontColor
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
-
-
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
         public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>();
+
+        public ObservableCollection<Tuple<AnimeStatus,string>> AnimeListFilters { get; } = new ObservableCollection<Tuple<AnimeStatus, string>>
+        {
+            new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Watching"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to watch"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+        };
+
+        public int CurrentAnimeFiltersSelectedIndex
+        {
+            get { return ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.Manga ? -1 : ViewModelLocator.AnimeList.StatusSelectorSelectedIndex; }
+            set
+            {
+                if (ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Anime)
+                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs(value, AnimeListWorkModes.Anime));
+                ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
+                SetActiveButton(HamburgerButtons.AnimeList);
+                RaisePropertyChanged(() => CurrentAnimeFiltersSelectedIndex);
+            }
+        }
+
+        public ObservableCollection<Tuple<AnimeStatus,string>> MangaListFilters { get; } = new ObservableCollection<Tuple<AnimeStatus, string>>
+        {
+            new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Reading"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to read"),
+            new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+        };
+
+        public int CurrentMangaFiltersSelectedIndex
+        {
+            get { return ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.Anime ? -1 : ViewModelLocator.AnimeList.StatusSelectorSelectedIndex; }
+            set
+            {
+                if (ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Manga)
+                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs(value,AnimeListWorkModes.Manga));
+                ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
+                SetActiveButton(HamburgerButtons.MangaList);
+                RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);
+            }
+        }
 
         public BitmapImage UserImage
         {
@@ -185,6 +234,12 @@ namespace MALClient.ViewModels
             _prevState = up;
 
             BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 50) : new Thickness(0);
+        }
+
+        public void UpdateAnimeFiltersSelectedIndex()
+        {
+            RaisePropertyChanged(() => CurrentAnimeFiltersSelectedIndex);
+            RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);
         }
 
         internal async Task UpdateProfileImg(bool dl = true)

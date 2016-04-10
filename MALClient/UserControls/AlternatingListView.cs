@@ -1,4 +1,5 @@
-﻿using Windows.UI;
+﻿using System.Collections.Generic;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -17,6 +18,38 @@ namespace MALClient.UserControls
                 ? Color.FromArgb(255, 11, 11, 11)
                 : Colors.WhiteSmoke);
 
+        public Brush CurrBrush1 = _b1;
+        public Brush CurrBrush2 = _b2;
+
+        public static readonly DependencyProperty InvertRowAlternationProperty =
+            DependencyProperty.Register(
+                "DataSource",
+                typeof (bool),
+                typeof (AlternatingListView),
+                new PropertyMetadata(
+                    false, PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            var list = dependencyObject as AlternatingListView;
+            if ((bool)args.NewValue)
+            {
+                list.CurrBrush1 = _b2;
+                list.CurrBrush2 = _b1;
+            }
+            else
+            {
+                list.CurrBrush1 = _b1;
+                list.CurrBrush2 = _b2;
+            }
+        }
+
+        public bool InvertRowAlternation
+        {
+            get { return (bool)GetValue(InvertRowAlternationProperty); }
+            set { SetValue(InvertRowAlternationProperty, value); }
+        }
+
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
@@ -26,11 +59,11 @@ namespace MALClient.UserControls
                 var index = IndexFromContainer(element);
                 if ((index + 1)%2 == 0)
                 {
-                    listViewItem.Background = _b1;
+                    listViewItem.Background = CurrBrush1;
                 }
                 else
                 {
-                    listViewItem.Background = _b2;
+                    listViewItem.Background = CurrBrush2;
                 }
             }
         }

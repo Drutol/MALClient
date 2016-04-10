@@ -32,6 +32,7 @@ namespace MALClient.Pages
         public readonly string ListSource;
         public readonly bool NavArgs;
         public readonly int Status;
+        public readonly int? StatusIndex;
         public AnimeSeason CurrSeason;
         public AnimeListDisplayModes DisplayMode;
         public SortOptions SortOption;
@@ -53,6 +54,12 @@ namespace MALClient.Pages
 
         private AnimeListPageNavigationArgs()
         {
+        }
+
+        public AnimeListPageNavigationArgs(int index,AnimeListWorkModes workMode)
+        {
+            WorkMode = workMode;
+            StatusIndex = index;
         }
 
         public static AnimeListPageNavigationArgs Seasonal

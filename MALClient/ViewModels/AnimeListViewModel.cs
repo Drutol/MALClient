@@ -111,13 +111,14 @@ namespace MALClient.ViewModels
             {
                 WorkMode = AnimeListWorkModes.Anime;
             }
+            ViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             switch (WorkMode)
             {
                 case AnimeListWorkModes.Manga:
                 case AnimeListWorkModes.Anime:
                     if (!gotArgs)
-                        SetDefaults();
+                        SetDefaults(args?.StatusIndex);
 
                     AppBtnListSourceVisibility = true;
                     AppbarBtnPinTileVisibility = Visibility.Collapsed;
@@ -339,10 +340,13 @@ namespace MALClient.ViewModels
             }
         }
 
-        private void SetDefaults()
+        private void SetDefaults(int? statusOverride = null)
         {
             SetSortOrder(null);
-            SetDesiredStatus(null);
+            if (statusOverride == null)
+                SetDesiredStatus(null);
+            else
+                StatusSelectorSelectedIndex = statusOverride.Value;
             SortDescending = WorkMode == AnimeListWorkModes.Manga
                 ? Settings.IsMangaSortDescending
                 : Settings.IsSortDescending;
@@ -1021,6 +1025,7 @@ namespace MALClient.ViewModels
 
                 _statusSelectorSelectedIndex = value;
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
+                ViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
                 Loading = true;
                 CurrentPosition = 1;
                 _lastOffset = 0;
@@ -1323,7 +1328,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int GetDesiredStatus()
+        public int GetDesiredStatus()
         {
             var value = StatusSelectorSelectedIndex;
             value++;

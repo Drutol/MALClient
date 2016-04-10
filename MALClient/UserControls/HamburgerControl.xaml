@@ -15,26 +15,48 @@
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <Storyboard x:Name="ExpandAnimeListFiltersStoryboard" TargetName="AnimeFiltersList" TargetProperty="Height">
+            <DoubleAnimation EnableDependentAnimation="True" From="0.0" To="265.0" Duration="0:0:.25"/>
+        </Storyboard>       
+        <Storyboard x:Name="CollapseAnimeListFiltersStoryboard" TargetName="AnimeFiltersList" TargetProperty="Height">
+            <DoubleAnimation EnableDependentAnimation="True" From="265.0" To="0.0" Duration="0:0:.25"/>
+        </Storyboard>
+        <Storyboard x:Name="RotateAnimeListFiltersStoryboard" TargetName="ExpandAnimeFiltersButton" TargetProperty="(Button.RenderTransform).(RotateTransform.Angle)">
+            <DoubleAnimation EnableDependentAnimation="True" From="0.0" To="90.0" Duration="0:0:.25"/>
+        </Storyboard>
+        <Storyboard x:Name="RotateBackAnimeListFiltersStoryboard" TargetName="ExpandAnimeFiltersButton" TargetProperty="(Button.RenderTransform).(RotateTransform.Angle)">
+            <DoubleAnimation EnableDependentAnimation="True" From="90.0" To="0.0" Duration="0:0:.25"/>
+        </Storyboard>        
+        <!-- Manga -->
+        <Storyboard x:Name="ExpandMangaListFiltersStoryboard" TargetName="MangaFiltersList" TargetProperty="Height">
+            <DoubleAnimation EnableDependentAnimation="True" From="0.0" To="265.0" Duration="0:0:.25"/>
+        </Storyboard>       
+        <Storyboard x:Name="CollapseMangaListFiltersStoryboard" TargetName="MangaFiltersList" TargetProperty="Height">
+            <DoubleAnimation EnableDependentAnimation="True" From="265.0" To="0.0" Duration="0:0:.25"/>
+        </Storyboard>
+        <Storyboard x:Name="RotateMangaListFiltersStoryboard" TargetName="ExpandMangaFiltersButton" TargetProperty="(Button.RenderTransform).(RotateTransform.Angle)">
+            <DoubleAnimation EnableDependentAnimation="True" From="0.0" To="90.0" Duration="0:0:.25"/>
+        </Storyboard>
+        <Storyboard x:Name="RotateBackMangaListFiltersStoryboard" TargetName="ExpandMangaFiltersButton" TargetProperty="(Button.RenderTransform).(RotateTransform.Angle)">
+            <DoubleAnimation EnableDependentAnimation="True" From="90.0" To="0.0" Duration="0:0:.25"/>
+        </Storyboard>
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Stretch">
         <Grid Background="{ThemeResource BrushHamburgerBackground}">
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="../XamlResources/DictionaryHamburger.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="4" />
             </Grid.ColumnDefinitions>
             <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Column="1"/>
+            <Grid Grid.Column="1">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".25"></SolidColorBrush>
+                </Grid.Background>
+            </Grid>
             <ScrollViewer Grid.Row="0" Grid.Column="0"  VerticalScrollBarVisibility="Hidden">
                 <Grid  VerticalAlignment="Stretch">
                     <Grid.Resources>
-                        <Style TargetType="Pivot" BasedOn="{StaticResource PivotHamburgerStyle}" />
                         <Style TargetType="Button">
                             <Setter Property="Padding" Value="1,0" />
                         </Style>
@@ -58,24 +80,54 @@
                             PointerExited="Button_PointerExited"
                             Command="{Binding ButtonNavigationCommand}"
                             CommandParameter="0">
-                            <Grid Width="220" Height="45">
+                            <Grid Width="220" Height="Auto">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="35" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
                                 <Border
                                 BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeList]}"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                 Grid.ColumnSpan="2" />
-                                <SymbolIcon HorizontalAlignment="Center" Symbol="List"
+                                <SymbolIcon Grid.Row="0" HorizontalAlignment="Center" Symbol="List"
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
                                         Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
-                                <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium"
+                                <TextBlock Grid.Row="0" x:Name="TxtList" Text="Anime List" FontWeight="Medium"
                                        Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
                                        HorizontalAlignment="Stretch" Grid.Column="1"
                                        VerticalAlignment="Center"
                                        TextAlignment="Center" />
+                                <Button x:Name="ExpandAnimeFiltersButton" Grid.Row="0" Background="Transparent" 
+                                        Click="ButtonExpandAnimeFiltersOnClick" Width="35" Height="35" Margin="0,0,5,0" 
+                                        Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                                        RenderTransformOrigin="0.5,0.5">
+                                    <Button.RenderTransform>
+                                        <RotateTransform/>
+                                    </Button.RenderTransform>
+                                    <SymbolIcon Symbol="Remote"/>
+                                </Button>
+                                <Grid x:Name="AnimeFiltersList"  Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Height="0">
+                                    <Grid Background="{ThemeResource BrushAppBars}" VerticalAlignment="Stretch" 
+                                          Width="35" HorizontalAlignment="Left"
+                                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeList]}"/>
+                                    <local:AlternatingListView Background="{ThemeResource BrushAppBarInner}" x:Name="AlternatingListViewAnime"                                                            
+                                                           Margin="15,0,5,0" 
+                                                           ItemsSource="{Binding AnimeListFilters}" 
+                                                           SelectedIndex="{Binding CurrentAnimeFiltersSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                           InvertRowAlternation="True">
+                                        <local:AlternatingListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Item2}" FontWeight="SemiLight"/>
+                                            </DataTemplate>
+                                        </local:AlternatingListView.ItemTemplate>
+                                    </local:AlternatingListView>
+                                </Grid>
+
                             </Grid>
                         </Button>
                         <Button VerticalContentAlignment="Center" Background="Transparent"
@@ -195,25 +247,54 @@
                             PointerExited="Button_PointerExited"
                             Command="{Binding ButtonNavigationCommand}"
                             CommandParameter="9">
-                            <Grid Width="220" Height="45">
+                            <Grid Width="220" Height="Auto">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="35" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
                                 <Border
                                 BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                 Grid.ColumnSpan="2" />
-                                <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink"
+                                <SymbolIcon Grid.Row="0" HorizontalAlignment="Center" Symbol="PreviewLink"
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
                                         Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
-                                <TextBlock x:Name="TxtMangaList" Text="Manga List"
+                                <TextBlock Grid.Row="0" x:Name="TxtMangaList" Text="Manga List"
                                        FontWeight="Medium"
                                        Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                        HorizontalAlignment="Stretch" Grid.Column="1"
                                        VerticalAlignment="Center"
                                        TextAlignment="Center" />
+                                <Button x:Name="ExpandMangaFiltersButton" Grid.Row="0" Background="Transparent" 
+                                        Click="ButtonExpandMangaFiltersOnClick" Width="35" Height="35" Margin="0,0,5,0" 
+                                        Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                                        RenderTransformOrigin="0.5,0.5">
+                                    <Button.RenderTransform>
+                                        <RotateTransform/>
+                                    </Button.RenderTransform>
+                                    <SymbolIcon Symbol="Remote"/>
+                                </Button>
+                                <Grid x:Name="MangaFiltersList"  Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Height="0">
+                                    <Grid Background="{ThemeResource BrushAppBars}" VerticalAlignment="Stretch" 
+                                          Width="35" HorizontalAlignment="Left"
+                                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"/>
+                                    <local:AlternatingListView Background="{ThemeResource BrushAppBarInner}" x:Name="AlternatingListViewManga"                                                            
+                                                           Margin="15,0,5,0" 
+                                                           ItemsSource="{Binding MangaListFilters}" 
+                                                           SelectedIndex="{Binding CurrentMangaFiltersSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                           InvertRowAlternation="True">
+                                        <local:AlternatingListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Item2}" FontWeight="SemiLight"/>
+                                            </DataTemplate>
+                                        </local:AlternatingListView.ItemTemplate>
+                                    </local:AlternatingListView>
+                                </Grid>
                             </Grid>
                         </Button>
                         <Button VerticalContentAlignment="Center" Background="Transparent"

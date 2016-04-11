@@ -70,10 +70,5 @@ namespace MALClient.Pages
                     break;
             }
         }
-
-        private void UIElement_OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            
-        }
     }
 }

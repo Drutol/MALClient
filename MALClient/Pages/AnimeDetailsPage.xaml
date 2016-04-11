@@ -17,7 +17,7 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}" Padding="2" KeyDown="UIElement_OnKeyDown">
+    <Grid Background="{ThemeResource BrushDetailsBackground}" Padding="2">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>

@@ -422,7 +422,7 @@ namespace MALClient.ViewModels
                 return;
             //Depending on display mode we load more or less items.
             //This is the place where offset thresholds are defined
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : 100) ||
+            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : (DisplayMode == AnimeListDisplayModes.IndefiniteCompactList ? 50 : 100)) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
@@ -440,6 +440,13 @@ namespace MALClient.ViewModels
                         for (int i = 0; (_animeItemsSet.Count > 0 && i < (sender as FrameworkElement).ActualWidth / 200); i++) //const 200 width
                         {
                             AnimeGridItems.Add(_animeItemsSet[0].AnimeGridItem);
+                            _animeItemsSet.RemoveAt(0);
+                        }
+                        break;
+                    case AnimeListDisplayModes.IndefiniteCompactList:
+                        for (int i = 0; (_animeItemsSet.Count > 0 && i < (sender as FrameworkElement).ActualHeight / 50); i++) //const 200 width
+                        {
+                            AnimeCompactItems.Add(_animeItemsSet[0].AnimeCompactItem);
                             _animeItemsSet.RemoveAt(0);
                         }
                         break;

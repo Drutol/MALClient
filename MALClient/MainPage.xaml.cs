@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -83,7 +84,19 @@ namespace MALClient
 
         private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+
             (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
+        }
+
+
+        private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if(properties.IsXButton1Pressed)
+                    NavMgr.CurrentViewOnBackRequested();
+            }
         }
     }
 }

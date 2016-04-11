@@ -25,6 +25,9 @@ namespace MALClient
 
         public static async void CurrentViewOnBackRequested()
         {
+            if (_detailsNavStack.Count == 0) //when we are called from mouse back button
+                return;
+
             await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
             if(_detailsNavStack.Count == 0)
                 ViewModelLocator.Main.NavigateBackButtonVisibility = Visibility.Collapsed;

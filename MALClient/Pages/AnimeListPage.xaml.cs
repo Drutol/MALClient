@@ -146,7 +146,8 @@ namespace MALClient.Pages
             {
                 if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 && Math.Abs(args.NewSize.Width - _prevWidth) > 100)
                 {
-                    ViewModelLocator.Main.View.InitSplitter();
+                    if(ViewModelLocator.Main.OffContentVisibility == Visibility.Visible)
+                        ViewModelLocator.Main.View.InitSplitter();
                     _prevHeight = args.NewSize.Height;
                     _prevWidth = args.NewSize.Width;
                     if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad)

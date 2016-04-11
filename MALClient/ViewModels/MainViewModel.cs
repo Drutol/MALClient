@@ -439,6 +439,7 @@ namespace MALClient.ViewModels
                 {
                     MainContentColumnSpan = 3;
                 }
+                View.GridRootContent.UpdateLayout();
             }
         }
 
@@ -481,7 +482,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _mainContentColumnSpan = 3;
+        private int _mainContentColumnSpan = 1;
 
         public int MainContentColumnSpan
         {

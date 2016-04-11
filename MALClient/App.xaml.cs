@@ -7,6 +7,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -82,7 +83,7 @@ namespace MALClient
                 rootFrame.Navigate(typeof (MainPage), e.Arguments);
             }
             // Ensure the current window is active
-            
+
             HttpClassMgr.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();

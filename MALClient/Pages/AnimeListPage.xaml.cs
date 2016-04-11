@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
+using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Items;
 using MALClient.UserControls;
 using MALClient.ViewModels;
 
@@ -114,26 +117,6 @@ namespace MALClient.Pages
             FlyoutSeasonSelection.Hide();
         }
 
-        private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
-        {
-            if (ViewModel.CanLoadPages)
-                (args.Item.Content as AnimePagePivotContent).LoadContent();
-        }
-
-
-        private void AnimesPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (e.RemovedItems.Count > 0)
-                    ((e.RemovedItems.First() as PivotItem).Content as AnimePagePivotContent).ResetSelection();
-            }
-            catch (Exception)
-            {
-                //
-            }
-        }
-
         private object GetScrollingContainer()
         {
             switch (ViewModel.DisplayMode)
@@ -178,24 +161,6 @@ namespace MALClient.Pages
         {
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
         }
-
-        #endregion
-
-        #region UIHelpers
-
-        //internal void ScrollTo(AnimeItem animeItem)
-        //{
-        //    try
-        //    {
-        //        var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-        //        var offset = ViewModel._animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
-        //        scrollViewer.ScrollToVerticalOffset(offset);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // ehh
-        //    }
-        //}
 
         #endregion
 
@@ -293,5 +258,32 @@ namespace MALClient.Pages
         }
 
         #endregion
+
+        private void AnimesItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewList.MoreFlyout.ShowAt(
+                e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
+
+        private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewGrid.MoreFlyout.ShowAt(
+                e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
+
+        private void AnimeCompactItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (e.OriginalSource is ListViewItemPresenter)
+                (((e.OriginalSource as ListViewItemPresenter).Content as AnimeCompactItem).DataContext as
+                    AnimeItemViewModel)?.ViewCompact.MoreFlyout
+                    .ShowAt(
+                        (FrameworkElement) e.OriginalSource);
+            else
+            ((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewCompact.MoreFlyout.ShowAt(
+                e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
     }
 }

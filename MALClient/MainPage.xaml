@@ -165,8 +165,8 @@
             <controls:HamburgerControl x:Name="HamburgerControl" Width="220" Grid.Column="0" />
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="48"/>
-                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" MaxWidth="20" />
                     <ColumnDefinition Width="Auto" MaxWidth="600"/>
                 </Grid.ColumnDefinitions>
 
@@ -176,10 +176,11 @@
                                             Grid.Column="1" IsTabStop="False"
                                             Visibility="{Binding OffContentVisibility}"
                                             Background="{ThemeResource BrushSplitter}" ResizeDirection="Columns"
-                                            ResizeBehavior="PreviousAndNext" />
+                                            ResizeBehavior="PreviousAndNext"
+                                            HorizontalAlignment="Stretch"/>
                 <Grid Grid.Column="2" Width="Auto" HorizontalAlignment="Stretch" SizeChanged="OffContent_OnSizeChanged" Height="10"/>
                 <Frame Grid.Column="2" x:Name="OffContent" Width="Auto" MinWidth="420" HorizontalAlignment="Stretch"
-                       Visibility="{Binding OffContentVisibility}" />
+                       Visibility="{Binding OffContentVisibility}" Margin="{Binding Source={StaticResource Locator} ,Path=Hamburger.BottomStackPanelMargin}" />
             </Grid>
 
         </Grid>

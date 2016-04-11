@@ -22,6 +22,7 @@ namespace MALClient.ViewModels
         void SearchInputFocus(FocusState state);
         void InitSplitter();
         HamburgerControl Hamburger { get; }
+        Grid GridRootContent { get; }
     }
 
     public class MainViewModel : ViewModelBase

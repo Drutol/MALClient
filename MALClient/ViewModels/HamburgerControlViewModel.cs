@@ -233,7 +233,7 @@ namespace MALClient.ViewModels
 
             _prevState = up;
 
-            BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 50) : new Thickness(0);
+            BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 48) : new Thickness(0);
         }
 
         public void UpdateAnimeFiltersSelectedIndex()

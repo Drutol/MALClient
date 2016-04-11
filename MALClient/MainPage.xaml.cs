@@ -46,11 +46,12 @@ namespace MALClient
         private double _prevOffContntWidth = 0;
         public void InitSplitter()
         {
-            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 420) : _prevOffContntWidth);
+            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 535) : _prevOffContntWidth);
             OffContent.UpdateLayout();
         }
 
         public HamburgerControl Hamburger => HamburgerControl;
+        public Grid GridRootContent => RootContentGrid;
 
         #region Search
 

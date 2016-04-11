@@ -25,20 +25,6 @@ namespace MALClient.Items
         public Flyout WatchedFlyout => WatchedEpsFlyout;
         public Flyout MoreFlyout => FlyoutMore;
 
-        private void ShowMore(object sender, RoutedEventArgs e)
-        {
-            if (!_expandState)
-            {
-                SynopsisShow.Begin();
-                _expandState = true;
-            }
-            else
-            {
-                SynopsisHide.Begin();
-                _expandState = false;
-            }
-        }
-
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
@@ -102,5 +88,6 @@ namespace MALClient.Items
         }
 
         #endregion
+
     }
 }

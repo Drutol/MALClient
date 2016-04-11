@@ -1069,6 +1069,7 @@ namespace MALClient.ViewModels
                 if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
                     value.ViewModel.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedAnimeItem);
+                RaisePropertyChanged(() => ClearSelectionIndexList);
             }
         }
 
@@ -1080,6 +1081,20 @@ namespace MALClient.ViewModels
                 if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
                     value.ViewModel.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
+                RaisePropertyChanged(() => ClearSelectionIndexList);
+            }
+        }
+
+        public int ClearSelectionIndexList => -1; // just returns -1 to remove selection - applies to all containers
+        public AnimeCompactItem TemporarilySelectedCompactAnimeItem
+        {
+            get { return null; }
+            set
+            {
+                if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
+                    value.ViewModel.NavigateDetails();
+                RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
+                RaisePropertyChanged(() => ClearSelectionIndexList);
             }
         }
 

@@ -16,14 +16,6 @@
             <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
-            <Storyboard x:Name="SynopsisHide">
-                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root"
-                                 Storyboard.TargetProperty="Height" From="400" To="150" SpeedRatio="2.0" />
-            </Storyboard>
-            <Storyboard x:Name="SynopsisShow">
-                <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="Root"
-                                 Storyboard.TargetProperty="Height" From="150" To="400" SpeedRatio="2.0" />
-            </Storyboard>
             <Style x:Key="ButtonDisabledStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />

@@ -33,6 +33,7 @@ namespace MALClient.ViewModels
 
         public IAnimeItemInteractions ViewGrid;
         public IAnimeItemInteractions ViewList;
+        public IAnimeItemInteractions ViewCompact;
 
         static AnimeItemViewModel()
         {

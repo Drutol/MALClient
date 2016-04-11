@@ -21,22 +21,26 @@ namespace MALClient.Items
 {
     public sealed partial class AnimeCompactItem : UserControl , IAnimeItemInteractions
     {
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
+
         public AnimeCompactItem(AnimeItemViewModel vm)
         {
             this.InitializeComponent();
             DataContext = vm;
+            vm.ViewCompact = this;
         }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
-                (DataContext as AnimeItemViewModel).ChangeWatchedEps();
+                ViewModel.ChangeWatchedEps();
                 e.Handled = true;
             }
         }
 
         public Flyout WatchedFlyout { get; }
-        public Flyout MoreFlyout { get; }
+        public Flyout MoreFlyout => FlyoutMore;
+
     }
 }

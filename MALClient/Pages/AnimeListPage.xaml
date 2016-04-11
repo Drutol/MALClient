@@ -131,7 +131,7 @@
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     <Setter Property="Padding" Value="5,5" />
                                     <Setter Property="Margin" Value="5,5" />
-                                    <Setter Property="Width" Value="395" />
+                                    <Setter Property="Width" Value="370" />
                                     <Setter Property="BorderBrush"
                                             Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <Setter Property="BorderThickness" Value="2,0,2,0" />
@@ -193,30 +193,27 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" HorizontalAlignment="Stretch" ItemsSource="{Binding AnimeCompactItems}"
+        <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding AnimeCompactItems}"
+                                      RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
+                                      SelectedIndex="{Binding ClearSelectionIndexList}"
+                                      SelectedItem="{Binding TemporarilySelectedCompactAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
             <controls:AlternatingListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </controls:AlternatingListView.ItemContainerStyle>
         </controls:AlternatingListView>
         <GridView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" MinWidth="400"
-                  SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
-                  Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Padding" Value="5,5" />
-                    <Setter Property="Margin" Value="5,5" />
-                    <Setter Property="Width" Value="395" />
-                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    <Setter Property="BorderThickness" Value="2,0,2,0" />
-                </Style>
-            </GridView.ItemContainerStyle>
-        </GridView>
+                  RightTapped="AnimesItemsIndefinite_OnRightTapped"
+                  SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalAlignment="Stretch" SelectedIndex="{Binding ClearSelectionIndexList}"
+                  Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}" />
         <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
-                  SelectedItem="{Binding TemporarilySelectedGridAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                  RightTapped="AnimesGridIndefinite_OnRightTapped"
+                  SelectedItem="{Binding TemporarilySelectedGridAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalAlignment="Stretch" SelectedIndex="{Binding ClearSelectionIndexList}"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">

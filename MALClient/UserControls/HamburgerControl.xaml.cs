@@ -42,6 +42,10 @@ namespace MALClient.UserControls
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             _viewModel.UpdateProfileImg();
+            if(Settings.HamburgerAnimeFiltersExpanded)
+                ButtonExpandAnimeFiltersOnClick(null,null);
+            if (Settings.HamburgerMangaFiltersExpanded)
+                ButtonExpandMangaFiltersOnClick(null,null);
         }
 
         private static readonly Brush _b2 =

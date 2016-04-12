@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -94,7 +95,7 @@ namespace MALClient.Pages
 
         public ScrollViewer IndefiniteScrollViewer
         {
-            get
+            private get
             {
                 return _indefiniteScrollViewer ??
                        (_indefiniteScrollViewer =
@@ -103,6 +104,29 @@ namespace MALClient.Pages
                                ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
+        }
+
+        public async Task<ScrollViewer> GetIndefiniteScrollViewer()
+        {
+            if (!_loaded)
+            {
+                int retries = 5;
+                while (retries-- > 0 && !_loaded)
+                {
+                    await Task.Delay(50);
+                }
+            }
+            try
+            {
+                if (_loaded)
+                    return IndefiniteScrollViewer;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
         public Flyout FlyoutViews => ViewsFlyout;
@@ -136,12 +160,16 @@ namespace MALClient.Pages
 
         private double _prevWidth;
         private double _prevHeight;
-
+        private bool _loaded;
         public AnimeListPage()
         {
             InitializeComponent();
             ViewModel.View = this;
-            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
+            Loaded += (sender, args) =>
+            {
+                ViewModel.CanAddScrollHandler = true;
+                _loaded = true;
+            };
             SizeChanged += (sender, args) =>
             {
                 if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 && Math.Abs(args.NewSize.Width - _prevWidth) > 100)

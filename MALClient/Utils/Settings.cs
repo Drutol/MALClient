@@ -152,6 +152,18 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] = value; }
         }
 
+        public static bool HamburgerAnimeFiltersExpanded
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] = value; }
+        }
+
+        public static bool HamburgerMangaFiltersExpanded
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] = value; }
+        }
+
         public static DataSource PrefferedDataSource
         {
             get

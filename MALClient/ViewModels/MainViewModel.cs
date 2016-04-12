@@ -30,6 +30,9 @@ namespace MALClient.ViewModels
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
 
+        public PageIndex CurrentMainPage { get; set; }
+        public PageIndex CurrentOffPage { get; set; }
+
         internal async Task Navigate(PageIndex index, object args = null)
         {
             var wasOnSearchPage = SearchToggleLock;
@@ -46,13 +49,20 @@ namespace MALClient.ViewModels
             RefreshButtonVisibility = Visibility.Collapsed;
             OffRefreshButtonVisibility = Visibility.Collapsed;
 
+            ViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
+
+
+            //prepare for some index mess
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;
 
-            if(index == PageIndex.PageAbout ||
+            if (index == PageIndex.PageAbout ||
                 index == PageIndex.PageSettings ||
                 index == PageIndex.PageAbout)
+            {
+                CurrentOffPage = index;
                 NavMgr.ResetBackNav();
+            }
 
             if (index == PageIndex.PageSeasonal ||
                 index == PageIndex.PageMangaList ||
@@ -60,8 +70,13 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageTopAnime ||
                 index == PageIndex.PageAnimeList)
             {
+                if(index == PageIndex.PageSeasonal || index == PageIndex.PageTopAnime || index == PageIndex.PageTopManga || index==PageIndex.PageMangaList)
+                    CurrentMainPage = index; //used by hamburger's filters
+                else
+                    CurrentMainPage = PageIndex.PageAnimeList;
                 ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
                 index = PageIndex.PageAnimeList;
+                
             }
             else if(index == PageIndex.PageSearch || 
                 index == PageIndex.PageRecomendations ||
@@ -70,6 +85,7 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageMangaSearch)
             {
                 ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(false);
+                CurrentMainPage = index;
             }
 
 

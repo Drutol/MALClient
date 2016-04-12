@@ -25,7 +25,8 @@ namespace MALClient.ViewModels
             <Tuple<AnimeListDisplayModes, string>>
         {
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"),
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid"),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteCompactList, "Compact List")
         };
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForWatching
@@ -86,6 +87,18 @@ namespace MALClient.ViewModels
         {
             get { return Settings.HideSortingSelectionFlyout; }
             set { Settings.HideSortingSelectionFlyout = value; }
+        }
+
+        public bool HamburgerAnimeFiltersExpanded
+        {
+            get { return Settings.HamburgerAnimeFiltersExpanded; }
+            set { Settings.HamburgerAnimeFiltersExpanded = value; }
+        }
+
+        public bool HamburgerMangaFiltersExpanded
+        {
+            get { return Settings.HamburgerMangaFiltersExpanded; }
+            set { Settings.HamburgerMangaFiltersExpanded = value; }
         }
 
         public bool RatePopUpEnable

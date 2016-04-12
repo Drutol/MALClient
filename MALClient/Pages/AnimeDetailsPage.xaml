@@ -526,60 +526,58 @@
                         Reviews
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <ScrollViewer>
-                            <Grid>
-                                <Grid VerticalAlignment="Stretch">
-                                    <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
+                        <Grid>
+                            <Grid VerticalAlignment="Stretch">
+                                <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
                                                Text="Reviews unavailable :("
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                FontSize="30" FontWeight="SemiLight"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                </Grid>
-                                <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
+                            </Grid>
+                            <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
-                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
-                                </Grid>
-                                <Pivot ItemsSource="{Binding Reviews}">
-                                    <Pivot.HeaderTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" MaxWidth="300">
-                                                <Image
+                            </Grid>
+                            <Pivot ItemsSource="{Binding Reviews}">
+                                <Pivot.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" MaxWidth="300">
+                                            <Image
                                                     Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                     Width="Auto" Height="Auto" MaxHeight="35" />
-                                                <StackPanel Margin="5,0,0,0">
-                                                    <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold" />
-                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15"
+                                            <StackPanel Margin="5,0,0,0">
+                                                <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold" />
+                                                <TextBlock Text="{Binding OverallRating}" FontSize="15"
                                                                FontWeight="SemiLight" />
-                                                </StackPanel>
                                             </StackPanel>
-                                        </DataTemplate>
-                                    </Pivot.HeaderTemplate>
-                                    <Pivot.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <StackPanel
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Pivot.HeaderTemplate>
+                                <Pivot.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <StackPanel
                                                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                     Padding="5,0" Margin="5,5" BorderThickness="5,0,0,0"
                                                     HorizontalAlignment="Left">
-                                                    <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
-                                                    <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
-                                                    <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
-                                                </StackPanel>
-                                                <Grid Grid.Row="1">
-                                                    <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords"
+                                                <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
+                                                <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
+                                                <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
+                                            </StackPanel>
+                                            <ScrollViewer Grid.Row="1">
+                                                <TextBlock  Text="{Binding Review}" TextWrapping="WrapWholeWords"
                                                                Margin="0,5" Padding="5,5,5,0" />
-                                                </Grid>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </Pivot.ItemTemplate>
-                                </Pivot>
-                            </Grid>
-                        </ScrollViewer>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </DataTemplate>
+                                </Pivot.ItemTemplate>
+                            </Pivot>
+                        </Grid>
                     </PivotItem.Content>
                 </PivotItem>
                 <PivotItem Tag="Recomm">

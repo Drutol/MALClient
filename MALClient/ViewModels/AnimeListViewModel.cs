@@ -463,7 +463,7 @@ namespace MALClient.ViewModels
                 return;
             _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
             _scrollHandlerAdded = true;
-            View.IndefiniteScrollViewer.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            View.GetIndefiniteScrollViewer().Result.ViewChanging += IndefiniteScrollViewerOnViewChanging;
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace MALClient.ViewModels
         private async void ScrollToWithDelay(int delay)
         {
             await Task.Delay(delay);
-            View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+            View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
         }
 
         /// <summary>
@@ -483,7 +483,7 @@ namespace MALClient.ViewModels
         public void ScrollToTop()
         {
             CurrentPosition = 0;
-            View.IndefiniteScrollViewer.ScrollToVerticalOffset(0);
+            View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(0);
             ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
 
@@ -539,8 +539,8 @@ namespace MALClient.ViewModels
                     {
                         _animeItemsSet.RemoveAt(0);
                     }
-                    View.IndefiniteScrollViewer.UpdateLayout();
-                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+                    View.GetIndefiniteScrollViewer().Result.UpdateLayout();
+                    View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
                     //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
@@ -553,7 +553,7 @@ namespace MALClient.ViewModels
                     {
                         _animeItemsSet.RemoveAt(0);
                     }                   
-                    View.IndefiniteScrollViewer.UpdateLayout();
+                    View.GetIndefiniteScrollViewer().Result.UpdateLayout();
                     ScrollToWithDelay(500);                   
                     break;
                 default:
@@ -1214,7 +1214,7 @@ namespace MALClient.ViewModels
                 if (_scrollHandlerAdded && CanAddScrollHandler)
                 {
                     //we don't want to be subscribed to wrong srollviewer
-                    View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    View.GetIndefiniteScrollViewer().Result.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
                     _scrollHandlerAdded = false;
                 }
                 View.IndefiniteScrollViewer = null;

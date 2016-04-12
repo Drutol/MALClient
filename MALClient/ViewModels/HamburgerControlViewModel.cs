@@ -68,10 +68,16 @@ namespace MALClient.ViewModels
 
         public int CurrentAnimeFiltersSelectedIndex
         {
-            get { return ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.Manga ? -1 : ViewModelLocator.AnimeList.StatusSelectorSelectedIndex; }
+            get
+            {
+                return ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList ||
+                       ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.Manga
+                    ? -1
+                    : ViewModelLocator.AnimeList.StatusSelectorSelectedIndex;
+            }
             set
             {
-                if (ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Anime)
+                if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList || ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Anime)
                     ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs(value, AnimeListWorkModes.Anime));
                 ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
                 SetActiveButton(HamburgerButtons.AnimeList);
@@ -91,11 +97,17 @@ namespace MALClient.ViewModels
 
         public int CurrentMangaFiltersSelectedIndex
         {
-            get { return ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.Anime ? -1 : ViewModelLocator.AnimeList.StatusSelectorSelectedIndex; }
+            get
+            {
+                return ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList ||
+                       ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.Anime
+                    ? -1
+                    : ViewModelLocator.AnimeList.StatusSelectorSelectedIndex;
+            }
             set
             {
-                if (ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Manga)
-                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs(value,AnimeListWorkModes.Manga));
+                if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList || ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Manga)                    
+                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs(value,AnimeListWorkModes.Manga));
                 ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
                 SetActiveButton(HamburgerButtons.MangaList);
                 RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);

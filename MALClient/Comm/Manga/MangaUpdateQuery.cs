@@ -39,7 +39,7 @@ namespace MALClient.Comm
 
             Request =
                 WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/mangalist/update/{id}.xml?data={xml}"));
-            Request.Credentials = Creditentials.GetHttpCreditentials();
+            Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

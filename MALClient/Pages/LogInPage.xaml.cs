@@ -23,10 +23,10 @@ namespace MALClient.Pages
         public LogInPage()
         {
             InitializeComponent();
-            if (Creditentials.Authenticated)
+            if (Credentials.Authenticated)
                 BtnLogOff.Visibility = Visibility.Visible;
             Utils.GetMainPageInstance()
-                .CurrentStatus = Creditentials.Authenticated ? $"Logged in as {Creditentials.UserName}" : "Log In";
+                .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
         }
 
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
@@ -35,21 +35,21 @@ namespace MALClient.Pages
                 return;
             ProgressRing.Visibility = Visibility.Visible;
             _authenticating = true;
-            Creditentials.Update(UserName.Text, UserPassword.Password);
+            Credentials.Update(UserName.Text, UserPassword.Password);
             try
             {
                 var response = await new AuthQuery().GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 var doc = XDocument.Parse(response);
-                Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
-                Creditentials.SetAuthStatus(true);
+                Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
+                Credentials.SetAuthStatus(true);
             }
             catch (Exception)
             {
-                Creditentials.SetAuthStatus(false);
-                Creditentials.Update(string.Empty, string.Empty);
-                var msg = new MessageDialog("Unable to authorize with provided creditentials.");
+                Credentials.SetAuthStatus(false);
+                Credentials.Update(string.Empty, string.Empty);
+                var msg = new MessageDialog("Unable to authorize with provided credentials.");
                 await msg.ShowAsync();
             }
             try
@@ -73,8 +73,8 @@ namespace MALClient.Pages
         private async void LogOut(object sender, RoutedEventArgs e)
         {
             var page = Utils.GetMainPageInstance();
-            Creditentials.SetAuthStatus(false);
-            Creditentials.Update("", "");
+            Credentials.SetAuthStatus(false);
+            Credentials.Update("", "");
             await Utils.RemoveProfileImg();
             ViewModelLocator.AnimeList.LogOut();
             await page.Navigate(PageIndex.PageLogIn);

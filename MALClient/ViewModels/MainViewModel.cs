@@ -31,7 +31,7 @@ namespace MALClient.ViewModels
             MenuPaneState = false;
             
             await Task.Delay(1);
-            if (!Creditentials.Authenticated && PageUtils.PageRequiresAuth(index))
+            if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
                 await msg.ShowAsync();
@@ -150,7 +150,7 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-                Navigate(Creditentials.Authenticated
+                Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
                 //entry point whatnot

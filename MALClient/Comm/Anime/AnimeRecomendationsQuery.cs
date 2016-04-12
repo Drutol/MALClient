@@ -32,7 +32,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HttpClassMgr.ClassDefs["#Recommendations:recommNode:class"]).Take(20); //constant 20 recommendations
+                            HtmlClassMgr.ClassDefs["#Recommendations:recommNode:class"]).Take(20); //constant 20 recommendations
 
             foreach (var recomNode in recomNodes)
             {
@@ -40,7 +40,7 @@ namespace MALClient.Comm
                 {
                     var desc =
                         recomNode.ChildNodes.First(
-                            node => node.Name == "div" && node.Attributes["class"].Value == HttpClassMgr.ClassDefs["#Recommendations:recommNodeDesc:class"]);
+                            node => node.Name == "div" && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Recommendations:recommNodeDesc:class"]);
                     if (desc != null)
                     {
                         var titleNodes =

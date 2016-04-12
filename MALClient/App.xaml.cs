@@ -79,7 +79,7 @@ namespace MALClient
                 rootFrame.Navigate(typeof (MainPage), e.Arguments);
             }
             // Ensure the current window is active
-            HttpClassMgr.Init();
+            HtmlClassMgr.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();

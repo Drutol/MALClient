@@ -41,7 +41,7 @@ namespace MALClient.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as ProfilePageNavigationArgs;
-            Utils.GetMainPageInstance().CurrentStatus = $"{Creditentials.UserName} - Profile";
+            Utils.GetMainPageInstance().CurrentStatus = $"{Credentials.UserName} - Profile";
 
             NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
 

@@ -115,7 +115,7 @@
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
     <Compile Include="Comm\HttpClassDefinitionsQuery.cs" />
-    <Compile Include="Comm\HttpClassMgr.cs" />
+    <Compile Include="Comm\HtmlClassMgr.cs" />
     <Compile Include="Comm\MalListParameters.cs" />
     <Compile Include="Comm\MalListQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -210,7 +210,7 @@
     </Compile>
     <Compile Include="Utils\AnimeStatusEnum.cs" />
     <Compile Include="Utils\AnimeTypeEnum.cs" />
-    <Compile Include="Utils\Creditentials.cs" />
+    <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\RateReminderPopUp.cs" />

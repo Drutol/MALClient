@@ -143,8 +143,8 @@ namespace MALClient.ViewModels
                     //try to set list source - display notice on fail
                     if (string.IsNullOrWhiteSpace(ListSource))
                     {
-                        if (!string.IsNullOrWhiteSpace(Creditentials.UserName))
-                            ListSource = Creditentials.UserName;
+                        if (!string.IsNullOrWhiteSpace(Credentials.UserName))
+                            ListSource = Credentials.UserName;
                     }
                     if (string.IsNullOrWhiteSpace(ListSource))
                     {
@@ -772,7 +772,7 @@ namespace MALClient.ViewModels
                     if (force)
                         _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
                     else if (_allLoadedAuthAnimeItems.Count > 0 &&
-                             string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                             string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                         _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
                     break;
                 case AnimeListWorkModes.Manga:
@@ -781,7 +781,7 @@ namespace MALClient.ViewModels
                     if (force)
                         _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
                     else if (_allLoadedAuthMangaItems.Count > 0 &&
-                             string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                             string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                         _allLoadedMangaItems = _allLoadedAuthMangaItems;
                     break;
                 default:
@@ -819,8 +819,8 @@ namespace MALClient.ViewModels
                     DataCache.SaveDataForUser(ListSource, data, requestedMode);
                 }
                 var parsedData = XDocument.Parse(data);
-                var auth = Creditentials.Authenticated &&
-                           string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase);
+                var auth = Credentials.Authenticated &&
+                           string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase);
                 switch (requestedMode)
                 {
                     case AnimeListWorkModes.Anime:
@@ -835,7 +835,7 @@ namespace MALClient.ViewModels
                                 Convert.ToInt32(item.Element("my_score").Value)));
 
                         //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
-                        if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                        if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
@@ -852,7 +852,7 @@ namespace MALClient.ViewModels
                                 Convert.ToInt32(item.Element("series_volumes").Value)));
 
                         //_allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
-                        if (string.Equals(ListSource, Creditentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                        if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthMangaItems = _allLoadedMangaItems;
                         break;
                     default:
@@ -863,8 +863,8 @@ namespace MALClient.ViewModels
             if (WorkMode != requestedMode)
                 return; // manga is loaded top manga can proceed loading
 
-            AppBtnGoBackToMyListVisibility = Creditentials.Authenticated &&
-                                             !string.Equals(ListSource, Creditentials.UserName,
+            AppBtnGoBackToMyListVisibility = Credentials.Authenticated &&
+                                             !string.Equals(ListSource, Credentials.UserName,
                                                  StringComparison.CurrentCultureIgnoreCase)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
@@ -880,7 +880,7 @@ namespace MALClient.ViewModels
         /// <returns></returns>
         public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true)
         {
-            if (!Creditentials.Authenticated)
+            if (!Credentials.Authenticated)
                 return null;
             try
             {
@@ -1144,7 +1144,7 @@ namespace MALClient.ViewModels
             {
                 return _goBackToMyListCommand ?? (_goBackToMyListCommand = new RelayCommand(() =>
                 {
-                    ListSource = Creditentials.UserName;
+                    ListSource = Credentials.UserName;
                     FetchData();
                 }));
             }
@@ -1458,7 +1458,7 @@ namespace MALClient.ViewModels
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-            ListSource = Creditentials.UserName;
+            ListSource = Credentials.UserName;
             _prevListSource = "";
         }
 

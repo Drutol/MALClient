@@ -39,7 +39,7 @@ namespace MALClient.ViewModels
 
         private bool _profileButtonVisibility;
 
-        private int _stackPanelHeightSum = Creditentials.Authenticated ? 330 : 380;
+        private int _stackPanelHeightSum = Credentials.Authenticated ? 330 : 380;
         //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;
@@ -231,7 +231,7 @@ namespace MALClient.ViewModels
 
         internal async Task UpdateProfileImg(bool dl = true)
         {
-            if (Creditentials.Authenticated)
+            if (Credentials.Authenticated)
             {
                 try
                 {

@@ -218,7 +218,7 @@ namespace MALClient
 
         public static async Task DownloadProfileImg()
         {
-            if (!Creditentials.Authenticated)
+            if (!Credentials.Authenticated)
                 return;
             try
             {
@@ -234,7 +234,7 @@ namespace MALClient
                             response =
                                 await
                                     http.GetByteArrayAsync(
-                                        $"http://cdn.myanimelist.net/images/userimages/{Creditentials.Id}.jpg"));
+                                        $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                 //get bytes
 
                 var fs = await thumb.OpenStreamForWriteAsync(); //get stream

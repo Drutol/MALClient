@@ -8,7 +8,7 @@ namespace MALClient.Comm
         public AnimeRemoveQuery(string id)
         {
             Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/delete/{id}.xml"));
-            Request.Credentials = Creditentials.GetHttpCreditentials();
+            Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

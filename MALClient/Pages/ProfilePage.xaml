@@ -265,7 +265,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="140" />
-                                <RowDefinition Height="215" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="Anime Stats" FontWeight="Medium" FontSize="23" HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -345,64 +345,19 @@
                                             <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimePlanned}" FontWeight="Medium"
                                                HorizontalAlignment="Center" TextAlignment="Center" />
                                         </Grid>
-                                    </StackPanel>
-                                    <StackPanel HorizontalAlignment="Center" Width="Auto">
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeTotal}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
                                         <MenuFlyoutSeparator Margin="5,5" />
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Rewatched" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeRewatched}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
-                                        <MenuFlyoutSeparator Margin="5,5" />
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Episodes" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeEpisodes}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
-                                        <MenuFlyoutSeparator Margin="5,5" />
-                                        <TextBlock Text="{Binding CurrentData.AnimeDaysBind}" VerticalAlignment="Center"
-                                           HorizontalAlignment="Center" Margin="10"
+                                        <TextBlock Text="{Binding CurrentData.AnimeDaysBind}" VerticalAlignment="Center"                            HorizontalAlignment="Center" Margin="10"
                                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                            FontWeight="Bold" FontSize="20" />
                                     </StackPanel>
                                 </StackPanel>
-
                             </Grid>
                         </Grid >
                         <Grid Margin="10,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
                                 <RowDefinition Height="140" />
-                                <RowDefinition Height="215" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="Manga Stats" FontWeight="Medium" FontSize="23"
                                HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -480,63 +435,6 @@
                                             <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center"
                                                TextAlignment="Center" />
                                             <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaPlanned}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
-                                    </StackPanel>
-                                    <StackPanel HorizontalAlignment="Center" Width="Auto">
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Entries" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaTotal}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
-                                        <MenuFlyoutSeparator Margin="5,5" />
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Reread" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaReread}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
-                                        <MenuFlyoutSeparator Margin="5,5" />
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Chapters" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaChapters}" FontWeight="Medium"
-                                               HorizontalAlignment="Center" TextAlignment="Center" />
-                                        </Grid>
-                                        <MenuFlyoutSeparator Margin="5,5" />
-                                        <Grid HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" MaxWidth="80" />
-                                                <ColumnDefinition Width="50" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Fill="Black" Width="20" Height="20" VerticalAlignment="Center"
-                                             HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Volumes" HorizontalAlignment="Center"
-                                               TextAlignment="Center" />
-                                            <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaVolumes}" FontWeight="Medium"
                                                HorizontalAlignment="Center" TextAlignment="Center" />
                                         </Grid>
                                         <MenuFlyoutSeparator Margin="5,5" />

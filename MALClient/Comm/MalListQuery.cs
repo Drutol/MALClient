@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using MALClient.Models;
 
 namespace MALClient.Comm
 {
@@ -10,6 +13,22 @@ namespace MALClient.Comm
             Request = WebRequest.Create(Uri.EscapeUriString(UriBuilder.GetUri(UriType.MalListQuery, args)));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
+        }
+
+        public async Task<XElement> GetProfileStats()
+        {
+            var raw = await GetRequestResponse();
+            if (string.IsNullOrEmpty(raw))
+                return null;
+            try
+            {
+                XElement doc = XElement.Parse(raw);
+                return doc.Element("myinfo");
+            }
+            catch (Exception)
+            {
+               return null;
+            }         
         }
     }
 }

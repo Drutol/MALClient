@@ -723,7 +723,7 @@ namespace MALClient.ViewModels
             }
             else
             {
-                AddToListVisibility = _seasonalState && Creditentials.Authenticated
+                AddToListVisibility = _seasonalState && Credentials.Authenticated
                     ? Visibility.Visible
                     : Visibility.Collapsed;
                 UpdateButtonsEnableState = false;
@@ -739,7 +739,7 @@ namespace MALClient.ViewModels
 
         private void AdjustIncrementButtonsVisibility()
         {
-            if (!Auth || !Creditentials.Authenticated)
+            if (!Auth || !Credentials.Authenticated)
             {
                 IncrementEpsVisibility = Visibility.Collapsed;
                 DecrementEpsVisibility = Visibility.Collapsed;

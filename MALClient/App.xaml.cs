@@ -84,7 +84,7 @@ namespace MALClient
             }
             // Ensure the current window is active
 
-            HttpClassMgr.Init();
+            HtmlClassMgr.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             ProcessUpdate();

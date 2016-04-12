@@ -46,7 +46,7 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             ResetActiveButton();
-            SetActiveButton(Creditentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList) : HamburgerButtons.LogIn);
+            SetActiveButton(Credentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList) : HamburgerButtons.LogIn);
         }
 
         private Color RequestedFontColor
@@ -244,7 +244,7 @@ namespace MALClient.ViewModels
 
         internal async Task UpdateProfileImg(bool dl = true)
         {
-            if (Creditentials.Authenticated)
+            if (Credentials.Authenticated)
             {
                 try
                 {

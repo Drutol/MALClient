@@ -50,7 +50,7 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HttpClassMgr.ClassDefs["#Related:relationsNode:class"]);
+                            HtmlClassMgr.ClassDefs["#Related:relationsNode:class"]);
 
                 foreach (var row in relationsNode.Descendants("tr"))
                 {

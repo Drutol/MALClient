@@ -12,7 +12,7 @@ namespace MALClient.Comm
     /// As we are scrapping html here this thing here will try to fetch class data file from github
     /// so I don't have to compile next build in case something changes.
     /// </summary>
-    public static class HttpClassMgr
+    public static class HtmlClassMgr
     {
         /// <summary>
         /// Container for all http class definitions. You guessed right xd

@@ -42,12 +42,12 @@ namespace MALClient.Comm
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HttpClassMgr.ClassDefs["#Top:mainNode:class"]);
+                            HtmlClassMgr.ClassDefs["#Top:mainNode:class"]);
             var i = 0;
             foreach (var item in topNodes.Descendants("tr").Where(node =>
                 node.Attributes.Contains("class") &&
                 node.Attributes["class"].Value ==
-                HttpClassMgr.ClassDefs["#Top:topNode:class"]))
+                HtmlClassMgr.ClassDefs["#Top:topNode:class"]))
             {
                 try
                 {
@@ -55,7 +55,7 @@ namespace MALClient.Comm
                     var epsText = item.Descendants("div").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        HttpClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
+                        HtmlClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
@@ -66,13 +66,13 @@ namespace MALClient.Comm
                     var titleNode = item.Descendants("a").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        HttpClassMgr.ClassDefs[_animeMode ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
+                        HtmlClassMgr.ClassDefs[_animeMode ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(7).Split('/')[2]);
                     current.Score = float.Parse(item.Descendants("span").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        HttpClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());
+                        HtmlClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());
                     current.Index = ++i;
 
 

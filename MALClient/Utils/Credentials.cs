@@ -3,7 +3,7 @@ using Windows.Storage;
 
 namespace MALClient
 {
-    public static class Creditentials
+    public static class Credentials
     {
         public static string UserName { get; private set; } =
             (string) ApplicationData.Current.LocalSettings.Values["Username"];

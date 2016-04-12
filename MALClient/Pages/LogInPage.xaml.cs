@@ -44,12 +44,6 @@ namespace MALClient.Pages
                 var doc = XDocument.Parse(response);
                 Creditentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Creditentials.SetAuthStatus(true);
-                await Utils.RemoveProfileImg();
-                var hamburger = ViewModelLocator.Hamburger;
-                ViewModelLocator.AnimeList.LogIn();
-                await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
-                hamburger.SetActiveButton(HamburgerButtons.AnimeList);
-                await hamburger.UpdateProfileImg();
             }
             catch (Exception)
             {
@@ -58,6 +52,20 @@ namespace MALClient.Pages
                 var msg = new MessageDialog("Unable to authorize with provided creditentials.");
                 await msg.ShowAsync();
             }
+            try
+            {
+                await Utils.RemoveProfileImg();
+                await ViewModelLocator.Hamburger.UpdateProfileImg();
+            }
+            catch (Exception)
+            {
+                //
+            }
+
+            ViewModelLocator.AnimeList.LogIn();
+            await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+            ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+            
             _authenticating = false;
             ProgressRing.Visibility = Visibility.Collapsed;
         }

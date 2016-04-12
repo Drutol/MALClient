@@ -77,7 +77,7 @@
                         Visibility="{Binding UpdateButtonsVisibility}">
                     <Button.ContentTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </Button.ContentTemplate>
                     <Button.Flyout>
@@ -116,7 +116,7 @@
                         Visibility="{Binding UpdateButtonsVisibility}">
                     <Button.ContentTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </Button.ContentTemplate>
                     <Button.Flyout>

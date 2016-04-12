@@ -70,11 +70,10 @@
                         <RowDefinition Height="Auto" MinHeight="120"/>
                     </Grid.RowDefinitions>
                     <StackPanel Width="220">
-                        <Grid Background="{ThemeResource BrushHamburgerSplitter}" HorizontalAlignment="Stretch" 
-                          BorderThickness="10,0,0,0" BorderBrush="{ThemeResource BrushHamburgerSplitterBorder}"
-                          Padding="5" Margin="0,5">
-                            <TextBlock Text="Anime" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center" />
-                        </Grid>
+                        <StackPanel Background="{ThemeResource BrushHamburgerSplitter}" Margin="0,3,0,0">
+                            <TextBlock Text="Anime" FontWeight="SemiBold" FontSize="17" TextAlignment="Center" Margin="0,4,0,0" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <MenuFlyoutSeparator Margin="0,5,0,0" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                        </StackPanel>
                         <Button VerticalContentAlignment="Center" Background="Transparent"
                             BorderThickness="0" PointerEntered="Button_PointerEntered"
                             PointerExited="Button_PointerExited"
@@ -112,7 +111,7 @@
                                     <SymbolIcon Symbol="Remote"/>
                                 </Button>
                                 <Grid x:Name="AnimeFiltersList"  Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Height="0">
-                                    <Grid Background="{ThemeResource BrushAppBars}" VerticalAlignment="Stretch" 
+                                    <Grid Background="{ThemeResource BrushHamburgerDropdownBackground}" VerticalAlignment="Stretch" 
                                           Width="35" HorizontalAlignment="Left"
                                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeList]}"/>
                                     <local:AlternatingListView Background="{ThemeResource BrushAppBarInner}" x:Name="AlternatingListViewAnime"                                                            
@@ -237,11 +236,11 @@
                                        TextAlignment="Center" />
                             </Grid>
                         </Button>
-                        <Grid Background="{ThemeResource BrushHamburgerSplitter}" HorizontalAlignment="Stretch"
-                          BorderThickness="10,0,0,0" BorderBrush="{ThemeResource BrushHamburgerSplitterBorder}"
-                          Padding="5" Margin="0,5">
-                            <TextBlock Text="Manga" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center" />
-                        </Grid>
+                        <StackPanel Background="{ThemeResource BrushHamburgerSplitter}" HorizontalAlignment="Stretch">
+                            <MenuFlyoutSeparator Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <TextBlock Text="Manga" FontWeight="SemiBold" FontSize="17" TextAlignment="Center" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <MenuFlyoutSeparator Margin="2,5,2,0" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                        </StackPanel>
                         <Button VerticalContentAlignment="Center" Background="Transparent"
                             BorderThickness="0" PointerEntered="Button_PointerEntered"
                             PointerExited="Button_PointerExited"
@@ -280,7 +279,7 @@
                                     <SymbolIcon Symbol="Remote"/>
                                 </Button>
                                 <Grid x:Name="MangaFiltersList"  Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Height="0">
-                                    <Grid Background="{ThemeResource BrushAppBars}" VerticalAlignment="Stretch" 
+                                    <Grid Background="{ThemeResource BrushHamburgerDropdownBackground}" VerticalAlignment="Stretch" 
                                           Width="35" HorizontalAlignment="Left"
                                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"/>
                                     <local:AlternatingListView Background="{ThemeResource BrushAppBarInner}" x:Name="AlternatingListViewManga"                                                            

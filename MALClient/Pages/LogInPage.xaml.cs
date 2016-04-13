@@ -108,5 +108,11 @@ namespace MALClient.Pages
         {
             await Launcher.LaunchUriAsync(new Uri("http://myanimelist.net/register.php"));
         }
+
+        private async void ButtonProblems_OnClick(object sender, RoutedEventArgs e)
+        {
+            var msg = new MessageDialog("If you are experiencing constant error messages while trying to log in , resetting your password on MAL may solve this issue. Why you may ask... MAL api is just very very bad and it tends to do such things which are beyond my control.");
+            await msg.ShowAsync();
+        }
     }
 }

@@ -355,8 +355,8 @@
                         <MenuFlyoutSeparator Margin="5"/>
                         <Button VerticalContentAlignment="Center" Background="Transparent"
                             BorderThickness="0" PointerEntered="Button_PointerEntered"
-                            PointerExited="Button_PointerExited" Visibility="Collapsed"
-                            Command="{Binding ButtonAdCommand}">
+                            PointerExited="Button_PointerExited" Visibility="Collapsed">
+                            <!--Command="{Binding ButtonAdCommand}">-->
                             <Grid Width="220" Height="35">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="35" />

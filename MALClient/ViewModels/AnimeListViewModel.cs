@@ -844,6 +844,8 @@ namespace MALClient.ViewModels
                                 Convert.ToInt32(item.Element("my_status").Value),
                                 Convert.ToInt32(item.Element("my_watched_episodes").Value),
                                 Convert.ToInt32(item.Element("series_episodes").Value),
+                                item.Element("my_start_date").Value,
+                                item.Element("my_finish_date").Value,
                                 Convert.ToInt32(item.Element("my_score").Value)));
 
                         //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
@@ -859,6 +861,8 @@ namespace MALClient.ViewModels
                                 Convert.ToInt32(item.Element("my_status").Value),
                                 Convert.ToInt32(item.Element("my_read_chapters").Value),
                                 Convert.ToInt32(item.Element("series_chapters").Value),
+                                item.Element("my_start_date").Value,
+                                item.Element("my_finish_date").Value,
                                 Convert.ToInt32(item.Element("my_score").Value),
                                 Convert.ToInt32(item.Element("my_read_volumes").Value),
                                 Convert.ToInt32(item.Element("series_volumes").Value)));

@@ -162,6 +162,26 @@ namespace MALClient.ViewModels
                 //we have item on the list , so there's valid data here
                 MyDetailsVisibility = true;
                 AddAnimeVisibility = false;
+                try
+                {
+                    _startDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.StartDate);
+                    RaisePropertyChanged(() => StartDateTimeOffset);
+                }
+                catch (Exception)
+                {
+                    StartDateTimeOffset = DateTimeOffset.Now;
+                }
+                try
+                {
+                    _endDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.EndDate);
+                    RaisePropertyChanged(() => EndDateTimeOffset);
+                }
+                catch (Exception)
+                {
+                    EndDateTimeOffset = DateTimeOffset.Now;
+                }
+
+
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyStatusBind);
                 RaisePropertyChanged(() => MyScoreBind);
@@ -422,6 +442,34 @@ namespace MALClient.ViewModels
             {
                 _detailedDataVisibility = value;
                 RaisePropertyChanged(() => DetailedDataVisibility);
+            }
+        }
+
+        private DateTimeOffset _startDateTimeOffset;//= DateTimeOffset.Parse("2015-09-10");
+
+        public DateTimeOffset StartDateTimeOffset
+        {
+            get { return _startDateTimeOffset; }
+            set
+            {
+                _startDateTimeOffset = value;
+                _animeItemReference.StartDate = value.ToString("yyyy-mm-dd");
+                LaunchUpdate();
+                RaisePropertyChanged(() => StartDateTimeOffset);
+            }
+        }
+
+        private DateTimeOffset _endDateTimeOffset;
+
+        public DateTimeOffset EndDateTimeOffset
+        {
+            get { return _endDateTimeOffset; }
+            set
+            {
+                _endDateTimeOffset = value;
+                _animeItemReference.EndDate = value.ToString("yyyy-mm-dd");
+                LaunchUpdate();
+                RaisePropertyChanged(() => EndDateTimeOffset);
             }
         }
 
@@ -749,7 +797,14 @@ namespace MALClient.ViewModels
         {
             if (_animeMode)
                 return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore);
-            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, MyScore, MyVolumes);
+            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, MyScore, MyVolumes,_animeItemReference.StartDate,_animeItemReference.EndDate);
+        }
+
+        private async void LaunchUpdate()
+        {
+            LoadingUpdate = true;
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+            LoadingUpdate = false;
         }
 
         private async void ChangeStatus(object status)
@@ -866,8 +921,8 @@ namespace MALClient.ViewModels
 
 
             var animeItem = _animeMode
-                ? new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, 0)
-                : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, 0, 0, AllVolumes);
+                ? new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes,DateTimeOffset.Now.ToString("yyyy-mm-dd"), DateTimeOffset.Now.ToString("yyyy-mm-dd"), 0)
+                : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, DateTimeOffset.Now.ToString("yyyy-mm-dd"), DateTimeOffset.Now.ToString("yyyy-mm-dd"), 0, 0, AllVolumes);
             _animeItemReference = animeItem.ViewModel;
             MyScore = 0;
             MyStatus = 6;

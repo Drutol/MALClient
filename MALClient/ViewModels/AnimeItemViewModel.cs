@@ -123,7 +123,7 @@ namespace MALClient.ViewModels
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,
+            int myScore,string startDate,string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
             //We are loading an item that IS on the list
         {
@@ -137,7 +137,8 @@ namespace MALClient.ViewModels
             Title = name;
             MyEpisodes = myEps;
             ShowMoreVisibility = Visibility.Collapsed;
-
+            StartDate = startDate;
+            EndDate = endDate;
             //We are not seasonal so it's already on list            
             AddToListVisibility = Visibility.Collapsed;
             SetAuthStatus(auth, setEpsAuth);
@@ -149,9 +150,9 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,
+            int myScore,string startDate,string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
-            : this(auth, name, img, id, myStatus, myEps, allEps, myScore, parent, setEpsAuth)
+            : this(auth, name, img, id, myStatus, myEps, allEps, myScore,startDate,endDate, parent, setEpsAuth)
         {
             AllVolumes = allVolumes;
         }
@@ -179,6 +180,8 @@ namespace MALClient.ViewModels
 
         private readonly int _allEpisodes;
         public int AllEpisodes => _allEpisodes;
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
         public int AllVolumes { get; }
 
         public string AirDayBind
@@ -214,20 +217,6 @@ namespace MALClient.ViewModels
             {
                 _titleMargin = value;
                 RaisePropertyChanged(() => TitleMargin);
-            }
-        }
-
-        private Orientation _incrementButtonsOrientation = Orientation.Vertical;
-
-        public Orientation IncrementButtonsOrientation
-        {
-            get { return _incrementButtonsOrientation; }
-            set
-            {
-                if (_incrementButtonsOrientation == value)
-                    return;
-                _incrementButtonsOrientation = value;
-                RaisePropertyChanged(() => IncrementButtonsOrientation);
             }
         }
 

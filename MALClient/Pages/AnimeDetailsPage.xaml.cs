@@ -70,5 +70,19 @@ namespace MALClient.Pages
                     break;
             }
         }
+
+
+        //if there was no date different than today's chosen by the user , we have to manually trigger the setter as binding won't do it
+        private void StartDatePickerFlyout_OnDatePicked(DatePickerFlyout sender, DatePickedEventArgs args)
+        {
+            if (!ViewModel._startDateValid)
+                ViewModel.StartDateTimeOffset = ViewModel.StartDateTimeOffset;
+        }
+
+        private void EndDatePickerFlyout_OnDatePicked(DatePickerFlyout sender, DatePickedEventArgs args)
+        {
+            if (!ViewModel._endDateValid)
+                ViewModel.EndDateTimeOffset = ViewModel.EndDateTimeOffset;
+        }
     }
 }

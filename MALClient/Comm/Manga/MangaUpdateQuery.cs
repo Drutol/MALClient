@@ -26,18 +26,18 @@ namespace MALClient.Comm
             xml.AppendLine($"<status>{myStatus}</status>");
             xml.AppendLine($"<score>{myScore}</score>");
             xml.AppendLine($"<volume>{myVol}</volume>");
-            xml.AppendLine("<storage_type></storage_type>");
-            xml.AppendLine("<storage_value></storage_value>");
-            xml.AppendLine("<times_rewatched></times_rewatched>");
-            xml.AppendLine("<rewatch_value></rewatch_value>");
+            //xml.AppendLine("<storage_type></storage_type>");
+            //xml.AppendLine("<storage_value></storage_value>");
+            //xml.AppendLine("<times_rewatched></times_rewatched>");
+            //xml.AppendLine("<rewatch_value></rewatch_value>");
             xml.AppendLine($"<date_start>{startDate}</date_start>");
             xml.AppendLine($"<date_finish>{endDate}</date_finish>");
-            xml.AppendLine("<priority></priority>");
-            xml.AppendLine("<enable_discussion></enable_discussion>");
-            xml.AppendLine("<enable_rewatching></enable_rewatching>");
-            xml.AppendLine("<comments></comments>");
-            xml.AppendLine("<fansub_group></fansub_group>");
-            xml.AppendLine("<tags></tags>");
+            //xml.AppendLine("<priority></priority>");
+            //xml.AppendLine("<enable_discussion></enable_discussion>");
+            //xml.AppendLine("<enable_rewatching></enable_rewatching>");
+            //xml.AppendLine("<comments></comments>");
+            //xml.AppendLine("<fansub_group></fansub_group>");
+            //xml.AppendLine("<tags></tags>");
             xml.AppendLine("</entry>");
 
 

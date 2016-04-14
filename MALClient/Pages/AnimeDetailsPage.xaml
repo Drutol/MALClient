@@ -215,16 +215,38 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="2,0,2,30" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Button Style="{StaticResource TextBlockButtonStyle}" Content="Start date">
-                        <Button.Flyout>
-                            <DatePickerFlyout Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        </Button.Flyout>
-                    </Button>                    
-                    <Button Style="{StaticResource TextBlockButtonStyle}" Content="End date">
-                        <Button.Flyout>
-                            <DatePickerFlyout Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        </Button.Flyout>
-                    </Button>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <SymbolIcon VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Symbol="Clear" Visibility="{Binding StartDateValidVisibility}">
+                            <SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX=".25" ScaleY=".25"/>
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
+                        <Button Grid.Column="1" Margin="-5,0,0,0" Style="{StaticResource TextBlockButtonStyle}" Content="Start date">
+                            <Button.Flyout>
+                                <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked" Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            </Button.Flyout>
+                        </Button>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Symbol="Clear" Visibility="{Binding EndDateValidVisibility}">
+                            <SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX=".25" ScaleY=".25"/>
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
+                        <Button Grid.Column="1" Margin="-5,0,0,0" Style="{StaticResource TextBlockButtonStyle}" Content="End date">
+                            <Button.Flyout>
+                                <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked" Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            </Button.Flyout>
+                        </Button>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </Grid>

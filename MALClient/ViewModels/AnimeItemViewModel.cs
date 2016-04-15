@@ -101,7 +101,6 @@ namespace MALClient.ViewModels
         }
 
         #region Constructors
-
         private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
         {
             _parentAbstraction = parent;
@@ -118,9 +117,9 @@ namespace MALClient.ViewModels
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,
+            int myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
-            //We are loading an item that IS on the list
+        //We are loading an item that IS on the list
         {
             //Assign fields
             Id = id;
@@ -132,7 +131,8 @@ namespace MALClient.ViewModels
             Title = name;
             MyEpisodes = myEps;
             ShowMoreVisibility = Visibility.Collapsed;
-
+            StartDate = startDate;
+            EndDate = endDate;
             //We are not seasonal so it's already on list            
             AddToListVisibility = Visibility.Collapsed;
             SetAuthStatus(auth, setEpsAuth);
@@ -144,22 +144,22 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,
+            int myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
-            : this(auth, name, img, id, myStatus, myEps, allEps, myScore, parent, setEpsAuth)
+            : this(auth, name, img, id, myStatus, myEps, allEps, myScore, startDate, endDate, parent, setEpsAuth)
         {
             AllVolumes = allVolumes;
         }
 
         public AnimeItemViewModel(SeasonalAnimeData data,
             AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
-            //We are loading an item that is NOT on the list and is seasonal
+        //We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
 
             Title = data.Title;
             MyScore = 0;
-            MyStatus = (int) AnimeStatus.AllOrAiring;
+            MyStatus = (int)AnimeStatus.AllOrAiring;
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
             Airing = _parentAbstraction.AirDay >= 0;
@@ -175,6 +175,8 @@ namespace MALClient.ViewModels
         private readonly int _allEpisodes;
         public int AllEpisodes => _allEpisodes;
         public int AllVolumes { get; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 
         public string AirDayBind
             =>

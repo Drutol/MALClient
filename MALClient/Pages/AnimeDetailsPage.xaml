@@ -114,8 +114,8 @@
                 </Button>
             </StackPanel>
             <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right"
-                              VerticalAlignment="Top" IsActive="True"
-                              Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
+                          VerticalAlignment="Top" IsActive="True"
+                          Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Grid.Row="0" Grid.Column="1"
                   Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                   Margin="5,-10,0,0">
@@ -213,6 +213,7 @@
                             </Button.Flyout>
                         </Button>
                     </StackPanel>
+
                 </StackPanel>
             </Grid>
         </Grid>
@@ -241,69 +242,112 @@
                                         <ColumnDefinition Width=".5*" />
                                         <ColumnDefinition Width=".5*" />
                                     </Grid.ColumnDefinitions>
-                                    <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
+                                    <Grid.Resources>
+                                        <Style TargetType="ListViewItem" x:Key="GeneralDetailsListItemStyle">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="1,1" />
+                                            <Setter Property="BorderBrush"
+                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <StackPanel>
+                                        <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
                                                                   BorderThickness="0,0,1,0"
                                                                   BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding LeftDetailsRow}">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="1,1" />
-                                                <Setter Property="BorderBrush"
-                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                <Setter Property="BorderThickness" Value="2,0,0,0" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem" BasedOn="{StaticResource GeneralDetailsListItemStyle}">
+                                                    <Setter Property="BorderThickness" Value="2,0,0,0" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
                                                                FontWeight="Normal" />
-                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
                                                                HorizontalAlignment="Right" Margin="3,0"
                                                                TextTrimming="CharacterEllipsis"
                                                                TextWrapping="WrapWholeWords" MaxLines="2"
                                                                FontWeight="SemiLight" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </controls:AlternatingListView>
-                                    <controls:AlternatingListView SelectionMode="None" Grid.Column="1"
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </controls:AlternatingListView>
+                                        <ListViewItem Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                               FontWeight="Normal" />
+                                                <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
+                                                               HorizontalAlignment="Right" Margin="11,0,0,0"
+                                                               Style="{StaticResource TextBlockButtonStyle}"
+                                                               FontWeight="SemiLight">
+                                                    <Button.Flyout>
+                                                        <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked"
+                                                                          Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </Grid>
+                                        </ListViewItem>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <controls:AlternatingListView SelectionMode="None" 
                                                                   BorderThickness="1,0,0,0"
                                                                   BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding RightDetailsRow}">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="1,1" />
-                                                <Setter Property="BorderBrush"
-                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                <Setter Property="BorderThickness" Value="0,0,2,0" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem" BasedOn="{StaticResource GeneralDetailsListItemStyle}">
+                                                    <Setter Property="BorderThickness" Value="0,0,2,0" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
                                                                FontWeight="Normal" VerticalAlignment="Center" />
-                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
                                                                HorizontalAlignment="Right" Margin="3,0"
                                                                TextTrimming="CharacterEllipsis"
                                                                TextWrapping="WrapWholeWords" MaxLines="2"
                                                                TextAlignment="Center"
                                                                FontWeight="SemiLight" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </controls:AlternatingListView>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </controls:AlternatingListView>
+                                        <ListViewItem Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="My End" HorizontalAlignment="Left"
+                                                               FontWeight="Normal" VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
+                                                               HorizontalAlignment="Right" Margin="11,0,0,0"
+                                                               Style="{StaticResource TextBlockButtonStyle}"
+                                                               FontWeight="SemiLight">
+                                                    <Button.Flyout>
+                                                        <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked"
+                                                                          Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </Grid>
+                                        </ListViewItem>
+                                    </StackPanel>
+                                    
                                 </Grid>
                                 <MenuFlyoutSeparator VerticalAlignment="Top" />
                                 <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center" />
@@ -514,7 +558,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonOpaque}">
-                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                             </Grid>
@@ -537,7 +581,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
-                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                                 <Pivot ItemsSource="{Binding Reviews}">
@@ -598,7 +642,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
-                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                                 <Pivot ItemsSource="{Binding Recommendations}"
@@ -678,7 +722,7 @@
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingRelated}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
-                                    <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
+                                    <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
                                 <ListView ItemsSource="{Binding RelatedAnime}" SelectionMode="None">
@@ -721,7 +765,7 @@
 
         <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}"
               Background="{ThemeResource BrushLoading}">
-            <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150" VerticalAlignment="Stretch"
+            <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>
 

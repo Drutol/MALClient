@@ -192,7 +192,7 @@
               Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100" Height="100"
                 IsActive="True" />
         </Grid>
     </Grid>

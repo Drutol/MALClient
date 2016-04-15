@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
+using MALClient.Pages;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -16,6 +17,8 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
+        public MainViewModel ViewModel => DataContext as MainViewModel;
+
 #pragma warning disable 4014
         public MainPage()
         {
@@ -52,5 +55,11 @@ namespace MALClient
         }
 
         #endregion
+
+        private void CurrentStatus_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            if(ViewModel.LastIndex == PageIndex.PageAnimeList)
+                CurrentStatusListFilterSelectorFlyout.ShowAt(sender as FrameworkElement);
+        }
     }
 }

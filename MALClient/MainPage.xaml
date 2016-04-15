@@ -37,8 +37,25 @@
                     Command="{Binding ReversePaneCommand}" />
             <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
                        TextTrimming="CharacterEllipsis"
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch" Tapped="CurrentStatus_OnTapped"
+                       Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout x:Name="CurrentStatusListFilterSelectorFlyout">
+                    <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter1Label}" Command="{Binding ChangeStatusCommand}"
+                                    CommandParameter="0" />
+                    <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
+                                    CommandParameter="1" />
+                    <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
+                                    CommandParameter="2" />
+                    <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
+                                    CommandParameter="3" />
+                    <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter5Label}" Command="{Binding ChangeStatusCommand}"
+                                    CommandParameter="4" />
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>  
+            </TextBlock>
+           
+            
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

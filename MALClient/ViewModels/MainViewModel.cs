@@ -23,6 +23,7 @@ namespace MALClient.ViewModels
     {
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
+        public PageIndex LastIndex { get; private set; }
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
@@ -48,7 +49,7 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageTopManga ||
                 index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
-
+            LastIndex = index;
 
 
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
@@ -234,6 +235,13 @@ namespace MALClient.ViewModels
 
                 ViewModelLocator.AnimeList.RefreshList(true);
             }
+        }
+
+        private ICommand _changeStatusCommand;
+
+        public ICommand ChangeStatusCommand
+        {
+            get { return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(s => ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = int.Parse(s))); }
         }
 
         private ICommand _reversePaneCommand;

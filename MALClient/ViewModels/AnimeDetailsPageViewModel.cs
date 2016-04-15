@@ -164,7 +164,7 @@ namespace MALClient.ViewModels
                 try
                 {
                     _startDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.StartDate);
-                    _startDateValid = true;
+                    StartDateValid = true;
                     RaisePropertyChanged(() => StartDateValidVisibility);
                 }
                 catch (Exception)
@@ -174,7 +174,7 @@ namespace MALClient.ViewModels
                 try
                 {
                     _endDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.EndDate);
-                    _endDateValid = true;
+                    EndDateValid = true;
                     RaisePropertyChanged(() => EndDateValidVisibility);
                 }
                 catch (Exception)
@@ -734,8 +734,8 @@ namespace MALClient.ViewModels
 
 
         private DateTimeOffset _startDateTimeOffset;//= DateTimeOffset.Parse("2015-09-10");
-        public bool _startDateValid;
-        public Visibility StartDateValidVisibility => _startDateValid ? Visibility.Collapsed : Visibility.Visible;
+        public bool StartDateValid;
+        public Visibility StartDateValidVisibility => StartDateValid ? Visibility.Collapsed : Visibility.Visible;
         public DateTimeOffset StartDateTimeOffset
         {
             get { return _startDateTimeOffset; }
@@ -743,7 +743,7 @@ namespace MALClient.ViewModels
             {
                 _startDateTimeOffset = value;
                 _animeItemReference.StartDate = value.ToString("yyyy-MM-dd");
-                _startDateValid = true;
+                StartDateValid = true;
                 LaunchUpdate();
                 RaisePropertyChanged(() => StartDateTimeOffset);
                 RaisePropertyChanged(() => StartDateValidVisibility);
@@ -751,8 +751,8 @@ namespace MALClient.ViewModels
             }
         }
         private DateTimeOffset _endDateTimeOffset;
-        public bool _endDateValid;
-        public Visibility EndDateValidVisibility => _endDateValid ? Visibility.Collapsed : Visibility.Visible;
+        public bool EndDateValid;
+        public Visibility EndDateValidVisibility => EndDateValid ? Visibility.Collapsed : Visibility.Visible;
         public DateTimeOffset EndDateTimeOffset
         {
             get { return _endDateTimeOffset; }
@@ -760,7 +760,7 @@ namespace MALClient.ViewModels
             {
                 _endDateTimeOffset = value;
                 _animeItemReference.EndDate = value.ToString("yyyy-MM-dd");
-                _endDateValid = true;
+                EndDateValid = true;
                 LaunchUpdate();
                 RaisePropertyChanged(() => EndDateTimeOffset);
                 RaisePropertyChanged(() => EndDateValidVisibility);
@@ -825,11 +825,11 @@ namespace MALClient.ViewModels
         {
             if (_animeMode)
                 return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore,
-                    (_startDateValid ? _animeItemReference.StartDate : "0000-00-00"), //if date was untouched return "no date" value
-                    (_endDateValid ? _animeItemReference.EndDate : "0000-00-00"));
+                    (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"), //if date was untouched return "no date" value
+                    (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
             return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, MyScore, MyVolumes,
-                (_startDateValid ? _animeItemReference.StartDate : "0000-00-00"),
-                (_endDateValid ? _animeItemReference.EndDate : "0000-00-00"));
+                (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"),
+                (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
         }
 
         private async void LaunchUpdate()

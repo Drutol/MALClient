@@ -42,7 +42,7 @@
                     <RowDefinition Height="150" />
                     <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
                 </Grid.RowDefinitions>
-                <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,2" Grid.Column="0">
+                <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1" Grid.Column="0">
                     <Image Tapped="Image_OnTapped" Margin="1,1,1,1" Source="{Binding DetailImage}"  Stretch="Fill" Width="120" Height="148" />
                 </Border>
 
@@ -290,7 +290,7 @@
                                                     <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                                FontWeight="Normal" />
                                                     <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
-                                                               HorizontalAlignment="Right" Margin="11,0,0,0"
+                                                               HorizontalAlignment="Right" Padding="3,0"
                                                                Style="{StaticResource TextBlockButtonStyle}"
                                                                FontWeight="SemiLight">
                                                         <Button.Flyout>
@@ -339,7 +339,7 @@
                                                     <TextBlock Text="My End" HorizontalAlignment="Left"
                                                                FontWeight="Normal" VerticalAlignment="Center"/>
                                                     <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
-                                                               HorizontalAlignment="Right" Margin="11,0,0,0"
+                                                               HorizontalAlignment="Right" Padding="3,0"
                                                                Style="{StaticResource TextBlockButtonStyle}"
                                                                FontWeight="SemiLight">
                                                         <Button.Flyout>

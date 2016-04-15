@@ -79,6 +79,14 @@
                                         <Setter Property="TextAlignment" Value="Left" />
                                     </Style>
                                 </StackPanel.Resources>
+                                <TextBlock Text="16.04.2016 - v3.3.23.0" />
+                                <TextBlock Text="Added support for Start and End dates." />
+                                <TextBlock Text="Grid view now provides buttons for quick status/score change." />
+                                <TextBlock Text="Tapping on status bar will now open list with anime list filters (when applicable)." />
+                                <TextBlock Text="Tapping on series image in details page will now allow to zoom on it and download." />
+                                <TextBlock Text="Spinners are now smaller and hamburger menu fonts are thinner." />
+                                <TextBlock Text="Added help button in log in page." />
+                                <MenuFlyoutSeparator Margin="0,5"/>
                                 <TextBlock Text="07.04.2016 - v3.2.10.0" />
                                 <TextBlock Text="Profile page remade almost from scratch." />
                                 <TextBlock Text="Added favourites and recently updated anime/manga to profile page." />
@@ -88,12 +96,7 @@
                                 <TextBlock Text="Scaled down application tile images." />
                                 <TextBlock Text="Add/Remove anime button in detail page now has proper spinner." />
                                 <TextBlock Text="There should no longer be any '&amp;' in synopsis." />
-                                <MenuFlyoutSeparator Margin="0,5"/>
-                                <TextBlock Text="03.04.2016 - v3.1.6.0" />
-                                <TextBlock Text="Fixed oddities of search button." />
-                                <TextBlock Text="Fixed crashfix when trying to add manga in details page when navigated from related anime." />
-                                <TextBlock Text="Loading details now hides obscure empty fields." />
-                                <TextBlock Text="Added 'Support me button' you can watch advertisement on demand ^^." />
+
 
                             </StackPanel>
                         </StackPanel>

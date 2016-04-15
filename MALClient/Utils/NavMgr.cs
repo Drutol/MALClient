@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Input;
 using Windows.UI.Core;
 using MALClient.Pages;
 using MALClient.ViewModels;
@@ -20,6 +21,8 @@ namespace MALClient
 
         private static bool _wasOnStack;
         private static bool _handlerRegistered;
+
+        private static ICommand _currentOverride;
 
         public static void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
             //about because it is not used anywhere...
@@ -51,6 +54,12 @@ namespace MALClient
         private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
+            if (_currentOverride != null)
+            {
+                _currentOverride.Execute(null);
+                _currentOverride = null;
+                return;
+            }
             if (_detailsNavStack.Count == 0) //nothing on the stack = standard
                 await ViewModelLocator.Main.Navigate(_pageTo, _args);
             else //take an element from stack otherwise
@@ -93,6 +102,11 @@ namespace MALClient
             var currentView = SystemNavigationManager.GetForCurrentView();
             currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             currentView.BackRequested -= CurrentViewOnBackRequested;
+        }
+
+        public static void RegisterOneTimeOverride(ICommand command)
+        {
+            _currentOverride = command;
         }
 
         #endregion

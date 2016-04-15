@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
@@ -254,6 +256,42 @@ namespace MALClient
             }
             await Task.Delay(2000);
             await ViewModelLocator.Hamburger.UpdateProfileImg(false);
+        }
+
+        public static async void DownloadCoverImage(string url,string title)
+        {
+            try
+            {
+                var sp = new FileSavePicker();
+                sp.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> { ".png" });
+                sp.SuggestedFileName = $"{title}-cover_art";
+
+                var file = await sp.PickSaveFileAsync();
+                if(file == null)
+                    return;
+                var http = new HttpClient();
+                byte[] response = { };
+
+                //get bytes
+                await Task.Run(async () => response = await http.GetByteArrayAsync(url));
+                
+
+                var fs = await file.OpenStreamForWriteAsync(); //get stream
+                var writer = new DataWriter(fs.AsOutputStream());
+
+                writer.WriteBytes(response); //write
+                await writer.StoreAsync();
+                await writer.FlushAsync();
+
+                writer.Dispose();
+                 GiveStatusBarFeedback("File saved successfully.");
+            }
+            catch (Exception e)
+            {
+                GiveStatusBarFeedback("Error. File didn't save properly.");
+            }
+
         }
 
         public static string CleanAnimeTitle(string title)

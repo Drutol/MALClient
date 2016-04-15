@@ -338,7 +338,7 @@
                                     <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtLogin" Text="Log In" HorizontalAlignment="Stretch" FontWeight="SemiLight"
+                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Stretch" FontWeight="SemiLight"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>

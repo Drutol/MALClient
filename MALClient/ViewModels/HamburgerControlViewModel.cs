@@ -59,9 +59,9 @@ namespace MALClient.ViewModels
         private Color RequestedFontColor
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
+        public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
 
         public IHamburgerControlView View { get; set; }
-
 
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
@@ -318,6 +318,11 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses[val.ToString()] = new Thickness(3, 0, 0, 0);
             RaisePropertyChanged(() => TxtForegroundBrushes);
             RaisePropertyChanged(() => TxtBorderBrushThicknesses);
+        }
+
+        public void UpdateLogInLabel()
+        {
+            RaisePropertyChanged(() => LogInLabel);
         }
     }
 }

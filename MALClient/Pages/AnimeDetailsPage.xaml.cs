@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -83,6 +84,16 @@ namespace MALClient.Pages
         {
             if (!ViewModel._endDateValid)
                 ViewModel.EndDateTimeOffset = ViewModel.EndDateTimeOffset;
+        }
+
+        private void Image_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.ImageOverlayVisibility = Visibility.Visible;
+        }
+
+        private void ScrollViewer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            (sender as ScrollViewer).ZoomToFactor(1);
         }
     }
 }

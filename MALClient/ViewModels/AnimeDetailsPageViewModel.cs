@@ -493,6 +493,13 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _saveImageCommand;
+
+        public ICommand SaveImageCommand
+        {
+            get { return _saveImageCommand ?? (_saveImageCommand = new RelayCommand(() => Utils.DownloadCoverImage(_imgUrl,Title))); }
+        }
+
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand
@@ -794,6 +801,19 @@ namespace MALClient.ViewModels
             {
                 _removeAnimeBtnEnableState = value;
                 RaisePropertyChanged(() => RemoveAnimeBtnEnableState);
+            }
+        }
+        private Visibility _imageOverlayVisibility = Visibility.Collapsed;
+
+        public Visibility ImageOverlayVisibility
+        {
+            get { return _imageOverlayVisibility; }
+            set
+            {
+                _imageOverlayVisibility = value;
+                if(value == Visibility.Visible)
+                    NavMgr.RegisterOneTimeOverride(new RelayCommand(() => ImageOverlayVisibility = Visibility.Collapsed));
+                RaisePropertyChanged(() => ImageOverlayVisibility);
             }
         }
 

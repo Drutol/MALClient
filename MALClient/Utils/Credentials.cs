@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Windows.Storage;
+using MALClient.ViewModels;
 
 namespace MALClient
 {
@@ -34,6 +35,7 @@ namespace MALClient
         {
             Authenticated = status;
             ApplicationData.Current.LocalSettings.Values["Auth"] = status.ToString();
+            ViewModelLocator.Hamburger.UpdateLogInLabel();
         }
 
         public static void SetId(int id)

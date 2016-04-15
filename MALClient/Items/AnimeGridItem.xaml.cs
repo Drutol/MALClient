@@ -17,6 +17,10 @@ namespace MALClient.Items
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         public Flyout WatchedFlyout => null;
-        public Flyout MoreFlyout => FlyoutMore;
+
+        public void MoreFlyoutHide()
+        {
+            FlyoutMore.Hide();
+        }
     }
 }

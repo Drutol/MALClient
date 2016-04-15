@@ -20,7 +20,7 @@ namespace MALClient.ViewModels
     public interface IAnimeItemInteractions
     {
         Flyout WatchedFlyout { get; }
-        Flyout MoreFlyout { get; }
+        void MoreFlyoutHide();
     }
 
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
@@ -618,8 +618,8 @@ namespace MALClient.ViewModels
                        (_pinTileCustomCommand =
                            new RelayCommand(() =>
                            {
-                               ViewList?.MoreFlyout.Hide();
-                               ViewGrid?.MoreFlyout.Hide();
+                               ViewList?.MoreFlyoutHide();
+                               ViewGrid?.MoreFlyoutHide();
                                TileUrlInputVisibility = Visibility.Visible;
                            }));
             }
@@ -638,8 +638,8 @@ namespace MALClient.ViewModels
                            dp.SetText(
                                $"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
-                           ViewList?.MoreFlyout.Hide();
-                           ViewGrid?.MoreFlyout.Hide();
+                           ViewList?.MoreFlyoutHide();
+                           ViewGrid?.MoreFlyoutHide();
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
             }
@@ -654,8 +654,8 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           ViewList?.MoreFlyout.Hide();
-                           ViewGrid?.MoreFlyout.Hide();
+                           ViewList?.MoreFlyoutHide();
+                           ViewGrid?.MoreFlyoutHide();
                            await
                                Launcher.LaunchUriAsync(
                                    new Uri(
@@ -672,8 +672,8 @@ namespace MALClient.ViewModels
             {
                 return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
                 {
-                    ViewList?.MoreFlyout.Hide();
-                    ViewGrid?.MoreFlyout.Hide();
+                    ViewList?.MoreFlyoutHide();
+                    ViewGrid?.MoreFlyoutHide();
                     if (SecondaryTile.Exists(Id.ToString()))
                     {
                         var msg = new MessageDialog("Tile for this anime already exists.");

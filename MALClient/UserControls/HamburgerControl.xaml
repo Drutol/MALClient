@@ -79,7 +79,7 @@
                                                     CommandParameter="0">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -90,7 +90,7 @@
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtList" Text="Anime List" FontWeight="Medium"
+                                                    <TextBlock x:Name="TxtList" Text="Anime List"  
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -104,7 +104,7 @@
                                                     CommandParameter="3">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -116,7 +116,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtSearch" Text="Anime Search"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -131,7 +131,7 @@
                                                     CommandParameter="8">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -143,7 +143,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Seasonal]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -158,7 +158,7 @@
                                                     CommandParameter="7">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -170,7 +170,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtRecom , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtRecom" Text="Recommendations"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Recommendations]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -185,7 +185,7 @@
                                                     CommandParameter="11">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -197,7 +197,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtTop" Text="Top Anime"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -217,7 +217,7 @@
                                                     CommandParameter="9">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -229,7 +229,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtMangaList" Text="Manga List"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -243,7 +243,7 @@
                                                     CommandParameter="10">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -255,7 +255,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -270,7 +270,7 @@
                                                     CommandParameter="12">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="35" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -282,7 +282,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtTopManga" Text="Top Manga"
-                                                               FontWeight="Medium"
+                                                                
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
                                                                HorizontalAlignment="Stretch" Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -302,7 +302,7 @@
                                     Command="{Binding ButtonAdCommand}">
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
@@ -329,7 +329,7 @@
                                     CommandParameter="4">
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border BorderThickness="{Binding TxtBorderBrushThicknesses[LogIn]}"
@@ -338,7 +338,7 @@
                                     <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtLogin" Text="Log In" HorizontalAlignment="Stretch"
+                                    <TextBlock x:Name="TxtLogin" Text="Log In" HorizontalAlignment="Stretch" FontWeight="SemiLight"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -351,7 +351,7 @@
                                     CommandParameter="5">
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border Grid.Column="1"
@@ -376,7 +376,7 @@
                                     CommandParameter="2">
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="40" />
                                     </Grid.ColumnDefinitions>

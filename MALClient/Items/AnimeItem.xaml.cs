@@ -23,20 +23,9 @@ namespace MALClient.Items
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         public Flyout WatchedFlyout => WatchedEpsFlyout;
-        public Flyout MoreFlyout => FlyoutMore;
-
-        private void ShowMore(object sender, RoutedEventArgs e)
+        public void MoreFlyoutHide()
         {
-            if (!_expandState)
-            {
-                SynopsisShow.Begin();
-                _expandState = true;
-            }
-            else
-            {
-                SynopsisHide.Begin();
-                _expandState = false;
-            }
+            FlyoutMore.Hide();
         }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)

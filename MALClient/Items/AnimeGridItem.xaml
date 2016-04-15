@@ -69,32 +69,46 @@
                 <SolidColorBrush Color="Black" Opacity=".75" />
             </Button.Background>
             <Button.Flyout>
-                <Flyout x:Name="FlyoutMore">
-                    <StackPanel Padding="0">
-                        <StackPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Height" Value="35" />
-                                <Setter Property="HorizontalAlignment" Value="Left" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Margin" Value="1" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="World" VerticalAlignment="Center" />
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
-                                <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
-                            </StackPanel>
-                        </StackPanel>
-                        <MenuFlyoutSeparator />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </Flyout>
+                <MenuFlyout x:Name="FlyoutMore">
+                    <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
+                    <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" />
+                    <MenuFlyoutItem Text="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutSubItem Text="Status">
+                        <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Watching" />
+                        <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Completed" />
+                        <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="On hold" />
+                        <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Dropped" />
+                        <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
+                                                CommandParameter="Plan to watch" />
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutSubItem Text="Score">
+                        <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="10" />
+                            <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="9" />
+                            <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="8" />
+                            <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="7" />
+                            <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="6" />
+                            <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="5" />
+                            <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="4" />
+                            <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="3" />
+                            <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="2" />
+                            <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="1" />
+                    </MenuFlyoutSubItem>
+                </MenuFlyout>
             </Button.Flyout>
         </Button>
     </Grid>

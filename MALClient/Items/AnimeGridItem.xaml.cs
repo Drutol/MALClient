@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.System;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -16,11 +18,20 @@ namespace MALClient.Items
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
-        public Flyout WatchedFlyout => null;
+        public Flyout WatchedFlyout => WatchedEpsFlyout;
 
         public void MoreFlyoutHide()
         {
             FlyoutMore.Hide();
+        }
+
+        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                ViewModel.ChangeWatchedEps();
+                e.Handled = true;
+            }
         }
     }
 }

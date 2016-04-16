@@ -14,12 +14,15 @@ namespace MALClient.Comm
             xml.AppendLine("<episode>0</episode>");
             xml.AppendLine("<status>6</status>");
             xml.AppendLine("<score>0</score>");
+            if(Settings.SetStartDateOnListAdd)
+                xml.AppendLine($"<date_start>{DateTimeOffset.Now.ToString("MMddyyyy")}</date_start>");
+
             //xml.AppendLine("<download_episodes></download_episodes>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");
             //xml.AppendLine("<rewatch_value></rewatch_value>");
-            //xml.AppendLine("<date_start></date_start>");
+
             //xml.AppendLine("<date_finish></date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
@@ -27,7 +30,7 @@ namespace MALClient.Comm
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
             //xml.AppendLine("<tags></tags>");
-            xml.AppendLine("</entry>");
+                xml.AppendLine("</entry>");
 
 
             Request =

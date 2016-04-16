@@ -21,7 +21,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Image Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
-        <Grid Grid.Row="0" Width="37" HorizontalAlignment="Right" VerticalAlignment="Top"
+        <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75" />
@@ -29,10 +29,38 @@
             <StackPanel Margin="1">
                 <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
                            HorizontalAlignment="Center" />
-                <TextBlock Text="{Binding MyEpisodesBindShort}" Foreground="White" FontWeight="SemiLight"
-                           HorizontalAlignment="Center" />
-                <MenuFlyoutSeparator Background="LightGray" />
-                <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight"
+                <Button Background="Transparent" Padding="0" 
+                        Content="{Binding MyEpisodesBindShort}" Foreground="White" 
+                        FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"
+                        HorizontalAlignment="Center" >
+                    <Button.Flyout>
+                        <Flyout x:Name="WatchedEpsFlyout">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
+                                               FontWeight="SemiLight" />
+                                    <TextBlock Text="Wrong input!"
+                                               HorizontalAlignment="Center" FontWeight="SemiLight" Margin="5,0,0,0" FontStyle="Italic"
+                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
+                                </StackPanel>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
+                                                 Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 KeyDown="SubmitWatchedEps" />
+                                    <Button Grid.Column="1" Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
+                                        <SymbolIcon Symbol="Accept" />
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <!--<MenuFlyoutSeparator Background="LightGray" />-->
+                <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" Margin="0,5,0,0"
                            HorizontalAlignment="Center" />
             </StackPanel>
         </Grid>
@@ -57,6 +85,9 @@
               BorderThickness="0,1.5,0,0"
               MaxWidth="{Binding MaxWidth}" VerticalAlignment="Stretch"
               Background="{ThemeResource BrushAnimeItemBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
         </Grid>
@@ -73,8 +104,8 @@
                     <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
                     <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" />
                     <MenuFlyoutItem Text="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutSubItem Text="Status">
+                    <MenuFlyoutSeparator Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <MenuFlyoutSubItem Text="Status" Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
                         <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
                                                 CommandParameter="Watching" />
                         <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
@@ -86,7 +117,7 @@
                         <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
                                                 CommandParameter="Plan to watch" />
                     </MenuFlyoutSubItem>
-                    <MenuFlyoutSubItem Text="Score">
+                    <MenuFlyoutSubItem Text="Score" Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
                         <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
                                                 CommandParameter="10" />
                             <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"

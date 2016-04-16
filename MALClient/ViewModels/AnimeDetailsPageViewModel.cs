@@ -893,6 +893,14 @@ namespace MALClient.ViewModels
             LoadingUpdate = true;
             var prevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
+
+            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || !StartDateValid))
+                StartDateTimeOffset = DateTimeOffset.Now;
+            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || !EndDateValid))
+                EndDateTimeOffset = DateTimeOffset.Now;
+            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || !EndDateValid))
+                EndDateTimeOffset = DateTimeOffset.Now;
+
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyStatus = prevStatus;
@@ -999,15 +1007,19 @@ namespace MALClient.ViewModels
             {
                //who knows what MAL has thrown at us...
             }
-
+            string startDate = "0000-00-00";
+            if (Settings.SetStartDateOnListAdd)
+                startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var animeItem = _animeMode
-                            ? new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, DateTimeOffset.Now.ToString("yyyy-mm-dd"), DateTimeOffset.Now.ToString("yyyy-mm-dd"), 0)
-                            : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, DateTimeOffset.Now.ToString("yyyy-mm-dd"), DateTimeOffset.Now.ToString("yyyy-mm-dd"), 0, 0, AllVolumes);
+                            ? new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, startDate , "0000-00-00", 0)
+                            : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, startDate , "0000-00-00", 0, 0, AllVolumes);
             _animeItemReference = animeItem.ViewModel;
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
+            RaisePropertyChanged(() => StartDateTimeOffset);
+            RaisePropertyChanged(() => EndDateTimeOffset);
             GlobalScore = GlobalScore; //trigger setter of anime item
             if (Status == "Currently Airing")
                 (_animeItemReference as AnimeItemViewModel).Airing = true;

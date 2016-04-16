@@ -214,9 +214,14 @@
                         <Button.Flyout>
                             <Flyout x:Name="WatchedEpsFlyout">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
-                                               FontWeight="SemiLight" />
                                     <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
+                                               FontWeight="SemiLight" />
+                                        <TextBlock Text="Wrong input!"
+                                               HorizontalAlignment="Center" FontWeight="SemiLight" Margin="5,0,0,0" FontStyle="Italic"
+                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
                                                  Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  KeyDown="SubmitWatchedEps" />
@@ -224,9 +229,6 @@
                                             <SymbolIcon Symbol="Accept" />
                                         </Button>
                                     </StackPanel>
-                                    <TextBlock Text="Wrong input!"
-                                               HorizontalAlignment="Center" FontWeight="SemiLight"
-                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>

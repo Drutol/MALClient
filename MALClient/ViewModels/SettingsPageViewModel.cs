@@ -121,5 +121,37 @@ namespace MALClient.ViewModels
             get { return Settings.PrefferedDataSource == DataSource.AnnHum; }
             set { if (value) Settings.PrefferedDataSource = DataSource.AnnHum; }
         }
+
+        public static bool SetStartDateOnWatching
+        {
+            get { return Settings.SetStartDateOnWatching; }
+            set { Settings.SetStartDateOnWatching = value; }
+        }
+
+        public static bool SetStartDateOnListAdd
+        {
+            get { return Settings.SetStartDateOnListAdd; }
+            set { Settings.SetStartDateOnListAdd = value; }
+        }
+
+        public static bool SetEndDateOnDropped
+        {
+            get { return Settings.SetEndDateOnDropped; }
+            set { Settings.SetEndDateOnDropped = value; }
+        }
+
+        public static bool SetEndDateOnCompleted
+        {
+            get { return Settings.SetEndDateOnCompleted; }
+            set { Settings.SetEndDateOnCompleted = value; }
+        }
+
+        public static bool OverrideValidStartEndDate
+        {
+            get { return Settings.OverrideValidStartEndDate; }
+            set { Settings.OverrideValidStartEndDate = value; }
+        }
+
+
     }
 }

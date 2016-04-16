@@ -15,6 +15,8 @@ namespace MALClient.Comm
             xml.AppendLine("<status>6</status>");
             xml.AppendLine("<score>0</score>");
             xml.AppendLine("<volume>0</volume>");
+            if (Settings.SetStartDateOnListAdd)
+                xml.AppendLine($"<date_start>{DateTimeOffset.Now.ToString("MMddyyyy")}</date_start>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");

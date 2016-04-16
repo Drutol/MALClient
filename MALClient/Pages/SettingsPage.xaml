@@ -224,7 +224,7 @@
                                                   SelectedItem="{Binding SelectedDefaultViewForAll,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Margin="0,5">
+                                <StackPanel Margin="0,5" HorizontalAlignment="Stretch">
                                     <TextBlock Text="Lock display mode when changing it manually"
                                                TextWrapping="WrapWholeWords" />
                                     <ToggleSwitch HorizontalAlignment="Center"
@@ -270,6 +270,42 @@
                                     </ComboBox>
                                 </StackPanel>
                             </Grid>
+                            <MenuFlyoutSeparator Margin="0,5" />
+                            <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
+                                <TextBlock Text="Start/End date auto setters:" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                <Grid Margin="5" HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Start date:" VerticalAlignment="Center" Margin="10,10,20,10" Grid.RowSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    <CheckBox Content="Set to today when adding to list." Grid.Column="1" Grid.Row="0"
+                                              IsChecked="{Binding SetStartDateOnListAdd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <CheckBox Content="Set to today when setting watching status." Grid.Column="1" Grid.Row="1" 
+                                              IsChecked="{Binding SetStartDateOnWatching,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>                                
+                                <Grid Margin="5" HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="End date:" VerticalAlignment="Center" Margin="15,10,25,10" Grid.RowSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    <CheckBox Content="Set to today when setting completed status" Grid.Column="1" Grid.Row="0"
+                                               IsChecked="{Binding SetEndDateOnCompleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <CheckBox Content="Set to today when setting dropped status." Grid.Column="1" Grid.Row="1" 
+                                               IsChecked="{Binding SetEndDateOnDropped,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <CheckBox Margin="10" Content="Allow for valid date override under selected circumstances." HorizontalAlignment="Center"
+                                           IsChecked="{Binding OverrideValidStartEndDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
                             <MenuFlyoutSeparator Margin="0,5" />
                             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Stretch" Margin="5,5">

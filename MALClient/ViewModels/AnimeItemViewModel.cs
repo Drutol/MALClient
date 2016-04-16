@@ -85,12 +85,14 @@ namespace MALClient.ViewModels
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             if (!response.Contains("Created"))
-                return;
+                return; //TODO: Handle
             _seasonalState = false;
             SetAuthStatus(true);
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
+            if (Settings.SetStartDateOnListAdd)
+                _parentAbstraction.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
             if (_parentAbstraction.RepresentsAnime)
                 MyVolumes = 0;
 
@@ -110,7 +112,7 @@ namespace MALClient.ViewModels
             AdjustIncrementButtonsOrientation();
             if (!_parentAbstraction.RepresentsAnime)
             {
-                UpdateEpsUpperLabel = "Read chapters :";
+                UpdateEpsUpperLabel = "Read chapters:";
                 Status1Label = "Reading";
                 Status5Label = "Plan to read";
             }
@@ -290,7 +292,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyEpisodesBindShort => MyEpisodes.ToString();
+        public string MyEpisodesBindShort => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
 
         public int MyEpisodes
         {
@@ -335,7 +337,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private string _updateEpsUpperLabel = "Watched eps :";
+        private string _updateEpsUpperLabel = "Watched eps:";
 
         public string UpdateEpsUpperLabel
         {
@@ -832,7 +834,8 @@ namespace MALClient.ViewModels
             }
             if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
             {
-                ViewList.WatchedFlyout.Hide();
+                ViewList?.WatchedFlyout.Hide();
+                ViewGrid?.WatchedFlyout.Hide();
                 LoadingUpdate = Visibility.Visible;
                 WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;
@@ -863,6 +866,14 @@ namespace MALClient.ViewModels
             LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
+
+            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || _parentAbstraction.StartDate == "0000-00-00"))
+                _parentAbstraction.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || _parentAbstraction.EndDate == "0000-00-00"))
+                _parentAbstraction.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || _parentAbstraction.EndDate == "0000-00-00"))
+                _parentAbstraction.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyStatus = myPrevStatus;

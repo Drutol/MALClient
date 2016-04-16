@@ -92,7 +92,7 @@
                                                                 Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtList" Text="Anime List"  
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -115,10 +115,9 @@
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtSearch" Text="Anime Search"
-                                                                
+                                                    <TextBlock x:Name="TxtSearch" Text="Anime Search"                                                               
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -145,7 +144,7 @@
                                                     <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
                                                                 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Seasonal]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -172,7 +171,7 @@
                                                     <TextBlock x:Name="TxtRecom" Text="Recommendations"
                                                                 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Recommendations]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -199,7 +198,7 @@
                                                     <TextBlock x:Name="TxtTop" Text="Top Anime"
                                                                 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -231,7 +230,7 @@
                                                     <TextBlock x:Name="TxtMangaList" Text="Manga List"
                                                                 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -257,7 +256,7 @@
                                                     <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
                                                                 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -284,7 +283,7 @@
                                                     <TextBlock x:Name="TxtTopManga" Text="Top Manga"
                                                                 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
-                                                               HorizontalAlignment="Stretch" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -338,7 +337,7 @@
                                     <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Stretch" FontWeight="SemiLight"
+                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Left" Margin="30,0,0,0"  FontWeight="SemiLight"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -363,7 +362,7 @@
                                            Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                     <SymbolIcon Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                                 Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                    <TextBlock Text="Profile" HorizontalAlignment="Stretch"
+                                    <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="30,0,0,0" 
                                                Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -385,7 +384,7 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch"
+                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Left" Margin="30,0,0,0" 
                                                Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <!--<Button Grid.Column="2" Background="Transparent" Width="35" Height="35"

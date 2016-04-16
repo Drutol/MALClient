@@ -260,5 +260,38 @@ namespace MALClient
         }
 
         #endregion
+
+        #region StartEndDates
+        public static bool SetStartDateOnWatching
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] = value; }
+        }
+
+        public static bool SetStartDateOnListAdd
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] = value; }
+        }
+
+        public static bool SetEndDateOnDropped
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] = value; }
+        }
+
+        public static bool SetEndDateOnCompleted
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] = value; }
+        }
+
+        public static bool OverrideValidStartEndDate
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] = value; }
+        }
+
+        #endregion
     }
 }

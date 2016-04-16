@@ -177,8 +177,24 @@ namespace MALClient.ViewModels
         private readonly int _allEpisodes;
         public int AllEpisodes => _allEpisodes;
         public int AllVolumes { get; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+
+        public string StartDate
+        {
+            get { return _parentAbstraction.StartDate; }
+            set
+            {
+                _parentAbstraction.StartDate = value;
+            }
+        }
+
+        public string EndDate
+        {
+            get { return _parentAbstraction.EndDate; }
+            set
+            {
+                _parentAbstraction.EndDate = value;
+            }
+        }
 
         public string AirDayBind
             =>
@@ -860,7 +876,7 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-
+        
         private async void ChangeStatus(object status)
         {
             LoadingUpdate = Visibility.Visible;
@@ -868,11 +884,11 @@ namespace MALClient.ViewModels
             MyStatus = Utils.StatusToInt(status as string);
 
             if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || _parentAbstraction.StartDate == "0000-00-00"))
-                _parentAbstraction.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
             else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || _parentAbstraction.EndDate == "0000-00-00"))
-                _parentAbstraction.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
             else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || _parentAbstraction.EndDate == "0000-00-00"))
-                _parentAbstraction.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")

@@ -894,12 +894,27 @@ namespace MALClient.ViewModels
             var prevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
 
-            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || !StartDateValid))
-                StartDateTimeOffset = DateTimeOffset.Now;
-            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || !EndDateValid))
-                EndDateTimeOffset = DateTimeOffset.Now;
-            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || !EndDateValid))
-                EndDateTimeOffset = DateTimeOffset.Now;
+            if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
+                (Settings.OverrideValidStartEndDate || !StartDateValid))
+            {
+                _startDateTimeOffset = DateTimeOffset.Now;
+                StartDateValid = true;
+                RaisePropertyChanged(() => StartDateValidVisibility);
+            }
+            else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&
+                     (Settings.OverrideValidStartEndDate || !EndDateValid))
+            {
+                _endDateTimeOffset = DateTimeOffset.Now;
+                EndDateValid = true;
+                RaisePropertyChanged(() => EndDateTimeOffset);
+            }
+            else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
+                     (Settings.OverrideValidStartEndDate || !EndDateValid))
+            {
+                _endDateTimeOffset = DateTimeOffset.Now;
+                EndDateValid = true;
+                RaisePropertyChanged(() => EndDateTimeOffset);
+            }
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")

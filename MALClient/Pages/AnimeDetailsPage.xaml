@@ -290,7 +290,7 @@
                                                     <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                                FontWeight="Normal" />
                                                     <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
-                                                               HorizontalAlignment="Right" Padding="3,0"
+                                                               HorizontalAlignment="Right" Padding="3,0,4,0"
                                                                Style="{StaticResource TextBlockButtonStyle}"
                                                                FontWeight="SemiLight">
                                                         <Button.Flyout>
@@ -339,7 +339,7 @@
                                                     <TextBlock Text="My End" HorizontalAlignment="Left"
                                                                FontWeight="Normal" VerticalAlignment="Center"/>
                                                     <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
-                                                               HorizontalAlignment="Right" Padding="3,0"
+                                                               HorizontalAlignment="Right" Padding="3,0,4,0"
                                                                Style="{StaticResource TextBlockButtonStyle}"
                                                                FontWeight="SemiLight">
                                                         <Button.Flyout>
@@ -779,12 +779,29 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".50"/>
+                <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>
-            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped" 
-                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="30" ZoomMode="Enabled">
-                <Image Source="{Binding DetailImage}" Stretch="None" />
-            </ScrollViewer>
+            <Pivot SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                   SelectionChanged="ImagePivot_OnSelectionChanged">
+                <PivotItem Header="Mal">
+                    <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped" 
+                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
+                        <Image x:Name="MalImage" Source="{Binding DetailImage}" Stretch="None" ImageOpened="MalImage_OnImageOpened" />
+                    </ScrollViewer>
+                </PivotItem>                
+                <PivotItem Header="Hummingbird">
+                    <Grid>
+                        <Grid Visibility="{Binding LoadingHummingbirdImage}">
+                            <ProgressRing HorizontalAlignment="Stretch" Width="50" Height="50" VerticalAlignment="Stretch" IsActive="True" />
+                        </Grid>
+                        <ScrollViewer x:Name="AlternateImgScrollViewer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewerAlternate_OnDoubleTapped" 
+                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
+                            <Image x:Name="AlternateImage" Source="{Binding HummingbirdImage}" Stretch="Uniform" ImageOpened="AlternateImage_OnImageOpened"/>
+                        </ScrollViewer>
+                    </Grid>
+                </PivotItem>
+            </Pivot>
+            <TextBlock Margin="5,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="CurrentImgDimesnions" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
             <Button Background="{ThemeResource BrushDetailsMoreButton}" Grid.Row="1" 
                     Content="Save" HorizontalAlignment="Stretch" Margin="5" 
                     Command="{Binding SaveImageCommand}"

@@ -58,6 +58,7 @@ namespace MALClient.ViewModels
         private bool _animeMode;
         private float _globalScore;
         private string _imgUrl;
+        private string _alternateImgUrl;
 
         public bool _initialized;
         private bool _loadedDetails;
@@ -107,8 +108,8 @@ namespace MALClient.ViewModels
 
         private string StartDate { get; set; }
         private string EndDate { get; set; }
-        public string MyStartDate => (_animeItemReference?.StartDate ?? "0000-00-00") == "0000-00-00" ? "??" : _animeItemReference?.StartDate;
-        public string MyEndDate => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "??" : _animeItemReference?.EndDate;
+        public string MyStartDate => (_animeItemReference?.StartDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.StartDate;
+        public string MyEndDate => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.EndDate;
 
         public IDetailsViewInteraction View { get; set; }
 
@@ -119,6 +120,8 @@ namespace MALClient.ViewModels
             _initialized = false;
             LoadingGlobal = Visibility.Visible;
             await Task.Delay(5);
+            HummingbirdImage = null;
+            CurrentlySelectedImagePivotIndex = 0;
             _animeMode = param.AnimeMode;
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
             Id = param.Id;
@@ -421,6 +424,18 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _loadingHummingbirdImage = Visibility.Collapsed;
+
+        public Visibility LoadingHummingbirdImage
+        {
+            get { return _loadingHummingbirdImage; }
+            set
+            {
+                _loadingHummingbirdImage = value;
+                RaisePropertyChanged(() => LoadingHummingbirdImage);
+            }
+        }
+
         private Visibility _loadingRecommendations;
 
         public Visibility LoadingRecommendations
@@ -497,7 +512,15 @@ namespace MALClient.ViewModels
 
         public ICommand SaveImageCommand
         {
-            get { return _saveImageCommand ?? (_saveImageCommand = new RelayCommand(() => Utils.DownloadCoverImage(_imgUrl,Title))); }
+            get
+            {
+                return _saveImageCommand ??
+                       (_saveImageCommand =
+                           new RelayCommand(
+                               () =>
+                                   Utils.DownloadCoverImage(
+                                       CurrentlySelectedImagePivotIndex == 1 ? _alternateImgUrl : _imgUrl, Title)));
+            }
         }
 
         private ICommand _changeStatusCommand;
@@ -585,6 +608,18 @@ namespace MALClient.ViewModels
             {
                 _detailImage = value;
                 RaisePropertyChanged(() => DetailImage);
+            }
+        }
+
+        private BitmapImage _hummingbirdImage;
+
+        public BitmapImage HummingbirdImage
+        {
+            get { return _hummingbirdImage; }
+            set
+            {
+                _hummingbirdImage = value;
+                RaisePropertyChanged(() => HummingbirdImage);
             }
         }
 
@@ -765,6 +800,20 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => EndDateTimeOffset);
                 RaisePropertyChanged(() => EndDateValidVisibility);
                 RaisePropertyChanged(() => MyEndDate);
+            }
+        }
+
+        private int _currentlySelectedImagePivotIndex;
+
+        public int CurrentlySelectedImagePivotIndex
+        {
+            get { return _currentlySelectedImagePivotIndex; }
+            set
+            {
+                _currentlySelectedImagePivotIndex = value;
+                if(value == 1 && HummingbirdImage == null)
+                    LoadHummingbirdCoverImage();
+                RaisePropertyChanged(() => CurrentlySelectedImagePivotIndex);
             }
         }
 
@@ -1283,6 +1332,14 @@ namespace MALClient.ViewModels
             LoadingRelated = Visibility.Collapsed;
         }
 
+        private async void LoadHummingbirdCoverImage()
+        {
+            LoadingHummingbirdImage = Visibility.Visible;
+            var data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails();
+            _alternateImgUrl = data.AlternateCoverImgUrl;
+            HummingbirdImage = new BitmapImage(new Uri(data.AlternateCoverImgUrl));
+            LoadingHummingbirdImage = Visibility.Collapsed;
+        }
         #endregion
     }
 }

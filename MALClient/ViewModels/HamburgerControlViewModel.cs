@@ -139,7 +139,7 @@ namespace MALClient.ViewModels
 #if DEBUG
                     ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
 #else
-                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
+                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "294508");
 #endif
                 }
                     ));

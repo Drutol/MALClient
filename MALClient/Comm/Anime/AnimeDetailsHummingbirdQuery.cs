@@ -36,7 +36,7 @@ namespace MALClient.Comm.Anime
             var possibleData = force
                 ? null
                 : await DataCache.RetrieveAnimeGeneralDetailsData(_id, DataSource.Hummingbird);
-            if (possibleData != null)
+            if (possibleData != null && possibleData.AlternateCoverImgUrl != null)
                 return possibleData;
             Request.Headers["X-Client-Id"] = _apiKey;
             var raw = await GetRequestResponse(false);
@@ -58,6 +58,7 @@ namespace MALClient.Comm.Anime
                 eps = eps.OrderBy(tuple => tuple.Item2).ToList();
                 current.Episodes.AddRange(eps.Select(tuple => tuple.Item1));
                 current.SourceId = obj.anime.id;
+                current.AlternateCoverImgUrl = obj.anime.poster_image;
 
                 var output = current.ToAnimeDetailsData();
 

@@ -95,5 +95,30 @@ namespace MALClient.Pages
         {
             (sender as ScrollViewer).ZoomToFactor(1);
         }
+
+        private void ScrollViewerAlternate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            (sender as ScrollViewer).ZoomToFactor((float).5);
+        }
+
+        private void AlternateImage_OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            AlternateImgScrollViewer.ZoomToFactor((float).5);
+            CurrentImgDimesnions.Text = $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
+
+        }
+
+        private void MalImage_OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
+        }
+
+        private void ImagePivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if((sender as Pivot).SelectedIndex == 0 && ViewModel?.DetailImage != null)
+                CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
+            else if(ViewModel?.HummingbirdImage != null)
+                CurrentImgDimesnions.Text = $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
+        }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using Windows.ApplicationModel.Store;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,6 +24,35 @@ namespace MALClient.Pages
         public SettingsPage()
         {
             InitializeComponent();
+            ListTodo.ItemsSource = new ObservableCollection<string>
+            {
+                "Add non image live tiles with stats and such. Overhaul tiles in general.",
+                "Think about wide UI for x86/x64 platforms...",
+                "Want something? Let me know! Scroll just a little bit and go to the issues board :)"
+            };
+        }
+
+        private async void Donate(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as MenuFlyoutItem;
+                await CurrentApp.RequestProductPurchaseAsync(btn.Name, false);
+            }
+            catch (Exception)
+            {
+                // no donation
+            }
+        }
+
+        private async void LaunchIssues(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
+        }
+
+        private async void LaunchRepo(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient"));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

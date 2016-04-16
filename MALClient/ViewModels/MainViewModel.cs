@@ -103,11 +103,6 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
                     View.Navigate(typeof (ProfilePage),args);
                     break;
-                case PageIndex.PageAbout:
-                    HideSearchStuff();
-                    CurrentStatus = "About";
-                    View.Navigate(typeof (AboutPage));
-                    break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;

@@ -298,7 +298,7 @@
                         <StackPanel Margin="0,0,0,5">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited" Visibility="Visible"
+                                    PointerExited="Button_PointerExited" Visibility="Collapsed"
                                     Command="{Binding ButtonAdCommand}">
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
@@ -378,7 +378,6 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="40" />
                                     </Grid.ColumnDefinitions>
                                     <Border BorderThickness="{Binding TxtBorderBrushThicknesses[Settings]}"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
@@ -389,7 +388,7 @@
                                     <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Stretch"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                    <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
+                                    <!--<Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
                                             BorderThickness="0"
                                             Command="{Binding ButtonNavigationCommand}"
                                             CommandParameter="6">
@@ -401,7 +400,7 @@
                                                 <ScaleTransform ScaleX=".75" ScaleY=".75" />
                                             </SymbolIcon.RenderTransform>
                                         </SymbolIcon>
-                                    </Button>
+                                    </Button>-->
                                 </Grid>
                             </Button>
                             <Grid Height="{Binding GridBtmMarginHeight}" />

@@ -232,7 +232,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["AllDisplayMode"] = (int) value; }
         }

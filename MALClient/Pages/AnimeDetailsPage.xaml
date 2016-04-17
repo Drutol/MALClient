@@ -18,7 +18,7 @@
     </Page.Resources>
 
     <Grid x:Name="RootGrid" Background="{ThemeResource BrushDetailsBackground}">
-        <ScrollViewer x:Name="ScrollingContainer">
+        <ScrollViewer x:Name="ScrollingContainer" VerticalScrollBarVisibility="Hidden">
             
         </ScrollViewer>
         <Grid x:Name="ContentGrid">
@@ -284,31 +284,34 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                            <Border BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                                <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                                FontWeight="Normal" />
-                                                    <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
+                                                        <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
                                                                HorizontalAlignment="Right" Padding="3,0,4,0"
                                                                Style="{StaticResource TextBlockButtonStyle}"
                                                                FontWeight="SemiLight">
-                                                        <Button.Flyout>
-                                                            <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked"
+                                                            <Button.Flyout>
+                                                                <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked"
                                                                           Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                                                        </Button.Flyout>
-                                                    </Button>
-                                                </Grid>
-                                                <FlyoutBase.AttachedFlyout>
-                                                    <MenuFlyout x:Name="ResetStartDateFlyout">
-                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetStartDateCommand}"/>
-                                                    </MenuFlyout>
-                                                </FlyoutBase.AttachedFlyout>
-                                            </ListViewItem>
+                                                            </Button.Flyout>
+                                                        </Button>
+                                                    </Grid>
+                                                    <FlyoutBase.AttachedFlyout>
+                                                        <MenuFlyout x:Name="ResetStartDateFlyout">
+                                                            <MenuFlyoutItem Text="Reset" Command="{Binding ResetStartDateCommand}"/>
+                                                        </MenuFlyout>
+                                                    </FlyoutBase.AttachedFlyout>
+                                                </ListViewItem>
+                                            </Border>
                                         </StackPanel>
+                                            
                                         <StackPanel Grid.Column="1">
                                             <controls:AlternatingListView SelectionMode="None" 
                                                                   BorderThickness="1,0,0,0"
@@ -338,30 +341,32 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="My End" HorizontalAlignment="Left"
+                                            <Border BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                                <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="My End" HorizontalAlignment="Left"
                                                                FontWeight="Normal" VerticalAlignment="Center"/>
-                                                    <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
+                                                        <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
                                                                HorizontalAlignment="Right" Padding="3,0,4,0"
                                                                Style="{StaticResource TextBlockButtonStyle}"
                                                                FontWeight="SemiLight">
-                                                        <Button.Flyout>
-                                                            <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked"
+                                                            <Button.Flyout>
+                                                                <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked"
                                                                           Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                                                        </Button.Flyout>
-                                                    </Button>
-                                                </Grid>
-                                                <FlyoutBase.AttachedFlyout>
-                                                    <MenuFlyout x:Name="ResetEndDateFlyout">
-                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetEndDateCommand}"/>
-                                                    </MenuFlyout>
-                                                </FlyoutBase.AttachedFlyout>
-                                            </ListViewItem>
+                                                            </Button.Flyout>
+                                                        </Button>
+                                                    </Grid>
+                                                    <FlyoutBase.AttachedFlyout>
+                                                        <MenuFlyout x:Name="ResetEndDateFlyout">
+                                                            <MenuFlyoutItem Text="Reset" Command="{Binding ResetEndDateCommand}"/>
+                                                        </MenuFlyout>
+                                                    </FlyoutBase.AttachedFlyout>
+                                                </ListViewItem>
+                                            </Border>
                                         </StackPanel>
 
                                     </Grid>
@@ -795,18 +800,19 @@
                 <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>
             <Pivot SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                   SelectionChanged="ImagePivot_OnSelectionChanged">
+                   SelectionChanged="ImagePivot_OnSelectionChanged" RequestedTheme="Dark">
                 <PivotItem Header="Mal">
                     <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped" 
                           VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
                         <Image x:Name="MalImage" Source="{Binding DetailImage}" Stretch="None" ImageOpened="MalImage_OnImageOpened" />
                     </ScrollViewer>
-                </PivotItem>                
+                </PivotItem>
                 <PivotItem Header="Hummingbird">
                     <Grid>
                         <Grid Visibility="{Binding LoadingHummingbirdImage}">
                             <ProgressRing HorizontalAlignment="Stretch" Width="50" Height="50" VerticalAlignment="Stretch" IsActive="True" />
                         </Grid>
+                        <TextBlock Text="Unavailable for manga. :(" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding AlternateImageUnavailableNoticeVisibility}"/>
                         <ScrollViewer x:Name="AlternateImgScrollViewer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewerAlternate_OnDoubleTapped" 
                           VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
                             <Image x:Name="AlternateImage" Source="{Binding HummingbirdImage}" Stretch="Uniform" ImageOpened="AlternateImage_OnImageOpened"/>

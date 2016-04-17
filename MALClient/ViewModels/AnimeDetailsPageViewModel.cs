@@ -125,7 +125,7 @@ namespace MALClient.ViewModels
             _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
 
             //basic init assignment
-            _animeItemReference = param.AnimeItem;
+            _animeItemReference = param.AnimeItem ;
             _animeMode = param.AnimeMode;           
             _id = param.Id;
             Title = param.Title;
@@ -530,8 +530,11 @@ namespace MALClient.ViewModels
                        (_saveImageCommand =
                            new RelayCommand(
                                () =>
-                                   Utils.DownloadCoverImage(
-                                       CurrentlySelectedImagePivotIndex == 1 ? _alternateImgUrl : _imgUrl, Title)));
+                               {
+                                   if (_animeMode || (!_animeMode && CurrentlySelectedImagePivotIndex != 1))
+                                       Utils.DownloadCoverImage(
+                                           CurrentlySelectedImagePivotIndex == 1 ? _alternateImgUrl : _imgUrl, Title);
+                               }));
             }
         }
 
@@ -670,6 +673,18 @@ namespace MALClient.ViewModels
             {
                 _noEpisodesDataVisibility = value;
                 RaisePropertyChanged(() => NoEpisodesDataVisibility);
+            }
+        }
+
+        private Visibility _alternateImageUnavailableNoticeVisibility;
+
+        public Visibility AlternateImageUnavailableNoticeVisibility
+        {
+            get { return _alternateImageUnavailableNoticeVisibility; }
+            set
+            {
+                _alternateImageUnavailableNoticeVisibility = value;
+                RaisePropertyChanged(() => AlternateImageUnavailableNoticeVisibility);
             }
         }
 
@@ -1415,6 +1430,12 @@ namespace MALClient.ViewModels
 
         private async void LoadHummingbirdCoverImage()
         {
+            if (!_animeMode)
+            {
+                AlternateImageUnavailableNoticeVisibility = Visibility.Visible;
+                return;
+            }
+            AlternateImageUnavailableNoticeVisibility = Visibility.Collapsed;
             LoadingHummingbirdImage = Visibility.Visible;
             var data = await new AnimeDetailsHummingbirdQuery(_id).GetAnimeDetails();
             _alternateImgUrl = data.AlternateCoverImgUrl;

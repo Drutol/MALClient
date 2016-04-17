@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+        <converters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -29,7 +30,7 @@
             <StackPanel Margin="1">
                 <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
                            HorizontalAlignment="Center" />
-                <Button Background="Transparent" Padding="0" 
+                <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
                         Content="{Binding MyEpisodesBindShort}" Foreground="White" 
                         FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"
                         HorizontalAlignment="Center" >
@@ -87,9 +88,11 @@
               Background="{ThemeResource BrushAnimeItemBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
+            <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate}" IsActive="True" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"></ProgressRing>
         </Grid>
         <Button Grid.Row="0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"
@@ -107,37 +110,44 @@
                     <MenuFlyoutSeparator Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <MenuFlyoutSubItem Text="Status" Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
                         <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Watching" />
+                                                CommandParameter="Watching" Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=1}"/>
                         <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Completed" />
+                                                CommandParameter="Completed" Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=2}"/>
                         <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="On hold" />
+                                                CommandParameter="On hold" Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=3}"/>
                         <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Dropped" />
+                                                CommandParameter="Dropped" Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=4}"/>
                         <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Plan to watch" />
+                                                CommandParameter="Plan to watch" Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=6}"/>
                     </MenuFlyoutSubItem>
                     <MenuFlyoutSubItem Text="Score" Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
                         <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="10" />
+                                                CommandParameter="10" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=10}"/>
                             <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="9" />
+                                                CommandParameter="9" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=9}"/>
                             <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="8" />
+                                                CommandParameter="8" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=8}"/>
                             <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="7" />
+                                                CommandParameter="7" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=7}"/>
                             <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="6" />
+                                                CommandParameter="6" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=6}"/>
                             <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="5" />
+                                                CommandParameter="5" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=5}" />
                             <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="4" />
+                                                CommandParameter="4" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=4}"/>
                             <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="3" />
+                                                CommandParameter="3" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=3}"/>
                             <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="2" />
+                                                CommandParameter="2" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=2}"/>
                             <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="1" />
+                                                CommandParameter="1" Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=1}"/>
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutSubItem Text="Watched eps" Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <MenuFlyoutItem Text="Increment" Command="{Binding IncrementWatchedCommand}"
+                            Visibility="{Binding IncrementEpsVisibility}"/>
+                        <MenuFlyoutItem Text="Decrement" Command="{Binding DecrementWatchedCommand}"
+                            Visibility="{Binding DecrementEpsVisibility}"/>                        
+                        <MenuFlyoutItem Text="Set" Click="ShowWatchedFlyour"/>
                     </MenuFlyoutSubItem>
                 </MenuFlyout>
             </Button.Flyout>

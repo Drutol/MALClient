@@ -1,4 +1,5 @@
 ﻿using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
@@ -32,6 +33,11 @@ namespace MALClient.Items
                 ViewModel.ChangeWatchedEps();
                 e.Handled = true;
             }
+        }
+
+        private void ShowWatchedFlyour(object sender, RoutedEventArgs e)
+        {
+            WatchedEpsFlyout.ShowAt(WatchedFlyoutButton);
         }
     }
 }

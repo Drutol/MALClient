@@ -120,5 +120,17 @@ namespace MALClient.Pages
             else if(ViewModel?.HummingbirdImage != null)
                 CurrentImgDimesnions.Text = $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
         }
+
+        private void StartDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if(ViewModel.StartDateValid)
+                ResetStartDateFlyout.ShowAt(sender as FrameworkElement);
+        }
+
+        private void EndDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (ViewModel.EndDateValid)
+                ResetEndDateFlyout.ShowAt(sender as FrameworkElement);
+        }
     }
 }

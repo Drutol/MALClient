@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MALClient.Comm
 {
-    class HttpClassDefinitionsQuery : Query
+    class HtmlClassDefinitionsQuery : Query
     {
-        public HttpClassDefinitionsQuery()
+        public HtmlClassDefinitionsQuery()
         {
             Request =
                 WebRequest.Create(Uri.EscapeUriString("https://raw.githubusercontent.com/Mordonus/MALClient/master/MALClient/Comm/HtmlClassesDefinitions.json"));

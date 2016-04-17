@@ -21,10 +21,10 @@
             <TextBlock Text="Password" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
             <PasswordBox x:Name="UserPassword" KeyDown="Password_OnKeyDown" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button x:Name="BtnLogOff" Click="LogOut" Visibility="Collapsed" Content="Log out" Margin="3,3"/>
                 <Button Content="Log In" Click="AttemptAuthentication" HorizontalAlignment="Center" Margin="3,3" />
                 <ProgressRing x:Name="ProgressRing" IsActive="True" Visibility="Collapsed" Margin="5,0" />
             </StackPanel>
+            <Button x:Name="BtnLogOff" Click="LogOut" HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"/>
         </StackPanel>
 
         <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"

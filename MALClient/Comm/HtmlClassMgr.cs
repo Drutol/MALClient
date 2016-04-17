@@ -27,7 +27,7 @@ namespace MALClient.Comm
         {
             try
             {
-                var json = await new HttpClassDefinitionsQuery().GetRequestResponse(false);
+                var json = await new HtmlClassDefinitionsQuery().GetRequestResponse(false);
                 ClassDefs = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             }
             catch (Exception)

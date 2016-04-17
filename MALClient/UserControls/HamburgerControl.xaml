@@ -337,7 +337,7 @@
                                     <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Left" Margin="30,0,0,0"  FontWeight="SemiLight"
+                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Center"  FontWeight="SemiLight"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -362,7 +362,7 @@
                                            Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                     <SymbolIcon Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                                 Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                    <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="30,0,0,0" 
+                                    <TextBlock Text="Profile" HorizontalAlignment="Center"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -384,7 +384,7 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Left" Margin="30,0,0,0" 
+                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Center" 
                                                Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <!--<Button Grid.Column="2" Background="Transparent" Width="35" Height="35"

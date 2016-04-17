@@ -254,7 +254,7 @@
                                             </Style>
                                         </Grid.Resources>
                                         <StackPanel>
-                                            <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
+                                            <controls:AlternatingListView SelectionMode="None"
                                                                   BorderThickness="0,0,1,0"
                                                                   BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding LeftDetailsRow}">
@@ -281,7 +281,7 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <ListViewItem Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
+                                            <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
@@ -299,6 +299,11 @@
                                                         </Button.Flyout>
                                                     </Button>
                                                 </Grid>
+                                                <FlyoutBase.AttachedFlyout>
+                                                    <MenuFlyout x:Name="ResetStartDateFlyout">
+                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetStartDateCommand}"/>
+                                                    </MenuFlyout>
+                                                </FlyoutBase.AttachedFlyout>
                                             </ListViewItem>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1">
@@ -330,7 +335,7 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <ListViewItem Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
+                                            <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
@@ -348,6 +353,11 @@
                                                         </Button.Flyout>
                                                     </Button>
                                                 </Grid>
+                                                <FlyoutBase.AttachedFlyout>
+                                                    <MenuFlyout x:Name="ResetEndDateFlyout">
+                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetEndDateCommand}"/>
+                                                    </MenuFlyout>
+                                                </FlyoutBase.AttachedFlyout>
                                             </ListViewItem>
                                         </StackPanel>
 

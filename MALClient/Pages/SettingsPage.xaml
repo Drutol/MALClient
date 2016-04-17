@@ -15,7 +15,7 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDetailsBackground}">
-        <Pivot>
+        <Pivot SelectionChanged="Pivot_OnSelectionChanged">
             <Pivot.Items>
                 <PivotItem Header="General">
                     <ScrollViewer>
@@ -297,7 +297,7 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Text="End date:" VerticalAlignment="Center" Margin="15,10,25,10" Grid.RowSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="End date:" VerticalAlignment="Center" Margin="19,10,25,10" Grid.RowSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
                                     <CheckBox Content="Set to today when setting completed status" Grid.Column="1" Grid.Row="0"
                                                IsChecked="{Binding SetEndDateOnCompleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     <CheckBox Content="Set to today when setting dropped status." Grid.Column="1" Grid.Row="1" 

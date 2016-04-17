@@ -62,7 +62,6 @@ namespace MALClient.Pages
             SetSortOrder();
             BtnDescending.IsChecked = Settings.IsSortDescending;
             BtnMDescending.IsChecked = Settings.IsMangaSortDescending;
-            PopulateCachedEntries();
             SetDesiredStatus();
             SliderSetup();
             ToggleSwitchSetup();
@@ -133,9 +132,12 @@ namespace MALClient.Pages
             }
         }
 
-
+        private bool _entriesPopulated;
         private async void PopulateCachedEntries()
         {
+            if(_entriesPopulated)
+                return;
+            _entriesPopulated = true;
             var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
             foreach (var file in files)
             {
@@ -420,6 +422,12 @@ namespace MALClient.Pages
             TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+        }
+
+        private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if((sender as Pivot).SelectedIndex == 1)
+                PopulateCachedEntries();
         }
     }
 }

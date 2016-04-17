@@ -129,6 +129,9 @@ namespace MALClient.ViewModels
             _animeMode = param.AnimeMode;           
             _id = param.Id;
             Title = param.Title;
+
+            //so there will be no floting start/end dates
+            MyDetailsVisibility = false;
             
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
             if (_animeMode)

@@ -17,8 +17,11 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
-        <Grid>
+    <Grid x:Name="RootGrid" Background="{ThemeResource BrushDetailsBackground}">
+        <ScrollViewer x:Name="ScrollingContainer">
+            
+        </ScrollViewer>
+        <Grid x:Name="ContentGrid">
             <Grid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>

@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Pages;
 using MALClient.UserControls;
+using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
@@ -55,16 +56,10 @@ namespace MALClient.ViewModels
 
         public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>();
 
-        public ObservableCollection<Tuple<AnimeStatus,string>> AnimeListFilters { get; } = new ObservableCollection<Tuple<AnimeStatus, string>>
-        {
-            new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Watching"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to watch"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
-        };
 
+        private bool _allowFilterNavigation = true;
+        public ObservableCollection<Tuple<AnimeStatus, string>> AnimeListFilters { get; set; } =
+            new ObservableCollection<Tuple<AnimeStatus, string>>();
         public int CurrentAnimeFiltersSelectedIndex
         {
             get
@@ -76,6 +71,8 @@ namespace MALClient.ViewModels
             }
             set
             {
+                if(!_allowFilterNavigation) //when hamburger gets collapsed we don't want to trigger this thing
+                    return;
                 if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList || ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Anime)
                     ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs(value, AnimeListWorkModes.Anime));
                 ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
@@ -84,15 +81,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ObservableCollection<Tuple<AnimeStatus,string>> MangaListFilters { get; } = new ObservableCollection<Tuple<AnimeStatus, string>>
-        {
-            new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Reading"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to read"),
-            new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
-        };
+        public ObservableCollection<Tuple<AnimeStatus, string>> MangaListFilters { get; set; } =
+            new ObservableCollection<Tuple<AnimeStatus, string>>();
 
         public int CurrentMangaFiltersSelectedIndex
         {
@@ -145,29 +135,28 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return null;
-//                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
-//                {
-//                    var ad = new InterstitialAd();
-//                    AdLoadingSpinnerVisibility = Visibility.Visible;
-//                    ad.AdReady += (sender, o1) =>
-//                    {
-//                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
-//                        ad.Show();
-//                    };
-//                    ad.ErrorOccurred += (sender, args) =>
-//                    {
-//                        Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
-//                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
-//                    };
-//                    ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
-//#if DEBUG
-//                    ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
-//#else
-//                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
-//#endif
-//                }
-//                    ));
+                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
+                {
+                    var ad = new InterstitialAd();
+                    AdLoadingSpinnerVisibility = Visibility.Visible;
+                    ad.AdReady += (sender, o1) =>
+                    {
+                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
+                        ad.Show();
+                    };
+                    ad.ErrorOccurred += (sender, args) =>
+                    {
+                        Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
+                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
+                    };
+                    ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
+#if !DEBUG
+                    ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
+#else
+                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
+#endif
+                }
+                    ));
             }
         }
 
@@ -328,6 +317,58 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses[val.ToString()] = new Thickness(4, 0, 0, 0);
             RaisePropertyChanged(() => TxtForegroundBrushes);
             RaisePropertyChanged(() => TxtBorderBrushThicknesses);
+        }
+
+        public void HamburgerWidthChanged(bool wide)
+        {
+            if (wide)
+            {
+                AnimeListFilters = new ObservableCollection<Tuple<AnimeStatus, string>>
+                {
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Watching"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to watch"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+                };
+                MangaListFilters = new ObservableCollection<Tuple<AnimeStatus, string>>
+                {
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Reading"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to read"),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+                };
+            }
+            else //award winning text trimming
+            {
+                AnimeListFilters = new ObservableCollection<Tuple<AnimeStatus, string>>
+                {
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Wat..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Com..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On H..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dro..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Pla..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+                };
+                MangaListFilters = new ObservableCollection<Tuple<AnimeStatus, string>>
+                {
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Rea..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Com..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On H..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dro..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan..."),
+                    new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+                };
+            }
+            _allowFilterNavigation = false;
+            RaisePropertyChanged(() => AnimeListFilters);
+            RaisePropertyChanged(() => MangaListFilters);
+            RaisePropertyChanged(() => CurrentAnimeFiltersSelectedIndex);
+            RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);
+            _allowFilterNavigation = true;
         }
     }
 }

@@ -864,6 +864,35 @@ namespace MALClient.ViewModels
             LoadingUpdate = true;
             var prevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
+
+            if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
+                (Settings.OverrideValidStartEndDate || !StartDateValid))
+            {
+                _startDateTimeOffset = DateTimeOffset.Now;
+                _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                StartDateValid = true;
+                RaisePropertyChanged(() => StartDateTimeOffset);
+                RaisePropertyChanged(() => MyStartDate);
+            }
+            else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&
+                     (Settings.OverrideValidStartEndDate || !EndDateValid))
+            {
+                _endDateTimeOffset = DateTimeOffset.Now;
+                _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                EndDateValid = true;
+                RaisePropertyChanged(() => EndDateTimeOffset);
+                RaisePropertyChanged(() => MyEndDate);
+            }
+            else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
+                     (Settings.OverrideValidStartEndDate || !EndDateValid))
+            {
+                _endDateTimeOffset = DateTimeOffset.Now;
+                _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                EndDateValid = true;
+                RaisePropertyChanged(() => EndDateTimeOffset);
+                RaisePropertyChanged(() => MyEndDate);
+            }
+
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyStatus = prevStatus;
@@ -972,10 +1001,18 @@ namespace MALClient.ViewModels
             }
 
 
+            string startDate = "0000-00-00";
+            if (Settings.SetStartDateOnListAdd)
+            {
+                startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                _startDateTimeOffset = DateTimeOffset.Now; //update without mal-update
+                RaisePropertyChanged(() => StartDateTimeOffset);
+            }
             var animeItem = _animeMode
-                ? new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes,DateTimeOffset.Now.ToString("yyyy-mm-dd"), DateTimeOffset.Now.ToString("yyyy-mm-dd"), 0)
-                : new AnimeItemAbstraction(true, Title, _imgUrl, type, Id, 6, 0, AllEpisodes, DateTimeOffset.Now.ToString("yyyy-mm-dd"), DateTimeOffset.Now.ToString("yyyy-mm-dd"), 0, 0, AllVolumes);
+                            ? new AnimeItemAbstraction(true, Title, _imgUrl, type, _id, 6, 0, AllEpisodes, startDate, "0000-00-00", 0)
+                            : new AnimeItemAbstraction(true, Title, _imgUrl, type, _id, 6, 0, AllEpisodes, startDate, "0000-00-00", 0, 0, AllVolumes);
             _animeItemReference = animeItem.ViewModel;
+
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
@@ -1009,7 +1046,7 @@ namespace MALClient.ViewModels
             if (!response.Contains("Deleted"))
                 return;
 
-            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel)._parentAbstraction);
+            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
 
             (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
             AddAnimeVisibility = true;

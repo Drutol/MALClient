@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
+    xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -41,7 +42,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
-            <Image Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120"
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120"
                    Height="148" />
             <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Background="Transparent" RenderTransformOrigin="0.5,0.5">
@@ -600,7 +601,7 @@
                                 <Pivot.HeaderTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" MaxWidth="300">
-                                            <Image
+                                            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                                     Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                     Width="Auto" Height="Auto" MaxHeight="35" />
                                             <StackPanel Margin="5,0,0,0">
@@ -684,7 +685,7 @@
                                                                 Padding="0"
                                                                 VerticalAlignment="Bottom">
                                                             <Grid>
-                                                                <Image
+                                                                <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                                                     Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                                     Height="Auto" Width="Auto"
                                                                     HorizontalAlignment="Center" Stretch="Uniform" />

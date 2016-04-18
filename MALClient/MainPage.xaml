@@ -31,30 +31,18 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
                         <Setter Target="LogoImage.Visibility" Value="Visible" />
+                        <Setter Target="HamburgerControl.Width" Value="250"/>
                     </VisualState.Setters>
-                    <VisualState.Storyboard>
-                        <Storyboard>
-                            <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="HamburgerControl"
-                                             Storyboard.TargetProperty="Width" From="0.0" To="220.0" SpeedRatio="4.0" />
-                        </Storyboard>
-                    </VisualState.Storyboard>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HamburgerButton.Visibility" Value="Visible" />
                         <Setter Target="LogoImage.Visibility" Value="Collapsed" />
+                        <Setter Target="HamburgerControl.Width" Value="60"/>
                     </VisualState.Setters>
-                    <VisualState.Storyboard>
-                        <Storyboard>
-                            <DoubleAnimation EnableDependentAnimation="True" Storyboard.TargetName="HamburgerControl"
-                                             Storyboard.TargetProperty="Width" From="220.0" To="0.0" SpeedRatio="4.0" />
-                        </Storyboard>
-                    </VisualState.Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
@@ -70,11 +58,11 @@
             <Grid>
                 <Button x:Name="HamburgerButton" IsTabStop="False" HorizontalAlignment="Left" FontWeight="Bold"
                         FontFamily="Segoe MDL2 Assets"
-                        Content="&#xE700;"
+                        Content="&#xE700;" Visibility="Visible"
                         Width="45" Height="45" Background="Transparent" FontSize="20"
                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                         Command="{Binding ReversePaneCommand}" />
-                <Image x:Name="LogoImage" Width="220" Source="../Assets/Wide310x150Logo.scale-200.png"
+                <Image x:Name="LogoImage" Width="250" Source="../Assets/Wide310x150Logo.scale-200.png"
                        Stretch="Uniform" />
             </Grid>
             <Grid Grid.Column="3" Background="{ThemeResource BrushSplitter}" />
@@ -162,7 +150,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <controls:HamburgerControl x:Name="HamburgerControl" Width="220" Grid.Column="0" />
+            <controls:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" />
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MinWidth="45"/>

@@ -15,11 +15,12 @@ namespace MALClient.Comm
             xml.AppendLine("<status>6</status>");
             xml.AppendLine("<score>0</score>");
             xml.AppendLine("<volume>0</volume>");
+            if (Settings.SetStartDateOnListAdd)
+                xml.AppendLine($"<date_start>{DateTimeOffset.Now.ToString("MMddyyyy")}</date_start>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");
             //xml.AppendLine("<rewatch_value></rewatch_value>");
-            //xml.AppendLine("<date_start></date_start>");
             //xml.AppendLine("<date_finish></date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");

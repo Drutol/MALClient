@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Items"
+    xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,7 +11,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}">
+    <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}" VerticalScrollBarVisibility="Hidden">
         <Grid Padding="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*" />
@@ -30,7 +31,7 @@
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
                         VerticalAlignment="Bottom">
                     <Grid>
-                        <Image x:Name="DepImg" Stretch="Uniform" />
+                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="DepImg" Stretch="Uniform" />
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
                             <Grid.Background>
                                 <SolidColorBrush Color="Black" Opacity=".5" />
@@ -55,7 +56,7 @@
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
                         VerticalAlignment="Bottom">
                     <Grid>
-                        <Image x:Name="RecImg" Stretch="Uniform" />
+                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="RecImg" Stretch="Uniform" />
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
                             <Grid.Background>
                                 <SolidColorBrush Color="Black" Opacity=".5" />

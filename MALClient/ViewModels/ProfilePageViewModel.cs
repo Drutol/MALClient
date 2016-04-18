@@ -348,7 +348,7 @@ namespace MALClient.ViewModels
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                         if (data != null)
                         {
-                            FavAnime.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                            FavAnime.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeItem);
                         }
                     }
                     EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0
@@ -365,7 +365,7 @@ namespace MALClient.ViewModels
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                         if (data != null)
                         {
-                            FavManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                            FavManga.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeItem);
                         }
                     }
                     EmptyFavMangaNoticeVisibility = FavManga.Count == 0
@@ -416,7 +416,7 @@ namespace MALClient.ViewModels
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                         if (data != null)
                         {
-                            RecentAnime.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                            RecentAnime.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeItem);
                         }
                     }
                     foreach (var id in CurrentData.RecentManga)
@@ -424,7 +424,7 @@ namespace MALClient.ViewModels
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                         if (data != null)
                         {
-                            RecentManga.Add((data as AnimeItemViewModel)._parentAbstraction.AnimeItem);
+                            RecentManga.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeItem);
                         }
                     }
                     EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0

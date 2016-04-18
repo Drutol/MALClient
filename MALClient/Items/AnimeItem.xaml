@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Items"
+    xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -102,7 +103,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
                Width="Auto"
                MaxWidth="120" Margin="1,1" />
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"

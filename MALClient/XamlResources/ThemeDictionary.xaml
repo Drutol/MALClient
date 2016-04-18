@@ -29,11 +29,11 @@
             <SolidColorBrush x:Key="BrushHamburgerDropdownBackground" Color="#dfdfdf" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="BrushDeepBackground" Color="#2a2a2a" />
+            <SolidColorBrush x:Key="BrushDeepBackground" Color="#0a0a0a" />
             <SolidColorBrush x:Key="BrushAppBars" Color="#151515" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1f1f1f" />
-            <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#3a3c3a" />
+            <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2f2f2f" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#212121" />
             <SolidColorBrush x:Key="BrushLoading" Color="#2a2c2a" Opacity=".75" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#0a0a0a"/>

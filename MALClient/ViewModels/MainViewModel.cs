@@ -199,7 +199,7 @@ namespace MALClient.ViewModels
             get { return _menuPaneState; }
             private set
             {
-                View.Hamburger.Width = View.Hamburger.Width == 220.0 ? 0 : 220.0;
+                View.Hamburger.Width = View.Hamburger.Width == 250.0 ? 60 : 250.0;
                 _menuPaneState = value;              
             }
         }

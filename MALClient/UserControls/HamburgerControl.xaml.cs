@@ -33,15 +33,15 @@ namespace MALClient.UserControls
         public HamburgerControl()
         {
             InitializeComponent();
-            _viewModel.View = this;
+            ViewModel.View = this;
             Loaded += OnLoaded;
         }
 
-        private HamburgerControlViewModel _viewModel => (HamburgerControlViewModel) DataContext;
+        private HamburgerControlViewModel ViewModel => (HamburgerControlViewModel) DataContext;
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            _viewModel.UpdateProfileImg();
+            ViewModel.UpdateProfileImg();
             if(Settings.HamburgerAnimeFiltersExpanded)
                 ButtonExpandAnimeFiltersOnClick(null,null);
             if (Settings.HamburgerMangaFiltersExpanded)
@@ -100,5 +100,21 @@ namespace MALClient.UserControls
 
         public AlternatingListView AnimeFilters => AlternatingListViewAnime;
         public AlternatingListView MangaFilters => AlternatingListViewManga;
+
+        private void HamburgerControl_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width == 250.0)
+            {
+                ViewModel.HamburgerWidthChanged(true);
+                MidSeparator.Width = BottomSeparator.Width = 250;
+            }
+            else
+            {
+                ViewModel.HamburgerWidthChanged(false);
+                MidSeparator.Width = BottomSeparator.Width = 60;
+            }
+
+
+        }
     }
 }

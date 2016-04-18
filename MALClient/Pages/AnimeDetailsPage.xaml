@@ -214,40 +214,6 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Margin="2,0,2,30" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <SymbolIcon VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Symbol="Clear" Visibility="{Binding StartDateValidVisibility}">
-                            <SymbolIcon.RenderTransform>
-                                <ScaleTransform ScaleX=".25" ScaleY=".25"/>
-                            </SymbolIcon.RenderTransform>
-                        </SymbolIcon>
-                        <Button Grid.Column="1" Margin="-5,0,0,0" Style="{StaticResource TextBlockButtonStyle}" Content="Start date">
-                            <Button.Flyout>
-                                <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked" Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                            </Button.Flyout>
-                        </Button>
-                    </Grid>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Symbol="Clear" Visibility="{Binding EndDateValidVisibility}">
-                            <SymbolIcon.RenderTransform>
-                                <ScaleTransform ScaleX=".25" ScaleY=".25"/>
-                            </SymbolIcon.RenderTransform>
-                        </SymbolIcon>
-                        <Button Grid.Column="1" Margin="-5,0,0,0" Style="{StaticResource TextBlockButtonStyle}" Content="End date">
-                            <Button.Flyout>
-                                <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked" Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                            </Button.Flyout>
-                        </Button>
-                    </Grid>
-                </StackPanel>
             </Grid>
         </Grid>
         <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading"
@@ -275,69 +241,126 @@
                                         <ColumnDefinition Width=".5*" />
                                         <ColumnDefinition Width=".5*" />
                                     </Grid.ColumnDefinitions>
-                                    <controls:AlternatingListView SelectionMode="None" Grid.Column="0"
+                                    <Grid.Resources>
+                                        <Style TargetType="ListViewItem" x:Key="GeneralDetailsListItemStyle">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="1,1" />
+                                            <Setter Property="BorderBrush"
+                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <StackPanel>
+                                        <controls:AlternatingListView SelectionMode="None"
                                                                   BorderThickness="0,0,1,0"
                                                                   BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                   ItemsSource="{Binding LeftDetailsRow}">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="1,1" />
-                                                <Setter Property="BorderBrush"
-                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                <Setter Property="BorderThickness" Value="2,0,0,0" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem" BasedOn="{StaticResource GeneralDetailsListItemStyle}">
+                                                    <Setter Property="BorderThickness" Value="2,0,0,0" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
                                                                FontWeight="Normal" />
-                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
                                                                HorizontalAlignment="Right" Margin="3,0"
                                                                TextTrimming="CharacterEllipsis"
                                                                TextWrapping="WrapWholeWords" MaxLines="2"
                                                                FontWeight="SemiLight" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </controls:AlternatingListView>
-                                    <controls:AlternatingListView SelectionMode="None" Grid.Column="1"
-                                                                  BorderThickness="1,0,0,0"
-                                                                  BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
-                                                                  ItemsSource="{Binding RightDetailsRow}">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="1,1" />
-                                                <Setter Property="BorderBrush"
-                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                <Setter Property="BorderThickness" Value="0,0,2,0" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </controls:AlternatingListView>
+                                        <Border BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                            <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
+                                                    <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                               FontWeight="Normal" />
+                                                    <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
+                                                               HorizontalAlignment="Right" Padding="3,0,4,0"
+                                                               Style="{StaticResource TextBlockButtonStyle}"
+                                                               FontWeight="SemiLight">
+                                                        <Button.Flyout>
+                                                            <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked"
+                                                                          Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                        </Button.Flyout>
+                                                    </Button>
+                                                </Grid>
+                                                <FlyoutBase.AttachedFlyout>
+                                                    <MenuFlyout x:Name="ResetStartDateFlyout">
+                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetStartDateCommand}"/>
+                                                    </MenuFlyout>
+                                                </FlyoutBase.AttachedFlyout>
+                                            </ListViewItem>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1">
+                                        <controls:AlternatingListView SelectionMode="None" 
+                                                                  BorderThickness="1,0,0,0"
+                                                                  BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                  ItemsSource="{Binding RightDetailsRow}">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem" BasedOn="{StaticResource GeneralDetailsListItemStyle}">
+                                                    <Setter Property="BorderThickness" Value="0,0,2,0" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
                                                                FontWeight="Normal" VerticalAlignment="Center" />
-                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
                                                                HorizontalAlignment="Right" Margin="3,0"
                                                                TextTrimming="CharacterEllipsis"
                                                                TextWrapping="WrapWholeWords" MaxLines="2"
                                                                TextAlignment="Center"
                                                                FontWeight="SemiLight" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </controls:AlternatingListView>
+                                        <Border BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                            <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="My End" HorizontalAlignment="Left"
+                                                               FontWeight="Normal" VerticalAlignment="Center"/>
+                                                    <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
+                                                               HorizontalAlignment="Right" Padding="3,0,4,0"
+                                                               Style="{StaticResource TextBlockButtonStyle}"
+                                                               FontWeight="SemiLight">
+                                                        <Button.Flyout>
+                                                            <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked"
+                                                                          Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                        </Button.Flyout>
+                                                    </Button>
                                                 </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </controls:AlternatingListView>
+                                                <FlyoutBase.AttachedFlyout>
+                                                    <MenuFlyout x:Name="ResetEndDateFlyout">
+                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetEndDateCommand}"/>
+                                                    </MenuFlyout>
+                                                </FlyoutBase.AttachedFlyout>
+                                            </ListViewItem>
+                                        </Border>
+                                    </StackPanel>
                                 </Grid>
                                 <MenuFlyoutSeparator VerticalAlignment="Top" />
                                 <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center" />

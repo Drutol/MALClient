@@ -20,11 +20,14 @@ namespace MALClient.ViewModels
     public interface IAnimeItemInteractions
     {
         Flyout WatchedFlyout { get; }
-        Flyout MoreFlyout { get; }
+        object MoreFlyout { get; }
+        void MoreFlyoutHide();
     }
 
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
+        public const string InvalidStartEndDate = "0000-00-00";
+
         private readonly string _imgUrl;
         public readonly AnimeItemAbstraction _parentAbstraction;
         private float _globalScore;
@@ -284,7 +287,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyEpisodesBindShort => MyEpisodes.ToString();
+        public string MyEpisodesBindShort => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
 
         public int MyEpisodes
         {
@@ -612,8 +615,9 @@ namespace MALClient.ViewModels
                        (_pinTileCustomCommand =
                            new RelayCommand(() =>
                            {
-                               ViewList?.MoreFlyout.Hide();
-                               ViewGrid?.MoreFlyout.Hide();
+                               ViewList?.MoreFlyoutHide();
+                               ViewGrid?.MoreFlyoutHide();
+                               ViewCompact?.MoreFlyoutHide();
                                TileUrlInputVisibility = Visibility.Visible;
                            }));
             }
@@ -632,8 +636,9 @@ namespace MALClient.ViewModels
                            dp.SetText(
                                $"http://www.myanimelist.net/{(_parentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
-                           ViewList?.MoreFlyout.Hide();
-                           ViewGrid?.MoreFlyout.Hide();
+                           ViewList?.MoreFlyoutHide();
+                           ViewGrid?.MoreFlyoutHide();
+                           ViewCompact?.MoreFlyoutHide();
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
             }
@@ -648,8 +653,9 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           ViewList?.MoreFlyout.Hide();
-                           ViewGrid?.MoreFlyout.Hide();
+                           ViewList?.MoreFlyoutHide();
+                           ViewGrid?.MoreFlyoutHide();
+                           ViewCompact?.MoreFlyoutHide();
                            await
                                Launcher.LaunchUriAsync(
                                    new Uri(
@@ -666,8 +672,9 @@ namespace MALClient.ViewModels
             {
                 return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
                 {
-                    ViewList?.MoreFlyout.Hide();
-                    ViewGrid?.MoreFlyout.Hide();
+                    ViewList?.MoreFlyoutHide();
+                    ViewGrid?.MoreFlyoutHide();
+                    ViewCompact?.MoreFlyoutHide();
                     if (SecondaryTile.Exists(Id.ToString()))
                     {
                         var msg = new MessageDialog("Tile for this anime already exists.");
@@ -689,6 +696,7 @@ namespace MALClient.ViewModels
                 return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() => NavigateDetails()));
             }
         }
+
 
         #endregion
 

@@ -113,7 +113,7 @@
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
-    <Compile Include="Comm\HttpClassDefinitionsQuery.cs" />
+    <Compile Include="Comm\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\HtmlClassMgr.cs" />
     <Compile Include="Comm\MalListParameters.cs" />
     <Compile Include="Comm\MalListQuery.cs" />
@@ -167,9 +167,6 @@
     <Compile Include="Models\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AnimeDetailsPage.xaml.cs">
       <DependentUpon>AnimeDetailsPage.xaml</DependentUpon>
@@ -233,6 +230,7 @@
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />
+    <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
@@ -285,10 +283,6 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\AboutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AnimeDetailsPage.xaml">
       <SubType>Designer</SubType>

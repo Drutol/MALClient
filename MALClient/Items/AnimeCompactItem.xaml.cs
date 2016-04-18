@@ -40,7 +40,12 @@ namespace MALClient.Items
         }
 
         public Flyout WatchedFlyout { get; }
-        public Flyout MoreFlyout => FlyoutMore;
+        public object MoreFlyout => FlyoutMore;
+
+        public void MoreFlyoutHide()
+        {
+            FlyoutMore.Hide();
+        }
 
     }
 }

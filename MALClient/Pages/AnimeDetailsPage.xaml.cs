@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -75,14 +76,26 @@ namespace MALClient.Pages
         //if there was no date different than today's chosen by the user , we have to manually trigger the setter as binding won't do it
         private void StartDatePickerFlyout_OnDatePicked(DatePickerFlyout sender, DatePickedEventArgs args)
         {
-            if (!ViewModel._startDateValid)
+            if (!ViewModel.StartDateValid)
                 ViewModel.StartDateTimeOffset = ViewModel.StartDateTimeOffset;
         }
 
         private void EndDatePickerFlyout_OnDatePicked(DatePickerFlyout sender, DatePickedEventArgs args)
         {
-            if (!ViewModel._endDateValid)
+            if (!ViewModel.EndDateValid)
                 ViewModel.EndDateTimeOffset = ViewModel.EndDateTimeOffset;
+        }
+
+        private void StartDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (ViewModel.StartDateValid)
+                ResetStartDateFlyout.ShowAt(sender as FrameworkElement);
+        }
+
+        private void EndDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (ViewModel.EndDateValid)
+                ResetEndDateFlyout.ShowAt(sender as FrameworkElement);
         }
     }
 }

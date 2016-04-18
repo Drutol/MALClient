@@ -272,6 +272,42 @@
                             </Grid>
                             <MenuFlyoutSeparator Margin="0,5" />
                             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
+                                <TextBlock Text="Start/End date auto setters:" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                <Grid Margin="5" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Start date:" VerticalAlignment="Center" Margin="2" Grid.RowSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    <CheckBox Content="Set to today when adding to list." Grid.Column="1" Grid.Row="0"
+                                              IsChecked="{Binding SetStartDateOnListAdd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <CheckBox Content="Set to today when setting watching status." Grid.Column="1" Grid.Row="1" 
+                                              IsChecked="{Binding SetStartDateOnWatching,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <Grid Margin="5" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="End date:" VerticalAlignment="Center" Margin="2" Grid.RowSpan="2" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                    <CheckBox Content="Set to today when setting completed status" Grid.Column="1" Grid.Row="0"
+                                               IsChecked="{Binding SetEndDateOnCompleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <CheckBox Content="Set to today when setting dropped status." Grid.Column="1" Grid.Row="1" 
+                                               IsChecked="{Binding SetEndDateOnDropped,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <CheckBox Margin="10" Content="Allow for valid date override under selected circumstances." HorizontalAlignment="Center"
+                                           IsChecked="{Binding OverrideValidStartEndDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <MenuFlyoutSeparator Margin="0,5" />
+                            <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Stretch" Margin="5,5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".5*" />
@@ -496,7 +532,141 @@
 
                     </StackPanel>
                 </PivotItem>
+                <PivotItem Header="About" Padding="2" Margin="0">
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontWeight" Value="SemiLight"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </ScrollViewer.Resources>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0">
+                                <Grid Margin="5" BorderThickness="2,0,0,0" HorizontalAlignment="Stretch"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <StackPanel Margin="5" HorizontalAlignment="Center">
+                                        <TextBlock Text="Hello!" FontWeight="Medium" FontSize="18" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords">
+                                Thanks for checking out this application , I'd like to let you know that this app is open source and you can find its code here:
+                                        </TextBlock>
+                                        <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center"
+                                    Click="LaunchRepo" />
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords">
+                                <LineBreak />
+                                This application is built on top of official MyAnimeList API + AnimeNewsNetwork's Encyclopedia and Hummingbird API for anime details.
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                                <MenuFlyoutSeparator Margin="0,5"/>
+                                <Grid Margin="5" BorderThickness="2,0,0,0"  HorizontalAlignment="Stretch"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <StackPanel Margin="10" HorizontalAlignment="Center">
+                                        <TextBlock Text="Support" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords">
+                                If there are any issues , ideas , gripes , bug reports etc. PLEASE by all means report it here :
+                                        </TextBlock>
+                                        <Button Content="Take me to issues board!" Margin="10" HorizontalAlignment="Center"
+                                    Click="LaunchIssues" />
+                                        <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords">
+                                I'm checking it daily so don't hesitate to post there :)
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                                <MenuFlyoutSeparator Margin="0,5"/>
+                                <Grid Margin="5" BorderThickness="2,0,0,0"  HorizontalAlignment="Stretch"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="Donate" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        <TextBlock Text="If you would like to say 'thank you' you can do so by donating:"
+                                       HorizontalAlignment="Center" TextWrapping="WrapWholeWords" />
+                                        <Grid Margin="10" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Center">
+                                            <StackPanel>
+                                                <MenuFlyoutItem x:Name="Donate1" Text="Donate $0.99" Click="Donate" />
+                                                <MenuFlyoutItem x:Name="Donate2" Text="Donate $1.99" Click="Donate"
+                                                    BorderBrush="LightGray" BorderThickness="0,1,0,1" />
+                                                <MenuFlyoutItem x:Name="Donate3" Text="Donate $2.99" Click="Donate" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock HorizontalAlignment="Center" Margin="10,10,10,0" TextWrapping="WrapWholeWords">
+                                There are no direct benefits , but I'll be eternally grateful :)
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                                <MenuFlyoutSeparator Margin="0,5"/>
+                                <Grid Margin="5" BorderThickness="2,0,0,0" HorizontalAlignment="Stretch"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        <StackPanel HorizontalAlignment="Stretch">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Margin" Value="20,5,0,0" />
+                                                    <Setter Property="TextWrapping" Value="WrapWholeWords" />
+                                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                                    <Setter Property="TextAlignment" Value="Left" />
+                                                </Style>
+                                            </StackPanel.Resources>
+                                            <TextBlock Text="19.04.2016 - v3.4.26.0 " />
+                                            <TextBlock Text="Details page now properly works in landscape orientation." />
+                                            <TextBlock Text="About page moved to settings." />
+                                            <TextBlock Text="About page visually tweaked." />
+                                            <TextBlock Text="Added auto setters for start/end dates in settings." />
+                                            <TextBlock Text="Added option to pull higher quality show 'cover art' from hummingbird." />
+                                            <TextBlock Text="Resolved numerous issues with start/end dates." />
+                                            <TextBlock Text="Grid view now allows to change watched episodes count." />
+                                            <TextBlock Text="Grid view will now highlight current status/score in menu flyout." />
+                                            <TextBlock Text="Added option to reset start/end date." />
+                                            <MenuFlyoutSeparator Margin="0,5"/>
+                                            <TextBlock Text="16.04.2016 - v3.3.23.0" />
+                                            <TextBlock Text="Added support for Start and End dates." />
+                                            <TextBlock Text="Grid view now provides buttons for quick status/score change." />
+                                            <TextBlock Text="Tapping on status bar will now open list with anime list filters (when applicable)." />
+                                            <TextBlock Text="Tapping on series image in details page will now allow to zoom on it and download." />
+                                            <TextBlock Text="Spinners are now smaller and hamburger menu fonts are thinner." />
+                                            <TextBlock Text="Added help button in log in page." />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                                <MenuFlyoutSeparator Margin="0,5"/>
+                                <Grid Margin="5" BorderThickness="2,0,0,0"  HorizontalAlignment="Stretch"
+                          BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="TODOs" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
 
+                                    <ListView SelectionMode="None" x:Name="ListTodo" Margin="0,20,0,0">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Margin" Value="5" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="7" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="5"
+                                                 Height="5" />
+                                                    <TextBlock Margin="15,0,0,0" Grid.Column="1" Text="{Binding}"
+                                                   TextWrapping="WrapWholeWords" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </PivotItem>
             </Pivot.Items>
         </Pivot>
     </Grid>

@@ -1,4 +1,5 @@
 ﻿using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
@@ -18,9 +19,25 @@ namespace MALClient.Items
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
-        public Flyout WatchedFlyout => null;
-        public Flyout MoreFlyout => FlyoutMore;
+        public Flyout WatchedFlyout => WatchedEpsFlyout;
+        public object MoreFlyout => FlyoutMore;
 
+        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                ViewModel.ChangeWatchedEps();
+                e.Handled = true;
+            }
+        }
+        public void MoreFlyoutHide()
+        {
+            FlyoutMore.Hide();
+        }
 
+        private void ShowWatchedFlyour(object sender, RoutedEventArgs e)
+        {
+            WatchedEpsFlyout.ShowAt(WatchedFlyoutButton);
+        }
     }
 }

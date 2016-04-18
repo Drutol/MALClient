@@ -290,14 +290,14 @@ namespace MALClient.Pages
 
         private void AnimesItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewList.MoreFlyout.ShowAt(
+            (((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewList.MoreFlyout as Flyout)?.ShowAt(
                 e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }
 
         private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewGrid.MoreFlyout.ShowAt(
+            (((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewGrid.MoreFlyout as MenuFlyout)?.ShowAt(
                 e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }
@@ -305,12 +305,12 @@ namespace MALClient.Pages
         private void AnimeCompactItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if (e.OriginalSource is ListViewItemPresenter)
-                (((e.OriginalSource as ListViewItemPresenter).Content as AnimeCompactItem).DataContext as
-                    AnimeItemViewModel)?.ViewCompact.MoreFlyout
-                    .ShowAt(
+                ((((e.OriginalSource as ListViewItemPresenter).Content as AnimeCompactItem).DataContext as
+                    AnimeItemViewModel)?.ViewCompact.MoreFlyout as Flyout)
+                    ?.ShowAt(
                         (FrameworkElement) e.OriginalSource);
             else
-            ((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewCompact.MoreFlyout.ShowAt(
+            (((e.OriginalSource as FrameworkElement).DataContext as AnimeItemViewModel)?.ViewCompact.MoreFlyout as Flyout)?.ShowAt(
                 e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }

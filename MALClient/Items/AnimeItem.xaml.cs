@@ -23,7 +23,12 @@ namespace MALClient.Items
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         public Flyout WatchedFlyout => WatchedEpsFlyout;
-        public Flyout MoreFlyout => FlyoutMore;
+        public object MoreFlyout => FlyoutMore;
+
+        public void MoreFlyoutHide()
+        {
+            FlyoutMore.Hide();
+        }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {

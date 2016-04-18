@@ -102,9 +102,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="AdMediator.config" />
+    <PRIResource Include="MalClientResources.resw" />
     <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
-    <PRIResource Include="MalClientResources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

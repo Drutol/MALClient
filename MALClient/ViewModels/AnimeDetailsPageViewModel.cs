@@ -830,7 +830,6 @@ namespace MALClient.ViewModels
 
         private DateTimeOffset _startDateTimeOffset;//= DateTimeOffset.Parse("2015-09-10");
         public bool StartDateValid;
-        public Visibility StartDateValidVisibility => StartDateValid ? Visibility.Collapsed : Visibility.Visible;
         public DateTimeOffset StartDateTimeOffset
         {
             get { return _startDateTimeOffset; }
@@ -841,13 +840,11 @@ namespace MALClient.ViewModels
                 StartDateValid = true;
                 LaunchUpdate();
                 RaisePropertyChanged(() => StartDateTimeOffset);
-                RaisePropertyChanged(() => StartDateValidVisibility);
                 RaisePropertyChanged(() => MyStartDate);
             }
         }
         private DateTimeOffset _endDateTimeOffset;
         public bool EndDateValid;
-        public Visibility EndDateValidVisibility => EndDateValid ? Visibility.Collapsed : Visibility.Visible;
         public DateTimeOffset EndDateTimeOffset
         {
             get { return _endDateTimeOffset; }
@@ -858,7 +855,6 @@ namespace MALClient.ViewModels
                 EndDateValid = true;
                 LaunchUpdate();
                 RaisePropertyChanged(() => EndDateTimeOffset);
-                RaisePropertyChanged(() => EndDateValidVisibility);
                 RaisePropertyChanged(() => MyEndDate);
             }
         }
@@ -960,7 +956,7 @@ namespace MALClient.ViewModels
                 _startDateTimeOffset = DateTimeOffset.Now;
                 _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
                 StartDateValid = true;
-                RaisePropertyChanged(() => StartDateValidVisibility);
+                RaisePropertyChanged(() => StartDateTimeOffset);
                 RaisePropertyChanged(() => MyStartDate);
             }
             else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&

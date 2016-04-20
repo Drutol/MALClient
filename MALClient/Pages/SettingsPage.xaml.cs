@@ -289,7 +289,6 @@ namespace MALClient.Pages
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
                 return;
             Settings.ItemsPerPage = (int) e.NewValue;
-            ViewModelLocator.AnimeList.UpdatePageSetup(true);
         }
 
         private void ChangedReviewsToPull(object sender, RangeBaseValueChangedEventArgs e)

@@ -97,6 +97,30 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+            <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
+                        Command="{Binding IncrementEpsCommand}"
+                        IsEnabled="{Binding IsIncrementButtonEnabled}"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                        Margin="5"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <SymbolIcon Symbol="Add" />
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleY=".75" ScaleX=".75"></ScaleTransform>
+                    </Button.RenderTransform>
+                </Button>                
+                <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
+                        Command="{Binding  DecrementEpsCommand}"
+                        IsEnabled="{Binding IsDecrementButtonEnabled}"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                        Margin="5,0"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <SymbolIcon Symbol="Remove" />
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleY=".75" ScaleX=".75"></ScaleTransform>
+                    </Button.RenderTransform>
+                </Button>
+            </StackPanel>
             <StackPanel Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
                 <TextBlock Text="This entry is not on your list yet."
@@ -114,7 +138,7 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right"
+            <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right" Margin="0,0,50,0"
                               VerticalAlignment="Top" IsActive="True"
                               Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Grid.Row="0" Grid.Column="1"

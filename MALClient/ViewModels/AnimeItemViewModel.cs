@@ -117,8 +117,7 @@ namespace MALClient.ViewModels
             ParentAbstraction = parent;
             _imgUrl = img;
             Id = id;
-            Image = new BitmapImage(new Uri(_imgUrl));
-            AdjustIncrementButtonsOrientation();
+            Image = new BitmapImage(new Uri(_imgUrl));           
             if (!ParentAbstraction.RepresentsAnime)
             {
                 UpdateEpsUpperLabel = "Read chapters :";
@@ -225,7 +224,17 @@ namespace MALClient.ViewModels
             }
         }
 
-        public bool Auth { get; private set; }
+        private bool _auth;
+
+        public bool Auth
+        {
+            get { return _auth; }
+            private set
+            {
+                _auth = value;
+                RaisePropertyChanged(() => Auth);
+            }
+        }
 
 
         public string Type
@@ -252,6 +261,8 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyStatusBind);
                 RaisePropertyChanged(() => MyStatusBindShort);
+                RaisePropertyChanged(() => MyStatus);
+                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
 
@@ -270,6 +281,8 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyScoreBind);
                 RaisePropertyChanged(() => MyScoreBindShort);
+                RaisePropertyChanged(() => MyScore);
+                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
 
@@ -301,6 +314,7 @@ namespace MALClient.ViewModels
                 ParentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyEpisodesBindShort);
+                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
 

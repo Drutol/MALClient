@@ -43,10 +43,8 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
         private int _allPages;
-
         private bool _initiazlized;
 
-        private int _itemsPerPage = Settings.ItemsPerPage;
         private AnimeListDisplayModes? _manuallySelectedViewMode;
         private string _prevListSource;
 
@@ -501,15 +499,9 @@ namespace MALClient.ViewModels
         /// Depending on display mode it distributes items to right containers.
         /// </summary>
         /// <param name="updatePerPage"></param>
-        public async void UpdatePageSetup(bool updatePerPage = false)
+        public async void UpdatePageSetup()
         {
             CanLoadPages = false;
-            if (updatePerPage) //called from settings
-            {
-                _itemsPerPage = Settings.ItemsPerPage; //TODO: refactor
-                return;
-            }
-            var realPage = CurrentPosition;
             AnimeCompactItems = new ObservableCollection<AnimeCompactItem>();
             AnimeItems = new ObservableCollection<AnimeItem>();
             AnimeGridItems = new ObservableCollection<AnimeGridItem>();
@@ -771,7 +763,7 @@ namespace MALClient.ViewModels
                 _prevWorkMode = WorkMode;
             _prevListSource = ListSource;
 
-            Loading = true;
+            Loading = modeOverride == null;
             BtnSetSourceVisibility = false;
             EmptyNoticeVisibility = false;
 
@@ -1090,7 +1082,7 @@ namespace MALClient.ViewModels
                 if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
                     value.ViewModel.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedAnimeItem);
-                RaisePropertyChanged(() => ClearSelectionIndexList);
+                View.ResetSelectionForMode(DisplayMode);
             }
         }
 
@@ -1102,7 +1094,7 @@ namespace MALClient.ViewModels
                 if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
                     value.ViewModel.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
-                RaisePropertyChanged(() => ClearSelectionIndexList);
+                View.ResetSelectionForMode(DisplayMode);
             }
         }
 
@@ -1115,7 +1107,7 @@ namespace MALClient.ViewModels
                 if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
                     value.ViewModel.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
-                RaisePropertyChanged(() => ClearSelectionIndexList);
+                View.ResetSelectionForMode(DisplayMode);
             }
         }
 

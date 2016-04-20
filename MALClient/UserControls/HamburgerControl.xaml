@@ -390,7 +390,7 @@
                                 <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                         VerticalAlignment="Center" Margin="0,0,2,0"
                                         Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                <TextBlock x:Name="TxtLogin" Text="Log In" HorizontalAlignment="Left"
+                                <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Left"
                                        Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                        Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                             </Grid>

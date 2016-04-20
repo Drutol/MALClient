@@ -103,6 +103,8 @@ namespace MALClient.ViewModels
             }
         }
 
+        public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
+
         public BitmapImage UserImage
         {
             get { return _userImage; }
@@ -370,6 +372,11 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => CurrentAnimeFiltersSelectedIndex);
             RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);
             _allowFilterNavigation = true;
+        }
+
+        public void UpdateLogInLabel()
+        {
+            RaisePropertyChanged(() => LogInLabel);
         }
     }
 }

@@ -317,5 +317,31 @@ namespace MALClient.Pages
                 e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }
+
+        public void ResetSelectionForMode(AnimeListDisplayModes currMode)
+        {
+            try
+            {
+                switch (currMode)
+                {
+                    case AnimeListDisplayModes.IndefiniteList:
+                        AnimesItemsIndefinite.SelectedItem = null;
+                        break;
+                    case AnimeListDisplayModes.IndefiniteGrid:
+                        AnimesGridIndefinite.SelectedItem = null;
+                        break;
+                    case AnimeListDisplayModes.IndefiniteCompactList:
+                        AnimeCompactItemsIndefinite.SelectedItems.Clear();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(currMode), currMode, null);
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+        }
     }
 }

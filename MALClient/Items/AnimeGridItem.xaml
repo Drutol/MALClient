@@ -22,7 +22,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
+        <Image Grid.Row="0" controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
+        <ProgressRing Grid.Row="0" IsActive ="True" Visibility="{Binding LoadingUpdate}" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="0" Width="37" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>

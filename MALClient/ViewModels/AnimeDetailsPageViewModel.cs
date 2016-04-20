@@ -188,16 +188,7 @@ namespace MALClient.ViewModels
                     EndDateValid = false;
                 }
                 //Launch UI updates without triggering inner update logic -> nothng to update
-                RaisePropertyChanged(() => StartDateTimeOffset);
-                RaisePropertyChanged(() => EndDateTimeOffset);
-                RaisePropertyChanged(() => MyEpisodesBind);
-                RaisePropertyChanged(() => MyStatusBind);
-                RaisePropertyChanged(() => MyScoreBind);
-                RaisePropertyChanged(() => MyEpisodesBind);
-                RaisePropertyChanged(() => MyStatusBind);
-                RaisePropertyChanged(() => MyScoreBind);
-                RaisePropertyChanged(() => MyStartDate);
-                RaisePropertyChanged(() => MyEndDate);
+                UpdateAnimeReferenceUiBindings(Id);
             }
 
             switch (param.Source)
@@ -841,6 +832,20 @@ namespace MALClient.ViewModels
 
         #region ChangeStuff
 
+
+        #region IncrementDecrementRelay
+
+        public bool IsIncrementButtonEnabled
+            => (_animeItemReference as AnimeItemViewModel)?.IncrementEpsVisibility == Visibility.Visible;
+
+        public bool IsDecrementButtonEnabled
+            => (_animeItemReference as AnimeItemViewModel)?.DecrementEpsVisibility == Visibility.Visible;
+
+        public ICommand IncrementEpsCommand => (_animeItemReference as AnimeItemViewModel)?.IncrementWatchedCommand;
+        public ICommand DecrementEpsCommand => (_animeItemReference as AnimeItemViewModel)?.DecrementWatchedCommand;
+
+        #endregion
+
         private Query GetAppropriateUpdateQuery()
         {
             if (_animeMode)
@@ -940,7 +945,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)
-                    if (prevEps == 0 && AllEpisodes != 0 && MyEpisodes != AllEpisodes &&
+                    if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
                     {
@@ -1341,5 +1346,30 @@ namespace MALClient.ViewModels
         }
 
         #endregion
+
+        /// <summary>
+        /// Launches update of all UI bound variables.
+        /// </summary>
+        /// <param name="callerId">Anime item id that calls this thing.</param>
+        public void UpdateAnimeReferenceUiBindings(int callerId)
+        {
+            if(callerId != Id)
+                return;
+            
+            RaisePropertyChanged(() => StartDateTimeOffset);
+            RaisePropertyChanged(() => EndDateTimeOffset);
+            RaisePropertyChanged(() => MyEpisodesBind);
+            RaisePropertyChanged(() => MyStatusBind);
+            RaisePropertyChanged(() => MyScoreBind);
+            RaisePropertyChanged(() => MyEpisodesBind);
+            RaisePropertyChanged(() => MyStatusBind);
+            RaisePropertyChanged(() => MyScoreBind);
+            RaisePropertyChanged(() => MyStartDate);
+            RaisePropertyChanged(() => MyEndDate);
+            RaisePropertyChanged(() => IncrementEpsCommand);
+            RaisePropertyChanged(() => DecrementEpsCommand);
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
+        }
     }
 }

@@ -87,6 +87,8 @@ namespace MALClient
             HtmlClassMgr.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
+            var tb = ApplicationView.GetForCurrentView().TitleBar;
+            tb.BackgroundColor = tb.ButtonBackgroundColor =tb.InactiveBackgroundColor = tb.ButtonInactiveBackgroundColor = Settings.SelectedTheme == ApplicationTheme.Dark ? Color.FromArgb(255,41,41,41) : Colors.White;
             ProcessUpdate();
         }
 

@@ -164,6 +164,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] = value; }
         }
 
+        public static bool HamburgerMenuDefaultPaneState
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] = value; }
+        }
+
         public static DataSource PrefferedDataSource
         {
             get

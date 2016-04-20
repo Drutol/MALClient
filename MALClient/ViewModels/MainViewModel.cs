@@ -23,6 +23,7 @@ namespace MALClient.ViewModels
         void InitSplitter();
         HamburgerControl Hamburger { get; }
         Grid GridRootContent { get; }
+        Image Logo { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -185,6 +186,17 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
+                if (Settings.HamburgerMenuDefaultPaneState)
+                {
+                    View.Hamburger.Width = 250.0;
+                    View.Logo.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    View.Hamburger.Width = 60.0;
+                    View.Logo.Visibility = Visibility.Collapsed;
+                }
+
                 Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
@@ -200,6 +212,7 @@ namespace MALClient.ViewModels
             private set
             {
                 View.Hamburger.Width = View.Hamburger.Width == 250.0 ? 60 : 250.0;
+                View.Logo.Visibility = View.Hamburger.Width == 250.0 ? Visibility.Visible : Visibility.Collapsed;
                 _menuPaneState = value;              
             }
         }

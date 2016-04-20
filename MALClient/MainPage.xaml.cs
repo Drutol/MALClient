@@ -26,7 +26,7 @@ namespace MALClient
         {
             InitializeComponent();
             Utils.CheckTiles();
-            ViewModelLocator.Main.View = this;
+            Loaded += (sender, args) =>  ViewModelLocator.Main.View = this;
         }
 
         public void Navigate(Type page, object args = null)
@@ -53,6 +53,7 @@ namespace MALClient
 
         public HamburgerControl Hamburger => HamburgerControl;
         public Grid GridRootContent => RootContentGrid;
+        public Image Logo => LogoImage;
 
         #region Search
 

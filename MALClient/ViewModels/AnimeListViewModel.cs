@@ -571,21 +571,31 @@ namespace MALClient.ViewModels
 
         private int GetItemsToLoad()
         {
-            var width = View.ListGridView.ActualWidth;
-            var height = View.ListGridView.ActualHeight;
-            int result = (int)width/400;
+            var width = View.ActualWidth;
+            if (width < 300)
+                width = 500;
+            var height = View.ActualHeight;
+            int result = (int)width/350;
             result *= (int)height/150;
             result = (int)(result * 1.5);
+            if (result < 10)
+                return 10;
             return result;
+
+            
         }
 
         private int GetGridItemsToLoad()
         {
-            var width = View.GridView.ActualWidth;
-            var height = View.GridView.ActualHeight;
+            var width = View.ActualWidth;
+            if (width < 300)
+                width = 500;
+            var height = View.ActualHeight -200;
             int result = (int)width/200;
             result *= (int)height/230;
             result = (int)(result * 1.5);
+            if (result < 10)
+                return 10;
             return result;
         }
 

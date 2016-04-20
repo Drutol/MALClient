@@ -46,7 +46,6 @@
                                 <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
                                 <StackPanel HorizontalAlignment="Left">
                                     <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
-                                    <Button Content="Pin with custom url" Command="{Binding PinTileCustomCommand}" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

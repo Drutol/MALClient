@@ -51,7 +51,7 @@ namespace MALClient.UserControls
         private static readonly Brush _b2 =
             new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
                 ? Color.FromArgb(220, 50, 50, 50)
-                : Color.FromArgb(170, 150, 150, 150));
+                : Color.FromArgb(220, 190, 190, 190));
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {

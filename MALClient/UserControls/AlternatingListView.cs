@@ -11,12 +11,13 @@ namespace MALClient.UserControls
         private static readonly Brush _b2 =
             new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
                 ? Color.FromArgb(170, 44, 44, 44)
-                : Color.FromArgb(170, 230, 230, 230));
+                : Colors.WhiteSmoke);
+
 
         private static readonly Brush _b1 =
             new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
                 ? Color.FromArgb(255, 11, 11, 11)
-                : Colors.WhiteSmoke);
+                : Color.FromArgb(255, 230, 230, 230));
 
         public Brush CurrBrush1 = _b1;
         public Brush CurrBrush2 = _b2;

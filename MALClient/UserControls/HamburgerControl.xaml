@@ -348,7 +348,7 @@
                             Background="Transparent" 
                             BorderThickness="0" 
                             PointerEntered="Button_PointerEntered"
-                            PointerExited="Button_PointerExited" Visibility="Visible"
+                            PointerExited="Button_PointerExited" Visibility="Collapsed"
                             Command="{Binding ButtonAdCommand}">
                             <Grid   Height="35">
                                 <Grid.ColumnDefinitions>
@@ -403,12 +403,12 @@
                             Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                             Command="{Binding ButtonNavigationCommand}"
                             CommandParameter="5">
-                            <Grid   Height="35">
+                            <Grid Height="35">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="1"
+                                <Border Grid.Column="0"
                                     BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <Image Source="{Binding UserImage}" Grid.Column="0" Stretch="UniformToFill"
@@ -417,7 +417,7 @@
                                    Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                 <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                         Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                <TextBlock Text="Profile" HorizontalAlignment="Left"
+                                <TextBlock Text="Profile" HorizontalAlignment="Left" 
                                        Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                        Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                             </Grid>

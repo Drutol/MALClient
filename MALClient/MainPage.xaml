@@ -59,10 +59,10 @@
                 <Button x:Name="HamburgerButton" IsTabStop="False" HorizontalAlignment="Left" FontWeight="Bold"
                         FontFamily="Segoe MDL2 Assets"
                         Content="&#xE700;" Visibility="Visible"
-                        Width="45" Height="45" Background="Transparent" FontSize="20"
+                        Width="60" Height="45" Background="Transparent" FontSize="20"
                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                         Command="{Binding ReversePaneCommand}" />
-                <Image x:Name="LogoImage" Width="250" Source="../Assets/Wide310x150Logo.scale-200.png"
+                <Image x:Name="LogoImage" Width="240" Source="../Assets/Wide310x150Logo.scale-200.png"
                        Stretch="Uniform" />
             </Grid>
             <Grid Grid.Column="3" Background="{ThemeResource BrushSplitter}" />

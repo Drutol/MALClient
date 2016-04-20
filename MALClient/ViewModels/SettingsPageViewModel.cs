@@ -163,5 +163,11 @@ namespace MALClient.ViewModels
             get { return Settings.OverrideValidStartEndDate; }
             set { Settings.OverrideValidStartEndDate = value; }
         }
+
+        public static bool HamburgerMenuDefaultPaneState
+        {
+            get { return Settings.HamburgerMenuDefaultPaneState; }
+            set { Settings.HamburgerMenuDefaultPaneState = value; }
+        }
     }
 }

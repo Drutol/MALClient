@@ -16,6 +16,8 @@ namespace MALClient.XamlConverters
                     return mode == AnimeListDisplayModes.IndefiniteList ? Visibility.Visible : Visibility.Collapsed;
                 case "IndefiniteGrid":
                     return mode == AnimeListDisplayModes.IndefiniteGrid ? Visibility.Visible : Visibility.Collapsed;
+                case "IndefiniteCompactList":
+                    return mode == AnimeListDisplayModes.IndefiniteCompactList ? Visibility.Visible : Visibility.Collapsed;
             }
             return null;
         }

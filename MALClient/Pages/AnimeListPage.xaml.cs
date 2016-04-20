@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Items;
 using MALClient.UserControls;
 using MALClient.ViewModels;
+using WinRTXamlToolkit.AwaitableUI;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -167,12 +169,13 @@ namespace MALClient.Pages
             ViewModel.View = this;
             Loaded += (sender, args) =>
             {
-                ViewModel.CanAddScrollHandler = true;
+                ViewModel.CanAddScrollHandler = true;              
                 _loaded = true;
             };
+
             SizeChanged += (sender, args) =>
             {
-                if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 && Math.Abs(args.NewSize.Width - _prevWidth) > 100)
+                if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 || Math.Abs(args.NewSize.Width - _prevWidth) > 200)
                 {
                     if(ViewModelLocator.Main.OffContentVisibility == Visibility.Visible)
                         ViewModelLocator.Main.View.InitSplitter();

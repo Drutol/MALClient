@@ -62,7 +62,18 @@
                                     </Grid>
                                 </StackPanel>
                             </Grid>
-                            <MenuFlyoutSeparator />
+                            <MenuFlyoutSeparator Margin="0,5"/>
+                            <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                                <StackPanel>
+                                    <TextBlock Text="Default hamburger menu state:" FontWeight="Medium" HorizontalAlignment="Center"
+                                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <ToggleSwitch IsOn="{Binding HamburgerMenuDefaultPaneState,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                      OnContent="Expanded" OffContent="Collapsed" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                            <MenuFlyoutSeparator Margin="0,5"/>
                             <Grid HorizontalAlignment="Stretch" Margin="5,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=".5*" />
@@ -614,23 +625,7 @@
                                                 </Style>
                                             </StackPanel.Resources>
                                             <TextBlock Text="19.04.2016 - v3.4.26.0 " />
-                                            <TextBlock Text="Details page now properly works in landscape orientation." />
-                                            <TextBlock Text="About page moved to settings." />
-                                            <TextBlock Text="About page visually tweaked." />
-                                            <TextBlock Text="Added auto setters for start/end dates in settings." />
-                                            <TextBlock Text="Added option to pull higher quality show 'cover art' from hummingbird." />
-                                            <TextBlock Text="Resolved numerous issues with start/end dates." />
-                                            <TextBlock Text="Grid view now allows to change watched episodes count." />
-                                            <TextBlock Text="Grid view will now highlight current status/score in menu flyout." />
-                                            <TextBlock Text="Added option to reset start/end date." />
-                                            <MenuFlyoutSeparator Margin="0,5"/>
-                                            <TextBlock Text="16.04.2016 - v3.3.23.0" />
-                                            <TextBlock Text="Added support for Start and End dates." />
-                                            <TextBlock Text="Grid view now provides buttons for quick status/score change." />
-                                            <TextBlock Text="Tapping on status bar will now open list with anime list filters (when applicable)." />
-                                            <TextBlock Text="Tapping on series image in details page will now allow to zoom on it and download." />
-                                            <TextBlock Text="Spinners are now smaller and hamburger menu fonts are thinner." />
-                                            <TextBlock Text="Added help button in log in page." />
+                                            <TextBlock Text="Initial release." />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

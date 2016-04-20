@@ -314,6 +314,7 @@ namespace MALClient.ViewModels
                 ParentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyEpisodesBindShort);
+                AdjustIncrementButtonsVisibility();
                 ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
@@ -865,8 +866,6 @@ namespace MALClient.ViewModels
                 if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
                     await PromptForStatusChange((int) AnimeStatus.Completed);
 
-                AdjustIncrementButtonsVisibility();
-
 
                 LoadingUpdate = Visibility.Collapsed;
                 WatchedEpsInput = "";
@@ -956,9 +955,7 @@ namespace MALClient.ViewModels
                 MyEpisodes = to;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated")
-                    MyStatus = myPrevEps;
-
-                AdjustIncrementButtonsVisibility();
+                    MyEpisodes = myPrevEps;
             }
         }
 

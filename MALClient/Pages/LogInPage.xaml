@@ -5,7 +5,7 @@
     xmlns:local="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" MinWidth="310">
 
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.RowDefinitions>
@@ -14,28 +14,26 @@
         </Grid.RowDefinitions>
         <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
                VerticalAlignment="Center" />
-        <Button x:Name="BtnLogOff" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"
-                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Background="Transparent" Width="50"
-                Height="50" Click="LogOut" Visibility="Collapsed">
-            <Grid>
-                <!--<Ellipse Width="30" Height="30" Fill="{StaticResource SystemControlBackgroundAccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-                <SymbolIcon Symbol="Cancel" />
-            </Grid>
-        </Button>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                     MinWidth="200">
             <TextBlock Text="Username" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
             <TextBox x:Name="UserName" KeyDown="UserName_OnKeyDown" />
             <TextBlock Text="Password" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
             <PasswordBox x:Name="UserPassword" KeyDown="Password_OnKeyDown" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Log In" Click="AttemptAuthentication" HorizontalAlignment="Center" Margin="0,3" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Button Content="Log In" Click="AttemptAuthentication" HorizontalAlignment="Center" Margin="3,3" />
                 <ProgressRing x:Name="ProgressRing" IsActive="True" Visibility="Collapsed" Margin="5,0" />
             </StackPanel>
         </StackPanel>
-
-        <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
+        <Button Grid.Row="1" x:Name="BtnLogOff" Click="LogOut" VerticalAlignment="Bottom" 
+                HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"
+                Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
+            <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
                 VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
                 Click="ButtonRegister_OnClick" />
+        <Button Grid.Row="1" Content="Problems?" Style="{StaticResource TextBlockButtonStyle}"
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5"
+                Click="ButtonProblems_OnClick" />
     </Grid>
 </Page>

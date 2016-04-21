@@ -172,7 +172,7 @@
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
+                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="{Binding MaxGridColumns}" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>

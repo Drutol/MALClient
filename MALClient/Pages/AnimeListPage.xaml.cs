@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -151,11 +152,36 @@ namespace MALClient.Pages
             InitializeComponent();
             ViewModel.View = this;
             Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
+            var disp = DisplayInformation.GetForCurrentView();
+            ProcessOrientation(disp.CurrentOrientation);
+            disp.OrientationChanged += OnOrientationChanged;
+        }
+
+        private void ProcessOrientation(DisplayOrientations orientation)
+        {
+            if (orientation == DisplayOrientations.Landscape || orientation == DisplayOrientations.LandscapeFlipped)
+            {
+                ViewModel.MaxGridColumns = 3;
+            }
+            else
+            {
+                ViewModel.MaxGridColumns = 2;
+            }
+        }
+
+        private void OnOrientationChanged(DisplayInformation sender, object args)
+        {
+            ProcessOrientation(sender.CurrentOrientation);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
         }
 
         #endregion

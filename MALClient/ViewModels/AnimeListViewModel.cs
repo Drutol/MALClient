@@ -910,6 +910,18 @@ namespace MALClient.ViewModels
 
         #region PropertyPairs
 
+        public int _maxGridColumns = 2;
+
+        public int MaxGridColumns
+        {
+            get { return _maxGridColumns; }
+            set
+            {
+                _maxGridColumns = value;
+                RaisePropertyChanged(() => MaxGridColumns);
+            }
+        }
+
         private string _listSource;
 
         public string ListSource

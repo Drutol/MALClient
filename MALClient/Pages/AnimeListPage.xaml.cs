@@ -177,8 +177,8 @@ namespace MALClient.Pages
             {
                 if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 || Math.Abs(args.NewSize.Width - _prevWidth) > 200)
                 {
-                    if(ViewModelLocator.Main.OffContentVisibility == Visibility.Visible)
-                        ViewModelLocator.Main.View.InitSplitter();
+                    //if(ViewModelLocator.Main.OffContentVisibility == Visibility.Visible)
+                        //ViewModelLocator.Main.View.InitSplitter();
                     _prevHeight = args.NewSize.Height;
                     _prevWidth = args.NewSize.Width;
                     if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad)
@@ -331,7 +331,7 @@ namespace MALClient.Pages
                         AnimesGridIndefinite.SelectedItem = null;
                         break;
                     case AnimeListDisplayModes.IndefiniteCompactList:
-                        AnimeCompactItemsIndefinite.SelectedItems.Clear();
+                        AnimeCompactItemsIndefinite.SelectedItem = null;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(currMode), currMode, null);
@@ -342,6 +342,21 @@ namespace MALClient.Pages
 
             }
 
+        }
+
+        private void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.TemporarilySelectedGridAnimeItem = (sender as GridView).SelectedItem as AnimeGridItem;
+        }
+
+        private void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.TemporarilySelectedAnimeItem = (sender as GridView).SelectedItem as AnimeItem;
+        }
+
+        private void AnimeCompactItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.TemporarilySelectedCompactAnimeItem = (sender as ListView).SelectedItem as AnimeCompactItem;
         }
     }
 }

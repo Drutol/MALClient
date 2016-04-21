@@ -190,7 +190,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] = (int) value; }
         }
@@ -214,7 +214,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] = (int) value; }
         }
@@ -226,7 +226,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] = (int) value; }
         }
@@ -238,7 +238,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] = (int) value; }
         }

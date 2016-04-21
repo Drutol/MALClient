@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -100,7 +102,7 @@ namespace MALClient.ViewModels
             MyStatus = 6;
             MyEpisodes = 0;
             if (Settings.SetStartDateOnListAdd)
-                ParentAbstraction.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                ParentAbstraction.MyStartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
             if (ParentAbstraction.RepresentsAnime)
                 MyVolumes = 0;
 
@@ -117,7 +119,7 @@ namespace MALClient.ViewModels
             ParentAbstraction = parent;
             _imgUrl = img;
             Id = id;
-            Image = new BitmapImage(new Uri(_imgUrl));           
+            Image = new BitmapImage(new Uri(_imgUrl));
             if (!ParentAbstraction.RepresentsAnime)
             {
                 UpdateEpsUpperLabel = "Read chapters :";
@@ -127,7 +129,7 @@ namespace MALClient.ViewModels
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,string startDate,string endDate,
+            int myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
             //We are loading an item that IS on the list
         {
@@ -154,9 +156,9 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore,string startDate,string endDate,
+            int myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
-            : this(auth, name, img, id, myStatus, myEps, allEps, myScore,startDate,endDate, parent, setEpsAuth)
+            : this(auth, name, img, id, myStatus, myEps, allEps, myScore, startDate, endDate, parent, setEpsAuth)
         {
             AllVolumes = allVolumes;
         }
@@ -192,8 +194,22 @@ namespace MALClient.ViewModels
             =>
                 ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopAnime ||
                 ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopManga
-                    ? ParentAbstraction.Index.ToString()
+                    ? ParentAbstraction?.Index.ToString()
                     : Utils.DayToString((DayOfWeek) (ParentAbstraction.AirDay - 1));
+
+        public Brush AirDayBrush
+        {
+            get
+            {
+                if (ParentAbstraction.AirStartDate != null)
+                {
+                    if(DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now).TotalSeconds > 0)
+                        return new SolidColorBrush(Colors.Gray);
+                }
+                return new SolidColorBrush(Colors.White);
+            }
+        }
+
 
         private bool _airing;
 
@@ -884,11 +900,11 @@ namespace MALClient.ViewModels
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
 
-            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || ParentAbstraction.StartDate == "0000-00-00"))
+            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
                 StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || ParentAbstraction.EndDate == "0000-00-00"))
+            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || ParentAbstraction.EndDate == "0000-00-00"))
+            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();

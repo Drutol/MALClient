@@ -12,5 +12,6 @@ namespace MALClient.Models
         string Episodes { get; set; }
         int Index { get; set; }
         int AirDay { get; set; }
+        string AirStartDate { get; set; }
     }
 }

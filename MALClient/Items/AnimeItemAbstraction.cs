@@ -26,6 +26,7 @@ namespace MALClient.Items
         public int AirDay = -1;
         private bool authSetEps;
         public float GlobalScore;
+        public string AirStartDate;
         private readonly int id;
         public int Id;
         public string img;
@@ -49,6 +50,7 @@ namespace MALClient.Items
             if (!DataCache.TryRetrieveDataForId(Id, out data)) return;
             AirDay = data.DayOfAiring;
             GlobalScore = data.GlobalScore;
+            AirStartDate = data.AirStartDate;
         }
 
         //three constructors depending on original init
@@ -60,8 +62,8 @@ namespace MALClient.Items
             this.name = name;
             this.img = img;
             this.id = id;
-            StartDate = startDate;
-            EndDate = endDate;
+            MyStartDate = startDate;
+            MyEndDate = endDate;
             MyStatus = myStatus;
             MyEpisodes  = myEps;
             this.allEps = allEps;
@@ -103,8 +105,8 @@ namespace MALClient.Items
 
         public int Type { get; set; }
 
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        public string MyStartDate { get; set; }
+        public string MyEndDate { get; set; }
 
         public AnimeItem AnimeItem
         {
@@ -179,12 +181,12 @@ namespace MALClient.Items
             LoadedModel = true;
             if (RepresentsAnime)
                 return _firstConstructor
-                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, StartDate, EndDate, this,
+                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, MyStartDate, MyEndDate, this,
                         authSetEps)
                     : new AnimeItemViewModel(data, this);
             return
                 _firstConstructor
-                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, StartDate, EndDate, this,
+                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, MyStartDate, MyEndDate, this,
                         authSetEps, myVolumes, allVolumes)
                     : new AnimeItemViewModel(data, this);
         }

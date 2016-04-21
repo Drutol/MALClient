@@ -1066,11 +1066,15 @@ namespace MALClient.ViewModels
         {
             if (_animeItemReference is AnimeItemViewModel && _animeMode)
             {
-                var day = Status == "Currently Airing" ? (int) DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
+                var day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                          (Status == "Currently Airing" || Status == "Not yet aired")
+                    ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
+                    : -1;
                 DataCache.RegisterVolatileData(Id, new VolatileDataCache
                 {
                     DayOfAiring = day,
-                    GlobalScore = GlobalScore
+                    GlobalScore = GlobalScore,
+                    AirStartDate = StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : StartDate                    
                 });
                 ((AnimeItemViewModel) _animeItemReference).Airing = day != -1;
                 DataCache.SaveVolatileData();

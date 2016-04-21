@@ -97,10 +97,13 @@ namespace MALClient.Comm
                         htmlNode.Descendants("div")
                             .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:info:class"]);
                     int day;
+                    string airStartDate = null;
                     try
                     {
                         var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
-                        day = (int) DateTime.Parse(date).DayOfWeek;
+                        var dateObj = DateTime.Parse(date);
+                        day = (int)dateObj.DayOfWeek;
+                        airStartDate = dateObj.ToString("yyyy-MM-dd");
                         day++;
                     }
                     catch (Exception)
@@ -133,7 +136,8 @@ namespace MALClient.Comm
                             .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                             .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())
                             .ToList(),
-                        AirDay = day
+                        AirDay = day,
+                        AirStartDate = airStartDate
                     });
                     i++;
                 }

@@ -72,8 +72,8 @@
                 <SolidColorBrush Color="Black" Opacity=".75" />
             </Grid.Background>
             <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
-                       HorizontalAlignment="Center" Margin="1"
-                       Foreground="White" FontSize="20" />
+                       HorizontalAlignment="Center" Margin="1" TextAlignment="Center"
+                       Foreground="{Binding AirDayBrush}" FontSize="20" />
         </Grid>
         <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
               Visibility="{Binding Type,Converter={StaticResource AnyTextToVisibilityConverter}}">

@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" MinWidth="310">
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150" />
             <RowDefinition Height="*" />

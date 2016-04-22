@@ -25,7 +25,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--LeftTop-->
-            <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" MaxHeight="200">
+            <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" MaxHeight="250">
                 <Button Grid.Row="0" Grid.Column="0" Margin="1"
                         Click="ButtonDependentDetails_OnClick"
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
@@ -50,7 +50,7 @@
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
             <!--RightTop-->
-            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" MaxHeight="200">
+            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" MaxHeight="250">
                 <Button Grid.Row="0" Grid.Column="0" Margin="1"
                         Click="ButtonRecomDetails_OnClick"
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"

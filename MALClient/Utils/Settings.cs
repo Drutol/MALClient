@@ -154,7 +154,7 @@ namespace MALClient
 
         public static bool HamburgerAnimeFiltersExpanded
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] = value; }
         }
 

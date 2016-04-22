@@ -825,9 +825,13 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
 
-            if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
-                MyStatus == (int) AnimeStatus.OnHold)
-                await PromptForStatusChange((int) AnimeStatus.Watching);
+            bool trigCompleted = true;
+            if (MyStatus == (int)AnimeStatus.PlanToWatch || MyStatus == (int)AnimeStatus.Dropped ||
+                MyStatus == (int)AnimeStatus.OnHold)
+            {
+                trigCompleted = AllEpisodes > 1;
+                await PromptForStatusChange(AllEpisodes > 1 ? (int)AnimeStatus.Watching : (int)AnimeStatus.Completed);
+            }
 
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
@@ -838,8 +842,8 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsVisibility();
             }
 
-            if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                await PromptForStatusChange((int) AnimeStatus.Completed);
+            if (trigCompleted && MyEpisodes == _allEpisodes && _allEpisodes != 0)
+                await PromptForStatusChange((int)AnimeStatus.Completed);
 
             LoadingUpdate = Visibility.Collapsed;
         }

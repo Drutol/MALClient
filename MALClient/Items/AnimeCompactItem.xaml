@@ -65,7 +65,7 @@
                     <TextBlock  Text="{Binding GlobalScoreBind}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                            VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                     <TextBlock  Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="Clip"/>
+                           VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="None"/>
                 </StackPanel>
                 <Button Grid.Column="1" Content="{Binding MyScoreBind}" Margin="5"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"

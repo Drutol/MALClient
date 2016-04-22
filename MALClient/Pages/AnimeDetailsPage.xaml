@@ -18,7 +18,7 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}" Padding="2">
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -33,17 +33,17 @@
         </Grid.RowDefinitions>
         <Grid Row="0" Background="{ThemeResource BrushDetailsUpperBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="122" />
+                <ColumnDefinition Width="Auto" />
                 <!--Img-->
                 <ColumnDefinition Width="*" />
                 <!--Controls-->
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="150" />
+                <RowDefinition Height="225" />
                 <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill" Width="120"
-                   Height="148" />
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill"
+                   Height="225" Width="159" />
             <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Background="Transparent" RenderTransformOrigin="0.5,0.5">
                 <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
@@ -693,7 +693,7 @@
                                         <DataTemplate>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="160" />
+                                                    <RowDefinition Height="190" />
                                                     <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
                                                 <Grid>

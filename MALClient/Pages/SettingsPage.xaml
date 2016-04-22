@@ -517,7 +517,10 @@
                         </StackPanel>
                         <Button Content="Rate now!" Command="{Binding ReviewCommand}" HorizontalAlignment="Center"
                                 Margin="0,10,0,0" />
-
+                        <TextBlock Text="Dev corner!" FontWeight="Medium" Margin="0,50,0,0"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <Button HorizontalAlignment="Center" Content="Don't press me?" Margin="10" Command="{Binding Source={StaticResource Locator},Path=Hamburger.ButtonAdCommand}" />
                     </StackPanel>
                 </PivotItem>
                 <PivotItem Header="About" Padding="2" Margin="0">
@@ -601,6 +604,12 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
+                                            <TextBlock Text="23.04.2016 - v3.4.32.0"/>
+                                            <TextBlock Text="Increased responsiveness of alternate image loading."/>
+                                            <TextBlock Text="Grid view will have now 3rd column while in landscape mode."/>
+                                            <TextBlock Text="Image fade in."/>
+                                            <TextBlock Text="Start day small visual bugfix."/>
+                                            <MenuFlyoutSeparator Margin="0,5"/>
                                             <TextBlock Text="19.04.2016 - v3.4.26.0 " />
                                             <TextBlock Text="Details page now properly works in landscape orientation." />
                                             <TextBlock Text="About page moved to settings." />
@@ -611,14 +620,7 @@
                                             <TextBlock Text="Grid view now allows to change watched episodes count." />
                                             <TextBlock Text="Grid view will now highlight current status/score in menu flyout." />
                                             <TextBlock Text="Added option to reset start/end date." />
-                                            <MenuFlyoutSeparator Margin="0,5"/>
-                                            <TextBlock Text="16.04.2016 - v3.3.23.0" />
-                                            <TextBlock Text="Added support for Start and End dates." />
-                                            <TextBlock Text="Grid view now provides buttons for quick status/score change." />
-                                            <TextBlock Text="Tapping on status bar will now open list with anime list filters (when applicable)." />
-                                            <TextBlock Text="Tapping on series image in details page will now allow to zoom on it and download." />
-                                            <TextBlock Text="Spinners are now smaller and hamburger menu fonts are thinner." />
-                                            <TextBlock Text="Added help button in log in page." />
+                                            
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

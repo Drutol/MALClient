@@ -13,5 +13,6 @@ namespace MALClient.Items
         public string Episodes { get; set; }
         public int Index { get; set; }
         public int AirDay { get; set; }
+        public string AirStartDate { get; set; }
     }
 }

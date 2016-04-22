@@ -120,6 +120,7 @@ namespace MALClient.ViewModels
             //image reset
             HummingbirdImage = null;
             CurrentlySelectedImagePivotIndex = 0;
+            _loadingAlternate = false;
 
             //details reset
             _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
@@ -1025,7 +1026,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)
-                    if (prevEps == 0 && AllEpisodes != 0 && MyEpisodes != AllEpisodes &&
+                    if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
                     {
@@ -1145,7 +1146,10 @@ namespace MALClient.ViewModels
         {
             if (_animeItemReference is AnimeItemViewModel && _animeMode)
             {
-                var day = Status == "Currently Airing" ? (int) DateTime.Parse(StartDate).DayOfWeek + 1 : -1;
+                var day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                          (Status == "Currently Airing" || Status == "Not yet aired")
+                    ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
+                    : -1;
                 DataCache.RegisterVolatileData(_id, new VolatileDataCache
                 {
                     DayOfAiring = day,
@@ -1424,6 +1428,7 @@ namespace MALClient.ViewModels
             LoadingRelated = Visibility.Collapsed;
         }
 
+        private bool _loadingAlternate;
         private async void LoadHummingbirdCoverImage()
         {
             if (!_animeMode)
@@ -1431,12 +1436,22 @@ namespace MALClient.ViewModels
                 AlternateImageUnavailableNoticeVisibility = Visibility.Visible;
                 return;
             }
+            if(_loadingAlternate)
+                return;
+            _loadingAlternate = true;
             AlternateImageUnavailableNoticeVisibility = Visibility.Collapsed;
             LoadingHummingbirdImage = Visibility.Visible;
-            var data = await new AnimeDetailsHummingbirdQuery(_id).GetAnimeDetails();
-            _alternateImgUrl = data.AlternateCoverImgUrl;
-            HummingbirdImage = new BitmapImage(new Uri(data.AlternateCoverImgUrl));
+            AnimeDetailsData data = null;
+            await Task.Run( async () => data = await new AnimeDetailsHummingbirdQuery(_id).GetAnimeDetails());
+            if (data?.AlternateCoverImgUrl != null)
+            {
+                _alternateImgUrl = data.AlternateCoverImgUrl;
+                HummingbirdImage = new BitmapImage(new Uri(data.AlternateCoverImgUrl));
+            }
+            else
+                Utils.GiveStatusBarFeedback("Picture unavailable");
             LoadingHummingbirdImage = Visibility.Collapsed;
+            _loadingAlternate = false;
         }
         #endregion
     }

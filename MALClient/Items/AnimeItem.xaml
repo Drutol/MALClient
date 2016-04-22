@@ -173,7 +173,7 @@
                         </Grid.Background>
                         <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
                                    HorizontalAlignment="Center" Margin="0,0,0,3"
-                                   Foreground="White" FontSize="20" />
+                                   Foreground="{Binding AirDayBrush}" TextAlignment="Center" FontSize="20" />
                     </Grid>
                 </Grid>
                 <Grid HorizontalAlignment="Center" Margin="0,0,5,0"
@@ -188,7 +188,7 @@
                     </SymbolIcon>
                     <TextBlock Text="{Binding GlobalScoreBind}"
                                FontWeight="Medium" VerticalAlignment="Center"
-                               Margin="10,10,0,0" HorizontalAlignment="Center"
+                               Margin="10,12,0,0" HorizontalAlignment="Center"
                                TextAlignment="Center" />
                 </Grid>
             </StackPanel>

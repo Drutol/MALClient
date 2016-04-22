@@ -653,7 +653,8 @@ namespace MALClient.ViewModels
                         {
                             DayOfAiring = animeData.AirDay,
                             GlobalScore = animeData.Score,
-                            Genres = animeData.Genres
+                            Genres = animeData.Genres,
+                            AirStartDate = animeData.AirStartDate == AnimeItemViewModel.InvalidStartEndDate ? null : animeData.AirStartDate
                         });
                     var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
                     if (abstraction == null)

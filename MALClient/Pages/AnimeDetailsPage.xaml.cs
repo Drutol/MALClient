@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Graphics.Display;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -27,7 +28,7 @@ namespace MALClient.Pages
         /// But I want to have landscape orientation and I don't know enough XAML magic to do this there.
         /// </summary>
         /// <param name="orientation"></param>
-        private void ProcessOrientation(DisplayOrientations orientation)
+        private async void ProcessOrientation(DisplayOrientations orientation)
         {
             if (ScrollingContainer.Content == null && (orientation == DisplayOrientations.Landscape ||
                 orientation == DisplayOrientations.LandscapeFlipped))
@@ -35,12 +36,15 @@ namespace MALClient.Pages
                 var grid = RootGrid.Children[1];
                 RootGrid.Children.RemoveAt(1);
                 ScrollingContainer.Content = grid;
+                await StatusBar.GetForCurrentView().HideAsync();
+
             }
             else if(ScrollingContainer.Content != null)
             {
                 var grid = ScrollingContainer.Content;
                 ScrollingContainer.Content = null;
                 RootGrid.Children.Insert(1, grid as FrameworkElement);
+                await StatusBar.GetForCurrentView().ShowAsync();
             }
         }
 
@@ -73,6 +77,7 @@ namespace MALClient.Pages
             base.OnNavigatedFrom(e);
             NavMgr.DeregisterBackNav();
             DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
+            StatusBar.GetForCurrentView().ShowAsync();
         }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)

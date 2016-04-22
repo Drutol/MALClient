@@ -18,6 +18,7 @@ namespace MALClient
         public float GlobalScore { get; set; }
         public int DayOfAiring { get; set; }
         public List<string> Genres { get; set; }
+        public string AirStartDate { get; set; }
     }
 
     public static class DataCache
@@ -175,6 +176,7 @@ namespace MALClient
                     _volatileDataCache[id].Genres = data.Genres;
                 _volatileDataCache[id].DayOfAiring = data.DayOfAiring;
                 _volatileDataCache[id].GlobalScore = data.GlobalScore;
+                _volatileDataCache[id].AirStartDate = data.AirStartDate;
             }
             else
                 _volatileDataCache[id] = data;

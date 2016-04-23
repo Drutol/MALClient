@@ -77,9 +77,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="Padding" Value="5,5" />
                                         <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="Width" Value="450" />
-                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Property="BorderThickness" Value="2,0" />
+                                        <Setter Property="Width" Value="200" />
                                     </Style>
                                 </GridView.ItemContainerStyle>
                             </GridView>
@@ -101,9 +99,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="Padding" Value="5,5" />
                                         <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="Width" Value="450" />
-                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Property="BorderThickness" Value="2,0" />
+                                        <Setter Property="Width" Value="200" />
                                     </Style>
                                 </GridView.ItemContainerStyle>
                             </GridView>
@@ -216,39 +212,38 @@
                         <TextBlock Text="Recent updates" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="0" Padding="0">
                     <StackPanel>
                         <StackPanel.Resources>
-                            <Style TargetType="ListView">
+                            <Style TargetType="GridView">
                                 <Setter Property="ItemContainerStyle">
                                     <Setter.Value>
-                                        <Style TargetType="ListViewItem">
+                                        <Style TargetType="GridViewItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             <Setter Property="Padding" Value="5,5" />
                                             <Setter Property="Margin" Value="0,5" />
-                                            <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                            <Setter Property="BorderThickness" Value="5,0,0,0" />
+                                            <Setter Property="Width" Value="200"/>
                                         </Style>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <Grid Margin="0,0,5,0" Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="50">
+                        <Grid Margin="0,0,5,0" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Height="50">
                             <TextBlock Text="Recently updated anime:" FontWeight="SemiLight" FontSize="23" HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                         </Grid>
                         <TextBlock Visibility="{Binding EmptyRecentAnimeNoticeVisibility}"
                                 Text="None..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
-                        <ListView ItemsSource="{Binding RecentAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <Grid Margin="0,5" Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="50">
+                        <GridView HorizontalAlignment="Center" ItemsSource="{Binding RecentAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Grid Margin="0,5" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Height="50">
                             <TextBlock Text="Recently updated manga:" FontWeight="SemiLight" FontSize="23" HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                         </Grid>
                         <TextBlock Visibility="{Binding EmptyRecentMangaNoticeVisibility}"
                                 Text="None..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
-                        <ListView ItemsSource="{Binding RecentManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <GridView HorizontalAlignment="Center" ItemsSource="{Binding RecentManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

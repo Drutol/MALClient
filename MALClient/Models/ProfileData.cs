@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MALClient.Comm;
 using MALClient.Models.Favourites;
 
 namespace MALClient.Models
@@ -45,5 +46,37 @@ namespace MALClient.Models
         public List<int> RecentAnime { get; set; } = new List<int>();
         //Recent Manga 
         public List<int> RecentManga { get; set; } = new List<int>();
+
+        public bool WatchStatsDownloaded { get; private set; }
+        public async Task PopulateWatchStats()
+        {
+            if (WatchStatsDownloaded)
+                return;
+            WatchStatsDownloaded = true;
+
+            var animeStats = await new MalListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "anime" }).GetProfileStats();
+            var mangaStats = await new MalListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "manga" }).GetProfileStats();
+
+            if (animeStats != null)
+            {
+                AnimeWatching = int.Parse(animeStats.Element("user_watching").Value);
+                AnimeCompleted = int.Parse(animeStats.Element("user_completed").Value);
+                AnimeOnHold = int.Parse(animeStats.Element("user_onhold").Value);
+                AnimeDropped = int.Parse(animeStats.Element("user_dropped").Value);
+                AnimePlanned = int.Parse(animeStats.Element("user_plantowatch").Value);
+                AnimeDays = float.Parse(animeStats.Element("user_days_spent_watching").Value);
+            }
+
+            //Manga
+            if (mangaStats != null)
+            {
+                MangaReading = int.Parse(mangaStats.Element("user_reading").Value);
+                MangaCompleted = int.Parse(mangaStats.Element("user_completed").Value);
+                MangaOnHold = int.Parse(mangaStats.Element("user_onhold").Value);
+                MangaDropped = int.Parse(mangaStats.Element("user_dropped").Value);
+                MangaPlanned = int.Parse(mangaStats.Element("user_plantoread").Value);
+                MangaDays = float.Parse(mangaStats.Element("user_days_spent_watching").Value);
+            }
+        }
     }
 }

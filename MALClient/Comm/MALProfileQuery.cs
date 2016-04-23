@@ -25,31 +25,7 @@ namespace MALClient.Comm
                 var doc = new HtmlDocument();
                 doc.LoadHtml(raw);               
                 var current = new ProfileData();
-
-                var animeStats = await new MalListQuery(new MalListParameters {User = Credentials.UserName,Status = "all",Type = "anime"}).GetProfileStats();
-                var mangaStats = await new MalListQuery(new MalListParameters {User = Credentials.UserName,Status = "all",Type = "manga"}).GetProfileStats();
-
-                if (animeStats != null)
-                {
-                    current.AnimeWatching = int.Parse(animeStats.Element("user_watching").Value);
-                    current.AnimeCompleted = int.Parse(animeStats.Element("user_completed").Value);
-                    current.AnimeOnHold = int.Parse(animeStats.Element("user_onhold").Value);
-                    current.AnimeDropped = int.Parse(animeStats.Element("user_dropped").Value);
-                    current.AnimePlanned = int.Parse(animeStats.Element("user_plantowatch").Value);
-                    current.AnimeDays = float.Parse(animeStats.Element("user_days_spent_watching").Value);
-                }
-
-                //Manga
-                if (mangaStats != null)
-                {
-                    current.MangaReading = int.Parse(mangaStats.Element("user_reading").Value);
-                    current.MangaCompleted = int.Parse(mangaStats.Element("user_completed").Value);
-                    current.MangaOnHold = int.Parse(mangaStats.Element("user_onhold").Value);
-                    current.MangaDropped = int.Parse(mangaStats.Element("user_dropped").Value);
-                    current.MangaPlanned = int.Parse(mangaStats.Element("user_plantoread").Value);
-                    current.MangaDays = float.Parse(mangaStats.Element("user_days_spent_watching").Value);
-                }
-            
+         
                 int i = 1;
                 foreach (var recentNode in doc.DocumentNode.Descendants("div").Where(
                         node =>

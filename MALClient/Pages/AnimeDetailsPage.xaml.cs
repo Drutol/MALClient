@@ -97,5 +97,10 @@ namespace MALClient.Pages
             if (ViewModel.EndDateValid)
                 ResetEndDateFlyout.ShowAt(sender as FrameworkElement);
         }
+
+        private void UIElement_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ImageSaveFlyout.ShowAt(sender as FrameworkElement);
+        }
     }
 }

@@ -126,6 +126,7 @@ namespace MALClient.ViewModels
             _animeMode = param.AnimeMode;
             StartDateValid = false;
             EndDateValid = false;
+            _alternateImgUrl = null;
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
             Id = param.Id;
             Title = param.Title;
@@ -528,6 +529,23 @@ namespace MALClient.ViewModels
             {
                 _addAnimeVisibility = value;
                 RaisePropertyChanged(() => AddAnimeVisibility);
+            }
+        }
+
+        private ICommand _saveImageCommand;
+        public ICommand SaveImageCommand
+        {
+            get
+            {
+                return _saveImageCommand ??
+                       (_saveImageCommand =
+                           new RelayCommand<string>(
+                                async opt =>
+                               {
+                                   if (_animeMode || (!_animeMode && opt != "hum"))
+                                       Utils.DownloadCoverImage(
+                                           opt == "hum" ? (_alternateImgUrl ?? (_alternateImgUrl = await LoadHummingbirdCoverImage())) : _imgUrl, Title);
+                               }));
             }
         }
 
@@ -1374,6 +1392,24 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => DecrementEpsCommand);
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IsDecrementButtonEnabled);
+        }
+
+        private bool _loadingAlternate;
+        private async Task<string> LoadHummingbirdCoverImage()
+        {
+            if (!_animeMode)
+            {
+                return null;
+            }
+            if (_loadingAlternate)
+                return null;
+            _loadingAlternate = true;
+            LoadingUpdate = true;
+            AnimeDetailsData data = null;
+            await Task.Run(async () => data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails());
+            LoadingUpdate = false;
+            _loadingAlternate = false;
+            return data?.AlternateCoverImgUrl;
         }
     }
 }

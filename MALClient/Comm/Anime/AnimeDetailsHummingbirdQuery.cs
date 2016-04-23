@@ -58,6 +58,7 @@ namespace MALClient.Comm.Anime
                 eps = eps.OrderBy(tuple => tuple.Item2).ToList();
                 current.Episodes.AddRange(eps.Select(tuple => tuple.Item1));
                 current.SourceId = obj.anime.id;
+                current.AlternateCoverImgUrl = obj.anime.poster_image;
 
                 var output = current.ToAnimeDetailsData();
 

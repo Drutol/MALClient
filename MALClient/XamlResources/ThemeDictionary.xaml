@@ -28,6 +28,7 @@
             <SolidColorBrush x:Key="BrushAppBarInner" Color="#a7b3b3b3" />
             <SolidColorBrush x:Key="BrushHamburgerDropdownBackground" Color="#dfdfdf" />
             <SolidColorBrush x:Key="BrushSliderRailBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="BrushScrollBar" Color="#1f1f1f" Opacity=".75"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0a0a0a" />
@@ -53,6 +54,7 @@
             <SolidColorBrush x:Key="BrushAppBarInner" Color="#a7353535" />
             <SolidColorBrush x:Key="BrushHamburgerDropdownBackground" Color="#151515" />
             <SolidColorBrush x:Key="BrushSliderRailBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="BrushScrollBar" Color="#a6a6a6" Opacity=".5"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

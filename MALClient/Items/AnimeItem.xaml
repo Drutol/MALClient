@@ -94,18 +94,17 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root"
+    <Grid Height="200" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root"
           Background="{ThemeResource BrushAnimeItemBackground}">
         <!--ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
           ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia"-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
-               Width="Auto"
-               MaxWidth="120" Margin="1,1" />
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="200"
+               Width="Auto" Margin="1,1" />
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
                 Visibility="Visible">
@@ -227,11 +226,13 @@
                 </StackPanel>
                 <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind}" Margin="0,0,1,0"
                         Style="{StaticResource ButtonDisabledStyle}"
-                        Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{Binding UpdateButtonsEnableState}"
                         Visibility="{Binding UpdateButtonsVisibility}">
+                    <Button.Background>
+                        <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                    </Button.Background>
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
@@ -256,10 +257,13 @@
                 </Button>
                 <Button Grid.Column="2" Grid.Row="1" Content="{Binding MyScoreBind}" Margin="1,0,0,0"
                         Style="{StaticResource ButtonDisabledStyle}"
-                        Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="Auto"
+                        Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{Binding UpdateButtonsEnableState}"
                         Visibility="{Binding UpdateButtonsVisibility}">
+                    <Button.Background>
+                        <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                    </Button.Background>
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
@@ -296,8 +300,10 @@
                     <Button Height="40" Width="40"
                             Command="{Binding IncrementWatchedCommand}"
                             Visibility="{Binding IncrementEpsVisibility}"
-                            VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                            VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button.Background>
+                            <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                        </Button.Background>
                         <SymbolIcon Symbol="Add" Foreground="White" />
                         <Button.RenderTransform>
                             <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
@@ -305,8 +311,10 @@
                     </Button>
                     <Button VerticalAlignment="Center" HorizontalAlignment="Center" Height="40"
                             Width="40" Command="{Binding DecrementWatchedCommand}"
-                            Visibility="{Binding DecrementEpsVisibility}"
-                            Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                            Visibility="{Binding DecrementEpsVisibility}">
+                        <Button.Background>
+                            <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                        </Button.Background>
                         <SymbolIcon Symbol="Remove" Foreground="White" />
                         <Button.RenderTransform>
                             <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />

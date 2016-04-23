@@ -18,5 +18,6 @@ namespace MALClient.Models
         public List<string> OPs;
         public DataSource Source = DataSource.Ann;
         public string SourceId;
+        public string AlternateCoverImgUrl;
     }
 }

@@ -382,10 +382,10 @@
                                 <TextBlock Margin="0,7" Text="Expandable filters list default state:"
                                            TextWrapping="WrapWholeWords" FontWeight="Medium"
                                            HorizontalAlignment="Center" />
-                                <ToggleSwitch HorizontalAlignment="Center" Header="View flyout" OnContent="Expanded"
+                                <ToggleSwitch HorizontalAlignment="Center" Header="Anime filters" OnContent="Expanded"
                                               OffContent="Collapsed"
                                               IsOn="{Binding HamburgerAnimeFiltersExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                                <ToggleSwitch HorizontalAlignment="Center" Header="Sorting flyout" OnContent="Expanded"
+                                <ToggleSwitch HorizontalAlignment="Center" Header="Manga filters" OnContent="Expanded"
                                               OffContent="Collapsed"
                                               IsOn="{Binding HamburgerMangaFiltersExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>

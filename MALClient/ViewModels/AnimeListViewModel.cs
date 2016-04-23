@@ -351,7 +351,22 @@ namespace MALClient.ViewModels
                 : Settings.IsSortDescending;
         }
 
+        private const int ItemPrefferedWidth = 395;
+        public double ListItemGridWidth
+        {
+            get
+            {
+                double width = View.ActualWidth;
+                int items = (int)width/ItemPrefferedWidth;
+                double widthRest = width - items*ItemPrefferedWidth;
+                return ItemPrefferedWidth + widthRest/items;
+            }
+        }
 
+        public void UpdateGridItemWidth()
+        {
+            RaisePropertyChanged(() => ListItemGridWidth);
+        }
 
         #region CacheManip
 
@@ -1251,7 +1266,7 @@ namespace MALClient.ViewModels
         public ObservableCollection<Tuple<AnimeListDisplayModes, string>> DisplayModes { get; } = new ObservableCollection
             <Tuple<AnimeListDisplayModes, string>>
         {
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "List"),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "Detailed Grid"),
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid"),
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteCompactList, "Compact list")
         };

@@ -7,6 +7,7 @@ namespace MALClient.Models
         public string SourceId;
         public List<string> Genres { get; set; } = new List<string>();
         public List<string> Episodes { get; set; } = new List<string>();
+        public string AlternateCoverImgUrl;
 
         public AnimeDetailsData ToAnimeDetailsData()
         {
@@ -15,7 +16,8 @@ namespace MALClient.Models
                 Episodes = Episodes,
                 Genres = Genres,
                 Source = DataSource.Hummingbird,
-                SourceId = SourceId
+                SourceId = SourceId,
+                AlternateCoverImgUrl = AlternateCoverImgUrl
             };
         }
     }

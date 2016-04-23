@@ -186,6 +186,7 @@ namespace MALClient.Pages
                         ViewModelLocator.AnimeList.RefreshList();
                     }
                 }
+                ViewModel.UpdateGridItemWidth();
             };
         }
 
@@ -344,19 +345,19 @@ namespace MALClient.Pages
 
         }
 
-        private void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AnimeCompactItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.TemporarilySelectedGridAnimeItem = (sender as GridView).SelectedItem as AnimeGridItem;
+            ViewModel.TemporarilySelectedCompactAnimeItem = e.ClickedItem as AnimeCompactItem;
         }
 
-        private void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AnimesItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.TemporarilySelectedAnimeItem = (sender as GridView).SelectedItem as AnimeItem;
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItem;
         }
 
-        private void AnimeCompactItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AnimesGridIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.TemporarilySelectedCompactAnimeItem = (sender as ListView).SelectedItem as AnimeCompactItem;
+            ViewModel.TemporarilySelectedGridAnimeItem = e.ClickedItem as AnimeGridItem;
         }
     }
 }

@@ -18,6 +18,11 @@
         <x:String x:Key="IndefiniteCompactListString">IndefiniteCompactList</x:String>
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
+        <x:Double x:Key="ScrollBarMinThemeWidth">7</x:Double>
+        <x:Double x:Key="ScrollBarMinThemeHeight">7</x:Double>
+        <x:Double x:Key="ScrollBarPanningThumbThemeHeight">2.4</x:Double>
+        <x:Double x:Key="ScrollBarPanningThumbThemeWidth">2.4</x:Double>
+        
     </Page.Resources>
 
     <Page.BottomAppBar>
@@ -118,66 +123,13 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="AnimesItemsIndefinite.ItemContainerStyle">
-                            <Setter.Value>
-                                <Style TargetType="GridViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="Padding" Value="5,5" />
-                                    <Setter Property="Margin" Value="5,5" />
-                                    <Setter Property="Width" Value="390" />
-                                    <Setter Property="BorderBrush"
-                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <!--<Setter Target="AnimesItemsIndefinite.HorizontalAlignment" Value="Stretch"/>-->
-                        <Setter Target="AnimesGridIndefinite.HorizontalAlignment" Value="Center"/>
-                        <Setter Target="AnimesItemsIndefinite.HorizontalAlignment" Value="Center"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="AnimesItemsIndefinite.ItemContainerStyle">
-                            <Setter.Value>
-                                <Style TargetType="GridViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="Padding" Value="5,5" />
-                                    <Setter Property="Margin" Value="5,5" />
-                                    <Setter Property="Width" Value="415" />
-                                    <Setter Property="BorderBrush"
-                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    <Setter Property="BorderThickness" Value="2,0,2,0" />
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                        <!--<Setter Target="AnimesItemsIndefinite.HorizontalAlignment" Value="Center"></Setter>-->
-                        <Setter Target="AnimesGridIndefinite.HorizontalAlignment" Value="Left"/>
-                        <Setter Target="AnimesItemsIndefinite.HorizontalAlignment" Value="Left"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="PivotHeaderPanel">
                     <Setter Property="Visibility" Value="Collapsed" />
+                    
                 </Style>
-                <x:Double x:Key="ScrollBarMinThemeWidth">7</x:Double>
-                <x:Double x:Key="ScrollBarMinThemeHeight">7</x:Double>
-                <x:Double x:Key="ScrollBarPanningThumbThemeHeight">2.4</x:Double>
-                <x:Double x:Key="ScrollBarPanningThumbThemeWidth">2.4</x:Double>
-                <Style  TargetType="ScrollBar">
+                <Style TargetType="ScrollBar">
                     <Setter Property="MinWidth" Value="{ThemeResource ScrollBarMinThemeWidth}"/>
                     <Setter Property="MinHeight" Value="{ThemeResource ScrollBarMinThemeHeight}"/>
                     <Setter Property="Background" Value="Transparent"/>
@@ -187,7 +139,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ScrollBar">
-                                <Grid x:Name="Root" Background="{ThemeResource BrushSliderRailBackground}" Margin="10,0,0,0">
+                                <Grid x:Name="Root" Background="{ThemeResource BrushSliderRailBackground}">
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup x:Name="CommonStates">
                                             <VisualState x:Name="Normal"/>
@@ -200,25 +152,24 @@
                                         </VisualStateGroup>
                                         <VisualStateGroup x:Name="ScrollingIndicatorStates">
                                             <VisualState x:Name="TouchIndicator">
-                                                <!--<Storyboard>
-                                        <FadeInThemeAnimation Storyboard.TargetName="HorizontalPanningRoot"/>
-                                        <FadeInThemeAnimation Storyboard.TargetName="VerticalPanningRoot"/>
-                                    </Storyboard>-->
                                             </VisualState>
                                             <VisualState x:Name="MouseIndicator"/>
                                             <VisualState x:Name="NoIndicator">
-                                                <!--<Storyboard>
-                                        <FadeOutThemeAnimation BeginTime="0" Storyboard.TargetName="HorizontalPanningRoot"/>
-                                        <FadeOutThemeAnimation BeginTime="0" Storyboard.TargetName="VerticalPanningRoot"/>
-                                    </Storyboard>-->
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                     <Grid x:Name="HorizontalPanningRoot" MinWidth="53">
-                                        <Rectangle x:Name="HorizontalPanningThumb" AutomationProperties.AccessibilityView="Raw" Fill="{ThemeResource ScrollBarPanningBackgroundThemeBrush}" HorizontalAlignment="Left" Height="{ThemeResource ScrollBarPanningThumbThemeHeight}" MinWidth="{ThemeResource ScrollBarMinThemeWidth}"/>
+                                        <Rectangle x:Name="HorizontalPanningThumb" AutomationProperties.AccessibilityView="Raw" 
+                                                   Fill="{ThemeResource ScrollBarPanningBackgroundThemeBrush}" HorizontalAlignment="Left" 
+                                                   Height="{ThemeResource ScrollBarPanningThumbThemeHeight}" 
+                                                   MinWidth="{ThemeResource ScrollBarMinThemeWidth}"/>
                                     </Grid>
                                     <Grid x:Name="VerticalPanningRoot" MinHeight="53">
-                                        <Rectangle x:Name="VerticalPanningThumb" AutomationProperties.AccessibilityView="Raw" Fill="{ThemeResource ScrollBarPanningBackgroundThemeBrush}" MinHeight="{ThemeResource ScrollBarMinThemeHeight}" VerticalAlignment="Top" Width="{ThemeResource ScrollBarPanningThumbThemeWidth}"/>
+                                        <Rectangle x:Name="VerticalPanningThumb" AutomationProperties.AccessibilityView="Raw"                                                   
+                                                   MinHeight="{ThemeResource ScrollBarMinThemeHeight}" VerticalAlignment="Top" 
+                                                   Width="{ThemeResource ScrollBarMinThemeWidth}"
+                                                   Fill="{ThemeResource BrushScrollBar}">
+                                        </Rectangle>
                                     </Grid>
                                 </Grid>
                             </ControlTemplate>
@@ -230,7 +181,8 @@
         <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" HorizontalAlignment="Stretch"  Margin="3,0,0,0" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
-                                      SelectionChanged="AnimeCompactItemsIndefinite_OnSelectionChanged"
+                                      ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
+                                      IsItemClickEnabled="True"
                                       Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
             <controls:AlternatingListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -238,18 +190,39 @@
                     <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
                     <Setter Property="BorderThickness" Value="2,0,0,0"/>
                     <Setter Property="Margin" Value="1"/>
-                    <Setter Property="Padding" Value="3,0,0,0"></Setter>
+                    <Setter Property="Padding" Value="3,0,0,0"/>
                 </Style>
             </controls:AlternatingListView.ItemContainerStyle>
         </controls:AlternatingListView>
         <GridView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
-                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
-                  HorizontalAlignment="Center"
-                  Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}" />
+                  HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
+                  ItemClick="AnimesItemsIndefinite_OnItemClick"
+                  IsItemClickEnabled="True"
+                  Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Width" Value="Auto" />
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="Background" Value="{ThemeResource BrushAnimeItemInnerBackground}"/>
+                    <Setter Property="BorderBrush"
+                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    <Setter Property="BorderThickness" Value="2,0,0,0" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid  Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
         <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
-                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged"
+                  ItemClick="AnimesGridIndefinite_OnItemClick"
+                  IsItemClickEnabled="True"
                   HorizontalAlignment="Center"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>

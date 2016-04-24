@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Models;
+using Newtonsoft.Json;
 
 namespace MALClient.ViewModels
 {
@@ -168,6 +172,34 @@ namespace MALClient.ViewModels
         {
             get { return Settings.HamburgerMenuDefaultPaneState; }
             set { Settings.HamburgerMenuDefaultPaneState = value; }
+        }
+
+        public List<NewsData> CurrentNews { get; set; } = new List<NewsData>();
+
+        private bool _newsLoaded;
+        public async void LoadNews()
+        {
+            if(_newsLoaded)
+                return;
+            _newsLoaded = true;
+
+            List<NewsData> data = new List<NewsData>();
+            try
+            {
+                await
+                    Task.Run(
+                        async () =>
+                            data =
+                                JsonConvert.DeserializeObject<List<NewsData>>(
+                                    await new NewsQuery().GetRequestResponse(false)));
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+
+            CurrentNews = data;
+            RaisePropertyChanged(() => CurrentNews);
         }
     }
 }

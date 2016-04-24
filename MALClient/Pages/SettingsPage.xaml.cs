@@ -22,6 +22,8 @@ namespace MALClient.Pages
     {
         private bool _initialized;
 
+        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -417,6 +419,12 @@ namespace MALClient.Pages
             TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+        }
+
+        private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if((sender as Pivot).SelectedIndex == 4)
+                ViewModel.LoadNews();
         }
     }
 }

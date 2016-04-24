@@ -17,13 +17,13 @@
         <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
     </UserControl.Resources>
 
-    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root">
+    <Grid Height="200" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
-               Width="Auto" MaxWidth="120" Margin="1,1" />
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto"
+               Width="Auto" Margin="1,1" />
         <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">
             <Button.Background>
@@ -85,7 +85,7 @@
                 </StackPanel>
 
             </Grid>
-            <Grid Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Grid Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,0">
                 <SymbolIcon Symbol="Favorite" Opacity=".5" Foreground="DarkGray" VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                     <SymbolIcon.RenderTransform>

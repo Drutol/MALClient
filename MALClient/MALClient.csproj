@@ -20,7 +20,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VisualStudioBuilds\</AppxPackageDir>
     <PackageCertificateThumbprint>87205DEB851A1C5CC6CE7E65C7C282B812C6EE97</PackageCertificateThumbprint>
     <HockeyAppResourceId>36ca04ae9ec8438fb812b22bbaafb2a9</HockeyAppResourceId>

@@ -133,7 +133,7 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" x:Name="SpinnerLoading"
-                  Background="{ThemeResource BrushLoading}">
+                  Background="{ThemeResource BrushLoadingNonTransparent}">
                 <ProgressRing
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                     IsActive="True" />

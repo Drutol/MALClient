@@ -40,7 +40,6 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="225" />
-                <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill"
                    Height="200" Width="134" IsRightTapEnabled="True" RightTapped="UIElement_OnRightTapped">
@@ -52,7 +51,7 @@
                 </FlyoutBase.AttachedFlyout>
             </Image>
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                    Background="Transparent" Margin="0,0,0,10">
                 <Button Height="40" HorizontalAlignment="Stretch"
                                     Command="{Binding CopyToClipboardCommand}"
                                     Background="Transparent">

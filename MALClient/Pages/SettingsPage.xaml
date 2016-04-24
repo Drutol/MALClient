@@ -666,8 +666,16 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
-                                            <TextBlock Text="19.04.2016 - v3.4.26.0 " />
-                                            <TextBlock Text="Initial release." />
+                                            <TextBlock Text="25.04.2016 - v3.4.48.0" />
+                                            <TextBlock Text="Resolved various issues with lack of internet connection." />
+                                            <TextBlock Text="Fixed anime details crashing/refusing to load certain entries. Sorry!" />
+                                            <TextBlock Text="Recommendations will now show whether you have this anime in your list." />
+                                            <TextBlock Text="Adjusted 'Detailed grid' view mode (old 'List mode') to make it bigger + it now stretches to fit." />
+                                            <TextBlock Text="Extracted buttons from details page's more button to main page." />
+                                            <TextBlock Text="Search results are now bigger." />
+                                            <TextBlock Text="Profile page now displays standard grid items." />
+                                            <TextBlock Text="Added news section where I'll be posting notifications." />
+                                            <TextBlock Text="Various small adjustments and fixes." />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

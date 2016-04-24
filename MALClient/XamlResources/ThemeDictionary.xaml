@@ -11,7 +11,8 @@
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color= "#f3f3f3" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#F0F0F0" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="WhiteSmoke" />
-            <SolidColorBrush x:Key="BrushLoading" Color="#E6E6E6" Opacity="0" />
+            <SolidColorBrush x:Key="BrushLoading" Color="Transparent"  />
+            <SolidColorBrush x:Key="BrushLoadingNonTransparent" Color="#E6E6E6" Opacity=".5" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#efefef"/>
             <SolidColorBrush x:Key="BrushRowAlternate1" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="BrushRowAlternate2" Color="#e6e6e6" />
@@ -38,7 +39,8 @@
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1f1f1f" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2f2f2f" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#212121" />
-            <SolidColorBrush x:Key="BrushLoading" Color="#2a2c2a" Opacity="0" />
+            <SolidColorBrush x:Key="BrushLoading" Color="Transparent" />
+            <SolidColorBrush x:Key="BrushLoadingNonTransparent" Color="#2a2c2a" Opacity=".5" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#0a0a0a"/>
             <SolidColorBrush x:Key="BrushRowAlternate1" Color="#AA2a2c2a" />
             <SolidColorBrush x:Key="BrushRowAlternate2" Color="#111111" />

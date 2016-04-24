@@ -447,8 +447,8 @@
             </PivotItem>
             
         </Pivot>
-        
-        <Grid Visibility="{Binding LoadingVisibility}" Background="{ThemeResource BrushLoading}" Margin="0,0,0,0">
+
+        <Grid Visibility="{Binding LoadingVisibility}" Background="{ThemeResource BrushLoadingNonTransparent}" Margin="0,0,0,0">
             <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
                           IsActive="True" />
         </Grid>

@@ -1146,10 +1146,18 @@ namespace MALClient.ViewModels
         {
             if (_animeItemReference is AnimeItemViewModel && _animeMode)
             {
-                var day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                int day = -1;
+                try
+                {
+                    day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
                           (Status == "Currently Airing" || Status == "Not yet aired")
-                    ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
-                    : -1;
+                        ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
+                        : -1;
+                }
+                catch (Exception)
+                {
+                    day = -1;
+                }
                 DataCache.RegisterVolatileData(_id, new VolatileDataCache
                 {
                     DayOfAiring = day,
@@ -1187,7 +1195,6 @@ namespace MALClient.ViewModels
 
         private void ExtractData(XElement animeElement)
         {
-            DataCache.SaveAnimeSearchResultsData(_id, animeElement, _animeMode);
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
@@ -1225,6 +1232,7 @@ namespace MALClient.ViewModels
                     var parsedData = XDocument.Parse(data);
                     var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
                     elem = elements.First(element => element.Element("id").Value == id);
+                    DataCache.SaveAnimeSearchResultsData(_id, elem, _animeMode);
                 }
                 ExtractData(elem);
             }

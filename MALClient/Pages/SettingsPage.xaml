@@ -534,7 +534,7 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="3">
+                                <Grid Background="{ThemeResource BrushNewsBackground}" CornerRadius="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="10"/>
                                         <ColumnDefinition Width="*"/>
@@ -637,23 +637,21 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
+                                            <TextBlock Text="25.04.2016 - v3.4.48.0"/>
+                                            <TextBlock Text="Fixed details page crashes."/>
+                                            <TextBlock Text="Fixed landscape grid loading incremental loading."/>
+                                            <TextBlock Text="Made stauts bar hidden while in landscape mode."/>
+                                            <TextBlock Text="Added news."/>
+                                            <TextBlock Text="Recommendations will now indicate whether item is on your list."/>
+                                            <TextBlock Text="Profile page tweaks."/>
+                                            <MenuFlyoutSeparator Margin="0,5"/>
                                             <TextBlock Text="23.04.2016 - v3.4.32.0"/>
                                             <TextBlock Text="Increased responsiveness of alternate image loading."/>
                                             <TextBlock Text="Grid view will have now 3rd column while in landscape mode."/>
                                             <TextBlock Text="Image fade in."/>
                                             <TextBlock Text="Start day small visual bugfix."/>
-                                            <MenuFlyoutSeparator Margin="0,5"/>
-                                            <TextBlock Text="19.04.2016 - v3.4.26.0 " />
-                                            <TextBlock Text="Details page now properly works in landscape orientation." />
-                                            <TextBlock Text="About page moved to settings." />
-                                            <TextBlock Text="About page visually tweaked." />
-                                            <TextBlock Text="Added auto setters for start/end dates in settings." />
-                                            <TextBlock Text="Added option to pull higher quality show 'cover art' from hummingbird." />
-                                            <TextBlock Text="Resolved numerous issues with start/end dates." />
-                                            <TextBlock Text="Grid view now allows to change watched episodes count." />
-                                            <TextBlock Text="Grid view will now highlight current status/score in menu flyout." />
-                                            <TextBlock Text="Added option to reset start/end date." />
                                             
+
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

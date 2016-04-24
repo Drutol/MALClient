@@ -85,6 +85,32 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width=".2*"/>
+                                        <ColumnDefinition Width=".4*"/>
+                                        <ColumnDefinition Width=".4*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Item1}" FontWeight="Medium"/>
+                                    <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Item2}" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Item3}" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Margin="10,0,0,0" Grid.Column="2" HorizontalAlignment="Stretch">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Item4}" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Item5}" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </controls:AlternatingListView>
                 </StackPanel>
             </Grid>
@@ -92,7 +118,7 @@
             <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
                     <MenuFlyoutSeparator />
-                    <TextBlock Text="Recommendtion description" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <TextBlock Text="Recommendation description" FontWeight="Bold" HorizontalAlignment="Center" />
                     <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5" />
                 </StackPanel>
             </Grid>

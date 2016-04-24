@@ -312,7 +312,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => CurrentData);
             _initialized = true;
             CurrentlySelectedInnerPivotIndex = args?.InnerPivotSelectedIndex ?? 0;
-            CurrentlySelectedOuterPivotIndex = args?.OuterPivotSelectedIndex ?? 2;
+            CurrentlySelectedOuterPivotIndex = args?.OuterPivotSelectedIndex ?? 1;
             OuterPivotItemChanged(CurrentlySelectedOuterPivotItem.Tag as string);
             LoadingVisibility = Visibility.Collapsed;
         }
@@ -435,9 +435,11 @@ namespace MALClient.ViewModels
                         : Visibility.Collapsed;
                     break;
                 case "Stats":
-                    if(_loadedStats)
+                    if (_loadedStats)
                         return;
                     _loadedStats = true;
+                    await CurrentData.PopulateWatchStats();
+                    RaisePropertyChanged(() => CurrentData);
                     AnimeChartValues = new List<int>
                     {
                         CurrentData.AnimeWatching,

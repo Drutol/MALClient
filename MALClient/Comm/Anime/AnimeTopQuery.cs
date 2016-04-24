@@ -31,7 +31,7 @@ namespace MALClient.Comm
                 return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
-                return null;
+                return new List<TopAnimeData>();
 
 
             var doc = new HtmlDocument();

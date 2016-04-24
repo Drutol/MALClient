@@ -47,6 +47,11 @@ namespace MALClient.ViewModels
             Loading = true;
             var data = new List<RecomendationData>();
             await Task.Run(async () => data = await new AnimeRecomendationsQuery().GetRecomendationsData());
+            if (data == null)
+            {
+                Loading = false;
+                return;               
+            }
             RecommendationItems.Clear();
             var i = 0;
             foreach (var item in data)

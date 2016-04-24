@@ -16,7 +16,7 @@ namespace MALClient.Items
     public sealed partial class RecomendationItem : UserControl
     {
         private readonly RecomendationData _data;
-        private readonly ObservableCollection<ListViewItem> _detailItems = new ObservableCollection<ListViewItem>();
+        private readonly ObservableCollection<Tuple<string, string, string, string, string>> _detailItems = new ObservableCollection<Tuple<string, string, string, string, string>>();
         private bool _dataLoaded;
 
         public RecomendationItem(RecomendationData data, int index)
@@ -55,14 +55,31 @@ namespace MALClient.Items
             TxtDepTitle.Text = _data.DependentTitle;
             TxtRecTitle.Text = _data.RecommendationTitle;
             TxtRecommendation.Text = _data.Description;
-            _detailItems.Add(BuildListViewItem("Episodes", _data.DependentEpisodes, _data.RecommendationEpisodes));
-            _detailItems.Add(BuildListViewItem("Score", _data.DependentGlobalScore.ToString(),
-                _data.RecommendationGlobalScore.ToString()));
-            _detailItems.Add(BuildListViewItem("Type", _data.DependentType, _data.RecommendationType));
-            _detailItems.Add(BuildListViewItem("Status", _data.DependentStatus, _data.RecommendationStatus));
-            _detailItems.Add(BuildListViewItem("Start:", _data.DependentStartDate, _data.RecommendationStartDate));
-            _detailItems.Add(BuildListViewItem("End:", _data.DependentEndDate, _data.RecommendationStartDate));
+            var myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.DependentId);
+            var myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.RecommendationId);
+
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Episodes:", _data.DependentEpisodes,
+                myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{_data.DependentEpisodes}", _data.RecommendationEpisodes,
+                myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{_data.RecommendationEpisodes}"));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Score:", _data.DependentGlobalScore.ToString(),
+                myDepItem?.MyScore == null ? "" : $"{myDepItem.MyScore}/10", _data.RecommendationGlobalScore.ToString(),
+                myRecItem?.MyScore == null ? "" : $"{myRecItem.MyScore}/10"));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Type:", _data.DependentType, "", _data.RecommendationType, ""));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Status:", _data.DependentStatus, "", _data.RecommendationStatus, ""));
+
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Start:",
+                _data.DependentStartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentStartDate,
+                myDepItem != null ? (myDepItem.StartDate != AnimeItemViewModel.InvalidStartEndDate ? myDepItem.StartDate : "Not set") : "",
+                _data.RecommendationStartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationStartDate,
+                myRecItem != null ? (myRecItem.StartDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.StartDate : "Not set") : ""));
+
+            _detailItems.Add(new Tuple<string, string, string, string, string>("End:",
+                _data.DependentEndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentEndDate,
+                myDepItem != null ? (myDepItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myDepItem.EndDate : "Not set") : "",
+                _data.RecommendationEndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationEndDate,
+                myRecItem != null ? (myRecItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.EndDate : "Not set") : ""));
             DetailsListView.ItemsSource = _detailItems;
+
             _dataLoaded = true;
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }

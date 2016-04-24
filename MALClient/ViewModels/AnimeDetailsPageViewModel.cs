@@ -1212,20 +1212,27 @@ namespace MALClient.ViewModels
         {
             LoadingGlobal = Visibility.Visible;
             var elem = force ? null : await DataCache.RetrieveAnimeSearchResultsData(_id, _animeMode);
-            if (elem == null)
+            try
             {
-                var data = "";
-                await Task.Run(async () => data = _animeMode
-                    ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse()
-                    : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse());
-                data = WebUtility.HtmlDecode(data);
-                data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
-
-                var parsedData = XDocument.Parse(data);
-                var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
-                elem = elements.First(element => element.Element("id").Value == id);
+                if (elem == null)
+                {
+                    var data = "";
+                    await Task.Run(async () => data = _animeMode
+                        ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false)
+                        : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false));
+                    data = WebUtility.HtmlDecode(data);
+                    data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
+                    var parsedData = XDocument.Parse(data);
+                    var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
+                    elem = elements.First(element => element.Element("id").Value == id);
+                }
+                ExtractData(elem);
             }
-            ExtractData(elem);
+            catch (Exception)
+            {
+                LoadingGlobal = Visibility.Collapsed;
+                // no internet?              
+            }
         }
 
         public async void RefreshData()
@@ -1385,7 +1392,12 @@ namespace MALClient.ViewModels
             Reviews.Clear();
             var revs = new List<AnimeReviewData>();
             await Task.Run(async () => revs = await new AnimeReviewsQuery(_id, _animeMode).GetAnimeReviews(force));
-
+            if (revs == null)
+            {
+                LoadingReviews = Visibility.Collapsed;
+                NoReviewsDataNoticeVisibility = Visibility.Visible;
+                return;
+            }
             foreach (var rev in revs)
             {
                 Reviews.Add(rev);
@@ -1407,6 +1419,12 @@ namespace MALClient.ViewModels
                     async () =>
                         recomm =
                             await new AnimeDirectRecommendationsQuery(_id, _animeMode).GetDirectRecommendations(force));
+            if (recomm == null)
+            {
+                LoadingRecommendations = Visibility.Collapsed;
+                NoRecommDataNoticeVisibility = Visibility.Visible;
+                return;
+            }
             foreach (var item in recomm)
                 Recommendations.Add(item);
             NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
@@ -1420,9 +1438,15 @@ namespace MALClient.ViewModels
             LoadingRelated = Visibility.Visible;
             _loadedRelated = true;
             RelatedAnime.Clear();
-            var recomm = new List<RelatedAnimeData>();
-            await Task.Run(async () => recomm = await new AnimeRelatedQuery(_id, _animeMode).GetRelatedAnime(force));
-            foreach (var item in recomm)
+            var related = new List<RelatedAnimeData>();
+            await Task.Run(async () => related = await new AnimeRelatedQuery(_id, _animeMode).GetRelatedAnime(force));
+            if (related == null)
+            {
+                LoadingRelated = Visibility.Collapsed;
+                NoRelatedDataNoticeVisibility = Visibility.Visible;
+                return;
+            }
+            foreach (var item in related)
                 RelatedAnime.Add(item);
             NoRelatedDataNoticeVisibility = RelatedAnime.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
             LoadingRelated = Visibility.Collapsed;

@@ -21,6 +21,8 @@ namespace MALClient.Pages
     {
         private bool _initialized;
 
+        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -428,6 +430,8 @@ namespace MALClient.Pages
         {
             if((sender as Pivot).SelectedIndex == 1)
                 PopulateCachedEntries();
+            else if ((sender as Pivot).SelectedIndex == 4)
+                ViewModel.LoadNews();
         }
     }
 }

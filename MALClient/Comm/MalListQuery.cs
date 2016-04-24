@@ -15,9 +15,9 @@ namespace MALClient.Comm
             Request.Method = "GET";
         }
 
-        public async Task<XElement> GetProfileStats()
+        public async Task<XElement> GetProfileStats(bool wantMsg = true)
         {
-            var raw = await GetRequestResponse();
+            var raw = await GetRequestResponse(wantMsg);
             if (string.IsNullOrEmpty(raw))
                 return null;
             try

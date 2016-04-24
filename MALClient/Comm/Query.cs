@@ -3,7 +3,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 
 namespace MALClient.Comm
 {
@@ -30,8 +34,19 @@ namespace MALClient.Comm
             {
                 if (wantMsg)
                 {
-                    var msg = new MessageDialog(e.Message, "An error occured");
-                    await msg.ShowAsync();
+                    try
+                    {                        
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,async () =>
+                        {
+                            var msg = new MessageDialog(e.Message, "An error occured");
+                            await msg.ShowAsync();
+                        });
+                    }
+                    catch (Exception y)
+                    {
+                        //window not yet loaded
+                    }
+
                 }
                 if (statusBarMsg != null)
                 {

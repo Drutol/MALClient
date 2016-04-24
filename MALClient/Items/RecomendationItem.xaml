@@ -90,18 +90,34 @@
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".2*"/>
-                                        <ColumnDefinition Width=".6*"/>
-                                        <ColumnDefinition Width=".6*"/>
+                                        <ColumnDefinition Width=".3*"/>
+                                        <ColumnDefinition Width=".4*"/>
+                                        <ColumnDefinition Width=".3*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding Item1}" FontWeight="Medium"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <TextBlock Text="{Binding Item2}"/>
-                                        <TextBlock Text="{Binding Item3}" Margin="10,0,0,0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                    </StackPanel>                                   
-                                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Item4}"/>
-                                        <TextBlock Text="{Binding Item5}" Margin="10,0,0,0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                    </StackPanel>
+                                    <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Item2}" TextAlignment="Left" HorizontalAlignment="Stretch"/>
+                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch"/>
+                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item3}" Margin="10,0,0,0" 
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch"/>
+                                    </Grid>
+                                    <Grid Column="2" HorizontalAlignment="Stretch"/>
+                                    <Grid Grid.Column="3" HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Item4}" TextAlignment="Left" HorizontalAlignment="Stretch"/>
+                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch"/>
+                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item5}" Margin="10,0,0,0" 
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch"/>
+                                    </Grid>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -112,7 +128,7 @@
             <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
                     <MenuFlyoutSeparator />
-                    <TextBlock Text="Recommendtion description" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <TextBlock Text="Recommendation description" FontWeight="Bold" HorizontalAlignment="Center" />
                     <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5" />
                 </StackPanel>
             </Grid>

@@ -36,8 +36,7 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
-            var wasOnSearchPage = SearchToggleLock;
-            SearchToggleLock = false;
+            var wasOnSearchPage = SearchToggleLock;            
             
             await Task.Delay(1);
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
@@ -59,10 +58,16 @@ namespace MALClient.ViewModels
 
             if (index == PageIndex.PageAbout ||
                 index == PageIndex.PageSettings ||
-                index == PageIndex.PageAbout)
+                index == PageIndex.PageAbout ||
+                index == PageIndex.PageAnimeDetails)
             {
                 CurrentOffPage = index;
                 NavMgr.ResetBackNav();
+            }
+            else
+            {
+                ResetSearchFilter();
+                SearchToggleLock = false;
             }
 
             if (index == PageIndex.PageSeasonal ||
@@ -102,7 +107,6 @@ namespace MALClient.ViewModels
                 else
                     HideSearchStuff();
             }
-            ResetSearchFilter();
             switch (index)
             {
                 case PageIndex.PageAnimeList:

@@ -43,7 +43,7 @@
                 <RowDefinition MinHeight="0" MaxHeight="100" Height="Auto" />
             </Grid.RowDefinitions>
             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill"
-                   Height="225" Width="159" IsRightTapEnabled="True" RightTapped="UIElement_OnRightTapped">
+                   Height="200" Width="134" IsRightTapEnabled="True" RightTapped="UIElement_OnRightTapped">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout x:Name="ImageSaveFlyout">
                         <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal"/>

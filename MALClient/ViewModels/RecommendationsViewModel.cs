@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
@@ -47,15 +48,19 @@ namespace MALClient.ViewModels
             Loading = true;
             var data = new List<RecomendationData>();
             await Task.Run(async () => data = await new AnimeRecomendationsQuery().GetRecomendationsData());
+            if (data == null)
+            {
+                Loading = false;
+                return;
+            }
             RecommendationItems.Clear();
             var i = 0;
-            foreach (var item in data)
+            foreach (var pivot in data.Select(item => new PivotItem
             {
-                var pivot = new PivotItem
-                {
-                    Header = item.DependentTitle + "\n" + item.RecommendationTitle,
-                    Content = new RecomendationItem(item, i++)
-                };
+                Header = item.DependentTitle + "\n" + item.RecommendationTitle,
+                Content = new RecomendationItem(item, i++)
+            }))
+            {
                 RecommendationItems.Add(pivot);
             }
             Loading = false;

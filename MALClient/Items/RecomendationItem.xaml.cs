@@ -59,12 +59,26 @@ namespace MALClient.Items
             var myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.DependentId);
             var myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.RecommendationId);
 
-            _detailItems.Add(new Tuple<string, string, string, string,string>("Episodes", _data.DependentEpisodes,myDepItem?.MyEpisodes.ToString() ?? "", _data.RecommendationEpisodes, myRecItem?.MyEpisodes.ToString() ?? ""));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Score", _data.DependentGlobalScore.ToString(), myDepItem?.MyScore.ToString() ?? "", _data.RecommendationGlobalScore.ToString(), myRecItem?.MyScore.ToString() ?? ""));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Type", _data.DependentType,"", _data.RecommendationType,""));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Status", _data.DependentStatus,"", _data.RecommendationStatus,""));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Start:", _data.DependentStartDate, myDepItem?.StartDate ?? "", _data.RecommendationStartDate, myRecItem?.StartDate ?? ""));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("End:", _data.DependentEndDate, myDepItem?.EndDate ?? "", _data.RecommendationStartDate, myRecItem?.EndDate?? ""));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Episodes:", _data.DependentEpisodes,
+                myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{_data.DependentEpisodes}", _data.RecommendationEpisodes,
+                myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{_data.RecommendationEpisodes}"));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Score:", _data.DependentGlobalScore.ToString(), 
+                myDepItem?.MyScore == null ? "" : $"{myDepItem.MyScore}/10", _data.RecommendationGlobalScore.ToString(),
+                myRecItem?.MyScore == null ? "" : $"{myRecItem.MyScore}/10"));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Type:", _data.DependentType,"", _data.RecommendationType,""));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Status:", _data.DependentStatus,"", _data.RecommendationStatus,""));
+
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Start:", 
+                _data.DependentStartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentStartDate,
+                myDepItem != null ? (myDepItem.StartDate != AnimeItemViewModel.InvalidStartEndDate ? myDepItem.StartDate  : "Not set") : "", 
+                _data.RecommendationStartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationStartDate,
+                myRecItem != null ? (myRecItem.StartDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.StartDate : "Not set") : ""));
+
+            _detailItems.Add(new Tuple<string, string, string, string, string>("End:", 
+                _data.DependentEndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentEndDate,
+                myDepItem != null ? (myDepItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myDepItem.EndDate : "Not set") : "", 
+                _data.RecommendationEndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationEndDate,
+                myRecItem != null ? (myRecItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.EndDate : "Not set") : ""));
             DetailsListView.ItemsSource = _detailItems;
             _dataLoaded = true;
             SpinnerLoading.Visibility = Visibility.Collapsed;

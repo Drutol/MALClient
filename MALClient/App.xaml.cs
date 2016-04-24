@@ -84,7 +84,15 @@ namespace MALClient
             }
             // Ensure the current window is active
 
-            HtmlClassMgr.Init();
+            try
+            {
+                HtmlClassMgr.Init();
+            }
+            catch (Exception)
+            {
+                // no internet?
+            }
+
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             var tb = ApplicationView.GetForCurrentView().TitleBar;

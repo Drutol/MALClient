@@ -519,26 +519,37 @@
                 </PivotItem>
                 <PivotItem Header="Misc">
                     <StackPanel>
-                        <TextBlock Text="Enable review reminder pop up." FontWeight="Medium"
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="Enable review reminder pop up." FontWeight="Medium"
                                    HorizontalAlignment="Center"
                                    TextWrapping="WrapWholeWords" />
-                        <ToggleSwitch HorizontalAlignment="Center" OnContent="Enabled" OffContent="Disabled"
+                                <ToggleSwitch HorizontalAlignment="Center" OnContent="Enabled" OffContent="Disabled"
                                       IsOn="{Binding RatePopUpEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                        <StackPanel
+                                <StackPanel
                             Visibility="{Binding RatePopUpEnable, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="Next reminder after :"
+                                    <TextBlock Text="Next reminder after :"
                                        FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
                                        HorizontalAlignment="Center" />
-                            <TextBlock Text="{Binding RatePopUpStartupCounter}" Margin="0,10" FontWeight="Medium"
+                                    <TextBlock Text="{Binding RatePopUpStartupCounter}" Margin="0,10" FontWeight="Medium"
                                        HorizontalAlignment="Center"
                                        TextWrapping="WrapWholeWords" />
-                            <TextBlock Text="app launches."
+                                    <TextBlock Text="app launches."
                                        FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
                                        HorizontalAlignment="Center" />
-                        </StackPanel>
-                        <Button Content="Rate now!" Command="{Binding ReviewCommand}" HorizontalAlignment="Center"
+                                </StackPanel>
+                                <Button Content="Rate now!" Command="{Binding ReviewCommand}" HorizontalAlignment="Center"
                                 Margin="0,10,0,0" />
-
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="5">
+                            <StackPanel>
+                                <TextBlock Text="Dev corner!" FontWeight="Medium"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                                <Button HorizontalAlignment="Center" Content="Don't press me?" Margin="10" Command="{Binding Source={StaticResource Locator},Path=Hamburger.ButtonAdCommand}" />
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </PivotItem>
                 <PivotItem Header="News" Padding="2" Margin="0">
@@ -552,7 +563,7 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="3">
+                                <Grid Background="{ThemeResource BrushNewsBackground}" CornerRadius="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="10"/>
                                         <ColumnDefinition Width="*"/>

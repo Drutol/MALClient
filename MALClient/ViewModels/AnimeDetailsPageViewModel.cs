@@ -1084,10 +1084,19 @@ namespace MALClient.ViewModels
         {
             if (_animeItemReference is AnimeItemViewModel && _animeMode)
             {
-                var day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
-                          (Status == "Currently Airing" || Status == "Not yet aired")
-                    ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
-                    : -1;
+                int day = -1;
+                try
+                {
+                    day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                              (Status == "Currently Airing" || Status == "Not yet aired")
+                        ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
+                        : -1;
+                }
+                catch (Exception)
+                {
+                    day = -1;
+                }
+
                 DataCache.RegisterVolatileData(Id, new VolatileDataCache
                 {
                     DayOfAiring = day,
@@ -1125,8 +1134,7 @@ namespace MALClient.ViewModels
         }
 
         private void ExtractData(XElement animeElement)
-        {
-            DataCache.SaveAnimeSearchResultsData(Id, animeElement, _animeMode);
+        {           
             GlobalScore = float.Parse(animeElement.Element("score").Value);
             Type = animeElement.Element("type").Value;
             Status = animeElement.Element("status").Value;
@@ -1163,8 +1171,10 @@ namespace MALClient.ViewModels
                     data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 
                     var parsedData = XDocument.Parse(data);
+                    
                     var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
                     elem = elements.First(element => element.Element("id").Value == id);
+                    DataCache.SaveAnimeSearchResultsData(Id, elem, _animeMode);
                 }
                 ExtractData(elem);
             }

@@ -51,59 +51,37 @@
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
             </Image>
-            <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Background="Transparent" RenderTransformOrigin="0.5,0.5">
-                <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
-                            Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
-                    <SymbolIcon.RenderTransform>
-                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                    </SymbolIcon.RenderTransform>
-                </SymbolIcon>
-                <Button.Flyout>
-                    <Flyout>
-                        <StackPanel>
-                            <Button Height="40" HorizontalAlignment="Stretch"
+                <Button Height="40" HorizontalAlignment="Stretch"
                                     Command="{Binding CopyToClipboardCommand}"
-                                    Background="{ThemeResource BrushDetailsMoreButton}">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Copy" />
-                                    <TextBlock Margin="10,0,0,0" Text="Copy link to clipboard" />
-                                </StackPanel>
-                            </Button>
-                            <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
+                                    Background="Transparent">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Copy mal link to clipboard."></ToolTip>
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Copy"/>
+                </Button>
+                <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
                                     Command="{Binding OpenInMalCommand}"
-                                    Background="{ThemeResource BrushDetailsMoreButton}">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Globe" />
-                                    <TextBlock Margin="10,0,0,0" Text="       Open in browser" />
-                                </StackPanel>
-                            </Button>
-                            <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
-                                    Command="{Binding AddAnimeCommand}"
-                                    IsEnabled="{Binding AddAnimeBtnEnableState}"
-                                    Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                    Background="{ThemeResource BrushDetailsMoreButton}" Margin="0,5,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Add" />
-                                    <TextBlock Margin="10,0,0,0" Text="Add to my list" />
-                                </StackPanel>
-                            </Button>
-                            <Button Height="40"
+                                    Background="Transparent">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Open in browser."></ToolTip>
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Globe" />
+                </Button>
+                <Button Height="40"
                                     Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
                                     Command="{Binding RemoveAnimeCommand}"
                                     IsEnabled="{Binding RemoveAnimeBtnEnableState}"
                                     HorizontalAlignment="Stretch"
-                                    Background="{ThemeResource BrushDetailsMoreButton}"
-                                    Margin="0,5,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Remove" />
-                                    <TextBlock Margin="10,0,0,0" Text="Remove from my list" />
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+                                    Background="Transparent"
+                                    Margin="0,5,0,0"> 
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Remove anime from your list."></ToolTip>
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Clear" />
+                </Button>
+            </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
                         Command="{Binding IncrementEpsCommand}"

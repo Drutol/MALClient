@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -146,18 +147,18 @@ namespace MALClient.ViewModels
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                         ad.Show();
                     };
-                    ad.ErrorOccurred += (sender, args) =>
+                    ad.ErrorOccurred += async (sender, args) =>
                     {
-                        Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
+                        //Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
+                        var msg = new MessageDialog($"Code : {args.ErrorCode}\nMessage: {args.ErrorMessage}","Umm , this is it:");
+                        await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                         (sender as InterstitialAd).Close();
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
-#if !DEBUG
-                    ad.RequestAd(AdType.Video, "d25517cb-12d4-4699-8bdc-52040c712cab", "11389925");
-#else
-                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
-#endif
+
+                    ad.RequestAd(AdType.Video, "0b4d3120-9383-4469-9e80-812a15f124e3", "294830");
+
                 }
                     ));
             }

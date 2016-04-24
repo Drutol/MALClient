@@ -421,7 +421,7 @@ namespace MALClient.ViewModels
             //This is the place where offset thresholds are defined
             if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 25 : 100) ||
                 (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
-                (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
+                (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 3))
             {
                 _lastOffset = offset;
                 switch (DisplayMode)
@@ -431,9 +431,7 @@ namespace MALClient.ViewModels
                         _animeItemsSet.RemoveAt(0);
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
-                        _animeItemsSet.RemoveAt(0);
-                        if (_animeItemsSet.Count > 0)
+                        for (int i = 0; i < 3 && _animeItemsSet.Count > 0; i++) //3 becaouse od landscape mode
                         {
                             AnimeGridItems.Add(_animeItemsSet.First().AnimeGridItem);
                             _animeItemsSet.RemoveAt(0);

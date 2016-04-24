@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
+using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
@@ -124,7 +125,19 @@ namespace MALClient
                         ? Colors.White
                         : Colors.Black;
                 }
+                
+                var disp = DisplayInformation.GetForCurrentView();
+                DispOnOrientationChanged(disp,null);      
+                disp.OrientationChanged += DispOnOrientationChanged;
             }
+        }
+
+        private void DispOnOrientationChanged(DisplayInformation sender, object args)
+        {
+            if (sender.CurrentOrientation == DisplayOrientations.Landscape || sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped)
+                StatusBar.GetForCurrentView().HideAsync();
+            else
+                StatusBar.GetForCurrentView().ShowAsync();
         }
 
         private async void LaunchUri(string url)

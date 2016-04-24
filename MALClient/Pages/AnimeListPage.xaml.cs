@@ -163,12 +163,10 @@ namespace MALClient.Pages
             if (orientation == DisplayOrientations.Landscape || orientation == DisplayOrientations.LandscapeFlipped)
             {
                 ViewModel.MaxGridColumns = 3;
-                await StatusBar.GetForCurrentView().HideAsync();
             }
             else
             {
                 ViewModel.MaxGridColumns = 2;
-                await StatusBar.GetForCurrentView().ShowAsync();
             }
         }
 
@@ -185,8 +183,6 @@ namespace MALClient.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
-            if(e.SourcePageType != typeof(AnimeDetailsPage))
-                StatusBar.GetForCurrentView().ShowAsync();
         }
 
         #endregion

@@ -155,7 +155,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MinWidth="45"/>
                     <ColumnDefinition Width="16"/>
-                    <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="420"/>
+                    <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600"/>
                 </Grid.ColumnDefinitions>
 
                 <Frame Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MainContent" />

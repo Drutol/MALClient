@@ -28,8 +28,7 @@ namespace MALClient
             Utils.CheckTiles();
             Loaded += (sender, args) =>
             {
-                if (ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0)
-                    OffContentColumn.MaxWidth = 600;
+
                 ViewModelLocator.Main.View = this;
             };
         }
@@ -49,10 +48,15 @@ namespace MALClient
             SearchInput.Focus(state);
         }
 
+        private double GetStartingSplitterWidth()
+        {
+            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 600 : 420;
+        }
+
         private double _prevOffContntWidth = 0;
         public void InitSplitter()
         {
-            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = 535) : _prevOffContntWidth);
+            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = GetStartingSplitterWidth()) : _prevOffContntWidth);
             OffContent.UpdateLayout();
         }
 

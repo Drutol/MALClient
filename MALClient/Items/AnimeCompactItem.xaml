@@ -58,14 +58,18 @@
                     <ColumnDefinition Width="*" MinWidth="10" MaxWidth="100" />
                     <ColumnDefinition Width="*" MinWidth="20" MaxWidth="120" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="30,5,0,5"/>
+                <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="35,5,0,5"/>
                 <TextBlock Grid.Column="0" Text="{Binding Title}" Width="Auto" VerticalAlignment="Center" FontWeight="SemiLight" 
-                               TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" Margin="35,0,0,0"/>
-                <StackPanel Grid.Column="0" Width="25" HorizontalAlignment="Left" VerticalAlignment="Center">
+                               TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" Margin="40,0,0,0"/>
+                <StackPanel Grid.Column="0" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock  Text="{Binding GlobalScoreBind}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                            VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                     <TextBlock  Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="None"/>
+                           VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="{Binding Type}"/>
+                            </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
                 <Button Grid.Column="1" Content="{Binding MyScoreBind}" Margin="5"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"

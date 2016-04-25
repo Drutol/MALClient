@@ -26,7 +26,12 @@ namespace MALClient
         {
             InitializeComponent();
             Utils.CheckTiles();
-            Loaded += (sender, args) =>  ViewModelLocator.Main.View = this;
+            Loaded += (sender, args) =>
+            {
+                if (ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0)
+                    OffContentColumn.MaxWidth = 600;
+                ViewModelLocator.Main.View = this;
+            };
         }
 
         public void Navigate(Type page, object args = null)

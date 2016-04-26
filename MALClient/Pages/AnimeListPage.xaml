@@ -75,7 +75,13 @@
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
                         <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
-                                  SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                  SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -185,6 +191,25 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
+        <Pivot Grid.Row="0" Style="{StaticResource PivotHamburgerStyle}"                            
+               SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}"/>
+            </Pivot.Resources>
+            <Pivot.Items>
+                <PivotItem Header="{Binding Filter1Label}" />
+                <PivotItem Header="Completed" />
+                <PivotItem Header="On hold" />
+                <PivotItem Header="Dropped" />
+                <PivotItem Header="{Binding Filter5Label}" />
+                <PivotItem Header="{Binding StatusAllLabel}" />
+            </Pivot.Items>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding}" Margin="5,0"/>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+        </Pivot>
         <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="3,0,0,0" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"

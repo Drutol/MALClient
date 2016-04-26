@@ -10,13 +10,14 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
         <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
-        <Setter Property="Height" Value="48" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="PivotHeaderItem">
-                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                    <Grid x:Name="Grid" Background="{TemplateBinding Background}" VerticalAlignment="Center">
                         <Grid.Resources>
                             <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
                                 <Setter Property="FontFamily" Value="Segoe UI" />
@@ -417,7 +418,7 @@
                                             <ContentControl.Clip>
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
-                                            <Grid Background="{ThemeResource BrushPivotHeaderBackground}" Padding="0"
+                                            <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Padding="0"
                                                   Margin="0" Height="30"
                                                   VerticalAlignment="Center" HorizontalAlignment="Stretch">
                                                 <PivotHeaderPanel x:Name="StaticHeader" Height="30"

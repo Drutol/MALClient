@@ -48,7 +48,7 @@ namespace MALClient
             {
                 LaunchUri(e.Arguments);
             }
-
+            Credentials.Init();
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -81,6 +81,7 @@ namespace MALClient
             }
             // Ensure the current window is active
             HtmlClassMgr.Init();
+            
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();

@@ -134,7 +134,7 @@
                 </ResourceDictionary.MergedDictionaries>
                 <Style TargetType="PivotHeaderPanel">
                     <Setter Property="Visibility" Value="Collapsed" />
-                    
+
                 </Style>
                 <Style TargetType="ScrollBar">
                     <Setter Property="MinWidth" Value="{ThemeResource ScrollBarMinThemeWidth}"/>
@@ -185,18 +185,6 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <Pivot Grid.Row="0" Style="{StaticResource PivotHamburgerStyle}">
-            <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}"/>
-            </Pivot.Resources>
-            <PivotItem Header="Watching"/>
-            <PivotItem Header="Completed"/>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding}" Margin="5,0,5,10"/>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-        </Pivot>
         <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="3,0,0,0" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"

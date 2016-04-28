@@ -218,6 +218,7 @@
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />
+    <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />

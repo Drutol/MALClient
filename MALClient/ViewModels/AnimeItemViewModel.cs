@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -119,7 +120,6 @@ namespace MALClient.ViewModels
             ParentAbstraction = parent;
             _imgUrl = img;
             Id = id;
-            Image = new BitmapImage(new Uri(_imgUrl));
             if (!ParentAbstraction.RepresentsAnime)
             {
                 UpdateEpsUpperLabel = "Read chapters :";
@@ -428,14 +428,13 @@ namespace MALClient.ViewModels
         }
 
         private BitmapImage _image;
-
+        private static int iCounter = 0;
         public BitmapImage Image
         {
-            get { return _image; }
-            set
+            get
             {
-                _image = value;
-                RaisePropertyChanged(() => Image);
+                    Debug.WriteLine(++iCounter);
+                return _image ?? (_image = new BitmapImage(new Uri(_imgUrl)));
             }
         }
 

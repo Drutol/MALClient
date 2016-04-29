@@ -129,10 +129,6 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -143,51 +139,7 @@
 
                 </Style>
                 <Style TargetType="ScrollBar">
-                    <Setter Property="MinWidth" Value="{ThemeResource ScrollBarMinThemeWidth}"/>
-                    <Setter Property="MinHeight" Value="{ThemeResource ScrollBarMinThemeHeight}"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Foreground" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                    <Setter Property="IsTabStop" Value="False"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ScrollBar">
-                                <Grid x:Name="Root" Background="{ThemeResource BrushSliderRailBackground}">
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal"/>
-                                            <VisualState x:Name="PointerOver"/>
-                                            <VisualState x:Name="Disabled">
-                                                <Storyboard>
-                                                    <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Root"/>
-                                                </Storyboard>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                        <VisualStateGroup x:Name="ScrollingIndicatorStates">
-                                            <VisualState x:Name="TouchIndicator">
-                                            </VisualState>
-                                            <VisualState x:Name="MouseIndicator"/>
-                                            <VisualState x:Name="NoIndicator">
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <Grid x:Name="HorizontalPanningRoot" MinWidth="53">
-                                        <Rectangle x:Name="HorizontalPanningThumb" AutomationProperties.AccessibilityView="Raw" 
-                                                   Fill="{ThemeResource ScrollBarPanningBackgroundThemeBrush}" HorizontalAlignment="Left" 
-                                                   Height="{ThemeResource ScrollBarPanningThumbThemeHeight}" 
-                                                   MinWidth="{ThemeResource ScrollBarMinThemeWidth}"/>
-                                    </Grid>
-                                    <Grid x:Name="VerticalPanningRoot" MinHeight="53">
-                                        <Rectangle x:Name="VerticalPanningThumb" AutomationProperties.AccessibilityView="Raw"                                                   
-                                                   MinHeight="{ThemeResource ScrollBarMinThemeHeight}" VerticalAlignment="Top" 
-                                                   Width="{ThemeResource ScrollBarMinThemeWidth}"
-                                                   Fill="{ThemeResource BrushScrollBar}">
-                                        </Rectangle>
-                                    </Grid>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Margin" Value="10,0,0,0"/>
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
@@ -226,7 +178,7 @@
                 </Style>
             </controls:AlternatingListView.ItemContainerStyle>
         </controls:AlternatingListView>
-        <GridView x:Name="AnimesItemsIndefinite" Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
+        <GridView  x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick"
@@ -235,7 +187,6 @@
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Width" Value="Auto" />
                     <Setter Property="Margin" Value="5"/>
                     <Setter Property="Padding" Value="5"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -247,26 +198,29 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid  Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
+                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
+        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"
-                  IsItemClickEnabled="True"
+                  IsItemClickEnabled="True" ShowsScrollingPlaceholders="True"
                   HorizontalAlignment="Center"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Padding" Value="5,5" />
                     <Setter Property="Margin" Value="2,5" />
-                    <Setter Property="Width" Value="200" /> 
-                    <Setter Property="Height" Value="350" /> 
                 </Style>
             </GridView.ItemContainerStyle>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="200" ItemHeight="350" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
         </GridView>
-        <StackPanel Grid.Row="1" Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
+        <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock
                 Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -277,7 +231,7 @@
                     Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Click="ShowListSourceFlyout" />
         </StackPanel>
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing

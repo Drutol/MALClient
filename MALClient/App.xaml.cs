@@ -92,7 +92,7 @@ namespace MALClient
             {
                 // no internet?
             }
-
+            Credentials.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             var tb = ApplicationView.GetForCurrentView().TitleBar;

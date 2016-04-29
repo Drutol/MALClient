@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,26 +16,23 @@ using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Items
+namespace MALClient.UserControls
 {
-    public sealed partial class AnimeCompactItem : UserControl
+    public sealed partial class GridItemFlyout : MenuFlyoutPresenter
     {
-        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
-
-        public AnimeCompactItem(AnimeItemViewModel vm)
+        public GridItemFlyout()
         {
             this.InitializeComponent();
-            DataContext = vm;
         }
 
-        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
+        public void ShowAt(FrameworkElement target)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                ViewModel.ChangeWatchedEps();
-                e.Handled = true;
-            }
+            Flyout.ShowAt(target);
         }
 
+        private void FlyoutButtonPressed(object sender, RoutedEventArgs e)
+        {
+            Flyout.Hide();
+        }
     }
 }

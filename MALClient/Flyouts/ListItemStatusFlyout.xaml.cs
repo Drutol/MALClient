@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,30 +12,21 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Items
+namespace MALClient.Flyouts
 {
-    public sealed partial class AnimeCompactItem : UserControl
+    public sealed partial class ListItemStatusFlyout : MenuFlyoutPresenter
     {
-        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
-
-        public AnimeCompactItem(AnimeItemViewModel vm)
+        public ListItemStatusFlyout()
         {
             this.InitializeComponent();
-            DataContext = vm;
         }
 
-        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
+        public void ShowAt(FrameworkElement target)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                ViewModel.ChangeWatchedEps();
-                e.Handled = true;
-            }
+            StatusFlyout.ShowAt(target);
         }
-
     }
 }

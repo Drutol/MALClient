@@ -107,39 +107,10 @@
                Width="Auto" Margin="1,1" />
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
-                Visibility="Visible">
+                Visibility="Visible" Click="BtnMoreOnClick">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
-            <Button.Flyout>
-                <Flyout x:Name="FlyoutMore">
-                    <StackPanel Padding="0">
-                        <StackPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Height" Value="35" />
-                                <Setter Property="HorizontalAlignment" Value="Left" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Margin" Value="1" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="World" VerticalAlignment="Center" />
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
-                                <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
-                            </StackPanel>
-                        </StackPanel>
-                        <MenuFlyoutSeparator />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
-                                <Button Content="Pin with custom url" Command="{Binding PinTileCustomCommand}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
             <SymbolIcon Symbol="More" Foreground="White" />
         </Button>
         <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{Binding AddAnimeCommand}"
@@ -202,26 +173,7 @@
                             BorderThickness="0,0,0,2"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                             IsEnabled="{Binding UpdateButtonsEnableState}"
-                            HorizontalAlignment="Right">
-                        <Button.Flyout>
-                            <Flyout x:Name="WatchedEpsFlyout">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
-                                               FontWeight="SemiLight" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
-                                                 Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                 KeyDown="SubmitWatchedEps" />
-                                        <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
-                                            <SymbolIcon Symbol="Accept" />
-                                        </Button>
-                                    </StackPanel>
-                                    <TextBlock Text="Wrong input!"
-                                               HorizontalAlignment="Center" FontWeight="SemiLight"
-                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
-                                </StackPanel>
-                            </Flyout>
-                        </Button.Flyout>
+                            HorizontalAlignment="Right" Click="BtnWatchedEpsOnClick">
                     </Button>
                 </StackPanel>
                 <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind}" Margin="0,0,1,0"
@@ -229,7 +181,8 @@
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{Binding UpdateButtonsEnableState}"
-                        Visibility="{Binding UpdateButtonsVisibility}">
+                        Visibility="{Binding UpdateButtonsVisibility}"
+                        Click="BtnStatusOnClick">
                     <Button.Background>
                         <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
                     </Button.Background>
@@ -238,29 +191,14 @@
                             <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </Button.ContentTemplate>
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Watching" />
-                                <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Completed" />
-                                <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="On hold" />
-                                <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Dropped" />
-                                <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Plan to watch" />
-                            </MenuFlyout.Items>
-                        </MenuFlyout>
-                    </Button.Flyout>
                 </Button>
                 <Button Grid.Column="2" Grid.Row="1" Content="{Binding MyScoreBind}" Margin="1,0,0,0"
                         Style="{StaticResource ButtonDisabledStyle}"
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{Binding UpdateButtonsEnableState}"
-                        Visibility="{Binding UpdateButtonsVisibility}">
+                        Visibility="{Binding UpdateButtonsVisibility}"
+                        Click="BtnScoreOnClick">
                     <Button.Background>
                         <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
                     </Button.Background>
@@ -269,32 +207,6 @@
                             <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </Button.ContentTemplate>
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="10" />
-                                <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="9" />
-                                <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="8" />
-                                <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="7" />
-                                <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="6" />
-                                <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="5" />
-                                <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="4" />
-                                <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="3" />
-                                <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="2" />
-                                <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
-                                                CommandParameter="1" />
-                            </MenuFlyout.Items>
-                        </MenuFlyout>
-                    </Button.Flyout>
                 </Button>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Bottom" Margin="1,0,1,1">
                     <Button Height="40" Width="40"

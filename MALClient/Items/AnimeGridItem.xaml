@@ -17,12 +17,13 @@
         <converters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
+        <Image Grid.Row="0" Source="{Binding Image}"
+               controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" MaxWidth="{Binding MaxWidth}" />
         <ProgressRing Grid.Row="0" IsActive ="True" Visibility="{Binding LoadingUpdate}" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="0" Width="Auto" MinWidth="35" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
@@ -35,32 +36,8 @@
                 <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
                         Content="{Binding MyEpisodesBindShort}" Foreground="White" 
                         FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"
-                        HorizontalAlignment="Center" >
-                    <Button.Flyout>
-                        <Flyout x:Name="WatchedEpsFlyout">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
-                                               FontWeight="SemiLight" />
-                                    <TextBlock Text="Wrong input!"
-                                               HorizontalAlignment="Center" FontWeight="SemiLight" Margin="5,0,0,0" FontStyle="Italic"
-                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
-                                </StackPanel>
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
-                                                 Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                 KeyDown="SubmitWatchedEps" />
-                                    <Button Grid.Column="1" Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
-                                        <SymbolIcon Symbol="Accept" />
-                                    </Button>
-                                </Grid>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
+                        HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick">
+
                 </Button>
                 <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight"
                            HorizontalAlignment="Center" />
@@ -92,13 +69,13 @@
         </Grid>
         <Button Grid.Row="0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"
-                Visibility="Visible" RenderTransformOrigin="0.5,0.5">
+                Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick">
             <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                         Foreground="WhiteSmoke" />
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".75" />
             </Button.Background>
-            <Button.Flyout>
+            <!--<Button.Flyout>
                 <MenuFlyout x:Name="FlyoutMore">
                     <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
                     <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" />
@@ -146,7 +123,7 @@
                         <MenuFlyoutItem Text="Set" Click="ShowWatchedFlyour"/>
                     </MenuFlyoutSubItem>
                 </MenuFlyout>
-            </Button.Flyout>
+            </Button.Flyout>-->
         </Button>
     </Grid>
 </UserControl>

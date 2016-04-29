@@ -138,6 +138,18 @@
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
     <Compile Include="Comm\UriType.cs" />
+    <Compile Include="Flyouts\ListItemFlyout.xaml.cs">
+      <DependentUpon>ListItemFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Flyouts\ListItemScoreFlyout.xaml.cs">
+      <DependentUpon>ListItemScoreFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Flyouts\ListItemStatusFlyout.xaml.cs">
+      <DependentUpon>ListItemStatusFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Flyouts\WatchedEpisodesFlyout.xaml.cs">
+      <DependentUpon>WatchedEpisodesFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Items\AnimeCompactItem.xaml.cs">
       <DependentUpon>AnimeCompactItem.xaml</DependentUpon>
     </Compile>
@@ -204,6 +216,9 @@
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
+      <DependentUpon>GridItemFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
@@ -215,9 +230,11 @@
     <Compile Include="Utils\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
+    <Compile Include="Utils\ItemFlyoutService.cs" />
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />
+    <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
@@ -264,6 +281,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Flyouts\ListItemFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Flyouts\ListItemScoreFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Flyouts\ListItemStatusFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Flyouts\WatchedEpisodesFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Items\AnimeCompactItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -321,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CachedEntryItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Flyouts\GridItemFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

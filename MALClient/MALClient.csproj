@@ -137,6 +137,11 @@
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
     <Compile Include="Comm\UriBuilder.cs" />
     <Compile Include="Comm\UriType.cs" />
+    <Compile Include="Flyouts\GridItemFlyout.xaml.cs" />
+    <Compile Include="Flyouts\ListItemFlyout.xaml.cs" />
+    <Compile Include="Flyouts\ListItemScoreFlyout.xaml.cs" />
+    <Compile Include="Flyouts\ListItemStatusFlyout.xaml.cs" />
+    <Compile Include="Flyouts\WatchedEpisodesFlyout.xaml.cs" />
     <Compile Include="Items\AnimeGridItem.xaml.cs">
       <DependentUpon>AnimeGridItem.xaml</DependentUpon>
     </Compile>
@@ -211,9 +216,11 @@
     <Compile Include="Utils\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
+    <Compile Include="Utils\ItemFlyoutService.cs" />
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />
+    <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
@@ -258,6 +265,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Flyouts\GridItemFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\ListItemFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\ListItemScoreFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\ListItemStatusFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\WatchedEpisodesFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Items\AnimeGridItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

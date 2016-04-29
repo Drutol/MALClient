@@ -1,0 +1,36 @@
+﻿<MenuFlyoutPresenter
+    x:Class="MALClient.Flyouts.ListItemScoreFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Flyouts"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <MenuFlyout x:Name="ScoreFlyout">
+        <MenuFlyout.Items>
+            <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="10" />
+            <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="9" />
+            <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="8" />
+            <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="7" />
+            <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="6" />
+            <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="5" />
+            <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="4" />
+            <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="3" />
+            <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="2" />
+            <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
+                                                CommandParameter="1" />
+        </MenuFlyout.Items>
+    </MenuFlyout>
+
+</MenuFlyoutPresenter>

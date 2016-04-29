@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -39,7 +40,7 @@ namespace MALClient.ViewModels
 
         private bool _profileButtonVisibility;
 
-        private int _stackPanelHeightSum = Credentials.Authenticated ? 330 : 380;
+        private int _stackPanelHeightSum = Credentials.Authenticated ? 370 : 420;
         //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;
@@ -130,9 +131,10 @@ namespace MALClient.ViewModels
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                         ad.Show();
                     };
-                    ad.ErrorOccurred += (sender, args) =>
+                    ad.ErrorOccurred += async (sender, args) =>
                     {
-                        Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
+                        var msg = new MessageDialog("Microsoft has no ads for you :( , you can still donate if you want to...","Thanks for trying!");
+                        await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");

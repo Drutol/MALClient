@@ -8,36 +8,24 @@ using MALClient.ViewModels;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeGridItem : UserControl, IAnimeItemInteractions
+    public sealed partial class AnimeGridItem : UserControl
     {
         public AnimeGridItem(AnimeItemViewModel vm)
         {
             DataContext = vm;
             InitializeComponent();
-            vm.ViewGrid = this;
         }
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
-        public Flyout WatchedFlyout => WatchedEpsFlyout;
-
-        public void MoreFlyoutHide()
+        private void BtnMoreClick(object sender, RoutedEventArgs e)
         {
-            FlyoutMore.Hide();
+            ItemFlyoutService.ShowAnimeGridItemFlyout(sender as FrameworkElement);
         }
 
-        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
+        private void WatchedFlyoutButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                ViewModel.ChangeWatchedEps();
-                e.Handled = true;
-            }
-        }
-
-        private void ShowWatchedFlyour(object sender, RoutedEventArgs e)
-        {
-            WatchedEpsFlyout.ShowAt(WatchedFlyoutButton);
+            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
         }
     }
 }

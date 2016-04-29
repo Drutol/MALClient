@@ -550,7 +550,7 @@
                                         <TextBlock FontWeight="SemiLight" Text="{Binding Type}" Margin="0,3,3,3" FontSize="14"/>
                                         <TextBlock FontWeight="SemiLight" Text="{Binding Date}" Margin="3" FontSize="14"/>
                                     </StackPanel>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Content}" Margin="5" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Content}" TextWrapping="WrapWholeWords" Margin="5" HorizontalAlignment="Center"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

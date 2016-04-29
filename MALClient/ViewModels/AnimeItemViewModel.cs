@@ -19,12 +19,6 @@ using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
-    public interface IAnimeItemInteractions
-    {
-        Flyout WatchedFlyout { get; }
-        void MoreFlyoutHide();
-    }
-
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
         public const string InvalidStartEndDate = "0000-00-00";
@@ -34,9 +28,6 @@ namespace MALClient.ViewModels
         private float _globalScore;
         private bool _seasonalState;
         //prop field pairs
-
-        public IAnimeItemInteractions ViewGrid;
-        public IAnimeItemInteractions ViewList;
 
         static AnimeItemViewModel()
         {
@@ -599,6 +590,12 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _onFlyoutEpsKeyDown;
+        public ICommand OnFlyoutEpsKeyDown
+        {
+            get { return _onFlyoutEpsKeyDown ?? (_onFlyoutEpsKeyDown = new RelayCommand(ChangeWatchedEps)); }
+        }
+
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand
@@ -664,8 +661,6 @@ namespace MALClient.ViewModels
                        (_pinTileCustomCommand =
                            new RelayCommand(() =>
                            {
-                               ViewList?.MoreFlyoutHide();
-                               ViewGrid?.MoreFlyoutHide();
                                TileUrlInputVisibility = Visibility.Visible;
                            }));
             }
@@ -684,8 +679,6 @@ namespace MALClient.ViewModels
                            dp.SetText(
                                $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
-                           ViewList?.MoreFlyoutHide();
-                           ViewGrid?.MoreFlyoutHide();
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
             }
@@ -700,8 +693,6 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           ViewList?.MoreFlyoutHide();
-                           ViewGrid?.MoreFlyoutHide();
                            await
                                Launcher.LaunchUriAsync(
                                    new Uri(
@@ -718,8 +709,6 @@ namespace MALClient.ViewModels
             {
                 return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
                 {
-                    ViewList?.MoreFlyoutHide();
-                    ViewGrid?.MoreFlyoutHide();
                     if (SecondaryTile.Exists(Id.ToString()))
                     {
                         var msg = new MessageDialog("Tile for this anime already exists.");
@@ -881,8 +870,6 @@ namespace MALClient.ViewModels
             }
             if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
             {
-                ViewList?.WatchedFlyout.Hide();
-                ViewGrid?.WatchedFlyout.Hide();
                 LoadingUpdate = Visibility.Visible;
                 WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;

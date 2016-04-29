@@ -129,6 +129,10 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -178,7 +182,7 @@
                 </Style>
             </controls:AlternatingListView.ItemContainerStyle>
         </controls:AlternatingListView>
-        <GridView  x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}" MinWidth="400"
+        <GridView  x:Name="AnimesItemsIndefinite" Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick"
@@ -202,7 +206,7 @@
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"
                   IsItemClickEnabled="True" ShowsScrollingPlaceholders="True"
@@ -220,7 +224,7 @@
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
-        <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
+        <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" Grid.Row="1" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock
                 Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -231,7 +235,7 @@
                     Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Click="ShowListSourceFlyout" />
         </StackPanel>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing

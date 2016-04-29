@@ -10,6 +10,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -20,13 +21,6 @@ using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
-    public interface IAnimeItemInteractions
-    {
-        Flyout WatchedFlyout { get; }
-        object MoreFlyout { get; }
-        void MoreFlyoutHide();
-    }
-
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
         public const string InvalidStartEndDate = "0000-00-00";
@@ -36,10 +30,6 @@ namespace MALClient.ViewModels
         private float _globalScore;
         private bool _seasonalState;
         //prop field pairs
-
-        public IAnimeItemInteractions ViewGrid;
-        public IAnimeItemInteractions ViewList;
-        public IAnimeItemInteractions ViewCompact;
 
         static AnimeItemViewModel()
         {
@@ -52,7 +42,7 @@ namespace MALClient.ViewModels
 
 
         //state fields
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
@@ -428,12 +418,10 @@ namespace MALClient.ViewModels
         }
 
         private BitmapImage _image;
-        private static int iCounter = 0;
         public BitmapImage Image
         {
             get
             {
-                    Debug.WriteLine(++iCounter);
                 return _image ?? (_image = new BitmapImage(new Uri(_imgUrl)));
             }
         }
@@ -582,6 +570,13 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _onFlyoutEpsKeyDown;
+
+        public ICommand OnFlyoutEpsKeyDown
+        {
+            get { return _onFlyoutEpsKeyDown ?? (_onFlyoutEpsKeyDown = new RelayCommand(ChangeWatchedEps)); }
+        }
+
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand
@@ -647,9 +642,6 @@ namespace MALClient.ViewModels
                        (_pinTileCustomCommand =
                            new RelayCommand(() =>
                            {
-                               ViewList?.MoreFlyoutHide();
-                               ViewGrid?.MoreFlyoutHide();
-                               ViewCompact?.MoreFlyoutHide();
                                TileUrlInputVisibility = Visibility.Visible;
                            }));
             }
@@ -668,9 +660,6 @@ namespace MALClient.ViewModels
                            dp.SetText(
                                $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            Clipboard.SetContent(dp);
-                           ViewList?.MoreFlyoutHide();
-                           ViewGrid?.MoreFlyoutHide();
-                           ViewCompact?.MoreFlyoutHide();
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
             }
@@ -685,9 +674,6 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           ViewList?.MoreFlyoutHide();
-                           ViewGrid?.MoreFlyoutHide();
-                           ViewCompact?.MoreFlyoutHide();
                            await
                                Launcher.LaunchUriAsync(
                                    new Uri(
@@ -704,9 +690,6 @@ namespace MALClient.ViewModels
             {
                 return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
                 {
-                    ViewList?.MoreFlyoutHide();
-                    ViewGrid?.MoreFlyoutHide();
-                    ViewCompact?.MoreFlyoutHide();
                     if (SecondaryTile.Exists(Id.ToString()))
                     {
                         var msg = new MessageDialog("Tile for this anime already exists.");
@@ -873,7 +856,6 @@ namespace MALClient.ViewModels
             }
             if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
             {
-                ViewList.WatchedFlyout.Hide();
                 LoadingUpdate = Visibility.Visible;
                 WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
                 var prevWatched = MyEpisodes;

@@ -11,34 +11,20 @@ namespace MALClient
 {
     public class SmartObservableCollection<T> : ObservableCollection<T>
     {
-        public SmartObservableCollection()
-            : base()
-        {
-        }
-
-        public SmartObservableCollection(IEnumerable<T> collection)
-            : base(collection)
-        {
-        }
-
-        public SmartObservableCollection(List<T> list)
-            : base(list)
-        {
-        }
-
         public void AddRange(IEnumerable<T> range)
         {
             // get out if no new items
-            if (range == null || !range.Any()) return;
+            var enumerable = range as T[] ?? range.ToArray();
+            if (range == null || !enumerable.Any()) return;
 
             // prepare data for firing the events
             int newStartingIndex = Count;
             var newItems = new List<T>();
-            newItems.AddRange(range);
+            newItems.AddRange(enumerable);
 
             // add the items, making sure no events are fired
             IsObserving = false;
-            foreach (var item in range)
+            foreach (var item in enumerable)
             {
                 Add(item);
             }
@@ -46,9 +32,7 @@ namespace MALClient
 
             // fire the events
             OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            // this is tricky: call Reset first to make sure the controls will respond properly and not only add one item
-            // LOLLO NOTE I took out the following so the list viewers don't lose the position.
+            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));          
             //OnCollectionChanged(new NotifyCollectionChangedEventArgs(action: NotifyCollectionChangedAction.Reset));
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItems, newStartingIndex));
         }
@@ -56,7 +40,6 @@ namespace MALClient
         private bool IsObserving { get { return _isObserving; } set { _isObserving = value; } }
 
         private volatile bool _isObserving;
-
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {

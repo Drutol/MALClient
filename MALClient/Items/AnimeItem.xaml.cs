@@ -9,35 +9,17 @@ using MALClient.ViewModels;
 
 namespace MALClient.Items
 {
-    public sealed partial class AnimeItem : UserControl, IAnimeItemInteractions
+    public sealed partial class AnimeItem : UserControl
     {
         private bool _expandState;
 
         public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
-            vm.ViewList = this;
             DataContext = vm;
         }
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
-
-        public Flyout WatchedFlyout => WatchedEpsFlyout;
-        public object MoreFlyout => FlyoutMore;
-
-        public void MoreFlyoutHide()
-        {
-            FlyoutMore.Hide();
-        }
-
-        private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Enter)
-            {
-                ViewModel.ChangeWatchedEps();
-                e.Handled = true;
-            }
-        }
 
         #region Swipe
 
@@ -94,5 +76,24 @@ namespace MALClient.Items
 
         #endregion
 
+        private void BtnWatchedEpsOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnMoreOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnScoreOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemScoreFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnStatusOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemStatusFlyout(sender as FrameworkElement);
+        }
     }
 }

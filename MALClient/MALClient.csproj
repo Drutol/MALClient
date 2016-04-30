@@ -223,6 +223,7 @@
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\LockableToggleButton.cs" />
+    <Compile Include="UserControls\RadioToggleMenuFlyoutItem.cs" />
     <Compile Include="UserControls\StackedBarChartControl.xaml.cs">
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
@@ -248,6 +249,7 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="XamlConverters\WorkModeToPivotFilterVisibility.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />

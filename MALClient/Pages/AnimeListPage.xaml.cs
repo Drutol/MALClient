@@ -199,37 +199,6 @@ namespace MALClient.Pages
 
         #region ActionHandlersPin
 
-        private void SelectSortMode(object sender, RoutedEventArgs e)
-        {
-            var btn = sender as ToggleMenuFlyoutItem;
-            switch (btn.Text)
-            {
-                case "Title":
-                    ViewModel.SortOption = SortOptions.SortTitle;
-                    break;
-                case "Score":
-                    ViewModel.SortOption = SortOptions.SortScore;
-                    break;
-                case "Watched":
-                case "Read":
-                    ViewModel.SortOption = SortOptions.SortWatched;
-                    break;
-                case "Soonest airing":
-                    ViewModel.SortOption = SortOptions.SortAirDay;
-                    break;
-                default:
-                    ViewModel.SortOption = SortOptions.SortNothing;
-                    break;
-            }
-            foreach (var child in SortToggles.Children)
-            {
-                (child as ToggleMenuFlyoutItem).IsChecked = false;
-            }
-            btn.IsChecked = true;
-            ViewModel.RefreshList();
-        }
-
-
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {
             var chbox = sender as ToggleMenuFlyoutItem;

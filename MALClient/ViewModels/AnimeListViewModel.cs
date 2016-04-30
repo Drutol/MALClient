@@ -672,7 +672,7 @@ namespace MALClient.ViewModels
                     // wat
                 }
             }
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime && SeasonSelection.Count == 0)
             {
                 SeasonSelection.Clear();
                 var i = 0;
@@ -1166,6 +1166,21 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _setSortModeCommand;
+
+        public ICommand SetSortModeCommand
+        {
+            get
+            {
+                return _setSortModeCommand ??
+                       (_setSortModeCommand = new RelayCommand<string>(s =>
+                       {
+                           SetSortOrder((SortOptions) int.Parse(s));
+                           RefreshList();
+                       }));
+            }
+        }
+
         private ICommand _refreshCommand;
 
         public ICommand RefreshCommand
@@ -1189,7 +1204,17 @@ namespace MALClient.ViewModels
 
         public AnimeListPage View { get; set; }
 
-        public AnimeListWorkModes WorkMode { get; set; }
+        public AnimeListWorkModes _workMode;
+
+        public AnimeListWorkModes WorkMode
+        {
+            get { return _workMode; }
+            set
+            {
+                _workMode = value;
+                RaisePropertyChanged(() => WorkMode);
+            }
+        }
 
         private AnimeListDisplayModes _displayMode;
 

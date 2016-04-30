@@ -391,7 +391,7 @@
                                 <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
                                     <Grid x:Name="PivotLayoutElement">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="33" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
@@ -407,11 +407,11 @@
                                             Content="{TemplateBinding LeftHeader}"
                                             ContentTemplate="{TemplateBinding LeftHeaderTemplate}"
                                             HorizontalAlignment="Stretch"
-                                            Height="30"
+                                            Height="33"
                                             VerticalAlignment="Stretch" />
                                         <ContentControl
                                             x:Name="HeaderClipper"
-                                            Height="30"
+                                            Height="33"
                                             Grid.Column="1"
                                             UseSystemFocusVisuals="True"
                                             HorizontalContentAlignment="Stretch">
@@ -419,11 +419,11 @@
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
                                             <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Padding="0"
-                                                  Margin="0" Height="30"
+                                                  Margin="0" Height="33"
                                                   VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                                <PivotHeaderPanel x:Name="StaticHeader" Height="30"
+                                                <PivotHeaderPanel x:Name="StaticHeader" Height="33"
                                                                   VerticalAlignment="Center" />
-                                                <PivotHeaderPanel x:Name="Header" Height="30">
+                                                <PivotHeaderPanel x:Name="Header" Height="33">
                                                     <PivotHeaderPanel.RenderTransform>
                                                         <TransformGroup>
                                                             <CompositeTransform x:Name="HeaderTranslateTransform" />

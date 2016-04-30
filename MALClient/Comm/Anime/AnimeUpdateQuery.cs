@@ -14,8 +14,22 @@ namespace MALClient.Comm
 
         public AnimeUpdateQuery(int id, int watchedEps, int myStatus, int myScore,string startDate,string endDate)
         {
+            switch (CurrentApiType)
+            {
+                case ApiType.Mal:
+                    UpdateAnimeMal(id,watchedEps,myStatus,myScore,startDate,endDate);
+                    break;
+                case ApiType.Hummingbird:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate)
+        {
             var splitDate = startDate.Split('-');
-            startDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}"; 
+            startDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
             splitDate = endDate.Split('-');
             endDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}"; //mmddyyyy
             var xml = new StringBuilder();
@@ -40,11 +54,14 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
             Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
+        }
+
+        private void UpdateAnimeHummingbird()
+        {
         }
     }
 }

@@ -803,7 +803,7 @@ namespace MALClient.ViewModels
                         Type = requestedMode == AnimeListWorkModes.Anime ? "anime" : "manga",
                         User = ListSource
                     };
-                    await Task.Run(async () => data = await new MalListQuery(args).GetRequestResponse());
+                    await Task.Run(async () => data = await new LibraryListQuery(args).GetRequestResponse());
                     if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
                     {
                         //no data?

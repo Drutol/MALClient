@@ -117,8 +117,8 @@
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
-    <Compile Include="Comm\MalListParameters.cs" />
-    <Compile Include="Comm\MalListQuery.cs" />
+    <Compile Include="Comm\ListParameters.cs" />
+    <Compile Include="Comm\LibraryListQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRemoveQuery.cs" />
     <Compile Include="Comm\Anime\AnimeReviewsQuery.cs" />
@@ -136,8 +136,6 @@
     <Compile Include="Comm\NewsQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
-    <Compile Include="Comm\CommUtils\UriBuilder.cs" />
-    <Compile Include="Comm\CommUtils\UriType.cs" />
     <Compile Include="Flyouts\ListItemFlyout.xaml.cs">
       <DependentUpon>ListItemFlyout.xaml</DependentUpon>
     </Compile>
@@ -165,6 +163,7 @@
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />

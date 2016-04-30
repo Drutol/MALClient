@@ -54,8 +54,8 @@ namespace MALClient.Models
                 return;
             WatchStatsDownloaded = true;
 
-            var animeStats = await new MalListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "anime" }).GetProfileStats();
-            var mangaStats = await new MalListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "manga" }).GetProfileStats(false);
+            var animeStats = await new LibraryListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "anime" }).GetProfileStats();
+            var mangaStats = await new LibraryListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "manga" }).GetProfileStats(false);
 
             if (animeStats != null)
             {

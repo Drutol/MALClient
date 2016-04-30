@@ -6,7 +6,24 @@ namespace MALClient.Comm
 {
     internal class AnimeAddQuery : Query
     {
+
+
         public AnimeAddQuery(string id)
+        {
+            switch (CurrentApiType)
+            {
+                case ApiType.Mal:
+                    AddAnimeMal(id);
+                    break;
+                case ApiType.Hummingbird:
+                    AddAnimeHummingbird(id);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void AddAnimeMal(string id)
         {
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -31,11 +48,14 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
             Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
+        }
+
+        private void AddAnimeHummingbird(string id)
+        {
         }
     }
 }

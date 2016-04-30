@@ -114,7 +114,7 @@
         <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" 
                Width="Auto"
                MaxWidth="120" Margin="1,1" />
-        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
+        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
                 Visibility="Visible" Click="BtnMoreOnClick">
             <Button.Background>

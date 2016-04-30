@@ -24,9 +24,11 @@
                 <Button Content="Log In" Click="AttemptAuthentication" HorizontalAlignment="Center" Margin="3,3" />
                 <ProgressRing x:Name="ProgressRing" IsActive="True" Visibility="Collapsed" Margin="5,0" />
             </StackPanel>
-            <Button x:Name="BtnLogOff" Click="LogOut" HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"/>
         </StackPanel>
-
+        <Button Grid.Row="1" x:Name="BtnLogOff" Click="LogOut" VerticalAlignment="Bottom" 
+                HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"
+                Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
         <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
                 VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
                 Click="ButtonRegister_OnClick" />       

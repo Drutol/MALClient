@@ -273,7 +273,7 @@
                             <MenuFlyoutSeparator Margin="0,5" />
                             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                                 <TextBlock Text="Start/End date auto setters:" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                <Grid Margin="5" HorizontalAlignment="Center">
+                                <Grid Margin="5" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="110"/>
                                         <ColumnDefinition Width="*"/>
@@ -288,7 +288,7 @@
                                     <CheckBox Content="Set to today when setting watching status." Grid.Column="1" Grid.Row="1" 
                                               IsChecked="{Binding SetStartDateOnWatching,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 </Grid>                                
-                                <Grid Margin="5" HorizontalAlignment="Center">
+                                <Grid Margin="5" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="110"/>
                                         <ColumnDefinition Width="*"/>

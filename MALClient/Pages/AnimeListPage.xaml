@@ -84,12 +84,16 @@
             </AppBarButton>
             <AppBarButton Icon="Sort" Label="Order by" Visibility="{Binding AppBtnSortingVisibility}">
                 <AppBarButton.Flyout>
-                    <Flyout x:Name="SortingFlyout">
-                        <StackPanel>
-
-
-                        </StackPanel>
-                    </Flyout>
+                    <MenuFlyout >
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortTitle,Path=IsChecked}"  Text="Title" Command="{Binding SetSortModeCommand}" CommandParameter="0" GroupName="SortOptionsPivotUpperItems" />
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortScore,Path=IsChecked}" Text="Score" Command="{Binding SetSortModeCommand}" CommandParameter="1" GroupName="SortOptionsPivotUpperItems"/>
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=Sort3,Path=IsChecked}" Text="{Binding Sort3Label}" Command="{Binding SetSortModeCommand}" CommandParameter="2" GroupName="SortOptionsPivotUpperItems"/>
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortAiring,Path=IsChecked}" Text="Soonest airing" Command="{Binding SetSortModeCommand}" CommandParameter="3" GroupName="SortOptionsPivotUpperItems"
+                                                      Visibility="{Binding SortAirDayVisibility}" />
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortNone,Path=IsChecked}" Text="None" Command="{Binding SetSortModeCommand}" CommandParameter="4" GroupName="SortOptionsPivotUpperItems"/>
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=BtnOrderDescending,Path=IsChecked}" Text="Decsending" Click="ChangeSortOrder" />
+                    </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">
@@ -130,11 +134,11 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <StackPanel Grid.Row="0" Margin="0,0,-16,0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Margin="0,0,-16,0" Orientation="Horizontal" Visibility="{Binding UpperCommandBarVisibility}">
             <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                 <SymbolIcon Symbol="Sort"/>
                 <Button.Flyout>
-                    <MenuFlyout>
+                    <MenuFlyout x:Name="SortingFlyout">
                         <controls:RadioToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Command="{Binding SetSortModeCommand}" CommandParameter="0" GroupName="SortOptionsPivotUpperItems" />
                         <controls:RadioToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Command="{Binding SetSortModeCommand}" CommandParameter="1" GroupName="SortOptionsPivotUpperItems"/>
                         <controls:RadioToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Command="{Binding SetSortModeCommand}" CommandParameter="2" GroupName="SortOptionsPivotUpperItems"/>

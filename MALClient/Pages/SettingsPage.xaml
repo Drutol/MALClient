@@ -64,12 +64,19 @@
                             </Grid>
                             <MenuFlyoutSeparator Margin="0,5"/>
                             <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                                
                                 <StackPanel>
                                     <TextBlock Text="Default hamburger menu state:" FontWeight="Medium" HorizontalAlignment="Center"
                                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
                                     <Grid HorizontalAlignment="Stretch">
                                         <ToggleSwitch IsOn="{Binding HamburgerMenuDefaultPaneState,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                                       OnContent="Expanded" OffContent="Collapsed" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                    <TextBlock Text="Upper list navigation bar visibility." FontWeight="Medium" HorizontalAlignment="Center" Margin="0,5"
+                                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <ToggleSwitch IsOn="{Binding IsPivotFilterBarVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                      OnContent="Visible" OffContent="Collapsed" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -235,7 +242,7 @@
                                                   SelectedItem="{Binding SelectedDefaultViewForAll,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Margin="0,5">
+                                <StackPanel Margin="0,5" HorizontalAlignment="Center">
                                     <TextBlock Text="Lock display mode when changing it manually"
                                                TextWrapping="WrapWholeWords" />
                                     <ToggleSwitch HorizontalAlignment="Center"

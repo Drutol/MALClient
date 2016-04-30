@@ -141,11 +141,9 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += async (sender, args) =>
                     {
-                        //Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
-                        var msg = new MessageDialog($"Code : {args.ErrorCode}\nMessage: {args.ErrorMessage}","Umm , this is it:");
+                        var msg = new MessageDialog("Microsoft has no ads for you :(\nYou can still donate if you want to...", "Thanks for trying!");
                         await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
-                        (sender as InterstitialAd).Close();
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
 

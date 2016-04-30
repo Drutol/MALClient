@@ -11,9 +11,17 @@ using Windows.UI.Xaml;
 
 namespace MALClient.Comm
 {
+    public enum ApiType
+    {
+        Mal,
+        Hummingbird,
+    }
+
     public abstract class Query
     {
         protected WebRequest Request;
+
+        protected static ApiType CurrentApiType { get; set; } = ApiType.Mal;
 
         public async Task<string> GetRequestResponse(bool wantMsg = true,string statusBarMsg = null)
         {
@@ -42,9 +50,9 @@ namespace MALClient.Comm
                             await msg.ShowAsync();
                         });
                     }
-                    catch (Exception y)
+                    catch (Exception)
                     {
-                        //window not yet loaded
+                        //window not yet loaded or something
                     }
 
                 }
@@ -55,5 +63,6 @@ namespace MALClient.Comm
             }
             return responseString;
         }
+      
     }
 }

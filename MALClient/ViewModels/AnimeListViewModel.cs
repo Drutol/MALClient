@@ -1003,6 +1003,18 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _upperCommandBarVisibility = Settings.IsPivotFilterBarVisible ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility UpperCommandBarVisibility
+        {
+            get { return _upperCommandBarVisibility; }
+            set
+            {
+                _upperCommandBarVisibility = value;
+                RaisePropertyChanged(() => UpperCommandBarVisibility);
+            }
+        }
+
         private Visibility _appBtnSortingVisibility = Visibility.Collapsed;
 
         public Visibility AppBtnSortingVisibility

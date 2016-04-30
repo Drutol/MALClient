@@ -51,7 +51,7 @@ namespace MALClient
             {
                 LaunchUri(e.Arguments);
             }
-
+            Credentials.Init();
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -92,7 +92,7 @@ namespace MALClient
             {
                 // no internet?
             }
-            Credentials.Init();
+            
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             var tb = ApplicationView.GetForCurrentView().TitleBar;

@@ -133,10 +133,7 @@ namespace MALClient.Pages
 
         public Flyout FlyoutViews => ViewsFlyout;
         public Flyout FlyoutFilters => FiltersFlyout;
-        public Flyout FlyoutSorting => SortingFlyout;
-
-        public GridView ListGridView => AnimesItemsIndefinite;
-        public GridView GridView => AnimesGridIndefinite;
+        public MenuFlyout FlyoutSorting => SortingFlyout;
 
         public void FlyoutSeasonSelectionHide()
         {

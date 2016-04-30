@@ -115,8 +115,8 @@
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
-    <Compile Include="Comm\HtmlClassDefinitionsQuery.cs" />
-    <Compile Include="Comm\HtmlClassMgr.cs" />
+    <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
+    <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
     <Compile Include="Comm\MalListParameters.cs" />
     <Compile Include="Comm\MalListQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Comm\Anime\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
-    <Compile Include="Comm\IParameters.cs" />
+    <Compile Include="Comm\CommUtils\IParameters.cs" />
     <Compile Include="Comm\MALProfileQuery.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
@@ -136,8 +136,8 @@
     <Compile Include="Comm\NewsQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
-    <Compile Include="Comm\UriBuilder.cs" />
-    <Compile Include="Comm\UriType.cs" />
+    <Compile Include="Comm\CommUtils\UriBuilder.cs" />
+    <Compile Include="Comm\CommUtils\UriType.cs" />
     <Compile Include="Flyouts\ListItemFlyout.xaml.cs">
       <DependentUpon>ListItemFlyout.xaml</DependentUpon>
     </Compile>

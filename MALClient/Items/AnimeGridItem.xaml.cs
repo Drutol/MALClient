@@ -1,6 +1,7 @@
 ﻿using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
 
@@ -14,6 +15,19 @@ namespace MALClient.Items
         {
             DataContext = vm;
             InitializeComponent();
+        }
+
+        public void ClearImage()
+        {
+            Image.Source = null;
+        }
+
+        public void BindImage()
+        {
+            if(Image.Source != null)
+                return;
+            var bnd = new Binding {Source = ViewModel.Image};
+            Image.SetBinding(Image.SourceProperty,bnd);
         }
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;

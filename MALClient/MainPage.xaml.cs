@@ -50,7 +50,7 @@ namespace MALClient
 
         private double GetStartingSplitterWidth()
         {
-            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 600 : 420;
+            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 420;
         }
 
         private double _prevOffContntWidth = 0;

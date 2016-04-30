@@ -19,7 +19,7 @@ namespace MALClient.ViewModels
 {
     public class AnimeSeason
     {
-        public string Name;
+        public string Name { get; set; }
         public string Url;
     }
 
@@ -64,7 +64,7 @@ namespace MALClient.ViewModels
         public SmartObservableCollection<AnimeGridItem> AnimeGridItems { get; private set; } =
             new SmartObservableCollection<AnimeGridItem>();
 
-        public ObservableCollection<ListViewItem> SeasonSelection { get; } = new ObservableCollection<ListViewItem>();
+        public ObservableCollection<AnimeSeason> SeasonSelection { get; } = new ObservableCollection<AnimeSeason>();
 
 
         public bool AreThereItemsWaitingForLoad => _animeItemsSet.Count != 0;
@@ -672,7 +672,7 @@ namespace MALClient.ViewModels
                     // wat
                 }
             }
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime && SeasonSelection.Count == 0)
             {
                 SeasonSelection.Clear();
                 var i = 0;
@@ -681,11 +681,7 @@ namespace MALClient.ViewModels
                 {
                     if (seasonalUrl.Key != "current")
                     {
-                        SeasonSelection.Add(new ListViewItem
-                        {
-                            Content = seasonalUrl.Key,
-                            Tag = new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value}
-                        });
+                        SeasonSelection.Add(new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value});
                         i++;
                     }
                     else
@@ -699,7 +695,7 @@ namespace MALClient.ViewModels
                 //we have set artificial default one because we did not know what lays ahead of us
                 if (setDefaultSeason && currSeasonIndex != -1)
                 {
-                    CurrentSeason = SeasonSelection[currSeasonIndex].Tag as AnimeSeason;
+                    CurrentSeason = SeasonSelection[currSeasonIndex];
                     _seasonalUrlsSelectedIndex = currSeasonIndex;
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
@@ -1007,6 +1003,18 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _upperCommandBarVisibility = Settings.IsPivotFilterBarVisible ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility UpperCommandBarVisibility
+        {
+            get { return _upperCommandBarVisibility; }
+            set
+            {
+                _upperCommandBarVisibility = value;
+                RaisePropertyChanged(() => UpperCommandBarVisibility);
+            }
+        }
+
         private Visibility _appBtnSortingVisibility = Visibility.Collapsed;
 
         public Visibility AppBtnSortingVisibility
@@ -1170,6 +1178,21 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _setSortModeCommand;
+
+        public ICommand SetSortModeCommand
+        {
+            get
+            {
+                return _setSortModeCommand ??
+                       (_setSortModeCommand = new RelayCommand<string>(s =>
+                       {
+                           SetSortOrder((SortOptions) int.Parse(s));
+                           RefreshList();
+                       }));
+            }
+        }
+
         private ICommand _refreshCommand;
 
         public ICommand RefreshCommand
@@ -1193,7 +1216,17 @@ namespace MALClient.ViewModels
 
         public AnimeListPage View { get; set; }
 
-        public AnimeListWorkModes WorkMode { get; set; }
+        public AnimeListWorkModes _workMode;
+
+        public AnimeListWorkModes WorkMode
+        {
+            get { return _workMode; }
+            set
+            {
+                _workMode = value;
+                RaisePropertyChanged(() => WorkMode);
+            }
+        }
 
         private AnimeListDisplayModes _displayMode;
 
@@ -1289,7 +1322,7 @@ namespace MALClient.ViewModels
                 if (value == _seasonalUrlsSelectedIndex || value < 0)
                     return;
                 _seasonalUrlsSelectedIndex = value;
-                CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
+                CurrentSeason = SeasonSelection[value];
                 RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 View.FlyoutSeasonSelectionHide();
                 CurrentPosition = 1;

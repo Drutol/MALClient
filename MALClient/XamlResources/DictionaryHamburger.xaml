@@ -10,13 +10,14 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
         <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
-        <Setter Property="Height" Value="48" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="PivotHeaderItem">
-                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                    <Grid x:Name="Grid" Background="{TemplateBinding Background}" VerticalAlignment="Center">
                         <Grid.Resources>
                             <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
                                 <Setter Property="FontFamily" Value="Segoe UI" />
@@ -224,7 +225,7 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton"
                                                                        Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton"
                                                                        Storyboard.TargetProperty="IsEnabled">
@@ -232,7 +233,7 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton"
                                                                        Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton"
                                                                        Storyboard.TargetProperty="IsEnabled">
@@ -390,7 +391,7 @@
                                 <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
                                     <Grid x:Name="PivotLayoutElement">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="33" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
@@ -406,23 +407,23 @@
                                             Content="{TemplateBinding LeftHeader}"
                                             ContentTemplate="{TemplateBinding LeftHeaderTemplate}"
                                             HorizontalAlignment="Stretch"
-                                            Height="30"
+                                            Height="33"
                                             VerticalAlignment="Stretch" />
                                         <ContentControl
                                             x:Name="HeaderClipper"
-                                            Height="30"
+                                            Height="33"
                                             Grid.Column="1"
                                             UseSystemFocusVisuals="True"
                                             HorizontalContentAlignment="Stretch">
                                             <ContentControl.Clip>
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
-                                            <Grid Background="{ThemeResource BrushPivotHeaderBackground}" Padding="0"
-                                                  Margin="0" Height="30"
+                                            <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Padding="0"
+                                                  Margin="0" Height="33"
                                                   VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                                <PivotHeaderPanel x:Name="StaticHeader" Height="30"
+                                                <PivotHeaderPanel x:Name="StaticHeader" Height="33"
                                                                   VerticalAlignment="Center" />
-                                                <PivotHeaderPanel x:Name="Header" Height="30">
+                                                <PivotHeaderPanel x:Name="Header" Height="33">
                                                     <PivotHeaderPanel.RenderTransform>
                                                         <TransformGroup>
                                                             <CompositeTransform x:Name="HeaderTranslateTransform" />

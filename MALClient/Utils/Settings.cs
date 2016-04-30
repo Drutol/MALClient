@@ -170,6 +170,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] = value; }
         }
 
+        public static bool IsPivotFilterBarVisible
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["IsPivotFilterBarVisible"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["IsPivotFilterBarVisible"] = value; }
+        }
+
         public static DataSource PrefferedDataSource
         {
             get

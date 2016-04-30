@@ -18,12 +18,6 @@ using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
-    public interface IHamburgerInteraction
-    {
-        AlternatingListView AnimeFilters { get; }
-        AlternatingListView MangaFilters { get; }
-    }
-
     public class HamburgerControlViewModel : ViewModelBase
     {
         private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
@@ -31,8 +25,6 @@ namespace MALClient.ViewModels
 
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
-
-        public IHamburgerInteraction View { get; set; }
 
         private bool? _prevState;
 
@@ -149,11 +141,9 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += async (sender, args) =>
                     {
-                        //Utils.GiveStatusBarFeedback("Error. It's something on their end... :(");
-                        var msg = new MessageDialog($"Code : {args.ErrorCode}\nMessage: {args.ErrorMessage}","Umm , this is it:");
+                        var msg = new MessageDialog("Microsoft has no ads for you :(\nYou can still donate if you want to...", "Thanks for trying!");
                         await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
-                        (sender as InterstitialAd).Close();
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
 

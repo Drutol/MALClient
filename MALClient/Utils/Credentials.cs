@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Xml.Linq;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using MALClient.Comm;
 using MALClient.ViewModels;
 
 namespace MALClient
@@ -72,6 +74,8 @@ namespace MALClient
                     credential.RetrievePassword();
                     Password = credential.Password;
                     Authenticated = true;
+                    if (ApplicationData.Current.LocalSettings.Values["UserId"] == null) //we have credentials without Id
+                        FillInMissingIdData();
                 }
                 else
                     Authenticated = false;
@@ -81,6 +85,22 @@ namespace MALClient
                 Authenticated = false;
             }
 
+        }
+
+        private static async void FillInMissingIdData()
+        {
+            try
+            {
+                var response = await new AuthQuery().GetRequestResponse(false);
+                if (string.IsNullOrEmpty(response))
+                    throw new Exception();
+                var doc = XDocument.Parse(response);
+                SetId(int.Parse(doc.Element("user").Element("id").Value));
+            }
+            catch (Exception)
+            {
+                Authenticated = false;
+            }
         }
     }
 }

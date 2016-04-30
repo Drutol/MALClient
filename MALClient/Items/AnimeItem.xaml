@@ -14,8 +14,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <Style x:Key="ButtonDisabledStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
@@ -103,7 +101,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="200"
+        <Image x:Name="Image" controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" Height="200"
                Width="Auto" Margin="1,1" />
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"

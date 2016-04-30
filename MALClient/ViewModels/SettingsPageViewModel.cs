@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.System;
+using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -172,6 +173,16 @@ namespace MALClient.ViewModels
         {
             get { return Settings.HamburgerMenuDefaultPaneState; }
             set { Settings.HamburgerMenuDefaultPaneState = value; }
+        }
+
+        public static bool IsPivotFilterBarVisible
+        {
+            get { return Settings.IsPivotFilterBarVisible; }
+            set
+            {
+                ViewModelLocator.AnimeList.UpperCommandBarVisibility = value ? Visibility.Visible : Visibility.Collapsed;
+                Settings.IsPivotFilterBarVisible = value;
+            }
         }
 
         public List<NewsData> CurrentNews { get; set; } = new List<NewsData>();

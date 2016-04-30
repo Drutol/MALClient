@@ -45,5 +45,10 @@ namespace MALClient.Flyouts
         {
             DataContext = null;
         }
+
+        private void BtnSubmitOnClick(object sender, RoutedEventArgs e)
+        {
+            WatchedEpsFlyout.Hide();
+        }
     }
 }

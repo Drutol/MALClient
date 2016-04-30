@@ -31,7 +31,7 @@ namespace MALClient
 
         #region UserData
 
-        public static async void SaveDataForUser(string user, string data, AnimeListWorkModes mode)
+        public static async void SaveDataForUser(string user, List<ILibraryData> data, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled)
                 return;
@@ -44,7 +44,7 @@ namespace MALClient
                             CreationCollisionOption.ReplaceExisting);
                 await
                     FileIO.WriteTextAsync(file,
-                        JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.Now, data)));
+                        JsonConvert.SerializeObject(new Tuple<DateTime, List<ILibraryData>>(DateTime.Now, data)));
             }
             catch (Exception)
             {
@@ -52,7 +52,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user, AnimeListWorkModes mode)
+        public static async Task<List<ILibraryData>> RetrieveDataForUser(string user, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled)
                 return null;
@@ -63,13 +63,13 @@ namespace MALClient
                         ApplicationData.Current.LocalFolder.GetFileAsync(
                             $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json");
                 var data = await FileIO.ReadTextAsync(file);
-                var decoded = JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
+                var decoded = JsonConvert.DeserializeObject<Tuple<DateTime, List<ILibraryData>>>(data);
                 if (!CheckForOldData(decoded.Item1))
                 {
                     await file.DeleteAsync();
                     return null;
                 }
-                return new Tuple<string, DateTime>(decoded.Item2, decoded.Item1);
+                return decoded.Item2;
             }
             catch (Exception)
             {

@@ -788,48 +788,26 @@ namespace MALClient.ViewModels
                 ? _allLoadedAnimeItems.Count == 0
                 : _allLoadedMangaItems.Count == 0)
             {
-                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource, requestedMode);
-                var data = "";
-                if (possibleCachedData != null)
+                List<ILibraryData> data = null;
+                await Task.Run(async () => data = await new LibraryListQuery().GetLibrary());
+                if (data?.Count == 0)
                 {
-                    data = possibleCachedData.Item1;
-                    //_lastUpdate = possibleCachedData.Item2;
+                    //no data?
+                    await RefreshList();
+                    Loading = false;
+                    return;
                 }
-                else
-                {
-                    var args = new MalListParameters
-                    {
-                        Status = "all",
-                        Type = requestedMode == AnimeListWorkModes.Anime ? "anime" : "manga",
-                        User = ListSource
-                    };
-                    await Task.Run(async () => data = await new LibraryListQuery(args).GetRequestResponse());
-                    if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
-                    {
-                        //no data?
-                        await RefreshList();
-                        Loading = false;
-                        return;
-                    }
-                    DataCache.SaveDataForUser(ListSource, data, requestedMode);
-                }
-                var parsedData = XDocument.Parse(data);
+
+
+                
                 var auth = Credentials.Authenticated &&
                            string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase);
                 switch (requestedMode)
                 {
                     case AnimeListWorkModes.Anime:
-                        var anime = parsedData.Root.Elements("anime").ToList();
-                        foreach (var item in anime)
-                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value,
-                                item.Element("series_image").Value, Convert.ToInt32(item.Element("series_type").Value),
-                                Convert.ToInt32(item.Element("series_animedb_id").Value),
-                                Convert.ToInt32(item.Element("my_status").Value),
-                                Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                                Convert.ToInt32(item.Element("series_episodes").Value),
-                                item.Element("my_start_date").Value,
-                                item.Element("my_finish_date").Value,
-                                Convert.ToInt32(item.Element("my_score").Value)));
+                        
+                        foreach (var item in data)
+                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, )));
 
                         //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))

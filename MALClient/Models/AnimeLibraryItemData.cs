@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace MALClient.Models
 {
-    public class AnimeLibraryItemData
+    public class AnimeLibraryItemData : ILibraryData
     {
         private int _id = -1;
         public int Id { get { return _id == 0 ? MalId : _id; } set { _id = value; } }
-        public int MalId;
-        public string Title;
-        public AnimeStatus MyStatus;
-        public float MyScore;
-        public int MyEpisodes;
-        public int AllEpisodes;
-        public string ImgUrl;
-        public string Type;
+        public int MalId { get; set; }
+        public string Title { get; set; }
+        public AnimeStatus MyStatus { get; set; }
+        public float MyScore { get; set; }
+        public int MyEpisodes { get; set; }
+        public int AllEpisodes { get; set; }
+        public string ImgUrl { get; set; }
+        public AnimeType Type { get; set; }
+        public string MyStartDate { get; set; }
+        public string MyEndDate { get; set; }
     }
 }

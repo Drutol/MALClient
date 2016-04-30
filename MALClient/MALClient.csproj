@@ -166,7 +166,9 @@
     <Compile Include="Models\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
+    <Compile Include="Models\ILibraryData.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
+    <Compile Include="Models\MangaLibraryItemData.cs" />
     <Compile Include="Models\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\TopAnimeData.cs" />

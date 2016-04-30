@@ -28,12 +28,11 @@ namespace MALClient.UserControls
         TopManga
     }
 
-    public sealed partial class HamburgerControl : UserControl , IHamburgerInteraction
+    public sealed partial class HamburgerControl : UserControl
     {
         public HamburgerControl()
         {
             InitializeComponent();
-            ViewModel.View = this;
             Loaded += OnLoaded;
         }
 

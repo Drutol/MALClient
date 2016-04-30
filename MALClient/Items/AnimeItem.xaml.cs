@@ -2,6 +2,7 @@
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
 
@@ -11,43 +12,26 @@ namespace MALClient.Items
 {
     public sealed partial class AnimeItem : UserControl
     {
-        private bool _expandState;
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
             DataContext = vm;
         }
-
-        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
-
-        #region Swipe
-
-        private Point _initialPoint;
-        private bool _manipulating;
-
-        private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
+      
+        public void ClearImage()
         {
-            _initialPoint = e.Position;
-            _manipulating = true;
+            Image.Source = null;
         }
 
-        private void ManipDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        public void BindImage()
         {
-            if (e.IsInertial && _manipulating)
-            {
-                var currentpoint = e.Position;
-                if (currentpoint.X - _initialPoint.X >= 70) // swipe right
-                {
-                    e.Complete();
-                    e.Handled = true;
-                    _manipulating = false;
-                    ViewModel.NavigateDetails();
-                }
-            }
+            if (Image.Source != null)
+                return;
+            var bnd = new Binding { Source = ViewModel.Image };
+            Image.SetBinding(Image.SourceProperty, bnd);
         }
-
-        #endregion
 
         #region CustomTilePin
 
@@ -61,16 +45,8 @@ namespace MALClient.Items
             CloseTileUrlInput(null, null);
         }
 
-        public void OpenTileUrlInput()
-        {
-            TxtTileUrl.Text = "";
-            //Utils.GetMainPageInstance().AnimeListScrollTo(this);
-            ViewModel.TileUrlInputVisibility = Visibility.Visible;
-            TxtTileUrl.Focus(FocusState.Keyboard);
-        }
-
         private void CloseTileUrlInput(object sender, RoutedEventArgs e)
-        {
+        {        
             ViewModel.TileUrlInputVisibility = Visibility.Collapsed;
         }
 

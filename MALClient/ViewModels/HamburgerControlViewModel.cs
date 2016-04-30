@@ -18,12 +18,6 @@ using Microsoft.Advertising.WinRT.UI;
 
 namespace MALClient.ViewModels
 {
-    public interface IHamburgerInteraction
-    {
-        AlternatingListView AnimeFilters { get; }
-        AlternatingListView MangaFilters { get; }
-    }
-
     public class HamburgerControlViewModel : ViewModelBase
     {
         private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
@@ -31,8 +25,6 @@ namespace MALClient.ViewModels
 
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
-
-        public IHamburgerInteraction View { get; set; }
 
         private bool? _prevState;
 

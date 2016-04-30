@@ -112,11 +112,19 @@ namespace MALClient.Items
         {
             get
             {
+                if(LoadedGrid)
+                    _gridItem.ClearImage();
+                //if(LoadedCompact)
+
                 if (LoadedAnime)
+                {
+                    _animeItem.BindImage();
                     return _animeItem;
+                }
 
                 ViewModel = LoadElementModel();
-                _animeItem = LoadElement();
+                _animeItem = LoadElement(); // sets loaded flag
+                _animeItem.BindImage();
                 return _animeItem;
             }
         }
@@ -125,11 +133,18 @@ namespace MALClient.Items
         {
             get
             {
+                if(LoadedAnime)
+                    _animeItem.ClearImage();
+
                 if (LoadedGrid)
+                {
+                    _gridItem.BindImage();
                     return _gridItem;
+                }
 
                 ViewModel = LoadElementModel();
                 _gridItem = new AnimeGridItem(_viewModel);
+                _gridItem.BindImage();
                 LoadedGrid = true;
                 return _gridItem;
             }

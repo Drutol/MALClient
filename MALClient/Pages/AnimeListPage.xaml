@@ -166,7 +166,7 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="3,0,0,0" Padding="3,0,0,0"
+        <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1,1,-10,1" HorizontalAlignment="Stretch"  Margin="3,0,0,0" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
@@ -181,8 +181,13 @@
                     <Setter Property="Padding" Value="3,0,0,0"/>
                 </Style>
             </controls:AlternatingListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Margin="0,0,10,0" Orientation="Vertical" HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </controls:AlternatingListView>
-        <GridView  x:Name="AnimesItemsIndefinite" Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
+        <GridView  x:Name="AnimesItemsIndefinite" Margin="1,1,-10,0" Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick"
@@ -202,11 +207,11 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
+                    <ItemsWrapGrid Margin="0,0,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-10,0" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"
                   IsItemClickEnabled="True" ShowsScrollingPlaceholders="True"
@@ -220,7 +225,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="200" ItemHeight="350" />
+                    <ItemsWrapGrid Margin="0,0,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="200" ItemHeight="350" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>

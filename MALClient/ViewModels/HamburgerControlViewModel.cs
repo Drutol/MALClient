@@ -133,7 +133,7 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += async (sender, args) =>
                     {
-                        var msg = new MessageDialog("Microsoft has no ads for you :( , you can still donate if you want to...","Thanks for trying!");
+                        var msg = new MessageDialog("Microsoft has no ads for you :(\nYou can still donate if you want to...","Thanks for trying!");
                         await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                     };

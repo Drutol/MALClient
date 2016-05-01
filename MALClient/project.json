@@ -5,8 +5,8 @@
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.2.3",
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.1",
     "Microsoft.Net.Http": "2.2.29",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "MvvmLight": "5.2.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "MvvmLight": "5.3.0",
     "Newtonsoft.Json": "8.0.3",
     "System.Net.Http": "4.0.0",
     "WinRTXamlToolkit.Windows": "1.8.1"

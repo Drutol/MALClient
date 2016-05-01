@@ -23,6 +23,7 @@ namespace MALClient.Comm
                     UpdateAnimeMal(id,watchedEps,myStatus,(int)myScore,startDate,endDate);
                     break;
                 case ApiType.Hummingbird:
+                    UpdateAnimeHummingbird(id, watchedEps, myStatus, myScore, startDate, endDate);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -63,8 +64,36 @@ namespace MALClient.Comm
             Request.Method = "GET";
         }
 
-        private void UpdateAnimeHummingbird()
+        private void UpdateAnimeHummingbird(int id, int watchedEps, int myStatus, float myScore, string startDate,
+            string endDate)
         {
+            Request =
+                WebRequest.Create(
+                    Uri.EscapeUriString(
+                        $"http://hummingbird.me/api/v1/libraries/{id}?auth_token={Credentials.HummingbirdToken}&episodes_watched={watchedEps}&rating={myScore}&status={AnimeStatusToHum((AnimeStatus)myStatus)}"));
+            Request.ContentType = "application/x-www-form-urlencoded";
+            {
+                Request.Method = "POST";
+            }
+        }
+
+        private static string AnimeStatusToHum(AnimeStatus status)
+        {
+            switch (status)
+            {
+                case AnimeStatus.Watching:
+                    return "currently-watching";
+                case AnimeStatus.Completed:
+                    return "plan-to-watch";
+                case AnimeStatus.OnHold:
+                    return "completed";
+                case AnimeStatus.Dropped:
+                    return "on-hold";
+                case AnimeStatus.PlanToWatch:
+                    return "dropped";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
+            }
         }
     }
 }

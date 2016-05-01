@@ -893,10 +893,10 @@ namespace MALClient.ViewModels
         }
 
         private async void ChangeScore(object score)
-        {
+        {        
             LoadingUpdate = Visibility.Visible;
-            var myPrevScore = MyScore;
-            MyScore = Convert.ToInt32(score);
+            var myPrevScore = MyScore;            
+            MyScore = Convert.ToInt32(score) / (Settings.SelectedApiType == ApiType.Hummingbird ? 2 : 1);
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyScore = myPrevScore;

@@ -953,7 +953,7 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = true;
             var prevScore = MyScore;
-            MyScore = Convert.ToInt32(score as string);
+            MyScore = Convert.ToInt32(score as string) / (Settings.SelectedApiType == ApiType.Hummingbird ? 2 : 1);
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyScore = prevScore;
@@ -1084,7 +1084,7 @@ namespace MALClient.ViewModels
             MyStatus = 6;
             MyEpisodes = 0;
             GlobalScore = GlobalScore; //trigger setter of anime item
-            if (Status == "Currently Airing")
+            if (String.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
@@ -1132,7 +1132,8 @@ namespace MALClient.ViewModels
                 try
                 {
                     day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
-                              (Status == "Currently Airing" || Status == "Not yet aired")
+                              (String.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase) ||
+                               String.Equals(Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
                         ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
                         : -1;
                 }

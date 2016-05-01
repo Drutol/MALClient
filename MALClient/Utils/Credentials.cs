@@ -11,7 +11,8 @@ namespace MALClient
 {
     public static class Credentials
     {
-        public static string HummingbirdToken { get; set; }
+        public static string HummingbirdToken { get; private set; } =
+            (string)(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] ?? "");
 
         public static string UserName { get; private set; }
 
@@ -57,6 +58,12 @@ namespace MALClient
         {
             ApplicationData.Current.LocalSettings.Values["UserId"] = id;
             Id = id;
+        }
+
+        public static void SetAuthToken(string token)
+        {
+            ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] = token.Substring(1,token.Length-2);
+            HummingbirdToken = token.Substring(1, token.Length - 2);
         }
 
         public static void Init()

@@ -155,10 +155,13 @@ namespace MALClient
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            List<ILibraryData> itemsToSave = new List<ILibraryData>();
-            foreach (var abstraction in ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions)
-                itemsToSave.Add(AnimeItemAbstraction.ToLibraryItem(abstraction));
-            await DataCache.SaveDataForUser(Credentials.UserName, itemsToSave, AnimeListWorkModes.Anime);
+            if (AnimeUpdateQuery.UpdatedSomething)
+            {
+                List<ILibraryData> itemsToSave = new List<ILibraryData>();
+                foreach (var abstraction in ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions)
+                    itemsToSave.Add(AnimeItemAbstraction.ToLibraryItem(abstraction));
+                await DataCache.SaveDataForUser(Credentials.UserName, itemsToSave, AnimeListWorkModes.Anime);
+            }
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

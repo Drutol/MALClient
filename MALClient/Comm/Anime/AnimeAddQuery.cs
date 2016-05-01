@@ -6,7 +6,7 @@ namespace MALClient.Comm
 {
     internal class AnimeAddQuery : Query
     {
-
+        private const string NewAnimeParamChain = "&status=plan-to-watch&rating=0&episodes_watched=0";
 
         public AnimeAddQuery(string id)
         {
@@ -56,6 +56,9 @@ namespace MALClient.Comm
 
         private void AddAnimeHummingbird(string id)
         {
+            Request = WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/libraries/{id}?auth_token={Credentials.HummingbirdToken}{NewAnimeParamChain}"));
+            Request.ContentType = "application/x-www-form-urlencoded";
+            Request.Method = "POST";
         }
     }
 }

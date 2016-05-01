@@ -51,7 +51,7 @@ namespace MALClient.Pages
                     case ApiType.Hummingbird:
                         if(response.Contains("\"error\": \"Invalid credentials\""))
                             throw new Exception();
-                        Credentials.HummingbirdToken = response;
+                        Credentials.SetAuthToken(response);
                         Credentials.SetAuthStatus(true);
                         break;
                     default:

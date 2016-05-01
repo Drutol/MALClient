@@ -1053,7 +1053,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        public int ClearSelectionIndexList => -1; // just returns -1 to remove selection - applies to all containers
         public AnimeCompactItem TemporarilySelectedCompactAnimeItem
         {
             get { return null; }

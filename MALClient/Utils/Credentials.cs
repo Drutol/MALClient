@@ -11,6 +11,8 @@ namespace MALClient
 {
     public static class Credentials
     {
+        public static string HummingbirdToken { get; set; }
+
         public static string UserName { get; private set; }
 
         private static string Password { get; set; }
@@ -23,6 +25,11 @@ namespace MALClient
         internal static ICredentials GetHttpCreditentials()
         {
             return new NetworkCredential(UserName, Password);
+        }
+
+        internal static string GetHummingbirdCredentialChain()
+        {
+            return $"username={UserName}&password={Password}";
         }
 
         public static void Update(string name, string passwd)

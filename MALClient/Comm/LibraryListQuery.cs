@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Models;
 using MALClient.Pages;
+using MALClient.ViewModels;
+using Newtonsoft.Json;
 
 namespace MALClient.Comm
 {
@@ -96,6 +98,36 @@ namespace MALClient.Comm
                     }
                     break;
                 case ApiType.Hummingbird:
+                    dynamic jsonObj = JsonConvert.DeserializeObject(raw);
+                    switch (_mode)
+                    {
+                        case AnimeListWorkModes.Anime:
+                            foreach (var entry in jsonObj)
+                            {
+                                AnimeType type = AnimeType.TV;
+                                AnimeType.TryParse(entry.anime.show_type.ToString(), true, out type);
+                                output.Add(new AnimeLibraryItemData
+                                {
+                                    Title = entry.anime.title.ToString(),
+                                    ImgUrl = entry.anime.cover_image.ToString(),
+                                    Type = (int)type,
+                                    MalId = Convert.ToInt32(entry.anime.mal_id.ToString()),
+                                    Id = Convert.ToInt32(entry.anime.id.ToString()),
+                                    AllEpisodes = Convert.ToInt32(entry.anime.episode_count.ToString()),
+                                    MyStartDate = AnimeItemViewModel.InvalidStartEndDate, //TODO : Do sth
+                                    MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                                    MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
+                                    MyScore = 1, //TODO : Score
+                                    MyStatus = HummingbirdStatusToMal(entry.status.ToString())
+                                });
+                            }
+                            break;
+                        case AnimeListWorkModes.Manga:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -118,6 +150,25 @@ namespace MALClient.Comm
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public static AnimeStatus HummingbirdStatusToMal(string humStatus)
+        {
+            switch (humStatus)
+            {
+                case "currently-watching":
+                    return AnimeStatus.Watching;
+                case "plan-to-watch":
+                    return AnimeStatus.PlanToWatch;
+                case "completed":
+                    return AnimeStatus.Completed;
+                case "on-hold":
+                    return AnimeStatus.OnHold;
+                case "dropped":
+                    return AnimeStatus.Dropped;
+                default:
+                   throw new ArgumentOutOfRangeException(nameof(humStatus),"Hummingbird has gone crazy");
             }
         }
     }

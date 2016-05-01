@@ -41,9 +41,23 @@ namespace MALClient.Pages
                 var response = await new AuthQuery().GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
-                var doc = XDocument.Parse(response);
-                Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
-                Credentials.SetAuthStatus(true);
+                switch(Settings.SelectedApiType)
+                {
+                    case ApiType.Mal:
+                        var doc = XDocument.Parse(response);
+                        Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
+                        Credentials.SetAuthStatus(true);
+                        break;
+                    case ApiType.Hummingbird:
+                        if(response.Contains("\"error\": \"Invalid credentials\""))
+                            throw new Exception();
+                        Credentials.HummingbirdToken = response;
+                        Credentials.SetAuthStatus(true);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
             }
             catch (Exception)
             {

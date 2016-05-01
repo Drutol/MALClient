@@ -1,1 +1,20 @@
-[{"Title":"Development update.","Date":"28.04.2016","Type":"Info","Content":"App updates will slow down a little bit as I'm busy irl and ill."},{"Title":"News: News!","Date":"24.04.2016","Type":"Info","Content":"Hello, if something happens I'll put an update here :)"}]
+[
+  {
+    "Title": "Update & Hummingbird",
+    "Date": "01.05.2016",
+    "Type": "Info",
+    "Content": "App update with mainly optimization and slight UI changes will go live within next 2 days. I'm working on hummingbird support now almost got anime library working!"
+  },
+  {
+    "Title": "Development update.",
+    "Date": "28.04.2016",
+    "Type": "Info",
+    "Content": "App updates will slow down a little bit as I'm busy irl and ill."
+  },
+  {
+    "Title": "News: News!",
+    "Date": "24.04.2016",
+    "Type": "Info",
+    "Content": "Hello, if something happens I'll put an update here :)"
+  }
+]

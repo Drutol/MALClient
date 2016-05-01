@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -30,16 +31,6 @@ namespace MALClient.ViewModels
         private float _globalScore;
         private bool _seasonalState;
         //prop field pairs
-
-        static AnimeItemViewModel()
-        {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width/2.1;
-        }
-
-        public static double MaxWidth { get; set; }
-
 
         //state fields
         public int Id { get; private set; }
@@ -271,8 +262,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/10";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
         public float MyScore
         {
@@ -402,7 +393,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString();
+        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString("N2"); //2 decimal places
 
         public float GlobalScore
         {
@@ -960,5 +951,38 @@ namespace MALClient.ViewModels
         }
 
         #endregion
+
+        static AnimeItemViewModel()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling",
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling",
+                };
+        }
+
+        public static List<string> ScoreFlyoutChoices { get; set; }
     }
 }

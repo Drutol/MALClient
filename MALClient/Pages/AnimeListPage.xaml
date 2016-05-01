@@ -205,7 +205,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </controls:AlternatingListView>
-        <GridView  x:Name="AnimesItemsIndefinite" Margin="1,1,-10,0" Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
+        <GridView  x:Name="AnimesItemsIndefinite"  Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick"
@@ -225,7 +225,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Margin="0,0,10,0" Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
+                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>

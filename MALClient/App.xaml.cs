@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -13,6 +14,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
+using MALClient.Items;
+using MALClient.Models;
+using MALClient.Pages;
+using MALClient.ViewModels;
 using Microsoft.ApplicationInsights;
 
 namespace MALClient
@@ -34,6 +39,7 @@ namespace MALClient
             Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
 
+            
             Suspending += OnSuspending;
         }
 
@@ -146,9 +152,13 @@ namespace MALClient
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+            List<ILibraryData> itemsToSave = new List<ILibraryData>();
+            foreach (var abstraction in ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions)
+                itemsToSave.Add(AnimeItemAbstraction.ToLibraryItem(abstraction));
+            await DataCache.SaveDataForUser(Credentials.UserName, itemsToSave, AnimeListWorkModes.Anime);
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

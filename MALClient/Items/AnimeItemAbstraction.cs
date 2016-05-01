@@ -29,7 +29,9 @@ namespace MALClient.Items
         public int AirDay = -1;
         public float GlobalScore;
         public string AirStartDate;
-        public int Id;
+        private int _id = -1; 
+        public int Id { get { return _id == -1 ? MalId : _id; } set { _id = value; } }
+        public int MalId;
         public string ImgUrl;
         public int Index;
         public bool LoadedAnime;
@@ -42,9 +44,10 @@ namespace MALClient.Items
         public bool RepresentsAnime = true;
 
 
-        private AnimeItemAbstraction(int id)
+        private AnimeItemAbstraction(int id,int malId)
         {
             Id = id;
+            MalId = malId;
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(Id, out data)) return;
             AirDay = data.DayOfAiring;
@@ -55,7 +58,7 @@ namespace MALClient.Items
         //three constructors depending on original init
 
         public AnimeItemAbstraction(SeasonalAnimeData data, bool anime)
-            : this(data.Id)
+            : this(-1,data.Id)
         {
             this.data = data;
             ImgUrl = data.ImgUrl;
@@ -73,7 +76,7 @@ namespace MALClient.Items
             AllVolumes = data.AllVolumes;
         }
 
-        public AnimeItemAbstraction(bool auth, AnimeLibraryItemData data) : this(data.Id)
+        public AnimeItemAbstraction(bool auth, AnimeLibraryItemData data) : this(data.Id,data.MalId)
         {
             this.auth = auth;
             Title = data.Title;
@@ -202,6 +205,26 @@ namespace MALClient.Items
         {
             LoadedAnime = true;
             return new AnimeItem(ViewModel);
+        }
+
+        public static AnimeLibraryItemData ToLibraryItem(AnimeItemAbstraction source)
+        {
+            return source.RepresentsAnime ? 
+                new AnimeLibraryItemData
+                {
+                    Id = source.Id,
+                    MalId = source.MalId,
+                    Title = source.Title,
+                    MyStatus = (AnimeStatus)source.MyStatus,
+                    MyEpisodes = source.MyEpisodes,
+                    AllEpisodes = source.AllEpisodes,
+                    ImgUrl = source.ImgUrl,
+                    Type = source.Type,
+                    MyStartDate = source.MyStartDate,
+                    MyEndDate = source.MyEndDate,
+                    MyScore = source.MyScore                   
+                } : 
+                new MangaLibraryItemData();
         }
     }
 }

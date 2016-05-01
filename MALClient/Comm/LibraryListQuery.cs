@@ -42,6 +42,8 @@ namespace MALClient.Comm
             var output = force
                 ? new List<ILibraryData>()
                 : await DataCache.RetrieveDataForUser(Credentials.UserName, _mode) ?? new List<ILibraryData>();
+            if (output.Count > 0)
+                return output;
             string raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return output;
@@ -104,8 +106,11 @@ namespace MALClient.Comm
                         case AnimeListWorkModes.Anime:
                             foreach (var entry in jsonObj)
                             {
+                                float score = 0;
+                                float.TryParse(entry.rating.value.ToString(), out score);
                                 AnimeType type = AnimeType.TV;
                                 AnimeType.TryParse(entry.anime.show_type.ToString(), true, out type);
+                                
                                 output.Add(new AnimeLibraryItemData
                                 {
                                     Title = entry.anime.title.ToString(),
@@ -117,7 +122,7 @@ namespace MALClient.Comm
                                     MyStartDate = AnimeItemViewModel.InvalidStartEndDate, //TODO : Do sth
                                     MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
                                     MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
-                                    MyScore = 1, //TODO : Score
+                                    MyScore = score,
                                     MyStatus = HummingbirdStatusToMal(entry.status.ToString())
                                 });
                             }

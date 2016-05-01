@@ -63,7 +63,6 @@ namespace MALClient.ViewModels
         private string _imgUrl;
         private bool _animeMode;
         private IAnimeData _animeItemReference; //our connection with everything
-        private int _id;
         public string Title { get; set; }
         public IDetailsViewInteraction View { private get; set; } //used to hide flyout
         //additional fields
@@ -104,8 +103,12 @@ namespace MALClient.ViewModels
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
 
+        public static List<string> ScoreFlyoutChoices { get; set; }
+
+
         private string SourceLink { get; set; }
         public int Id { get; set; }
+        public int MalId { get; set; }
 
         private int AllEpisodes
         {
@@ -119,19 +122,34 @@ namespace MALClient.ViewModels
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
-            
             _initialized = false;
             LoadingGlobal = Visibility.Visible;
+            //wait for UI
             await Task.Delay(5);
+
+
+            _loadingAlternate = false;
+
+            //details reset
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
+
+            //basic init assignment
+            _animeItemReference = param.AnimeItem;
             _animeMode = param.AnimeMode;
+            Id = param.Id;
+            Title = param.Title;
+            if (Settings.SelectedApiType == ApiType.Mal)
+                MalId = Id;
+            else
+                MalId = -1; //we will find this thing later
+
+            //so there will be no floting start/end dates
+            MyDetailsVisibility = false;
             StartDateValid = false;
             EndDateValid = false;
             _alternateImgUrl = null;
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
-            Id = param.Id;
-            Title = param.Title;
-            _animeItemReference = param.AnimeItem;
-            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
+
             if (_animeMode)
             {
                 Status1Label = "Watching";
@@ -203,12 +221,12 @@ namespace MALClient.ViewModels
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
-                    await FetchData(param.Id.ToString(), param.Title);
+                    await FetchData();
                     if(_prevArgs != null)
                         NavMgr.RegisterBackNav(_prevArgs);
                     break;
                 case PageIndex.PageAnimeDetails:
-                    await FetchData(param.Id.ToString(), param.Title);
+                    await FetchData();
                     if (param.RegisterBackNav) //we are already going back
                         NavMgr.RegisterBackNav(param.PrevPageSetup);
                     break;
@@ -1037,7 +1055,8 @@ namespace MALClient.ViewModels
                     Title = Title,
                     ImgUrl = _imgUrl,
                     Type = type,
-                    MalId = _id,
+                    Id = Id,
+                    MalId = MalId,
                     MyStatus = AnimeStatus.PlanToWatch,
                     MyEpisodes = 0,
                     MyScore = 0,
@@ -1049,7 +1068,8 @@ namespace MALClient.ViewModels
                     Title = Title,
                     ImgUrl = _imgUrl,
                     Type = type,
-                    MalId = _id,
+                    Id = Id,
+                    MalId = MalId,
                     MyStatus = AnimeStatus.PlanToWatch,
                     MyEpisodes = 0,
                     MyScore = 0,
@@ -1167,6 +1187,8 @@ namespace MALClient.ViewModels
             EndDate = data.EndDate;
             GlobalScore = data.GlobalScore;
             _imgUrl = data.ImgUrl;
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+                MalId = data.MalId;
 
             _synonyms = data.Synonyms;
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
@@ -1178,7 +1200,7 @@ namespace MALClient.ViewModels
             PopulateData();
         }
 
-        private async Task FetchData(string id, string title, bool force = false)
+        private async Task FetchData(bool force = false)
         {
             LoadingGlobal = Visibility.Visible;
             
@@ -1197,7 +1219,7 @@ namespace MALClient.ViewModels
 
         public async void RefreshData()
         {
-            await FetchData(Id.ToString(), Title, true);
+            await FetchData(true);
             if (_loadedDetails)
                 LoadDetails(true);
             if (_loadedReviews)
@@ -1454,6 +1476,37 @@ namespace MALClient.ViewModels
             LoadingUpdate = false;
             _loadingAlternate = false;
             return data?.AlternateCoverImgUrl;
+        }
+
+        static AnimeDetailsPageViewModel()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling",
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling",
+                };
         }
     }
 }

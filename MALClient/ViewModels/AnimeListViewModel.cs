@@ -42,6 +42,9 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
+        public List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions => _allLoadedAnimeItems;
+        public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions => _allLoadedMangaItems;
+
         private int _allPages;
         private bool _initiazlized;
 
@@ -351,7 +354,7 @@ namespace MALClient.ViewModels
                 : Settings.IsSortDescending;
         }
 
-        private const int ItemPrefferedWidth = 395;
+        private const int ItemPrefferedWidth = 385;
         public double ListItemGridWidth
         {
             get

@@ -7,6 +7,8 @@ namespace MALClient.Comm
 {
     internal class AnimeUpdateQuery : Query
     {
+        public static bool UpdatedSomething = false; //used for data saving on suspending in app.xaml.cs
+
         public AnimeUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore,item.StartDate,item.EndDate)
         {
         }
@@ -14,6 +16,7 @@ namespace MALClient.Comm
 
         public AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore,string startDate,string endDate)
         {
+            UpdatedSomething = true;
             switch (CurrentApiType)
             {
                 case ApiType.Mal:

@@ -9,7 +9,9 @@ namespace MALClient.Models
 {
     public class AnimeGeneralDetailsData
     {
-        public int Id { get; set; }
+        private int _id = -1;
+        public int Id { get { return _id == -1 ? MalId : _id; } set { _id = value; } }
+        public int MalId { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
@@ -24,7 +26,7 @@ namespace MALClient.Models
 
         public void ParseXElement(XElement xmlObj,bool anime)
         {
-            Id = Convert.ToInt32(xmlObj.Element("id").Value);
+            MalId = Convert.ToInt32(xmlObj.Element("id").Value);
             Title = xmlObj.Element("title").Value;
             GlobalScore = float.Parse(xmlObj.Element("score").Value);
             Type = xmlObj.Element("type").Value;

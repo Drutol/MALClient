@@ -32,7 +32,7 @@ namespace MALClient
 
         #region UserData
 
-        public static async void SaveDataForUser(string user, List<ILibraryData> data, AnimeListWorkModes mode)
+        public static async Task SaveDataForUser(string user, List<ILibraryData> data, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled)
                 return;

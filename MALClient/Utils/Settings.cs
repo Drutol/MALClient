@@ -11,7 +11,7 @@ namespace MALClient
     {
         public static ApiType SelectedApiType
         {
-            get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
+            get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Hummingbird); }
             set { ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value; }
         }
         public static int CachePersitence

@@ -23,7 +23,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Image x:Name="Image" Grid.Row="0"
-               controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" MaxWidth="{Binding MaxWidth}" />
+               controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" />
         <ProgressRing Grid.Row="0" IsActive ="True" Visibility="{Binding LoadingUpdate}" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="0" Width="Auto" MinWidth="35" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
@@ -62,7 +62,7 @@
         </Grid>
         <Grid Grid.Row="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
               BorderThickness="0,1.5,0,0"
-              MaxWidth="{Binding MaxWidth}" VerticalAlignment="Stretch"
+              VerticalAlignment="Stretch"
               Background="{ThemeResource BrushAnimeItemBackground}">
             <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />

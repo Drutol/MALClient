@@ -24,7 +24,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDeepBackground}" Padding="2">
+    <Grid Background="{ThemeResource BrushDeepBackground}" Padding="0">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

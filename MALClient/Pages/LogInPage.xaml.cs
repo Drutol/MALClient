@@ -5,6 +5,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -26,7 +27,7 @@ namespace MALClient.Pages
             if (Credentials.Authenticated)
                 BtnLogOff.Visibility = Visibility.Visible;
             Utils.GetMainPageInstance()
-                .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
+                .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";            
         }
 
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)

@@ -62,7 +62,7 @@
                         Width="60" Height="45" Background="Transparent" FontSize="20"
                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                         Command="{Binding ReversePaneCommand}" />
-                <Image x:Name="LogoImage" Width="250" Source="../Assets/Wide310x150Logo.scale-200.png"
+                <Image x:Name="LogoImage" Width="250"
                        Stretch="Uniform" />
             </Grid>
             <Grid Grid.Column="3" Background="{ThemeResource BrushSplitter}" />

@@ -21,7 +21,7 @@
             <SolidColorBrush x:Key="BrushDetailsBackground" Color="#f0f0f0" />
             <SolidColorBrush x:Key="BrushDetailsUpperBackground" Color="LightGray" Opacity=".25" />
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6" />
-            <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#e6e6e6" />
+            <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#f3f3f3" />
             <SolidColorBrush x:Key="BrushSplitter" Color="#e6e6e6" />
             <SolidColorBrush x:Key="BrushHamburgerMenuButtonsBorder" Color="#1f1f1f" />
             <SolidColorBrush x:Key="BrushHamburgerSplitter" Color="#aff8f8f8" />

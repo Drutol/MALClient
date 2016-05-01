@@ -3,7 +3,7 @@
     public interface IAnimeData
     {
         int Id { get; }
-        int MyScore { get; set; }
+        float MyScore { get; set; }
         int MyEpisodes { get; set; }
         string Title { get; }
         int MyStatus { get; set; }

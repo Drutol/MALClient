@@ -76,7 +76,7 @@ namespace MALClient.Items
 
         //They must be here because reasons (interface reasons)
         public int MyEpisodes { get; set; }
-        public int MyScore { get; set; }
+        public float MyScore { get; set; }
         public int MyStatus { get; set; }
 
         private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)

@@ -12,12 +12,12 @@ namespace MALClient.Comm
         }
 
 
-        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, int myScore,string startDate,string endDate)
+        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore,string startDate,string endDate)
         {
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    UpdateAnimeMal(id,watchedEps,myStatus,myScore,startDate,endDate);
+                    UpdateAnimeMal(id,watchedEps,myStatus,(int)myScore,startDate,endDate);
                     break;
                 case ApiType.Hummingbird:
                     break;

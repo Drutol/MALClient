@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
@@ -44,7 +45,11 @@ namespace MALClient
                             CreationCollisionOption.ReplaceExisting);
                 await
                     FileIO.WriteTextAsync(file,
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<ILibraryData>>(DateTime.Now, data)));
+                        mode == AnimeListWorkModes.Anime
+                            ? JsonConvert.SerializeObject(new Tuple<DateTime, IEnumerable<AnimeLibraryItemData>>(DateTime.Now,
+                                data.Select(item => item as AnimeLibraryItemData)))
+                            : JsonConvert.SerializeObject(new Tuple<DateTime, IEnumerable<MangaLibraryItemData>>(DateTime.Now,
+                                data.Select(item => item as MangaLibraryItemData))));
             }
             catch (Exception)
             {
@@ -63,13 +68,29 @@ namespace MALClient
                         ApplicationData.Current.LocalFolder.GetFileAsync(
                             $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json");
                 var data = await FileIO.ReadTextAsync(file);
-                var decoded = JsonConvert.DeserializeObject<Tuple<DateTime, List<ILibraryData>>>(data);
-                if (!CheckForOldData(decoded.Item1))
+                var decoded = new List<ILibraryData>();
+                if (mode == AnimeListWorkModes.Anime)
                 {
-                    await file.DeleteAsync();
-                    return null;
+                    var jsonObj = JsonConvert.DeserializeObject<Tuple<DateTime, List<AnimeLibraryItemData>>>(data);
+                    if (!CheckForOldData(jsonObj.Item1))
+                    {
+                        await file.DeleteAsync();
+                        return null;
+                    }
+                    decoded.AddRange(jsonObj.Item2.Select(item => item as ILibraryData));
                 }
-                return decoded.Item2;
+                else
+                {
+                    var jsonObj = JsonConvert.DeserializeObject<Tuple<DateTime, List<MangaLibraryItemData>>>(data);
+                    if (!CheckForOldData(jsonObj.Item1))
+                    {
+                        await file.DeleteAsync();
+                        return null;
+                    }
+                    decoded.AddRange(jsonObj.Item2.Select(item => item as ILibraryData));
+                }
+
+                return decoded;
             }
             catch (Exception)
             {

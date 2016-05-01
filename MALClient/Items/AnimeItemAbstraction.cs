@@ -1,4 +1,5 @@
-﻿using MALClient.ViewModels;
+﻿using MALClient.Models;
+using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
 
@@ -11,8 +12,8 @@ namespace MALClient.Items
     public class AnimeItemAbstraction
     {
         private readonly bool _firstConstructor;
-        private readonly int allEps;
-        private readonly int allVolumes;
+        private readonly int AllEpisodes;
+        public readonly int AllVolumes;
 
         public readonly bool auth;
 
@@ -23,13 +24,13 @@ namespace MALClient.Items
         private AnimeItemViewModel _viewModel;
         private AnimeCompactItem _compactItem;
 
+        public string Title;
+        public int MyVolumes;
         public int AirDay = -1;
-        private bool authSetEps;
         public float GlobalScore;
         public string AirStartDate;
-        private readonly int id;
         public int Id;
-        public string img;
+        public string ImgUrl;
         public int Index;
         public bool LoadedAnime;
         public bool LoadedGrid;
@@ -37,11 +38,9 @@ namespace MALClient.Items
         public bool LoadedModel;
         private readonly int myVolumes;
 
-        public int MyVolumes;
-        private readonly string name;
 
         public bool RepresentsAnime = true;
-        public string Title;
+
 
         private AnimeItemAbstraction(int id)
         {
@@ -54,31 +53,12 @@ namespace MALClient.Items
         }
 
         //three constructors depending on original init
-        public AnimeItemAbstraction(bool auth, string name, string img, int type, int id, int myStatus, int myEps,
-            int allEps,string startDate,string endDate,
-            int myScore) : this(id)
-        {
-            this.auth = auth;
-            this.name = name;
-            this.img = img;
-            this.id = id;
-            MyStartDate = startDate;
-            MyEndDate = endDate;
-            MyStatus = myStatus;
-            MyEpisodes  = myEps;
-            this.allEps = allEps;
-            MyScore = MyScore = myScore;
-            Type = type;
-            _firstConstructor = true;
-
-            Title = name;
-        }
 
         public AnimeItemAbstraction(SeasonalAnimeData data, bool anime)
             : this(data.Id)
         {
             this.data = data;
-            img = data.ImgUrl;
+            ImgUrl = data.ImgUrl;
             Title = data.Title;
             GlobalScore = data.Score;
             Index = data.Index;
@@ -86,20 +66,32 @@ namespace MALClient.Items
             MyStatus = (int) AnimeStatus.AllOrAiring;
         }
 
-        public AnimeItemAbstraction(bool auth, string name, string img, int type, int id, int myStatus, int myEps,
-            int allEps,string startDate,string endDate,
-            int myScore, int volumes, int allVolumes)
-            : this(auth, name, img, type, id, myStatus, myEps, allEps,startDate,endDate, myScore)
+        public AnimeItemAbstraction(bool auth, MangaLibraryItemData data) : this(auth,data as AnimeLibraryItemData)
         {
             RepresentsAnime = false;
-            myVolumes = MyVolumes = volumes;
-            this.allVolumes = allVolumes;
+            MyVolumes = data.MyVolumes;
+            AllVolumes = data.AllVolumes;
+        }
+
+        public AnimeItemAbstraction(bool auth, AnimeLibraryItemData data) : this(data.Id)
+        {
+            this.auth = auth;
+            Title = data.Title;
+            ImgUrl = data.ImgUrl;
+            MyStartDate = data.MyStartDate;
+            MyEndDate = data.MyEndDate;
+            MyStatus = (int)data.MyStatus;
+            MyEpisodes = data.MyEpisodes;
+            AllEpisodes = data.AllEpisodes;
+            MyScore = data.MyScore;
+            Type = data.Type;
+            _firstConstructor = true;           
         }
 
 
         public int MyEpisodes { get; set; }
 
-        public int MyScore { get; set; }
+        public float MyScore { get; set; }
 
         public int MyStatus { get; set; }
 
@@ -196,13 +188,13 @@ namespace MALClient.Items
             LoadedModel = true;
             if (RepresentsAnime)
                 return _firstConstructor
-                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, MyStartDate, MyEndDate, this,
-                        authSetEps)
+                    ? new AnimeItemViewModel(auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore, MyStartDate, MyEndDate, this,
+                        false)
                     : new AnimeItemViewModel(data, this);
             return
                 _firstConstructor
-                    ? new AnimeItemViewModel(auth, name, img, id, MyStatus, MyEpisodes, allEps, MyScore, MyStartDate, MyEndDate, this,
-                        authSetEps, myVolumes, allVolumes)
+                    ? new AnimeItemViewModel(auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore, MyStartDate, MyEndDate, this,
+                        false, myVolumes, AllVolumes)
                     : new AnimeItemViewModel(data, this);
         }
 

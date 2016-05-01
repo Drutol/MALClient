@@ -119,12 +119,11 @@ namespace MALClient.ViewModels
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, string startDate, string endDate,
+            float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
             //We are loading an item that IS on the list
         {
             //Assign fields
-            Id = id;
             _allEpisodes = allEps;
             Auth = auth;
             //Assign properties
@@ -146,7 +145,7 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, string startDate, string endDate,
+            float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
             : this(auth, name, img, id, myStatus, myEps, allEps, myScore, startDate, endDate, parent, setEpsAuth)
         {
@@ -275,7 +274,7 @@ namespace MALClient.ViewModels
         public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
         public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/10";
 
-        public int MyScore
+        public float MyScore
         {
             get { return ParentAbstraction.MyScore; }
             set

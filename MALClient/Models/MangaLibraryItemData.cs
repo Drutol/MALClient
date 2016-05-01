@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MALClient.Models
 {
-    class MangaLibraryItemData : AnimeLibraryItemData
+    public class MangaLibraryItemData : AnimeLibraryItemData
     {
         public int MyVolumes;
-        public int MyChapters;
+        public int AllVolumes;
     }
 }

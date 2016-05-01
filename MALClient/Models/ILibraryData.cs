@@ -10,6 +10,6 @@
         int MyEpisodes { get; set; }
         int AllEpisodes { get; set; }
         string ImgUrl { get; set; }
-        AnimeType Type { get; set; }
+        int Type { get; set; }
     }
 }

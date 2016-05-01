@@ -13,13 +13,14 @@ namespace MALClient.Comm
     {
         private AnimeListWorkModes _mode;
 
-        public LibraryListQuery(string type = "anime")
+        public LibraryListQuery(AnimeListWorkModes mode)
         {
-            _mode = type == "anime" ? AnimeListWorkModes.Anime : AnimeListWorkModes.Manga;
+            _mode = mode;
+            string type = _mode == AnimeListWorkModes.Anime ? "anime" : "manga";
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/malappinfo.php?user={Credentials.UserName}?status=all?type={type}"));
+                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/malappinfo.php?u={Credentials.UserName}&status=all&type={type}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
@@ -37,7 +38,7 @@ namespace MALClient.Comm
         public async Task<List<ILibraryData>> GetLibrary(bool force = false)
         {
             var output = force
-                ? null
+                ? new List<ILibraryData>()
                 : await DataCache.RetrieveDataForUser(Credentials.UserName, _mode) ?? new List<ILibraryData>();
             string raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
@@ -46,10 +47,11 @@ namespace MALClient.Comm
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
+                    var parsedData = XDocument.Parse(raw);
+                   
                     switch (_mode)
                     {
                         case AnimeListWorkModes.Anime:
-                            var parsedData = XDocument.Parse(raw);
                             var anime = parsedData.Root.Elements("anime").ToList();
                             foreach (var item in anime)
                             {
@@ -57,7 +59,7 @@ namespace MALClient.Comm
                                 {
                                 Title = item.Element("series_title").Value,
                                 ImgUrl = item.Element("series_image").Value,
-                                Type = (AnimeType)Convert.ToInt32(item.Element("series_type").Value),
+                                Type = Convert.ToInt32(item.Element("series_type").Value),
                                 MalId = Convert.ToInt32(item.Element("series_animedb_id").Value),
                                 MyStatus = (AnimeStatus)Convert.ToInt32(item.Element("my_status").Value),
                                 MyEpisodes = Convert.ToInt32(item.Element("my_watched_episodes").Value),
@@ -69,6 +71,25 @@ namespace MALClient.Comm
                             }
                             break;
                             case AnimeListWorkModes.Manga:
+                            var manga = parsedData.Root.Elements("manga").ToList();
+                            foreach (var item in manga)
+                            {
+                                output.Add(new MangaLibraryItemData
+                                {
+                                    Title = item.Element("series_title").Value,
+                                    ImgUrl = item.Element("series_image").Value,
+                                    Type = Convert.ToInt32(item.Element("series_type").Value),
+                                    MalId = Convert.ToInt32(item.Element("series_mangadb_id").Value),
+                                    MyStatus = (AnimeStatus)Convert.ToInt32(item.Element("my_status").Value),
+                                    MyEpisodes = Convert.ToInt32(item.Element("my_read_chapters").Value),
+                                    AllEpisodes = Convert.ToInt32(item.Element("series_chapters").Value),
+                                    MyStartDate = item.Element("my_start_date").Value,
+                                    MyEndDate = item.Element("my_finish_date").Value,
+                                    MyScore = Convert.ToInt32(item.Element("my_score").Value),
+                                    MyVolumes = Convert.ToInt32(item.Element("my_read_volumes").Value),
+                                    AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value)
+                                });
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException(nameof(_mode),"You gave me something different than anime/manga... b..b-baka (GetLibrary)");

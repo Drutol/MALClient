@@ -279,7 +279,7 @@ namespace MALClient.ViewModels
 
         public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
 
-        private int MyScore
+        private float MyScore
         {
             get { return _animeItemReference?.MyScore ?? 0; }
             set
@@ -870,7 +870,7 @@ namespace MALClient.ViewModels
                 return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore,
                     (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"), //if date was untouched return "no date" value
                     (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
-            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, MyScore, MyVolumes,
+            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, (int)MyScore, MyVolumes,
                 (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"),
                 (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
         }
@@ -1032,8 +1032,32 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => StartDateTimeOffset);
             }
             var animeItem = _animeMode
-                            ? new AnimeItemAbstraction(true, Title, _imgUrl, type, _id, 6, 0, AllEpisodes, startDate, "0000-00-00", 0)
-                            : new AnimeItemAbstraction(true, Title, _imgUrl, type, _id, 6, 0, AllEpisodes, startDate, "0000-00-00", 0, 0, AllVolumes);
+                ? new AnimeItemAbstraction(true, new AnimeLibraryItemData
+                {
+                    Title = Title,
+                    ImgUrl = _imgUrl,
+                    Type = type,
+                    MalId = _id,
+                    MyStatus = AnimeStatus.PlanToWatch,
+                    MyEpisodes = 0,
+                    MyScore = 0,
+                    MyStartDate = startDate,
+                    MyEndDate = AnimeItemViewModel.InvalidStartEndDate
+                })
+                : new AnimeItemAbstraction(true, new MangaLibraryItemData
+                {
+                    Title = Title,
+                    ImgUrl = _imgUrl,
+                    Type = type,
+                    MalId = _id,
+                    MyStatus = AnimeStatus.PlanToWatch,
+                    MyEpisodes = 0,
+                    MyScore = 0,
+                    MyStartDate = startDate,
+                    MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                    AllVolumes = AllVolumes,
+                    MyVolumes = MyVolumes
+                });
             _animeItemReference = animeItem.ViewModel;
 
             MyScore = 0;

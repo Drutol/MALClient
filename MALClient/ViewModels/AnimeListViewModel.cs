@@ -789,7 +789,7 @@ namespace MALClient.ViewModels
                 : _allLoadedMangaItems.Count == 0)
             {
                 List<ILibraryData> data = null;
-                await Task.Run(async () => data = await new LibraryListQuery().GetLibrary());
+                await Task.Run(async () => data = await new LibraryListQuery(requestedMode).GetLibrary());
                 if (data?.Count == 0)
                 {
                     //no data?
@@ -797,8 +797,6 @@ namespace MALClient.ViewModels
                     Loading = false;
                     return;
                 }
-
-
                 
                 var auth = Credentials.Authenticated &&
                            string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase);
@@ -807,28 +805,15 @@ namespace MALClient.ViewModels
                     case AnimeListWorkModes.Anime:
                         
                         foreach (var item in data)
-                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, )));
+                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth,item as AnimeLibraryItemData));
 
-                        //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
-                        var manga = parsedData.Root.Elements("manga").ToList();
-                        foreach (var item in manga)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value,
-                                item.Element("series_image").Value, Convert.ToInt32(item.Element("series_type").Value),
-                                Convert.ToInt32(item.Element("series_mangadb_id").Value),
-                                Convert.ToInt32(item.Element("my_status").Value),
-                                Convert.ToInt32(item.Element("my_read_chapters").Value),
-                                Convert.ToInt32(item.Element("series_chapters").Value),
-                                item.Element("my_start_date").Value,
-                                item.Element("my_finish_date").Value,
-                                Convert.ToInt32(item.Element("my_score").Value),
-                                Convert.ToInt32(item.Element("my_read_volumes").Value),
-                                Convert.ToInt32(item.Element("series_volumes").Value)));
+                        foreach (var item in data)
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item as MangaLibraryItemData));
 
-                        //_allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthMangaItems = _allLoadedMangaItems;
                         break;
@@ -838,7 +823,7 @@ namespace MALClient.ViewModels
             }
 
             if (WorkMode != requestedMode)
-                return; // manga is loaded top manga can proceed loading
+                return; // manga or anime is loaded top manga can proceed loading something else
 
             AppBtnGoBackToMyListVisibility = Credentials.Authenticated &&
                                              !string.Equals(ListSource, Credentials.UserName,
@@ -1064,7 +1049,6 @@ namespace MALClient.ViewModels
             {
                 if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
                     value.ViewModel.NavigateDetails();
-                RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
                 View.ResetSelectionForMode(DisplayMode);
             }
         }

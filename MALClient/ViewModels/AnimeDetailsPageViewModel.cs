@@ -25,7 +25,7 @@ namespace MALClient.ViewModels
 {
     public class AnimeDetailsPageNavigationArgs
     {
-        public readonly XElement AnimeElement;
+        public readonly AnimeGeneralDetailsData AnimeElement;
         public readonly IAnimeData AnimeItem;
         public readonly int Id;
         public readonly object PrevPageSetup;
@@ -35,7 +35,7 @@ namespace MALClient.ViewModels
         public PageIndex Source;
         public int SourceTabIndex;
 
-        public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
+        public AnimeDetailsPageNavigationArgs(int id, string title, AnimeGeneralDetailsData element, IAnimeData animeReference,
             object args = null)
         {
             Id = id;
@@ -1157,50 +1157,35 @@ namespace MALClient.ViewModels
                 LoadRelatedAnime();
         }
 
-        private void ExtractData(XElement animeElement)
-        {           
-            GlobalScore = float.Parse(animeElement.Element("score").Value);
-            Type = animeElement.Element("type").Value;
-            Status = animeElement.Element("status").Value;
-            Synopsis = Utils.DecodeXmlSynopsisDetail(animeElement.Element("synopsis").Value);
-            StartDate = animeElement.Element("start_date").Value;
-            EndDate = animeElement.Element("end_date").Value;
-            _imgUrl = animeElement.Element("image").Value;
-            _synonyms = animeElement.Element("synonyms").Value.Split(',').ToList();
-            _synonyms.Add(animeElement.Element("english").Value);
-            _synonyms.Add(Title);
+        private void ExtractData(AnimeGeneralDetailsData data)
+        {
+            Title = data.Title;
+            Type = data.Type;
+            Status = data.Status;
+            Synopsis = data.Synopsis;
+            StartDate = data.StartDate;
+            EndDate = data.EndDate;
+            GlobalScore = data.GlobalScore;
+            _imgUrl = data.ImgUrl;
 
+            _synonyms = data.Synonyms;
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
             for (var i = 0; i < _synonyms.Count; i++)
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
             //removes string from brackets (sthsth) lol ->  lol
             if (_animeItemReference == null)
-                AllEpisodes = Convert.ToInt32(animeElement.Element(_animeMode ? "episodes" : "chapters").Value);
+                AllEpisodes = Convert.ToInt32(data.AllEpisodes);
             PopulateData();
         }
 
         private async Task FetchData(string id, string title, bool force = false)
         {
             LoadingGlobal = Visibility.Visible;
-            var elem = force ? null : await DataCache.RetrieveAnimeSearchResultsData(Id, _animeMode);
+            
             try
             {
-                if (elem == null)
-                {
-                    var data = "";
-                    await Task.Run(async () => data = _animeMode
-                        ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false)
-                        : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false));
-                    data = WebUtility.HtmlDecode(data);
-                    data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
-
-                    var parsedData = XDocument.Parse(data);
-                    
-                    var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
-                    elem = elements.First(element => element.Element("id").Value == id);
-                    DataCache.SaveAnimeSearchResultsData(Id, elem, _animeMode);
-                }
-                ExtractData(elem);
+                var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(force,Id.ToString(), Title, _animeMode);
+                ExtractData(data);
             }
             catch (Exception)
             {

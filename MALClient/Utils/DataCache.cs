@@ -477,7 +477,7 @@ namespace MALClient
 
         #region AnimeSerachResults
 
-        public static async void SaveAnimeSearchResultsData(int id, XElement data, bool anime)
+        public static async void SaveAnimeSearchResultsData(string id, AnimeGeneralDetailsData data, bool anime)
         {
             try
             {
@@ -489,7 +489,7 @@ namespace MALClient
                                 anime ? "AnimeDetails" : "MangaDetails",
                                 CreationCollisionOption.OpenIfExists);
                     var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, XElement>(DateTime.UtcNow, data));
+                        JsonConvert.SerializeObject(new Tuple<DateTime, AnimeGeneralDetailsData>(DateTime.UtcNow, data));
                     var file =
                         await
                             folder.CreateFileAsync($"mal_details_{id}.json",
@@ -503,7 +503,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<XElement> RetrieveAnimeSearchResultsData(int animeId, bool anime)
+        public static async Task<AnimeGeneralDetailsData> RetrieveAnimeSearchResultsData(string animeId, bool anime)
         {
             try
             {
@@ -514,7 +514,7 @@ namespace MALClient
                 var file = await folder.GetFileAsync($"mal_details_{animeId}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, XElement>>(data);
+                    JsonConvert.DeserializeObject<Tuple<DateTime, AnimeGeneralDetailsData>>(data);
                 return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
             }
             catch (Exception)

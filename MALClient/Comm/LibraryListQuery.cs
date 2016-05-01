@@ -153,7 +153,7 @@ namespace MALClient.Comm
             }
         }
 
-        public static AnimeStatus HummingbirdStatusToMal(string humStatus)
+        private static AnimeStatus HummingbirdStatusToMal(string humStatus)
         {
             switch (humStatus)
             {

@@ -114,6 +114,7 @@
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
@@ -162,6 +163,7 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Models\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
     <Compile Include="Models\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />

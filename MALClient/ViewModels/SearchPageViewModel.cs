@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using MALClient.Comm;
 using MALClient.Items;
+using MALClient.Models;
 using MALClient.Pages;
 
 namespace MALClient.ViewModels
@@ -67,7 +68,9 @@ namespace MALClient.ViewModels
                     foreach (var item in parsedData.Element("anime").Elements("entry"))
                     {
                         var type = item.Element("type").Value;
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(item));
+                        var data = new AnimeGeneralDetailsData();
+                        data.ParseXElement(item,true);
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(data));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }
@@ -89,7 +92,9 @@ namespace MALClient.ViewModels
                     foreach (var item in parsedData.Element("manga").Elements("entry"))
                     {
                         var type = item.Element("type").Value;
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(item, false));
+                        var data = new AnimeGeneralDetailsData();
+                        data.ParseXElement(item,false);
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(data, false));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }

@@ -21,7 +21,7 @@ namespace MALClient.Comm
     {
         protected WebRequest Request;
 
-        protected static ApiType CurrentApiType { get; set; } = ApiType.Hummingbird;
+        protected static ApiType CurrentApiType { get; set; } = ApiType.Mal;
 
         public async Task<string> GetRequestResponse(bool wantMsg = true,string statusBarMsg = null)
         {

@@ -729,7 +729,7 @@ namespace MALClient.ViewModels
                 {
                     item.ViewModel.SignalBackToList();
                 }
-                if (_prevWorkMode != modeOverride.Value)
+                if (_prevWorkMode != modeOverride)
                     await RefreshList();
                 return;
             }

@@ -53,7 +53,7 @@ namespace MALClient.ViewModels
             Loading = Visibility.Visible;
             EmptyNoticeVisibility = Visibility.Collapsed;
             AnimeSearchItems.Clear();
-            var response = "";
+            var data = new List<AnimeGeneralDetailsData>();
             _filters.Clear();
             _allAnimeSearchItems = new List<AnimeSearchItem>();
             if (_animeSearch)
@@ -61,16 +61,13 @@ namespace MALClient.ViewModels
                 await
                     Task.Run(
                         async () =>
-                            response = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetRequestResponse());
+                            data = await new AnimeSearchQuery(Utils.CleanAnimeTitle(query)).GetSearchResults());
                 try
                 {
-                    var parsedData = XDocument.Parse(response);
-                    foreach (var item in parsedData.Element("anime").Elements("entry"))
+                    foreach (var item in data)
                     {
-                        var type = item.Element("type").Value;
-                        var data = new AnimeGeneralDetailsData();
-                        data.ParseXElement(item,true);
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(data));
+                        var type = item.Type;
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(item));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }
@@ -82,6 +79,7 @@ namespace MALClient.ViewModels
             }
             else // manga search
             {
+                string response = "";
                 await
                     Task.Run(
                         async () =>
@@ -92,9 +90,9 @@ namespace MALClient.ViewModels
                     foreach (var item in parsedData.Element("manga").Elements("entry"))
                     {
                         var type = item.Element("type").Value;
-                        var data = new AnimeGeneralDetailsData();
-                        data.ParseXElement(item,false);
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(data, false));
+                        var mangaData = new AnimeGeneralDetailsData();
+                        mangaData.ParseXElement(item,false);
+                        _allAnimeSearchItems.Add(new AnimeSearchItem(mangaData, false));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }

@@ -50,6 +50,9 @@ namespace MALClient.Comm.Anime
                         break;
 
                     dynamic jsonObj = JsonConvert.DeserializeObject(raw);
+                    int allEps = 0;
+                    if (jsonObj.episode_count != null)
+                        allEps = Convert.ToInt32(jsonObj.episode_count.ToString());
                     output = new AnimeGeneralDetailsData
                     {
                         Title = jsonObj.title.ToString(),
@@ -57,7 +60,7 @@ namespace MALClient.Comm.Anime
                         Type = jsonObj.show_type.ToString(),
                         Id = Convert.ToInt32(jsonObj.id.ToString()),
                         MalId = Convert.ToInt32(jsonObj.mal_id.ToString()),
-                        AllEpisodes = Convert.ToInt32(jsonObj.episode_count.ToString()),
+                        AllEpisodes = allEps,
                         StartDate = AnimeItemViewModel.InvalidStartEndDate, //TODO : Do sth
                         EndDate = AnimeItemViewModel.InvalidStartEndDate, 
                         Status = jsonObj.status,

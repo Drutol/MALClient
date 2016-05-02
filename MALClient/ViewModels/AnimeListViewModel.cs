@@ -71,7 +71,7 @@ namespace MALClient.ViewModels
 
         public int CurrentStatus => GetDesiredStatus();
 
-        public async void Init(AnimeListPageNavigationArgs args)
+        public async Task Init(AnimeListPageNavigationArgs args)
         {
             //base
             _scrollHandlerAdded = false;
@@ -585,14 +585,17 @@ namespace MALClient.ViewModels
             switch (WorkMode)
             {
                 case AnimeListWorkModes.SeasonalAnime:
-                    await Task.Run(async () =>
-                        data.AddRange(await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
+                    var tResponse = new List<SeasonalAnimeData>();
+                    await Task.Run(new Func<Task>(async () =>
+                        tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime()));
+                    data.AddRange(tResponse);
                     break;
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    await Task.Run(async () =>
-                        data.AddRange(
-                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
+                    var topResponse = new List<TopAnimeData>();
+                    await Task.Run(new Func<Task>(async () =>
+                    topResponse = await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
+                    data.AddRange(topResponse);
                     break;
             }
             //if we don't have any we cannot do anything I guess...
@@ -726,7 +729,8 @@ namespace MALClient.ViewModels
                 {
                     item.ViewModel.SignalBackToList();
                 }
-                await RefreshList();
+                if (_prevWorkMode != modeOverride.Value)
+                    await RefreshList();
                 return;
             }
             if (WorkMode == requestedMode)

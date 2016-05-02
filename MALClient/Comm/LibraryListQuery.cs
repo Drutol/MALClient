@@ -26,22 +26,32 @@ namespace MALClient.Comm
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
-                case ApiType.Hummingbird:                
-                    Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{Credentials.UserName}/library"));
-                    Request.ContentType = "application/x-www-form-urlencoded";
-                    Request.Method = "GET";
+                case ApiType.Hummingbird:
+                    switch (mode)
+                    {
+                        case AnimeListWorkModes.Anime:
+                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{Credentials.UserName}/library"));
+                            Request.ContentType = "application/x-www-form-urlencoded";
+                            Request.Method = "GET";
+                            break;
+                        case AnimeListWorkModes.Manga:
+                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/manga_library_entries?user_id={Credentials.UserName}"));
+                            Request.ContentType = "application/x-www-form-urlencoded";
+                            Request.Method = "GET";
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                    }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
         }
 
         public async Task<List<ILibraryData>> GetLibrary(bool force = false)
         {
-            var output = force
-                ? new List<ILibraryData>()
-                : await DataCache.RetrieveDataForUser(Credentials.UserName, _mode) ?? new List<ILibraryData>();
+            var output = force ? new List<ILibraryData>() : await DataCache.RetrieveDataForUser(Credentials.UserName, _mode) ?? new List<ILibraryData>();
             if (output.Count > 0)
                 return output;
             string raw = await GetRequestResponse();
@@ -52,7 +62,7 @@ namespace MALClient.Comm
             {
                 case ApiType.Mal:
                     var parsedData = XDocument.Parse(raw);
-                   
+
                     switch (_mode)
                     {
                         case AnimeListWorkModes.Anime:
@@ -61,20 +71,20 @@ namespace MALClient.Comm
                             {
                                 output.Add(new AnimeLibraryItemData
                                 {
-                                Title = item.Element("series_title").Value,
-                                ImgUrl = item.Element("series_image").Value,
-                                Type = Convert.ToInt32(item.Element("series_type").Value),
-                                MalId = Convert.ToInt32(item.Element("series_animedb_id").Value),
-                                MyStatus = (AnimeStatus)Convert.ToInt32(item.Element("my_status").Value),
-                                MyEpisodes = Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                                AllEpisodes = Convert.ToInt32(item.Element("series_episodes").Value),
-                                MyStartDate = item.Element("my_start_date").Value,
-                                MyEndDate = item.Element("my_finish_date").Value,
-                                MyScore = Convert.ToInt32(item.Element("my_score").Value)
+                                    Title = item.Element("series_title").Value,
+                                    ImgUrl = item.Element("series_image").Value,
+                                    Type = Convert.ToInt32(item.Element("series_type").Value),
+                                    MalId = Convert.ToInt32(item.Element("series_animedb_id").Value),
+                                    MyStatus = (AnimeStatus) Convert.ToInt32(item.Element("my_status").Value),
+                                    MyEpisodes = Convert.ToInt32(item.Element("my_watched_episodes").Value),
+                                    AllEpisodes = Convert.ToInt32(item.Element("series_episodes").Value),
+                                    MyStartDate = item.Element("my_start_date").Value,
+                                    MyEndDate = item.Element("my_finish_date").Value,
+                                    MyScore = Convert.ToInt32(item.Element("my_score").Value)
                                 });
                             }
                             break;
-                            case AnimeListWorkModes.Manga:
+                        case AnimeListWorkModes.Manga:
                             var manga = parsedData.Root.Elements("manga").ToList();
                             foreach (var item in manga)
                             {
@@ -84,7 +94,7 @@ namespace MALClient.Comm
                                     ImgUrl = item.Element("series_image").Value,
                                     Type = Convert.ToInt32(item.Element("series_type").Value),
                                     MalId = Convert.ToInt32(item.Element("series_mangadb_id").Value),
-                                    MyStatus = (AnimeStatus)Convert.ToInt32(item.Element("my_status").Value),
+                                    MyStatus = (AnimeStatus) Convert.ToInt32(item.Element("my_status").Value),
                                     MyEpisodes = Convert.ToInt32(item.Element("my_read_chapters").Value),
                                     AllEpisodes = Convert.ToInt32(item.Element("series_chapters").Value),
                                     MyStartDate = item.Element("my_start_date").Value,
@@ -96,7 +106,7 @@ namespace MALClient.Comm
                             }
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(_mode),"You gave me something different than anime/manga... b..b-baka (GetLibrary)");
+                            throw new ArgumentOutOfRangeException(nameof(_mode), "You gave me something different than anime/manga... b..b-baka (GetLibrary)");
                     }
                     break;
                 case ApiType.Hummingbird:
@@ -110,12 +120,12 @@ namespace MALClient.Comm
                                 float.TryParse(entry.rating.value.ToString(), out score);
                                 AnimeType type = AnimeType.TV;
                                 AnimeType.TryParse(entry.anime.show_type.ToString(), true, out type);
-                                
+
                                 output.Add(new AnimeLibraryItemData
                                 {
                                     Title = entry.anime.title.ToString(),
                                     ImgUrl = entry.anime.cover_image.ToString(),
-                                    Type = (int)type,
+                                    Type = (int) type,
                                     MalId = Convert.ToInt32(entry.anime.mal_id.ToString()),
                                     Id = Convert.ToInt32(entry.anime.id.ToString()),
                                     AllEpisodes = Convert.ToInt32(entry.anime.episode_count.ToString()),
@@ -127,7 +137,48 @@ namespace MALClient.Comm
                                 });
                             }
                             break;
-                        case AnimeListWorkModes.Manga:
+                        case AnimeListWorkModes.Manga: //rough undocumented endpoint raid
+                            Dictionary<string, dynamic> mangaData = new Dictionary<string, dynamic>(); //library data and manga dta are not connected
+                            foreach (var manga in jsonObj.manga)
+                                mangaData.Add(manga.id.ToString(), manga);
+                            foreach (var mangaLibraryEntry in jsonObj.manga_library_entries)
+                            {
+                                var details = mangaData[mangaLibraryEntry.manga_id.ToString()];
+                                try
+                                {
+                                    MangaType type = MangaType.Manga;
+                                    MangaType.TryParse(details.manga_type.ToString(), true, out type);
+                                    float score = 0;
+                                    if (details.rating != null)
+                                        score = float.Parse(mangaLibraryEntry.rating.value.ToString());
+                                    output.Add(new MangaLibraryItemData
+                                    {
+                                        Title = details.romaji_title.ToString(),
+                                        ImgUrl = details.cover_image.ToString(),
+                                        Type = (int)type,
+                                        MalId = -1,
+                                        Id = Convert.ToInt32(mangaLibraryEntry.id.ToString()),
+                                        MyStatus = HummingbirdMangaStatusToMal(mangaLibraryEntry.status.ToString()),
+                                        MyEpisodes = Convert.ToInt32(mangaLibraryEntry.chapters_read.ToString()),
+                                        AllEpisodes = Convert.ToInt32(details.chapter_count.ToString()),
+                                        MyStartDate = AnimeItemViewModel.InvalidStartEndDate,
+                                        MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                                        MyScore = score,
+                                        MyVolumes = Convert.ToInt32(mangaLibraryEntry.volumes_read.ToString()),
+                                        AllVolumes = Convert.ToInt32(details.volume_count.ToString()),
+                                        SlugId = mangaLibraryEntry.manga_id.ToString()
+                                    });
+                                    if (output.Last().ImgUrl == "/cover_images/original/missing.png")
+                                    {
+                                        output.Last().ImgUrl = details.poster_image.ToString();
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    
+                                }
+
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -173,7 +224,26 @@ namespace MALClient.Comm
                 case "dropped":
                     return AnimeStatus.Dropped;
                 default:
-                   throw new ArgumentOutOfRangeException(nameof(humStatus),"Hummingbird has gone crazy");
+                    throw new ArgumentOutOfRangeException(nameof(humStatus), "Hummingbird has gone crazy");
+            }
+        }
+
+        private static AnimeStatus HummingbirdMangaStatusToMal(string humStatus)
+        {
+            switch (humStatus)
+            {
+                case "Currently Reading":
+                    return AnimeStatus.Watching;
+                case "Plan to Read":
+                    return AnimeStatus.PlanToWatch;
+                case "Completed":
+                    return AnimeStatus.Completed;
+                case "On Hold":
+                    return AnimeStatus.OnHold;
+                case "Dropped":
+                    return AnimeStatus.Dropped;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(humStatus), "Hummingbird has gone crazy");
             }
         }
     }

@@ -256,6 +256,10 @@ namespace MALClient.ViewModels
 
         private async void NavigateDetails(IDetailsPageArgs args)
         {
+            if (Settings.SelectedApiType == ApiType.Hummingbird) //recoms and review have mal id so we have to walk around thid
+            {
+                args.Id = await new AnimeDetailsHummingbirdQuery(args.Id).GetHummingbirdId();
+            }
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
@@ -1156,7 +1160,7 @@ namespace MALClient.ViewModels
 
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
-            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString()));
+            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
@@ -1254,14 +1258,14 @@ namespace MALClient.ViewModels
                                     .GetGeneralDetailsData(force);
                         break;
                     case DataSource.Hummingbird:
-                        data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
+                        data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
                         break;
                     case DataSource.AnnHum:
                         data = await new AnimeDetailsAnnQuery(
                             _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
                             .GetGeneralDetailsData(force);
                         if (data == null || data.Genres.Count == 0 || data.Episodes.Count == 0)
-                            data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
+                            data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
 
                         break;
                     default:
@@ -1374,7 +1378,7 @@ namespace MALClient.ViewModels
             _loadedReviews = true;
             Reviews.Clear();
             var revs = new List<AnimeReviewData>();
-            await Task.Run(async () => revs = await new AnimeReviewsQuery(Id, _animeMode).GetAnimeReviews(force));
+            await Task.Run(async () => revs = await new AnimeReviewsQuery(MalId, _animeMode).GetAnimeReviews(force));
             if (revs == null)
             {
                 LoadingReviews = Visibility.Collapsed;
@@ -1399,7 +1403,7 @@ namespace MALClient.ViewModels
                 Task.Run(
                     async () =>
                         recomm =
-                            await new AnimeDirectRecommendationsQuery(Id, _animeMode).GetDirectRecommendations(force));
+                            await new AnimeDirectRecommendationsQuery(MalId, _animeMode).GetDirectRecommendations(force));
             if (recomm == null)
             {
                 LoadingRecommendations = Visibility.Collapsed;
@@ -1420,7 +1424,7 @@ namespace MALClient.ViewModels
             _loadedRelated = true;
             RelatedAnime.Clear();
             var related = new List<RelatedAnimeData>();
-            await Task.Run(async () => related = await new AnimeRelatedQuery(Id, _animeMode).GetRelatedAnime(force));
+            await Task.Run(async () => related = await new AnimeRelatedQuery(MalId, _animeMode).GetRelatedAnime(force));
             if (related == null)
             {
                 LoadingRelated = Visibility.Collapsed;

@@ -35,12 +35,12 @@ namespace MALClient.Items
             //Find for first
             DependentData =
                 await
-                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, DependentId.ToString(), DependentTitle, true);
+                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, DependentId.ToString(), DependentTitle, true,ApiType.Mal);
 
             //Find for second
             RecommendationData =
                 await
-                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, RecommendationId.ToString(), RecommendationTitle, true);
+                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, RecommendationId.ToString(), RecommendationTitle, true,ApiType.Mal);
 
             //If for some reason we fail
             if (DependentData == null || RecommendationData == null)

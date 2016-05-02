@@ -13,10 +13,15 @@ namespace MALClient.Comm.Anime
 {
     class AnimeGeneralDetailsQuery : Query
     {
-        public async Task<AnimeGeneralDetailsData> GetAnimeDetails(bool force,string id,string title,bool animeMode)
+        public async Task<AnimeGeneralDetailsData> GetAnimeDetails(bool force,string id,string title,bool animeMode,ApiType? apiOverride = null)
         {
             var output = force ? null : await DataCache.RetrieveAnimeSearchResultsData(id, animeMode);
-            switch (CurrentApiType)
+            if (output != null)
+                return output;
+
+            ApiType requestedApiType = apiOverride ?? CurrentApiType;
+
+            switch (requestedApiType)
             {
                 case ApiType.Mal:
                     var data = animeMode ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false) : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false);

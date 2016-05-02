@@ -10,5 +10,6 @@ namespace MALClient.Models
     {
         public int MyVolumes;
         public int AllVolumes;
+        public string SlugId { get; set; } //manga on hummingbird does not have integer id
     }
 }

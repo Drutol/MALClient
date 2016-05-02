@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
+using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Pages;
 
@@ -37,9 +38,16 @@ namespace MALClient.ViewModels
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
+            if(Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
+                return;
+            int id = Id;
+            if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
+            {
+                id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
+            }
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
+                    new AnimeDetailsPageNavigationArgs(id, Title, null, this,
                         argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
                     {
                         Source =

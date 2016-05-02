@@ -792,7 +792,7 @@ namespace MALClient.ViewModels
                 : _allLoadedMangaItems.Count == 0)
             {
                 List<ILibraryData> data = null;
-                await Task.Run(async () => data = await new LibraryListQuery(requestedMode).GetLibrary());
+                await Task.Run(async () => data = await new LibraryListQuery(requestedMode).GetLibrary(force));
                 if (data?.Count == 0)
                 {
                     //no data?
@@ -815,7 +815,7 @@ namespace MALClient.ViewModels
                         break;
                     case AnimeListWorkModes.Manga:
                         foreach (var item in data)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item as MangaLibraryItemData));
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth && Settings.SelectedApiType == ApiType.Mal, item as MangaLibraryItemData)); //read only manga for hummingbird
 
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthMangaItems = _allLoadedMangaItems;

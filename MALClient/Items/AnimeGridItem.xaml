@@ -26,7 +26,7 @@
                controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" />
         <ProgressRing Grid.Row="0" IsActive ="True" Visibility="{Binding LoadingUpdate}" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="0" Width="Auto" MinWidth="35" HorizontalAlignment="Right" VerticalAlignment="Top"
-              Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
+              Visibility="{Binding UpdateButtonsVisibility}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75" />
             </Grid.Background>

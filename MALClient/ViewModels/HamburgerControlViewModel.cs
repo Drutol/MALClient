@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using Microsoft.Advertising.WinRT.UI;
@@ -171,6 +172,18 @@ namespace MALClient.ViewModels
             {
                 _adLoadingSpinnerVisibility = value;
                 RaisePropertyChanged(() => AdLoadingSpinnerVisibility);
+            }
+        }
+
+        private Visibility _malApiSpecificButtonsVisibility = Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility MalApiSpecificButtonsVisibility
+        {
+            get { return _malApiSpecificButtonsVisibility; }
+            set
+            {
+                _malApiSpecificButtonsVisibility = value;
+                RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
             }
         }
 

@@ -25,7 +25,7 @@ namespace MALClient.Comm
 
         public async Task<List<SeasonalAnimeData>> GetSeasonalAnime(bool force = false)
         {
-            var output = force || DataCache.SeasonalUrls.Count == 0 //either force or urls are empty after update
+            var output = force || DataCache.SeasonalUrls?.Count == 0 //either force or urls are empty after update
                 ? new List<SeasonalAnimeData>()
                 : await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>();
             //current season without suffix

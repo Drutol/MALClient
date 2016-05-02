@@ -5,9 +5,9 @@ namespace MALClient.Comm
 {
     internal class AuthQuery : Query
     {
-        public AuthQuery()
+        public AuthQuery(ApiType forApi)
         {
-            switch (CurrentApiType)
+            switch (forApi)
             {
                 case ApiType.Mal:
                     Request = WebRequest.Create(Uri.EscapeUriString("http://myanimelist.net/api/account/verify_credentials.xml"));

@@ -88,7 +88,7 @@ namespace MALClient
                     credential.RetrievePassword();
                     Password = credential.Password;
                     Authenticated = true;
-                    if (ApplicationData.Current.LocalSettings.Values["UserId"] == null) //we have credentials without Id
+                    if (Settings.SelectedApiType == ApiType.Mal && ApplicationData.Current.LocalSettings.Values["UserId"] == null) //we have credentials without Id
                         FillInMissingIdData();
                 }
                 else
@@ -105,7 +105,7 @@ namespace MALClient
         {
             try
             {
-                var response = await new AuthQuery().GetRequestResponse(false);
+                var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 var doc = XDocument.Parse(response);

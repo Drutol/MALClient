@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MALClient.Comm;
 using MALClient.Models.Favourites;
-using MALClient.Pages;
 
 namespace MALClient.Models
 {
@@ -55,8 +54,8 @@ namespace MALClient.Models
                 return;
             WatchStatsDownloaded = true;
 
-            var animeStats = await new LibraryListQuery(Credentials.UserName, AnimeListWorkModes.Anime).GetProfileStats();
-            var mangaStats = await new LibraryListQuery(Credentials.UserName, AnimeListWorkModes.Manga).GetProfileStats(false);
+            var animeStats = await new MalListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "anime" }).GetProfileStats();
+            var mangaStats = await new MalListQuery(new MalListParameters { User = Credentials.UserName, Status = "all", Type = "manga" }).GetProfileStats(false);
 
             if (animeStats != null)
             {

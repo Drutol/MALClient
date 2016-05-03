@@ -1,6 +1,5 @@
 ﻿using Windows.Storage;
 using Windows.UI.Xaml;
-using MALClient.Comm;
 using MALClient.Models;
 using MALClient.Pages;
 using MALClient.ViewModels;
@@ -9,18 +8,6 @@ namespace MALClient
 {
     public static class Settings
     {
-        public static ApiType SelectedApiType
-        {
-            get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
-            set
-            {
-                ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value;
-                Query.CurrentApiType = value;
-                AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
-                AnimeItemViewModel.UpdateScoreFlyoutChoices();
-            }
-        }
-
         public static int CachePersitence
         {
             get { return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600); }

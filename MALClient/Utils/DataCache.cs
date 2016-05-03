@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
-using Windows.Storage.Search;
-using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
 using MALClient.Pages;
@@ -30,12 +27,11 @@ namespace MALClient
         {
             LoadVolatileData();
             LoadSeasonalurls();
-            RetrieveHumMalIdDictionary();
         }
 
         #region UserData
 
-        public static async Task SaveDataForUser(string user, IEnumerable<ILibraryData> data, AnimeListWorkModes mode)
+        public static async void SaveDataForUser(string user, string data, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled)
                 return;
@@ -48,11 +44,7 @@ namespace MALClient
                             CreationCollisionOption.ReplaceExisting);
                 await
                     FileIO.WriteTextAsync(file,
-                        mode == AnimeListWorkModes.Anime
-                            ? JsonConvert.SerializeObject(new Tuple<DateTime, IEnumerable<AnimeLibraryItemData>>(DateTime.Now,
-                                data.Select(item => item as AnimeLibraryItemData)))
-                            : JsonConvert.SerializeObject(new Tuple<DateTime, IEnumerable<MangaLibraryItemData>>(DateTime.Now,
-                                data.Select(item => item as MangaLibraryItemData))));
+                        JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.Now, data)));
             }
             catch (Exception)
             {
@@ -60,7 +52,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<List<ILibraryData>> RetrieveDataForUser(string user, AnimeListWorkModes mode)
+        public static async Task<Tuple<string, DateTime>> RetrieveDataForUser(string user, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled)
                 return null;
@@ -71,29 +63,13 @@ namespace MALClient
                         ApplicationData.Current.LocalFolder.GetFileAsync(
                             $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json");
                 var data = await FileIO.ReadTextAsync(file);
-                var decoded = new List<ILibraryData>();
-                if (mode == AnimeListWorkModes.Anime)
+                var decoded = JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
+                if (!CheckForOldData(decoded.Item1))
                 {
-                    var jsonObj = JsonConvert.DeserializeObject<Tuple<DateTime, List<AnimeLibraryItemData>>>(data);
-                    if (!CheckForOldData(jsonObj.Item1))
-                    {
-                        await file.DeleteAsync();
-                        return null;
-                    }
-                    decoded.AddRange(jsonObj.Item2.Select(item => item as ILibraryData));
+                    await file.DeleteAsync();
+                    return null;
                 }
-                else
-                {
-                    var jsonObj = JsonConvert.DeserializeObject<Tuple<DateTime, List<MangaLibraryItemData>>>(data);
-                    if (!CheckForOldData(jsonObj.Item1))
-                    {
-                        await file.DeleteAsync();
-                        return null;
-                    }
-                    decoded.AddRange(jsonObj.Item2.Select(item => item as ILibraryData));
-                }
-
-                return decoded;
+                return new Tuple<string, DateTime>(decoded.Item2, decoded.Item1);
             }
             catch (Exception)
             {
@@ -138,7 +114,7 @@ namespace MALClient
             }
             catch (Exception)
             {
-                // file replace exception?
+                //file replace exception?
             }
 
         }
@@ -182,7 +158,7 @@ namespace MALClient
             }
         }
 
-        public static async Task SaveVolatileData()
+        public static async void SaveVolatileData()
         {
             try
             {
@@ -480,7 +456,7 @@ namespace MALClient
 
         #region AnimeSerachResults
 
-        public static async void SaveAnimeSearchResultsData(string id, AnimeGeneralDetailsData data, bool anime)
+        public static async void SaveAnimeSearchResultsData(int id, XElement data, bool anime)
         {
             try
             {
@@ -492,7 +468,7 @@ namespace MALClient
                                 anime ? "AnimeDetails" : "MangaDetails",
                                 CreationCollisionOption.OpenIfExists);
                     var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, AnimeGeneralDetailsData>(DateTime.UtcNow, data));
+                        JsonConvert.SerializeObject(new Tuple<DateTime, XElement>(DateTime.UtcNow, data));
                     var file =
                         await
                             folder.CreateFileAsync($"mal_details_{id}.json",
@@ -506,7 +482,7 @@ namespace MALClient
             }
         }
 
-        public static async Task<AnimeGeneralDetailsData> RetrieveAnimeSearchResultsData(string animeId, bool anime)
+        public static async Task<XElement> RetrieveAnimeSearchResultsData(int animeId, bool anime)
         {
             try
             {
@@ -517,7 +493,7 @@ namespace MALClient
                 var file = await folder.GetFileAsync($"mal_details_{animeId}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, AnimeGeneralDetailsData>>(data);
+                    JsonConvert.DeserializeObject<Tuple<DateTime, XElement>>(data);
                 return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
             }
             catch (Exception)
@@ -571,89 +547,5 @@ namespace MALClient
         }
 
         #endregion
-
-        #region MalToHum
-        public static async Task SaveHumMalIdDictionary()
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(AnimeDetailsHummingbirdQuery.MalToHumId);
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync("mal_to_hum.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
-            }
-            catch (Exception)
-            {
-                //ignored
-            }
-        }
-
-        public static async void RetrieveHumMalIdDictionary()
-        {
-            var result = new Dictionary<int, int>();
-            try
-            {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("mal_to_hum.json");
-                var data = await FileIO.ReadTextAsync(file);
-                result = JsonConvert.DeserializeObject<Dictionary<int, int>>(data) ??
-                         new Dictionary<int, int>();
-            }
-            catch (Exception)
-            {
-                result = new Dictionary<int, int>();
-            }
-            AnimeDetailsHummingbirdQuery.MalToHumId = result;
-        }
-
-        #endregion
-
-        public static async Task ClearApiRelatedCache()
-        {
-            StorageFile file;
-            try
-            {
-                file = await ApplicationData.Current.LocalFolder.GetFileAsync("mal_to_hum.json");
-                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //
-            }
-            try
-            {
-                file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
-                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //
-            }
-            try
-            {
-                var files = await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery);
-                foreach (var listFile in files.Where(storageFile => storageFile.Name.Contains("_data_")))
-                {
-                    await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                }
-            }
-            catch (Exception)
-            {
-                //
-            }
-            try
-            {
-                await (await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails")).DeleteAsync(
-                    StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //
-            }
-            _volatileDataCache.Clear();
-            AnimeDetailsHummingbirdQuery.MalToHumId.Clear();
-        }
-
     }
 }

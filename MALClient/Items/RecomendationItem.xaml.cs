@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Text;
@@ -50,38 +50,72 @@ namespace MALClient.Items
                 return;
             SpinnerLoading.Visibility = Visibility.Visible;
             await _data.FetchData();
-            DepImg.Source = new BitmapImage(new Uri(_data.DependentData.ImgUrl));
-            RecImg.Source = new BitmapImage(new Uri(_data.RecommendationData.ImgUrl));
+            DepImg.Source = new BitmapImage(new Uri(_data.DependentImgUrl));
+            RecImg.Source = new BitmapImage(new Uri(_data.RecommendationImgUrl));
             TxtDepTitle.Text = _data.DependentTitle;
             TxtRecTitle.Text = _data.RecommendationTitle;
             TxtRecommendation.Text = _data.Description;
-
             var myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.DependentId);
             var myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.RecommendationId);
 
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Episodes:", _data.DependentData.AllEpisodes.ToString(),
-                myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{_data.DependentData.AllEpisodes}", _data.RecommendationData.AllEpisodes.ToString(),
-                myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{_data.RecommendationData.AllEpisodes}"));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Score:", _data.DependentData.GlobalScore.ToString(),
-                myDepItem?.MyScore == null ? "" : $"{myDepItem.MyScore}/10", _data.RecommendationData.GlobalScore.ToString(),
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Episodes:", _data.DependentEpisodes,
+                myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{_data.DependentEpisodes}", _data.RecommendationEpisodes,
+                myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{_data.RecommendationEpisodes}"));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Score:", _data.DependentGlobalScore.ToString(),
+                myDepItem?.MyScore == null ? "" : $"{myDepItem.MyScore}/10", _data.RecommendationGlobalScore.ToString(),
                 myRecItem?.MyScore == null ? "" : $"{myRecItem.MyScore}/10"));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Type:", _data.DependentData.Type, "", _data.RecommendationData.Type, ""));
-            _detailItems.Add(new Tuple<string, string, string, string, string>("Status:", _data.DependentData.Status, "", _data.RecommendationData.Status, ""));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Type:", _data.DependentType, "", _data.RecommendationType, ""));
+            _detailItems.Add(new Tuple<string, string, string, string, string>("Status:", _data.DependentStatus, "", _data.RecommendationStatus, ""));
 
             _detailItems.Add(new Tuple<string, string, string, string, string>("Start:",
-                _data.DependentData.StartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentData.StartDate,
+                _data.DependentStartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentStartDate,
                 myDepItem != null ? (myDepItem.StartDate != AnimeItemViewModel.InvalidStartEndDate ? myDepItem.StartDate : "Not set") : "",
-                _data.RecommendationData.StartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationData.StartDate,
+                _data.RecommendationStartDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationStartDate,
                 myRecItem != null ? (myRecItem.StartDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.StartDate : "Not set") : ""));
 
             _detailItems.Add(new Tuple<string, string, string, string, string>("End:",
-                _data.DependentData.EndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentData.EndDate,
+                _data.DependentEndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.DependentEndDate,
                 myDepItem != null ? (myDepItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myDepItem.EndDate : "Not set") : "",
-                _data.RecommendationData.EndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationData.EndDate,
+                _data.RecommendationEndDate == AnimeItemViewModel.InvalidStartEndDate ? "?" : _data.RecommendationEndDate,
                 myRecItem != null ? (myRecItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.EndDate : "Not set") : ""));
             DetailsListView.ItemsSource = _detailItems;
+
             _dataLoaded = true;
             SpinnerLoading.Visibility = Visibility.Collapsed;
+        }
+
+        private ListViewItem BuildListViewItem(string label, string val1, string val2)
+        {
+            return new ListViewItem
+            {
+                Content = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition {Width = new GridLength(0.24, GridUnitType.Star)},
+                        new ColumnDefinition {Width = new GridLength(0.38, GridUnitType.Star)},
+                        new ColumnDefinition {Width = new GridLength(0.38, GridUnitType.Star)}
+                    },
+                    Children =
+                    {
+                        BuildTextBlock(label, FontWeights.SemiBold, 0),
+                        BuildTextBlock(val1, FontWeights.SemiLight, 1),
+                        BuildTextBlock(val2, FontWeights.SemiLight, 2)
+                    }
+                }
+            };
+        }
+
+        private TextBlock BuildTextBlock(string value, FontWeight weight, int column)
+        {
+            var txt = new TextBlock
+            {
+                Text = value,
+                FontWeight = weight,
+                TextAlignment = !weight.Equals(FontWeights.SemiBold) ? TextAlignment.Center : TextAlignment.Left
+            };
+            txt.SetValue(Grid.ColumnProperty, column);
+            return txt;
         }
 
         private async void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
@@ -90,8 +124,7 @@ namespace MALClient.Items
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(_data.RecommendationId, _data.RecommendationTitle,
                         _data.RecommendationData, null,
-                        new RecommendationPageNavigationArgs { Index = Index })
-                    { Source = PageIndex.PageRecomendations });
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
 
         private async void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
@@ -100,8 +133,7 @@ namespace MALClient.Items
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(_data.DependentId, _data.DependentTitle,
                         _data.DependentData, null,
-                        new RecommendationPageNavigationArgs { Index = Index })
-                    { Source = PageIndex.PageRecomendations });
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -29,6 +28,13 @@ namespace MALClient.ViewModels
         private float _globalScore;
         private bool _seasonalState;
         //prop field pairs
+
+        static AnimeItemViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width/2.1;
+        }
 
         public static double MaxWidth { get; set; }
 
@@ -73,7 +79,7 @@ namespace MALClient.ViewModels
                 ParentAbstraction.RepresentsAnime
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
-            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
+            if (!response.Contains("Created"))
                 return; //TODO: Handle
             _seasonalState = false;
             SetAuthStatus(true);
@@ -97,20 +103,23 @@ namespace MALClient.ViewModels
             ParentAbstraction = parent;
             _imgUrl = img;
             Id = id;
+            Image = new BitmapImage(new Uri(_imgUrl));
+            AdjustIncrementButtonsOrientation();
             if (!ParentAbstraction.RepresentsAnime)
             {
-                UpdateEpsUpperLabel = "Read chapters :";
+                UpdateEpsUpperLabel = "Read chapters:";
                 Status1Label = "Reading";
                 Status5Label = "Plan to read";
             }
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            float myScore, string startDate, string endDate,
+            int myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
         //We are loading an item that IS on the list
         {
             //Assign fields
+            Id = id;
             _allEpisodes = allEps;
             Auth = auth;
             //Assign properties
@@ -132,7 +141,7 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            float myScore, string startDate, string endDate,
+            int myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
             : this(auth, name, img, id, myStatus, myEps, allEps, myScore, startDate, endDate, parent, setEpsAuth)
         {
@@ -285,11 +294,10 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/10";
 
-
-        public float MyScore
+        public int MyScore
         {
             get { return ParentAbstraction.MyScore; }
             set
@@ -971,45 +979,5 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-
-        public static List<string> ScoreFlyoutChoices { get; set; }
-        static AnimeItemViewModel()
-        {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width / 2.1;
-            UpdateScoreFlyoutChoices();
-        }
-
-        public static void UpdateScoreFlyoutChoices()
-        {
-            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
-                ? new List<string>
-                {
-                    "10 - Masterpiece",
-                    "9 - Great",
-                    "8 - Very Good",
-                    "7 - Good",
-                    "6 - Fine",
-                    "5 - Average",
-                    "4 - Bad",
-                    "3 - Very Bad",
-                    "2 - Horrible",
-                    "1 - Appaling",
-                }
-                : new List<string>
-                {
-                    "5 - Masterpiece",
-                    "4.5 - Great",
-                    "4 - Very Good",
-                    "3.5 - Good",
-                    "3 - Fine",
-                    "2.5 - Average",
-                    "2 - Bad",
-                    "1.5 - Very Bad",
-                    "1 - Horrible",
-                    "0.5 - Appaling",
-                };
-        }
     }
 }

@@ -36,7 +36,7 @@
                 <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
                         Content="{Binding MyEpisodesBindShort}" Foreground="White" 
                         FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"
-                        HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick">
+                        HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick" IsEnabled="{Binding Auth}">
 
                 </Button>
                 <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight"

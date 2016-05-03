@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 
@@ -36,6 +37,9 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
+            if(Settings.SelectedApiType == ApiType.Hummingbird && index == PageIndex.PageProfile)
+                return;
+
             var wasOnSearchPage = SearchToggleLock;            
             
             await Task.Delay(1);
@@ -380,6 +384,7 @@ namespace MALClient.ViewModels
                 return _hideOffContentCommand ??
                        (_hideOffContentCommand = new RelayCommand(() =>
                        {
+                           ViewModelLocator.AnimeDetails.Id = -1;
                            OffContentVisibility = Visibility.Collapsed;
                            NavMgr.ResetBackNav();
                        }));

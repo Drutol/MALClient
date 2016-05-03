@@ -11,6 +11,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -229,14 +230,19 @@ namespace MALClient
 
                 var http = new HttpClient();
                 byte[] response = {};
-
-                await
-                    Task.Run(
-                        async () =>
-                            response =
-                                await
-                                    http.GetByteArrayAsync(
-                                        $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                switch (Settings.SelectedApiType)
+                {
+                    case ApiType.Mal:
+                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                        break;
+                    case ApiType.Hummingbird:
+                        string avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
+                        await Task.Run(async () => response = await http.GetByteArrayAsync(avatarLink));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                
                 //get bytes
 
                 var fs = await thumb.OpenStreamForWriteAsync(); //get stream
@@ -260,20 +266,20 @@ namespace MALClient
 
         public static async void DownloadCoverImage(string url, string title)
         {
-            if(url == null)
+            if (url == null)
                 return;
             try
             {
                 var sp = new FileSavePicker();
                 sp.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> { ".png" });
+                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> {".png"});
                 sp.SuggestedFileName = $"{title}-cover_art";
 
                 var file = await sp.PickSaveFileAsync();
                 if (file == null)
                     return;
                 var http = new HttpClient();
-                byte[] response = { };
+                byte[] response = {};
 
                 //get bytes
                 await Task.Run(async () => response = await http.GetByteArrayAsync(url));
@@ -293,7 +299,6 @@ namespace MALClient
             {
                 GiveStatusBarFeedback("Error. File didn't save properly.");
             }
-
         }
 
 
@@ -329,8 +334,7 @@ namespace MALClient
 
                 if (!targetUrl.Contains("http"))
                     targetUrl = "http://" + targetUrl;
-                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"),
-                    TileSize.Default);
+                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"), TileSize.Default);
                 RegisterTile(id.ToString());
                 await til.RequestCreateAsync();
             }
@@ -413,32 +417,16 @@ namespace MALClient
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                .Trim()
-                .Replace("[i]", "")
-                .Replace("[/i]", "")
-                .Replace("#039;", "'")
-                .Replace("&quot;", "\"")
-                .Replace("quot;", "\"")
-                .Replace("mdash;", "—")
-                .Replace("amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("quot;", "\"").Replace("mdash;", "—").Replace("amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                .Trim()
-                .Replace("[i]", "")
-                .Replace("[/i]", "")
-                .Replace("#039;", "'")
-                .Replace("&quot;", "\"")
-                .Replace("&mdash;", "—")
-                .Replace("&amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("&mdash;", "—").Replace("&amp;", "&");
         }
 
         public static async void GiveStatusBarFeedback(string text)
         {
-
         }
     }
 }

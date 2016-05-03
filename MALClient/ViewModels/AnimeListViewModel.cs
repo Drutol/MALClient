@@ -796,7 +796,7 @@ namespace MALClient.ViewModels
                 : _allLoadedMangaItems.Count == 0)
             {
                 List<ILibraryData> data = null;
-                await Task.Run(async () => data = await new LibraryListQuery(requestedMode).GetLibrary(force));
+                await Task.Run(async () => data = await new LibraryListQuery(ListSource,requestedMode).GetLibrary(force));
                 if (data?.Count == 0)
                 {
                     //no data?

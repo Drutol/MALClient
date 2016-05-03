@@ -6,10 +6,11 @@ namespace MALClient.Comm
 {
     internal class AnimeAddQuery : Query
     {
-        private const string NewAnimeParamChain = "&status=plan-to-watch&rating=0&episodes_watched=0";
+        public const string NewAnimeParamChain = "&status=plan-to-watch&rating=0&episodes_watched=0";
 
         public AnimeAddQuery(string id)
         {
+            AnimeUpdateQuery.UpdatedSomething = true;
             switch (CurrentApiType)
             {
                 case ApiType.Mal:

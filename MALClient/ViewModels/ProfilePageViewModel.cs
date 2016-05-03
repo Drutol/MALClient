@@ -306,7 +306,7 @@ namespace MALClient.ViewModels
             {
                 LoadingVisibility = Visibility.Visible;
                 Cleanup();
-                await Task.Run(async () => CurrentData = await new MalProfileQuery().GetProfileData(force));
+                await Task.Run(async () => CurrentData = await new ProfileQuery().GetProfileData(force));
                 _dataLoaded = true;
             }
             RaisePropertyChanged(() => CurrentData);

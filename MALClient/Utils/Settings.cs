@@ -41,7 +41,7 @@ namespace MALClient
         {
             get
             {
-                return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? false);
+                return (bool) (ApplicationData.Current.LocalSettings.Values["EnableCache"] ?? true);
                 ;
             }
             set { ApplicationData.Current.LocalSettings.Values["EnableCache"] = value; }

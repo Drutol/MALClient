@@ -299,7 +299,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal? "10":"5")}";
 
         private float MyScore
         {
@@ -1021,7 +1021,7 @@ namespace MALClient.ViewModels
                 : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             LoadingUpdate = false;
             AddAnimeBtnEnableState = true;
-            if (!response.Contains("Created") && _animeMode)
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created") && _animeMode)
                 return;
             AddAnimeVisibility = false;
             AnimeType typeA;
@@ -1114,7 +1114,7 @@ namespace MALClient.ViewModels
             LoadingUpdate = false;
             RemoveAnimeBtnEnableState = true;
 
-            if (!response.Contains("Deleted"))
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Deleted"))
                 return;
 
             ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
@@ -1450,9 +1450,6 @@ namespace MALClient.ViewModels
             
             RaisePropertyChanged(() => StartDateTimeOffset);
             RaisePropertyChanged(() => EndDateTimeOffset);
-            RaisePropertyChanged(() => MyEpisodesBind);
-            RaisePropertyChanged(() => MyStatusBind);
-            RaisePropertyChanged(() => MyScoreBind);
             RaisePropertyChanged(() => MyEpisodesBind);
             RaisePropertyChanged(() => MyStatusBind);
             RaisePropertyChanged(() => MyScoreBind);

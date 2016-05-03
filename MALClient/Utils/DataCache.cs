@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
+using Windows.Storage.Search;
 using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
@@ -608,6 +609,51 @@ namespace MALClient
 
         #endregion
 
+        public static async Task ClearApiRelatedCache()
+        {
+            StorageFile file;
+            try
+            {
+                file = await ApplicationData.Current.LocalFolder.GetFileAsync("mal_to_hum.json");
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+            catch (Exception)
+            {
+                //
+            }
+            try
+            {
+                file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+            catch (Exception)
+            {
+                //
+            }
+            try
+            {
+                var files = await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery);
+                foreach (var listFile in files.Where(storageFile => storageFile.Name.Contains("_data_")))
+                {
+                    await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+            }
+            catch (Exception)
+            {
+                //
+            }
+            try
+            {
+                await (await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails")).DeleteAsync(
+                    StorageDeleteOption.PermanentDelete);
+            }
+            catch (Exception)
+            {
+                //
+            }
+            _volatileDataCache.Clear();
+            AnimeDetailsHummingbirdQuery.MalToHumId.Clear();
+        }
 
     }
 }

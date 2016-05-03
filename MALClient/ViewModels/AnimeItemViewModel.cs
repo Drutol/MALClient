@@ -84,7 +84,7 @@ namespace MALClient.ViewModels
                 ParentAbstraction.RepresentsAnime
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
-            if (!response.Contains("Created"))
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
                 return;
             _seasonalState = false;
             SetAuthStatus(true);

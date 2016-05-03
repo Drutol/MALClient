@@ -84,7 +84,8 @@ namespace MALClient.Pages
             {
                 //
             }
-
+            ViewModelLocator.Main.HideOffContentCommand.Execute(null);
+            await DataCache.ClearApiRelatedCache();
             ViewModelLocator.AnimeList.LogIn();
             await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
             ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
@@ -146,14 +147,15 @@ namespace MALClient.Pages
             }
             try
             {
-                //await Utils.RemoveProfileImg();
-                //await ViewModelLocator.Hamburger.UpdateProfileImg();
+                await Utils.RemoveProfileImg();
+                await ViewModelLocator.Hamburger.UpdateProfileImg();
             }
             catch (Exception)
             {
                 //
             }
-
+            ViewModelLocator.Main.HideOffContentCommand.Execute(null);
+            await DataCache.ClearApiRelatedCache();
             ViewModelLocator.AnimeList.LogIn();
             await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
             ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);

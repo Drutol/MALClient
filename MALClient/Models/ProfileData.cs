@@ -55,8 +55,8 @@ namespace MALClient.Models
                 return;
             WatchStatsDownloaded = true;
 
-            var animeStats = await new LibraryListQuery(AnimeListWorkModes.Anime).GetProfileStats();
-            var mangaStats = await new LibraryListQuery(AnimeListWorkModes.Manga).GetProfileStats(false);
+            var animeStats = await new LibraryListQuery(Credentials.UserName,AnimeListWorkModes.Anime).GetProfileStats();
+            var mangaStats = await new LibraryListQuery(Credentials.UserName,AnimeListWorkModes.Manga).GetProfileStats(false);
 
             if (animeStats != null)
             {

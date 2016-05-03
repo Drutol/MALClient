@@ -7,6 +7,7 @@ namespace MALClient.Comm
     {
         public AnimeRemoveQuery(string id)
         {
+            AnimeUpdateQuery.UpdatedSomething = true;
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
@@ -16,6 +17,9 @@ namespace MALClient.Comm
                     Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
+                    Request = WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/libraries/{id}/remove?auth_token={Credentials.HummingbirdToken}{AnimeAddQuery.NewAnimeParamChain}"));
+                    Request.ContentType = "application/x-www-form-urlencoded";
+                    Request.Method = "POST";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

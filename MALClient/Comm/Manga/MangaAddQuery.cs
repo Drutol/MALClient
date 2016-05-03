@@ -8,6 +8,8 @@ namespace MALClient.Comm
     {
         public MangaAddQuery(string id)
         {
+            MangaUpdateQuery.UpdatedSomething = true;
+
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");

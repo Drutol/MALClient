@@ -62,8 +62,9 @@ namespace MALClient
 
         public static void SetAuthToken(string token)
         {
-            ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] = token.Substring(1,token.Length-2);
-            HummingbirdToken = token.Substring(1, token.Length - 2);
+            var trimmedToken = token == "" ? "" : token.Substring(1, token.Length - 2);
+            ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] = trimmedToken;
+            HummingbirdToken = trimmedToken;
         }
 
         public static void Init()

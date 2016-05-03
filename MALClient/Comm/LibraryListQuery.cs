@@ -15,14 +15,14 @@ namespace MALClient.Comm
     {
         private AnimeListWorkModes _mode;
 
-        public LibraryListQuery(AnimeListWorkModes mode)
+        public LibraryListQuery(string source,AnimeListWorkModes mode)
         {
             _mode = mode;
             string type = _mode == AnimeListWorkModes.Anime ? "anime" : "manga";
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/malappinfo.php?u={Credentials.UserName}&status=all&type={type}"));
+                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/malappinfo.php?u={source}&status=all&type={type}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
@@ -30,12 +30,12 @@ namespace MALClient.Comm
                     switch (mode)
                     {
                         case AnimeListWorkModes.Anime:
-                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{Credentials.UserName}/library"));
+                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{source}/library"));
                             Request.ContentType = "application/x-www-form-urlencoded";
                             Request.Method = "GET";
                             break;
                         case AnimeListWorkModes.Manga:
-                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/manga_library_entries?user_id={Credentials.UserName}"));
+                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/manga_library_entries?user_id={source}"));
                             Request.ContentType = "application/x-www-form-urlencoded";
                             Request.Method = "GET";
                             break;

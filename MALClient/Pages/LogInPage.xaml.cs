@@ -23,8 +23,7 @@ namespace MALClient.Pages
         public LogInPage()
         {
             InitializeComponent();
-            if (Credentials.Authenticated)
-                BtnLogOff.Visibility = Visibility.Visible;
+
             Utils.GetMainPageInstance()
                 .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
             switch (Settings.SelectedApiType)
@@ -33,11 +32,15 @@ namespace MALClient.Pages
                     ToggleMal.IsChecked = true;
                     ToggleMal.LockToggle = true;
                     MALLoginGrid.Visibility = Visibility.Visible;
+                    if (Credentials.Authenticated)
+                        BtnLogOff.Visibility = Visibility.Visible;
                     break;
                 case ApiType.Hummingbird:
                     ToggleHum.IsChecked = true;
                     ToggleHum.LockToggle = true;
                     HumLoginGrid.Visibility = Visibility.Visible;
+                    if (Credentials.Authenticated)
+                        BtnLogOffHum.Visibility = Visibility.Visible;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

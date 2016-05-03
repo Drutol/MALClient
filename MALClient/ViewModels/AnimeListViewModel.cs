@@ -674,7 +674,7 @@ namespace MALClient.ViewModels
                         target.Add(abstraction);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // wat
                 }
@@ -706,7 +706,6 @@ namespace MALClient.ViewModels
                     _seasonalUrlsSelectedIndex = currSeasonIndex;
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
-                DataCache.SaveVolatileData();
             }
             await RefreshList();
         }
@@ -744,7 +743,7 @@ namespace MALClient.ViewModels
                 {
                     item.ViewModel.SignalBackToList();
                 }
-                if (_prevWorkMode != modeOverride.Value)
+                if (_prevWorkMode != modeOverride)
                     await RefreshList();
                 return;
             }

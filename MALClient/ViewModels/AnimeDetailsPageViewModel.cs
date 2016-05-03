@@ -1153,7 +1153,6 @@ namespace MALClient.ViewModels
                     AirStartDate = StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : StartDate                    
                 });
                 ((AnimeItemViewModel) _animeItemReference).Airing = day != -1;
-                DataCache.SaveVolatileData();
             }
             LeftDetailsRow.Clear();
             RightDetailsRow.Clear();
@@ -1484,6 +1483,11 @@ namespace MALClient.ViewModels
         }
 
         static AnimeDetailsPageViewModel()
+        {
+            UpdateScoreFlyoutChoices();
+        }
+
+        public static void UpdateScoreFlyoutChoices()
         {
             ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
                 ? new List<string>

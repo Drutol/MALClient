@@ -12,7 +12,13 @@ namespace MALClient
         public static ApiType SelectedApiType
         {
             get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
-            set { ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value; }
+            set
+            {
+                ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value;
+                Query.CurrentApiType = value;
+                AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
+                AnimeItemViewModel.UpdateScoreFlyoutChoices();
+            }
         }
         public static int CachePersitence
         {

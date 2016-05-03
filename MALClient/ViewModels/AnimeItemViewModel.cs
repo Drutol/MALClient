@@ -960,7 +960,13 @@ namespace MALClient.ViewModels
 
         #endregion
 
+        public static List<string> ScoreFlyoutChoices { get; set; }
         static AnimeItemViewModel()
+        {
+            UpdateScoreFlyoutChoices();
+        }
+
+        public static void UpdateScoreFlyoutChoices()
         {
             ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
                 ? new List<string>
@@ -990,7 +996,5 @@ namespace MALClient.ViewModels
                     "0.5 - Appaling",
                 };
         }
-
-        public static List<string> ScoreFlyoutChoices { get; set; }
     }
 }

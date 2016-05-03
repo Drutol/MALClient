@@ -13,7 +13,7 @@ namespace MALClient.Comm.Anime
     internal class AnimeDetailsHummingbirdQuery : Query
     {
         private static readonly string _apiKey;
-        private static Dictionary<int,int> _malToHumId = new Dictionary<int, int>();
+        public static Dictionary<int,int> MalToHumId = new Dictionary<int, int>();
         private readonly int _id;
 
         static AnimeDetailsHummingbirdQuery()
@@ -82,8 +82,8 @@ namespace MALClient.Comm.Anime
             {
                 dynamic jsonObj = JsonConvert.DeserializeObject(raw);
                 int val = int.Parse(jsonObj.anime.id.ToString());
-                if (!_malToHumId.ContainsKey(_id))
-                    _malToHumId.Add(_id, val);
+                if (!MalToHumId.ContainsKey(_id))
+                    MalToHumId.Add(_id, val);
                 return val;
             }
             catch (Exception)

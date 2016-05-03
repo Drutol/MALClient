@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -155,13 +156,16 @@ namespace MALClient
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            if (AnimeUpdateQuery.UpdatedSomething)
+            if (Settings.IsCachingEnabled)
             {
-                List<ILibraryData> itemsToSave = new List<ILibraryData>();
-                foreach (var abstraction in ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions)
-                    itemsToSave.Add(AnimeItemAbstraction.ToLibraryItem(abstraction));
-                await DataCache.SaveDataForUser(Credentials.UserName, itemsToSave, AnimeListWorkModes.Anime);
+                if (AnimeUpdateQuery.UpdatedSomething)
+                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
+                if(MangaUpdateQuery.UpdatedSomething)
+                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
+            await DataCache.SaveVolatileData();
+            await DataCache.SaveHumMalIdDictionary();
+
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

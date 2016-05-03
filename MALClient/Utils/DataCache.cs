@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
+using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
 using MALClient.Pages;
@@ -28,11 +29,12 @@ namespace MALClient
         {
             LoadVolatileData();
             LoadSeasonalurls();
+            RetrieveHumMalIdDictionary();
         }
 
         #region UserData
 
-        public static async Task SaveDataForUser(string user, List<ILibraryData> data, AnimeListWorkModes mode)
+        public static async Task SaveDataForUser(string user, IEnumerable<ILibraryData> data, AnimeListWorkModes mode)
         {
             if (!Settings.IsCachingEnabled)
                 return;
@@ -179,7 +181,7 @@ namespace MALClient
             }
         }
 
-        public static async void SaveVolatileData()
+        public static async Task SaveVolatileData()
         {
             try
             {
@@ -568,5 +570,44 @@ namespace MALClient
         }
 
         #endregion
+
+        #region MalToHum
+        public static async Task SaveHumMalIdDictionary()
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(AnimeDetailsHummingbirdQuery.MalToHumId);
+                var file =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFileAsync("mal_to_hum.json",
+                            CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, json);
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
+        }
+
+        public static async void RetrieveHumMalIdDictionary()
+        {
+            var result = new Dictionary<int, int>();
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("mal_to_hum.json");
+                var data = await FileIO.ReadTextAsync(file);
+                result = JsonConvert.DeserializeObject<Dictionary<int, int>>(data) ??
+                         new Dictionary<int, int>();
+            }
+            catch (Exception)
+            {
+                result = new Dictionary<int, int>();
+            }
+            AnimeDetailsHummingbirdQuery.MalToHumId = result;
+        }
+
+        #endregion
+
+
     }
 }

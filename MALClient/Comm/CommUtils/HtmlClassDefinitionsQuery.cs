@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MALClient.Comm
 {
-    class NewsQuery : Query
+    class HtmlClassDefinitionsQuery : Query
     {
-        public NewsQuery()
+        public HtmlClassDefinitionsQuery()
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString("https://raw.githubusercontent.com/Mordonus/MALClient/master/NEWS.json"));
+                WebRequest.Create(Uri.EscapeUriString("https://raw.githubusercontent.com/Mordonus/MALClient/master/MALClient/Comm/HtmlClassesDefinitions.json"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

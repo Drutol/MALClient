@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
+using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Pages;
 
@@ -29,13 +31,6 @@ namespace MALClient.ViewModels
         private bool _seasonalState;
         //prop field pairs
 
-        static AnimeItemViewModel()
-        {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width/2.1;
-        }
-
         public static double MaxWidth { get; set; }
 
 
@@ -44,9 +39,16 @@ namespace MALClient.ViewModels
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
+            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
+                return;
+            int id = Id;
+            if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
+            {
+                id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
+            }
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
+                    new AnimeDetailsPageNavigationArgs(id, Title, null, this,
                         argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
                     {
                         Source = sourceOverride ?? (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
@@ -79,8 +81,8 @@ namespace MALClient.ViewModels
                 ParentAbstraction.RepresentsAnime
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
-            if (!response.Contains("Created"))
-                return; //TODO: Handle
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
+                return;
             _seasonalState = false;
             SetAuthStatus(true);
             MyScore = 0;
@@ -114,7 +116,7 @@ namespace MALClient.ViewModels
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, string startDate, string endDate,
+            float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
         //We are loading an item that IS on the list
         {
@@ -141,7 +143,7 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, string startDate, string endDate,
+            float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
             : this(auth, name, img, id, myStatus, myEps, allEps, myScore, startDate, endDate, parent, setEpsAuth)
         {
@@ -294,10 +296,10 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/10";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
-        public int MyScore
+        public float MyScore
         {
             get { return ParentAbstraction.MyScore; }
             set
@@ -922,7 +924,7 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
             var myPrevScore = MyScore;
-            MyScore = Convert.ToInt32(score);
+            MyScore = Convert.ToInt32(score) / (Settings.SelectedApiType == ApiType.Hummingbird ? 2 : 1);
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated")
                 MyScore = myPrevScore;
@@ -979,5 +981,45 @@ namespace MALClient.ViewModels
         }
 
         #endregion
+
+        static AnimeItemViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width / 2.1;
+            UpdateScoreFlyoutChoices();
+        }
+
+        public static List<string> ScoreFlyoutChoices { get; set; }
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling",
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling",
+                };
+        }
     }
 }

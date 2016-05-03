@@ -23,12 +23,32 @@ namespace MALClient.Pages
         public LogInPage()
         {
             InitializeComponent();
-            if (Credentials.Authenticated)
-                BtnLogOff.Visibility = Visibility.Visible;
+
             Utils.GetMainPageInstance()
                 .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
+            switch (Settings.SelectedApiType)
+            {
+                case ApiType.Mal:
+                    ToggleMal.IsChecked = true;
+                    ToggleMal.LockToggle = true;
+                    MALLoginGrid.Visibility = Visibility.Visible;
+                    if (Credentials.Authenticated)
+                        BtnLogOff.Visibility = Visibility.Visible;
+                    break;
+                case ApiType.Hummingbird:
+                    ToggleHum.IsChecked = true;
+                    ToggleHum.LockToggle = true;
+                    HumLoginGrid.Visibility = Visibility.Visible;
+                    if (Credentials.Authenticated)
+                        BtnLogOffHum.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
+        //prepare for big copy pasteeee...
+        #region MAL
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
         {
             if (_authenticating)
@@ -38,10 +58,11 @@ namespace MALClient.Pages
             Credentials.Update(UserName.Text, UserPassword.Password);
             try
             {
-                var response = await new AuthQuery().GetRequestResponse(false);
+                var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 var doc = XDocument.Parse(response);
+                Settings.SelectedApiType = ApiType.Mal;
                 Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Credentials.SetAuthStatus(true);
             }
@@ -51,6 +72,8 @@ namespace MALClient.Pages
                 Credentials.Update(string.Empty, string.Empty);
                 var msg = new MessageDialog("Unable to authorize with provided credentials.");
                 await msg.ShowAsync();
+                ProgressRing.Visibility = Visibility.Collapsed;
+                return;
             }
             try
             {
@@ -61,24 +84,13 @@ namespace MALClient.Pages
             {
                 //
             }
-
+            await DataCache.ClearApiRelatedCache();
             ViewModelLocator.AnimeList.LogIn();
             await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
             ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
-            
-            _authenticating = false;
-            ProgressRing.Visibility = Visibility.Collapsed;
-        }
 
-        private async void LogOut(object sender, RoutedEventArgs e)
-        {
-            var page = Utils.GetMainPageInstance();
-            Credentials.SetAuthStatus(false);
-            Credentials.Update("", "");
-            await Utils.RemoveProfileImg();
-            ViewModelLocator.AnimeList.LogOut();
-            await page.Navigate(PageIndex.PageLogIn);
-            ViewModelLocator.Hamburger.UpdateProfileImg();
+            _authenticating = false;
+
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -103,16 +115,129 @@ namespace MALClient.Pages
                 AttemptAuthentication(null, null);
             }
         }
+        #endregion
+        #region Hum
+        private async void AttemptHumAuthentication(object sender, RoutedEventArgs e)
+        {
+            if (_authenticating)
+                return;
+            ProgressRingHum.Visibility = Visibility.Visible;
+            _authenticating = true;
+            Credentials.Update(UserNameHum.Text, UserPasswordHum.Password);
+            try
+            {
+                var response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse(false);
+                if (string.IsNullOrEmpty(response))
+                    throw new Exception();
+                if (response.Contains("\"error\": \"Invalid credentials\""))
+                    throw new Exception();
+                Settings.SelectedApiType = ApiType.Hummingbird;
+                Credentials.SetAuthToken(response);
+                Credentials.SetAuthStatus(true);
+            }
+            catch (Exception)
+            {
+                Credentials.SetAuthStatus(false);
+                Credentials.Update(string.Empty, string.Empty);
+                var msg = new MessageDialog("Unable to authorize with provided credentials.");
+                await msg.ShowAsync();
+                ProgressRingHum.Visibility = Visibility.Collapsed;
+                return;
+            }
+            try
+            {
+                await Utils.RemoveProfileImg();
+                await ViewModelLocator.Hamburger.UpdateProfileImg();
+            }
+            catch (Exception)
+            {
+                //
+            }
+            await DataCache.ClearApiRelatedCache();
+            ViewModelLocator.AnimeList.LogIn();
+            await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+            ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+
+            _authenticating = false;
+        }
+
+        private void UserNameHum_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                UserPasswordHum.Focus(FocusState.Keyboard);
+                e.Handled = true;
+            }
+        }
+
+        private void PasswordHum_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                e.Handled = true;
+                var txt = sender as PasswordBox;
+                if (txt.Password.Length == 0)
+                    return;
+                txt.IsEnabled = false; //reset input
+                txt.IsEnabled = true;
+                AttemptHumAuthentication(null, null);
+            }
+        }
+        #endregion
+
+
+
+
+
+        private async void LogOut(object sender, RoutedEventArgs e)
+        {
+            var page = Utils.GetMainPageInstance();
+            Credentials.SetAuthStatus(false);
+            Credentials.Update("", "");
+            Credentials.SetAuthToken("");
+            await Utils.RemoveProfileImg();
+            ViewModelLocator.AnimeList.LogOut();
+            await page.Navigate(PageIndex.PageLogIn);
+            ViewModelLocator.Hamburger.UpdateProfileImg();
+        }
+
+
+
+
+
 
         private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("http://myanimelist.net/register.php"));
         }
 
+        private async void ButtonRegisterHum_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://hummingbird.me/sign-up"));
+        }
+
         private async void ButtonProblems_OnClick(object sender, RoutedEventArgs e)
         {
             var msg = new MessageDialog("If you are experiencing constant error messages while trying to log in , resetting your password on MAL may solve this issue. Why you may ask... MAL api is just very very bad and it tends to do such things which are beyond my control.");
             await msg.ShowAsync();
+        }
+
+        private void HummingbirdToggleButtonOnCheck(object sender, RoutedEventArgs e)
+        {
+            ToggleHum.LockToggle = true;
+            ToggleMal.LockToggle = false;
+            ToggleMal.IsChecked = false;
+            HumLoginGrid.Visibility = Visibility.Visible;
+            MALLoginGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void MalToggleButtonOnCheck(object sender, RoutedEventArgs e)
+        {
+            ToggleMal.LockToggle = true;
+            ToggleHum.LockToggle = false;
+            ToggleHum.IsChecked = false;
+            HumLoginGrid.Visibility = Visibility.Collapsed;
+            MALLoginGrid.Visibility = Visibility.Visible;
         }
     }
 }

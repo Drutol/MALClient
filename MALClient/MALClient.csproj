@@ -113,11 +113,12 @@
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
     <Compile Include="Comm\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\HtmlClassMgr.cs" />
-    <Compile Include="Comm\MalListParameters.cs" />
-    <Compile Include="Comm\MalListQuery.cs" />
+    <Compile Include="Comm\LibraryListQuery.cs" />
+    <Compile Include="Comm\ListParameters.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRemoveQuery.cs" />
     <Compile Include="Comm\Anime\AnimeReviewsQuery.cs" />
@@ -127,16 +128,14 @@
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
     <Compile Include="Comm\IParameters.cs" />
-    <Compile Include="Comm\MALProfileQuery.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
     <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
     <Compile Include="Comm\Manga\MangaSearchQuery.cs" />
     <Compile Include="Comm\NewsQuery.cs" />
+    <Compile Include="Comm\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
-    <Compile Include="Comm\UriBuilder.cs" />
-    <Compile Include="Comm\UriType.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs" />
     <Compile Include="Flyouts\ListItemFlyout.xaml.cs" />
     <Compile Include="Flyouts\ListItemScoreFlyout.xaml.cs" />
@@ -153,10 +152,14 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Models\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
+    <Compile Include="Models\ILibraryData.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
+    <Compile Include="Models\MangaLibraryItemData.cs" />
     <Compile Include="Models\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\TopAnimeData.cs" />
@@ -250,6 +253,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\hummingbird150x150.scale-200.png" />
+    <Content Include="Assets\mallonglogo300x150.png" />
     <Content Include="Comm\HtmlClassesDefinitions.json" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

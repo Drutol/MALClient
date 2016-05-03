@@ -11,6 +11,9 @@ namespace MALClient
 {
     public static class Credentials
     {
+        public static string HummingbirdToken { get; private set; } =
+            (string)(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] ?? "");
+
         public static string UserName { get; private set; }
 
         private static string Password { get; set; }
@@ -23,6 +26,11 @@ namespace MALClient
         internal static ICredentials GetHttpCreditentials()
         {
             return new NetworkCredential(UserName, Password);
+        }
+
+        internal static string GetHummingbirdCredentialChain()
+        {
+            return $"username={UserName}&password={Password}";
         }
 
         public static void Update(string name, string passwd)
@@ -52,6 +60,13 @@ namespace MALClient
             Id = id;
         }
 
+        public static void SetAuthToken(string token)
+        {
+            var trimmedToken = token == "" ? "" : token.Substring(1, token.Length - 2);
+            ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] = trimmedToken;
+            HummingbirdToken = trimmedToken;
+        }
+
         public static void Init()
         {
             var vault = new PasswordVault();
@@ -74,7 +89,7 @@ namespace MALClient
                     credential.RetrievePassword();
                     Password = credential.Password;
                     Authenticated = true;
-                    if (ApplicationData.Current.LocalSettings.Values["UserId"] == null) //we have credentials without Id
+                    if (Settings.SelectedApiType == ApiType.Mal && ApplicationData.Current.LocalSettings.Values["UserId"] == null) //we have credentials without Id
                         FillInMissingIdData();
                 }
                 else
@@ -84,14 +99,14 @@ namespace MALClient
             {
                 Authenticated = false;
             }
+
         }
 
         private static async void FillInMissingIdData()
         {
-            
             try
             {
-                var response = await new AuthQuery().GetRequestResponse(false);
+                var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 var doc = XDocument.Parse(response);
@@ -99,7 +114,7 @@ namespace MALClient
             }
             catch (Exception)
             {
-                //
+                Authenticated = false;
             }
         }
     }

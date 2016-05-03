@@ -42,6 +42,10 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
+        public List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions => _allLoadedAnimeItems;
+        public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions => _allLoadedMangaItems;
+
+
         private int _allPages;
 
         private bool _initiazlized;
@@ -737,7 +741,7 @@ namespace MALClient.ViewModels
                 _prevWorkMode = WorkMode;
             _prevListSource = ListSource;
 
-            Loading = true;
+            Loading = modeOverride == null;
             BtnSetSourceVisibility = false;
             EmptyNoticeVisibility = false;
 
@@ -781,69 +785,32 @@ namespace MALClient.ViewModels
                 ? _allLoadedAnimeItems.Count == 0
                 : _allLoadedMangaItems.Count == 0)
             {
-                var possibleCachedData = force ? null : await DataCache.RetrieveDataForUser(ListSource, requestedMode);
-                var data = "";
-                if (possibleCachedData != null)
+                List<ILibraryData> data = null;
+                await Task.Run(async () => data = await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
+                if (data?.Count == 0)
                 {
-                    data = possibleCachedData.Item1;
-                    //_lastUpdate = possibleCachedData.Item2;
+                    //no data?
+                    await RefreshList();
+                    Loading = false;
+                    return;
                 }
-                else
-                {
-                    var args = new MalListParameters
-                    {
-                        Status = "all",
-                        Type = requestedMode == AnimeListWorkModes.Anime ? "anime" : "manga",
-                        User = ListSource
-                    };
-                    await Task.Run(async () => data = await new MalListQuery(args).GetRequestResponse());
-                    if (string.IsNullOrEmpty(data) || data.Contains("<error>Invalid username</error>"))
-                    {
-                        //no data?
-                        await RefreshList();
-                        Loading = false;
-                        return;
-                    }
-                    DataCache.SaveDataForUser(ListSource, data, requestedMode);
-                }
-                var parsedData = XDocument.Parse(data);
+
                 var auth = Credentials.Authenticated &&
                            string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase);
                 switch (requestedMode)
                 {
                     case AnimeListWorkModes.Anime:
-                        var anime = parsedData.Root.Elements("anime").ToList();
-                        foreach (var item in anime)
-                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value,
-                                item.Element("series_image").Value, Convert.ToInt32(item.Element("series_type").Value),
-                                Convert.ToInt32(item.Element("series_animedb_id").Value),
-                                Convert.ToInt32(item.Element("my_status").Value),
-                                Convert.ToInt32(item.Element("my_watched_episodes").Value),
-                                Convert.ToInt32(item.Element("series_episodes").Value),
-                                item.Element("my_start_date").Value,
-                                item.Element("my_finish_date").Value,
-                                Convert.ToInt32(item.Element("my_score").Value)));
 
-                        //_allLoadedAnimeItems = _allLoadedAnimeItems.Distinct().ToList();
+                        foreach (var item in data)
+                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item as AnimeLibraryItemData));
+
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
-                        var manga = parsedData.Root.Elements("manga").ToList();
-                        foreach (var item in manga)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth, item.Element("series_title").Value,
-                                item.Element("series_image").Value, Convert.ToInt32(item.Element("series_type").Value),
-                                Convert.ToInt32(item.Element("series_mangadb_id").Value),
-                                Convert.ToInt32(item.Element("my_status").Value),
-                                Convert.ToInt32(item.Element("my_read_chapters").Value),
-                                Convert.ToInt32(item.Element("series_chapters").Value),
-                                item.Element("my_start_date").Value,
-                                item.Element("my_finish_date").Value,
-                                Convert.ToInt32(item.Element("my_score").Value),
-                                Convert.ToInt32(item.Element("my_read_volumes").Value),
-                                Convert.ToInt32(item.Element("series_volumes").Value)));
+                        foreach (var item in data)
+                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth && Settings.SelectedApiType == ApiType.Mal, item as MangaLibraryItemData)); //read only manga for hummingbird
 
-                        //_allLoadedMangaItems = _allLoadedMangaItems.Distinct().ToList();
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _allLoadedAuthMangaItems = _allLoadedMangaItems;
                         break;
@@ -853,7 +820,7 @@ namespace MALClient.ViewModels
             }
 
             if (WorkMode != requestedMode)
-                return; // manga is loaded top manga can proceed loading
+                return; // manga or anime is loaded top manga can proceed loading something else
 
             AppBtnGoBackToMyListVisibility = Credentials.Authenticated &&
                                              !string.Equals(ListSource, Credentials.UserName,

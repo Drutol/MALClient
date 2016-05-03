@@ -154,7 +154,8 @@
                                                     PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="7">
+                                                    CommandParameter="7"
+                                                    Visibility="{Binding MalApiSpecificButtonsVisibility}">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
@@ -239,7 +240,8 @@
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="10">
+                                                    CommandParameter="10"
+                                                    Visibility="{Binding MalApiSpecificButtonsVisibility}">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />

@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 
 namespace MALClient.ViewModels
@@ -27,6 +28,9 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
+            if (Settings.SelectedApiType == ApiType.Hummingbird && index == PageIndex.PageProfile)
+                return;
+
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             MenuPaneState = false;

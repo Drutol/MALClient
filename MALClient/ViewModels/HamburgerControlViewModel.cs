@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using Microsoft.Advertising.WinRT.UI;
@@ -142,6 +143,18 @@ namespace MALClient.ViewModels
                     ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
                 }
                     ));
+            }
+        }
+
+        private Visibility _malApiSpecificButtonsVisibility = Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility MalApiSpecificButtonsVisibility
+        {
+            get { return _malApiSpecificButtonsVisibility; }
+            set
+            {
+                _malApiSpecificButtonsVisibility = value;
+                RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
             }
         }
 

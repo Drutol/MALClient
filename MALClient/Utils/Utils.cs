@@ -11,6 +11,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -19,7 +20,7 @@ namespace MALClient
 {
     public static class Utils
     {
-        private static readonly string[] SizeSuffixes = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+        private static readonly string[] SizeSuffixes = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
         public static string StatusToString(int status, bool manga = false)
         {
@@ -117,7 +118,7 @@ namespace MALClient
 
         public static void RegisterTile(string id)
         {
-            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
+            var tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
             if (string.IsNullOrWhiteSpace(tiles))
                 tiles = "";
             tiles += id + ";";
@@ -126,7 +127,7 @@ namespace MALClient
 
         public static async void CheckTiles()
         {
-            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
+            var tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
             if (string.IsNullOrWhiteSpace(tiles))
                 return;
 
@@ -169,7 +170,7 @@ namespace MALClient
         {
             var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             var diff = date.ToUniversalTime() - origin;
-            return (int) Math.Floor(diff.TotalSeconds);
+            return (int)Math.Floor(diff.TotalSeconds);
         }
 
         /// <summary>
@@ -199,8 +200,8 @@ namespace MALClient
                 return "0.0 bytes";
             }
 
-            var mag = (int) Math.Log(value, 1024);
-            var adjustedSize = (decimal) value/(1L << (mag*10));
+            var mag = (int)Math.Log(value, 1024);
+            var adjustedSize = (decimal)value / (1L << (mag * 10));
 
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
@@ -228,15 +229,20 @@ namespace MALClient
                 var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
-                byte[] response = {};
+                byte[] response = { };
+                switch (Settings.SelectedApiType)
+                {
+                    case ApiType.Mal:
+                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                        break;
+                    case ApiType.Hummingbird:
+                        string avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
+                        await Task.Run(async () => response = await http.GetByteArrayAsync(avatarLink));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
-                await
-                    Task.Run(
-                        async () =>
-                            response =
-                                await
-                                    http.GetByteArrayAsync(
-                                        $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                 //get bytes
 
                 var fs = await thumb.OpenStreamForWriteAsync(); //get stream
@@ -258,8 +264,10 @@ namespace MALClient
             await ViewModelLocator.Hamburger.UpdateProfileImg(false);
         }
 
-        public static async void DownloadCoverImage(string url,string title)
+        public static async void DownloadCoverImage(string url, string title)
         {
+            if (url == null)
+                return;
             try
             {
                 var sp = new FileSavePicker();
@@ -268,14 +276,14 @@ namespace MALClient
                 sp.SuggestedFileName = $"{title}-cover_art";
 
                 var file = await sp.PickSaveFileAsync();
-                if(file == null)
+                if (file == null)
                     return;
                 var http = new HttpClient();
                 byte[] response = { };
 
                 //get bytes
                 await Task.Run(async () => response = await http.GetByteArrayAsync(url));
-                
+
 
                 var fs = await file.OpenStreamForWriteAsync(); //get stream
                 var writer = new DataWriter(fs.AsOutputStream());
@@ -285,14 +293,14 @@ namespace MALClient
                 await writer.FlushAsync();
 
                 writer.Dispose();
-                 GiveStatusBarFeedback("File saved successfully.");
+                GiveStatusBarFeedback("File saved successfully.");
             }
             catch (Exception e)
             {
                 GiveStatusBarFeedback("Error. File didn't save properly.");
             }
-
         }
+
 
         public static string CleanAnimeTitle(string title)
         {
@@ -326,8 +334,7 @@ namespace MALClient
 
                 if (!targetUrl.Contains("http"))
                     targetUrl = "http://" + targetUrl;
-                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"),
-                    TileSize.Default);
+                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"), TileSize.Default);
                 RegisterTile(id.ToString());
                 await til.RequestCreateAsync();
             }
@@ -410,27 +417,12 @@ namespace MALClient
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                .Trim()
-                .Replace("[i]", "")
-                .Replace("[/i]", "")
-                .Replace("#039;", "'")
-                .Replace("&quot;", "\"")
-                .Replace("quot;", "\"")
-                .Replace("mdash;", "—")
-                .Replace("amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("quot;", "\"").Replace("mdash;", "—").Replace("amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                .Trim()
-                .Replace("[i]", "")
-                .Replace("[/i]", "")
-                .Replace("#039;", "'")
-                .Replace("&quot;", "\"")
-                .Replace("&mdash;", "—")
-                .Replace("&amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("&mdash;", "—").Replace("&amp;", "&");
         }
 
         public static async void GiveStatusBarFeedback(string text)

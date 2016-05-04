@@ -1,9 +1,9 @@
 [
   {
-    "Title": "Update & Hummingbird",
-    "Date": "01.05.2016",
-    "Type": "Info",
-    "Content": "App update with mainly optimization and slight UI changes will go live within next 2 days. I'm working on hummingbird support now almost got anime library working!"
+    "Title": "Hummingbird & Next update",
+    "Date": "04.05.2016",
+    "Type": "Development",
+    "Content": "Highly beta build with hummingbird support is now available on github! Working list caching is on its way too + rewritten old code for performance gains. I'll proably want to release it altogether with Hummingbird so it may take week or so :)"
   },
   {
     "Title": "Development update.",

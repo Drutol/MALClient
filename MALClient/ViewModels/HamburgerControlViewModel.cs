@@ -175,17 +175,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _malApiSpecificButtonsVisibility = Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
-
-        public Visibility MalApiSpecificButtonsVisibility
-        {
-            get { return _malApiSpecificButtonsVisibility; }
-            set
-            {
-                _malApiSpecificButtonsVisibility = value;
-                RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
-            }
-        }
+        public Visibility MalApiSpecificButtonsVisibility => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
         public Thickness _bottomStackPanelMargin = new Thickness(0);
         public Thickness BottomStackPanelMargin
@@ -381,6 +371,11 @@ namespace MALClient.ViewModels
         public void UpdateLogInLabel()
         {
             RaisePropertyChanged(() => LogInLabel);
+        }
+
+        public void UpdateApiDependentButtons()
+        {
+            RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
         }
     }
 }

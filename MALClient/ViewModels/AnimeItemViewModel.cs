@@ -270,8 +270,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
         public float MyScore
         {
@@ -816,7 +816,7 @@ namespace MALClient.ViewModels
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
             {
                 MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
                 AdjustIncrementButtonsVisibility();
@@ -834,7 +834,7 @@ namespace MALClient.ViewModels
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
             {
                 MyEpisodes++;
                 AdjustIncrementButtonsVisibility();
@@ -859,7 +859,7 @@ namespace MALClient.ViewModels
                 var prevWatched = MyEpisodes;
                 MyEpisodes = watched;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = prevWatched;
 
                 if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
@@ -891,7 +891,7 @@ namespace MALClient.ViewModels
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = myPrevStatus;
 
             if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
@@ -906,7 +906,7 @@ namespace MALClient.ViewModels
             var myPrevScore = MyScore;            
             MyScore = Convert.ToInt32(score) / (Settings.SelectedApiType == ApiType.Hummingbird ? 2 : 1);
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = myPrevScore;
 
             LoadingUpdate = Visibility.Collapsed;
@@ -933,7 +933,7 @@ namespace MALClient.ViewModels
                 var myPrevStatus = MyStatus;
                 MyStatus = to;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyStatus = myPrevStatus;
             }
         }
@@ -953,7 +953,7 @@ namespace MALClient.ViewModels
                 var myPrevEps = MyEpisodes;
                 MyEpisodes = to;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = myPrevEps;
             }
         }

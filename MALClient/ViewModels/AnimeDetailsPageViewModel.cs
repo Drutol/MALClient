@@ -299,7 +299,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal? "10":"5")}";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal? "10":"5")}";
 
         private float MyScore
         {
@@ -939,7 +939,7 @@ namespace MALClient.ViewModels
             }
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = prevStatus;
 
             if (_animeItemReference is AnimeItemViewModel)
@@ -959,7 +959,7 @@ namespace MALClient.ViewModels
             var prevScore = MyScore;
             MyScore = Convert.ToInt32(score as string) / (Settings.SelectedApiType == ApiType.Hummingbird ? 2 : 1);
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = prevScore;
             LoadingUpdate = false;
         }
@@ -981,7 +981,7 @@ namespace MALClient.ViewModels
                 var prevWatched = MyEpisodes;
                 MyEpisodes = eps;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)

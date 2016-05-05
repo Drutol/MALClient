@@ -12,9 +12,14 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
-        <converters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+            <converters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -33,7 +38,7 @@
             <StackPanel Margin="1">
                 <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
                            HorizontalAlignment="Center" />
-                <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
+                <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton" Style="{StaticResource ButtonDisabledStyle}"
                         Content="{Binding MyEpisodesBindShort}" Foreground="White" 
                         FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"
                         HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick" IsEnabled="{Binding Auth}">

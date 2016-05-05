@@ -187,6 +187,9 @@ namespace MALClient.ViewModels
 
         public List<NewsData> CurrentNews { get; set; } = new List<NewsData>();
 
+        public Visibility MalApiDependatedntSectionsVisibility
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+
         private bool _newsLoaded;
         public async void LoadNews()
         {

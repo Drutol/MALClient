@@ -377,6 +377,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="XamlResources\Controlstyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlResources\DictionaryHamburger.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

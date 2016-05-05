@@ -56,7 +56,7 @@
                                     Command="{Binding CopyToClipboardCommand}"
                                     Background="Transparent">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="Copy mal link to clipboard."></ToolTip>
+                        <ToolTip Content="Copy link to clipboard."></ToolTip>
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Copy"/>
                 </Button>
@@ -78,7 +78,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Remove anime from your list."></ToolTip>
                     </ToolTipService.ToolTip>
-                    <SymbolIcon Symbol="Clear" />
+                    <SymbolIcon Symbol="Delete" />
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">

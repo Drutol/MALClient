@@ -431,8 +431,8 @@ namespace MALClient.ViewModels
                 switch (DisplayMode)
                 {
                     case AnimeListDisplayModes.IndefiniteList:
-                        AnimeItems.Add(_animeItemsSet.First().AnimeItem);
-                        _animeItemsSet.RemoveAt(0);
+                        AnimeItems.AddRange(_animeItemsSet.Take(2).Select(abstraction => abstraction.AnimeItem));
+                        _animeItemsSet = _animeItemsSet.Skip(2).ToList();
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
                         AnimeGridItems.AddRange(_animeItemsSet.Take(3).Select(abstraction => abstraction.AnimeGridItem));
@@ -644,9 +644,16 @@ namespace MALClient.ViewModels
                             DayOfAiring = animeData.AirDay,
                             GlobalScore = animeData.Score,
                             Genres = animeData.Genres,
-                            AirStartDate = animeData.AirStartDate == AnimeItemViewModel.InvalidStartEndDate ? null : animeData.AirStartDate
+                            AirStartDate =
+                                animeData.AirStartDate == AnimeItemViewModel.InvalidStartEndDate
+                                    ? null
+                                    : animeData.AirStartDate
                         });
-                    var abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
+                    AnimeItemAbstraction abstraction = null;
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                        abstraction = source.FirstOrDefault(item => item.Id == animeData.Id);
+                    else
+                        abstraction = source.FirstOrDefault(item => item.MalId == animeData.Id);
                     if (abstraction == null)
                         target.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData,
                             WorkMode != AnimeListWorkModes.TopManga));
@@ -837,7 +844,7 @@ namespace MALClient.ViewModels
         /// <param name="id"></param>
         /// <param name="anime"></param>
         /// <returns></returns>
-        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true)
+        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true,bool forceMal = false)
         {
             if (!Credentials.Authenticated)
                 return null;
@@ -852,8 +859,10 @@ namespace MALClient.ViewModels
                     await FetchData(false, AnimeListWorkModes.Manga);
 
                 return anime
-                    ? _allLoadedAuthAnimeItems.First(abstraction => abstraction.Id == id).ViewModel
-                    : _allLoadedAuthMangaItems.First(abstraction => abstraction.Id == id).ViewModel;
+                    ? _allLoadedAuthAnimeItems.First(
+                        abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel
+                    : _allLoadedAuthMangaItems.First(
+                        abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel;
             }
             catch (Exception)
             {

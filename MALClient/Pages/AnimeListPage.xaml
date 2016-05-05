@@ -30,7 +30,7 @@
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
                             <StackPanel>
-                                <TextBlock VerticalAlignment="Center" Text="MAL Username:" />
+                                <TextBlock VerticalAlignment="Center" Text="Username:" />
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="TxtListSource"
                                              Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"

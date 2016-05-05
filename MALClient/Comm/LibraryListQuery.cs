@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Models;
+using MALClient.Models.ApiResponses;
 using MALClient.Pages;
 using MALClient.ViewModels;
 using Newtonsoft.Json;
@@ -14,10 +15,11 @@ namespace MALClient.Comm
     public class LibraryListQuery : Query
     {
         private AnimeListWorkModes _mode;
-
+        private string _source;
         public LibraryListQuery(string source,AnimeListWorkModes mode)
         {
             _mode = mode;
+            _source = source;
             string type = _mode == AnimeListWorkModes.Anime ? "anime" : "manga";
             switch (CurrentApiType)
             {
@@ -51,7 +53,7 @@ namespace MALClient.Comm
 
         public async Task<List<ILibraryData>> GetLibrary(bool force = false)
         {
-            var output = force ? new List<ILibraryData>() : await DataCache.RetrieveDataForUser(Credentials.UserName, _mode) ?? new List<ILibraryData>();
+            var output = force ? new List<ILibraryData>() : await DataCache.RetrieveDataForUser(_source, _mode) ?? new List<ILibraryData>();
             if (output.Count > 0)
                 return output;
             string raw = await GetRequestResponse();
@@ -110,38 +112,49 @@ namespace MALClient.Comm
                     }
                     break;
                 case ApiType.Hummingbird:
-                    dynamic jsonObj = JsonConvert.DeserializeObject(raw);
+
                     switch (_mode)
                     {
                         case AnimeListWorkModes.Anime:
+                            List<HumRootObject> jsonObj = JsonConvert.DeserializeObject<List<HumRootObject>>(raw,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
                             foreach (var entry in jsonObj)
                             {
-                                float score = 0;
-                                float.TryParse(entry.rating.value.ToString(), out score);
                                 AnimeType type = AnimeType.TV;
-                                AnimeType.TryParse(entry.anime.show_type.ToString(), true, out type);
-
-                                output.Add(new AnimeLibraryItemData
+                                try
                                 {
-                                    Title = entry.anime.title.ToString(),
-                                    ImgUrl = entry.anime.cover_image.ToString(),
-                                    Type = (int) type,
-                                    MalId = Convert.ToInt32(entry.anime.mal_id.ToString()),
-                                    Id = Convert.ToInt32(entry.anime.id.ToString()),
-                                    AllEpisodes = Convert.ToInt32(entry.anime.episode_count.ToString()),
-                                    MyStartDate = AnimeItemViewModel.InvalidStartEndDate, //TODO : Do sth
-                                    MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
-                                    MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
-                                    MyScore = score,
-                                    MyStatus = HummingbirdStatusToMal(entry.status.ToString())
-                                });
+                                    float score = 0;
+                                    if (entry.rating?.value != null)
+                                        float.TryParse(entry.rating.value.ToString(), out score);
+                                    if (entry.anime.show_type != null)
+                                        AnimeType.TryParse(entry.anime.show_type, true, out type);
+                                    output.Add(new AnimeLibraryItemData
+                                    {
+                                        Title = entry.anime.title,
+                                        ImgUrl = entry.anime.cover_image,
+                                        Type = (int) type,
+                                        MalId = entry.anime.mal_id,
+                                        Id = Convert.ToInt32(entry.anime.id.ToString()),
+                                        AllEpisodes = entry.anime.episode_count,
+                                        MyStartDate = AnimeItemViewModel.InvalidStartEndDate, //TODO : Do sth
+                                        MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                                        MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
+                                        MyScore = score,
+                                        MyStatus = HummingbirdStatusToMal(entry.status)
+                                    });
+                                }
+                                catch (Exception e)
+                                {
+                                    //
+                                }
+
                             }
                             break;
                         case AnimeListWorkModes.Manga: //rough undocumented endpoint raid
+                            dynamic jsonMangaObj = JsonConvert.DeserializeObject(raw);
                             Dictionary<string, dynamic> mangaData = new Dictionary<string, dynamic>(); //library data and manga dta are not connected
-                            foreach (var manga in jsonObj.manga)
+                            foreach (var manga in jsonMangaObj.manga)
                                 mangaData.Add(manga.id.ToString(), manga);
-                            foreach (var mangaLibraryEntry in jsonObj.manga_library_entries)
+                            foreach (var mangaLibraryEntry in jsonMangaObj.manga_library_entries)
                             {
                                 var details = mangaData[mangaLibraryEntry.manga_id.ToString()];
                                 try

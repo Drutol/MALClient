@@ -95,7 +95,7 @@
                                     Background="{ThemeResource BrushDetailsMoreButton}"
                                     Margin="0,5,0,0">
                                     <StackPanel Orientation="Horizontal">
-                                        <SymbolIcon Symbol="Remove" />
+                                        <SymbolIcon Symbol="Delete" />
                                         <TextBlock Margin="10,0,0,0" Text="Remove from my list" />
                                     </StackPanel>
                                 </Button>

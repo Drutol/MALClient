@@ -18,6 +18,7 @@ namespace MALClient
                 Query.CurrentApiType = value;
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
                 AnimeItemViewModel.UpdateScoreFlyoutChoices();
+                ViewModelLocator.Hamburger.UpdateApiDependentButtons();
             }
         }
 

@@ -134,7 +134,10 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += async (sender, args) =>
                     {
-                        var msg = new MessageDialog("Microsoft has no ads for you :(\nYou can still donate if you want to...","Thanks for trying!");
+                        var msg =
+                            new MessageDialog(
+                                "Microsoft has no ads for you :(\nYou can still donate if you want to...",
+                                "Thanks for trying!");
                         await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                     };
@@ -146,17 +149,8 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _malApiSpecificButtonsVisibility = Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
-
         public Visibility MalApiSpecificButtonsVisibility
-        {
-            get { return _malApiSpecificButtonsVisibility; }
-            set
-            {
-                _malApiSpecificButtonsVisibility = value;
-                RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
-            }
-        }
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility UsrImgPlaceholderVisibility
         {
@@ -177,6 +171,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => AdLoadingSpinnerVisibility);
             }
         }
+
+
 
         public int MenuPivotSelectedIndex
         {
@@ -335,6 +331,11 @@ namespace MALClient.ViewModels
         public void UpdateLogInLabel()
         {
             RaisePropertyChanged(() => LogInLabel);
+        }
+
+        public void UpdateApiDependentButtons()
+        {
+            RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
         }
     }
 }

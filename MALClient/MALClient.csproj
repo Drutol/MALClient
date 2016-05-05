@@ -115,8 +115,9 @@
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
-    <Compile Include="Comm\HtmlClassDefinitionsQuery.cs" />
-    <Compile Include="Comm\HtmlClassMgr.cs" />
+    <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
+    <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
+    <Compile Include="Comm\CommUtils\IParameters.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
     <Compile Include="Comm\ListParameters.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="Comm\Anime\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
-    <Compile Include="Comm\IParameters.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
     <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
@@ -155,6 +155,7 @@
     <Compile Include="Models\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
     <Compile Include="Models\AnimeLibraryItemData.cs" />
+    <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ILibraryData.cs" />
@@ -354,6 +355,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="XamlResources\Controlstyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlResources\DictionaryHamburger.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -394,6 +399,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

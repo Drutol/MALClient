@@ -179,8 +179,6 @@ namespace MALClient
             }
             await DataCache.SaveVolatileData();
             await DataCache.SaveHumMalIdDictionary();
-
-            //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
     }

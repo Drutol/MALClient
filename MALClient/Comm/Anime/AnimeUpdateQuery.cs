@@ -83,13 +83,13 @@ namespace MALClient.Comm
             {
                 case AnimeStatus.Watching:
                     return "currently-watching";
-                case AnimeStatus.Completed:
-                    return "plan-to-watch";
-                case AnimeStatus.OnHold:
-                    return "completed";
-                case AnimeStatus.Dropped:
-                    return "on-hold";
                 case AnimeStatus.PlanToWatch:
+                    return "plan-to-watch";
+                case AnimeStatus.Completed:
+                    return "completed";
+                case AnimeStatus.OnHold:
+                    return "on-hold";
+                case AnimeStatus.Dropped:
                     return "dropped";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(status), status, null);

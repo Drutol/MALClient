@@ -33,18 +33,21 @@ namespace MALClient
             return $"username={UserName}&password={Password}";
         }
 
+        private static string ResourceName => Settings.SelectedApiType == ApiType.Mal ? "MALClient" : "MALClientHum";
+        private static string ReverseResourceName => Settings.SelectedApiType == ApiType.Mal ? "MALClientHum" : "MALClient";
+
         public static void Update(string name, string passwd)
         {
             var vault = new PasswordVault();
 
-            if (!string.IsNullOrWhiteSpace(UserName) && !string.IsNullOrWhiteSpace(Password))
-                vault.Remove(new PasswordCredential("MALClient", UserName, Password));
+            foreach (var passwordCredential in vault.RetrieveAll())
+                vault.Remove(passwordCredential);
 
             UserName = name;
             Password = passwd;
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(passwd))
-                vault.Add(new PasswordCredential("MALClient", UserName, Password));
+                vault.Add(new PasswordCredential(ResourceName, UserName, Password));
         }
 
         public static void SetAuthStatus(bool status)
@@ -82,14 +85,29 @@ namespace MALClient
             }
             try
             {
-                var credential = vault.FindAllByResource("MALClient").FirstOrDefault();
+                ApiType deductedApiType = ApiType.Mal;
+                PasswordCredential credential = null;
+                try
+                {
+                    credential = vault.FindAllByResource("MALClient").FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    credential = vault.FindAllByResource("MALClientHum").FirstOrDefault();
+                    deductedApiType = ApiType.Hummingbird;
+                }
                 if (credential != null)
                 {
+                    Settings.SelectedApiType = deductedApiType;
                     UserName = credential.UserName;
                     credential.RetrievePassword();
                     Password = credential.Password;
                     Authenticated = true;
-                    if (Settings.SelectedApiType == ApiType.Mal && ApplicationData.Current.LocalSettings.Values["UserId"] == null) //we have credentials without Id
+                    if (Settings.SelectedApiType == ApiType.Mal &&
+                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["UserId"] as string) ||
+                        Settings.SelectedApiType == ApiType.Hummingbird &&
+                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] as string))
+                        //we have credentials without Id
                         FillInMissingIdData();
                 }
                 else
@@ -106,11 +124,28 @@ namespace MALClient
         {
             try
             {
-                var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
-                if (string.IsNullOrEmpty(response))
-                    throw new Exception();
-                var doc = XDocument.Parse(response);
-                SetId(int.Parse(doc.Element("user").Element("id").Value));
+                string response = null;
+                switch (Settings.SelectedApiType)
+                {
+                    case ApiType.Mal:
+                        response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
+                        if (string.IsNullOrEmpty(response))
+                            throw new Exception();
+                        var doc = XDocument.Parse(response);
+                        SetId(int.Parse(doc.Element("user").Element("id").Value));
+                        break;
+                    case ApiType.Hummingbird:
+                        response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse(false);
+                        if (string.IsNullOrEmpty(response))
+                            throw new Exception();
+                        if (response.Contains("\"error\": \"Invalid credentials\""))
+                            throw new Exception();
+                        SetAuthToken(response);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
             }
             catch (Exception)
             {

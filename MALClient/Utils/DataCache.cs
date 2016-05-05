@@ -655,5 +655,14 @@ namespace MALClient
             AnimeDetailsHummingbirdQuery.MalToHumId.Clear();
         }
 
+        public static async Task ClearAnimeListData()
+        {
+            var files = await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery);
+            foreach (var listFile in files.Where(storageFile => storageFile.Name.Contains("_data_")))
+            {
+                await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+        }
+
     }
 }

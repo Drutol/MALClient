@@ -55,6 +55,7 @@ namespace MALClient.Pages
                 return;
             ProgressRing.Visibility = Visibility.Visible;
             _authenticating = true;
+            Settings.SelectedApiType = ApiType.Mal;
             Credentials.Update(UserName.Text, UserPassword.Password);
             try
             {
@@ -62,7 +63,6 @@ namespace MALClient.Pages
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 var doc = XDocument.Parse(response);
-                Settings.SelectedApiType = ApiType.Mal;
                 Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Credentials.SetAuthStatus(true);
             }
@@ -124,6 +124,7 @@ namespace MALClient.Pages
                 return;
             ProgressRingHum.Visibility = Visibility.Visible;
             _authenticating = true;
+            Settings.SelectedApiType = ApiType.Hummingbird;
             Credentials.Update(UserNameHum.Text, UserPasswordHum.Password);
             try
             {
@@ -187,10 +188,6 @@ namespace MALClient.Pages
         }
         #endregion
 
-
-
-
-
         private async void LogOut(object sender, RoutedEventArgs e)
         {
             var page = Utils.GetMainPageInstance();
@@ -202,11 +199,6 @@ namespace MALClient.Pages
             await page.Navigate(PageIndex.PageLogIn);
             ViewModelLocator.Hamburger.UpdateProfileImg();
         }
-
-
-
-
-
 
         private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
         {

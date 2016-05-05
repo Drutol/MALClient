@@ -14,6 +14,8 @@ namespace MALClient
             get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
             set
             {
+                if(SelectedApiType == value)
+                    return;
                 ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value;
                 Query.CurrentApiType = value;
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();

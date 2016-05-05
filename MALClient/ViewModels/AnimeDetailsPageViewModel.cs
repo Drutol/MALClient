@@ -1092,6 +1092,7 @@ namespace MALClient.ViewModels
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
         }
 
         private async void RemoveAnime()

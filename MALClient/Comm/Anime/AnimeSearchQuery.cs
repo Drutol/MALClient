@@ -44,7 +44,7 @@ namespace MALClient.Comm
             {
                 case ApiType.Mal:
                     var parsed = XElement.Parse(raw);
-                    foreach (var element in parsed.Element("anime").Elements("entry"))
+                    foreach (var element in parsed.Elements("entry"))
                     {
                         var item = new AnimeGeneralDetailsData();
                         item.ParseXElement(element,true);

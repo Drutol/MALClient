@@ -414,6 +414,10 @@ namespace MALClient.ViewModels
             }
         }
 
+        public Visibility MalApiSpecificControlsVisibility
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+
+
         private Visibility _loadingDetails;
 
         public Visibility LoadingDetails
@@ -1161,10 +1165,10 @@ namespace MALClient.ViewModels
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
-            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" ? "?" : StartDate));
+            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
-            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" ? "?" : EndDate));
+            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
 
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentOffStatus = Title;

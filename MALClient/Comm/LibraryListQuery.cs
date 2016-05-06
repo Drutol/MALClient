@@ -139,7 +139,7 @@ namespace MALClient.Comm
                                         MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
                                         MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
                                         MyScore = score,
-                                        MyStatus = HummingbirdStatusToMal(entry.status)
+                                        MyStatus = HummingbirdStatusToMal(entry.status)                                        
                                     });
                                 }
                                 catch (Exception e)
@@ -222,7 +222,7 @@ namespace MALClient.Comm
             }
         }
 
-        private static AnimeStatus HummingbirdStatusToMal(string humStatus)
+        public static AnimeStatus HummingbirdStatusToMal(string humStatus)
         {
             switch (humStatus)
             {

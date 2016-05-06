@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MALClient.Comm;
+
+// ReSharper disable InconsistentNaming
 
 namespace MALClient.Models.ApiResponses
 {
@@ -85,6 +88,49 @@ namespace MALClient.Models.ApiResponses
         public string episode_number { get; set; }
         public object service { get; set; } //ignored
         public string comment { get; set; }
+
+        public string TextRepresentation
+        {
+            get
+            {
+                switch (substory_type)
+                {
+                    case "watched_episode":
+                        return episode_number;
+                    case "watchlist_status_update":
+                        return LibraryListQuery.HummingbirdStatusToMal(new_status.Replace('_','-')).ToString();
+                    default:
+                        return "";
+                }
+            }
+        }
+
+        public string TextRepresentationLabel
+        {
+            get
+            {
+                switch (substory_type)
+                {
+                    case "watched_episode":
+                        return "Set amount of watched episodes to:";
+                    case "watchlist_status_update":
+                        return "Updated status to:";
+                    default:
+                        return "";
+                }
+            }
+        }
+
+        public string TextRepresentationDate
+        {
+            get
+            {
+                var date = DateTimeOffset.Now.Subtract(DateTimeOffset.Parse(created_at));
+                if (date.TotalDays >= 1)
+                    return $"{date.Days}d ago";
+                return date.Hours == 0 ? $"{date.Minutes}m ago" : $"{date.Hours}h ago";
+            }
+        }
     }
 
     public class HumStoryPoster

@@ -286,7 +286,7 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
-                                        <Border Background="{ThemeResource BrushRowAlternate2}" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                             <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
@@ -343,7 +343,7 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
-                                        <Border Background="{ThemeResource BrushRowAlternate2}" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                             <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>

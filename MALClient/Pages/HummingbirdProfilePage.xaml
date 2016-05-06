@@ -11,6 +11,8 @@
     
     <Page.Resources>
         <conversters:UrlToBitmapImageConverter x:Key="BitmapImageConverter"/>
+        <conversters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter"/>
+        <conversters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}" Margin="0,0,-16,0">
@@ -22,13 +24,13 @@
             <Image Source="{Binding CurrentData.cover_image,Converter={StaticResource BitmapImageConverter}}" Stretch="Fill"/>
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".75"/>
+                    <SolidColorBrush Color="Black" Opacity=".5"/>
                 </Grid.Background>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding CurrentData.avatar,Converter={StaticResource BitmapImageConverter}}" Height="90" Width="90"/>
+                <Image Margin="10,0,0,0" Source="{Binding CurrentData.avatar,Converter={StaticResource BitmapImageConverter}}" Height="90" Width="90"/>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,10">
                     <TextBlock FontWeight="Medium" FontSize="25" Foreground="White" Text="{Binding CurrentData.name}" Margin="10,0"/>
                     <StackPanel Orientation="Horizontal" Margin="10,10">
@@ -39,7 +41,112 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            
+        </Grid>
+        
+        <Grid Grid.Row="1" Margin="10,10,26,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width=".5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10" Margin="10">
+                    <StackPanel>
+                        <StackPanel Visibility="{Binding CurrentData.waifu,Converter={StaticResource BoolToVisibilityConverter}}" Margin="3" >
+                            <TextBlock Text="{Binding CurrentData.waifu_or_husbando}" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentData.waifu}"/>
+                            <MenuFlyoutSeparator/>
+                        </StackPanel>
+                        <StackPanel Margin="3" >
+                            <TextBlock Text="Time spent on watching anime" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentData.life_spent_on_anime,Converter={StaticResource FormattedTimeLostConverter}}"/>
+                            <MenuFlyoutSeparator/>
+                        </StackPanel>
+                        <StackPanel Margin="3">
+                            <TextBlock Text="Bio" FontWeight="Medium" FontSize="18" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding CurrentData.bio}" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Grid.Row="1" Margin="10" CornerRadius="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="5" Text="Favourite anime" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
+                    <ListView Grid.Row="1" ItemsSource="{Binding FavAnime}" Margin="10" IsItemClickEnabled="True" ItemClick="FavouritesNavDetails">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="Padding" Value="5,5,10,5"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch" CornerRadius="10" Margin="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Margin="5" Text="Recent activity" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
+                <ListView Grid.Row="1" ItemsSource="{Binding FeedData}" Margin="10">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                            <Setter Property="BorderThickness" Value="4,0,0,0"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Padding" Value="5"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tapped="NavDetailsFeed" Tag="{Binding media.id}" Background="{ThemeResource BrushAnimeItemBackground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Width="120" Height="Auto" Stretch="Fill" Source="{Binding media.cover_image,Converter={StaticResource BitmapImageConverter}}"/>
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock FontSize="17" FontWeight="Medium" Text="{Binding media.title}" HorizontalAlignment="Center"/>
+                                    <ItemsControl Grid.Row="1"  ItemsSource="{Binding substories}" Margin="5" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding TextRepresentationLabel}" FontWeight="Medium" Margin="5,0"/>
+                                                        <TextBlock Text="{Binding TextRepresentation}" FontWeight="SemiLight" Margin="5,0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding TextRepresentationDate}"/>
+                                                </Grid>
+
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
         </Grid>
     </Grid>
 </Page>

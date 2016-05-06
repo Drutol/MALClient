@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models;
+using MALClient.Models.ApiResponses;
 using MALClient.Models.Favourites;
 using Newtonsoft.Json;
 
@@ -136,6 +138,12 @@ namespace MALClient.Comm
         {
             string raw = await GetRequestResponse();
             return ((dynamic)JsonConvert.DeserializeObject(raw)).avatar.ToString();
+        }
+
+        public async Task<HumProfileData> GetHumProfileData(bool force = false)
+        {
+            string raw = await GetRequestResponse();
+            return JsonConvert.DeserializeObject<HumProfileData>(raw,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
         }
     }
 }

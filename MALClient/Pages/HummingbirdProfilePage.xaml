@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="MALClient.Pages.HummingbirdProfilePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:conversters="using:MALClient.XamlConverters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding Source={StaticResource Locator}, Path=HumProfilePage}">
+    
+    <Page.Resources>
+        <conversters:UrlToBitmapImageConverter x:Key="BitmapImageConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource BrushDeepBackground}" Margin="0,0,-16,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image Source="{Binding CurrentData.cover_image,Converter={StaticResource BitmapImageConverter}}" Stretch="Fill"/>
+            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".75"/>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding CurrentData.avatar,Converter={StaticResource BitmapImageConverter}}" Height="90" Width="90"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,10">
+                    <TextBlock FontWeight="Medium" FontSize="25" Foreground="White" Text="{Binding CurrentData.name}" Margin="10,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="10,10">
+                        <TextBlock FontWeight="SemiLight" FontSize="15" VerticalAlignment="Center" Foreground="White" Text="{Binding CurrentData.location}" Margin="5,0"/>
+                        <Button Style="{StaticResource TextBlockButtonStyle}" MaxWidth="160" Click="ButtonBase_OnClick">
+                            <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding CurrentData.website}" Margin="5,0" FontWeight="SemiLight" FontSize="15"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            
+        </Grid>
+    </Grid>
+</Page>

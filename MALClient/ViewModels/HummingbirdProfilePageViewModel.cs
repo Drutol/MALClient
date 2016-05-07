@@ -40,6 +40,7 @@ namespace MALClient.ViewModels
                 FeedData = FeedData.Where(o => o.story_type == "media_story").ToList();
 
                 RaisePropertyChanged(() => FeedData);
+                RaisePropertyChanged(() => SocialFeedData);
             }    
         }
     }

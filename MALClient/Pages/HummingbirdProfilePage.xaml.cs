@@ -31,7 +31,10 @@ namespace MALClient.Pages
         public HummingbirdProfilePage()
         {
             this.InitializeComponent();
-            Loaded += (sender, args) => ViewModel.Init();
+            Loaded += (sender, args) =>
+            {
+                ViewModel.Init();
+            };
         }
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -59,6 +62,20 @@ namespace MALClient.Pages
         private void IgnorePivotScroll(object sender, PointerRoutedEventArgs e)
         {
             e.Handled = false;
+        }
+
+        private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as Pivot).SelectedIndex == 0)
+            {
+                FeedRecent.Visibility = Visibility.Visible;
+                FeedPosts.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                FeedRecent.Visibility = Visibility.Collapsed;
+                FeedPosts.Visibility = Visibility.Visible;
+            }
         }
     }
 }

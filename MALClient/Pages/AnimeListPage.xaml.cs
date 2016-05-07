@@ -304,17 +304,17 @@ namespace MALClient.Pages
 
         private void AnimeCompactItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.TemporarilySelectedCompactAnimeItem = e.ClickedItem as AnimeCompactItem;
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
         }
 
         private void AnimesItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItem;
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
         }
 
         private void AnimesGridIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.TemporarilySelectedGridAnimeItem = e.ClickedItem as AnimeGridItem;
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
         }
     }
 }

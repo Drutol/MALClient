@@ -15,7 +15,7 @@
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
-            <converters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
+            <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -27,7 +27,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Image x:Name="Image" Grid.Row="0"
+        <Image x:Name="Image" Grid.Row="0" Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
                controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" />
         <ProgressRing Grid.Row="0" IsActive ="True" Visibility="{Binding LoadingUpdate}" Height="40" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="0" Width="Auto" MinWidth="35" HorizontalAlignment="Right" VerticalAlignment="Top"

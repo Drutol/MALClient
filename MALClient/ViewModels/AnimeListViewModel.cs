@@ -60,13 +60,7 @@ namespace MALClient.ViewModels
 
         public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
-        public SmartObservableCollection<AnimeCompactItem> AnimeCompactItems { get; private set; } = new SmartObservableCollection<AnimeCompactItem>();
-
-        public SmartObservableCollection<AnimeItem> AnimeItems { get; private set; } = new SmartObservableCollection<AnimeItem>();
-
-        public SmartObservableCollection<AnimeGridItem> AnimeGridItems { get; private set; } =
-            new SmartObservableCollection<AnimeGridItem>();
-
+        public SmartObservableCollection<AnimeItemViewModel> AnimeItems { get; private set; } = new SmartObservableCollection<AnimeItemViewModel>();
         public ObservableCollection<AnimeSeason> SeasonSelection { get; } = new ObservableCollection<AnimeSeason>();
 
 
@@ -81,12 +75,8 @@ namespace MALClient.ViewModels
             _manuallySelectedViewMode = null;
             //take out trash
             _animeItemsSet.Clear();
-            AnimeCompactItems = new SmartObservableCollection<AnimeCompactItem>();
-            AnimeItems = new SmartObservableCollection<AnimeItem>();
-            AnimeGridItems = new SmartObservableCollection<AnimeGridItem>();
-            RaisePropertyChanged(() => AnimeCompactItems);
+            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridItems);
 
             //give visual feedback
             Loading = true;
@@ -388,15 +378,7 @@ namespace MALClient.ViewModels
         {
             try
             {
-                switch (DisplayMode)
-                {
-                    case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimeGridItems.Remove(parentAbstraction.AnimeGridItem);
-                        break;
-                    case AnimeListDisplayModes.IndefiniteList:
-                        AnimeItems.Remove(parentAbstraction.AnimeItem);
-                        break;
-                }
+                AnimeItems.Remove(parentAbstraction.ViewModel);
             }
             catch (Exception)
             {
@@ -449,17 +431,17 @@ namespace MALClient.ViewModels
                 {
                     case AnimeListDisplayModes.IndefiniteList:
                         itemsCount = (int)(sender as FrameworkElement).ActualWidth / 400;
-                        AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.AnimeItem));
+                        AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
                         itemsCount = (int) (sender as FrameworkElement).ActualWidth/200;
-                        AnimeGridItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.AnimeGridItem));
+                        AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                     case AnimeListDisplayModes.IndefiniteCompactList:
                         itemsCount = (int)(sender as FrameworkElement).ActualHeight / 50;
-                        AnimeCompactItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.AnimeCompactItem));
+                        AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                 }
@@ -508,29 +490,27 @@ namespace MALClient.ViewModels
         /// </summary>
         private async void UpdatePageSetup()
         {
-            AnimeCompactItems = new SmartObservableCollection<AnimeCompactItem>();
-            AnimeItems = new SmartObservableCollection<AnimeItem>();
-            AnimeGridItems = new SmartObservableCollection<AnimeGridItem>();
+            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
             await Task.Delay(30);
             switch (DisplayMode)
             {    
                 case AnimeListDisplayModes.IndefiniteCompactList:
-                    AnimeCompactItems.AddRange(_animeItemsSet.Take(30).Select(abstraction => abstraction.AnimeCompactItem));
+                    AnimeItems.AddRange(_animeItemsSet.Take(30).Select(abstraction => abstraction.ViewModel));
                     _animeItemsSet = _animeItemsSet.Skip(30).ToList();
                     View.GetIndefiniteScrollViewer().Result.UpdateLayout();
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
                     var itemsToLoad = GetItemsToLoad();
-                    AnimeItems.AddRange(_animeItemsSet.Take(itemsToLoad).Select(abstraction => abstraction.AnimeItem));
+                    AnimeItems.AddRange(_animeItemsSet.Take(itemsToLoad).Select(abstraction => abstraction.ViewModel));
                     _animeItemsSet = _animeItemsSet.Skip(itemsToLoad).ToList();
                     View.GetIndefiniteScrollViewer().Result.UpdateLayout();
                     View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);      
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
                     var gridItemsToLoad = GetGridItemsToLoad();
-                    AnimeGridItems.AddRange(_animeItemsSet.Take(gridItemsToLoad).Select(abstraction => abstraction.AnimeGridItem));
+                    AnimeItems.AddRange(_animeItemsSet.Take(gridItemsToLoad).Select(abstraction => abstraction.ViewModel));
                     _animeItemsSet = _animeItemsSet.Skip(gridItemsToLoad).ToList();                
                     View.GetIndefiniteScrollViewer().Result.UpdateLayout();
                     ScrollToWithDelay(500);                   
@@ -538,9 +518,7 @@ namespace MALClient.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            RaisePropertyChanged(() => AnimeCompactItems);
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridItems);
             AddScrollHandler();
             ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300
                 ? Visibility.Visible
@@ -1041,37 +1019,14 @@ namespace MALClient.ViewModels
             }
         }
 
-        public AnimeItem TemporarilySelectedAnimeItem
+        public AnimeItemViewModel TemporarilySelectedAnimeItem
         {
             get { return null; }
             set
             {
-                if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
-                    value.ViewModel.NavigateDetails();
+                if (value != null && ViewModelLocator.AnimeDetails.Id != value.Id)
+                    value.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedAnimeItem);
-                View.ResetSelectionForMode(DisplayMode);
-            }
-        }
-
-        public AnimeGridItem TemporarilySelectedGridAnimeItem
-        {
-            get { return null; }
-            set
-            {
-                if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
-                    value.ViewModel.NavigateDetails();
-                View.ResetSelectionForMode(DisplayMode);
-            }
-        }
-
-        public AnimeCompactItem TemporarilySelectedCompactAnimeItem
-        {
-            get { return null; }
-            set
-            {
-                if (value != null && ViewModelLocator.AnimeDetails.Id != value.ViewModel.Id)
-                    value.ViewModel.NavigateDetails();
-                RaisePropertyChanged(() => TemporarilySelectedGridAnimeItem);
                 View.ResetSelectionForMode(DisplayMode);
             }
         }
@@ -1474,12 +1429,8 @@ namespace MALClient.ViewModels
         public void LogOut()
         {
             _animeItemsSet.Clear();
-            AnimeCompactItems = new SmartObservableCollection<AnimeCompactItem>();
-            AnimeItems = new SmartObservableCollection<AnimeItem>();
-            AnimeGridItems = new SmartObservableCollection<AnimeGridItem>();
-            RaisePropertyChanged(() => AnimeCompactItems);
+            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridItems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();
@@ -1493,12 +1444,8 @@ namespace MALClient.ViewModels
         public void LogIn()
         {
             _animeItemsSet.Clear();
-            AnimeCompactItems = new SmartObservableCollection<AnimeCompactItem>();
-            AnimeItems = new SmartObservableCollection<AnimeItem>();
-            AnimeGridItems = new SmartObservableCollection<AnimeGridItem>();
-            RaisePropertyChanged(() => AnimeCompactItems);
+            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimeItems);
-            RaisePropertyChanged(() => AnimeGridItems);
             _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
             _allLoadedMangaItems = new List<AnimeItemAbstraction>();

@@ -28,7 +28,10 @@ namespace MALClient.Items
             this.InitializeComponent();
             DataContext = vm;
         }
-
+        public AnimeCompactItem()
+        {
+            this.InitializeComponent();
+        }
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)

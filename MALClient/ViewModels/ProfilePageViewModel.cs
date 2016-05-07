@@ -39,14 +39,14 @@ namespace MALClient.ViewModels
         public ProfileData CurrentData { get; set; } = new ProfileData();
         private bool _dataLoaded;
 
-        private ObservableCollection<AnimeGridItem> _recentAnime;
-        private ObservableCollection<AnimeGridItem> _recentManga;
-        private ObservableCollection<AnimeGridItem> _favManga;
-        private ObservableCollection<AnimeGridItem> _favAnime;
+        private ObservableCollection<AnimeItemViewModel> _recentAnime;
+        private ObservableCollection<AnimeItemViewModel> _recentManga;
+        private ObservableCollection<AnimeItemViewModel> _favManga;
+        private ObservableCollection<AnimeItemViewModel> _favAnime;
         private ObservableCollection<FavCharacter> _favChars;
         private ObservableCollection<FavPerson> _favPpl;
 
-        public ObservableCollection<AnimeGridItem> RecentAnime
+        public ObservableCollection<AnimeItemViewModel> RecentAnime
         {
             get { return _recentAnime; }
             private set
@@ -56,7 +56,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ObservableCollection<AnimeGridItem> RecentManga
+        public ObservableCollection<AnimeItemViewModel> RecentManga
         {
             get { return _recentManga; }
             private set
@@ -66,7 +66,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ObservableCollection<AnimeGridItem> FavAnime
+        public ObservableCollection<AnimeItemViewModel> FavAnime
         {
             get { return _favAnime; }
             private set
@@ -76,7 +76,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ObservableCollection<AnimeGridItem> FavManga
+        public ObservableCollection<AnimeItemViewModel> FavManga
         {
             get { return _favManga; }
             private set
@@ -134,12 +134,12 @@ namespace MALClient.ViewModels
             }
         }
 
-        public AnimeGridItem TemporarilySelectedAnimeItem
+        public AnimeItemViewModel TemporarilySelectedAnimeItem
         {
             get { return null; }
             set
             {
-                value?.ViewModel.NavigateDetails(PageIndex.PageProfile,
+                value?.NavigateDetails(PageIndex.PageProfile,
                     new ProfilePageNavigationArgs
                     {
                         InnerPivotSelectedIndex = CurrentlySelectedInnerPivotIndex,
@@ -342,13 +342,13 @@ namespace MALClient.ViewModels
                     if (_loadedFavAnime)
                         break;
                     _loadedFavAnime = true;
-                    FavAnime = new ObservableCollection<AnimeGridItem>();
+                    FavAnime = new ObservableCollection<AnimeItemViewModel>();
                     foreach (var id in CurrentData.FavouriteAnime)
                     {
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                         if (data != null)
                         {
-                            FavAnime.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeGridItem);
+                            FavAnime.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
                         }
                     }
                     EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0
@@ -359,13 +359,13 @@ namespace MALClient.ViewModels
                     if (_loadedFavManga)
                         break;
                     _loadedFavManga = true;
-                    FavManga = new ObservableCollection<AnimeGridItem>();
+                    FavManga = new ObservableCollection<AnimeItemViewModel>();
                     foreach (var id in CurrentData.FavouriteManga)
                     {
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                         if (data != null)
                         {
-                            FavManga.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeGridItem);
+                            FavManga.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
                         }
                     }
                     EmptyFavMangaNoticeVisibility = FavManga.Count == 0
@@ -397,8 +397,8 @@ namespace MALClient.ViewModels
             switch (tag)
             {
                 case "Favs":
-                    RecentManga = new ObservableCollection<AnimeGridItem>();
-                    RecentAnime = new ObservableCollection<AnimeGridItem>();
+                    RecentManga = new ObservableCollection<AnimeItemViewModel>();
+                    RecentAnime = new ObservableCollection<AnimeItemViewModel>();
                     InnerPivotItemChanged(CurrentlySelectedInnerPivotItem.Tag as string);
                     _loadedRecent = false;
                     break;
@@ -407,8 +407,8 @@ namespace MALClient.ViewModels
                         break;
                     _loadedRecent = true;
                     //in case of duplicate we have to clear this
-                    FavAnime = new ObservableCollection<AnimeGridItem>();
-                    FavManga = new ObservableCollection<AnimeGridItem>();
+                    FavAnime = new ObservableCollection<AnimeItemViewModel>();
+                    FavManga = new ObservableCollection<AnimeItemViewModel>();
                     _loadedFavManga = false;
                     _loadedFavAnime = false;
                     foreach (var id in CurrentData.RecentAnime)
@@ -416,7 +416,7 @@ namespace MALClient.ViewModels
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                         if (data != null)
                         {
-                            RecentAnime.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeGridItem);
+                            RecentAnime.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
                         }
                     }
                     foreach (var id in CurrentData.RecentManga)
@@ -424,7 +424,7 @@ namespace MALClient.ViewModels
                         var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                         if (data != null)
                         {
-                            RecentManga.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeGridItem);
+                            RecentManga.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
                         }
                     }
                     EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0
@@ -462,10 +462,10 @@ namespace MALClient.ViewModels
 
         private async void NavigateDetails(FavCharacter character)
         {
-            FavAnime = new ObservableCollection<AnimeGridItem>();
-            FavManga = new ObservableCollection<AnimeGridItem>();
-            RecentAnime = new ObservableCollection<AnimeGridItem>();
-            RecentManga = new ObservableCollection<AnimeGridItem>();
+            FavAnime = new ObservableCollection<AnimeItemViewModel>();
+            FavManga = new ObservableCollection<AnimeItemViewModel>();
+            RecentAnime = new ObservableCollection<AnimeItemViewModel>();
+            RecentManga = new ObservableCollection<AnimeItemViewModel>();
             FavCharacters = new ObservableCollection<FavCharacter>();
             FavPeople = new ObservableCollection<FavPerson>();
             _loadedFavManga = false;
@@ -500,10 +500,10 @@ namespace MALClient.ViewModels
 
         public override void Cleanup()
         {
-            FavAnime = new ObservableCollection<AnimeGridItem>();
-            FavManga = new ObservableCollection<AnimeGridItem>();
-            RecentAnime = new ObservableCollection<AnimeGridItem>();
-            RecentManga = new ObservableCollection<AnimeGridItem>();
+            FavAnime = new ObservableCollection<AnimeItemViewModel>();
+            FavManga = new ObservableCollection<AnimeItemViewModel>();
+            RecentAnime = new ObservableCollection<AnimeItemViewModel>();
+            RecentManga = new ObservableCollection<AnimeItemViewModel>();
             FavCharacters = new ObservableCollection<FavCharacter>();
             FavPeople = new ObservableCollection<FavPerson>();
             _loadedFavManga = false;

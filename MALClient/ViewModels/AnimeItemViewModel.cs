@@ -27,7 +27,7 @@ namespace MALClient.ViewModels
     {
         public const string InvalidStartEndDate = "0000-00-00";
 
-        private readonly string _imgUrl;
+        public string ImgUrl { get; set; }
         public readonly AnimeItemAbstraction ParentAbstraction;
         private float _globalScore;
         private bool _seasonalState;
@@ -107,7 +107,7 @@ namespace MALClient.ViewModels
         private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
         {
             ParentAbstraction = parent;
-            _imgUrl = img;
+            ImgUrl = img;
             Id = id;
             if (!ParentAbstraction.RepresentsAnime)
             {
@@ -415,15 +415,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private BitmapImage _image;
-        public BitmapImage Image
-        {
-            get
-            {
-                return _image ?? (_image = new BitmapImage(new Uri(_imgUrl)));
-            }
-        }
-
         private bool _updateButtonsEnableState;
 
         public bool UpdateButtonsEnableState
@@ -718,7 +709,7 @@ namespace MALClient.ViewModels
         //Pinned with custom link.
         public void PinTile(string url = null)
         {
-            Utils.PinTile(url ?? TileUrlInput, Id, _imgUrl, Title);
+            Utils.PinTile(url ?? TileUrlInput, Id, ImgUrl, Title);
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 

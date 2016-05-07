@@ -25,18 +25,18 @@ namespace MALClient.Items
             InitializeComponent();
         }
       
-        public void ClearImage()
-        {
-            Image.Source = null;
-        }
+        //public void ClearImage()
+        //{
+        //    Image.Source = null;
+        //}
 
-        public void BindImage()
-        {
-            if (Image.Source != null)
-                return;
-            var bnd = new Binding { Source = ViewModel.Image };
-            Image.SetBinding(Image.SourceProperty, bnd);
-        }
+        //public void BindImage()
+        //{
+        //    if (Image.Source != null)
+        //        return;
+        //    var bnd = new Binding { Source = ViewModel.Image };
+        //    Image.SetBinding(Image.SourceProperty, bnd);
+        //}
 
         #region CustomTilePin
 

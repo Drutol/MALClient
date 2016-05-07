@@ -185,9 +185,9 @@
             </Pivot>
         </StackPanel>
         <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="3,1,-2,1" Padding="3,0,0,0"
-                                      ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
+                                      ItemsSource="{Binding AnimeItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
-                                      ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
+                                      ItemClick="AnimeCompactItemsIndefinite_OnItemClick" ShowsScrollingPlaceholders="False"
                                       IsItemClickEnabled="True"
                                       Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
             <controls:AlternatingListView.ItemContainerStyle>
@@ -204,12 +204,17 @@
                     <ItemsStackPanel Margin="0,0,16,0" Orientation="Vertical" HorizontalAlignment="Stretch" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <item:AnimeCompactItem DataContext="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </controls:AlternatingListView>
         <GridView  x:Name="AnimesItemsIndefinite"  Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick"
-                  IsItemClickEnabled="True"
+                  IsItemClickEnabled="True" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -228,11 +233,16 @@
                     <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="{Binding ListItemGridWidth}"/>                
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <item:AnimeItem DataContext="{Binding}"/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-5,0" ItemsSource="{Binding AnimeGridItems}" MinWidth="200"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-5,0" ItemsSource="{Binding AnimeItems}" MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"
-                  IsItemClickEnabled="True" ShowsScrollingPlaceholders="True"
+                  IsItemClickEnabled="True" ShowsScrollingPlaceholders="False"
                   HorizontalAlignment="Center"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
@@ -246,6 +256,11 @@
                     <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch" ItemWidth="200" ItemHeight="350" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <item:AnimeGridItem DataContext="{Binding}"/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
         </GridView>
         <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" Grid.Row="1" HorizontalAlignment="Center"
                     VerticalAlignment="Center">

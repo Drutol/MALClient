@@ -17,18 +17,23 @@ namespace MALClient.Items
             InitializeComponent();
         }
 
-        public void ClearImage()
+        public AnimeGridItem()
         {
-            Image.Source = null;
+            InitializeComponent();
         }
 
-        public void BindImage()
-        {
-            if(Image.Source != null)
-                return;
-            var bnd = new Binding {Source = ViewModel.Image};
-            Image.SetBinding(Image.SourceProperty,bnd);
-        }
+        //public void ClearImage()
+        //{
+        //    Image.Source = null;
+        //}
+
+        //public void BindImage()
+        //{
+        //    if(Image.Source != null)
+        //        return;
+        //    var bnd = new Binding {Source = ViewModel.Image};
+        //    Image.SetBinding(Image.SourceProperty,bnd);
+        //}
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 

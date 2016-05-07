@@ -114,9 +114,9 @@ namespace MALClient.Models.ApiResponses
                 switch (substory_type)
                 {
                     case "watched_episode":
-                        return "Set amount of watched episodes to:";
+                        return "Set watched to:";
                     case "watchlist_status_update":
-                        return "Updated status to:";
+                        return "Set status to:";
                     default:
                         return "";
                 }

@@ -21,7 +21,8 @@
             <VisualStateGroup >
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="820"/>
+                        <AdaptiveTrigger MinWindowWidth="400"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="FeedGrid.(Grid.Column)" Value="0"/>
@@ -32,7 +33,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000"/>
+                        <AdaptiveTrigger MinWindowWidth="1100"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="FeedGrid.(Grid.Column)" Value="1"/>
@@ -71,7 +72,7 @@
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Visibility="{Binding CurrentData.waifu,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" >
                         <TextBlock Text="{Binding CurrentData.waifu_or_husbando}" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
-                        <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentData.waifu}"/>
+                        <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding CurrentData.waifu}"/>
                     </StackPanel>
                 </Grid>
                 <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,16,0" >
@@ -117,7 +118,7 @@
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                     <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                    <Setter Property="BorderThickness" Value="4,0,0,0"/>
                                     <Setter Property="Margin" Value="5"/>
                                 </Style>
                             </ListView.ItemContainerStyle>
@@ -164,7 +165,7 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontSize="17" FontWeight="Medium" Text="{Binding media.title}" HorizontalAlignment="Center"/>
+                                        <TextBlock FontSize="17" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis" FontWeight="Medium" Text="{Binding media.title}" HorizontalAlignment="Center"/>
                                         <ItemsControl Grid.Row="1"  ItemsSource="{Binding substories}" Margin="5">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
@@ -174,7 +175,7 @@
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding TextRepresentationLabel}" FontWeight="Medium" Margin="5,0"/>
+                                                            <TextBlock Text="{Binding TextRepresentationLabel}" FontWeight="Medium" Margin="5,0" TextTrimming="CharacterEllipsis"/>
                                                             <TextBlock Text="{Binding TextRepresentation}" FontWeight="SemiLight" Margin="5,0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                                         </StackPanel>
                                                         <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding TextRepresentationDate}" FontWeight="SemiLight"/>

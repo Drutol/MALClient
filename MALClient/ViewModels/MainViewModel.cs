@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -201,7 +202,7 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-                if (Settings.HamburgerMenuDefaultPaneState)
+                if (Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500)
                 {
                     View.Hamburger.Width = 250.0;
                     View.Logo.Visibility = Visibility.Visible;

@@ -6,6 +6,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.UserControls;
@@ -28,7 +29,7 @@ namespace MALClient
             Utils.CheckTiles();
             Loaded += (sender, args) =>
             {
-
+                LogoImage.Source =  new BitmapImage(new Uri(Settings.SelectedTheme == ApplicationTheme.Dark ? "ms-appx:///Assets/upperappbarlogowhite.png" : "ms-appx:///Assets/upperappbarlogoblue.png")) ;
                 ViewModelLocator.Main.View = this;
             };
         }

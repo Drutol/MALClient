@@ -10,7 +10,7 @@
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color= "#f3f3f3" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#F0F0F0" />
-            <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="WhiteSmoke" />
+            <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#E5E5E5" />
             <SolidColorBrush x:Key="BrushLoading" Color="Transparent"  />
             <SolidColorBrush x:Key="BrushLoadingNonTransparent" Color="#E6E6E6" Opacity=".5" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#efefef"/>

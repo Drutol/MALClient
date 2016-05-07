@@ -810,7 +810,7 @@ namespace MALClient.ViewModels
                 MyStatus == (int)AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                await PromptForStatusChange(AllEpisodes > 1 ? (int)AnimeStatus.Watching : (int)AnimeStatus.Completed);
+                await PromptForStatusChange(AllEpisodes == 1 ? (int)AnimeStatus.Completed : (int)AnimeStatus.Watching);
             }
 
             MyEpisodes++;

@@ -97,13 +97,16 @@ namespace MALClient
         {
             if (day < 0)
                 return "";
-            var sum = Settings.AirDayOffset + (int) day;
-            if (sum > 6)
-                day = (DayOfWeek)sum - 7;
-            else if (sum < 0)
-                day = (DayOfWeek) 7 + sum;
-            else
-                day += Settings.AirDayOffset;
+            if (Settings.AirDayOffset != 0)
+            {
+                var sum = Settings.AirDayOffset + (int) day;
+                if (sum > 6)
+                    day = (DayOfWeek) sum - 7;
+                else if (sum < 0)
+                    day = (DayOfWeek) 7 + sum;
+                else
+                    day += Settings.AirDayOffset;
+            }
             switch (day)
             {
                 case DayOfWeek.Friday:

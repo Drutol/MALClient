@@ -56,7 +56,7 @@ namespace MALClient.Items
             Status = data.Status;
             TxtType.Text = Type;
             TxtTitle.Text = Title;
-            TxtGlobalScore.Text = GlobalScore.ToString();
+            TxtGlobalScore.Text = GlobalScore.ToString("N2");
             TxtSynopsis.Text = data.Synopsis;
             Img.Source = new BitmapImage(new Uri(data.ImgUrl));
             WatchedEps.Text = $"{(anime ? "Episodes" : "Chapters")} : {AllEpisodes}";

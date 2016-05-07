@@ -202,7 +202,7 @@ namespace MALClient.Comm
                     throw new ArgumentOutOfRangeException();
             }
 
-            DataCache.SaveDataForUser(Credentials.UserName, output, _mode);
+            DataCache.SaveDataForUser(_source, output, _mode);
             return output;
         }
 

@@ -819,27 +819,25 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>
             </Grid.Background>
-            <Pivot SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+            <FlipView SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                    SelectionChanged="ImagePivot_OnSelectionChanged" RequestedTheme="Dark">
-                <PivotItem Header="Mal">
-                    <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped" 
+                <Grid>
+                    <ScrollViewer x:Name="StockImgScrollViewer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped" 
                           VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
                         <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="MalImage" Source="{Binding DetailImage}" Stretch="None" ImageOpened="MalImage_OnImageOpened" />
                     </ScrollViewer>
-                </PivotItem>
-                <PivotItem Header="Hummingbird" Visibility="{Binding MalApiSpecificControlsVisibility}">
-                    <Grid>
-                        <Grid Visibility="{Binding LoadingHummingbirdImage}">
-                            <ProgressRing HorizontalAlignment="Stretch" Width="50" Height="50" VerticalAlignment="Stretch" IsActive="True" />
-                        </Grid>
-                        <TextBlock Text="Unavailable for manga. :(" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding AlternateImageUnavailableNoticeVisibility}"/>
-                        <ScrollViewer x:Name="AlternateImgScrollViewer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewerAlternate_OnDoubleTapped" 
-                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
-                            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="AlternateImage" Source="{Binding HummingbirdImage}" Stretch="Uniform" ImageOpened="AlternateImage_OnImageOpened"/>
-                        </ScrollViewer>
+                </Grid>
+                <Grid Visibility="{Binding MalApiSpecificControlsVisibility}">
+                    <Grid Visibility="{Binding LoadingHummingbirdImage}">
+                        <ProgressRing HorizontalAlignment="Stretch" Width="50" Height="50" VerticalAlignment="Stretch" IsActive="True" />
                     </Grid>
-                </PivotItem>
-            </Pivot>
+                    <TextBlock Text="Unavailable for manga. :(" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding AlternateImageUnavailableNoticeVisibility}"/>
+                    <ScrollViewer x:Name="AlternateImgScrollViewer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DoubleTapped="ScrollViewerAlternate_OnDoubleTapped" 
+                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3" HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
+                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="AlternateImage" Source="{Binding HummingbirdImage}" Stretch="Uniform" ImageOpened="AlternateImage_OnImageOpened"/>
+                    </ScrollViewer>
+                </Grid>
+            </FlipView>
             <TextBlock Margin="5,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="CurrentImgDimesnions" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
             <Button Background="{ThemeResource BrushDetailsMoreButton}" Grid.Row="1" 
                     Content="Save" HorizontalAlignment="Stretch" Margin="5" 

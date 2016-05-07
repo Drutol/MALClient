@@ -14,8 +14,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
@@ -31,7 +30,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Image}" Stretch="Fill" HorizontalAlignment="Left" 
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" Stretch="Fill" HorizontalAlignment="Left" 
                Width="Auto"
                MaxWidth="120" Margin="1,1" />
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,0"

@@ -43,7 +43,7 @@
                             <TextBlock FontWeight="Medium" FontSize="25" Foreground="White" Text="{Binding CurrentData.name}" Margin="5"/>
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Visibility="{Binding CurrentData.waifu,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" >
                                 <TextBlock Text="{Binding CurrentData.waifu_or_husbando}" FontWeight="Medium" FontSize="18" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentData.waifu}"/>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding CurrentData.waifu}" Foreground="White"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="5">

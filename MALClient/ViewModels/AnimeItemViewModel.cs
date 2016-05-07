@@ -25,7 +25,7 @@ namespace MALClient.ViewModels
     {
         public const string InvalidStartEndDate = "0000-00-00";
         //
-        private readonly string _imgUrl;
+        public string ImgUrl { get; set; }
         public readonly AnimeItemAbstraction ParentAbstraction;
         private float _globalScore;
         private bool _seasonalState;
@@ -103,9 +103,8 @@ namespace MALClient.ViewModels
         private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
         {
             ParentAbstraction = parent;
-            _imgUrl = img;
+            ImgUrl = img;
             Id = id;
-            Image = new BitmapImage(new Uri(_imgUrl));
             AdjustIncrementButtonsOrientation();
             if (!ParentAbstraction.RepresentsAnime)
             {
@@ -422,7 +421,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString();
+        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString("N2");
 
         public float GlobalScore
         {
@@ -433,18 +432,6 @@ namespace MALClient.ViewModels
                     return;
                 _globalScore = value;
                 RaisePropertyChanged(() => GlobalScoreBind);
-            }
-        }
-
-        private BitmapImage _image;
-
-        public BitmapImage Image
-        {
-            get { return _image; }
-            set
-            {
-                _image = value;
-                RaisePropertyChanged(() => Image);
             }
         }
 
@@ -737,7 +724,7 @@ namespace MALClient.ViewModels
         //Pinned with custom link.
         public void PinTile(string url = null)
         {
-            Utils.PinTile(url ?? TileUrlInput, Id, _imgUrl, Title);
+            Utils.PinTile(url ?? TileUrlInput, Id, ImgUrl, Title);
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 
@@ -828,7 +815,7 @@ namespace MALClient.ViewModels
                 MyStatus == (int) AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                await PromptForStatusChange(AllEpisodes > 1 ? (int) AnimeStatus.Watching : (int) AnimeStatus.Completed);
+                await PromptForStatusChange(AllEpisodes == 1 ? (int)AnimeStatus.Completed : (int)AnimeStatus.Watching);
             }
 
             MyEpisodes++;

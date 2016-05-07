@@ -119,7 +119,7 @@ namespace MALClient
 
         public static int AirDayOffset
          {
-             get { return (int) (ApplicationData.Current.LocalSettings.Values["AirDayOffset"] ?? 30); }
+             get { return (int) (ApplicationData.Current.LocalSettings.Values["AirDayOffset"] ?? 0); }
              set { ApplicationData.Current.LocalSettings.Values["AirDayOffset"] = value; }
          }
 

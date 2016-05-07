@@ -868,6 +868,8 @@ namespace MALClient.ViewModels
             get { return _currentlySelectedImagePivotIndex; }
             set
             {
+                if(Settings.SelectedApiType == ApiType.Hummingbird)
+                    return;
                 _currentlySelectedImagePivotIndex = value;
                 if(value == 1 && HummingbirdImage == null)
                     LoadHummingbirdCoverImage();
@@ -1208,7 +1210,7 @@ namespace MALClient.ViewModels
 
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
-            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString()));
+            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
@@ -1426,7 +1428,7 @@ namespace MALClient.ViewModels
             _loadedReviews = true;
             Reviews.Clear();
             var revs = new List<AnimeReviewData>();
-            await Task.Run(async () => revs = await new AnimeReviewsQuery(Id, _animeMode).GetAnimeReviews(force));
+            await Task.Run(async () => revs = await new AnimeReviewsQuery(MalId, _animeMode).GetAnimeReviews(force));
             if (revs == null)
             {
                 LoadingReviews = Visibility.Collapsed;
@@ -1453,7 +1455,7 @@ namespace MALClient.ViewModels
                 Task.Run(
                     async () =>
                         recomm =
-                            await new AnimeDirectRecommendationsQuery(Id, _animeMode).GetDirectRecommendations(force));
+                            await new AnimeDirectRecommendationsQuery(MalId, _animeMode).GetDirectRecommendations(force));
             if (recomm == null)
             {
                 LoadingRecommendations = Visibility.Collapsed;
@@ -1474,7 +1476,7 @@ namespace MALClient.ViewModels
             _loadedRelated = true;
             RelatedAnime.Clear();
             var related = new List<RelatedAnimeData>();
-            await Task.Run(async () => related = await new AnimeRelatedQuery(Id, _animeMode).GetRelatedAnime(force));
+            await Task.Run(async () => related = await new AnimeRelatedQuery(MalId, _animeMode).GetRelatedAnime(force));
             if (related == null)
             {
                 LoadingRelated = Visibility.Collapsed;
@@ -1501,7 +1503,7 @@ namespace MALClient.ViewModels
             AlternateImageUnavailableNoticeVisibility = Visibility.Collapsed;
             LoadingHummingbirdImage = Visibility.Visible;
             AnimeDetailsData data = null;
-            await Task.Run( async () => data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails());
+            await Task.Run( async () => data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails());
             if (data?.AlternateCoverImgUrl != null)
             {
                 _alternateImgUrl = data.AlternateCoverImgUrl;

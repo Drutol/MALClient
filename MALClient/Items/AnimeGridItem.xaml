@@ -13,6 +13,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
@@ -26,7 +27,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding Image}" MaxWidth="{Binding MaxWidth}" />
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" MaxWidth="{Binding MaxWidth}" />
         <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>

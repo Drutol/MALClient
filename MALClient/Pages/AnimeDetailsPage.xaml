@@ -285,7 +285,7 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <Border BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                            <Border Visibility="{Binding MalApiSpecificControlsVisibility}" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                 <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
@@ -342,7 +342,7 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </controls:AlternatingListView>
-                                            <Border BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                            <Border Visibility="{Binding MalApiSpecificControlsVisibility}" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                 <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
@@ -827,7 +827,7 @@
                         <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="MalImage" Source="{Binding DetailImage}" Stretch="None" ImageOpened="MalImage_OnImageOpened" />
                     </ScrollViewer>
                 </PivotItem>
-                <PivotItem Header="Hummingbird">
+                <PivotItem Header="Hummingbird" Visibility="{Binding MalApiSpecificControlsVisibility}">
                     <Grid>
                         <Grid Visibility="{Binding LoadingHummingbirdImage}">
                             <ProgressRing HorizontalAlignment="Stretch" Width="50" Height="50" VerticalAlignment="Stretch" IsActive="True" />

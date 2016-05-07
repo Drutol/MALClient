@@ -64,7 +64,7 @@ namespace MALClient.ViewModels
         private string _imgUrl;
         private bool _animeMode;
         private IAnimeData _animeItemReference; //our connection with everything
-        private int Id { get; set; }
+        public int Id { get; set; }
         private int MalId { get; set; }
         public string Title { get; set; }
         public IDetailsViewInteraction View { private get; set; } //used to hide flyout
@@ -458,6 +458,9 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => LoadingRecommendations);
             }
         }
+
+        public Visibility MalApiSpecificControlsVisibility
+             => Settings.SelectedApiType == ApiType.Mal? Visibility.Visible : Visibility.Collapsed;
 
         private Visibility _detailedDataVisibility;
 
@@ -996,7 +999,16 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = true;
             var prevScore = MyScore;
-            MyScore = Convert.ToInt32(score as string);
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+            {
+                MyScore = (float) Convert.ToDouble(score as string)/2;
+                if (MyScore == prevScore)
+                    MyScore = 0;
+            }
+            else
+            {
+                MyScore = Convert.ToInt32(score as string);
+            }
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = prevScore;
@@ -1197,10 +1209,10 @@ namespace MALClient.ViewModels
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString()));
-            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" ? "?" : StartDate));
+            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
-            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" ? "?" : EndDate));
+            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
 
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentStatus = Title;

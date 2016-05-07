@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models;
+using MALClient.Models.ApiResponses;
 using MALClient.Models.Favourites;
 using Newtonsoft.Json;
 
@@ -11,7 +13,7 @@ namespace MALClient.Comm
 {
     public class ProfileQuery : Query
     {
-        public ProfileQuery()
+        public ProfileQuery(bool feed = false)
         {
             switch (CurrentApiType)
             {
@@ -21,7 +23,7 @@ namespace MALClient.Comm
                     Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{Credentials.UserName}"));
+                    Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{Credentials.UserName}{(feed ? "/feed" : "")}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
@@ -136,6 +138,18 @@ namespace MALClient.Comm
         {
             string raw = await GetRequestResponse();
             return ((dynamic)JsonConvert.DeserializeObject(raw)).avatar.ToString();
+        }
+
+        public async Task<HumProfileData> GetHumProfileData(bool force = false)
+        {
+            string raw = await GetRequestResponse();
+            return JsonConvert.DeserializeObject<HumProfileData>(raw, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+        }
+
+        public async Task<List<HumStoryObject>> GetHumFeedData(bool force = false)
+        {
+            string raw = await GetRequestResponse();
+            return JsonConvert.DeserializeObject<List<HumStoryObject>>(raw, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
         }
     }
 }

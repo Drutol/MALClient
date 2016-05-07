@@ -103,6 +103,7 @@
     </Content>
     <Content Include="AdMediator.config" />
     <PRIResource Include="MalClientResources.resw" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
     <Compile Include="Models\AnimeLibraryItemData.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
+    <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ILibraryData.cs" />
@@ -185,6 +187,9 @@
     </Compile>
     <Compile Include="Pages\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HummingbirdProfilePage.xaml.cs">
+      <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PageIndex.cs" />
     <Compile Include="Pages\IDetailsPageArgs.cs" />
@@ -230,6 +235,7 @@
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
+    <Compile Include="ViewModels\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationsViewModel.cs" />
@@ -241,6 +247,7 @@
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />
+    <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
@@ -320,6 +327,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AnimeSearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HummingbirdProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

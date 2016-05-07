@@ -60,7 +60,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock Text="Some fancy picture goes there." Grid.Row="0" Width="310" Height="150" HorizontalAlignment="Center" TextAlignment="Center"
+            <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
                VerticalAlignment="Center" />
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                     MinWidth="200">

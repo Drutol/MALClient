@@ -54,6 +54,7 @@ namespace MALClient.Pages
             if (_authenticating)
                 return;
             ProgressRing.Visibility = Visibility.Visible;
+            Settings.SelectedApiType = ApiType.Mal;
             _authenticating = true;
             Credentials.Update(UserName.Text, UserPassword.Password);
             try
@@ -61,8 +62,7 @@ namespace MALClient.Pages
                 var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
-                var doc = XDocument.Parse(response);
-                Settings.SelectedApiType = ApiType.Mal;
+                var doc = XDocument.Parse(response);               
                 Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Credentials.SetAuthStatus(true);
             }
@@ -122,6 +122,7 @@ namespace MALClient.Pages
             if (_authenticating)
                 return;
             ProgressRingHum.Visibility = Visibility.Visible;
+            Settings.SelectedApiType = ApiType.Hummingbird;
             _authenticating = true;
             Credentials.Update(UserNameHum.Text, UserPasswordHum.Password);
             try
@@ -130,8 +131,7 @@ namespace MALClient.Pages
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 if (response.Contains("\"error\": \"Invalid credentials\""))
-                    throw new Exception();
-                Settings.SelectedApiType = ApiType.Hummingbird;
+                    throw new Exception();              
                 Credentials.SetAuthToken(response);
                 Credentials.SetAuthStatus(true);
             }

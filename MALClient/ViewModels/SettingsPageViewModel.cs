@@ -109,6 +109,12 @@ namespace MALClient.ViewModels
             get { return RateReminderPopUp.LaunchThresholdValue - Settings.RatePopUpStartupCounter; }
         }
 
+        public int AirDayOffset
+         {
+            get { return Settings.AirDayOffset; }
+            set { Settings.AirDayOffset = value; }
+         }
+
         public bool DataSourceAnn
         {
             get { return Settings.PrefferedDataSource == DataSource.Ann; }

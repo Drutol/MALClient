@@ -117,6 +117,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["SeasonalToPull"] = value; }
         }
 
+        public static int AirDayOffset
+         {
+             get { return (int) (ApplicationData.Current.LocalSettings.Values["AirDayOffset"] ?? 30); }
+             set { ApplicationData.Current.LocalSettings.Values["AirDayOffset"] = value; }
+         }
+
         public static string DefaultMenuTab
         {
             get { return (string) (ApplicationData.Current.LocalSettings.Values["DefaultMenuTab"] ?? "anime"); }

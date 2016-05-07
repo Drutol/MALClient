@@ -19,6 +19,11 @@ namespace MALClient.Items
             DataContext = vm;
         }
 
+        public AnimeItem()
+        {
+            InitializeComponent();
+        }
+
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         #region Swipe

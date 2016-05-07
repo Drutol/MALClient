@@ -184,6 +184,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Thickness _bottomStackPanelMargin = new Thickness(0);
+        public Thickness BottomStackPanelMargin
+        {
+            get { return _bottomStackPanelMargin; }
+            set
+            {
+                _bottomStackPanelMargin = value;
+                RaisePropertyChanged(() => BottomStackPanelMargin);
+            }
+        }
+
 
         private async void ButtonClick(object o)
         {
@@ -227,14 +238,14 @@ namespace MALClient.ViewModels
 
             _prevState = up;
 
-            _stackPanelHeightSum += up ? 50 : -50;
+            BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 48) : new Thickness(0);
         }
 
         public void PaneOpened()
         {
-            var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
-            GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
+            //var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
+            //GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
+            //GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
         }
 
         internal async Task UpdateProfileImg(bool dl = true)

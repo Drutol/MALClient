@@ -28,8 +28,6 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
-            if (Settings.SelectedApiType == ApiType.Hummingbird && index == PageIndex.PageProfile)
-                return;
 
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
@@ -103,9 +101,17 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
-                    View.Navigate(typeof (ProfilePage),args);
+                    RefreshButtonVisibility = Visibility.Visible;                  
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                        View.Navigate(typeof(ProfilePage), args);                      
+                    }
+                    else
+                    {
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
+                        View.Navigate(typeof(HummingbirdProfilePage), args);
+                    }
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();

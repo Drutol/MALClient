@@ -961,7 +961,17 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = true;
             var prevScore = MyScore;
-            MyScore = Convert.ToInt32(score as string) / (Settings.SelectedApiType == ApiType.Hummingbird ? 2 : 1);
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+            {              
+                MyScore = (float)Convert.ToDouble(score as string) / 2;
+                if (MyScore == prevScore)
+                    MyScore = 0;
+            }
+            else
+            {
+                MyScore = Convert.ToInt32(score as string);
+            }
+            
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = prevScore;

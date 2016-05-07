@@ -643,7 +643,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <TextBlock Text="Donate" FontWeight="Bold" FontSize="19" HorizontalAlignment="Center"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                        <TextBlock Text="If you would like to say 'thank you' you can do so by donating:"
+                                        <TextBlock Text="I'm just freshman student working on this app in my free time if you would like to say 'thank you' you can do so by donating:"
                                        HorizontalAlignment="Center" TextWrapping="WrapWholeWords" />
                                         <Grid Margin="10" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Center">
                                             <StackPanel>

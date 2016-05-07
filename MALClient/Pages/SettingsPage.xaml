@@ -324,6 +324,26 @@
                                 <CheckBox Margin="10" Content="Allow for valid date override under selected circumstances." HorizontalAlignment="Center"
                                            IsChecked="{Binding OverrideValidStartEndDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
+                            <MenuFlyoutSeparator Margin="0,5" Visibility="{Binding MalApiDependatedntSectionsVisibility}" />
+                            <StackPanel HorizontalAlignment="Stretch">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Text="Air day offset:" FontWeight="Medium"
+                                                   HorizontalAlignment="Center"
+                                                   TextWrapping="WrapWholeWords" />
+                                    <TextBlock Margin="10,0,0,0"
+                                                   Text="{Binding ElementName=SliderAiringOffset,Path=Value}"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                </StackPanel>
+                                <Slider x:Name="SliderAiringOffset" Minimum="-3" Maximum="3"
+                                            VerticalAlignment="Center" SnapsTo="Ticks" Value="{Binding AirDayOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5" />
+                                <TextBlock
+                                    Text="Depending on your timezone or level of pulled data inaccuracy in general you can adjust global offset for anime air days."
+                                    Margin="0,10,0,0"
+                                    FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
+                                    Visibility="Visible"
+                                    HorizontalAlignment="Center" />
+                            </StackPanel>
                             <MenuFlyoutSeparator Margin="0,5" />
                             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Stretch" Margin="5,5">

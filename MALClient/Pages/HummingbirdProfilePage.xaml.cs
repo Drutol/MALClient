@@ -53,7 +53,12 @@ namespace MALClient.Pages
 
         private void FavouritesNavDetails(object sender, ItemClickEventArgs e)
         {
-            (e.ClickedItem as AnimeItem).ViewModel.NavigateDetails();
+            (e.ClickedItem as AnimeItemViewModel).NavigateDetails();
+        }
+
+        private void IgnorePivotScroll(object sender, PointerRoutedEventArgs e)
+        {
+            e.Handled = false;
         }
     }
 }

@@ -99,6 +99,8 @@ namespace MALClient.Models.ApiResponses
                         return episode_number;
                     case "watchlist_status_update":
                         return LibraryListQuery.HummingbirdStatusToMal(new_status.Replace('_','-')).ToString();
+                    case "comment":
+                        return comment.Replace("<br>","\n");
                     default:
                         return "";
                 }
@@ -150,8 +152,22 @@ namespace MALClient.Models.ApiResponses
         public string updated_at { get; set; }
         public HumStoryMediaElement media { get; set; }
         public int substories_count { get; set; }
-        public List<Substory> substories { get; set; }
+        private List<Substory> _substories;
+        public List<Substory> substories { get
+        {
+            return _substories?.Where(substory => substory.substory_type != "reply").ToList();
+        } set { _substories = value; } }
         public bool? self_post { get; set; }
         public HumStoryPoster poster { get; set; }
+        public string TextRepresentationDate
+        {
+            get
+            {
+                var date = DateTimeOffset.Now.Subtract(DateTimeOffset.Parse(updated_at));
+                if (date.TotalDays >= 1)
+                    return $"{date.Days}d ago";
+                return date.Hours == 0 ? $"{date.Minutes}m ago" : $"{date.Hours}h ago";
+            }
+        }
     }
 }

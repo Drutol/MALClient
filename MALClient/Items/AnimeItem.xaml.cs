@@ -19,6 +19,11 @@ namespace MALClient.Items
             InitializeComponent();
             DataContext = vm;
         }
+
+        public AnimeItem() //xaml constructor
+        {
+            InitializeComponent();
+        }
       
         public void ClearImage()
         {

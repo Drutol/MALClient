@@ -149,8 +149,11 @@ namespace MALClient.ViewModels
                 case PageIndex.PageProfile:
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
                     if(Settings.SelectedApiType == ApiType.Mal)
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
+                    else
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
+                    if (Settings.SelectedApiType == ApiType.Mal)
                         View.Navigate(typeof (ProfilePage),args);
                     else
                         View.Navigate(typeof(HummingbirdProfilePage), args);

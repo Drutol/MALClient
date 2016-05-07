@@ -15,13 +15,14 @@ namespace MALClient.ViewModels
     {
         public HumProfileData CurrentData { get; set; } = new HumProfileData();
         public List<HumStoryObject> FeedData { get; set; } = new List<HumStoryObject>();
+        public List<HumStoryObject> SocialFeedData { get; set; } = new List<HumStoryObject>();
 
-        public ObservableCollection<AnimeItem> FavAnime { get; } = new ObservableCollection<AnimeItem>();
+        public ObservableCollection<AnimeItemViewModel> FavAnime { get; } = new ObservableCollection<AnimeItemViewModel>();
 
         private bool _loaded;
-        public async void Init()
+        public async void Init(bool force = false)
         {
-            if (!_loaded)
+            if (!_loaded || force)
             {
                 FavAnime.Clear();
                 CurrentData = await new ProfileQuery().GetHumProfileData();
@@ -30,12 +31,14 @@ namespace MALClient.ViewModels
                     var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
                     if (data != null)
                     {
-                        FavAnime.Add((data as AnimeItemViewModel).ParentAbstraction.AnimeItem);
+                        FavAnime.Add(data as AnimeItemViewModel);
                     }
                 }
                 RaisePropertyChanged(() => CurrentData);
                 FeedData = await new ProfileQuery(true).GetHumFeedData();
+                SocialFeedData = FeedData.Where(o => o.story_type == "comment").ToList();
                 FeedData = FeedData.Where(o => o.story_type == "media_story").ToList();
+
                 RaisePropertyChanged(() => FeedData);
             }    
         }

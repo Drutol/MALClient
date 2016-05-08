@@ -72,7 +72,6 @@ namespace MALClient.ViewModels
         public bool AreThereItemsWaitingForLoad => _animeItemsSet.Count != 0;
         public int CurrentStatus => GetDesiredStatus();
 
-<<<<<<< HEAD
         public double ListItemGridWidth
         {
             get
@@ -84,8 +83,6 @@ namespace MALClient.ViewModels
             }
         }
 
-=======
->>>>>>> origin/x86-x64-WideUI
         public async Task Init(AnimeListPageNavigationArgs args)
         {
             //base
@@ -582,13 +579,6 @@ namespace MALClient.ViewModels
             switch (WorkMode)
             {
                 case AnimeListWorkModes.SeasonalAnime:
-<<<<<<< HEAD
-=======
-                    //var seasonResponse = new List<SeasonalAnimeData>();
-                    //await Task.Run(new Func<Task>(async () =>
-                    //    seasonResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime()));
-                    //data.AddRange(seasonResponse);
->>>>>>> origin/x86-x64-WideUI
                     var tResponse = new List<SeasonalAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
                         tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime()));
@@ -598,12 +588,8 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.TopManga:
                     var topResponse = new List<TopAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
-<<<<<<< HEAD
                         topResponse =
                             await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
-=======
-                        topResponse =await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
->>>>>>> origin/x86-x64-WideUI
                     data.AddRange(topResponse);
                     break;
             }
@@ -744,11 +730,7 @@ namespace MALClient.ViewModels
                 {
                     item.ViewModel.SignalBackToList();
                 }
-<<<<<<< HEAD
                 if (_prevWorkMode != modeOverride)
-=======
-                if(_prevWorkMode != modeOverride)
->>>>>>> origin/x86-x64-WideUI
                     await RefreshList();
                 return;
             }

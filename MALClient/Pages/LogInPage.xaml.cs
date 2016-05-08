@@ -26,7 +26,6 @@ namespace MALClient.Pages
             InitializeComponent();
 
             Utils.GetMainPageInstance()
-<<<<<<< HEAD
                 .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
             switch (Settings.SelectedApiType)
             {
@@ -95,9 +94,6 @@ namespace MALClient.Pages
             ToggleHum.IsChecked = false;
             HumLoginGrid.Visibility = Visibility.Collapsed;
             MALLoginGrid.Visibility = Visibility.Visible;
-=======
-                .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";            
->>>>>>> origin/x86-x64-WideUI
         }
 
         //prepare for big copy pasteeee...

@@ -261,7 +261,15 @@ namespace MALClient.ViewModels
 
         private async void OpenMalPage()
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+            if (Settings.SelectedApiType == ApiType.Mal)
+            {
+                await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/anime/{Id}"));
+            }
+
         }
 
         private async void OpenAnnPage()
@@ -773,7 +781,14 @@ namespace MALClient.ViewModels
                 return _copyToClipboardCommand ?? (_copyToClipboardCommand = new RelayCommand(() =>
                 {
                     var dp = new DataPackage();
-                    dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                    }
+                    else
+                    {
+                        dp.SetText($"https://hummingbird.me/anime/{Id}");
+                    }                 
                     Clipboard.SetContent(dp);
                     Utils.GiveStatusBarFeedback("Copied to clipboard...");
                 }));

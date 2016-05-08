@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using Microsoft.Advertising.WinRT.UI;
@@ -133,7 +134,10 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += async (sender, args) =>
                     {
-                        var msg = new MessageDialog("Microsoft has no ads for you :(\nYou can still donate if you want to...","Thanks for trying!");
+                        var msg =
+                            new MessageDialog(
+                                "Microsoft has no ads for you :(\nYou can still donate if you want to...",
+                                "Thanks for trying!");
                         await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                     };
@@ -144,6 +148,9 @@ namespace MALClient.ViewModels
                     ));
             }
         }
+
+        public Visibility MalApiSpecificButtonsVisibility
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility UsrImgPlaceholderVisibility
         {
@@ -165,6 +172,8 @@ namespace MALClient.ViewModels
             }
         }
 
+
+
         public int MenuPivotSelectedIndex
         {
             get { return _menuPivotSelectedIndex; }
@@ -172,6 +181,17 @@ namespace MALClient.ViewModels
             {
                 _menuPivotSelectedIndex = value;
                 RaisePropertyChanged(() => MenuPivotSelectedIndex);
+            }
+        }
+
+        private Thickness _bottomStackPanelMargin = new Thickness(0);
+        public Thickness BottomStackPanelMargin
+        {
+            get { return _bottomStackPanelMargin; }
+            set
+            {
+                _bottomStackPanelMargin = value;
+                RaisePropertyChanged(() => BottomStackPanelMargin);
             }
         }
 
@@ -218,14 +238,14 @@ namespace MALClient.ViewModels
 
             _prevState = up;
 
-            _stackPanelHeightSum += up ? 50 : -50;
+            BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 48) : new Thickness(0);
         }
 
         public void PaneOpened()
         {
-            var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
-            GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
+            //var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
+            //GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
+            //GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
         }
 
         internal async Task UpdateProfileImg(bool dl = true)
@@ -322,6 +342,11 @@ namespace MALClient.ViewModels
         public void UpdateLogInLabel()
         {
             RaisePropertyChanged(() => LogInLabel);
+        }
+
+        public void UpdateApiDependentButtons()
+        {
+            RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
         }
     }
 }

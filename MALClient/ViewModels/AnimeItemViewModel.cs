@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
+using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Pages;
 
@@ -23,18 +25,11 @@ namespace MALClient.ViewModels
     {
         public const string InvalidStartEndDate = "0000-00-00";
         //
-        private readonly string _imgUrl;
+        public string ImgUrl { get; set; }
         public readonly AnimeItemAbstraction ParentAbstraction;
         private float _globalScore;
         private bool _seasonalState;
         //prop field pairs
-
-        static AnimeItemViewModel()
-        {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width/2.1;
-        }
 
         public static double MaxWidth { get; set; }
 
@@ -44,9 +39,16 @@ namespace MALClient.ViewModels
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
+            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
+                return;
+            int id = Id;
+            if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
+            {
+                id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
+            }
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(Id, Title, null, this,
+                    new AnimeDetailsPageNavigationArgs(id, Title, null, this,
                         argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
                     {
                         Source = sourceOverride ?? (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
@@ -79,8 +81,8 @@ namespace MALClient.ViewModels
                 ParentAbstraction.RepresentsAnime
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
-            if (!response.Contains("Created"))
-                return; //TODO: Handle
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
+                return;
             _seasonalState = false;
             SetAuthStatus(true);
             MyScore = 0;
@@ -101,9 +103,8 @@ namespace MALClient.ViewModels
         private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
         {
             ParentAbstraction = parent;
-            _imgUrl = img;
+            ImgUrl = img;
             Id = id;
-            Image = new BitmapImage(new Uri(_imgUrl));
             AdjustIncrementButtonsOrientation();
             if (!ParentAbstraction.RepresentsAnime)
             {
@@ -114,7 +115,7 @@ namespace MALClient.ViewModels
         }
 
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, string startDate, string endDate,
+            float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
         //We are loading an item that IS on the list
         {
@@ -141,7 +142,7 @@ namespace MALClient.ViewModels
 
         //manga
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
-            int myScore, string startDate, string endDate,
+            float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth, int myVolumes, int allVolumes)
             : this(auth, name, img, id, myStatus, myEps, allEps, myScore, startDate, endDate, parent, setEpsAuth)
         {
@@ -294,10 +295,10 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/10";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
-        public int MyScore
+        public float MyScore
         {
             get { return ParentAbstraction.MyScore; }
             set
@@ -420,7 +421,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString();
+        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString("N2");
 
         public float GlobalScore
         {
@@ -431,18 +432,6 @@ namespace MALClient.ViewModels
                     return;
                 _globalScore = value;
                 RaisePropertyChanged(() => GlobalScoreBind);
-            }
-        }
-
-        private BitmapImage _image;
-
-        public BitmapImage Image
-        {
-            get { return _image; }
-            set
-            {
-                _image = value;
-                RaisePropertyChanged(() => Image);
             }
         }
 
@@ -735,7 +724,7 @@ namespace MALClient.ViewModels
         //Pinned with custom link.
         public void PinTile(string url = null)
         {
-            Utils.PinTile(url ?? TileUrlInput, Id, _imgUrl, Title);
+            Utils.PinTile(url ?? TileUrlInput, Id, ImgUrl, Title);
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 
@@ -826,17 +815,19 @@ namespace MALClient.ViewModels
                 MyStatus == (int) AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                await PromptForStatusChange(AllEpisodes > 1 ? (int) AnimeStatus.Watching : (int) AnimeStatus.Completed);
+                await PromptForStatusChange(AllEpisodes == 1 ? (int)AnimeStatus.Completed : (int)AnimeStatus.Watching);
             }
 
             MyEpisodes++;
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
             {
                 MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
                 AdjustIncrementButtonsVisibility();
             }
+
+            ParentAbstraction.LastWatched = DateTime.Now;
 
             if (trigCompleted && MyEpisodes == _allEpisodes && _allEpisodes != 0)
                 await PromptForStatusChange((int) AnimeStatus.Completed);
@@ -850,7 +841,7 @@ namespace MALClient.ViewModels
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
             {
                 MyEpisodes++;
                 AdjustIncrementButtonsVisibility();
@@ -875,14 +866,14 @@ namespace MALClient.ViewModels
                 var prevWatched = MyEpisodes;
                 MyEpisodes = watched;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = prevWatched;
 
                 if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
                     await PromptForStatusChange((int) AnimeStatus.Completed);
 
                 AdjustIncrementButtonsVisibility();
-
+                ParentAbstraction.LastWatched = DateTime.Now;
 
                 LoadingUpdate = Visibility.Collapsed;
                 WatchedEpsInput = "";
@@ -909,7 +900,7 @@ namespace MALClient.ViewModels
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = myPrevStatus;
 
             if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
@@ -922,9 +913,18 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
             var myPrevScore = MyScore;
-            MyScore = Convert.ToInt32(score);
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+            {
+                MyScore = (float)Convert.ToDouble(score as string) / 2;
+                if (MyScore == myPrevScore)
+                    MyScore = 0;
+            }
+            else
+            {
+                MyScore = Convert.ToInt32(score as string);
+            }
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = myPrevScore;
 
             LoadingUpdate = Visibility.Collapsed;
@@ -951,7 +951,7 @@ namespace MALClient.ViewModels
                 var myPrevStatus = MyStatus;
                 MyStatus = to;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyStatus = myPrevStatus;
             }
         }
@@ -971,7 +971,7 @@ namespace MALClient.ViewModels
                 var myPrevEps = MyEpisodes;
                 MyEpisodes = to;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyStatus = myPrevEps;
 
                 AdjustIncrementButtonsVisibility();
@@ -979,5 +979,45 @@ namespace MALClient.ViewModels
         }
 
         #endregion
+
+        static AnimeItemViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width / 2.1;
+            UpdateScoreFlyoutChoices();
+        }
+
+        public static List<string> ScoreFlyoutChoices { get; set; }
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling",
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling",
+                };
+        }
     }
 }

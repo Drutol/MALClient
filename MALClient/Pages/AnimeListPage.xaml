@@ -30,7 +30,7 @@
                     <AppBarButton.Flyout>
                         <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
                             <StackPanel>
-                                <TextBlock VerticalAlignment="Center" Text="MAL Username:" />
+                                <TextBlock VerticalAlignment="Center" Text="Username:" />
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="TxtListSource"
                                              Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -88,6 +88,8 @@
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
                                                       Visibility="{Binding SortAirDayVisibility}" />
+                                <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched" Click="SelectSortMode"
+                                                      Visibility="{Binding HumApiSpecificControlsVisibility}" />
                                 <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
@@ -155,7 +157,7 @@
             </Pivot.HeaderTemplate>
         </Pivot>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}"
-                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
+                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -166,15 +168,25 @@
                     <Setter Property="BorderThickness" Value="5,0,0,0" />
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <item:AnimeItem DataContext="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
-        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
-                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
+        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeItems}"
+                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="{Binding MaxGridColumns}" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <item:AnimeGridItem DataContext="{Binding}"/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
         </GridView>
         <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">

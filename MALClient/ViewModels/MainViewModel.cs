@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Pages;
 
 namespace MALClient.ViewModels
@@ -27,6 +28,7 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
+
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             MenuPaneState = false;
@@ -99,9 +101,17 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
-                    View.Navigate(typeof (ProfilePage),args);
+                    RefreshButtonVisibility = Visibility.Visible;                  
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                        View.Navigate(typeof(ProfilePage), args);                      
+                    }
+                    else
+                    {
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
+                        View.Navigate(typeof(HummingbirdProfilePage), args);
+                    }
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();

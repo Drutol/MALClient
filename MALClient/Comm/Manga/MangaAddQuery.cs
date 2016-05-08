@@ -8,6 +8,8 @@ namespace MALClient.Comm
     {
         public MangaAddQuery(string id)
         {
+            MangaUpdateQuery.UpdatedSomething = true;
+
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
@@ -21,7 +23,6 @@ namespace MALClient.Comm
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");
             //xml.AppendLine("<rewatch_value></rewatch_value>");
-            //xml.AppendLine("<date_start></date_start>");
             //xml.AppendLine("<date_finish></date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");

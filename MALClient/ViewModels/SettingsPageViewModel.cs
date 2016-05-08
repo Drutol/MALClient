@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.System;
+using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -108,6 +109,12 @@ namespace MALClient.ViewModels
             get { return RateReminderPopUp.LaunchThresholdValue - Settings.RatePopUpStartupCounter; }
         }
 
+        public int AirDayOffset
+         {
+            get { return Settings.AirDayOffset; }
+            set { Settings.AirDayOffset = value; }
+         }
+
         public bool DataSourceAnn
         {
             get { return Settings.PrefferedDataSource == DataSource.Ann; }
@@ -157,6 +164,8 @@ namespace MALClient.ViewModels
         }
 
         public List<NewsData> CurrentNews { get; set; } = new List<NewsData>();
+
+        public Visibility MalApiDependatedntSectionsVisibility => Settings.SelectedApiType == ApiType.Mal? Visibility.Visible : Visibility.Collapsed;
 
         private bool _newsLoaded;
         public async void LoadNews()

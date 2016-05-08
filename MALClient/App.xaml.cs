@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -12,6 +13,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
+using MALClient.Pages;
+using MALClient.ViewModels;
 using Microsoft.ApplicationInsights;
 
 namespace MALClient
@@ -61,6 +64,14 @@ namespace MALClient
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //nothing
+                }
+                if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
+                    //Crashed - we have to remove cached anime list
+                {
+                    if (Settings.IsCachingEnabled)
+                    {
+                        await DataCache.ClearAnimeListData(); //clear all cached users data
+                    }
                 }
                 if (e.PrelaunchActivated)
                 {
@@ -164,10 +175,18 @@ namespace MALClient
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            if (Settings.IsCachingEnabled)
+            {
+                if (AnimeUpdateQuery.UpdatedSomething)
+                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
+                if (MangaUpdateQuery.UpdatedSomething)
+                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
+            }
+            await DataCache.SaveVolatileData();
+            await DataCache.SaveHumMalIdDictionary();
             deferral.Complete();
         }
     }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using MALClient.Models;
+using MALClient.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm.Anime
@@ -12,7 +13,7 @@ namespace MALClient.Comm.Anime
     internal class AnimeDetailsHummingbirdQuery : Query
     {
         private static readonly string _apiKey;
-
+        public static Dictionary<int,int> MalToHumId = new Dictionary<int, int>();
         private readonly int _id;
 
         static AnimeDetailsHummingbirdQuery()
@@ -36,7 +37,7 @@ namespace MALClient.Comm.Anime
             var possibleData = force
                 ? null
                 : await DataCache.RetrieveAnimeGeneralDetailsData(_id, DataSource.Hummingbird);
-            if (possibleData != null && possibleData.AlternateCoverImgUrl != null)
+            if (possibleData != null)
                 return possibleData;
             Request.Headers["X-Client-Id"] = _apiKey;
             var raw = await GetRequestResponse(false);
@@ -68,6 +69,26 @@ namespace MALClient.Comm.Anime
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+
+        public async Task<int> GetHummingbirdId(bool force = false)
+        {
+            Request.Headers["X-Client-Id"] = _apiKey;
+            var raw = await GetRequestResponse(false);
+
+            try
+            {
+                dynamic jsonObj = JsonConvert.DeserializeObject(raw);
+                int val = int.Parse(jsonObj.anime.id.ToString());
+                if (!MalToHumId.ContainsKey(_id))
+                    MalToHumId.Add(_id, val);
+                return val;
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
     }

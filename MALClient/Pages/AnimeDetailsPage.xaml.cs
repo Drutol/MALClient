@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Comm;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -127,7 +128,7 @@ namespace MALClient.Pages
 
         private void ScrollViewer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            (sender as ScrollViewer).ZoomToFactor(1);
+            (sender as ScrollViewer).ZoomToFactor(Settings.SelectedApiType == ApiType.Mal ? 1 : 0.5f);
         }
 
         private void ScrollViewerAlternate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -144,15 +145,26 @@ namespace MALClient.Pages
 
         private void MalImage_OnImageOpened(object sender, RoutedEventArgs e)
         {
+            StockImgScrollViewer.ZoomToFactor(Settings.SelectedApiType == ApiType.Mal ? 1 : 0.5f);
             CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
         }
 
         private void ImagePivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if((sender as Pivot).SelectedIndex == 0 && ViewModel?.DetailImage != null)
-                CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
-            else if(ViewModel?.HummingbirdImage != null)
-                CurrentImgDimesnions.Text = $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
+            try
+            {
+                if ((sender as FlipView).SelectedIndex == 0 && ViewModel?.DetailImage != null)
+                    CurrentImgDimesnions.Text =
+                        $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
+                else if (ViewModel?.HummingbirdImage != null)
+                    CurrentImgDimesnions.Text =
+                        $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
+            }
+            catch (Exception)
+            {
+                //voodoo
+            }
+
         }
 
         private void StartDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)

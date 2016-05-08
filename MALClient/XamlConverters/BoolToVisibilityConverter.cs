@@ -8,6 +8,10 @@ namespace MALClient.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            if (value == null)
+                return Visibility.Collapsed;
+            if (!(value is bool))
+                return Visibility.Visible;
             return (bool) value ? Visibility.Visible : Visibility.Collapsed;
         }
 

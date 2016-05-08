@@ -25,7 +25,7 @@ namespace MALClient.ViewModels
 {
     public class AnimeDetailsPageNavigationArgs
     {
-        public readonly XElement AnimeElement;
+        public readonly AnimeGeneralDetailsData AnimeElement;
         public readonly IAnimeData AnimeItem;
         public readonly int Id;
         public readonly object PrevPageSetup;
@@ -35,7 +35,7 @@ namespace MALClient.ViewModels
         public PageIndex Source;
         public int SourceTabIndex;
 
-        public AnimeDetailsPageNavigationArgs(int id, string title, XElement element, IAnimeData animeReference,
+        public AnimeDetailsPageNavigationArgs(int id, string title, AnimeGeneralDetailsData element, IAnimeData animeReference,
             object args = null)
         {
             Id = id;
@@ -64,7 +64,8 @@ namespace MALClient.ViewModels
         private string _imgUrl;
         private bool _animeMode;
         private IAnimeData _animeItemReference; //our connection with everything
-        private int _id;
+        public int Id { get; set; }
+        private int MalId { get; set; }
         public string Title { get; set; }
         public IDetailsViewInteraction View { private get; set; } //used to hide flyout
         //additional fields
@@ -128,7 +129,7 @@ namespace MALClient.ViewModels
             //basic init assignment
             _animeItemReference = param.AnimeItem ;
             _animeMode = param.AnimeMode;           
-            _id = param.Id;
+            Id = param.Id;
             Title = param.Title;
 
             //so there will be no floting start/end dates
@@ -197,9 +198,6 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyStatusBind);
                 RaisePropertyChanged(() => MyScoreBind);
-                RaisePropertyChanged(() => MyEpisodesBind);
-                RaisePropertyChanged(() => MyStatusBind);
-                RaisePropertyChanged(() => MyScoreBind);
                 RaisePropertyChanged(() => MyStartDate);
                 RaisePropertyChanged(() => MyEndDate);
             }
@@ -215,11 +213,11 @@ namespace MALClient.ViewModels
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
-                    await FetchData(param.Id.ToString(), param.Title);
+                    await FetchData();
                     NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeDetails:
-                    await FetchData(param.Id.ToString(), param.Title);
+                    await FetchData();
                     if (param.RegisterBackNav) //we are already going back
                         NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
                     break;
@@ -235,7 +233,7 @@ namespace MALClient.ViewModels
 
         private async void OpenMalPage()
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{_id}"));
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
         }
 
         private async void OpenAnnPage()
@@ -245,10 +243,14 @@ namespace MALClient.ViewModels
 
         private async void NavigateDetails(IDetailsPageArgs args)
         {
+            if (Settings.SelectedApiType == ApiType.Hummingbird) //recoms and review have mal id so we have to walk around thid
+            {
+                args.Id = await new AnimeDetailsHummingbirdQuery(args.Id).GetHummingbirdId();
+            }
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
-                        new AnimeDetailsPageNavigationArgs(_id, Title, null, _animeItemReference)
+                        new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
                         {
                             Source = PageIndex.PageAnimeDetails,
                             RegisterBackNav = false,
@@ -286,9 +288,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/10";
+        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
-        private int MyScore
+        private float MyScore
         {
             get { return _animeItemReference?.MyScore ?? 0; }
             set
@@ -460,6 +462,9 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => LoadingRecommendations);
             }
         }
+
+        public Visibility MalApiSpecificControlsVisibility
+             => Settings.SelectedApiType == ApiType.Mal? Visibility.Visible : Visibility.Collapsed;
 
         private Visibility _detailedDataVisibility;
 
@@ -634,7 +639,7 @@ namespace MALClient.ViewModels
                 return _copyToClipboardCommand ?? (_copyToClipboardCommand = new RelayCommand(() =>
                 {
                     var dp = new DataPackage();
-                    dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{_id}");
+                    dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
                     Clipboard.SetContent(dp);
                     Utils.GiveStatusBarFeedback("Copied to clipboard...");
                 }));
@@ -867,6 +872,8 @@ namespace MALClient.ViewModels
             get { return _currentlySelectedImagePivotIndex; }
             set
             {
+                if(Settings.SelectedApiType == ApiType.Hummingbird)
+                    return;
                 _currentlySelectedImagePivotIndex = value;
                 if(value == 1 && HummingbirdImage == null)
                     LoadHummingbirdCoverImage();
@@ -930,10 +937,10 @@ namespace MALClient.ViewModels
         private Query GetAppropriateUpdateQuery()
         {
             if (_animeMode)
-                return new AnimeUpdateQuery(_id, MyEpisodes, MyStatus, MyScore,
+                return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore,
                     (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"), //if date was untouched return "no date" value
                     (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
-            return new MangaUpdateQuery(_id, MyEpisodes, MyStatus, MyScore, MyVolumes,
+            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, (int)MyScore, MyVolumes,
                 (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"),
                 (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
         }
@@ -980,7 +987,7 @@ namespace MALClient.ViewModels
             }
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = prevStatus;
 
             if (_animeItemReference is AnimeItemViewModel)
@@ -998,9 +1005,18 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = true;
             var prevScore = MyScore;
-            MyScore = Convert.ToInt32(score as string);
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+            {
+                MyScore = (float) Convert.ToDouble(score as string)/2;
+                if (MyScore == prevScore)
+                    MyScore = 0;
+            }
+            else
+            {
+                MyScore = Convert.ToInt32(score as string);
+            }
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-            if (response != "Updated")
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = prevScore;
             LoadingUpdate = false;
         }
@@ -1022,10 +1038,11 @@ namespace MALClient.ViewModels
                 var prevWatched = MyEpisodes;
                 MyEpisodes = eps;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated")
+                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)
+                { 
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
@@ -1040,7 +1057,9 @@ namespace MALClient.ViewModels
                             ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
-                WatchedEpsInput = "";
+                    ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
+                }
+            WatchedEpsInput = "";
             }
             else
             {
@@ -1058,11 +1077,11 @@ namespace MALClient.ViewModels
             LoadingUpdate = true;
             AddAnimeBtnEnableState = false;
             var response = _animeMode
-                ? await new AnimeAddQuery(_id.ToString()).GetRequestResponse()
-                : await new MangaAddQuery(_id.ToString()).GetRequestResponse();
+                ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
+                : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             LoadingUpdate = false;
             AddAnimeBtnEnableState = true;
-            if (!response.Contains("Created") && _animeMode)
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created") && _animeMode)
                 return;
             AddAnimeVisibility = false;
             AnimeType typeA;
@@ -1083,8 +1102,10 @@ namespace MALClient.ViewModels
             }
             catch (Exception)
             {
-               //who knows what MAL has thrown at us...
+                //who knows what MAL has thrown at us...
             }
+
+
             string startDate = "0000-00-00";
             if (Settings.SetStartDateOnListAdd)
             {
@@ -1092,17 +1113,42 @@ namespace MALClient.ViewModels
                 _startDateTimeOffset = DateTimeOffset.Now; //update without mal-update
                 RaisePropertyChanged(() => StartDateTimeOffset);
             }
-
             var animeItem = _animeMode
-                            ? new AnimeItemAbstraction(true, Title, _imgUrl, type, _id, 6, 0, AllEpisodes, startDate , "0000-00-00", 0)
-                            : new AnimeItemAbstraction(true, Title, _imgUrl, type, _id, 6, 0, AllEpisodes, startDate , "0000-00-00", 0, 0, AllVolumes);
+                ? new AnimeItemAbstraction(true, new AnimeLibraryItemData
+                {
+                    Title = Title,
+                    ImgUrl = _imgUrl,
+                    Type = type,
+                    Id = Id,
+                    MalId = MalId,
+                    MyStatus = AnimeStatus.PlanToWatch,
+                    MyEpisodes = 0,
+                    MyScore = 0,
+                    MyStartDate = startDate,
+                    MyEndDate = AnimeItemViewModel.InvalidStartEndDate
+                })
+                : new AnimeItemAbstraction(true, new MangaLibraryItemData
+                {
+                    Title = Title,
+                    ImgUrl = _imgUrl,
+                    Type = type,
+                    Id = Id,
+                    MalId = MalId,
+                    MyStatus = AnimeStatus.PlanToWatch,
+                    MyEpisodes = 0,
+                    MyScore = 0,
+                    MyStartDate = startDate,
+                    MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                    AllVolumes = AllVolumes,
+                    MyVolumes = MyVolumes
+                });
             _animeItemReference = animeItem.ViewModel;
+
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
             GlobalScore = GlobalScore; //trigger setter of anime item
-            RaisePropertyChanged(() => MyStartDate);
-            if (Status == "Currently Airing")
+            if (String.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
@@ -1122,13 +1168,13 @@ namespace MALClient.ViewModels
             RemoveAnimeBtnEnableState = false;
 
             var response = _animeMode
-                ? await new AnimeRemoveQuery(_id.ToString()).GetRequestResponse()
-                : await new MangaRemoveQuery(_id.ToString()).GetRequestResponse();
+                ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
+                : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
 
             LoadingUpdate = false;
             RemoveAnimeBtnEnableState = true;
 
-            if (!response.Contains("Deleted"))
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Deleted"))
                 return;
 
             ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
@@ -1158,7 +1204,7 @@ namespace MALClient.ViewModels
                 {
                     day = -1;
                 }
-                DataCache.RegisterVolatileData(_id, new VolatileDataCache
+                DataCache.RegisterVolatileData(Id, new VolatileDataCache
                 {
                     DayOfAiring = day,
                     GlobalScore = GlobalScore
@@ -1171,11 +1217,11 @@ namespace MALClient.ViewModels
 
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
-            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString()));
-            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" ? "?" : StartDate));
+            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
+            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
-            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" ? "?" : EndDate));
+            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
 
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentStatus = Title;
@@ -1193,59 +1239,50 @@ namespace MALClient.ViewModels
                 LoadRelatedAnime();
         }
 
-        private void ExtractData(XElement animeElement)
+        private void ExtractData(AnimeGeneralDetailsData data)
         {
-            GlobalScore = float.Parse(animeElement.Element("score").Value);
-            Type = animeElement.Element("type").Value;
-            Status = animeElement.Element("status").Value;
-            Synopsis = Utils.DecodeXmlSynopsisDetail(animeElement.Element("synopsis").Value);
-            StartDate = animeElement.Element("start_date").Value;
-            EndDate = animeElement.Element("end_date").Value;
-            _imgUrl = animeElement.Element("image").Value;
-            _synonyms = animeElement.Element("synonyms").Value.Split(',').ToList();
-            _synonyms.Add(animeElement.Element("english").Value);
-            _synonyms.Add(Title);
+            Title = data.Title;
+            Type = data.Type;
+            Status = data.Status;
+            Synopsis = data.Synopsis;
+            StartDate = data.StartDate;
+            EndDate = data.EndDate;
+            GlobalScore = data.GlobalScore;
+            _imgUrl = data.ImgUrl;
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+                MalId = data.MalId;
 
+            _synonyms = data.Synonyms;
+            _synonyms.Add(Title);
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
             for (var i = 0; i < _synonyms.Count; i++)
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
             //removes string from brackets (sthsth) lol ->  lol
             if (_animeItemReference == null)
-                AllEpisodes = Convert.ToInt32(animeElement.Element(_animeMode ? "episodes" : "chapters").Value);
+                AllEpisodes = Convert.ToInt32(data.AllEpisodes);
             PopulateData();
         }
 
-        private async Task FetchData(string id, string title, bool force = false)
+        private async Task FetchData(bool force = false)
         {
             LoadingGlobal = Visibility.Visible;
-            var elem = force ? null : await DataCache.RetrieveAnimeSearchResultsData(_id, _animeMode);
+
             try
             {
-                if (elem == null)
-                {
-                    var data = "";
-                    await Task.Run(async () => data = _animeMode
-                        ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false)
-                        : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false));
-                    data = WebUtility.HtmlDecode(data);
-                    data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
-                    var parsedData = XDocument.Parse(data);
-                    var elements = parsedData.Element(_animeMode ? "anime" : "manga").Elements("entry");
-                    elem = elements.First(element => element.Element("id").Value == id);
-                    DataCache.SaveAnimeSearchResultsData(_id, elem, _animeMode);
-                }
-                ExtractData(elem);
+                var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, _animeMode);
+                ExtractData(data);
             }
             catch (Exception)
             {
                 LoadingGlobal = Visibility.Collapsed;
-                // no internet?              
+                // no internet?
             }
+
         }
 
         public async void RefreshData()
         {
-            await FetchData(_id.ToString(), Title, true);
+            await FetchData(true);
             if (_loadedDetails)
                 LoadDetails(true);
             if (_loadedReviews)
@@ -1275,18 +1312,18 @@ namespace MALClient.ViewModels
                         data =
                             await
                                 new AnimeDetailsAnnQuery(
-                                    _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), _id, Title)
+                                    _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
                                     .GetGeneralDetailsData(force);
                         break;
                     case DataSource.Hummingbird:
-                        data = await new AnimeDetailsHummingbirdQuery(_id).GetAnimeDetails(force);
+                        data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
                         break;
                     case DataSource.AnnHum:
                         data = await new AnimeDetailsAnnQuery(
-                            _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), _id, Title)
+                            _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
                             .GetGeneralDetailsData(force);
                         if (data == null || data.Genres.Count == 0 || data.Episodes.Count == 0)
-                            data = await new AnimeDetailsHummingbirdQuery(_id).GetAnimeDetails(force);
+                            data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
 
                         break;
                     default:
@@ -1303,7 +1340,7 @@ namespace MALClient.ViewModels
                 if (data.Source == DataSource.Ann)
                 {
                     VolatileDataCache genresData;
-                    if (DataCache.TryRetrieveDataForId(_id, out genresData) && genresData.Genres != null)
+                    if (DataCache.TryRetrieveDataForId(Id, out genresData) && genresData.Genres != null)
                     {
                         foreach (var genreMal in genresData.Genres)
                         {
@@ -1359,7 +1396,7 @@ namespace MALClient.ViewModels
                 {
                     VolatileDataCache genresData;
                     // we may fail to pull genres from ann so we have this from MAL season page 
-                    if (DataCache.TryRetrieveDataForId(_id, out genresData))
+                    if (DataCache.TryRetrieveDataForId(Id, out genresData))
                     {
                         AnnSourceButtonVisibility = Visibility.Collapsed;
                         DetailedDataVisibility = Visibility.Visible;
@@ -1399,7 +1436,7 @@ namespace MALClient.ViewModels
             _loadedReviews = true;
             Reviews.Clear();
             var revs = new List<AnimeReviewData>();
-            await Task.Run(async () => revs = await new AnimeReviewsQuery(_id, _animeMode).GetAnimeReviews(force));
+            await Task.Run(async () => revs = await new AnimeReviewsQuery(MalId, _animeMode).GetAnimeReviews(force));
             if (revs == null)
             {
                 LoadingReviews = Visibility.Collapsed;
@@ -1426,7 +1463,7 @@ namespace MALClient.ViewModels
                 Task.Run(
                     async () =>
                         recomm =
-                            await new AnimeDirectRecommendationsQuery(_id, _animeMode).GetDirectRecommendations(force));
+                            await new AnimeDirectRecommendationsQuery(MalId, _animeMode).GetDirectRecommendations(force));
             if (recomm == null)
             {
                 LoadingRecommendations = Visibility.Collapsed;
@@ -1447,7 +1484,7 @@ namespace MALClient.ViewModels
             _loadedRelated = true;
             RelatedAnime.Clear();
             var related = new List<RelatedAnimeData>();
-            await Task.Run(async () => related = await new AnimeRelatedQuery(_id, _animeMode).GetRelatedAnime(force));
+            await Task.Run(async () => related = await new AnimeRelatedQuery(MalId, _animeMode).GetRelatedAnime(force));
             if (related == null)
             {
                 LoadingRelated = Visibility.Collapsed;
@@ -1474,7 +1511,7 @@ namespace MALClient.ViewModels
             AlternateImageUnavailableNoticeVisibility = Visibility.Collapsed;
             LoadingHummingbirdImage = Visibility.Visible;
             AnimeDetailsData data = null;
-            await Task.Run( async () => data = await new AnimeDetailsHummingbirdQuery(_id).GetAnimeDetails());
+            await Task.Run( async () => data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails());
             if (data?.AlternateCoverImgUrl != null)
             {
                 _alternateImgUrl = data.AlternateCoverImgUrl;
@@ -1486,5 +1523,42 @@ namespace MALClient.ViewModels
             _loadingAlternate = false;
         }
         #endregion
+
+        static AnimeDetailsPageViewModel()
+        {
+            UpdateScoreFlyoutChoices();
+        }
+
+        public static List<string> ScoreFlyoutChoices { get; set; }
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling",
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling",
+                };
+        }
     }
 }

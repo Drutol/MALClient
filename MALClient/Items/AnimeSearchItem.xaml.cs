@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Models;
 using MALClient.Pages;
 using MALClient.ViewModels;
 
@@ -30,7 +31,7 @@ namespace MALClient.Items
                 : Colors.WhiteSmoke);
 
         private readonly bool _animeMode;
-        private readonly XElement item;
+        private readonly AnimeGeneralDetailsData _item;
         private Point _initialPoint;
 
         public AnimeSearchItem()
@@ -42,22 +43,22 @@ namespace MALClient.Items
             _rowAlternator = !_rowAlternator;
         }
 
-        public AnimeSearchItem(XElement animeElement, bool anime = true) : this()
+        public AnimeSearchItem(AnimeGeneralDetailsData data, bool anime = true) : this()
         {
-            item = animeElement;
-            Id = int.Parse(animeElement.Element("id").Value);
-            GlobalScore = float.Parse(animeElement.Element("score").Value);
-            AllEpisodes = int.Parse(animeElement.Element(anime ? "episodes" : "chapters").Value);
+            _item = data;
+            Id = data.Id;
+            GlobalScore = data.GlobalScore;
+            AllEpisodes = data.AllEpisodes;
             if (!anime)
-                AllVolumes = int.Parse(animeElement.Element("volumes").Value);
-            Title = animeElement.Element("title").Value;
-            Type = animeElement.Element("type").Value;
-            Status = animeElement.Element("status").Value;
-            TxtType.Text = animeElement.Element("type").Value;
+                AllVolumes = data.AllVolumes;
+            Title = data.Title;
+            Type = data.Type;
+            Status = data.Status;
+            TxtType.Text = Type;
             TxtTitle.Text = Title;
-            TxtGlobalScore.Text = GlobalScore.ToString();
-            TxtSynopsis.Text = Utils.DecodeXmlSynopsisSearch(animeElement.Element("synopsis").Value);
-            Img.Source = new BitmapImage(new Uri(animeElement.Element("image").Value));
+            TxtGlobalScore.Text = GlobalScore.ToString("N2");
+            TxtSynopsis.Text = data.Synopsis;
+            Img.Source = new BitmapImage(new Uri(data.ImgUrl));
             WatchedEps.Text = $"{(anime ? "Episodes" : "Chapters")} : {AllEpisodes}";
             _animeMode = anime;
         }
@@ -76,7 +77,7 @@ namespace MALClient.Items
 
         //They must be here because reasons (interface reasons)
         public int MyEpisodes { get; set; }
-        public int MyScore { get; set; }
+        public float MyScore { get; set; }
         public int MyStatus { get; set; }
 
         private void ManipStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -91,7 +92,7 @@ namespace MALClient.Items
             await
                 Utils.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
-                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, _item, this,
                             new SearchPageNavigationArgs
                             {
                                 Query = ViewModelLocator.SearchPage.PrevQuery,
@@ -110,7 +111,7 @@ namespace MALClient.Items
             await
                 Utils.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
-                        new AnimeDetailsPageNavigationArgs(Id, Title, item, this,
+                        new AnimeDetailsPageNavigationArgs(Id, Title, _item, this,
                             new SearchPageNavigationArgs
                             {
                                 Query = ViewModelLocator.SearchPage.PrevQuery,

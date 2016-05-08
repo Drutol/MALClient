@@ -29,7 +29,6 @@ namespace MALClient.Pages
             ListTodo.ItemsSource = new ObservableCollection<string>
             {
                 "Add non image live tiles with stats and such. Overhaul tiles in general.",
-                "Think about wide UI for x86/x64 platforms...",
                 "Want something? Let me know! Scroll just a little bit and go to the issues board :)"
             };
         }

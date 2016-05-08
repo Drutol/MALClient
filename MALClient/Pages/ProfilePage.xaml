@@ -8,6 +8,7 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:items="using:MALClient.Items"
     DataContext="{Binding Source={StaticResource Locator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
@@ -62,6 +63,11 @@
                                         <Setter Property="BorderThickness" Value="5,0,0,0" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <items:AnimeItem DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Grid>
                     </PivotItem>
@@ -85,6 +91,11 @@
                                         <Setter Property="BorderThickness" Value="5,0,0,0" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <items:AnimeItem DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Grid>
                     </PivotItem>
@@ -229,7 +240,13 @@
                         <TextBlock Visibility="{Binding EmptyRecentAnimeNoticeVisibility}"
                                 Text="None..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
-                        <ListView ItemsSource="{Binding RecentAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <ListView ItemsSource="{Binding RecentAnime}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <items:AnimeItem DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                         <Grid Margin="0,5" Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="50">
                             <TextBlock Text="Recently updated manga:" FontWeight="SemiLight" FontSize="23" HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
@@ -237,7 +254,13 @@
                         <TextBlock Visibility="{Binding EmptyRecentMangaNoticeVisibility}"
                                 Text="None..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
-                        <ListView ItemsSource="{Binding RecentManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <ListView ItemsSource="{Binding RecentManga}" SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <items:AnimeItem DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

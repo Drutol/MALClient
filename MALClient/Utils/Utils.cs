@@ -11,6 +11,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
+using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -94,6 +95,18 @@ namespace MALClient
 
         public static string DayToString(DayOfWeek day)
         {
+            if (day < 0)
+                return "";
+            if (Settings.AirDayOffset != 0)
+            {
+                var sum = Settings.AirDayOffset + (int)day;
+                if (sum > 6)
+                    day = (DayOfWeek)sum - 7;
+                else if (sum < 0)
+                    day = (DayOfWeek)7 + sum;
+                else
+                    day += Settings.AirDayOffset;
+            }
             switch (day)
             {
                 case DayOfWeek.Friday:
@@ -217,7 +230,6 @@ namespace MALClient
                 //no file
             }
         }
-
         public static async Task DownloadProfileImg()
         {
             if (!Credentials.Authenticated)
@@ -228,15 +240,20 @@ namespace MALClient
                 var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
-                byte[] response = {};
+                byte[] response = { };
+                switch (Settings.SelectedApiType)
+                {
+                    case ApiType.Mal:
+                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                        break;
+                    case ApiType.Hummingbird:
+                        string avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
+                        await Task.Run(async () => response = await http.GetByteArrayAsync(avatarLink));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
-                await
-                    Task.Run(
-                        async () =>
-                            response =
-                                await
-                                    http.GetByteArrayAsync(
-                                        $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                 //get bytes
 
                 var fs = await thumb.OpenStreamForWriteAsync(); //get stream
@@ -257,6 +274,7 @@ namespace MALClient
             await Task.Delay(2000);
             await ViewModelLocator.Hamburger.UpdateProfileImg(false);
         }
+
 
         public static async void DownloadCoverImage(string url,string title)
         {

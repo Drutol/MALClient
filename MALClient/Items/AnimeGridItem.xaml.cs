@@ -16,6 +16,11 @@ namespace MALClient.Items
             InitializeComponent();
         }
 
+        public AnimeGridItem()
+        {
+            InitializeComponent();
+        }
+
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
         private void BtnMoreClick(object sender, RoutedEventArgs e)

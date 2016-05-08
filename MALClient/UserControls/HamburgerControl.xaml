@@ -36,11 +36,10 @@
                     <SolidColorBrush Color="Black" Opacity=".25"></SolidColorBrush>
                 </Grid.Background>
             </Grid>
-            <ScrollViewer x:Name="ScrlBurger" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto"
-                          VerticalAlignment="Stretch">
-                <Grid>
-                    <StackPanel>
-                        <StackPanel.Resources>
+            <ScrollViewer x:Name="ScrlBurger" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid>
+                        <Grid.Resources>
                             <Style TargetType="Pivot" BasedOn="{StaticResource PivotHamburgerStyle}" />
                             <Style TargetType="Button">
                                 <Setter Property="Padding" Value="1,0" />
@@ -48,7 +47,12 @@
                             <Style TargetType="SymbolIcon">
                                 <Setter Property="Margin" Value="3,0,0,0" />
                             </Style>
-                        </StackPanel.Resources>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="200"/>
+                            <RowDefinition Height="*" MinHeight="20"/>
+                            <RowDefinition Height="Auto" MinHeight="120"/>
+                        </Grid.RowDefinitions>
                         <Pivot Width="220" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
                                 <Style TargetType="PivotHeaderItem"
@@ -154,7 +158,8 @@
                                                     PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="7">
+                                                    CommandParameter="7"
+                                                    Visibility="{Binding MalApiSpecificButtonsVisibility}">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
@@ -239,7 +244,8 @@
                                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
-                                                    CommandParameter="10">
+                                                    CommandParameter="10"
+                                                    Visibility="{Binding MalApiSpecificButtonsVisibility}">
                                                 <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
@@ -293,8 +299,8 @@
                                 </PivotItem>
                             </Pivot.Items>
                         </Pivot>
-                        <Grid Height="{Binding GridSeparatorHeight}" />
-                        <StackPanel Margin="0,0,0,5">
+                        <Grid VerticalAlignment="Stretch" Grid.Row="1"/>
+                        <StackPanel Grid.Row="2" Margin="{Binding BottomStackPanelMargin}">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
                                     PointerExited="Button_PointerExited" Visibility="Visible"
@@ -404,7 +410,7 @@
                             </Button>
                             <Grid Height="{Binding GridBtmMarginHeight}" />
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </Grid>
             </ScrollViewer>
         </Grid>

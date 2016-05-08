@@ -8,8 +8,15 @@
     xmlns:xamlConverters="using:MALClient.XamlConverters"
     mc:Ignorable="d">
     <MenuFlyoutPresenter.Resources>
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <xamlConverters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter" />
+
+        <ResourceDictionary>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+            <xamlConverters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </MenuFlyoutPresenter.Resources>
     <MenuFlyout x:Name="Flyout">
         <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" Click="FlyoutButtonPressed"/>
@@ -36,34 +43,34 @@
         </MenuFlyoutSubItem>
         <MenuFlyoutSubItem Text="Score"
                            Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
-            <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[0]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="10"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=10}" />
-            <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[1]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="9"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=9}" />
-            <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[2]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="8"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=8}" />
-            <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[3]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="7"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=7}" />
-            <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[4]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="6"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=6}" />
-            <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[5]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="5"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=5}" />
-            <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[6]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="4"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=4}" />
-            <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[7]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="3"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=3}" />
-            <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[8]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="2"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=2}" />
-            <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
+            <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[9]}" Command="{Binding ChangeScoreCommand}"
                             CommandParameter="1"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=1}" />
         </MenuFlyoutSubItem>

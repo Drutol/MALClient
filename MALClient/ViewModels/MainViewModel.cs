@@ -67,7 +67,11 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageAnimeDetails)
             {
                 CurrentOffPage = index;
+<<<<<<< HEAD
                 if (index != PageIndex.PageAnimeDetails)
+=======
+                if(index != PageIndex.PageAnimeDetails)
+>>>>>>> origin/x86-x64-WideUI
                     NavMgr.ResetBackNav();
             }
             else

@@ -6,6 +6,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+<<<<<<< HEAD
+=======
+using MALClient.Comm;
+using MALClient.Comm.Anime;
+>>>>>>> origin/x86-x64-WideUI
 using MALClient.UserControls;
 using MALClient.ViewModels;
 
@@ -26,11 +31,15 @@ namespace MALClient
             Utils.CheckTiles();
             Loaded += (sender, args) =>
             {
+<<<<<<< HEAD
                 LogoImage.Source =
                     new BitmapImage(
                         new Uri(Settings.SelectedTheme == ApplicationTheme.Dark
                             ? "ms-appx:///Assets/upperappbarlogowhite.png"
                             : "ms-appx:///Assets/upperappbarlogoblue.png"));
+=======
+                LogoImage.Source = new BitmapImage(new Uri(Settings.SelectedTheme == ApplicationTheme.Dark ? "ms-appx:///Assets/Wide310x150Logo.scale-200.png" : "ms-appx:///Assets/SplashScreen.scale-200.png"));
+>>>>>>> origin/x86-x64-WideUI
                 ViewModelLocator.Main.View = this;
             };
         }

@@ -25,9 +25,13 @@ namespace MALClient.Comm
 
         public async Task<List<SeasonalAnimeData>> GetSeasonalAnime(bool force = false)
         {
+<<<<<<< HEAD
+=======
+            //In memory of 1 hour of my life spent over debugging single '?' character... minute of silence
+>>>>>>> origin/x86-x64-WideUI
             var output = force || DataCache.SeasonalUrls?.Count == 0 //either force or urls are empty after update
                 ? new List<SeasonalAnimeData>()
-                : await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>();
+                : (await DataCache.RetrieveSeasonalData(_overriden ? _season.Name : "") ?? new List<SeasonalAnimeData>());
             //current season without suffix
             if (output.Count != 0) return output;
             var raw = await GetRequestResponse();

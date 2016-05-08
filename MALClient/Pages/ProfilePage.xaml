@@ -25,7 +25,11 @@
         </ResourceDictionary>
     </Page.Resources>
 
+<<<<<<< HEAD
     <Grid Background="{ThemeResource BrushDeepBackground}">
+=======
+    <Grid Background="{ThemeResource BrushDeepBackground}" Padding="0">
+>>>>>>> origin/x86-x64-WideUI
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

@@ -999,6 +999,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)
+                {
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
@@ -1013,7 +1014,10 @@ namespace MALClient.ViewModels
                             ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
+                    ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
+                }
                 WatchedEpsInput = "";
+                
             }
             else
             {

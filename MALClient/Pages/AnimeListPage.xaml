@@ -90,7 +90,8 @@
                         <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=Sort3,Path=IsChecked}" Text="{Binding Sort3Label}" Command="{Binding SetSortModeCommand}" CommandParameter="2" GroupName="SortOptionsPivotUpperItems"/>
                         <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortAiring,Path=IsChecked}" Text="Soonest airing" Command="{Binding SetSortModeCommand}" CommandParameter="3" GroupName="SortOptionsPivotUpperItems"
                                                       Visibility="{Binding SortAirDayVisibility}" />
-                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortNone,Path=IsChecked}" Text="None" Command="{Binding SetSortModeCommand}" CommandParameter="4" GroupName="SortOptionsPivotUpperItems"/>
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortLastWatched,Path=IsChecked}" Visibility="{Binding HumApiSpecificControlsVisibility}" Text="Last watched" Command="{Binding SetSortModeCommand}" CommandParameter="4" GroupName="SortOptionsPivotUpperItems"/>
+                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortNone,Path=IsChecked}" Text="None" Command="{Binding SetSortModeCommand}" CommandParameter="5" GroupName="SortOptionsPivotUpperItems"/>
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=BtnOrderDescending,Path=IsChecked}" Text="Decsending" Click="ChangeSortOrder" />
                     </MenuFlyout>
@@ -144,6 +145,7 @@
                         <controls:RadioToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Command="{Binding SetSortModeCommand}" CommandParameter="2" GroupName="SortOptionsPivotUpperItems"/>
                         <controls:RadioToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Command="{Binding SetSortModeCommand}" CommandParameter="3" GroupName="SortOptionsPivotUpperItems"
                                                       Visibility="{Binding SortAirDayVisibility}" />
+                        <controls:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched" Command="{Binding SetSortModeCommand}" Visibility="{Binding HumApiSpecificControlsVisibility}"  CommandParameter="4" GroupName="SortOptionsPivotUpperItems"/>
                         <controls:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None" Command="{Binding SetSortModeCommand}" CommandParameter="4" GroupName="SortOptionsPivotUpperItems"/>
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />

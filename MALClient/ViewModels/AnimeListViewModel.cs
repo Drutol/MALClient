@@ -77,10 +77,16 @@ namespace MALClient.ViewModels
             _animeItemsSet.Clear();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimeItems);
-
+            
             //give visual feedback
             Loading = true;
-            await Task.Delay(1);
+            /*so the thing is:
+             * Without this delay app will have quite a bit of chance to crash due to some win32 exception.
+             * Sometimes it's access violation, sometimes it doesn't even say.
+             * I've read that image caching fails when thre's some kind of load on it.
+             * This is why this delay is here, 10ms of user's life isn't that bad,ain't it?             
+            */
+            await Task.Delay(20); 
 
             //depending on args
             var gotArgs = false;
@@ -258,6 +264,9 @@ namespace MALClient.ViewModels
                             else
                                 items = items.OrderBy(item => item.MyEpisodes);
                             break;
+                        case SortOptions.SortLastWatched:
+                            items = items.OrderBy(abstraction => abstraction.LastWatched);
+                            break;
                         case SortOptions.SortNothing:
                             break;
                         case SortOptions.SortAirDay:
@@ -310,26 +319,8 @@ namespace MALClient.ViewModels
         /// <param name="option"></param>
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder))              
-            {
-                case SortOptions.SortNothing:
-                    SortOption = SortOptions.SortNothing;
-                    break;
-                case SortOptions.SortTitle:
-                    SortOption = SortOptions.SortTitle;
-                    break;
-                case SortOptions.SortScore:
-                    SortOption = SortOptions.SortScore;
-                    break;
-                case SortOptions.SortWatched:
-                    SortOption = SortOptions.SortWatched;
-                    break;
-                case SortOptions.SortAirDay:
-                    SortOption = SortOptions.SortAirDay;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            SortOption = option ??
+                         (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder);
         }
 
         private void SetDefaults(int? statusOverride = null)
@@ -942,6 +933,9 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => AppBtnListSourceVisibility);
             }
         }
+
+        public Visibility HumApiSpecificControlsVisibility
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
 
         private Visibility _appBtnGoBackToMyListVisibility = Visibility.Collapsed;
 

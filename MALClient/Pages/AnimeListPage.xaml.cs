@@ -84,6 +84,7 @@ namespace MALClient.Pages
         SortScore,
         SortWatched,
         SortAirDay,
+        SortLastWatched,
         SortNothing
     }
 

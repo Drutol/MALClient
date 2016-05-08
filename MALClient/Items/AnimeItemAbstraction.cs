@@ -1,4 +1,5 @@
-﻿using MALClient.Models;
+﻿using System;
+using MALClient.Models;
 using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
@@ -15,10 +16,7 @@ namespace MALClient.Items
         public readonly bool Auth;
         public readonly bool RepresentsAnime = true;
 
-        private AnimeItem _animeItem;
-        private AnimeGridItem _gridItem;
         private AnimeItemViewModel _viewModel;
-        private AnimeCompactItem _compactItem;
 
         public ILibraryData EntryData { get; set; }
         private readonly SeasonalAnimeData _seasonalData;
@@ -30,6 +28,19 @@ namespace MALClient.Items
         private int AllEpisodes => EntryData?.AllEpisodes ?? 0;
         public int AllVolumes => (EntryData as MangaLibraryItemData)?.AllVolumes ?? 0;
         public int Type => EntryData?.Type ?? 0;
+
+        public DateTime LastWatched
+        {
+            get
+            {
+                return EntryData?.LastWatched ?? DateTime.MinValue;
+            }
+            set
+            {
+                if (EntryData != null)
+                    EntryData.LastWatched = value;
+            }
+        }
 
         public int MyEpisodes
         {
@@ -105,62 +116,6 @@ namespace MALClient.Items
             _firstConstructor = true;           
         }
 
-        public AnimeItem AnimeItem
-        {
-            get
-            {
-                //if(LoadedGrid)
-                   // _gridItem.ClearImage();
-                //if(LoadedCompact)
-
-                if (LoadedAnime)
-                {
-                   // _animeItem.BindImage();
-                    return _animeItem;
-                }
-
-                ViewModel = LoadElementModel();
-                _animeItem = LoadElement(); // sets loaded flag
-                //_animeItem.BindImage();
-                return _animeItem;
-            }
-        }
-
-        public AnimeGridItem AnimeGridItem
-        {
-            get
-            {
-               // if(LoadedAnime)
-                //    _animeItem.ClearImage();
-
-                if (LoadedGrid)
-                {
-                 //   _gridItem.BindImage();
-                    return _gridItem;
-                }
-
-                ViewModel = LoadElementModel();
-                _gridItem = new AnimeGridItem(_viewModel);
-               // _gridItem.BindImage();
-                LoadedGrid = true;
-                return _gridItem;
-            }
-        }
-
-        public AnimeCompactItem AnimeCompactItem
-        {
-            get
-            {
-                if (LoadedCompact)
-                    return _compactItem;
-
-                ViewModel = LoadElementModel();
-                _compactItem = new AnimeCompactItem(_viewModel);
-                LoadedCompact = true;
-                return _compactItem;
-            }
-        }
-
         public AnimeItemViewModel ViewModel
         {
             get
@@ -168,7 +123,6 @@ namespace MALClient.Items
                 if (LoadedAnime)
                     return _viewModel;
                 ViewModel = LoadElementModel();
-                _animeItem = LoadElement();
                 return _viewModel;
             }
             private set { _viewModel = value; }

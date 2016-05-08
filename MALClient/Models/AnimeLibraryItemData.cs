@@ -20,5 +20,6 @@ namespace MALClient.Models
         public int Type { get; set; }
         public string MyStartDate { get; set; }
         public string MyEndDate { get; set; }
+        public DateTime LastWatched { get; set; } = DateTime.MinValue;
     }
 }

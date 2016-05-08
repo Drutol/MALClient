@@ -75,6 +75,7 @@ namespace MALClient.Pages
         SortScore,
         SortWatched,
         SortAirDay,
+        SortLastWatched,
         SortNothing
     }
 
@@ -224,6 +225,9 @@ namespace MALClient.Pages
                     break;
                 case "Soonest airing":
                     ViewModel.SortOption = SortOptions.SortAirDay;
+                    break;
+                case "Last watched":
+                    ViewModel.SortOption = SortOptions.SortLastWatched;
                     break;
                 default:
                     ViewModel.SortOption = SortOptions.SortNothing;

@@ -24,7 +24,7 @@ namespace MALClient
 
         public static int CachePersitence
         {
-            get { return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 3600); }
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 86400); }
             set { ApplicationData.Current.LocalSettings.Values["CachePersistency"] = value; }
         }
 

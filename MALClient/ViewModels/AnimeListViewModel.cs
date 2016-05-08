@@ -88,7 +88,7 @@ namespace MALClient.ViewModels
 
             //give visual feedback
             Loading = true;
-            await Task.Delay(1);
+            await Task.Delay(20);
 
             //depending on args
             var gotArgs = false;
@@ -268,7 +268,11 @@ namespace MALClient.ViewModels
                             break;
                         case SortOptions.SortNothing:
                             break;
+                        case SortOptions.SortLastWatched:
+                            items = items.OrderBy(abstraction => abstraction.LastWatched);
+                            break;
                         case SortOptions.SortAirDay:
+
                             var today = (int) DateTime.Now.DayOfWeek;
                             today++;
                             var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
@@ -1232,6 +1236,11 @@ namespace MALClient.ViewModels
                 CurrentPosition = 1;
             }
         }
+
+        public Visibility HumApiSpecificControlsVisibility
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
+
+
         #endregion
 
         #region StatusRelatedStuff

@@ -1,4 +1,6 @@
-﻿namespace MALClient.Models
+﻿using System;
+
+namespace MALClient.Models
 {
     public interface ILibraryData
     {
@@ -11,5 +13,6 @@
         int AllEpisodes { get; set; }
         string ImgUrl { get; set; }
         int Type { get; set; }
+        DateTime LastWatched { get; set; }
     }
 }

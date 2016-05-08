@@ -27,7 +27,11 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" MaxWidth="{Binding MaxWidth}" />
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" MaxWidth="{Binding MaxWidth}" >
+            <Image.Source>
+                <BitmapImage UriSource="{Binding ImgUrl}" CreateOptions="IgnoreImageCache"></BitmapImage>
+            </Image.Source>
+        </Image>
         <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>

@@ -127,6 +127,15 @@ namespace MALClient.Comm
                                         float.TryParse(entry.rating.value.ToString(), out score);
                                     if (entry.anime.show_type != null)
                                         AnimeType.TryParse(entry.anime.show_type, true, out type);
+                                    DateTime lastWatch = new DateTime();
+                                    try
+                                    {
+                                        lastWatch = DateTime.Parse(entry.last_watched);
+                                    }
+                                    catch (Exception)
+                                    {
+                                        lastWatch = DateTime.MinValue;
+                                    }
                                     output.Add(new AnimeLibraryItemData
                                     {
                                         Title = entry.anime.title,
@@ -139,7 +148,8 @@ namespace MALClient.Comm
                                         MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
                                         MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
                                         MyScore = score,
-                                        MyStatus = HummingbirdStatusToMal(entry.status)
+                                        MyStatus = HummingbirdStatusToMal(entry.status),
+                                        LastWatched = lastWatch,
                                     });
                                 }
                                 catch (Exception e)

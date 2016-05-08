@@ -243,6 +243,10 @@ namespace MALClient.ViewModels
 
         private async void NavigateDetails(IDetailsPageArgs args)
         {
+            if (Settings.SelectedApiType == ApiType.Hummingbird) //recoms and review have mal id so we have to walk around thid
+            {
+                args.Id = await new AnimeDetailsHummingbirdQuery(args.Id).GetHummingbirdId();
+            }
             await ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
@@ -1038,6 +1042,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)
+                { 
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
@@ -1052,7 +1057,9 @@ namespace MALClient.ViewModels
                             ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
-                WatchedEpsInput = "";
+                    ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
+                }
+            WatchedEpsInput = "";
             }
             else
             {
@@ -1246,6 +1253,7 @@ namespace MALClient.ViewModels
                 MalId = data.MalId;
 
             _synonyms = data.Synonyms;
+            _synonyms.Add(Title);
             _synonyms = _synonyms.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
             for (var i = 0; i < _synonyms.Count; i++)
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
@@ -1308,14 +1316,14 @@ namespace MALClient.ViewModels
                                     .GetGeneralDetailsData(force);
                         break;
                     case DataSource.Hummingbird:
-                        data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
+                        data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
                         break;
                     case DataSource.AnnHum:
                         data = await new AnimeDetailsAnnQuery(
                             _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
                             .GetGeneralDetailsData(force);
                         if (data == null || data.Genres.Count == 0 || data.Episodes.Count == 0)
-                            data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails(force);
+                            data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
 
                         break;
                     default:

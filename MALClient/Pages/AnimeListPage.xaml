@@ -88,6 +88,8 @@
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
                                                       Visibility="{Binding SortAirDayVisibility}" />
+                                <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched" Click="SelectSortMode"
+                                                      Visibility="{Binding HumApiSpecificControlsVisibility}" />
                                 <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
                             </StackPanel>
                             <MenuFlyoutSeparator />

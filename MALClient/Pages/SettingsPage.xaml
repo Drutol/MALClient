@@ -653,22 +653,14 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
-                                            <TextBlock Text="03.05.2016 - v3.5.17.0"/>
-                                            <TextBlock Text="Major performance improvements... I mean it ;d"/>
-                                            <TextBlock Text="Fixed news text wrapping."/>
-                                            <TextBlock Text="Implemented UWP way of handling credentials."/>
-                                            <TextBlock Text="Recommendations and reviews are no longer in pivots."/>
-                                            <TextBlock Text="Visual tweaks and fixes."/>
-                                            <MenuFlyoutSeparator Margin="0,5"/>
-                                            <TextBlock Text="25.04.2016 - v3.4.48.0"/>
-                                            <TextBlock Text="Fixed details page crashes."/>
-                                            <TextBlock Text="Fixed landscape grid loading incremental loading."/>
-                                            <TextBlock Text="Made stauts bar hidden while in landscape mode."/>
-                                            <TextBlock Text="Added news."/>
-                                            <TextBlock Text="Recommendations will now indicate whether item is on your list."/>
-                                            <TextBlock Text="Profile page tweaks."/>
-                                            
-
+                                            <TextBlock Text="10.05.2016 - v4.0.4.0" />
+                                            <TextBlock Text="Hummingbird support!" />
+                                            <TextBlock Text="List caching that can be caller reliable (enabled by default)!" />
+                                            <TextBlock Text="Rewritten ancient code => Better performance!" />
+                                            <TextBlock Text="New logo images." />
+                                            <TextBlock Text="Added air day offset setting." />
+                                            <TextBlock Text="Fixed bug when manipulating newly added anime." />
+                                            <TextBlock Text="Added 'Last watched' sort option for hummingbird." />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

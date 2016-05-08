@@ -1,4 +1,5 @@
-﻿using MALClient.Models;
+﻿using System;
+using MALClient.Models;
 using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming
@@ -29,6 +30,19 @@ namespace MALClient.Items
         private int AllEpisodes => EntryData?.AllEpisodes ?? 0;
         public int AllVolumes => (EntryData as MangaLibraryItemData)?.AllVolumes ?? 0;
         public int Type => EntryData?.Type ?? 0;
+
+        public DateTime LastWatched
+         {
+             get
+             {
+                 return EntryData?.LastWatched ?? DateTime.MinValue;
+             }
+             set
+             {
+                 if (EntryData != null)
+                     EntryData.LastWatched = value;
+             }
+         }
 
         public int MyEpisodes
         {
@@ -114,20 +128,6 @@ namespace MALClient.Items
                 ViewModel = LoadElementModel();
                 _animeItem = LoadElement();
                 return _animeItem;
-            }
-        }
-
-        public AnimeGridItem AnimeGridItem
-        {
-            get
-            {
-                if (LoadedGrid)
-                    return _gridItem;
-
-                ViewModel = LoadElementModel();
-                _gridItem = new AnimeGridItem(_viewModel);
-                LoadedGrid = true;
-                return _gridItem;
             }
         }
 

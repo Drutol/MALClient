@@ -827,6 +827,8 @@ namespace MALClient.ViewModels
                 AdjustIncrementButtonsVisibility();
             }
 
+            ParentAbstraction.LastWatched = DateTime.Now;
+
             if (trigCompleted && MyEpisodes == _allEpisodes && _allEpisodes != 0)
                 await PromptForStatusChange((int) AnimeStatus.Completed);
 
@@ -871,7 +873,7 @@ namespace MALClient.ViewModels
                     await PromptForStatusChange((int) AnimeStatus.Completed);
 
                 AdjustIncrementButtonsVisibility();
-
+                ParentAbstraction.LastWatched = DateTime.Now;
 
                 LoadingUpdate = Visibility.Collapsed;
                 WatchedEpsInput = "";

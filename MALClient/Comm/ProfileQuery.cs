@@ -18,12 +18,16 @@ namespace MALClient.Comm
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{Credentials.UserName}"));
+                    Request =
+                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{Credentials.UserName}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
-                case ApiType.Hummingbird: 
-                    Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{Credentials.UserName}{(feed ? "/feed" : "")}"));
+                case ApiType.Hummingbird:
+                    Request =
+                        WebRequest.Create(
+                            Uri.EscapeUriString(
+                                $"https://hummingbird.me/api/v1/users/{Credentials.UserName}{(feed ? "/feed" : "")}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
@@ -41,22 +45,41 @@ namespace MALClient.Comm
                 doc.LoadHtml(raw);
                 var current = new ProfileData();
 
-                int i = 1;
-                foreach (var recentNode in doc.DocumentNode.Descendants("div").Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Profile:recentUpdateNode:class"]))
+                var i = 1;
+                foreach (
+                    var recentNode in
+                        doc.DocumentNode.Descendants("div")
+                            .Where(
+                                node =>
+                                    node.Attributes.Contains("class") &&
+                                    node.Attributes["class"].Value ==
+                                    HtmlClassMgr.ClassDefs["#Profile:recentUpdateNode:class"]))
                 {
                     if (i <= 3)
                     {
-                        current.RecentAnime.Add(int.Parse(recentNode.Descendants("a").First().Attributes["href"].Value.Substring(8).Split('/')[2]));
+                        current.RecentAnime.Add(
+                            int.Parse(
+                                recentNode.Descendants("a").First().Attributes["href"].Value.Substring(8).Split('/')[2]));
                     }
                     else
                     {
-                        current.RecentManga.Add(int.Parse(recentNode.Descendants("a").First().Attributes["href"].Value.Substring(8).Split('/')[2]));
+                        current.RecentManga.Add(
+                            int.Parse(
+                                recentNode.Descendants("a").First().Attributes["href"].Value.Substring(8).Split('/')[2]));
                     }
                     i++;
                 }
                 try
                 {
-                    foreach (var favCharNode in doc.DocumentNode.Descendants("ul").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Profile:favCharacterNode:class"]).Descendants("li"))
+                    foreach (
+                        var favCharNode in
+                            doc.DocumentNode.Descendants("ul")
+                                .First(
+                                    node =>
+                                        node.Attributes.Contains("class") &&
+                                        node.Attributes["class"].Value ==
+                                        HtmlClassMgr.ClassDefs["#Profile:favCharacterNode:class"])
+                                .Descendants("li"))
                     {
                         var curr = new FavCharacter();
                         var imgNode = favCharNode.Descendants("a").First();
@@ -80,9 +103,20 @@ namespace MALClient.Comm
                 }
                 try
                 {
-                    foreach (var favMangaNode in doc.DocumentNode.Descendants("ul").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Profile:favMangaNode:class"]).Descendants("li"))
+                    foreach (
+                        var favMangaNode in
+                            doc.DocumentNode.Descendants("ul")
+                                .First(
+                                    node =>
+                                        node.Attributes.Contains("class") &&
+                                        node.Attributes["class"].Value ==
+                                        HtmlClassMgr.ClassDefs["#Profile:favMangaNode:class"])
+                                .Descendants("li"))
                     {
-                        current.FavouriteManga.Add(int.Parse(favMangaNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2]));
+                        current.FavouriteManga.Add(
+                            int.Parse(
+                                favMangaNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2
+                                    ]));
                     }
                 }
                 catch (Exception)
@@ -92,9 +126,20 @@ namespace MALClient.Comm
 
                 try
                 {
-                    foreach (var favAnimeNode in doc.DocumentNode.Descendants("ul").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Profile:favAnimeNode:class"]).Descendants("li"))
+                    foreach (
+                        var favAnimeNode in
+                            doc.DocumentNode.Descendants("ul")
+                                .First(
+                                    node =>
+                                        node.Attributes.Contains("class") &&
+                                        node.Attributes["class"].Value ==
+                                        HtmlClassMgr.ClassDefs["#Profile:favAnimeNode:class"])
+                                .Descendants("li"))
                     {
-                        current.FavouriteAnime.Add(int.Parse(favAnimeNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2]));
+                        current.FavouriteAnime.Add(
+                            int.Parse(
+                                favAnimeNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2
+                                    ]));
                     }
                 }
                 catch (Exception)
@@ -104,7 +149,15 @@ namespace MALClient.Comm
 
                 try
                 {
-                    foreach (var favPersonNode in doc.DocumentNode.Descendants("ul").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Profile:favPeopleNode:class"]).Descendants("li"))
+                    foreach (
+                        var favPersonNode in
+                            doc.DocumentNode.Descendants("ul")
+                                .First(
+                                    node =>
+                                        node.Attributes.Contains("class") &&
+                                        node.Attributes["class"].Value ==
+                                        HtmlClassMgr.ClassDefs["#Profile:favPeopleNode:class"])
+                                .Descendants("li"))
                     {
                         var curr = new FavPerson();
                         var aElems = favPersonNode.Descendants("a");
@@ -136,20 +189,22 @@ namespace MALClient.Comm
 
         public async Task<string> GetHummingBirdAvatarUrl()
         {
-            string raw = await GetRequestResponse();
-            return ((dynamic)JsonConvert.DeserializeObject(raw)).avatar.ToString();
+            var raw = await GetRequestResponse();
+            return ((dynamic) JsonConvert.DeserializeObject(raw)).avatar.ToString();
         }
 
         public async Task<HumProfileData> GetHumProfileData(bool force = false)
         {
-            string raw = await GetRequestResponse();
-            return JsonConvert.DeserializeObject<HumProfileData>(raw,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
+            var raw = await GetRequestResponse();
+            return JsonConvert.DeserializeObject<HumProfileData>(raw,
+                new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
         }
 
         public async Task<List<HumStoryObject>> GetHumFeedData(bool force = false)
         {
-            string raw = await GetRequestResponse();
-            return JsonConvert.DeserializeObject<List<HumStoryObject>>(raw,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
+            var raw = await GetRequestResponse();
+            return JsonConvert.DeserializeObject<List<HumStoryObject>>(raw,
+                new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
         }
     }
 }

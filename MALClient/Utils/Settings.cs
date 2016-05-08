@@ -11,18 +11,19 @@ namespace MALClient
     {
         public static ApiType SelectedApiType
         {
-            get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
+            get { return (ApiType) (ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
             set
             {
-                if(SelectedApiType == value)
+                if (SelectedApiType == value)
                     return;
-                ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value;
+                ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int) value;
                 Query.CurrentApiType = value;
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
                 AnimeItemViewModel.UpdateScoreFlyoutChoices();
                 ViewModelLocator.Hamburger.UpdateApiDependentButtons();
             }
         }
+
         public static int CachePersitence
         {
             get { return (int) (ApplicationData.Current.LocalSettings.Values["CachePersistency"] ?? 86400); }
@@ -175,19 +176,28 @@ namespace MALClient
 
         public static bool HamburgerAnimeFiltersExpanded
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] ?? false); }
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] ?? false);
+            }
             set { ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] = value; }
         }
 
         public static bool HamburgerMangaFiltersExpanded
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] ?? false); }
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] ?? false);
+            }
             set { ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] = value; }
         }
 
         public static bool HamburgerMenuDefaultPaneState
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] ?? true); }
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] ?? true);
+            }
             set { ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] = value; }
         }
 
@@ -307,33 +317,34 @@ namespace MALClient
         #endregion
 
         #region StartEndDates
+
         public static bool SetStartDateOnWatching
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] = value; }
         }
 
         public static bool SetStartDateOnListAdd
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] = value; }
         }
 
         public static bool SetEndDateOnDropped
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] = value; }
         }
 
         public static bool SetEndDateOnCompleted
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] = value; }
         }
 
         public static bool OverrideValidStartEndDate
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] = value; }
         }
 

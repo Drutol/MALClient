@@ -22,7 +22,8 @@
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto"
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill"
+               HorizontalAlignment="Left" Height="Auto"
                Width="Auto" Margin="1,1" />
         <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">

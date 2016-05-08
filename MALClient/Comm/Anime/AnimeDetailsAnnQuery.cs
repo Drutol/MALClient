@@ -30,7 +30,7 @@ namespace MALClient.Comm
             if (possibleData != null)
                 return possibleData;
 
-            var raw = await GetRequestResponse(false,"");
+            var raw = await GetRequestResponse(false, "");
             if (string.IsNullOrEmpty(raw))
                 return null;
 

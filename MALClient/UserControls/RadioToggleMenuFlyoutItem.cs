@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace MALClient.UserControls
 {
-    class RadioToggleMenuFlyoutItem : ToggleMenuFlyoutItem
+    internal class RadioToggleMenuFlyoutItem : ToggleMenuFlyoutItem
     {
-        private static Dictionary<string,List<RadioToggleMenuFlyoutItem>> _groups = new Dictionary<string, List<RadioToggleMenuFlyoutItem>>();
+        private static readonly Dictionary<string, List<RadioToggleMenuFlyoutItem>> _groups =
+            new Dictionary<string, List<RadioToggleMenuFlyoutItem>>();
 
         public static readonly DependencyProperty GroupNameProperty =
             DependencyProperty.Register(
@@ -20,14 +17,9 @@ namespace MALClient.UserControls
                 new PropertyMetadata(
                     string.Empty, PropertyChangedCallback));
 
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public RadioToggleMenuFlyoutItem()
         {
-            if(_groups.ContainsKey((string)e.NewValue))
-                _groups[(string)e.NewValue].Add(d as RadioToggleMenuFlyoutItem);
-            else
-            {
-                _groups.Add((string)e.NewValue,new List<RadioToggleMenuFlyoutItem> {d as RadioToggleMenuFlyoutItem});
-            }
+            Click += OnClick;
         }
 
         public string GroupName
@@ -36,9 +28,14 @@ namespace MALClient.UserControls
             set { SetValue(GroupNameProperty, value); }
         }
 
-        public RadioToggleMenuFlyoutItem()
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Click += OnClick;
+            if (_groups.ContainsKey((string) e.NewValue))
+                _groups[(string) e.NewValue].Add(d as RadioToggleMenuFlyoutItem);
+            else
+            {
+                _groups.Add((string) e.NewValue, new List<RadioToggleMenuFlyoutItem> {d as RadioToggleMenuFlyoutItem});
+            }
         }
 
         private void OnClick(object sender, RoutedEventArgs routedEventArgs)

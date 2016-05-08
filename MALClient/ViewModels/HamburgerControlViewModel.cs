@@ -24,6 +24,11 @@ namespace MALClient.ViewModels
         private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
 
 
+        private bool _allowFilterNavigation = true;
+
+        public Thickness _bottomStackPanelMargin = new Thickness(0);
+
+
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
 
@@ -40,7 +45,9 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             ResetActiveButton();
-            SetActiveButton(Credentials.Authenticated ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList) : HamburgerButtons.LogIn);
+            SetActiveButton(Credentials.Authenticated
+                ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList)
+                : HamburgerButtons.LogIn);
         }
 
         private Color RequestedFontColor
@@ -50,10 +57,9 @@ namespace MALClient.ViewModels
 
         public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>();
 
-
-        private bool _allowFilterNavigation = true;
         public ObservableCollection<Tuple<AnimeStatus, string>> AnimeListFilters { get; set; } =
             new ObservableCollection<Tuple<AnimeStatus, string>>();
+
         public int CurrentAnimeFiltersSelectedIndex
         {
             get
@@ -65,10 +71,12 @@ namespace MALClient.ViewModels
             }
             set
             {
-                if(!_allowFilterNavigation) //when hamburger gets collapsed we don't want to trigger this thing
+                if (!_allowFilterNavigation) //when hamburger gets collapsed we don't want to trigger this thing
                     return;
-                if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList || ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Anime)
-                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs(value, AnimeListWorkModes.Anime));
+                if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList ||
+                    ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Anime)
+                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
+                        new AnimeListPageNavigationArgs(value, AnimeListWorkModes.Anime));
                 ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
                 SetActiveButton(HamburgerButtons.AnimeList);
                 RaisePropertyChanged(() => CurrentAnimeFiltersSelectedIndex);
@@ -89,8 +97,10 @@ namespace MALClient.ViewModels
             }
             set
             {
-                if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList || ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Manga)                    
-                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs(value,AnimeListWorkModes.Manga));
+                if (ViewModelLocator.Main.CurrentMainPage != PageIndex.PageAnimeList ||
+                    ViewModelLocator.AnimeList.WorkMode != AnimeListWorkModes.Manga)
+                    ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
+                        new AnimeListPageNavigationArgs(value, AnimeListWorkModes.Manga));
                 ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = value;
                 SetActiveButton(HamburgerButtons.MangaList);
                 RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);
@@ -142,14 +152,16 @@ namespace MALClient.ViewModels
                     };
                     ad.ErrorOccurred += async (sender, args) =>
                     {
-                        var msg = new MessageDialog("Microsoft has no ads for you :(\nYou can still donate if you want to...", "Thanks for trying!");
+                        var msg =
+                            new MessageDialog(
+                                "Microsoft has no ads for you :(\nYou can still donate if you want to...",
+                                "Thanks for trying!");
                         await msg.ShowAsync();
                         AdLoadingSpinnerVisibility = Visibility.Collapsed;
                     };
                     ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
 
                     ad.RequestAd(AdType.Video, "0b4d3120-9383-4469-9e80-812a15f124e3", "294830");
-
                 }
                     ));
             }
@@ -175,9 +187,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        public Visibility MalApiSpecificButtonsVisibility => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility MalApiSpecificButtonsVisibility
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
-        public Thickness _bottomStackPanelMargin = new Thickness(0);
         public Thickness BottomStackPanelMargin
         {
             get { return _bottomStackPanelMargin; }

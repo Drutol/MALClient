@@ -32,7 +32,6 @@ namespace MALClient.Pages
             if (e.Parameter is RecommendationPageNavigationArgs)
                 (DataContext as RecommendationsViewModel).PivotItemIndex =
                     (e.Parameter as RecommendationPageNavigationArgs).Index;
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

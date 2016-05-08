@@ -10,122 +10,145 @@
     xmlns:userControls="using:MALClient.UserControls"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=HumProfilePage}">
-    
+
     <Page.Resources>
-        <conversters:UrlToBitmapImageConverter x:Key="BitmapImageConverter"/>
-        <conversters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter"/>
-        <conversters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conversters:UrlToBitmapImageConverter x:Key="BitmapImageConverter" />
+        <conversters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter" />
+        <conversters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
     <ScrollViewer>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup >
+            <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="820"/>
-                        <AdaptiveTrigger MinWindowWidth="400"/>
+                        <AdaptiveTrigger MinWindowWidth="820" />
+                        <AdaptiveTrigger MinWindowWidth="400" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="FeedGrid.(Grid.Column)" Value="0"/>
-                        <Setter Target="FeedGrid.(Grid.Row)" Value="1"/>
-                        <Setter Target="ColumnDefinition1.Width" Value="*"/>
-                        <Setter Target="ColumnDefinition2.Width" Value="0"/>
+                        <Setter Target="FeedGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="FeedGrid.(Grid.Row)" Value="1" />
+                        <Setter Target="ColumnDefinition1.Width" Value="*" />
+                        <Setter Target="ColumnDefinition2.Width" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1100"/>
+                        <AdaptiveTrigger MinWindowWidth="1100" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="FeedGrid.(Grid.Column)" Value="1"/>
-                        <Setter Target="FeedGrid.(Grid.Row)" Value="0"/>
-                        <Setter Target="ColumnDefinition1.Width" Value=".5*"/>
-                        <Setter Target="ColumnDefinition2.Width" Value=".5*"/>
+                        <Setter Target="FeedGrid.(Grid.Column)" Value="1" />
+                        <Setter Target="FeedGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="ColumnDefinition1.Width" Value=".5*" />
+                        <Setter Target="ColumnDefinition2.Width" Value=".5*" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid Background="{ThemeResource BrushDeepBackground}" Margin="0,0,-16,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="220"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="220" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image Source="{Binding CurrentData.cover_image,Converter={StaticResource BitmapImageConverter}}" Stretch="Fill"/>
+                <Image Source="{Binding CurrentData.cover_image,Converter={StaticResource BitmapImageConverter}}"
+                       Stretch="Fill" />
                 <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".5"/>
+                        <SolidColorBrush Color="Black" Opacity=".5" />
                     </Grid.Background>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Image Margin="10,0,0,0" Source="{Binding CurrentData.avatar,Converter={StaticResource BitmapImageConverter}}" Height="90" Width="90"/>
+                    <Image Margin="10,0,0,0"
+                           Source="{Binding CurrentData.avatar,Converter={StaticResource BitmapImageConverter}}"
+                           Height="90" Width="90" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5">
-                        <TextBlock FontWeight="Medium" FontSize="25" Foreground="White" Text="{Binding CurrentData.name}" Margin="5"/>
+                        <TextBlock FontWeight="Medium" FontSize="25" Foreground="White"
+                                   Text="{Binding CurrentData.name}" Margin="5" />
                         <StackPanel Orientation="Vertical" Margin="5">
-                            <TextBlock FontWeight="SemiLight" FontSize="15" VerticalAlignment="Center" Foreground="White" Text="{Binding CurrentData.location}"/>
-                            <Button Padding="0" Style="{StaticResource TextBlockButtonStyle}" MaxWidth="160" Click="ButtonBase_OnClick">
-                                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding CurrentData.website}" FontWeight="SemiLight" FontSize="15"/>
+                            <TextBlock FontWeight="SemiLight" FontSize="15" VerticalAlignment="Center"
+                                       Foreground="White" Text="{Binding CurrentData.location}" />
+                            <Button Padding="0" Style="{StaticResource TextBlockButtonStyle}" MaxWidth="160"
+                                    Click="ButtonBase_OnClick">
+                                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding CurrentData.website}"
+                                           FontWeight="SemiLight" FontSize="15" />
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Visibility="{Binding CurrentData.waifu,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" >
-                        <TextBlock Text="{Binding CurrentData.waifu_or_husbando}" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
-                        <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding CurrentData.waifu}"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"
+                                Visibility="{Binding CurrentData.waifu,Converter={StaticResource BoolToVisibilityConverter}}"
+                                Margin="5">
+                        <TextBlock Text="{Binding CurrentData.waifu_or_husbando}" FontWeight="Medium" FontSize="20"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding CurrentData.waifu}" />
                     </StackPanel>
                 </Grid>
-                <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,16,0" >
+                <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,16,0">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".5"/>
+                        <SolidColorBrush Color="Black" Opacity=".5" />
                     </Grid.Background>
                     <StackPanel>
-                        <TextBlock Text="Watched anime for:" FontWeight="Normal" Foreground="White" HorizontalAlignment="Center"/>
-                        <TextBlock HorizontalAlignment="Center" FontWeight="SemiLight" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Text="{Binding CurrentData.life_spent_on_anime,Converter={StaticResource FormattedTimeLostConverter}}"/>
+                        <TextBlock Text="Watched anime for:" FontWeight="Normal" Foreground="White"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock HorizontalAlignment="Center" FontWeight="SemiLight"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   Text="{Binding CurrentData.life_spent_on_anime,Converter={StaticResource FormattedTimeLostConverter}}" />
                     </StackPanel>
-                    
+
                 </Grid>
             </Grid>
 
             <Grid Grid.Row="1" Margin="10,10,26,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="ColumnDefinition1" Width=".5*"/>
-                    <ColumnDefinition x:Name="ColumnDefinition2" Width=".5*"/>
+                    <ColumnDefinition x:Name="ColumnDefinition1" Width=".5*" />
+                    <ColumnDefinition x:Name="ColumnDefinition2" Width=".5*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10" Margin="10">
                         <StackPanel>
-                            <TextBlock Text="Bio" FontWeight="Medium" FontSize="18" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding CurrentData.bio}" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <TextBlock Text="Bio" FontWeight="Medium" FontSize="18"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding CurrentData.bio}" TextWrapping="WrapWholeWords"
+                                       HorizontalAlignment="Center" Margin="0,0,0,10" />
                         </StackPanel>
                     </Grid>
-                    <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Grid.Row="1" Margin="10" CornerRadius="10">
+                    <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Grid.Row="1" Margin="10"
+                          CornerRadius="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="5" Text="Favourite anime" FontWeight="Medium" FontSize="20" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Center"/>
-                        <ListView Grid.Row="1" ItemsSource="{Binding FavAnime}" Margin="10" IsItemClickEnabled="True" ItemClick="FavouritesNavDetails">
+                        <TextBlock Margin="5" Text="Favourite anime" FontWeight="Medium" FontSize="20"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   HorizontalAlignment="Center" />
+                        <ListView Grid.Row="1" ItemsSource="{Binding FavAnime}" Margin="10" IsItemClickEnabled="True"
+                                  ItemClick="FavouritesNavDetails">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                    <Setter Property="BorderThickness" Value="4,0,0,0"/>
-                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="BorderBrush"
+                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <Setter Property="BorderThickness" Value="4,0,0,0" />
+                                    <Setter Property="Margin" Value="5" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="10" Padding="5">
-                                        <items:AnimeItem DataContext="{Binding}"/>
+                                    <Grid Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="10"
+                                          Padding="5">
+                                        <items:AnimeItem DataContext="{Binding}" />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -133,52 +156,66 @@
                     </Grid>
                 </Grid>
 
-                <Grid Grid.Row="0" x:Name="FeedGrid" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Stretch" CornerRadius="10" Margin="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                <Grid Grid.Row="0" x:Name="FeedGrid" VerticalAlignment="Top" Grid.Column="1"
+                      HorizontalAlignment="Stretch" CornerRadius="10" Margin="10"
+                      Background="{ThemeResource BrushAnimeItemInnerBackground}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Pivot HorizontalAlignment="Center" SelectionChanged="Pivot_OnSelectionChanged">
-                        <PivotItem Header="Recent activity"/>
-                        <PivotItem Header="Posts"/>
+                        <PivotItem Header="Recent activity" />
+                        <PivotItem Header="Posts" />
                     </Pivot>
-                    <ListView x:Name="FeedRecent"  Visibility="Collapsed" Grid.Row="1" ItemsSource="{Binding FeedData}" Margin="10">
+                    <ListView x:Name="FeedRecent" Visibility="Collapsed" Grid.Row="1" ItemsSource="{Binding FeedData}"
+                              Margin="10">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                <Setter Property="BorderThickness" Value="4,0,0,0"/>
-                                <Setter Property="Margin" Value="5"/>
-                                <Setter Property="Padding" Value="5"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="BorderBrush"
+                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                <Setter Property="BorderThickness" Value="4,0,0,0" />
+                                <Setter Property="Margin" Value="5" />
+                                <Setter Property="Padding" Value="5" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Tapped="NavDetailsFeed" Tag="{Binding media.id}" Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="10">
+                                <Grid Tapped="NavDetailsFeed" Tag="{Binding media.id}"
+                                      Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="10">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Width="120" Height="Auto" MaxHeight="300"  VerticalAlignment="Top" Source="{Binding media.cover_image,Converter={StaticResource BitmapImageConverter}}"/>
+                                    <Image Width="120" Height="Auto" MaxHeight="300" VerticalAlignment="Top"
+                                           Source="{Binding media.cover_image,Converter={StaticResource BitmapImageConverter}}" />
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontSize="17" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis" FontWeight="Medium" Text="{Binding media.title}" HorizontalAlignment="Center"/>
-                                        <ItemsControl Grid.Row="1"  ItemsSource="{Binding substories}" Margin="5">
+                                        <TextBlock FontSize="17" TextWrapping="WrapWholeWords" MaxLines="2"
+                                                   TextTrimming="CharacterEllipsis" FontWeight="Medium"
+                                                   Text="{Binding media.title}" HorizontalAlignment="Center" />
+                                        <ItemsControl Grid.Row="1" ItemsSource="{Binding substories}" Margin="5">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid Margin="5">
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding TextRepresentationLabel}" FontWeight="Medium" Margin="5,0" TextTrimming="CharacterEllipsis"/>
-                                                            <TextBlock Text="{Binding TextRepresentation}" FontWeight="SemiLight" Margin="5,0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                            <TextBlock Text="{Binding TextRepresentationLabel}"
+                                                                       FontWeight="Medium" Margin="5,0"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                            <TextBlock Text="{Binding TextRepresentation}"
+                                                                       FontWeight="SemiLight" Margin="5,0"
+                                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                                         </StackPanel>
-                                                        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding TextRepresentationDate}" FontWeight="SemiLight"/>
+                                                        <TextBlock Grid.Column="1" HorizontalAlignment="Center"
+                                                                   Text="{Binding TextRepresentationDate}"
+                                                                   FontWeight="SemiLight" />
                                                     </Grid>
 
                                                 </DataTemplate>
@@ -192,33 +229,42 @@
                     <ListView x:Name="FeedPosts" Grid.Row="1" ItemsSource="{Binding SocialFeedData}" Margin="10">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                <Setter Property="BorderThickness" Value="4,0,0,0"/>
-                                <Setter Property="Margin" Value="5"/>
-                                <Setter Property="Padding" Value="5"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="BorderBrush"
+                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                <Setter Property="BorderThickness" Value="4,0,0,0" />
+                                <Setter Property="Margin" Value="5" />
+                                <Setter Property="Padding" Value="5" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="10">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Width="70" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Height="Auto" Stretch="Fill" Source="{Binding poster.avatar_small,Converter={StaticResource BitmapImageConverter}}"/>
+                                    <Image Width="70" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                           Height="Auto" Stretch="Fill"
+                                           Source="{Binding poster.avatar_small,Converter={StaticResource BitmapImageConverter}}" />
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" HorizontalAlignment="Right" Text="{Binding TextRepresentationDate}" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiLight"/>
-                                        <TextBlock Grid.Row="0" FontSize="17" FontWeight="Medium" Text="{Binding poster.name}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                                        <ItemsControl Grid.Row="1"  ItemsSource="{Binding substories}" Margin="5" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                        <TextBlock Grid.Row="0" HorizontalAlignment="Right"
+                                                   Text="{Binding TextRepresentationDate}" VerticalAlignment="Center"
+                                                   Margin="0,0,10,0" FontWeight="SemiLight" />
+                                        <TextBlock Grid.Row="0" FontSize="17" FontWeight="Medium"
+                                                   Text="{Binding poster.name}" VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left" Margin="10,0,0,0" />
+                                        <ItemsControl Grid.Row="1" ItemsSource="{Binding substories}" Margin="5"
+                                                      Background="{ThemeResource BrushAnimeItemInnerBackground}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid Margin="5" Padding="5" CornerRadius="10">
-                                                        <TextBlock Grid.Column="0" Text="{Binding TextRepresentation}" TextWrapping="WrapWholeWords" Margin="5,0"/>
+                                                        <TextBlock Grid.Column="0" Text="{Binding TextRepresentation}"
+                                                                   TextWrapping="WrapWholeWords" Margin="5,0" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -233,4 +279,3 @@
         </Grid>
     </ScrollViewer>
 </Page>
-

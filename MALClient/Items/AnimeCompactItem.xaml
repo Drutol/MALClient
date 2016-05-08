@@ -9,20 +9,21 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    
+
     <UserControl.Resources>
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
+        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Background="{StaticResource SystemControlBackgroundAccentBrush}" Opacity=".75" Width="25" Height="25" Visibility="Collapsed">
-                <SymbolIcon Symbol="More" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Background="{StaticResource SystemControlBackgroundAccentBrush}" Opacity=".75" Width="25"
+                    Height="25" Visibility="Collapsed">
+                <SymbolIcon Symbol="More" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <Button.Flyout>
                     <Flyout x:Name="FlyoutMore">
                         <StackPanel Padding="0">
@@ -37,7 +38,8 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <SymbolIcon Symbol="World" VerticalAlignment="Center" />
                                 <StackPanel HorizontalAlignment="Left">
-                                    <Button Content="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" />
+                                    <Button Content="Copy url to clipboard"
+                                            Command="{Binding CopyLinkToClipboardCommand}" />
                                     <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
                                 </StackPanel>
                             </StackPanel>
@@ -54,21 +56,23 @@
             </Button>
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="120"/>
+                    <ColumnDefinition Width="*" MinWidth="120" />
                     <ColumnDefinition Width="*" MinWidth="10" MaxWidth="100" />
                     <ColumnDefinition Width="*" MinWidth="20" MaxWidth="120" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="35,5,0,5"/>
-                <TextBlock Grid.Column="0" Text="{Binding Title}" Width="Auto" VerticalAlignment="Center" FontWeight="SemiLight" 
-                               TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" Margin="40,0,0,0"/>
+                <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="35,5,0,5" />
+                <TextBlock Grid.Column="0" Text="{Binding Title}" Width="Auto" VerticalAlignment="Center"
+                           FontWeight="SemiLight"
+                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2"
+                           Margin="40,0,0,0" />
                 <StackPanel Grid.Column="0" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock  Text="{Binding GlobalScoreBind}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-                    <TextBlock  Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis">
-                            <ToolTipService.ToolTip>
-                                <ToolTip Content="{Binding Type}"/>
-                            </ToolTipService.ToolTip>
+                    <TextBlock Text="{Binding GlobalScoreBind}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{Binding Type}" />
+                        </ToolTipService.ToolTip>
                     </TextBlock>
                 </StackPanel>
                 <Button Grid.Column="1" Content="{Binding MyScoreBind}" Margin="5"
@@ -139,52 +143,54 @@
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
-                
-                
+
+
             </Grid>
-            <StackPanel Grid.Column="2" Orientation="Horizontal" >
-                <Grid Height="40" Width="40" Margin="5" Visibility="{Binding DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter}}"/>
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Grid Height="40" Width="40" Margin="5"
+                      Visibility="{Binding DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                 <Button VerticalAlignment="Center" Height="40" Margin="5"
-                            Width="40" Command="{Binding DecrementWatchedCommand}"
-                            Visibility="{Binding DecrementEpsVisibility}"
-                            Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                    <SymbolIcon Symbol="Remove" Foreground="White"/>
+                        Width="40" Command="{Binding DecrementWatchedCommand}"
+                        Visibility="{Binding DecrementEpsVisibility}"
+                        Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                    <SymbolIcon Symbol="Remove" Foreground="White" />
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
                     </Button.RenderTransform>
                 </Button>
-                <Grid Height="40" Width="40" Margin="5" Visibility="{Binding IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter}}"/>
+                <Grid Height="40" Width="40" Margin="5"
+                      Visibility="{Binding IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                 <Button Height="40" Width="40" Margin="5"
-                            Command="{Binding IncrementWatchedCommand}"
-                            Visibility="{Binding IncrementEpsVisibility}"
-                            VerticalAlignment="Center"
-                            Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="0">
-                    <SymbolIcon Symbol="Add" Foreground="White"/>
+                        Command="{Binding IncrementWatchedCommand}"
+                        Visibility="{Binding IncrementEpsVisibility}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="0">
+                    <SymbolIcon Symbol="Add" Foreground="White" />
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
                     </Button.RenderTransform>
                 </Button>
                 <Button Content="{Binding MyEpisodesBind}" FontWeight="SemiLight" Height="40"
-                            Margin="0,5,5,5" VerticalAlignment="Center" Background="Transparent"
-                            BorderThickness="0,0,0,2" Width="120"
-                            BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                            IsEnabled="{Binding UpdateButtonsEnableState}" Padding="0">
+                        Margin="0,5,5,5" VerticalAlignment="Center" Background="Transparent"
+                        BorderThickness="0,0,0,2" Width="120"
+                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                        IsEnabled="{Binding UpdateButtonsEnableState}" Padding="0">
                     <Button.Flyout>
                         <Flyout x:Name="WatchedEpsFlyout">
                             <StackPanel>
                                 <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
-                                               FontWeight="SemiLight" />
+                                           FontWeight="SemiLight" />
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
-                                                 Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                 KeyDown="SubmitWatchedEps" />
+                                             Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             KeyDown="SubmitWatchedEps" />
                                     <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
                                         <SymbolIcon Symbol="Accept" />
                                     </Button>
                                 </StackPanel>
                                 <TextBlock Text="Wrong input!"
-                                               HorizontalAlignment="Center" FontWeight="SemiLight"
-                                               Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
+                                           HorizontalAlignment="Center" FontWeight="SemiLight"
+                                           Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>

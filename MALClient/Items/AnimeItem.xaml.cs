@@ -1,8 +1,6 @@
-﻿using Windows.Foundation;
-using Windows.System;
+﻿using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
 
@@ -12,8 +10,6 @@ namespace MALClient.Items
 {
     public sealed partial class AnimeItem : UserControl
     {
-        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
-
         public AnimeItem(AnimeItemViewModel vm)
         {
             InitializeComponent();
@@ -24,7 +20,29 @@ namespace MALClient.Items
         {
             InitializeComponent();
         }
-      
+
+        public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
+
+        private void BtnWatchedEpsOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnMoreOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnScoreOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemScoreFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnStatusOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemStatusFlyout(sender as FrameworkElement);
+        }
+
         //public void ClearImage()
         //{
         //    Image.Source = null;
@@ -51,30 +69,10 @@ namespace MALClient.Items
         }
 
         private void CloseTileUrlInput(object sender, RoutedEventArgs e)
-        {        
+        {
             ViewModel.TileUrlInputVisibility = Visibility.Collapsed;
         }
 
         #endregion
-
-        private void BtnWatchedEpsOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
-        }
-
-        private void BtnMoreOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemFlyout(sender as FrameworkElement);
-        }
-
-        private void BtnScoreOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemScoreFlyout(sender as FrameworkElement);
-        }
-
-        private void BtnStatusOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemStatusFlyout(sender as FrameworkElement);
-        }
     }
 }

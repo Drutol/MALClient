@@ -11,25 +11,25 @@
     <MenuFlyout x:Name="ScoreFlyout">
         <MenuFlyout.Items>
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[0]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="10" />
+                            CommandParameter="10" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[1]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="9" />
+                            CommandParameter="9" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[2]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="8" />
+                            CommandParameter="8" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[3]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="7" />
+                            CommandParameter="7" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[4]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="6" />
+                            CommandParameter="6" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[5]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="5" />
+                            CommandParameter="5" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[6]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="4" />
+                            CommandParameter="4" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[7]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="3" />
+                            CommandParameter="3" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[8]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="2" />
+                            CommandParameter="2" />
             <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[9]}" Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="1" />
+                            CommandParameter="1" />
         </MenuFlyout.Items>
     </MenuFlyout>
 

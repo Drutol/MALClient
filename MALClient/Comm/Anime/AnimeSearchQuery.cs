@@ -16,20 +16,21 @@ namespace MALClient.Comm
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/anime/search.xml?q={query}"));
+                    Request =
+                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/anime/search.xml?q={query}"));
                     Request.Credentials = Credentials.GetHttpCreditentials();
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/search/anime?query={query}"));
+                    Request =
+                        WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/search/anime?query={query}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
         }
 
         public async Task<List<AnimeGeneralDetailsData>> GetSearchResults()
@@ -47,9 +48,9 @@ namespace MALClient.Comm
                     foreach (var element in parsed.Elements("entry"))
                     {
                         var item = new AnimeGeneralDetailsData();
-                        item.ParseXElement(element,true);
+                        item.ParseXElement(element, true);
                         output.Add(item);
-                    }                   
+                    }
                     break;
                 case ApiType.Hummingbird:
                     dynamic jsonObj = JsonConvert.DeserializeObject(raw);
@@ -57,8 +58,8 @@ namespace MALClient.Comm
                     {
                         try
                         {
-                            int allEps =0;
-                            if(entry.episode_count!=null)
+                            var allEps = 0;
+                            if (entry.episode_count != null)
                                 allEps = Convert.ToInt32(entry.episode_count.ToString());
                             output.Add(new AnimeGeneralDetailsData
                             {
@@ -78,9 +79,7 @@ namespace MALClient.Comm
                         }
                         catch (Exception e)
                         {
-                            
                         }
-
                     }
 
                     break;

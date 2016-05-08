@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Items;
-using MALClient.UserControls;
 using MALClient.ViewModels;
-using WinRTXamlToolkit.AwaitableUI;
-using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -109,11 +102,15 @@ namespace MALClient.Pages
             set { _indefiniteScrollViewer = value; }
         }
 
+        public Flyout FlyoutViews => ViewsFlyout;
+        public Flyout FlyoutFilters => FiltersFlyout;
+        public MenuFlyout FlyoutSorting => SortingFlyout;
+
         public async Task<ScrollViewer> GetIndefiniteScrollViewer()
         {
             if (!_loaded)
             {
-                int retries = 5;
+                var retries = 5;
                 while (retries-- > 0 && !_loaded)
                 {
                     await Task.Delay(50);
@@ -129,12 +126,7 @@ namespace MALClient.Pages
             {
                 return null;
             }
-
         }
-
-        public Flyout FlyoutViews => ViewsFlyout;
-        public Flyout FlyoutFilters => FiltersFlyout;
-        public MenuFlyout FlyoutSorting => SortingFlyout;
 
         public void FlyoutSeasonSelectionHide()
         {
@@ -156,18 +148,77 @@ namespace MALClient.Pages
             }
         }
 
+        private void AnimesItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
+
+        private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeGridItemFlyout(e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
+
+        private void AnimeCompactItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
+
+        public void ResetSelectionForMode(AnimeListDisplayModes currMode)
+        {
+            try
+            {
+                switch (currMode)
+                {
+                    case AnimeListDisplayModes.IndefiniteList:
+                        AnimesItemsIndefinite.SelectedItem = null;
+                        break;
+                    case AnimeListDisplayModes.IndefiniteGrid:
+                        AnimesGridIndefinite.SelectedItem = null;
+                        break;
+                    case AnimeListDisplayModes.IndefiniteCompactList:
+                        AnimeCompactItemsIndefinite.SelectedItem = null;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(currMode), currMode, null);
+                }
+            }
+            catch (Exception)
+            {
+                //
+            }
+        }
+
+        private void AnimeCompactItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
+        }
+
+        private void AnimesItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
+        }
+
+        private void AnimesGridIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
+        }
+
         #region Init
 
         private double _prevWidth;
         private double _prevHeight;
         private bool _loaded;
+
         public AnimeListPage()
         {
             InitializeComponent();
             ViewModel.View = this;
             Loaded += (sender, args) =>
             {
-                ViewModel.CanAddScrollHandler = true;              
+                ViewModel.CanAddScrollHandler = true;
                 _loaded = true;
             };
 
@@ -176,7 +227,7 @@ namespace MALClient.Pages
                 if (Math.Abs(args.NewSize.Height - _prevHeight) > 100 || Math.Abs(args.NewSize.Width - _prevWidth) > 200)
                 {
                     //if(ViewModelLocator.Main.OffContentVisibility == Visibility.Visible)
-                        //ViewModelLocator.Main.View.InitSplitter();
+                    //ViewModelLocator.Main.View.InitSplitter();
                     _prevHeight = args.NewSize.Height;
                     _prevWidth = args.NewSize.Width;
                     if ((DataContext as AnimeListViewModel).AreThereItemsWaitingForLoad)
@@ -258,64 +309,5 @@ namespace MALClient.Pages
         }
 
         #endregion
-
-        private void AnimesItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
-            e.Handled = true;
-        }
-
-        private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeGridItemFlyout(e.OriginalSource as FrameworkElement);
-            e.Handled = true;
-        }
-
-        private void AnimeCompactItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
-            e.Handled = true;
-        }
-
-        public void ResetSelectionForMode(AnimeListDisplayModes currMode)
-        {
-            try
-            {
-                switch (currMode)
-                {
-                    case AnimeListDisplayModes.IndefiniteList:
-                        AnimesItemsIndefinite.SelectedItem = null;
-                        break;
-                    case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimesGridIndefinite.SelectedItem = null;
-                        break;
-                    case AnimeListDisplayModes.IndefiniteCompactList:
-                        AnimeCompactItemsIndefinite.SelectedItem = null;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(currMode), currMode, null);
-                }
-            }
-            catch (Exception)
-            {
-                //
-            }
-
-        }
-
-        private void AnimeCompactItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
-        }
-
-        private void AnimesItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
-        }
-
-        private void AnimesGridIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
-        }
     }
 }

@@ -418,7 +418,8 @@
                                             <ContentControl.Clip>
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
-                                            <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Padding="0"
+                                            <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}"
+                                                  Padding="0"
                                                   Margin="0" Height="33"
                                                   VerticalAlignment="Center" HorizontalAlignment="Stretch">
                                                 <PivotHeaderPanel x:Name="StaticHeader" Height="33"

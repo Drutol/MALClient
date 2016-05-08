@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -8,12 +7,8 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.StartScreen;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -26,21 +21,28 @@ namespace MALClient.ViewModels
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
         public const string InvalidStartEndDate = "0000-00-00";
-
-        public string ImgUrl { get; set; }
         public readonly AnimeItemAbstraction ParentAbstraction;
         private float _globalScore;
         private bool _seasonalState;
+
+        static AnimeItemViewModel()
+        {
+            UpdateScoreFlyoutChoices();
+        }
+
+        public string ImgUrl { get; set; }
+
+        public static List<string> ScoreFlyoutChoices { get; set; }
         //prop field pairs
 
         //state fields
-        public int Id { get; private set; }
+        public int Id { get; }
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
-            if(Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
+            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
                 return;
-            int id = Id;
+            var id = Id;
             if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
             {
                 id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
@@ -56,7 +58,6 @@ namespace MALClient.ViewModels
                         AnimeMode = ParentAbstraction.RepresentsAnime
                     });
         }
-
 
 
         public void UpdateWithSeasonData(SeasonalAnimeData data)
@@ -100,6 +101,37 @@ namespace MALClient.ViewModels
             AdjustIncrementButtonsVisibility();
             AddToListVisibility = Visibility.Collapsed;
             ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
+        }
+
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling"
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling"
+                };
         }
 
         #region Constructors
@@ -191,7 +223,8 @@ namespace MALClient.ViewModels
             {
                 if (ParentAbstraction.AirStartDate != null)
                 {
-                    if(DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now).TotalSeconds > 0)
+                    if (DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now).TotalSeconds >
+                        0)
                         return new SolidColorBrush(Colors.Gray);
                 }
                 return new SolidColorBrush(Colors.White);
@@ -270,8 +303,19 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBind
+            =>
+                MyScore == 0
+                    ? "Unranked"
+                    : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}"
+            ;
+
+        public string MyScoreBindShort
+            =>
+                MyScore == 0
+                    ? "N/A"
+                    : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}"
+            ;
 
         public float MyScore
         {
@@ -289,7 +333,6 @@ namespace MALClient.ViewModels
                 ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
-
 
 
         public string MyEpisodesBind
@@ -629,10 +672,7 @@ namespace MALClient.ViewModels
             {
                 return _pinTileCustomCommand ??
                        (_pinTileCustomCommand =
-                           new RelayCommand(() =>
-                           {
-                               TileUrlInputVisibility = Visibility.Visible;
-                           }));
+                           new RelayCommand(() => { TileUrlInputVisibility = Visibility.Visible; }));
             }
         }
 
@@ -700,7 +740,6 @@ namespace MALClient.ViewModels
                 return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() => NavigateDetails()));
             }
         }
-
 
         #endregion
 
@@ -796,12 +835,12 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
 
-            bool trigCompleted = true;
-            if (MyStatus == (int)AnimeStatus.PlanToWatch || MyStatus == (int)AnimeStatus.Dropped ||
-                MyStatus == (int)AnimeStatus.OnHold)
+            var trigCompleted = true;
+            if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
+                MyStatus == (int) AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                await PromptForStatusChange(AllEpisodes == 1 ? (int)AnimeStatus.Completed : (int)AnimeStatus.Watching);
+                await PromptForStatusChange(AllEpisodes == 1 ? (int) AnimeStatus.Completed : (int) AnimeStatus.Watching);
             }
 
             MyEpisodes++;
@@ -816,7 +855,7 @@ namespace MALClient.ViewModels
             ParentAbstraction.LastWatched = DateTime.Now;
 
             if (trigCompleted && MyEpisodes == _allEpisodes && _allEpisodes != 0)
-                await PromptForStatusChange((int)AnimeStatus.Completed);
+                await PromptForStatusChange((int) AnimeStatus.Completed);
 
             LoadingUpdate = Visibility.Collapsed;
         }
@@ -877,11 +916,14 @@ namespace MALClient.ViewModels
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
 
-            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
+            if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
+                (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
                 StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
+            else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&
+                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
+            else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
+                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
@@ -895,12 +937,12 @@ namespace MALClient.ViewModels
         }
 
         private async void ChangeScore(object score)
-        {        
+        {
             LoadingUpdate = Visibility.Visible;
             var myPrevScore = MyScore;
             if (Settings.SelectedApiType == ApiType.Hummingbird)
             {
-                MyScore = (float)Convert.ToDouble(score as string) / 2;
+                MyScore = (float) Convert.ToDouble(score as string)/2;
                 if (MyScore == myPrevScore)
                     MyScore = 0;
             }
@@ -962,42 +1004,5 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-
-        public static List<string> ScoreFlyoutChoices { get; set; }
-        static AnimeItemViewModel()
-        {
-            UpdateScoreFlyoutChoices();
-        }
-
-        public static void UpdateScoreFlyoutChoices()
-        {
-            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
-                ? new List<string>
-                {
-                    "10 - Masterpiece",
-                    "9 - Great",
-                    "8 - Very Good",
-                    "7 - Good",
-                    "6 - Fine",
-                    "5 - Average",
-                    "4 - Bad",
-                    "3 - Very Bad",
-                    "2 - Horrible",
-                    "1 - Appaling",
-                }
-                : new List<string>
-                {
-                    "5 - Masterpiece",
-                    "4.5 - Great",
-                    "4 - Very Good",
-                    "3.5 - Good",
-                    "3 - Fine",
-                    "2.5 - Average",
-                    "2 - Bad",
-                    "1.5 - Very Bad",
-                    "1 - Horrible",
-                    "0.5 - Appaling",
-                };
-        }
     }
 }

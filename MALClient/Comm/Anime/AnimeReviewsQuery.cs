@@ -55,7 +55,8 @@ namespace MALClient.Comm
                         var detailsNode = reviewNode.Descendants("div").First();
                         var pictureNode = detailsNode.Descendants("div").Where(node =>
                             node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Reviews:reviewNode:pictureNodeClass"])
+                            node.Attributes["class"].Value ==
+                            HtmlClassMgr.ClassDefs["#Reviews:reviewNode:pictureNodeClass"])
                             .Skip(1)
                             .First() //2nd picSurround
                             .Descendants("a").First(); //2nd a tag

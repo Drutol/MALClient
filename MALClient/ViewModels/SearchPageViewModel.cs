@@ -9,7 +9,6 @@ using GalaSoft.MvvmLight;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Models;
-using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
@@ -79,7 +78,7 @@ namespace MALClient.ViewModels
             }
             else // manga search
             {
-                string response = "";
+                var response = "";
                 await
                     Task.Run(
                         async () =>
@@ -91,7 +90,7 @@ namespace MALClient.ViewModels
                     {
                         var type = item.Element("type").Value;
                         var mangaData = new AnimeGeneralDetailsData();
-                        mangaData.ParseXElement(item,false);
+                        mangaData.ParseXElement(item, false);
                         _allAnimeSearchItems.Add(new AnimeSearchItem(mangaData, false));
                         if (!_filters.Contains(type))
                             _filters.Add(type);

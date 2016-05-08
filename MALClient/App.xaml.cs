@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
-using MALClient.Items;
-using MALClient.Models;
 using MALClient.Pages;
 using MALClient.ViewModels;
 using Microsoft.ApplicationInsights;
@@ -40,7 +35,7 @@ namespace MALClient
             Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
 
-            
+
             Suspending += OnSuspending;
         }
 
@@ -95,7 +90,7 @@ namespace MALClient
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof (MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
             // Ensure the current window is active
 
@@ -107,11 +102,17 @@ namespace MALClient
             {
                 // no internet?
             }
-            
+
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             var tb = ApplicationView.GetForCurrentView().TitleBar;
-            tb.BackgroundColor = tb.ButtonBackgroundColor =tb.InactiveBackgroundColor = tb.ButtonInactiveBackgroundColor = Settings.SelectedTheme == ApplicationTheme.Dark ? Color.FromArgb(255,41,41,41) : Colors.White;
+            tb.BackgroundColor =
+                tb.ButtonBackgroundColor =
+                    tb.InactiveBackgroundColor =
+                        tb.ButtonInactiveBackgroundColor =
+                            Settings.SelectedTheme == ApplicationTheme.Dark
+                                ? Color.FromArgb(255, 41, 41, 41)
+                                : Colors.White;
             ProcessUpdate();
         }
 
@@ -167,9 +168,15 @@ namespace MALClient
             if (Settings.IsCachingEnabled)
             {
                 if (AnimeUpdateQuery.UpdatedSomething)
-                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
-                if(MangaUpdateQuery.UpdatedSomething)
-                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
+                    await
+                        DataCache.SaveDataForUser(Credentials.UserName,
+                            ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
+                                abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
+                if (MangaUpdateQuery.UpdatedSomething)
+                    await
+                        DataCache.SaveDataForUser(Credentials.UserName,
+                            ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
+                                abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
             await DataCache.SaveVolatileData();
             await DataCache.SaveHumMalIdDictionary();

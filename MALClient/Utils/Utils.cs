@@ -10,7 +10,6 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
-using Windows.UI.ViewManagement;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -245,16 +244,22 @@ namespace MALClient
                 switch (Settings.SelectedApiType)
                 {
                     case ApiType.Mal:
-                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                        await
+                            Task.Run(
+                                async () =>
+                                    response =
+                                        await
+                                            http.GetByteArrayAsync(
+                                                $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                         break;
                     case ApiType.Hummingbird:
-                        string avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
+                        var avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
                         await Task.Run(async () => response = await http.GetByteArrayAsync(avatarLink));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                
+
                 //get bytes
 
                 var fs = await thumb.OpenStreamForWriteAsync(); //get stream
@@ -346,7 +351,8 @@ namespace MALClient
 
                 if (!targetUrl.Contains("http"))
                     targetUrl = "http://" + targetUrl;
-                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"), TileSize.Default);
+                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"),
+                    TileSize.Default);
                 RegisterTile(id.ToString());
                 await til.RequestCreateAsync();
             }
@@ -429,12 +435,29 @@ namespace MALClient
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("quot;", "\"").Replace("mdash;", "—").Replace("amp;", "&");
+            return
+                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("quot;", "\"")
+                    .Replace("mdash;", "—")
+                    .Replace("amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("&mdash;", "—").Replace("&amp;", "&");
+            return
+                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("&mdash;", "—")
+                    .Replace("&amp;", "&");
         }
 
         public static async void GiveStatusBarFeedback(string text)

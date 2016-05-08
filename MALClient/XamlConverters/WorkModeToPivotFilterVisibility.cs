@@ -2,7 +2,6 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using MALClient.Pages;
-using MALClient.ViewModels;
 
 namespace MALClient.XamlConverters
 {

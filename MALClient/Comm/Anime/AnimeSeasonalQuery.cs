@@ -62,7 +62,8 @@ namespace MALClient.Comm
                             seasonData.Add(seasonInfoNodes[j].Descendants("a").First().InnerText.Trim(),
                                 seasonInfoNodes[j].Descendants("a").First().Attributes["href"].Value);
 
-                            if (seasonInfoNodes[j].Descendants("a").First().Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:seasonInfoCurrent:class"])
+                            if (seasonInfoNodes[j].Descendants("a").First().Attributes["class"].Value ==
+                                HtmlClassMgr.ClassDefs["#Seasonal:seasonInfoCurrent:class"])
                                 seasonData.Add("current", j.ToString());
                         }
                         catch (Exception)
@@ -85,24 +86,34 @@ namespace MALClient.Comm
                     var imageNode =
                         htmlNode.Descendants("div")
                             .First(
-                                node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:image:class"]);
+                                node =>
+                                    node.Attributes.Contains("class") &&
+                                    node.Attributes["class"].Value ==
+                                    HtmlClassMgr.ClassDefs["#Seasonal:entryNode:image:class"]);
                     var link = imageNode.ChildNodes.First(node => node.Name == "a").Attributes["href"].Value;
                     var img = imageNode.Attributes["style"].Value;
                     var scoreTxt =
                         htmlNode.Descendants("span")
                             .First(
-                                node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:score:class"])
+                                node =>
+                                    node.Attributes.Contains("class") &&
+                                    node.Attributes["class"].Value ==
+                                    HtmlClassMgr.ClassDefs["#Seasonal:entryNode:score:class"])
                             .InnerText;
                     var infoNode =
                         htmlNode.Descendants("div")
-                            .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:info:class"]);
+                            .First(
+                                node =>
+                                    node.Attributes.Contains("class") &&
+                                    node.Attributes["class"].Value ==
+                                    HtmlClassMgr.ClassDefs["#Seasonal:entryNode:info:class"]);
                     int day;
                     string airStartDate = null;
                     try
                     {
                         var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
                         var dateObj = DateTime.Parse(date);
-                        day = (int)dateObj.DayOfWeek;
+                        day = (int) dateObj.DayOfWeek;
                         airStartDate = dateObj.ToString("yyyy-MM-dd");
                         day++;
                     }
@@ -124,14 +135,18 @@ namespace MALClient.Comm
                         Episodes =
                             htmlNode.Descendants("div")
                                 .First(
-                                    node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:eps:class"])
+                                    node =>
+                                        node.Attributes.Contains("class") &&
+                                        node.Attributes["class"].Value ==
+                                        HtmlClassMgr.ClassDefs["#Seasonal:entryNode:eps:class"])
                                 .Descendants("a")
                                 .First()
                                 .InnerText.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0],
                         Index = i,
                         Genres = htmlNode.Descendants("div").First(node =>
                             node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:genres:class"]).InnerText
+                            node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Seasonal:entryNode:genres:class"])
+                            .InnerText
                             .Replace('\n', ';')
                             .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                             .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())

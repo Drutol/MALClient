@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MALClient.Comm;
 
 // ReSharper disable InconsistentNaming
@@ -98,9 +96,9 @@ namespace MALClient.Models.ApiResponses
                     case "watched_episode":
                         return episode_number;
                     case "watchlist_status_update":
-                        return LibraryListQuery.HummingbirdStatusToMal(new_status.Replace('_','-')).ToString();
+                        return LibraryListQuery.HummingbirdStatusToMal(new_status.Replace('_', '-')).ToString();
                     case "comment":
-                        return comment.Replace("<br>","\n");
+                        return comment.Replace("<br>", "\n");
                     default:
                         return "";
                 }
@@ -146,19 +144,23 @@ namespace MALClient.Models.ApiResponses
 
     public class HumStoryObject
     {
+        private List<Substory> _substories;
         public int id { get; set; }
         public string story_type { get; set; }
         public HumUser user { get; set; }
         public string updated_at { get; set; }
         public HumStoryMediaElement media { get; set; }
         public int substories_count { get; set; }
-        private List<Substory> _substories;
-        public List<Substory> substories { get
+
+        public List<Substory> substories
         {
-            return _substories?.Where(substory => substory.substory_type != "reply").ToList();
-        } set { _substories = value; } }
+            get { return _substories?.Where(substory => substory.substory_type != "reply").ToList(); }
+            set { _substories = value; }
+        }
+
         public bool? self_post { get; set; }
         public HumStoryPoster poster { get; set; }
+
         public string TextRepresentationDate
         {
             get

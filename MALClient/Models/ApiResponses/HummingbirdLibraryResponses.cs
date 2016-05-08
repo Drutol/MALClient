@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MALClient.Models.ApiResponses
 {
-
     public class HumGenre
     {
         public string name { get; set; }
@@ -54,5 +49,4 @@ namespace MALClient.Models.ApiResponses
         public HumAnime anime { get; set; }
         public HumRating rating { get; set; }
     }
-
 }

@@ -32,7 +32,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LogoImage.Visibility" Value="Visible" />
-                        <Setter Target="HamburgerControl.Width" Value="250"/>
+                        <Setter Target="HamburgerControl.Width" Value="250" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -41,7 +41,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LogoImage.Visibility" Value="Collapsed" />
-                        <Setter Target="HamburgerControl.Width" Value="60"/>
+                        <Setter Target="HamburgerControl.Width" Value="60" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -74,10 +74,11 @@
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <Button IsTabStop="False" HorizontalAlignment="Right"
-                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0" Background="{ThemeResource BrushAppBarInner}"
+                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0"
+                        Background="{ThemeResource BrushAppBarInner}"
                         Command="{Binding NavigateBackCommand}"
                         Visibility="{Binding NavigateBackButtonVisibility}">
-                    <SymbolIcon Symbol="Back" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                    <SymbolIcon Symbol="Back" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                 </Button>
                 <Button IsTabStop="False" HorizontalAlignment="Right"
                         VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3" Background="Transparent"
@@ -153,9 +154,9 @@
             <controls:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" />
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="45"/>
-                    <ColumnDefinition Width="16"/>
-                    <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600"/>
+                    <ColumnDefinition Width="*" MinWidth="45" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
 
                 <Frame Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MainContent" />
@@ -165,9 +166,13 @@
                                             Visibility="{Binding OffContentVisibility}"
                                             Background="{ThemeResource BrushSplitter}" ResizeDirection="Columns"
                                             ResizeBehavior="PreviousAndNext" />
-                <Grid Visibility="{Binding OffContentVisibility}"  Grid.Column="2" Margin="{Binding ElementName=OffContent,Path=Margin}"  SizeChanged="OffContent_OnSizeChanged" Height="10"/>
-                <Frame Grid.Column="2" x:Name="OffContent" HorizontalAlignment="Stretch" MinWidth="420" PointerPressed="OffContent_OnPointerPressed"
-                       Visibility="{Binding OffContentVisibility}" Margin="{Binding Source={StaticResource Locator} ,Path=Hamburger.BottomStackPanelMargin}" />
+                <Grid Visibility="{Binding OffContentVisibility}" Grid.Column="2"
+                      Margin="{Binding ElementName=OffContent,Path=Margin}" SizeChanged="OffContent_OnSizeChanged"
+                      Height="10" />
+                <Frame Grid.Column="2" x:Name="OffContent" HorizontalAlignment="Stretch" MinWidth="420"
+                       PointerPressed="OffContent_OnPointerPressed"
+                       Visibility="{Binding OffContentVisibility}"
+                       Margin="{Binding Source={StaticResource Locator} ,Path=Hamburger.BottomStackPanelMargin}" />
             </Grid>
 
         </Grid>

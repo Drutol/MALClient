@@ -6,7 +6,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.UserControls;
 using MALClient.ViewModels;
@@ -22,8 +21,6 @@ namespace MALClient.Pages
     {
         private bool _initialized;
 
-        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
-
         public SettingsPage()
         {
             InitializeComponent();
@@ -33,6 +30,8 @@ namespace MALClient.Pages
                 "Want something? Let me know! Scroll just a little bit and go to the issues board :)"
             };
         }
+
+        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
 
         private async void Donate(object sender, RoutedEventArgs e)
         {
@@ -422,7 +421,7 @@ namespace MALClient.Pages
 
         private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if((sender as Pivot).SelectedIndex == 4)
+            if ((sender as Pivot).SelectedIndex == 4)
                 ViewModel.LoadNews();
         }
     }

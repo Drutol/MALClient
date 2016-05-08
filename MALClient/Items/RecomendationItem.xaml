@@ -89,34 +89,40 @@
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".2*"/>
-                                        <ColumnDefinition Width=".3*"/>
-                                        <ColumnDefinition Width=".4*"/>
-                                        <ColumnDefinition Width=".3*"/>
+                                        <ColumnDefinition Width=".2*" />
+                                        <ColumnDefinition Width=".3*" />
+                                        <ColumnDefinition Width=".4*" />
+                                        <ColumnDefinition Width=".3*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Item1}" FontWeight="Medium"/>
+                                    <TextBlock Text="{Binding Item1}" FontWeight="Medium" />
                                     <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="110"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Item2}" TextAlignment="Left" HorizontalAlignment="Stretch"/>
-                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch"/>
-                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item3}" Margin="10,0,0,0" 
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch"/>
+                                        <TextBlock Text="{Binding Item2}" TextAlignment="Left"
+                                                   HorizontalAlignment="Stretch" />
+                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" />
+                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item3}"
+                                                   Margin="10,0,0,0"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                   HorizontalAlignment="Stretch" />
                                     </Grid>
-                                    <Grid Column="2" HorizontalAlignment="Stretch"/>
+                                    <Grid Column="2" HorizontalAlignment="Stretch" />
                                     <Grid Grid.Column="3" HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="110"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Item4}" TextAlignment="Left" HorizontalAlignment="Stretch"/>
-                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch"/>
-                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item5}" Margin="10,0,0,0" 
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch"/>
+                                        <TextBlock Text="{Binding Item4}" TextAlignment="Left"
+                                                   HorizontalAlignment="Stretch" />
+                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" />
+                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item5}"
+                                                   Margin="10,0,0,0"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                   HorizontalAlignment="Stretch" />
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

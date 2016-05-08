@@ -7,7 +7,7 @@ namespace MALClient.UserControls
     {
         // Using a DependencyProperty as the backing store for LockToggle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LockToggleProperty =
-            DependencyProperty.Register("LockToggle", typeof (bool), typeof (LockableToggleButton),
+            DependencyProperty.Register("LockToggle", typeof(bool), typeof(LockableToggleButton),
                 new PropertyMetadata(false));
 
         public bool LockToggle

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System;
@@ -12,7 +10,6 @@ using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
-using MALClient.Items;
 using MALClient.Models;
 using MALClient.Models.Favourites;
 using MALClient.Pages;
@@ -27,24 +24,65 @@ namespace MALClient.ViewModels
 
     public sealed class ProfilePageViewModel : ViewModelBase
     {
-        private bool _loadedFavManga;
+        private List<int> _animeChartValues = new List<int>();
+
+        private int _currentlySelectedInnerPivotIndex;
+
+        private PivotItem _currentlySelectedInnerPivotItem;
+
+        private int _currentlySelectedOuterPivotIndex;
+
+
+        private PivotItem _currentlySelectedOuterPivotItem;
+        private bool _dataLoaded;
+
+
+        private Visibility _emptyFavAnimeNoticeVisibility = Visibility.Collapsed;
+
+        private Visibility _emptyFavCharactersNoticeVisibility = Visibility.Collapsed;
+        private Visibility _emptyFavMangaNoticeVisibility = Visibility.Collapsed;
+
+        private Visibility _emptyFavPeopleNoticeVisibility = Visibility.Collapsed;
+
+        private Visibility _emptyRecentAnimeNoticeVisibility = Visibility.Collapsed;
+
+        private Visibility _emptyRecentMangaNoticeVisibility = Visibility.Collapsed;
+        private ObservableCollection<AnimeItemViewModel> _favAnime;
+        private ObservableCollection<FavCharacter> _favChars;
+        private ObservableCollection<AnimeItemViewModel> _favManga;
+        private ObservableCollection<FavPerson> _favPpl;
+
+
+        private bool _initialized;
+        private bool _loadedChars;
         private bool _loadedFavAnime;
+        private bool _loadedFavManga;
+        private bool _loadedPpl;
         private bool _loadedRecent;
         private bool _loadedStats;
-        private bool _loadedChars;
-        private bool _loadedPpl;
+
+        private Visibility _loadingVisibility = Visibility.Collapsed;
+
+        private List<int> _mangaChartValues = new List<int>();
+
+        private ICommand _navigateCharPageCommand;
+
+        private ICommand _navigateDetailsCommand;
+
+        private ICommand _navigatePersonPageCommand;
+
+        private ObservableCollection<AnimeItemViewModel> _recentAnime;
+        private ObservableCollection<AnimeItemViewModel> _recentManga;
+
+        public ProfilePageViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            MaxWidth = bounds.Width/2.2;
+        }
 
         //public ProfilePage View { get; set; }
 
         public ProfileData CurrentData { get; set; } = new ProfileData();
-        private bool _dataLoaded;
-
-        private ObservableCollection<AnimeItemViewModel> _recentAnime;
-        private ObservableCollection<AnimeItemViewModel> _recentManga;
-        private ObservableCollection<AnimeItemViewModel> _favManga;
-        private ObservableCollection<AnimeItemViewModel> _favAnime;
-        private ObservableCollection<FavCharacter> _favChars;
-        private ObservableCollection<FavPerson> _favPpl;
 
         public ObservableCollection<AnimeItemViewModel> RecentAnime
         {
@@ -106,10 +144,6 @@ namespace MALClient.ViewModels
             }
         }
 
-
-
-        private PivotItem _currentlySelectedOuterPivotItem;
-
         public PivotItem CurrentlySelectedOuterPivotItem
         {
             get { return _currentlySelectedOuterPivotItem; }
@@ -120,8 +154,6 @@ namespace MALClient.ViewModels
                 OuterPivotItemChanged(value.Tag as string);
             }
         }
-
-        private PivotItem _currentlySelectedInnerPivotItem;
 
         public PivotItem CurrentlySelectedInnerPivotItem
         {
@@ -148,8 +180,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _loadingVisibility = Visibility.Collapsed;
-
         public Visibility LoadingVisibility
         {
             get { return _loadingVisibility; }
@@ -159,8 +189,6 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => LoadingVisibility);
             }
         }
-
-        private int _currentlySelectedOuterPivotIndex;
 
         public int CurrentlySelectedOuterPivotIndex
         {
@@ -172,8 +200,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _currentlySelectedInnerPivotIndex;
-
         public int CurrentlySelectedInnerPivotIndex
         {
             get { return _currentlySelectedInnerPivotIndex; }
@@ -184,8 +210,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private List<int> _animeChartValues = new List<int>();
-
         public List<int> AnimeChartValues
         {
             get { return _animeChartValues; }
@@ -194,9 +218,7 @@ namespace MALClient.ViewModels
                 _animeChartValues = value;
                 RaisePropertyChanged(() => AnimeChartValues);
             }
-        }        
-
-        private List<int> _mangaChartValues = new List<int>();
+        }
 
         public List<int> MangaChartValues
         {
@@ -210,23 +232,19 @@ namespace MALClient.ViewModels
 
         public static double MaxWidth { get; set; }
 
-        private ICommand _navigateDetailsCommand;
-
         public ICommand NavigateDetailsCommand
             => _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand<FavCharacter>(NavigateDetails));
 
-        private ICommand _navigateCharPageCommand;
-
         public ICommand NavigateCharPageCommand
-            => _navigateCharPageCommand ?? (_navigateCharPageCommand = new RelayCommand<FavCharacter>(NavigateCharacterWebPage));
-
-        private ICommand _navigatePersonPageCommand;
+            =>
+                _navigateCharPageCommand ??
+                (_navigateCharPageCommand = new RelayCommand<FavCharacter>(NavigateCharacterWebPage));
 
         public ICommand NavigatePersonPageCommand
-            => _navigatePersonPageCommand ?? (_navigatePersonPageCommand = new RelayCommand<FavPerson>(NavigatePersonWebPage));
+            =>
+                _navigatePersonPageCommand ??
+                (_navigatePersonPageCommand = new RelayCommand<FavPerson>(NavigatePersonWebPage));
 
-
-        private Visibility _emptyFavAnimeNoticeVisibility = Visibility.Collapsed;
         public Visibility EmptyFavAnimeNoticeVisibility
         {
             get { return _emptyFavAnimeNoticeVisibility; }
@@ -237,7 +255,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _emptyFavCharactersNoticeVisibility = Visibility.Collapsed;
         public Visibility EmptyFavCharactersNoticeVisibility
         {
             get { return _emptyFavCharactersNoticeVisibility; }
@@ -247,7 +264,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => EmptyFavCharactersNoticeVisibility);
             }
         }
-        private Visibility _emptyFavMangaNoticeVisibility = Visibility.Collapsed;
+
         public Visibility EmptyFavMangaNoticeVisibility
         {
             get { return _emptyFavMangaNoticeVisibility; }
@@ -258,7 +275,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _emptyRecentMangaNoticeVisibility = Visibility.Collapsed;
         public Visibility EmptyRecentMangaNoticeVisibility
         {
             get { return _emptyRecentMangaNoticeVisibility; }
@@ -269,7 +285,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _emptyRecentAnimeNoticeVisibility = Visibility.Collapsed;
         public Visibility EmptyRecentAnimeNoticeVisibility
         {
             get { return _emptyRecentAnimeNoticeVisibility; }
@@ -280,7 +295,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _emptyFavPeopleNoticeVisibility = Visibility.Collapsed;
         public Visibility EmptyFavPeopleNoticeVisibility
         {
             get { return _emptyFavPeopleNoticeVisibility; }
@@ -291,17 +305,8 @@ namespace MALClient.ViewModels
             }
         }
 
-
-        private bool _initialized;
-
-        public ProfilePageViewModel()
+        public async void LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
         {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            MaxWidth = bounds.Width / 2.2;
-        }
-
-        public async void LoadProfileData(ProfilePageNavigationArgs args,bool force = false)
-        {        
             if (!_dataLoaded || force)
             {
                 LoadingVisibility = Visibility.Visible;
@@ -319,12 +324,12 @@ namespace MALClient.ViewModels
 
         private async void InnerPivotItemChanged(string tag)
         {
-            if(!_initialized)
+            if (!_initialized)
                 return;
             switch (tag)
             {
                 case "Chars":
-                    if(_loadedChars)
+                    if (_loadedChars)
                         return;
                     _loadedChars = true;
                     FavCharacters = new ObservableCollection<FavCharacter>();
@@ -375,7 +380,7 @@ namespace MALClient.ViewModels
                 case "Ppl":
                     if (_loadedPpl)
                         return;
-                    _loadedPpl = true;                 
+                    _loadedPpl = true;
                     FavPeople = new ObservableCollection<FavPerson>();
                     await Task.Delay(10);
                     foreach (var favPerson in CurrentData.FavouritePeople)
@@ -435,7 +440,7 @@ namespace MALClient.ViewModels
                         : Visibility.Collapsed;
                     break;
                 case "Stats":
-                    if(_loadedStats)
+                    if (_loadedStats)
                         return;
                     _loadedStats = true;
                     await CurrentData.PopulateWatchStats();
@@ -485,7 +490,6 @@ namespace MALClient.ViewModels
                     Source = PageIndex.PageProfile,
                     AnimeMode = character.FromAnime
                 });
-
         }
 
         private async void NavigateCharacterWebPage(FavCharacter character)

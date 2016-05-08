@@ -15,9 +15,9 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
-            <converters:UrlToBitmapImageConverter  x:Key="UrlToBitmapImageConverter" />
+            <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
+                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -26,11 +26,13 @@
         <!--ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
           ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia"-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="Image" controlsExt:ImageExtensions.FadeInOnLoaded="True" MaxWidth="150" Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" Stretch="Uniform" HorizontalAlignment="Left" Height="200" 
+        <Image x:Name="Image" controlsExt:ImageExtensions.FadeInOnLoaded="True" MaxWidth="150"
+               Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" Stretch="Uniform"
+               HorizontalAlignment="Left" Height="200"
                Width="Auto" Margin="1,1" />
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
@@ -100,8 +102,7 @@
                             BorderThickness="0,0,0,2"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                             IsEnabled="{Binding UpdateButtonsEnableState}"
-                            HorizontalAlignment="Right" Click="BtnWatchedEpsOnClick">
-                    </Button>
+                            HorizontalAlignment="Right" Click="BtnWatchedEpsOnClick" />
                 </StackPanel>
                 <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind}" Margin="0,0,1,0"
                         Style="{StaticResource ButtonDisabledStyle}"
@@ -111,7 +112,7 @@
                         Visibility="{Binding UpdateButtonsVisibility}"
                         Click="BtnStatusOnClick">
                     <Button.Background>
-                        <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                        <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75" />
                     </Button.Background>
                     <Button.ContentTemplate>
                         <DataTemplate>
@@ -127,7 +128,7 @@
                         Visibility="{Binding UpdateButtonsVisibility}"
                         Click="BtnScoreOnClick">
                     <Button.Background>
-                        <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                        <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75" />
                     </Button.Background>
                     <Button.ContentTemplate>
                         <DataTemplate>
@@ -141,7 +142,7 @@
                             Visibility="{Binding IncrementEpsVisibility}"
                             VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Button.Background>
-                            <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                            <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75" />
                         </Button.Background>
                         <SymbolIcon Symbol="Add" Foreground="White" />
                         <Button.RenderTransform>
@@ -152,7 +153,7 @@
                             Width="40" Command="{Binding DecrementWatchedCommand}"
                             Visibility="{Binding DecrementEpsVisibility}">
                         <Button.Background>
-                            <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75"/>
+                            <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".75" />
                         </Button.Background>
                         <SymbolIcon Symbol="Remove" Foreground="White" />
                         <Button.RenderTransform>

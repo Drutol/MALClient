@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MALClient.Comm;
 using MALClient.Models.Favourites;
@@ -11,6 +8,9 @@ namespace MALClient.Models
 {
     public class ProfileData
     {
+        //Days
+        public float AnimeDays;
+        public float MangaDays;
         //Anime
         public int AnimeWatching { get; set; }
         public int AnimeCompleted { get; set; }
@@ -23,11 +23,17 @@ namespace MALClient.Models
         public int MangaOnHold { get; set; }
         public int MangaDropped { get; set; }
         public int MangaPlanned { get; set; }
-        //Days
-        public float AnimeDays;
-        public string AnimeDaysBind { get { return $"Days: {AnimeDays}"; } }
-        public float MangaDays;
-        public string MangaDaysBind { get { return $"Days: {MangaDays}"; } }      
+
+        public string AnimeDaysBind
+        {
+            get { return $"Days: {AnimeDays}"; }
+        }
+
+        public string MangaDaysBind
+        {
+            get { return $"Days: {MangaDays}"; }
+        }
+
         //Fav Anime
         public List<int> FavouriteAnime { get; set; } = new List<int>();
         //Fav Manga
@@ -42,14 +48,17 @@ namespace MALClient.Models
         public List<int> RecentManga { get; set; } = new List<int>();
 
         public bool WatchStatsDownloaded { get; private set; }
+
         public async Task PopulateWatchStats()
         {
             if (WatchStatsDownloaded)
                 return;
             WatchStatsDownloaded = true;
 
-            var animeStats = await new LibraryListQuery(Credentials.UserName,AnimeListWorkModes.Anime).GetProfileStats();
-            var mangaStats = await new LibraryListQuery(Credentials.UserName,AnimeListWorkModes.Manga).GetProfileStats(false);
+            var animeStats =
+                await new LibraryListQuery(Credentials.UserName, AnimeListWorkModes.Anime).GetProfileStats();
+            var mangaStats =
+                await new LibraryListQuery(Credentials.UserName, AnimeListWorkModes.Manga).GetProfileStats(false);
 
             if (animeStats != null)
             {

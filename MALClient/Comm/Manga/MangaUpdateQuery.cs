@@ -7,15 +7,18 @@ namespace MALClient.Comm
 {
     internal class MangaUpdateQuery : Query
     {
-        public static bool UpdatedSomething = false; //used for data saving on suspending in app.xaml.cs
+        public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
 
         public MangaUpdateQuery(IAnimeData item)
-            : this(item.Id, item.MyEpisodes, item.MyStatus, (int)item.MyScore, item.MyVolumes,item.StartDate,item.EndDate)
+            : this(
+                item.Id, item.MyEpisodes, item.MyStatus, (int) item.MyScore, item.MyVolumes, item.StartDate,
+                item.EndDate)
         {
         }
 
 
-        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol,string startDate,string endDate)
+        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
+            string endDate)
         {
             UpdatedSomething = true;
             var splitDate = startDate.Split('-');

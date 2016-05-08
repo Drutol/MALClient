@@ -16,6 +16,7 @@ namespace MALClient.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
+        private bool _newsLoaded;
         private ICommand _reviewCommand;
 
         public ICommand ReviewCommand => _reviewCommand ?? (_reviewCommand = new RelayCommand(async () =>
@@ -130,19 +131,28 @@ namespace MALClient.ViewModels
         public bool DataSourceAnn
         {
             get { return Settings.PrefferedDataSource == DataSource.Ann; }
-            set { if (value) Settings.PrefferedDataSource = DataSource.Ann; }
+            set
+            {
+                if (value) Settings.PrefferedDataSource = DataSource.Ann;
+            }
         }
 
         public bool DataSourceHum
         {
             get { return Settings.PrefferedDataSource == DataSource.Hummingbird; }
-            set { if (value) Settings.PrefferedDataSource = DataSource.Hummingbird; }
+            set
+            {
+                if (value) Settings.PrefferedDataSource = DataSource.Hummingbird;
+            }
         }
 
         public bool DataSourceAnnHum
         {
             get { return Settings.PrefferedDataSource == DataSource.AnnHum; }
-            set { if (value) Settings.PrefferedDataSource = DataSource.AnnHum; }
+            set
+            {
+                if (value) Settings.PrefferedDataSource = DataSource.AnnHum;
+            }
         }
 
         public static bool SetStartDateOnWatching
@@ -196,14 +206,13 @@ namespace MALClient.ViewModels
         public Visibility MalApiDependatedntSectionsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
-        private bool _newsLoaded;
         public async void LoadNews()
         {
-            if(_newsLoaded)
+            if (_newsLoaded)
                 return;
             _newsLoaded = true;
 
-            List<NewsData> data = new List<NewsData>();
+            var data = new List<NewsData>();
             try
             {
                 await

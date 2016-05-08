@@ -1,17 +1,13 @@
 ﻿using System;
-using Windows.Foundation;
+using Windows.Devices.Input;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using MALClient.Comm;
-using MALClient.Comm.Anime;
 using MALClient.UserControls;
 using MALClient.ViewModels;
-using WinRTXamlToolkit.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,6 +18,7 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
+        private double _prevOffContntWidth;
 
         public MainPage()
         {
@@ -29,7 +26,11 @@ namespace MALClient
             Utils.CheckTiles();
             Loaded += (sender, args) =>
             {
-                LogoImage.Source =  new BitmapImage(new Uri(Settings.SelectedTheme == ApplicationTheme.Dark ? "ms-appx:///Assets/upperappbarlogowhite.png" : "ms-appx:///Assets/upperappbarlogoblue.png")) ;
+                LogoImage.Source =
+                    new BitmapImage(
+                        new Uri(Settings.SelectedTheme == ApplicationTheme.Dark
+                            ? "ms-appx:///Assets/upperappbarlogowhite.png"
+                            : "ms-appx:///Assets/upperappbarlogoblue.png"));
                 ViewModelLocator.Main.View = this;
             };
         }
@@ -49,21 +50,23 @@ namespace MALClient
             SearchInput.Focus(state);
         }
 
-        private double GetStartingSplitterWidth()
-        {
-            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 420;
-        }
-
-        private double _prevOffContntWidth = 0;
         public void InitSplitter()
         {
-            RootContentGrid.ColumnDefinitions[2].Width = new GridLength(_prevOffContntWidth == 0 ? (_prevOffContntWidth = GetStartingSplitterWidth()) : _prevOffContntWidth);
+            RootContentGrid.ColumnDefinitions[2].Width =
+                new GridLength(_prevOffContntWidth == 0
+                    ? (_prevOffContntWidth = GetStartingSplitterWidth())
+                    : _prevOffContntWidth);
             OffContent.UpdateLayout();
         }
 
         public HamburgerControl Hamburger => HamburgerControl;
         public Grid GridRootContent => RootContentGrid;
         public Image Logo => LogoImage;
+
+        private double GetStartingSplitterWidth()
+        {
+            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 420;
+        }
 
         #region Search
 
@@ -82,30 +85,29 @@ namespace MALClient
 
         private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
         {
-            if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth && RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
+            if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
+                RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
             {
                 var vm = ViewModelLocator.AnimeList;
-                if(vm.AreThereItemsWaitingForLoad)
+                if (vm.AreThereItemsWaitingForLoad)
                     ViewModelLocator.AnimeList.RefreshList();
             }
-            
+
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
-            
         }
 
         private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-
             (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
         }
 
 
         private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
             {
                 var properties = e.GetCurrentPoint(this).Properties;
-                if(properties.IsXButton1Pressed)
+                if (properties.IsXButton1Pressed)
                     NavMgr.CurrentViewOnBackRequested();
             }
         }

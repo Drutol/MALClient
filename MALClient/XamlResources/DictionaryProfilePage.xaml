@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <Style x:Key="PivotHeaderOuterProfilePage" TargetType="PivotHeaderItem">
         <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}" />
         <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
@@ -140,8 +140,7 @@
                                           FontFamily="{TemplateBinding FontFamily}"
                                           FontWeight="{TemplateBinding FontWeight}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          >
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <ContentPresenter.RenderTransform>
                                 <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
                             </ContentPresenter.RenderTransform>
@@ -289,8 +288,7 @@
                                           FontFamily="{TemplateBinding FontFamily}"
                                           FontWeight="{TemplateBinding FontWeight}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          >
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <ContentPresenter.RenderTransform>
                                 <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
                             </ContentPresenter.RenderTransform>
@@ -633,7 +631,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="PivotStyleInnerProfilePage" TargetType="Pivot">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
@@ -900,7 +898,8 @@
                                             <ContentControl.Clip>
                                                 <RectangleGeometry x:Name="HeaderClipperGeometry" />
                                             </ContentControl.Clip>
-                                            <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Height="40">
+                                            <Grid Background="{ThemeResource BrushPivotInnerHeaderBarBackground}"
+                                                  Height="40">
                                                 <PivotHeaderPanel x:Name="StaticHeader" Height="40"
                                                                   HorizontalAlignment="Center" />
 

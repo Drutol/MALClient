@@ -47,6 +47,8 @@ namespace MALClient.ViewModels
         public static SettingsPageViewModel SettingsPage => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
 
         public static ProfilePageViewModel ProfilePage => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
-        public static HummingbirdProfilePageViewModel HumProfilePage => ServiceLocator.Current.GetInstance<HummingbirdProfilePageViewModel>();
+
+        public static HummingbirdProfilePageViewModel HumProfilePage
+            => ServiceLocator.Current.GetInstance<HummingbirdProfilePageViewModel>();
     }
 }

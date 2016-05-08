@@ -26,14 +26,14 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush"
-                                                                               Storyboard.TargetName="ContentPresenter">
+                                                                       Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                               Storyboard.TargetName="ContentPresenter">
+                                                                       Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
@@ -41,19 +41,19 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                               Storyboard.TargetName="RootGrid">
+                                                                       Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                                                                    Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush"
-                                                                               Storyboard.TargetName="ContentPresenter">
+                                                                       Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                               Storyboard.TargetName="ContentPresenter">
+                                                                       Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
@@ -61,15 +61,15 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ContentPresenter x:Name="ContentPresenter"
-                                                  AutomationProperties.AccessibilityView="Raw"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  Content="{TemplateBinding Content}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Padding="{TemplateBinding Padding}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          Padding="{TemplateBinding Padding}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

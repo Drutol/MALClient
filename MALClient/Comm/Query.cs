@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 
 namespace MALClient.Comm
 {
     public enum ApiType
     {
         Mal,
-        Hummingbird,
+        Hummingbird
     }
 
     public abstract class Query
@@ -23,7 +21,7 @@ namespace MALClient.Comm
 
         public static ApiType CurrentApiType { get; set; } = Settings.SelectedApiType;
 
-        public async Task<string> GetRequestResponse(bool wantMsg = true,string statusBarMsg = null)
+        public async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
         {
             var responseString = "";
             try
@@ -43,8 +41,8 @@ namespace MALClient.Comm
                 if (wantMsg)
                 {
                     try
-                    {                        
-                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,async () =>
+                    {
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                         {
                             var msg = new MessageDialog(e.Message, "An error occured");
                             await msg.ShowAsync();
@@ -54,15 +52,13 @@ namespace MALClient.Comm
                     {
                         //window not yet loaded or something
                     }
-
                 }
                 if (statusBarMsg != null)
                 {
-                   Utils.GiveStatusBarFeedback(statusBarMsg);
+                    Utils.GiveStatusBarFeedback(statusBarMsg);
                 }
             }
             return responseString;
         }
-      
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Windows.UI;
+﻿using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -30,6 +29,14 @@ namespace MALClient.UserControls
 
     public sealed partial class HamburgerControl : UserControl
     {
+        private static readonly Brush _b2 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(220, 50, 50, 50)
+                : Color.FromArgb(220, 190, 190, 190));
+
+        private bool _animeFiltersExpanded;
+        private bool _mangaFiltersExpanded;
+
         public HamburgerControl()
         {
             InitializeComponent();
@@ -38,27 +45,22 @@ namespace MALClient.UserControls
 
         private HamburgerControlViewModel ViewModel => (HamburgerControlViewModel) DataContext;
 
+        public AlternatingListView AnimeFilters => AlternatingListViewAnime;
+        public AlternatingListView MangaFilters => AlternatingListViewManga;
+
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             ViewModel.UpdateProfileImg();
-            if(Settings.HamburgerAnimeFiltersExpanded)
-                ButtonExpandAnimeFiltersOnClick(null,null);
+            if (Settings.HamburgerAnimeFiltersExpanded)
+                ButtonExpandAnimeFiltersOnClick(null, null);
             if (Settings.HamburgerMangaFiltersExpanded)
-                ButtonExpandMangaFiltersOnClick(null,null);
+                ButtonExpandMangaFiltersOnClick(null, null);
         }
-
-        private static readonly Brush _b2 =
-            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
-                ? Color.FromArgb(220, 50, 50, 50)
-                : Color.FromArgb(220, 190, 190, 190));
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             (sender as Button).Background = _b2;
         }
-
-        private bool _animeFiltersExpanded;
-        private bool _mangaFiltersExpanded;
 
         private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
         {
@@ -97,9 +99,6 @@ namespace MALClient.UserControls
             _mangaFiltersExpanded = !_mangaFiltersExpanded;
         }
 
-        public AlternatingListView AnimeFilters => AlternatingListViewAnime;
-        public AlternatingListView MangaFilters => AlternatingListViewManga;
-
         private void HamburgerControl_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.NewSize.Width == 250.0)
@@ -112,8 +111,6 @@ namespace MALClient.UserControls
                 ViewModel.HamburgerWidthChanged(false);
                 MidSeparator.Width = BottomSeparator.Width = 60;
             }
-
-
         }
     }
 }

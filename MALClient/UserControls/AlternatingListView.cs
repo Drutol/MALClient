@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Windows.UI;
+﻿using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -19,21 +18,28 @@ namespace MALClient.UserControls
                 ? Color.FromArgb(255, 11, 11, 11)
                 : Color.FromArgb(255, 230, 230, 230));
 
-        public Brush CurrBrush1 = _b1;
-        public Brush CurrBrush2 = _b2;
-
         public static readonly DependencyProperty InvertRowAlternationProperty =
             DependencyProperty.Register(
                 "DataSource",
-                typeof (bool),
-                typeof (AlternatingListView),
+                typeof(bool),
+                typeof(AlternatingListView),
                 new PropertyMetadata(
                     false, PropertyChangedCallback));
 
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        public Brush CurrBrush1 = _b1;
+        public Brush CurrBrush2 = _b2;
+
+        public bool InvertRowAlternation
+        {
+            get { return (bool) GetValue(InvertRowAlternationProperty); }
+            set { SetValue(InvertRowAlternationProperty, value); }
+        }
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs args)
         {
             var list = dependencyObject as AlternatingListView;
-            if ((bool)args.NewValue)
+            if ((bool) args.NewValue)
             {
                 list.CurrBrush1 = _b2;
                 list.CurrBrush2 = _b1;
@@ -43,12 +49,6 @@ namespace MALClient.UserControls
                 list.CurrBrush1 = _b1;
                 list.CurrBrush2 = _b2;
             }
-        }
-
-        public bool InvertRowAlternation
-        {
-            get { return (bool)GetValue(InvertRowAlternationProperty); }
-            set { SetValue(InvertRowAlternationProperty, value); }
         }
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)

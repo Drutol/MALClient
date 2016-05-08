@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using MALClient.Pages;
 using MALClient.ViewModels;
@@ -7,8 +6,8 @@ using MALClient.ViewModels;
 namespace MALClient
 {
     /// <summary>
-    /// Back navigation manager , highly stripped down (compared to mobile version)
-    /// as on desktop we have separeate windows section dedicated to details and such...
+    ///     Back navigation manager , highly stripped down (compared to mobile version)
+    ///     as on desktop we have separeate windows section dedicated to details and such...
     /// </summary>
     public static class NavMgr
     {
@@ -16,7 +15,7 @@ namespace MALClient
 
         private static readonly Stack<AnimeDetailsPageNavigationArgs> _detailsNavStack =
             new Stack<AnimeDetailsPageNavigationArgs>(10);
-        
+
         public static void RegisterBackNav(object args)
         {
             _detailsNavStack.Push(args as AnimeDetailsPageNavigationArgs);
@@ -29,7 +28,7 @@ namespace MALClient
                 return;
 
             await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
-            if(_detailsNavStack.Count == 0)
+            if (_detailsNavStack.Count == 0)
                 ViewModelLocator.Main.NavigateBackButtonVisibility = Visibility.Collapsed;
         }
 

@@ -7,9 +7,9 @@ using Windows.UI.Xaml.Media;
 namespace MALClient.XamlConverters
 {
     /// <summary>
-    /// If anime status in grid view's selection menu is the same -> return accent color
+    ///     If anime status in grid view's selection menu is the same -> return accent color
     /// </summary>
-    class MyStatusSelectionToBrushConverter : IValueConverter
+    internal class MyStatusSelectionToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

@@ -13,77 +13,24 @@ namespace MALClient.Items
     public class AnimeItemAbstraction
     {
         private readonly bool _firstConstructor;
+        private readonly SeasonalAnimeData _seasonalData;
         public readonly bool Auth;
         public readonly bool RepresentsAnime = true;
 
         private AnimeItemViewModel _viewModel;
-
-        public ILibraryData EntryData { get; set; }
-        private readonly SeasonalAnimeData _seasonalData;
-
-        public string Title => EntryData?.Title ?? _seasonalData.Title;
-        public int Id => EntryData?.Id ?? _seasonalData.Id;
-        public int MalId => EntryData?.MalId ?? _seasonalData.Id;
-        public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData.ImgUrl;
-        private int AllEpisodes => EntryData?.AllEpisodes ?? 0;
-        public int AllVolumes => (EntryData as MangaLibraryItemData)?.AllVolumes ?? 0;
-        public int Type => EntryData?.Type ?? 0;
-
-        public DateTime LastWatched
-        {
-            get
-            {
-                return EntryData?.LastWatched ?? DateTime.MinValue;
-            }
-            set
-            {
-                if (EntryData != null)
-                    EntryData.LastWatched = value;
-            }
-        }
-
-        public int MyEpisodes
-        {
-            get { return EntryData?.MyEpisodes ?? 0; }
-            set { EntryData.MyEpisodes = value; }
-        }
-
-        public float MyScore
-        {
-            get { return EntryData?.MyScore ?? 0; }
-            set { EntryData.MyScore = value; }
-        }
-        public int MyStatus
-        {
-            get { return (int)(EntryData?.MyStatus ?? AnimeStatus.AllOrAiring); }
-            set { EntryData.MyStatus = (AnimeStatus)value; }
-        }
-
-        public int MyVolumes
-        {
-            get { return (EntryData as MangaLibraryItemData)?.MyVolumes ?? 0; }
-            set
-            {
-                if (EntryData is MangaLibraryItemData)
-                    ((MangaLibraryItemData) EntryData).MyVolumes = value;
-            }
-        }
-
-        public string MyStartDate { get; set; }
-        public string MyEndDate { get; set; }
         public int AirDay = -1;
-        public float GlobalScore;
         public string AirStartDate;
+        public float GlobalScore;
 
         public int Index;
         public bool LoadedAnime;
-        public bool LoadedGrid;
         public bool LoadedCompact;
+        public bool LoadedGrid;
         public bool LoadedModel;
-        
-        private AnimeItemAbstraction(ILibraryData entry,int? id = null)
+
+        private AnimeItemAbstraction(ILibraryData entry, int? id = null)
         {
-            if(entry != null)
+            if (entry != null)
                 EntryData = entry;
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(id ?? Id, out data)) return;
@@ -93,7 +40,7 @@ namespace MALClient.Items
         }
 
         //three constructors depending on original init
-        public AnimeItemAbstraction(SeasonalAnimeData data, bool anime): this(null,data.Id)
+        public AnimeItemAbstraction(SeasonalAnimeData data, bool anime) : this(null, data.Id)
         {
             _seasonalData = data;
             Index = data.Index;
@@ -113,8 +60,59 @@ namespace MALClient.Items
             Auth = auth;
             MyStartDate = data.MyStartDate;
             MyEndDate = data.MyEndDate;
-            _firstConstructor = true;           
+            _firstConstructor = true;
         }
+
+        public ILibraryData EntryData { get; set; }
+
+        public string Title => EntryData?.Title ?? _seasonalData.Title;
+        public int Id => EntryData?.Id ?? _seasonalData.Id;
+        public int MalId => EntryData?.MalId ?? _seasonalData.Id;
+        public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData.ImgUrl;
+        private int AllEpisodes => EntryData?.AllEpisodes ?? 0;
+        public int AllVolumes => (EntryData as MangaLibraryItemData)?.AllVolumes ?? 0;
+        public int Type => EntryData?.Type ?? 0;
+
+        public DateTime LastWatched
+        {
+            get { return EntryData?.LastWatched ?? DateTime.MinValue; }
+            set
+            {
+                if (EntryData != null)
+                    EntryData.LastWatched = value;
+            }
+        }
+
+        public int MyEpisodes
+        {
+            get { return EntryData?.MyEpisodes ?? 0; }
+            set { EntryData.MyEpisodes = value; }
+        }
+
+        public float MyScore
+        {
+            get { return EntryData?.MyScore ?? 0; }
+            set { EntryData.MyScore = value; }
+        }
+
+        public int MyStatus
+        {
+            get { return (int) (EntryData?.MyStatus ?? AnimeStatus.AllOrAiring); }
+            set { EntryData.MyStatus = (AnimeStatus) value; }
+        }
+
+        public int MyVolumes
+        {
+            get { return (EntryData as MangaLibraryItemData)?.MyVolumes ?? 0; }
+            set
+            {
+                if (EntryData is MangaLibraryItemData)
+                    ((MangaLibraryItemData) EntryData).MyVolumes = value;
+            }
+        }
+
+        public string MyStartDate { get; set; }
+        public string MyEndDate { get; set; }
 
         public AnimeItemViewModel ViewModel
         {
@@ -147,12 +145,14 @@ namespace MALClient.Items
             LoadedModel = true;
             if (RepresentsAnime)
                 return _firstConstructor
-                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore, MyStartDate, MyEndDate, this,
+                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore,
+                        MyStartDate, MyEndDate, this,
                         false)
                     : new AnimeItemViewModel(_seasonalData, this);
             return
                 _firstConstructor
-                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore, MyStartDate, MyEndDate, this,
+                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore,
+                        MyStartDate, MyEndDate, this,
                         false, MyVolumes, AllVolumes)
                     : new AnimeItemViewModel(_seasonalData, this);
         }
@@ -165,22 +165,22 @@ namespace MALClient.Items
 
         public static AnimeLibraryItemData ToLibraryItem(AnimeItemAbstraction source)
         {
-            return source.RepresentsAnime ? 
-                new AnimeLibraryItemData
+            return source.RepresentsAnime
+                ? new AnimeLibraryItemData
                 {
                     Id = source.Id,
                     MalId = source.MalId,
                     Title = source.Title,
-                    MyStatus = (AnimeStatus)source.MyStatus,
+                    MyStatus = (AnimeStatus) source.MyStatus,
                     MyEpisodes = source.MyEpisodes,
                     AllEpisodes = source.AllEpisodes,
                     ImgUrl = source.ImgUrl,
                     Type = source.Type,
                     MyStartDate = source.MyStartDate,
                     MyEndDate = source.MyEndDate,
-                    MyScore = source.MyScore                   
-                } : 
-                new MangaLibraryItemData();
+                    MyScore = source.MyScore
+                }
+                : new MangaLibraryItemData();
         }
     }
 }

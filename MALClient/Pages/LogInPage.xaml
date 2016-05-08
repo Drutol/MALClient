@@ -10,20 +10,22 @@
 
     <Grid Background="{ThemeResource BrushDeepBackground}" Margin="0,0,-16,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".5*"/>
-            <ColumnDefinition Width=".5*"/>
+            <ColumnDefinition Width=".5*" />
+            <ColumnDefinition Width=".5*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="75"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="75" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:LockableToggleButton x:Name="ToggleMal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Checked="MalToggleButtonOnCheck">
-            <Image Source="../Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="200"/>
+        <controls:LockableToggleButton x:Name="ToggleMal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Checked="MalToggleButtonOnCheck">
+            <Image Source="../Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="200" />
         </controls:LockableToggleButton>
-        <controls:LockableToggleButton x:Name="ToggleHum" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Checked="HummingbirdToggleButtonOnCheck">
+        <controls:LockableToggleButton x:Name="ToggleHum" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"
+                                       Checked="HummingbirdToggleButtonOnCheck">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Source="../Assets/hummingbird150x150.scale-200.png"/>
-                <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="19"/>
+                <Image Source="../Assets/hummingbird150x150.scale-200.png" />
+                <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="19" />
             </StackPanel>
         </controls:LockableToggleButton>
         <Grid Grid.ColumnSpan="2" Grid.Row="1" x:Name="MALLoginGrid" Visibility="Collapsed" Margin="0,10,0,0">
@@ -32,9 +34,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
-               VerticalAlignment="Center" />
+                   VerticalAlignment="Center" />
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
-                    MinWidth="200">
+                        MinWidth="200">
                 <TextBlock Text="Username:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
                 <TextBox x:Name="UserName" KeyDown="UserName_OnKeyDown" />
                 <TextBlock Text="Password:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
@@ -44,26 +46,26 @@
                     <ProgressRing x:Name="ProgressRing" IsActive="True" Visibility="Collapsed" Margin="5,0" />
                 </StackPanel>
             </StackPanel>
-            <Button Grid.Row="1" x:Name="BtnLogOff" Click="LogOut" VerticalAlignment="Bottom" 
-                HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"
-                Background="{ThemeResource AppBarBackgroundThemeBrush}"
-                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
+            <Button Grid.Row="1" x:Name="BtnLogOff" Click="LogOut" VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"
+                    Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                    BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
             <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
-                VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
-                Click="ButtonRegister_OnClick" />
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
+                    Click="ButtonRegister_OnClick" />
             <Button Grid.Row="1" Content="Problems?" Style="{StaticResource TextBlockButtonStyle}"
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,5,16,5"
-                Click="ButtonProblems_OnClick" />
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,5,16,5"
+                    Click="ButtonProblems_OnClick" />
         </Grid>
-        <Grid x:Name="HumLoginGrid"  Grid.ColumnSpan="2" Grid.Row="1" Visibility="Collapsed" Margin="0,10,0,0"> 
+        <Grid x:Name="HumLoginGrid" Grid.ColumnSpan="2" Grid.Row="1" Visibility="Collapsed" Margin="0,10,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="150" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
-               VerticalAlignment="Center" />
+                   VerticalAlignment="Center" />
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
-                    MinWidth="200">
+                        MinWidth="200">
                 <TextBlock Text="Username:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
                 <TextBox x:Name="UserNameHum" KeyDown="UserNameHum_OnKeyDown" />
                 <TextBlock Text="Password:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
@@ -73,13 +75,13 @@
                     <ProgressRing x:Name="ProgressRingHum" IsActive="True" Visibility="Collapsed" Margin="5,0" />
                 </StackPanel>
             </StackPanel>
-            <Button Grid.Row="1" x:Name="BtnLogOffHum" Click="LogOut" VerticalAlignment="Bottom" 
-                HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"
-                Background="{ThemeResource AppBarBackgroundThemeBrush}"
-                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
+            <Button Grid.Row="1" x:Name="BtnLogOffHum" Click="LogOut" VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center" Visibility="Collapsed" Content="Log out" Margin="3,3"
+                    Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                    BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
             <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
-                VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
-                Click="ButtonRegisterHum_OnClick" />
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
+                    Click="ButtonRegisterHum_OnClick" />
         </Grid>
 
 

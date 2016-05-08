@@ -41,47 +41,51 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="225" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}" Grid.Column="0" Stretch="Fill"
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}"
+                   Grid.Column="0" Stretch="Fill"
                    Height="200" Width="134" IsRightTapEnabled="True" RightTapped="UIElement_OnRightTapped">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout x:Name="ImageSaveFlyout">
-                        <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal"/>
-                        <MenuFlyoutItem Text="Save (Hummingbird)"  Command="{Binding SaveImageCommand}" CommandParameter="hum" Visibility="{Binding MalApiSpecificControlsVisibility}"/>
+                        <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal" />
+                        <MenuFlyoutItem Text="Save (Hummingbird)" Command="{Binding SaveImageCommand}"
+                                        CommandParameter="hum" Visibility="{Binding MalApiSpecificControlsVisibility}" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
             </Image>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Background="Transparent" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent" Margin="0,0,0,10">
                 <Button Height="40" HorizontalAlignment="Stretch"
-                                    Command="{Binding CopyToClipboardCommand}"
-                                    Background="Transparent">
+                        Command="{Binding CopyToClipboardCommand}"
+                        Background="Transparent">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="Copy link to clipboard."></ToolTip>
+                        <ToolTip Content="Copy link to clipboard." />
                     </ToolTipService.ToolTip>
-                    <SymbolIcon Symbol="Copy"/>
+                    <SymbolIcon Symbol="Copy" />
                 </Button>
                 <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
-                                    Command="{Binding OpenInMalCommand}"
-                                    Background="Transparent">
+                        Command="{Binding OpenInMalCommand}"
+                        Background="Transparent">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="Open in browser."></ToolTip>
+                        <ToolTip Content="Open in browser." />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Globe" />
                 </Button>
                 <Button Height="40"
-                                    Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
-                                    Command="{Binding RemoveAnimeCommand}"
-                                    IsEnabled="{Binding RemoveAnimeBtnEnableState}"
-                                    HorizontalAlignment="Stretch"
-                                    Background="Transparent"
-                                    Margin="0,5,0,0"> 
+                        Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
+                        Command="{Binding RemoveAnimeCommand}"
+                        IsEnabled="{Binding RemoveAnimeBtnEnableState}"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        Margin="0,5,0,0">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="Remove anime from your list."></ToolTip>
+                        <ToolTip Content="Remove anime from your list." />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Delete" />
                 </Button>
             </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
                         Command="{Binding IncrementEpsCommand}"
                         IsEnabled="{Binding IsIncrementButtonEnabled}"
@@ -90,9 +94,9 @@
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                     <SymbolIcon Symbol="Add" />
                     <Button.RenderTransform>
-                        <ScaleTransform ScaleY=".75" ScaleX=".75"></ScaleTransform>
+                        <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
-                </Button>                
+                </Button>
                 <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
                         Command="{Binding  DecrementEpsCommand}"
                         IsEnabled="{Binding IsDecrementButtonEnabled}"
@@ -101,7 +105,7 @@
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                     <SymbolIcon Symbol="Remove" />
                     <Button.RenderTransform>
-                        <ScaleTransform ScaleY=".75" ScaleX=".75"></ScaleTransform>
+                        <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
                 </Button>
             </StackPanel>
@@ -122,9 +126,10 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right" Margin="0,0,50,0"
-                              VerticalAlignment="Top" IsActive="True"
-                              Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
+            <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right"
+                          Margin="0,0,50,0"
+                          VerticalAlignment="Top" IsActive="True"
+                          Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Grid.Row="0" Grid.Column="1"
                   Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                   Margin="5,-10,0,0">
@@ -141,25 +146,35 @@
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyout.Items>
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[0]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[0]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="10" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[1]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[1]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="9" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[2]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[2]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="8" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[3]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[3]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="7" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[4]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[4]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="6" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[5]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[5]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="5" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[6]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[6]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="4" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[7]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[7]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="3" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[8]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[8]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="2" />
-                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[9]}" Command="{Binding ChangeScoreCommand}"
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[9]}"
+                                                        Command="{Binding ChangeScoreCommand}"
                                                         CommandParameter="1" />
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
@@ -255,16 +270,17 @@
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             <Setter Property="Margin" Value="1,1" />
                                             <Setter Property="BorderBrush"
-                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                    Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                                         </Style>
                                     </Grid.Resources>
                                     <StackPanel>
                                         <controls:AlternatingListView SelectionMode="None"
-                                                                  BorderThickness="0,0,1,0"
-                                                                  BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
-                                                                  ItemsSource="{Binding LeftDetailsRow}">
+                                                                      BorderThickness="0,0,1,0"
+                                                                      BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                      ItemsSource="{Binding LeftDetailsRow}">
                                             <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem" BasedOn="{StaticResource GeneralDetailsListItemStyle}">
+                                                <Style TargetType="ListViewItem"
+                                                       BasedOn="{StaticResource GeneralDetailsListItemStyle}">
                                                     <Setter Property="BorderThickness" Value="2,0,0,0" />
                                                 </Style>
                                             </ListView.ItemContainerStyle>
@@ -276,38 +292,48 @@
                                                             <ColumnDefinition Width="*" />
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
-                                                               FontWeight="Normal" />
+                                                                   FontWeight="Normal" />
                                                         <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                               HorizontalAlignment="Right" Margin="3,0"
-                                                               TextTrimming="CharacterEllipsis"
-                                                               TextWrapping="WrapWholeWords" MaxLines="2"
-                                                               FontWeight="SemiLight" />
+                                                                   HorizontalAlignment="Right" Margin="3,0"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   TextWrapping="WrapWholeWords" MaxLines="2"
+                                                                   FontWeight="SemiLight" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
-                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
-                                            <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="2,0,0,0">
+                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                                Background="{ThemeResource BrushRowAlternate2}"
+                                                BorderThickness="0,0,1,0"
+                                                BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                            <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0"
+                                                          Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                          Style="{StaticResource GeneralDetailsListItemStyle}"
+                                                          BorderThickness="2,0,0,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="My Start" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                    <TextBlock Text="My Start" HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center"
                                                                FontWeight="Normal" />
-                                                    <Button Grid.Column="1" Content="{Binding MyStartDate}" VerticalAlignment="Center"
-                                                               HorizontalAlignment="Right" Padding="3,0,4,0"
-                                                               Style="{StaticResource TextBlockButtonStyle}"
-                                                               FontWeight="SemiLight">
+                                                    <Button Grid.Column="1" Content="{Binding MyStartDate}"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Right" Padding="3,0,4,0"
+                                                            Style="{StaticResource TextBlockButtonStyle}"
+                                                            FontWeight="SemiLight">
                                                         <Button.Flyout>
-                                                            <DatePickerFlyout DatePicked="StartDatePickerFlyout_OnDatePicked"
-                                                                          Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                            <DatePickerFlyout
+                                                                DatePicked="StartDatePickerFlyout_OnDatePicked"
+                                                                Date="{Binding StartDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                                         </Button.Flyout>
                                                     </Button>
                                                 </Grid>
                                                 <FlyoutBase.AttachedFlyout>
                                                     <MenuFlyout x:Name="ResetStartDateFlyout">
-                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetStartDateCommand}"/>
+                                                        <MenuFlyoutItem Text="Reset"
+                                                                        Command="{Binding ResetStartDateCommand}" />
                                                     </MenuFlyout>
                                                 </FlyoutBase.AttachedFlyout>
                                             </ListViewItem>
@@ -315,12 +341,13 @@
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <controls:AlternatingListView SelectionMode="None" 
-                                                                  BorderThickness="1,0,0,0"
-                                                                  BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
-                                                                  ItemsSource="{Binding RightDetailsRow}">
+                                        <controls:AlternatingListView SelectionMode="None"
+                                                                      BorderThickness="1,0,0,0"
+                                                                      BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                      ItemsSource="{Binding RightDetailsRow}">
                                             <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem" BasedOn="{StaticResource GeneralDetailsListItemStyle}">
+                                                <Style TargetType="ListViewItem"
+                                                       BasedOn="{StaticResource GeneralDetailsListItemStyle}">
                                                     <Setter Property="BorderThickness" Value="0,0,2,0" />
                                                 </Style>
                                             </ListView.ItemContainerStyle>
@@ -332,39 +359,48 @@
                                                             <ColumnDefinition Width="*" />
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock Text="{Binding Item1}" HorizontalAlignment="Left"
-                                                               FontWeight="Normal" VerticalAlignment="Center" />
+                                                                   FontWeight="Normal" VerticalAlignment="Center" />
                                                         <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                               HorizontalAlignment="Right" Margin="3,0"
-                                                               TextTrimming="CharacterEllipsis"
-                                                               TextWrapping="WrapWholeWords" MaxLines="2"
-                                                               TextAlignment="Center"
-                                                               FontWeight="SemiLight" />
+                                                                   HorizontalAlignment="Right" Margin="3,0"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   TextWrapping="WrapWholeWords" MaxLines="2"
+                                                                   TextAlignment="Center"
+                                                                   FontWeight="SemiLight" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </controls:AlternatingListView>
-                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}" Background="{ThemeResource BrushRowAlternate2}" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
-                                            <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0" Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource GeneralDetailsListItemStyle}" BorderThickness="0,0,2,0">
+                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                                Background="{ThemeResource BrushRowAlternate2}"
+                                                BorderThickness="1,0,0,0"
+                                                BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
+                                            <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0"
+                                                          Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                          Style="{StaticResource GeneralDetailsListItemStyle}"
+                                                          BorderThickness="0,0,2,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock Text="My End" HorizontalAlignment="Left"
-                                                               FontWeight="Normal" VerticalAlignment="Center"/>
-                                                    <Button Grid.Column="1" Content="{Binding MyEndDate}" VerticalAlignment="Center"
-                                                               HorizontalAlignment="Right" Padding="3,0,4,0"
-                                                               Style="{StaticResource TextBlockButtonStyle}"
-                                                               FontWeight="SemiLight">
+                                                               FontWeight="Normal" VerticalAlignment="Center" />
+                                                    <Button Grid.Column="1" Content="{Binding MyEndDate}"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Right" Padding="3,0,4,0"
+                                                            Style="{StaticResource TextBlockButtonStyle}"
+                                                            FontWeight="SemiLight">
                                                         <Button.Flyout>
-                                                            <DatePickerFlyout DatePicked="EndDatePickerFlyout_OnDatePicked"
-                                                                          Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                            <DatePickerFlyout
+                                                                DatePicked="EndDatePickerFlyout_OnDatePicked"
+                                                                Date="{Binding EndDateTimeOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                                         </Button.Flyout>
                                                     </Button>
                                                 </Grid>
                                                 <FlyoutBase.AttachedFlyout>
                                                     <MenuFlyout x:Name="ResetEndDateFlyout">
-                                                        <MenuFlyoutItem Text="Reset" Command="{Binding ResetEndDateCommand}"/>
+                                                        <MenuFlyoutItem Text="Reset"
+                                                                        Command="{Binding ResetEndDateCommand}" />
                                                     </MenuFlyout>
                                                 </FlyoutBase.AttachedFlyout>
                                             </ListViewItem>
@@ -595,27 +631,27 @@
                         <Grid>
                             <Grid VerticalAlignment="Stretch">
                                 <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
-                                               Text="Reviews unavailable :("
-                                               VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               FontSize="30" FontWeight="SemiLight"
-                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                           Text="Reviews unavailable :("
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           FontSize="30" FontWeight="SemiLight"
+                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                             </Grid>
                             <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
+                                  HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                 <ProgressRing HorizontalAlignment="Stretch" Width="150" Height="150"
-                                                  Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
+                                              Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                             </Grid>
                             <Pivot ItemsSource="{Binding Reviews}">
                                 <Pivot.HeaderTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" MaxWidth="300">
                                             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
-                                                    Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
-                                                    Width="Auto" Height="Auto" MaxHeight="35" />
+                                                   Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
+                                                   Width="Auto" Height="Auto" MaxHeight="35" />
                                             <StackPanel Margin="5,0,0,0">
                                                 <TextBlock Text="{Binding Author}" FontSize="17" FontWeight="Bold" />
                                                 <TextBlock Text="{Binding OverallRating}" FontSize="15"
-                                                               FontWeight="SemiLight" />
+                                                           FontWeight="SemiLight" />
                                             </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>
@@ -628,16 +664,16 @@
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
                                             <StackPanel
-                                                    BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                    Padding="5,0" Margin="5,5" BorderThickness="5,0,0,0"
-                                                    HorizontalAlignment="Left">
+                                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                Padding="5,0" Margin="5,5" BorderThickness="5,0,0,0"
+                                                HorizontalAlignment="Left">
                                                 <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
                                                 <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
                                                 <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
                                             </StackPanel>
                                             <ScrollViewer Grid.Row="1">
-                                                <TextBlock  Text="{Binding Review}" TextWrapping="WrapWholeWords"
-                                                               Margin="0,5" Padding="5,5,5,0" />
+                                                <TextBlock Text="{Binding Review}" TextWrapping="WrapWholeWords"
+                                                           Margin="0,5" Padding="5,5,5,0" />
                                             </ScrollViewer>
                                         </Grid>
                                     </DataTemplate>
@@ -693,7 +729,8 @@
                                                                 Padding="0"
                                                                 VerticalAlignment="Bottom">
                                                             <Grid>
-                                                                <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
+                                                                <Image
+                                                                    controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                                                     Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                                     Height="Auto" Width="Auto"
                                                                     HorizontalAlignment="Center" Stretch="Uniform" />

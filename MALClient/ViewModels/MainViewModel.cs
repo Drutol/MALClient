@@ -19,13 +19,13 @@ namespace MALClient.ViewModels
 {
     public interface IMainViewInteractions
     {
+        HamburgerControl Hamburger { get; }
+        Grid GridRootContent { get; }
+        Image Logo { get; }
         void Navigate(Type page, object args = null);
         void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
         void InitSplitter();
-        HamburgerControl Hamburger { get; }
-        Grid GridRootContent { get; }
-        Image Logo { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -39,10 +39,10 @@ namespace MALClient.ViewModels
         internal async Task Navigate(PageIndex index, object args = null)
         {
             //if(Settings.SelectedApiType == ApiType.Hummingbird && index == PageIndex.PageProfile)
-             //   return;
+            //   return;
 
-            var wasOnSearchPage = SearchToggleLock;            
-            
+            var wasOnSearchPage = SearchToggleLock;
+
             await Task.Delay(1);
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
@@ -82,25 +82,23 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageTopAnime ||
                 index == PageIndex.PageAnimeList)
             {
-                if(index == PageIndex.PageSeasonal || index == PageIndex.PageTopAnime || index == PageIndex.PageTopManga || index==PageIndex.PageMangaList)
+                if (index == PageIndex.PageSeasonal || index == PageIndex.PageTopAnime ||
+                    index == PageIndex.PageTopManga || index == PageIndex.PageMangaList)
                     CurrentMainPage = index; //used by hamburger's filters
                 else
                     CurrentMainPage = PageIndex.PageAnimeList;
                 ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
                 index = PageIndex.PageAnimeList;
-                
             }
-            else if(index == PageIndex.PageSearch || 
-                index == PageIndex.PageRecomendations ||
-                index == PageIndex.PageProfile ||
-                index == PageIndex.PageLogIn ||
-                index == PageIndex.PageMangaSearch)
+            else if (index == PageIndex.PageSearch ||
+                     index == PageIndex.PageRecomendations ||
+                     index == PageIndex.PageProfile ||
+                     index == PageIndex.PageLogIn ||
+                     index == PageIndex.PageMangaSearch)
             {
                 ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(false);
                 CurrentMainPage = index;
             }
-
-
 
 
             //ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
@@ -117,13 +115,14 @@ namespace MALClient.ViewModels
             {
                 case PageIndex.PageAnimeList:
                     ShowSearchStuff();
-                    if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) && (wasOnSearchPage || _wasOnDetailsFromSearch))
+                    if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
+                        (wasOnSearchPage || _wasOnDetailsFromSearch))
                     {
                         CurrentSearchQuery = "";
                         _wasOnDetailsFromSearch = false;
                         UnToggleSearchStuff();
                     }
-                    View.Navigate(typeof (AnimeListPage), args);
+                    View.Navigate(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
                     OffRefreshButtonVisibility = Visibility.Visible;
@@ -131,12 +130,12 @@ namespace MALClient.ViewModels
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     OffContentVisibility = Visibility.Visible;
-                    View.NavigateOff(typeof (AnimeDetailsPage), args);
+                    View.NavigateOff(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
                     OffContentVisibility = Visibility.Visible;
-                    View.NavigateOff(typeof (SettingsPage));
+                    View.NavigateOff(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
@@ -145,17 +144,18 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    View.Navigate(typeof (LogInPage));
+                    View.Navigate(typeof(LogInPage));
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
-                    if(Settings.SelectedApiType == ApiType.Mal)
-                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null,true));
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                        RefreshDataCommand =
+                            new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
                     else
                         RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
                     if (Settings.SelectedApiType == ApiType.Mal)
-                        View.Navigate(typeof (ProfilePage),args);
+                        View.Navigate(typeof(ProfilePage), args);
                     else
                         View.Navigate(typeof(HummingbirdProfilePage), args);
                     break;
@@ -164,7 +164,7 @@ namespace MALClient.ViewModels
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
-                    View.Navigate(typeof (RecomendationsPage), args);
+                    View.Navigate(typeof(RecomendationsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -202,7 +202,8 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-                if (Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500)
+                if (Settings.HamburgerMenuDefaultPaneState &&
+                    ApplicationView.GetForCurrentView().VisibleBounds.Width > 500)
                 {
                     View.Hamburger.Width = 250.0;
                     View.Logo.Visibility = Visibility.Visible;
@@ -229,7 +230,7 @@ namespace MALClient.ViewModels
             {
                 View.Hamburger.Width = View.Hamburger.Width == 250.0 ? 60 : 250.0;
                 View.Logo.Visibility = View.Hamburger.Width == 250.0 ? Visibility.Visible : Visibility.Collapsed;
-                _menuPaneState = value;              
+                _menuPaneState = value;
             }
         }
 
@@ -373,6 +374,7 @@ namespace MALClient.ViewModels
         }
 
         public ICommand _navigateBackCommand;
+
         public ICommand NavigateBackCommand
         {
             get
@@ -425,6 +427,7 @@ namespace MALClient.ViewModels
 
 
         public Visibility _navigateBackButtonVisibility = Visibility.Collapsed;
+
         public Visibility NavigateBackButtonVisibility
         {
             get { return _navigateBackButtonVisibility; }
@@ -508,7 +511,6 @@ namespace MALClient.ViewModels
         }
 
 
-
         private int _searchFilterSelectedIndex;
 
         public int SearchFilterSelectedIndex
@@ -535,8 +537,6 @@ namespace MALClient.ViewModels
         }
 
         public ObservableCollection<string> SearchFilterOptions { get; } = new ObservableCollection<string>();
-
-
 
         #endregion
 
@@ -578,7 +578,7 @@ namespace MALClient.ViewModels
                 View.SearchInputFocus(FocusState.Keyboard);
                 (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
             }
-            View.Navigate(typeof (AnimeSearchPage), args);
+            View.Navigate(typeof(AnimeSearchPage), args);
         }
 
         #endregion
@@ -630,7 +630,7 @@ namespace MALClient.ViewModels
 
         private void ShowSearchStuff()
         {
-           SearchToggleVisibility = true;
+            SearchToggleVisibility = true;
             if (SearchToggleStatus)
                 SearchInputVisibility = true;
         }
@@ -639,20 +639,19 @@ namespace MALClient.ViewModels
         {
             SearchToggleStatus = false;
             SearchInputVisibility = false;
-            SearchToggleVisibility = false;       
+            SearchToggleVisibility = false;
         }
 
         private void ToggleSearchStuff()
         {
             SearchToggleStatus = true;
             SearchInputVisibility = true;
-           
         }
 
         private void UnToggleSearchStuff()
         {
             SearchToggleStatus = false;
-            SearchInputVisibility = false;         
+            SearchInputVisibility = false;
         }
 
         #endregion

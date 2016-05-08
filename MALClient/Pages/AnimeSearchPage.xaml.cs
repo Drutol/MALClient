@@ -23,6 +23,5 @@ namespace MALClient.Pages
             ViewModel.Init(e.Parameter as SearchPageNavigationArgs);
             base.OnNavigatedTo(e);
         }
-
     }
 }

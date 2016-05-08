@@ -47,8 +47,60 @@ namespace MALClient.Pages
             }
         }
 
+
+        private async void LogOut(object sender, RoutedEventArgs e)
+        {
+            var page = Utils.GetMainPageInstance();
+            Credentials.SetAuthStatus(false);
+            Credentials.Update("", "");
+            Credentials.SetAuthToken("");
+            await Utils.RemoveProfileImg();
+            ViewModelLocator.AnimeList.LogOut();
+            await page.Navigate(PageIndex.PageLogIn);
+            ViewModelLocator.Hamburger.UpdateProfileImg();
+        }
+
+
+        private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("http://myanimelist.net/register.php"));
+        }
+
+        private async void ButtonRegisterHum_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://hummingbird.me/sign-up"));
+        }
+
+        private async void ButtonProblems_OnClick(object sender, RoutedEventArgs e)
+        {
+            var msg =
+                new MessageDialog(
+                    "If you are experiencing constant error messages while trying to log in , resetting your password on MAL may solve this issue. Why you may ask... MAL api is just very very bad and it tends to do such things which are beyond my control.");
+            await msg.ShowAsync();
+        }
+
+        private void HummingbirdToggleButtonOnCheck(object sender, RoutedEventArgs e)
+        {
+            ToggleHum.LockToggle = true;
+            ToggleMal.LockToggle = false;
+            ToggleMal.IsChecked = false;
+            HumLoginGrid.Visibility = Visibility.Visible;
+            MALLoginGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void MalToggleButtonOnCheck(object sender, RoutedEventArgs e)
+        {
+            ToggleMal.LockToggle = true;
+            ToggleHum.LockToggle = false;
+            ToggleHum.IsChecked = false;
+            HumLoginGrid.Visibility = Visibility.Collapsed;
+            MALLoginGrid.Visibility = Visibility.Visible;
+        }
+
         //prepare for big copy pasteeee...
+
         #region MAL
+
         private async void AttemptAuthentication(object sender, RoutedEventArgs e)
         {
             if (_authenticating)
@@ -62,7 +114,7 @@ namespace MALClient.Pages
                 var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
-                var doc = XDocument.Parse(response);               
+                var doc = XDocument.Parse(response);
                 Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Credentials.SetAuthStatus(true);
             }
@@ -90,7 +142,6 @@ namespace MALClient.Pages
             ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             _authenticating = false;
-
         }
 
         private void UserName_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -115,8 +166,11 @@ namespace MALClient.Pages
                 AttemptAuthentication(null, null);
             }
         }
+
         #endregion
+
         #region Hum
+
         private async void AttemptHumAuthentication(object sender, RoutedEventArgs e)
         {
             if (_authenticating)
@@ -131,7 +185,7 @@ namespace MALClient.Pages
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 if (response.Contains("\"error\": \"Invalid credentials\""))
-                    throw new Exception();              
+                    throw new Exception();
                 Credentials.SetAuthToken(response);
                 Credentials.SetAuthStatus(true);
             }
@@ -183,61 +237,7 @@ namespace MALClient.Pages
                 AttemptHumAuthentication(null, null);
             }
         }
+
         #endregion
-
-
-
-
-
-        private async void LogOut(object sender, RoutedEventArgs e)
-        {
-            var page = Utils.GetMainPageInstance();
-            Credentials.SetAuthStatus(false);
-            Credentials.Update("", "");
-            Credentials.SetAuthToken("");
-            await Utils.RemoveProfileImg();
-            ViewModelLocator.AnimeList.LogOut();
-            await page.Navigate(PageIndex.PageLogIn);
-            ViewModelLocator.Hamburger.UpdateProfileImg();
-        }
-
-
-
-
-
-
-        private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("http://myanimelist.net/register.php"));
-        }
-
-        private async void ButtonRegisterHum_OnClick(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://hummingbird.me/sign-up"));
-        }
-
-        private async void ButtonProblems_OnClick(object sender, RoutedEventArgs e)
-        {
-            var msg = new MessageDialog("If you are experiencing constant error messages while trying to log in , resetting your password on MAL may solve this issue. Why you may ask... MAL api is just very very bad and it tends to do such things which are beyond my control.");
-            await msg.ShowAsync();
-        }
-
-        private void HummingbirdToggleButtonOnCheck(object sender, RoutedEventArgs e)
-        {
-            ToggleHum.LockToggle = true;
-            ToggleMal.LockToggle = false;
-            ToggleMal.IsChecked = false;
-            HumLoginGrid.Visibility = Visibility.Visible;
-            MALLoginGrid.Visibility = Visibility.Collapsed;
-        }
-
-        private void MalToggleButtonOnCheck(object sender, RoutedEventArgs e)
-        {
-            ToggleMal.LockToggle = true;
-            ToggleHum.LockToggle = false;
-            ToggleHum.IsChecked = false;
-            HumLoginGrid.Visibility = Visibility.Collapsed;
-            MALLoginGrid.Visibility = Visibility.Visible;
-        }
     }
 }

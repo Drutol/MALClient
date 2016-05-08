@@ -17,7 +17,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
+                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -27,11 +27,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" MaxWidth="{Binding MaxWidth}" >
-            <Image.Source>
-                <BitmapImage UriSource="{Binding ImgUrl}" CreateOptions="IgnoreImageCache"></BitmapImage>
-            </Image.Source>
-        </Image>
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill"
+               MaxWidth="{Binding MaxWidth}"
+               Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" />
         <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.Background>
@@ -40,11 +38,12 @@
             <StackPanel Margin="1">
                 <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
                            HorizontalAlignment="Center" />
-                <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton" Style="{StaticResource ButtonDisabledStyle}"
-                        Content="{Binding MyEpisodesBindShort}" Foreground="White" 
-                        FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"
-                        HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick">
-                </Button>
+                <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
+                        Style="{StaticResource ButtonDisabledStyle}"
+                        Content="{Binding MyEpisodesBindShort}" Foreground="White"
+                        FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                        BorderThickness="0,0,0,1"
+                        HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick" />
                 <!--<MenuFlyoutSeparator Background="LightGray" />-->
                 <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" Margin="0,5,0,0"
                            HorizontalAlignment="Center" />
@@ -72,12 +71,13 @@
               MaxWidth="{Binding MaxWidth}" VerticalAlignment="Stretch"
               Background="{ThemeResource BrushAnimeItemBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
-            <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate}" IsActive="True" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"></ProgressRing>
+            <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate}" IsActive="True" Width="30" Height="30"
+                          VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
         <Button Grid.Row="0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"

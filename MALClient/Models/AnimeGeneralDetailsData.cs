@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace MALClient.Models
@@ -10,7 +8,13 @@ namespace MALClient.Models
     public class AnimeGeneralDetailsData
     {
         private int _id = -1;
-        public int Id { get { return _id == -1 ? MalId : _id; } set { _id = value; } }
+
+        public int Id
+        {
+            get { return _id == -1 ? MalId : _id; }
+            set { _id = value; }
+        }
+
         public int MalId { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
@@ -24,7 +28,7 @@ namespace MALClient.Models
         public float GlobalScore { get; set; }
         public List<string> Synonyms { get; set; } = new List<string>();
 
-        public void ParseXElement(XElement xmlObj,bool anime)
+        public void ParseXElement(XElement xmlObj, bool anime)
         {
             MalId = Convert.ToInt32(xmlObj.Element("id").Value);
             Title = xmlObj.Element("title").Value;

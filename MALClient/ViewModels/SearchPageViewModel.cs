@@ -9,7 +9,6 @@ using GalaSoft.MvvmLight;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Models;
-using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
@@ -79,7 +78,7 @@ namespace MALClient.ViewModels
             }
             else // manga search
             {
-                string response = "";
+                var response = "";
                 await
                     Task.Run(
                         async () =>

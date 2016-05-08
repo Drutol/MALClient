@@ -88,11 +88,11 @@ namespace MALClient
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof (MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
             // Ensure the current window is active
             HtmlClassMgr.Init();
-            
+
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();
@@ -137,16 +137,17 @@ namespace MALClient
                         ? Colors.White
                         : Colors.Black;
                 }
-                
+
                 var disp = DisplayInformation.GetForCurrentView();
-                DispOnOrientationChanged(disp,null);      
+                DispOnOrientationChanged(disp, null);
                 disp.OrientationChanged += DispOnOrientationChanged;
             }
         }
 
         private void DispOnOrientationChanged(DisplayInformation sender, object args)
         {
-            if (sender.CurrentOrientation == DisplayOrientations.Landscape || sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped)
+            if (sender.CurrentOrientation == DisplayOrientations.Landscape ||
+                sender.CurrentOrientation == DisplayOrientations.LandscapeFlipped)
                 StatusBar.GetForCurrentView().HideAsync();
             else
                 StatusBar.GetForCurrentView().ShowAsync();
@@ -181,9 +182,15 @@ namespace MALClient
             if (Settings.IsCachingEnabled)
             {
                 if (AnimeUpdateQuery.UpdatedSomething)
-                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
+                    await
+                        DataCache.SaveDataForUser(Credentials.UserName,
+                            ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
+                                abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
                 if (MangaUpdateQuery.UpdatedSomething)
-                    await DataCache.SaveDataForUser(Credentials.UserName, ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
+                    await
+                        DataCache.SaveDataForUser(Credentials.UserName,
+                            ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
+                                abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
             await DataCache.SaveVolatileData();
             await DataCache.SaveHumMalIdDictionary();

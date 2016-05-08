@@ -49,7 +49,8 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xml}"));
             Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
@@ -57,7 +58,10 @@ namespace MALClient.Comm
 
         private void AddAnimeHummingbird(string id)
         {
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/libraries/{id}?auth_token={Credentials.HummingbirdToken}{NewAnimeParamChain}"));
+            Request =
+                WebRequest.Create(
+                    Uri.EscapeUriString(
+                        $"http://hummingbird.me/api/v1/libraries/{id}?auth_token={Credentials.HummingbirdToken}{NewAnimeParamChain}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "POST";
         }

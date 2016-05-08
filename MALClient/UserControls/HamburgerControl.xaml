@@ -33,7 +33,7 @@
             <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Column="1" />
             <Grid Grid.Column="1">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".25"></SolidColorBrush>
+                    <SolidColorBrush Color="Black" Opacity=".25" />
                 </Grid.Background>
             </Grid>
             <ScrollViewer x:Name="ScrlBurger" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch">
@@ -49,9 +49,9 @@
                             </Style>
                         </Grid.Resources>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" MinHeight="200"/>
-                            <RowDefinition Height="*" MinHeight="20"/>
-                            <RowDefinition Height="Auto" MinHeight="120"/>
+                            <RowDefinition Height="Auto" MinHeight="200" />
+                            <RowDefinition Height="*" MinHeight="20" />
+                            <RowDefinition Height="Auto" MinHeight="120" />
                         </Grid.RowDefinitions>
                         <Pivot Width="220" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
@@ -94,9 +94,10 @@
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtList" Text="Anime List"  
+                                                    <TextBlock x:Name="TxtList" Text="Anime List"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -119,9 +120,10 @@
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtSearch" Text="Anime Search"                                                               
+                                                    <TextBlock x:Name="TxtSearch" Text="Anime Search"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -146,9 +148,10 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
-                                                                
+
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Seasonal]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -174,9 +177,10 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtRecom , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtRecom" Text="Recommendations"
-                                                                
+
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Recommendations]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -201,9 +205,10 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtTop" Text="Top Anime"
-                                                                
+
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -233,9 +238,10 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtMangaList" Text="Manga List"
-                                                                
+
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -260,9 +266,10 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
-                                                                
+
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -287,9 +294,10 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtTopManga" Text="Top Manga"
-                                                                
+
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"  Grid.Column="1"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>
@@ -299,7 +307,7 @@
                                 </PivotItem>
                             </Pivot.Items>
                         </Pivot>
-                        <Grid VerticalAlignment="Stretch" Grid.Row="1"/>
+                        <Grid VerticalAlignment="Stretch" Grid.Row="1" />
                         <StackPanel Grid.Row="2" Margin="{Binding BottomStackPanelMargin}">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
@@ -343,7 +351,8 @@
                                     <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Center"
+                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}"
+                                               HorizontalAlignment="Center"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -390,7 +399,7 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Center" 
+                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Center"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <!--<Button Grid.Column="2" Background="Transparent" Width="35" Height="35"

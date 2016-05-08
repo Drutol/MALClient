@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
     <FlyoutPresenter.Resources>
-        
+
     </FlyoutPresenter.Resources>
     <Flyout x:Name="FlyoutMore">
         <StackPanel Padding="0">
@@ -24,7 +24,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <SymbolIcon Symbol="World" VerticalAlignment="Center" />
                 <StackPanel HorizontalAlignment="Left">
-                    <Button Content="Copy url to clipboard" Click="FlyoutButtonPressed" Command="{Binding CopyLinkToClipboardCommand}" />
+                    <Button Content="Copy url to clipboard" Click="FlyoutButtonPressed"
+                            Command="{Binding CopyLinkToClipboardCommand}" />
                     <Button Content="Open in browser" Click="FlyoutButtonPressed" Command="{Binding OpenInMALCommand}" />
                 </StackPanel>
             </StackPanel>
@@ -32,8 +33,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
                 <StackPanel HorizontalAlignment="Left">
-                    <Button Content="Pin with MAL url" Click="FlyoutButtonPressed" Command="{Binding PinTileMALCommand}" />
-                    <Button Content="Pin with custom url" Click="FlyoutButtonPressed" Command="{Binding PinTileCustomCommand}" />
+                    <Button Content="Pin with MAL url" Click="FlyoutButtonPressed"
+                            Command="{Binding PinTileMALCommand}" />
+                    <Button Content="Pin with custom url" Click="FlyoutButtonPressed"
+                            Command="{Binding PinTileCustomCommand}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

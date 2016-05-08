@@ -12,16 +12,21 @@ namespace MALClient
     public static class Credentials
     {
         public static string HummingbirdToken { get; private set; } =
-            (string)(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] ?? "");
+            (string) (ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] ?? "");
 
         public static string UserName { get; private set; }
 
         private static string Password { get; set; }
 
         public static int Id { get; private set; } =
-            (int)(ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
+            (int) (ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
 
         public static bool Authenticated { get; private set; }
+
+        private static string ResourceName => Settings.SelectedApiType == ApiType.Mal ? "MALClient" : "MALClientHum";
+
+        private static string ReverseResourceName
+            => Settings.SelectedApiType == ApiType.Mal ? "MALClientHum" : "MALClient";
 
         internal static ICredentials GetHttpCreditentials()
         {
@@ -32,9 +37,6 @@ namespace MALClient
         {
             return $"username={UserName}&password={Password}";
         }
-
-        private static string ResourceName => Settings.SelectedApiType == ApiType.Mal ? "MALClient" : "MALClientHum";
-        private static string ReverseResourceName => Settings.SelectedApiType == ApiType.Mal ? "MALClientHum" : "MALClient";
 
         public static void Update(string name, string passwd)
         {
@@ -73,7 +75,8 @@ namespace MALClient
         public static void Init()
         {
             var vault = new PasswordVault();
-            if (bool.Parse((string)ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False") && ApplicationData.Current.LocalSettings.Values["Username"] != null) //check for old auth way
+            if (bool.Parse((string) ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False") &&
+                ApplicationData.Current.LocalSettings.Values["Username"] != null) //check for old auth way
             {
                 vault.Add(new PasswordCredential("MALClient",
                     ApplicationData.Current.LocalSettings.Values["Username"] as string, //they are not null
@@ -85,7 +88,7 @@ namespace MALClient
             }
             try
             {
-                ApiType deductedApiType = ApiType.Mal;
+                var deductedApiType = ApiType.Mal;
                 PasswordCredential credential = null;
                 try
                 {
@@ -117,7 +120,6 @@ namespace MALClient
             {
                 Authenticated = false;
             }
-
         }
 
         private static async void FillInMissingIdData()
@@ -145,7 +147,6 @@ namespace MALClient
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
             }
             catch (Exception)
             {

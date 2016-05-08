@@ -3,8 +3,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using MALClient.Comm;
-using MALClient.Comm.Anime;
 using MALClient.Pages;
 using MALClient.ViewModels;
 
@@ -17,8 +15,6 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
-        public MainViewModel ViewModel => DataContext as MainViewModel;
-
 #pragma warning disable 4014
         public MainPage()
         {
@@ -30,6 +26,7 @@ namespace MALClient
 #endif
         }
 #pragma warning restore 4014
+        public MainViewModel ViewModel => DataContext as MainViewModel;
 
         public void Navigate(Type page, object args = null)
         {
@@ -58,7 +55,7 @@ namespace MALClient
 
         private void CurrentStatus_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            if(ViewModel.LastIndex == PageIndex.PageAnimeList)
+            if (ViewModel.LastIndex == PageIndex.PageAnimeList)
                 CurrentStatusListFilterSelectorFlyout.ShowAt(sender as FrameworkElement);
         }
     }

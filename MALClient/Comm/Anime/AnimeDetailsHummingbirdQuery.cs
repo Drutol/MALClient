@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using MALClient.Models;
-using MALClient.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm.Anime
@@ -13,7 +12,7 @@ namespace MALClient.Comm.Anime
     internal class AnimeDetailsHummingbirdQuery : Query
     {
         private static readonly string _apiKey;
-        public static Dictionary<int,int> MalToHumId = new Dictionary<int, int>();
+        public static Dictionary<int, int> MalToHumId = new Dictionary<int, int>();
         private readonly int _id;
 
         static AnimeDetailsHummingbirdQuery()

@@ -28,11 +28,10 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
-
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             MenuPaneState = false;
-            
+
             await Task.Delay(1);
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
@@ -64,19 +63,20 @@ namespace MALClient.ViewModels
                 else
                     HideSearchStuff();
             }
-            
+
             ResetSearchFilter();
             switch (index)
             {
                 case PageIndex.PageAnimeList:
                     ShowSearchStuff();
-                    if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) && (wasOnSearchPage || _wasOnDetailsFromSearch))
+                    if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
+                        (wasOnSearchPage || _wasOnDetailsFromSearch))
                     {
                         CurrentSearchQuery = "";
                         _wasOnDetailsFromSearch = false;
                         UnToggleSearchStuff();
                     }
-                    View.Navigate(typeof (AnimeListPage), args);
+                    View.Navigate(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
@@ -84,11 +84,11 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
-                    View.Navigate(typeof (AnimeDetailsPage), args);
+                    View.Navigate(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
-                    View.Navigate(typeof (SettingsPage));
+                    View.Navigate(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
@@ -97,15 +97,16 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    View.Navigate(typeof (LogInPage));
+                    View.Navigate(typeof(LogInPage));
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;                  
+                    RefreshButtonVisibility = Visibility.Visible;
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
-                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
-                        View.Navigate(typeof(ProfilePage), args);                      
+                        RefreshDataCommand =
+                            new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                        View.Navigate(typeof(ProfilePage), args);
                     }
                     else
                     {
@@ -118,7 +119,7 @@ namespace MALClient.ViewModels
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
-                    View.Navigate(typeof (RecomendationsPage), args);
+                    View.Navigate(typeof(RecomendationsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -246,7 +247,13 @@ namespace MALClient.ViewModels
 
         public ICommand ChangeStatusCommand
         {
-            get { return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(s => ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = int.Parse(s))); }
+            get
+            {
+                return _changeStatusCommand ??
+                       (_changeStatusCommand =
+                           new RelayCommand<string>(
+                               s => ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = int.Parse(s)));
+            }
         }
 
         private ICommand _reversePaneCommand;
@@ -404,7 +411,7 @@ namespace MALClient.ViewModels
                 View.SearchInputFocus(FocusState.Keyboard);
                 (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
             }
-            View.Navigate(typeof (AnimeSearchPage), args);
+            View.Navigate(typeof(AnimeSearchPage), args);
         }
 
         #endregion
@@ -456,7 +463,7 @@ namespace MALClient.ViewModels
 
         private void ShowSearchStuff()
         {
-           SearchToggleVisibility = true;
+            SearchToggleVisibility = true;
             if (SearchToggleStatus)
                 SearchInputVisibility = true;
         }
@@ -465,20 +472,19 @@ namespace MALClient.ViewModels
         {
             SearchToggleStatus = false;
             SearchInputVisibility = false;
-            SearchToggleVisibility = false;       
+            SearchToggleVisibility = false;
         }
 
         private void ToggleSearchStuff()
         {
             SearchToggleStatus = true;
             SearchInputVisibility = true;
-           
         }
 
         private void UnToggleSearchStuff()
         {
             SearchToggleStatus = false;
-            SearchInputVisibility = false;         
+            SearchInputVisibility = false;
         }
 
         #endregion

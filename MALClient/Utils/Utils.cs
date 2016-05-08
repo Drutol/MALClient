@@ -99,11 +99,11 @@ namespace MALClient
                 return "";
             if (Settings.AirDayOffset != 0)
             {
-                var sum = Settings.AirDayOffset + (int)day;
+                var sum = Settings.AirDayOffset + (int) day;
                 if (sum > 6)
-                    day = (DayOfWeek)sum - 7;
+                    day = (DayOfWeek) sum - 7;
                 else if (sum < 0)
-                    day = (DayOfWeek)7 + sum;
+                    day = (DayOfWeek) 7 + sum;
                 else
                     day += Settings.AirDayOffset;
             }
@@ -230,6 +230,7 @@ namespace MALClient
                 //no file
             }
         }
+
         public static async Task DownloadProfileImg()
         {
             if (!Credentials.Authenticated)
@@ -240,14 +241,20 @@ namespace MALClient
                 var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
 
                 var http = new HttpClient();
-                byte[] response = { };
+                byte[] response = {};
                 switch (Settings.SelectedApiType)
                 {
                     case ApiType.Mal:
-                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                        await
+                            Task.Run(
+                                async () =>
+                                    response =
+                                        await
+                                            http.GetByteArrayAsync(
+                                                $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                         break;
                     case ApiType.Hummingbird:
-                        string avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
+                        var avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
                         await Task.Run(async () => response = await http.GetByteArrayAsync(avatarLink));
                         break;
                     default:
@@ -276,24 +283,24 @@ namespace MALClient
         }
 
 
-        public static async void DownloadCoverImage(string url,string title)
+        public static async void DownloadCoverImage(string url, string title)
         {
             try
             {
                 var sp = new FileSavePicker();
                 sp.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> { ".png" });
+                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> {".png"});
                 sp.SuggestedFileName = $"{title}-cover_art";
 
                 var file = await sp.PickSaveFileAsync();
-                if(file == null)
+                if (file == null)
                     return;
                 var http = new HttpClient();
-                byte[] response = { };
+                byte[] response = {};
 
                 //get bytes
                 await Task.Run(async () => response = await http.GetByteArrayAsync(url));
-                
+
 
                 var fs = await file.OpenStreamForWriteAsync(); //get stream
                 var writer = new DataWriter(fs.AsOutputStream());
@@ -303,13 +310,12 @@ namespace MALClient
                 await writer.FlushAsync();
 
                 writer.Dispose();
-                 GiveStatusBarFeedback("File saved successfully.");
+                GiveStatusBarFeedback("File saved successfully.");
             }
             catch (Exception e)
             {
                 GiveStatusBarFeedback("Error. File didn't save properly.");
             }
-
         }
 
         public static string CleanAnimeTitle(string title)

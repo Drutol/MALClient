@@ -3,13 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Display;
 using Windows.System;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Items;
 using MALClient.UserControls;
 using MALClient.ViewModels;
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -11,13 +7,13 @@ using Windows.UI.Xaml.Media;
 namespace MALClient.XamlConverters
 {
     /// <summary>
-    /// If anime status in grid view's selection menu is the same -> return accent color
+    ///     If anime status in grid view's selection menu is the same -> return accent color
     /// </summary>
-    class MyStatusSelectionToBrushConverter : IValueConverter
+    internal class MyStatusSelectionToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value.ToString() == parameter as string)
+            if (value.ToString() == parameter as string)
                 return Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
             return Settings.SelectedTheme == ApplicationTheme.Dark
                 ? new SolidColorBrush(Colors.White)

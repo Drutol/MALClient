@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Models;
@@ -35,12 +31,14 @@ namespace MALClient.Items
             //Find for first
             DependentData =
                 await
-                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, DependentId.ToString(), DependentTitle, true,ApiType.Mal);
+                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, DependentId.ToString(), DependentTitle, true,
+                        ApiType.Mal);
 
             //Find for second
             RecommendationData =
                 await
-                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, RecommendationId.ToString(), RecommendationTitle, true,ApiType.Mal);
+                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, RecommendationId.ToString(),
+                        RecommendationTitle, true, ApiType.Mal);
 
             //If for some reason we fail
             if (DependentData == null || RecommendationData == null)

@@ -28,6 +28,8 @@ namespace MALClient.ViewModels
     {
         private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
 
+        private Thickness _bottomStackPanelMargin = new Thickness(0);
+
 
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
@@ -173,7 +175,6 @@ namespace MALClient.ViewModels
         }
 
 
-
         public int MenuPivotSelectedIndex
         {
             get { return _menuPivotSelectedIndex; }
@@ -184,7 +185,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Thickness _bottomStackPanelMargin = new Thickness(0);
         public Thickness BottomStackPanelMargin
         {
             get { return _bottomStackPanelMargin; }

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Xml.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Popups;
@@ -35,7 +33,8 @@ namespace MALClient.ViewModels
         public PageIndex Source;
         public int SourceTabIndex;
 
-        public AnimeDetailsPageNavigationArgs(int id, string title, AnimeGeneralDetailsData element, IAnimeData animeReference,
+        public AnimeDetailsPageNavigationArgs(int id, string title, AnimeGeneralDetailsData element,
+            IAnimeData animeReference,
             object args = null)
         {
             Id = id;
@@ -53,6 +52,14 @@ namespace MALClient.ViewModels
 
     public class AnimeDetailsPageViewModel : ViewModelBase
     {
+        //additional fields
+        private int _allEpisodes;
+        private string _alternateImgUrl;
+        private IAnimeData _animeItemReference; //our connection with everything
+        private bool _animeMode;
+        private float _globalScore;
+        //crucial fields
+        private string _imgUrl;
 
         public bool _initialized;
         //loaded fields
@@ -60,20 +67,18 @@ namespace MALClient.ViewModels
         private bool _loadedRecomm;
         private bool _loadedRelated;
         private bool _loadedReviews;
-        //crucial fields
-        private string _imgUrl;
-        private bool _animeMode;
-        private IAnimeData _animeItemReference; //our connection with everything
+        private string _sourceLink; //used to navigate to ann or hummingbird
+        private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
+
+        static AnimeDetailsPageViewModel()
+        {
+            UpdateScoreFlyoutChoices();
+        }
+
         public int Id { get; set; }
         private int MalId { get; set; }
         public string Title { get; set; }
         public IDetailsViewInteraction View { private get; set; } //used to hide flyout
-        //additional fields
-        private int _allEpisodes;
-        private float _globalScore;
-        private string _alternateImgUrl;
-        private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
-        private string _sourceLink; //used to navigate to ann or hummingbird
         private string Type { get; set; }
         private string Status { get; set; }
         public int AllVolumes => _animeItemReference?.AllVolumes ?? 0;
@@ -81,34 +86,17 @@ namespace MALClient.ViewModels
         private string StartDate { get; set; }
         private string EndDate { get; set; }
         //Dates set by the user
-        public string MyStartDate => (_animeItemReference?.StartDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.StartDate;
-        public string MyEndDate => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.EndDate;
+        public string MyStartDate
+            =>
+                (_animeItemReference?.StartDate ?? "0000-00-00") == "0000-00-00"
+                    ? "Not set"
+                    : _animeItemReference?.StartDate;
 
-        #region ObservableCollections
-        public ObservableCollection<AnimeReviewData> Reviews { get; } = new ObservableCollection<AnimeReviewData>();
+        public string MyEndDate
+            => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.EndDate
+            ;
 
-        public ObservableCollection<DirectRecommendationData> Recommendations { get; } =
-            new ObservableCollection<DirectRecommendationData>();
-
-        public ObservableCollection<RelatedAnimeData> RelatedAnime { get; } =
-            new ObservableCollection<RelatedAnimeData>();
-
-        public ObservableCollection<Tuple<string, string>> LeftDetailsRow { get; } =
-            new ObservableCollection<Tuple<string, string>>();
-
-        public ObservableCollection<Tuple<string, string>> RightDetailsRow { get; } =
-            new ObservableCollection<Tuple<string, string>>();
-
-        public ObservableCollection<string> LeftGenres { get; } = new ObservableCollection<string>();
-        public ObservableCollection<string> RightGenres { get; } = new ObservableCollection<string>();
-
-        public ObservableCollection<Tuple<string, string>> Episodes { get; } =
-            new ObservableCollection<Tuple<string, string>>();
-
-        public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
-        public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
-        #endregion
-
+        public static List<string> ScoreFlyoutChoices { get; set; }
 
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
@@ -127,14 +115,14 @@ namespace MALClient.ViewModels
             _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
 
             //basic init assignment
-            _animeItemReference = param.AnimeItem ;
-            _animeMode = param.AnimeMode;           
+            _animeItemReference = param.AnimeItem;
+            _animeMode = param.AnimeMode;
             Id = param.Id;
             Title = param.Title;
 
             //so there will be no floting start/end dates
             MyDetailsVisibility = false;
-            
+
             PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
             if (_animeMode)
             {
@@ -233,7 +221,15 @@ namespace MALClient.ViewModels
 
         private async void OpenMalPage()
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+            if (Settings.SelectedApiType == ApiType.Mal)
+            {
+                await
+                    Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/anime/{Id}"));
+            }
         }
 
         private async void OpenAnnPage()
@@ -243,7 +239,8 @@ namespace MALClient.ViewModels
 
         private async void NavigateDetails(IDetailsPageArgs args)
         {
-            if (Settings.SelectedApiType == ApiType.Hummingbird) //recoms and review have mal id so we have to walk around thid
+            if (Settings.SelectedApiType == ApiType.Hummingbird)
+                //recoms and review have mal id so we have to walk around thid
             {
                 args.Id = await new AnimeDetailsHummingbirdQuery(args.Id).GetHummingbirdId();
             }
@@ -259,6 +256,64 @@ namespace MALClient.ViewModels
                         })
                     {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
         }
+
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling"
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling"
+                };
+        }
+
+        #region ObservableCollections
+
+        public ObservableCollection<AnimeReviewData> Reviews { get; } = new ObservableCollection<AnimeReviewData>();
+
+        public ObservableCollection<DirectRecommendationData> Recommendations { get; } =
+            new ObservableCollection<DirectRecommendationData>();
+
+        public ObservableCollection<RelatedAnimeData> RelatedAnime { get; } =
+            new ObservableCollection<RelatedAnimeData>();
+
+        public ObservableCollection<Tuple<string, string>> LeftDetailsRow { get; } =
+            new ObservableCollection<Tuple<string, string>>();
+
+        public ObservableCollection<Tuple<string, string>> RightDetailsRow { get; } =
+            new ObservableCollection<Tuple<string, string>>();
+
+        public ObservableCollection<string> LeftGenres { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> RightGenres { get; } = new ObservableCollection<string>();
+
+        public ObservableCollection<Tuple<string, string>> Episodes { get; } =
+            new ObservableCollection<Tuple<string, string>>();
+
+        public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
+
+        #endregion
 
         #region Properties
 
@@ -288,7 +343,12 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBind
+            =>
+                MyScore == 0
+                    ? "Unranked"
+                    : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}"
+            ;
 
         private float MyScore
         {
@@ -464,7 +524,7 @@ namespace MALClient.ViewModels
         }
 
         public Visibility MalApiSpecificControlsVisibility
-             => Settings.SelectedApiType == ApiType.Mal? Visibility.Visible : Visibility.Collapsed;
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
         private Visibility _detailedDataVisibility;
 
@@ -555,26 +615,32 @@ namespace MALClient.ViewModels
 
         public ICommand ResetStartDateCommand
         {
-            get { return _resetStartDateCommand ?? (_resetStartDateCommand = new RelayCommand(() =>
+            get
             {
-                StartDateValid = false;
-                _animeItemReference.StartDate = AnimeItemViewModel.InvalidStartEndDate;
-                RaisePropertyChanged(() => MyStartDate);
-                LaunchUpdate();
-            })); }
+                return _resetStartDateCommand ?? (_resetStartDateCommand = new RelayCommand(() =>
+                {
+                    StartDateValid = false;
+                    _animeItemReference.StartDate = AnimeItemViewModel.InvalidStartEndDate;
+                    RaisePropertyChanged(() => MyStartDate);
+                    LaunchUpdate();
+                }));
+            }
         }
 
         private ICommand _resetEndDateCommand;
 
         public ICommand ResetEndDateCommand
         {
-            get { return _resetEndDateCommand ?? (_resetEndDateCommand = new RelayCommand(() =>
+            get
             {
-                EndDateValid = false;
-                _animeItemReference.EndDate = AnimeItemViewModel.InvalidStartEndDate;
-                RaisePropertyChanged(() => MyEndDate);
-                LaunchUpdate();
-            })); }
+                return _resetEndDateCommand ?? (_resetEndDateCommand = new RelayCommand(() =>
+                {
+                    EndDateValid = false;
+                    _animeItemReference.EndDate = AnimeItemViewModel.InvalidStartEndDate;
+                    RaisePropertyChanged(() => MyEndDate);
+                    LaunchUpdate();
+                }));
+            }
         }
 
         private ICommand _navigateDetailsCommand;
@@ -639,7 +705,14 @@ namespace MALClient.ViewModels
                 return _copyToClipboardCommand ?? (_copyToClipboardCommand = new RelayCommand(() =>
                 {
                     var dp = new DataPackage();
-                    dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                    }
+                    else
+                    {
+                        dp.SetText($"https://hummingbird.me/anime/{Id}");
+                    }
                     Clipboard.SetContent(dp);
                     Utils.GiveStatusBarFeedback("Copied to clipboard...");
                 }));
@@ -834,8 +907,9 @@ namespace MALClient.ViewModels
         }
 
 
-        private DateTimeOffset _startDateTimeOffset;//= DateTimeOffset.Parse("2015-09-10");
+        private DateTimeOffset _startDateTimeOffset; //= DateTimeOffset.Parse("2015-09-10");
         public bool StartDateValid;
+
         public DateTimeOffset StartDateTimeOffset
         {
             get { return _startDateTimeOffset; }
@@ -849,8 +923,10 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyStartDate);
             }
         }
+
         private DateTimeOffset _endDateTimeOffset;
         public bool EndDateValid;
+
         public DateTimeOffset EndDateTimeOffset
         {
             get { return _endDateTimeOffset; }
@@ -872,10 +948,10 @@ namespace MALClient.ViewModels
             get { return _currentlySelectedImagePivotIndex; }
             set
             {
-                if(Settings.SelectedApiType == ApiType.Hummingbird)
+                if (Settings.SelectedApiType == ApiType.Hummingbird)
                     return;
                 _currentlySelectedImagePivotIndex = value;
-                if(value == 1 && HummingbirdImage == null)
+                if (value == 1 && HummingbirdImage == null)
                     LoadHummingbirdCoverImage();
                 RaisePropertyChanged(() => CurrentlySelectedImagePivotIndex);
             }
@@ -916,6 +992,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => RemoveAnimeBtnEnableState);
             }
         }
+
         private Visibility _imageOverlayVisibility = Visibility.Collapsed;
 
         public Visibility ImageOverlayVisibility
@@ -924,7 +1001,7 @@ namespace MALClient.ViewModels
             set
             {
                 _imageOverlayVisibility = value;
-                if(value == Visibility.Visible)
+                if (value == Visibility.Visible)
                     NavMgr.RegisterOneTimeOverride(new RelayCommand(() => ImageOverlayVisibility = Visibility.Collapsed));
                 RaisePropertyChanged(() => ImageOverlayVisibility);
             }
@@ -938,11 +1015,12 @@ namespace MALClient.ViewModels
         {
             if (_animeMode)
                 return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore,
-                    (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"), //if date was untouched return "no date" value
-                    (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
-            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, (int)MyScore, MyVolumes,
-                (StartDateValid ? _animeItemReference.StartDate : "0000-00-00"),
-                (EndDateValid ? _animeItemReference.EndDate : "0000-00-00"));
+                    StartDateValid ? _animeItemReference.StartDate : "0000-00-00",
+                    //if date was untouched return "no date" value
+                    EndDateValid ? _animeItemReference.EndDate : "0000-00-00");
+            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, (int) MyScore, MyVolumes,
+                StartDateValid ? _animeItemReference.StartDate : "0000-00-00",
+                EndDateValid ? _animeItemReference.EndDate : "0000-00-00");
         }
 
         private async void LaunchUpdate()
@@ -974,7 +1052,7 @@ namespace MALClient.ViewModels
                 _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
                 EndDateValid = true;
                 RaisePropertyChanged(() => EndDateTimeOffset);
-                RaisePropertyChanged(() =>MyEndDate);
+                RaisePropertyChanged(() => MyEndDate);
             }
             else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
@@ -1042,7 +1120,7 @@ namespace MALClient.ViewModels
                     MyEpisodes = prevWatched;
 
                 if (_animeItemReference is AnimeItemViewModel)
-                { 
+                {
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
@@ -1057,9 +1135,9 @@ namespace MALClient.ViewModels
                             ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
-                    ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
+                    ((AnimeItemViewModel) _animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
                 }
-            WatchedEpsInput = "";
+                WatchedEpsInput = "";
             }
             else
             {
@@ -1086,18 +1164,18 @@ namespace MALClient.ViewModels
             AddAnimeVisibility = false;
             AnimeType typeA;
             MangaType typeM;
-            int type = 0;
+            var type = 0;
             try
             {
                 if (_animeMode)
                 {
                     Enum.TryParse(Type, out typeA);
-                    type = (int)typeA;
+                    type = (int) typeA;
                 }
                 else
                 {
                     Enum.TryParse(Type.Replace("-", ""), out typeM);
-                    type = (int)typeM;
+                    type = (int) typeM;
                 }
             }
             catch (Exception)
@@ -1106,7 +1184,7 @@ namespace MALClient.ViewModels
             }
 
 
-            string startDate = "0000-00-00";
+            var startDate = "0000-00-00";
             if (Settings.SetStartDateOnListAdd)
             {
                 startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
@@ -1148,7 +1226,7 @@ namespace MALClient.ViewModels
             MyStatus = 6;
             MyEpisodes = 0;
             GlobalScore = GlobalScore; //trigger setter of anime item
-            if (String.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
@@ -1156,7 +1234,6 @@ namespace MALClient.ViewModels
 
         private async void RemoveAnime()
         {
-
             var uSure = false;
             var msg = new MessageDialog("Are you sure about deleting this entry from your list?");
             msg.Commands.Add(new UICommand("I'm sure", command => uSure = true));
@@ -1192,7 +1269,7 @@ namespace MALClient.ViewModels
         {
             if (_animeItemReference is AnimeItemViewModel && _animeMode)
             {
-                int day = -1;
+                var day = -1;
                 try
                 {
                     day = StartDate != AnimeItemViewModel.InvalidStartEndDate &&
@@ -1218,10 +1295,12 @@ namespace MALClient.ViewModels
             LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
-            LeftDetailsRow.Add(new Tuple<string, string>("Start", StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
+            LeftDetailsRow.Add(new Tuple<string, string>("Start",
+                StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
-            RightDetailsRow.Add(new Tuple<string, string>("End", EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
+            RightDetailsRow.Add(new Tuple<string, string>("End",
+                EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
 
             Synopsis = Synopsis;
             Utils.GetMainPageInstance().CurrentStatus = Title;
@@ -1277,7 +1356,6 @@ namespace MALClient.ViewModels
                 LoadingGlobal = Visibility.Collapsed;
                 // no internet?
             }
-
         }
 
         public async void RefreshData()
@@ -1498,6 +1576,7 @@ namespace MALClient.ViewModels
         }
 
         private bool _loadingAlternate;
+
         private async void LoadHummingbirdCoverImage()
         {
             if (!_animeMode)
@@ -1505,13 +1584,13 @@ namespace MALClient.ViewModels
                 AlternateImageUnavailableNoticeVisibility = Visibility.Visible;
                 return;
             }
-            if(_loadingAlternate)
+            if (_loadingAlternate)
                 return;
             _loadingAlternate = true;
             AlternateImageUnavailableNoticeVisibility = Visibility.Collapsed;
             LoadingHummingbirdImage = Visibility.Visible;
             AnimeDetailsData data = null;
-            await Task.Run( async () => data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails());
+            await Task.Run(async () => data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails());
             if (data?.AlternateCoverImgUrl != null)
             {
                 _alternateImgUrl = data.AlternateCoverImgUrl;
@@ -1522,43 +1601,7 @@ namespace MALClient.ViewModels
             LoadingHummingbirdImage = Visibility.Collapsed;
             _loadingAlternate = false;
         }
+
         #endregion
-
-        static AnimeDetailsPageViewModel()
-        {
-            UpdateScoreFlyoutChoices();
-        }
-
-        public static List<string> ScoreFlyoutChoices { get; set; }
-        public static void UpdateScoreFlyoutChoices()
-        {
-            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
-                ? new List<string>
-                {
-                    "10 - Masterpiece",
-                    "9 - Great",
-                    "8 - Very Good",
-                    "7 - Good",
-                    "6 - Fine",
-                    "5 - Average",
-                    "4 - Bad",
-                    "3 - Very Bad",
-                    "2 - Horrible",
-                    "1 - Appaling",
-                }
-                : new List<string>
-                {
-                    "5 - Masterpiece",
-                    "4.5 - Great",
-                    "4 - Very Good",
-                    "3.5 - Good",
-                    "3 - Fine",
-                    "2.5 - Average",
-                    "2 - Bad",
-                    "1.5 - Very Bad",
-                    "1 - Horrible",
-                    "0.5 - Appaling",
-                };
-        }
     }
 }

@@ -89,23 +89,23 @@
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".2*"/>
-                                        <ColumnDefinition Width=".4*"/>
-                                        <ColumnDefinition Width=".4*"/>
+                                        <ColumnDefinition Width=".2*" />
+                                        <ColumnDefinition Width=".4*" />
+                                        <ColumnDefinition Width=".4*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Item1}" FontWeight="Medium"/>
+                                    <TextBlock Text="{Binding Item1}" FontWeight="Medium" />
                                     <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                                         <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Item2}" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Item2}" HorizontalAlignment="Center" />
                                             <TextBlock Text="{Binding Item3}" HorizontalAlignment="Center"
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                         </StackPanel>
                                     </Grid>
                                     <Grid Margin="10,0,0,0" Grid.Column="2" HorizontalAlignment="Stretch">
                                         <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Item4}" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Item4}" HorizontalAlignment="Center" />
                                             <TextBlock Text="{Binding Item5}" HorizontalAlignment="Center"
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

@@ -19,9 +19,8 @@ namespace MALClient.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        private bool _entriesPopulated;
         private bool _initialized;
-
-        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
 
         public SettingsPage()
         {
@@ -32,6 +31,8 @@ namespace MALClient.Pages
                 "Want something? Let me know! Scroll just a little bit and go to the issues board :)"
             };
         }
+
+        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
 
         private async void Donate(object sender, RoutedEventArgs e)
         {
@@ -133,10 +134,9 @@ namespace MALClient.Pages
             }
         }
 
-        private bool _entriesPopulated;
         private async void PopulateCachedEntries()
         {
-            if(_entriesPopulated)
+            if (_entriesPopulated)
                 return;
             _entriesPopulated = true;
             var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
@@ -427,7 +427,7 @@ namespace MALClient.Pages
 
         private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if((sender as Pivot).SelectedIndex == 1)
+            if ((sender as Pivot).SelectedIndex == 1)
                 PopulateCachedEntries();
             else if ((sender as Pivot).SelectedIndex == 4)
                 ViewModel.LoadNews();

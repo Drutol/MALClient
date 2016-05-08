@@ -50,7 +50,7 @@ namespace MALClient.ViewModels
             if (data == null)
             {
                 Loading = false;
-                return;               
+                return;
             }
             RecommendationItems.Clear();
             var i = 0;

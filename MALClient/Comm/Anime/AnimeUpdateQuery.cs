@@ -7,20 +7,21 @@ namespace MALClient.Comm
 {
     internal class AnimeUpdateQuery : Query
     {
-        public static bool UpdatedSomething = false; //used for data saving on suspending in app.xaml.cs
+        public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
 
-        public AnimeUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore,item.StartDate,item.EndDate)
+        public AnimeUpdateQuery(IAnimeData item)
+            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate)
         {
         }
 
 
-        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore,string startDate,string endDate)
+        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore, string startDate, string endDate)
         {
             UpdatedSomething = true;
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    UpdateAnimeMal(id,watchedEps,myStatus,(int)myScore,startDate,endDate);
+                    UpdateAnimeMal(id, watchedEps, myStatus, (int) myScore, startDate, endDate);
                     break;
                 case ApiType.Hummingbird:
                     UpdateAnimeHummingbird(id, watchedEps, myStatus, myScore, startDate, endDate);
@@ -58,7 +59,8 @@ namespace MALClient.Comm
             xml.AppendLine("</entry>");
 
 
-            Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
             Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
@@ -70,7 +72,7 @@ namespace MALClient.Comm
             Request =
                 WebRequest.Create(
                     Uri.EscapeUriString(
-                        $"http://hummingbird.me/api/v1/libraries/{id}?auth_token={Credentials.HummingbirdToken}&episodes_watched={watchedEps}&rating={myScore}&status={AnimeStatusToHum((AnimeStatus)myStatus)}"));
+                        $"http://hummingbird.me/api/v1/libraries/{id}?auth_token={Credentials.HummingbirdToken}&episodes_watched={watchedEps}&rating={myScore}&status={AnimeStatusToHum((AnimeStatus) myStatus)}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             {
                 Request.Method = "POST";

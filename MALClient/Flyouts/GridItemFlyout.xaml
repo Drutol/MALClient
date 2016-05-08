@@ -12,24 +12,25 @@
         <ResourceDictionary>
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
-            <xamlConverters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter"/>
+            <xamlConverters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml"/>
+                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </MenuFlyoutPresenter.Resources>
     <MenuFlyout x:Name="Flyout">
-        <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}" Click="FlyoutButtonPressed"/>
-        <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" Click="FlyoutButtonPressed"/>
-        <MenuFlyoutItem Text="Pin with MAL url" Command="{Binding PinTileMALCommand}" Click="FlyoutButtonPressed"/>
+        <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}"
+                        Click="FlyoutButtonPressed" />
+        <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" Click="FlyoutButtonPressed" />
+        <MenuFlyoutItem Text="Pin with MAL url" Command="{Binding PinTileMALCommand}" Click="FlyoutButtonPressed" />
         <MenuFlyoutSeparator Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}" />
         <MenuFlyoutSubItem Text="Status"
                            Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
-                            CommandParameter="Watching" 
+                            CommandParameter="Watching"
                             Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=1}" />
             <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
-                            CommandParameter="Completed" 
+                            CommandParameter="Completed"
                             Foreground="{Binding MyStatus,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=2}" />
             <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
                             CommandParameter="On hold"

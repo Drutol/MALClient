@@ -1,7 +1,6 @@
 ﻿using System;
 using Windows.Graphics.Display;
 using Windows.System;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -21,25 +20,31 @@ namespace MALClient.Pages
             ViewModel.View = this;
             var disp = DisplayInformation.GetForCurrentView();
             ProcessOrientation(disp.CurrentOrientation);
-            disp.OrientationChanged += OnOrientationChanged;           
+            disp.OrientationChanged += OnOrientationChanged;
+        }
+
+        private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;
+
+        public Flyout GetWatchedEpsFlyout()
+        {
+            return WatchedEpsFlyout;
         }
 
         /// <summary>
-        /// Very very dirty hack , don't look at this...
-        /// But I want to have landscape orientation and I don't know enough XAML magic to do this there.
+        ///     Very very dirty hack , don't look at this...
+        ///     But I want to have landscape orientation and I don't know enough XAML magic to do this there.
         /// </summary>
         /// <param name="orientation"></param>
         private void ProcessOrientation(DisplayOrientations orientation)
         {
             if (ScrollingContainer.Content == null && (orientation == DisplayOrientations.Landscape ||
-                orientation == DisplayOrientations.LandscapeFlipped))
+                                                       orientation == DisplayOrientations.LandscapeFlipped))
             {
                 var grid = RootGrid.Children[1];
                 RootGrid.Children.RemoveAt(1);
                 ScrollingContainer.Content = grid;
-
             }
-            else if(ScrollingContainer.Content != null)
+            else if (ScrollingContainer.Content != null)
             {
                 var grid = ScrollingContainer.Content;
                 ScrollingContainer.Content = null;
@@ -50,13 +55,6 @@ namespace MALClient.Pages
         private void OnOrientationChanged(DisplayInformation sender, object args)
         {
             ProcessOrientation(sender.CurrentOrientation);
-        }
-
-        private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;
-
-        public Flyout GetWatchedEpsFlyout()
-        {
-            return WatchedEpsFlyout;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -133,14 +131,14 @@ namespace MALClient.Pages
 
         private void ScrollViewerAlternate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            (sender as ScrollViewer).ZoomToFactor((float).5);
+            (sender as ScrollViewer).ZoomToFactor((float) .5);
         }
 
         private void AlternateImage_OnImageOpened(object sender, RoutedEventArgs e)
         {
-            AlternateImgScrollViewer.ZoomToFactor((float).5);
-            CurrentImgDimesnions.Text = $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
-
+            AlternateImgScrollViewer.ZoomToFactor((float) .5);
+            CurrentImgDimesnions.Text =
+                $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
         }
 
         private void MalImage_OnImageOpened(object sender, RoutedEventArgs e)
@@ -164,12 +162,11 @@ namespace MALClient.Pages
             {
                 //voodoo
             }
-
         }
 
         private void StartDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            if(ViewModel.StartDateValid)
+            if (ViewModel.StartDateValid)
                 ResetStartDateFlyout.ShowAt(sender as FrameworkElement);
         }
 

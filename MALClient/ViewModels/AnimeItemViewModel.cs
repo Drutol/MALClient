@@ -11,7 +11,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -24,14 +23,25 @@ namespace MALClient.ViewModels
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
         public const string InvalidStartEndDate = "0000-00-00";
-        //
-        public string ImgUrl { get; set; }
         public readonly AnimeItemAbstraction ParentAbstraction;
         private float _globalScore;
         private bool _seasonalState;
+
+        static AnimeItemViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            MaxWidth = bounds.Width/2.1;
+            UpdateScoreFlyoutChoices();
+        }
+
+        //
+        public string ImgUrl { get; set; }
         //prop field pairs
 
         public static double MaxWidth { get; set; }
+
+        public static List<string> ScoreFlyoutChoices { get; set; }
 
 
         //state fields
@@ -41,7 +51,7 @@ namespace MALClient.ViewModels
         {
             if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
                 return;
-            int id = Id;
+            var id = Id;
             if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
             {
                 id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
@@ -51,7 +61,9 @@ namespace MALClient.ViewModels
                     new AnimeDetailsPageNavigationArgs(id, Title, null, this,
                         argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
                     {
-                        Source = sourceOverride ?? (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
+                        Source =
+                            sourceOverride ??
+                            (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
                         AnimeMode = ParentAbstraction.RepresentsAnime
                     });
         }
@@ -99,7 +111,39 @@ namespace MALClient.ViewModels
             ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
         }
 
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling"
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling"
+                };
+        }
+
         #region Constructors
+
         private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
         {
             ParentAbstraction = parent;
@@ -117,7 +161,7 @@ namespace MALClient.ViewModels
         public AnimeItemViewModel(bool auth, string name, string img, int id, int myStatus, int myEps, int allEps,
             float myScore, string startDate, string endDate,
             AnimeItemAbstraction parent, bool setEpsAuth = false) : this(img, id, parent)
-        //We are loading an item that IS on the list
+            //We are loading an item that IS on the list
         {
             //Assign fields
             Id = id;
@@ -151,13 +195,13 @@ namespace MALClient.ViewModels
 
         public AnimeItemViewModel(SeasonalAnimeData data,
             AnimeItemAbstraction parent) : this(data.ImgUrl, data.Id, parent)
-        //We are loading an item that is NOT on the list and is seasonal
+            //We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
 
             Title = data.Title;
             MyScore = 0;
-            MyStatus = (int)AnimeStatus.AllOrAiring;
+            MyStatus = (int) AnimeStatus.AllOrAiring;
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
             Airing = ParentAbstraction.AirDay >= 0;
@@ -177,19 +221,13 @@ namespace MALClient.ViewModels
         public string StartDate
         {
             get { return ParentAbstraction.MyStartDate; }
-            set
-            {
-                ParentAbstraction.MyStartDate = value;
-            }
+            set { ParentAbstraction.MyStartDate = value; }
         }
 
         public string EndDate
         {
             get { return ParentAbstraction.MyEndDate; }
-            set
-            {
-                ParentAbstraction.MyEndDate = value;
-            }
+            set { ParentAbstraction.MyEndDate = value; }
         }
 
         public string AirDayBind
@@ -207,7 +245,8 @@ namespace MALClient.ViewModels
             {
                 if (ParentAbstraction.AirStartDate != null)
                 {
-                    if (DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now).TotalSeconds > 0)
+                    if (DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now).TotalSeconds >
+                        0)
                         return new SolidColorBrush(Colors.Gray);
                 }
                 return new SolidColorBrush(Colors.White);
@@ -295,8 +334,11 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyScoreBind => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
-        public string MyScoreBindShort => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+        public string MyScoreBind
+            => MyScore == 0 ? "Unranked" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
+
+        public string MyScoreBindShort
+            => MyScore == 0 ? "N/A" : $"{MyScore}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
         public float MyScore
         {
@@ -580,6 +622,7 @@ namespace MALClient.ViewModels
         }
 
         private ICommand _onFlyoutEpsKeyDown;
+
         public ICommand OnFlyoutEpsKeyDown
         {
             get { return _onFlyoutEpsKeyDown ?? (_onFlyoutEpsKeyDown = new RelayCommand(ChangeWatchedEps)); }
@@ -648,10 +691,7 @@ namespace MALClient.ViewModels
             {
                 return _pinTileCustomCommand ??
                        (_pinTileCustomCommand =
-                           new RelayCommand(() =>
-                           {
-                               TileUrlInputVisibility = Visibility.Visible;
-                           }));
+                           new RelayCommand(() => { TileUrlInputVisibility = Visibility.Visible; }));
             }
         }
 
@@ -665,8 +705,15 @@ namespace MALClient.ViewModels
                        (_copyLinkToClipboardCommand = new RelayCommand(() =>
                        {
                            var dp = new DataPackage();
-                           dp.SetText(
-                               $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           if (Settings.SelectedApiType == ApiType.Mal)
+                           {
+                               dp.SetText(
+                                   $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           }
+                           else
+                           {
+                               dp.SetText($"https://hummingbird.me/anime/{Id}");
+                           }
                            Clipboard.SetContent(dp);
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
@@ -682,10 +729,17 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           await
-                               Launcher.LaunchUriAsync(
-                                   new Uri(
-                                       $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                           if (Settings.SelectedApiType == ApiType.Mal)
+                           {
+                               await
+                                   Launcher.LaunchUriAsync(
+                                       new Uri(
+                                           $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                           }
+                           else
+                           {
+                               await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/anime/{Id}"));
+                           }
                        }));
             }
         }
@@ -714,7 +768,10 @@ namespace MALClient.ViewModels
 
         public ICommand NavigateDetailsCommand
         {
-            get { return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() =>NavigateDetails())); }
+            get
+            {
+                return _navigateDetailsCommand ?? (_navigateDetailsCommand = new RelayCommand(() => NavigateDetails()));
+            }
         }
 
         #endregion
@@ -810,12 +867,12 @@ namespace MALClient.ViewModels
         private async void IncrementWatchedEp()
         {
             LoadingUpdate = Visibility.Visible;
-            bool trigCompleted = true;
+            var trigCompleted = true;
             if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                 MyStatus == (int) AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                await PromptForStatusChange(AllEpisodes == 1 ? (int)AnimeStatus.Completed : (int)AnimeStatus.Watching);
+                await PromptForStatusChange(AllEpisodes == 1 ? (int) AnimeStatus.Completed : (int) AnimeStatus.Watching);
             }
 
             MyEpisodes++;
@@ -885,18 +942,21 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-        
+
         private async void ChangeStatus(object status)
         {
             LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
             MyStatus = Utils.StatusToInt(status as string);
 
-            if (Settings.SetStartDateOnWatching && (string)status == "Watching" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
+            if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
+                (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
                 StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnDropped && (string)status == "Dropped" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
+            else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&
+                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnCompleted && (string)status == "Completed" && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
+            else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
+                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
@@ -915,7 +975,7 @@ namespace MALClient.ViewModels
             var myPrevScore = MyScore;
             if (Settings.SelectedApiType == ApiType.Hummingbird)
             {
-                MyScore = (float)Convert.ToDouble(score as string) / 2;
+                MyScore = (float) Convert.ToDouble(score as string)/2;
                 if (MyScore == myPrevScore)
                     MyScore = 0;
             }
@@ -979,45 +1039,5 @@ namespace MALClient.ViewModels
         }
 
         #endregion
-
-        static AnimeItemViewModel()
-        {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width / 2.1;
-            UpdateScoreFlyoutChoices();
-        }
-
-        public static List<string> ScoreFlyoutChoices { get; set; }
-        public static void UpdateScoreFlyoutChoices()
-        {
-            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
-                ? new List<string>
-                {
-                    "10 - Masterpiece",
-                    "9 - Great",
-                    "8 - Very Good",
-                    "7 - Good",
-                    "6 - Fine",
-                    "5 - Average",
-                    "4 - Bad",
-                    "3 - Very Bad",
-                    "2 - Horrible",
-                    "1 - Appaling",
-                }
-                : new List<string>
-                {
-                    "5 - Masterpiece",
-                    "4.5 - Great",
-                    "4 - Very Good",
-                    "3.5 - Good",
-                    "3 - Fine",
-                    "2.5 - Average",
-                    "2 - Bad",
-                    "1.5 - Very Bad",
-                    "1 - Horrible",
-                    "0.5 - Appaling",
-                };
-        }
     }
 }

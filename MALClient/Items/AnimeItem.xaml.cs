@@ -26,6 +26,26 @@ namespace MALClient.Items
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
 
+        private void BtnWatchedEpsOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnMoreOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnScoreOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemScoreFlyout(sender as FrameworkElement);
+        }
+
+        private void BtnStatusOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowAnimeListItemStatusFlyout(sender as FrameworkElement);
+        }
+
         #region Swipe
 
         private Point _initialPoint;
@@ -80,25 +100,5 @@ namespace MALClient.Items
         }
 
         #endregion
-
-        private void BtnWatchedEpsOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
-        }
-
-        private void BtnMoreOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemFlyout(sender as FrameworkElement);
-        }
-
-        private void BtnScoreOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemScoreFlyout(sender as FrameworkElement);
-        }
-
-        private void BtnStatusOnClick(object sender, RoutedEventArgs e)
-        {
-            ItemFlyoutService.ShowAnimeListItemStatusFlyout(sender as FrameworkElement);
-        }
     }
 }

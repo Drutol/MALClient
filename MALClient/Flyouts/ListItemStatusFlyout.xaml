@@ -12,15 +12,15 @@
     <MenuFlyout x:Name="StatusFlyout">
         <MenuFlyout.Items>
             <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Watching" />
+                            CommandParameter="Watching" />
             <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Completed" />
+                            CommandParameter="Completed" />
             <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="On hold" />
+                            CommandParameter="On hold" />
             <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Dropped" />
+                            CommandParameter="Dropped" />
             <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
-                                                CommandParameter="Plan to watch" />
+                            CommandParameter="Plan to watch" />
         </MenuFlyout.Items>
     </MenuFlyout>
 </MenuFlyoutPresenter>

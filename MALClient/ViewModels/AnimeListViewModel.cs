@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Xml.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
@@ -32,21 +31,16 @@ namespace MALClient.ViewModels
 
     public class AnimeListViewModel : ViewModelBase
     {
-        private List<AnimeItemAbstraction> _animeItemsSet =
-            new List<AnimeItemAbstraction>(); //All for current list        
-
-        private List<AnimeItemAbstraction> _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
-        private List<AnimeItemAbstraction> _allLoadedMangaItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
-        public List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions => _allLoadedAnimeItems;
-        public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions => _allLoadedMangaItems;
-
 
         private int _allPages;
+
+        private List<AnimeItemAbstraction> _animeItemsSet =
+            new List<AnimeItemAbstraction>(); //All for current list        
 
         private bool _initiazlized;
 
@@ -58,16 +52,26 @@ namespace MALClient.ViewModels
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
         private bool _scrollHandlerAdded;
 
-        
+
         private bool _wasPreviousQuery;
 
         public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
-        public SmartObservableCollection<PivotItem> AnimePages { get; private set; } = new SmartObservableCollection<PivotItem>();
 
-        public SmartObservableCollection<AnimeItemViewModel> AnimeItems { get; private set; } = new SmartObservableCollection<AnimeItemViewModel>();
+        public List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; private set; } =
+            new List<AnimeItemAbstraction>();
 
-        public SmartObservableCollection<ListViewItem> SeasonSelection { get; } = new SmartObservableCollection<ListViewItem>();
+        public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; private set; } =
+            new List<AnimeItemAbstraction>();
+
+        public SmartObservableCollection<PivotItem> AnimePages { get; private set; } =
+            new SmartObservableCollection<PivotItem>();
+
+        public SmartObservableCollection<AnimeItemViewModel> AnimeItems { get; private set; } =
+            new SmartObservableCollection<AnimeItemViewModel>();
+
+        public SmartObservableCollection<ListViewItem> SeasonSelection { get; } =
+            new SmartObservableCollection<ListViewItem>();
 
 
         public int CurrentStatus => GetDesiredStatus();
@@ -160,7 +164,9 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.SeasonalAnime:
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    NavMgr.RegisterBackNav(WorkMode == AnimeListWorkModes.TopManga ? PageIndex.PageMangaList : PageIndex.PageAnimeList, null);
+                    NavMgr.RegisterBackNav(
+                        WorkMode == AnimeListWorkModes.TopManga ? PageIndex.PageMangaList : PageIndex.PageAnimeList,
+                        null);
                     Loading = true;
                     EmptyNoticeVisibility = false;
                     if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
@@ -194,13 +200,13 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// Main refresh function
+        ///     Main refresh function
         /// </summary>
         /// <param name="searchSource">
-        /// If it's from search -> check if there's anuthing to update before refreshing.
+        ///     If it's from search -> check if there's anuthing to update before refreshing.
         /// </param>
         /// <param name="fakeDelay">
-        /// To make app more responsive micro delays are good to trigger spinners and such.
+        ///     To make app more responsive micro delays are good to trigger spinners and such.
         /// </param>
         /// <returns></returns>
         public async Task RefreshList(bool searchSource = false, bool fakeDelay = false)
@@ -226,14 +232,14 @@ namespace MALClient.ViewModels
                 switch (WorkMode)
                 {
                     case AnimeListWorkModes.Anime:
-                        items = _allLoadedAnimeItems;
+                        items = AllLoadedAnimeItemAbstractions;
                         break;
                     case AnimeListWorkModes.SeasonalAnime:
                     case AnimeListWorkModes.TopAnime:
                         items = _allLoadedSeasonalAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
-                        items = _allLoadedMangaItems;
+                        items = AllLoadedMangaItemAbstractions;
                         break;
                     case AnimeListWorkModes.TopManga:
                         items = _allLoadedSeasonalMangaItems;
@@ -317,12 +323,13 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// Sets provided sort mode or takes one from settings
+        ///     Sets provided sort mode or takes one from settings
         /// </summary>
         /// <param name="option"></param>
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder))              
+            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder)
+                )
             {
                 case SortOptions.SortNothing:
                     SortOption = SortOptions.SortNothing;
@@ -353,8 +360,6 @@ namespace MALClient.ViewModels
                 : Settings.IsSortDescending;
         }
 
-
-
         #region CacheManip
 
         public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
@@ -378,28 +383,26 @@ namespace MALClient.ViewModels
             {
                 //
             }
-            
+
 
             if (_allLoadedAuthAnimeItems.Count > 0)
             {
                 if (parentAbstraction.RepresentsAnime)
-                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);                
+                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);
                 else
                     _allLoadedAuthMangaItems.Remove(parentAbstraction);
             }
-
-
         }
 
-#endregion
+        #endregion
 
         #region IndefiniteScrollerino
 
         private int _lastOffset;
 
         /// <summary>
-        /// Event handler for event fired by one of two scroll viewrs in List and Grid view mode.
-        /// It loads more items as user is scroling further.
+        ///     Event handler for event fired by one of two scroll viewrs in List and Grid view mode.
+        ///     It loads more items as user is scroling further.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -434,7 +437,7 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// Adds handler to scroll viewer provided by view.
+        ///     Adds handler to scroll viewer provided by view.
         /// </summary>
         private void AddScrollHandler()
         {
@@ -446,8 +449,8 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// To make it more probable that the list will scroll to right position wait a bit before srolling there.
-        /// It works more or less...
+        ///     To make it more probable that the list will scroll to right position wait a bit before srolling there.
+        ///     It works more or less...
         /// </summary>
         /// <param name="delay"></param>
         private async void ScrollToWithDelay(int delay)
@@ -457,7 +460,7 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// Scrolls to top of current indefinite scroll viewer.
+        ///     Scrolls to top of current indefinite scroll viewer.
         /// </summary>
         public void ScrollToTop()
         {
@@ -469,15 +472,16 @@ namespace MALClient.ViewModels
         #endregion
 
         #region Pagination
+
         /// <summary>
-        /// Used by pages view to determine which page has to be loaded first and avoid loading multiple pages
-        /// before init finishes.
+        ///     Used by pages view to determine which page has to be loaded first and avoid loading multiple pages
+        ///     before init finishes.
         /// </summary>
         public bool CanLoadPages;
 
         /// <summary>
-        /// This method is fully responsible for preparing the view.
-        /// Depending on display mode it distributes items to right containers.
+        ///     This method is fully responsible for preparing the view.
+        ///     Depending on display mode it distributes items to right containers.
         /// </summary>
         /// <param name="updatePerPage"></param>
         public async void UpdatePageSetup(bool updatePerPage = false)
@@ -524,7 +528,8 @@ namespace MALClient.ViewModels
 
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
-                    AnimeItems.AddRange(_animeItemsSet.Take(6).Select(abstraction => abstraction.ViewModel)); // 6 seems like reasonable number
+                    AnimeItems.AddRange(_animeItemsSet.Take(6).Select(abstraction => abstraction.ViewModel));
+                        // 6 seems like reasonable number
                     _animeItemsSet = _animeItemsSet.Skip(6).ToList();
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
@@ -534,7 +539,8 @@ namespace MALClient.ViewModels
                     //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
-                    AnimeItems.AddRange(_animeItemsSet.Take(8).Select(abstraction => abstraction.ViewModel)); // 8 seems like reasonable number
+                    AnimeItems.AddRange(_animeItemsSet.Take(8).Select(abstraction => abstraction.ViewModel));
+                        // 8 seems like reasonable number
                     _animeItemsSet = _animeItemsSet.Skip(8).ToList();
                     RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
@@ -554,9 +560,10 @@ namespace MALClient.ViewModels
         #endregion
 
         #region FetchAndPopulate
+
         /// <summary>
-        /// Fetches seasonal data and top manga/anime.
-        /// Results are saved in appropriate containers for further operations.
+        ///     Fetches seasonal data and top manga/anime.
+        ///     Results are saved in appropriate containers for further operations.
         /// </summary>
         /// <param name="force"></param>
         /// <returns></returns>
@@ -585,7 +592,8 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.TopManga:
                     var topResponse = new List<TopAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
-                    topResponse = await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
+                        topResponse =
+                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
                     data.AddRange(topResponse);
                     break;
             }
@@ -601,7 +609,7 @@ namespace MALClient.ViewModels
             if (WorkMode == AnimeListWorkModes.TopManga)
             {
                 //We have to load base mnga item first if not loaded before.
-                if (_allLoadedMangaItems.Count == 0 && !_attemptedMangaFetch)
+                if (AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
                     await FetchData(false, AnimeListWorkModes.Manga);
 
                 target = _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
@@ -611,7 +619,7 @@ namespace MALClient.ViewModels
             }
             else
             {
-                if (_allLoadedAnimeItems.Count == 0 && !_attemptedAnimeFetch)
+                if (AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
                     await FetchData(false, AnimeListWorkModes.Anime);
 
                 target = _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
@@ -695,7 +703,7 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// Forces currently loaded page to download new data.
+        ///     Forces currently loaded page to download new data.
         /// </summary>
         private async void ReloadList()
         {
@@ -708,13 +716,17 @@ namespace MALClient.ViewModels
 
         private bool _attemptedMangaFetch;
         private bool _attemptedAnimeFetch;
+
         /// <summary>
-        /// Feteches manga and anime data for currstnt ListSource.
+        ///     Feteches manga and anime data for currstnt ListSource.
         /// </summary>
         /// <param name="force">Forces downloading new data from MAL.</param>
-        /// <param name="modeOverride">When we are accessing deatils or top anime/manga without having it pulled we can use this
-        /// override to fetch this data and do nothing else with it.That way we will avoid situation where item is on user's list
-        /// but it wasn't downloaded by the application.</param>
+        /// <param name="modeOverride">
+        ///     When we are accessing deatils or top anime/manga without having it pulled we can use this
+        ///     override to fetch this data and do nothing else with it.That way we will avoid situation where item is on user's
+        ///     list
+        ///     but it wasn't downloaded by the application.
+        /// </param>
         /// <returns></returns>
         public async Task FetchData(bool force = false, AnimeListWorkModes? modeOverride = null)
         {
@@ -723,7 +735,7 @@ namespace MALClient.ViewModels
 
             if (!force && _prevListSource == ListSource && _prevWorkMode == requestedMode)
             {
-                foreach (var item in _allLoadedAnimeItems.Where(abstraction => abstraction.LoadedAnime))
+                foreach (var item in AllLoadedAnimeItemAbstractions.Where(abstraction => abstraction.LoadedAnime))
                 {
                     item.ViewModel.SignalBackToList();
                 }
@@ -754,21 +766,21 @@ namespace MALClient.ViewModels
             {
                 case AnimeListWorkModes.Anime:
                     _attemptedAnimeFetch = true;
-                    _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+                    AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
                     if (force)
                         _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
                     else if (_allLoadedAuthAnimeItems.Count > 0 &&
                              string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                        _allLoadedAnimeItems = _allLoadedAuthAnimeItems;
+                        AllLoadedAnimeItemAbstractions = _allLoadedAuthAnimeItems;
                     break;
                 case AnimeListWorkModes.Manga:
                     _attemptedMangaFetch = true;
-                    _allLoadedMangaItems = new List<AnimeItemAbstraction>();
+                    AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
                     if (force)
                         _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
                     else if (_allLoadedAuthMangaItems.Count > 0 &&
                              string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                        _allLoadedMangaItems = _allLoadedAuthMangaItems;
+                        AllLoadedMangaItemAbstractions = _allLoadedAuthMangaItems;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -776,11 +788,12 @@ namespace MALClient.ViewModels
 
 
             if (requestedMode == AnimeListWorkModes.Anime
-                ? _allLoadedAnimeItems.Count == 0
-                : _allLoadedMangaItems.Count == 0)
+                ? AllLoadedAnimeItemAbstractions.Count == 0
+                : AllLoadedMangaItemAbstractions.Count == 0)
             {
                 List<ILibraryData> data = null;
-                await Task.Run(async () => data = await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
+                await
+                    Task.Run(async () => data = await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
                 if (data?.Count == 0)
                 {
                     //no data?
@@ -796,17 +809,20 @@ namespace MALClient.ViewModels
                     case AnimeListWorkModes.Anime:
 
                         foreach (var item in data)
-                            _allLoadedAnimeItems.Add(new AnimeItemAbstraction(auth, item as AnimeLibraryItemData));
+                            AllLoadedAnimeItemAbstractions.Add(new AnimeItemAbstraction(auth,
+                                item as AnimeLibraryItemData));
 
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                            _allLoadedAuthAnimeItems = _allLoadedAnimeItems;
+                            _allLoadedAuthAnimeItems = AllLoadedAnimeItemAbstractions;
                         break;
                     case AnimeListWorkModes.Manga:
                         foreach (var item in data)
-                            _allLoadedMangaItems.Add(new AnimeItemAbstraction(auth && Settings.SelectedApiType == ApiType.Mal, item as MangaLibraryItemData)); //read only manga for hummingbird
+                            AllLoadedMangaItemAbstractions.Add(
+                                new AnimeItemAbstraction(auth && Settings.SelectedApiType == ApiType.Mal,
+                                    item as MangaLibraryItemData)); //read only manga for hummingbird
 
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                            _allLoadedAuthMangaItems = _allLoadedMangaItems;
+                            _allLoadedAuthMangaItems = AllLoadedMangaItemAbstractions;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -826,12 +842,12 @@ namespace MALClient.ViewModels
         }
 
         /// <summary>
-        /// Method used by details page to associate itself with authenticated item in order to allow for list updates.
+        ///     Method used by details page to associate itself with authenticated item in order to allow for list updates.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="anime"></param>
         /// <returns></returns>
-        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true,bool forceMal = false)
+        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false)
         {
             if (!Credentials.Authenticated)
                 return null;
@@ -839,10 +855,10 @@ namespace MALClient.ViewModels
             {
                 if (anime)
                 {
-                    if (_allLoadedAnimeItems.Count == 0 && !_attemptedAnimeFetch)
+                    if (AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
                         await FetchData(false, AnimeListWorkModes.Anime);
                 }
-                else if (_allLoadedMangaItems.Count == 0 && !_attemptedMangaFetch)
+                else if (AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
                     await FetchData(false, AnimeListWorkModes.Manga);
 
                 return anime
@@ -1240,11 +1256,9 @@ namespace MALClient.ViewModels
         public Visibility HumApiSpecificControlsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
 
-
         #endregion
 
         #region StatusRelatedStuff
-
 
         private async void UpdateUpperStatus(int retries = 5)
         {
@@ -1404,9 +1418,9 @@ namespace MALClient.ViewModels
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
-            _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+            AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-            _allLoadedMangaItems = new List<AnimeItemAbstraction>();
+            AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
             _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
 
@@ -1421,9 +1435,9 @@ namespace MALClient.ViewModels
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
-            _allLoadedAnimeItems = new List<AnimeItemAbstraction>();
+            AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-            _allLoadedMangaItems = new List<AnimeItemAbstraction>();
+            AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
             _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
             _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
             ListSource = Credentials.UserName;

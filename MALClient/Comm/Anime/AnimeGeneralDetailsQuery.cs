@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Models;
-using MALClient.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm.Anime
 {
-    class AnimeGeneralDetailsQuery : Query
+    internal class AnimeGeneralDetailsQuery : Query
     {
-        public async Task<AnimeGeneralDetailsData> GetAnimeDetails(bool force,string id,string title,bool animeMode,ApiType? apiOverride = null)
+        public async Task<AnimeGeneralDetailsData> GetAnimeDetails(bool force, string id, string title, bool animeMode,
+            ApiType? apiOverride = null)
         {
             var output = force ? null : await DataCache.RetrieveAnimeSearchResultsData(id, animeMode);
             if (output != null)
                 return output;
 
-            ApiType requestedApiType = apiOverride ?? CurrentApiType;
+            var requestedApiType = apiOverride ?? CurrentApiType;
 
             switch (requestedApiType)
             {
                 case ApiType.Mal:
-                    var data = animeMode ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false) : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false);
+                    var data = animeMode
+                        ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false)
+                        : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false);
                     data = WebUtility.HtmlDecode(data);
                     data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 
@@ -40,17 +41,17 @@ namespace MALClient.Comm.Anime
                     break;
                 case ApiType.Hummingbird:
                     Request =
-                    WebRequest.Create(
-                        Uri.EscapeUriString($"https://hummingbird.me/api/v1/anime/{id}"));
+                        WebRequest.Create(
+                            Uri.EscapeUriString($"https://hummingbird.me/api/v1/anime/{id}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
 
-                    string raw = await GetRequestResponse();
+                    var raw = await GetRequestResponse();
                     if (string.IsNullOrEmpty(raw))
                         break;
 
                     dynamic jsonObj = JsonConvert.DeserializeObject(raw);
-                    int allEps = 0;
+                    var allEps = 0;
                     if (jsonObj.episode_count != null)
                         allEps = Convert.ToInt32(jsonObj.episode_count.ToString());
                     output = new AnimeGeneralDetailsData
@@ -66,7 +67,7 @@ namespace MALClient.Comm.Anime
                         Status = jsonObj.status,
                         Synopsis = jsonObj.synopsis,
                         GlobalScore = jsonObj.community_rating,
-                        Synonyms = new List<string> { jsonObj.alternate_title.ToString()} 
+                        Synonyms = new List<string> {jsonObj.alternate_title.ToString()}
                     };
                     break;
                 default:

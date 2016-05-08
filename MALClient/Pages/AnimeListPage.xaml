@@ -88,7 +88,8 @@
                                 <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
                                 <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
                                                       Visibility="{Binding SortAirDayVisibility}" />
-                                <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched" Click="SelectSortMode"
+                                <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
+                                                      Click="SelectSortMode"
                                                       Visibility="{Binding HumApiSpecificControlsVisibility}" />
                                 <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
                             </StackPanel>
@@ -170,12 +171,13 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <item:AnimeItem DataContext="{Binding}"/>
+                    <item:AnimeItem DataContext="{Binding}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeItems}"
-                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center" ShowsScrollingPlaceholders="False"
+                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
+                  ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -184,7 +186,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <item:AnimeGridItem DataContext="{Binding}"/>
+                    <item:AnimeGridItem DataContext="{Binding}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

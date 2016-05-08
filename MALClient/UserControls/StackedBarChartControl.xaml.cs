@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -30,9 +29,18 @@ namespace MALClient.UserControls
             Colors.Gray
         };
 
+        public static readonly DependencyProperty DataSourceProperty =
+            DependencyProperty.Register(
+                "DataSource",
+                typeof(List<int>),
+                typeof(StackedBarChartControl),
+                new PropertyMetadata(
+                    new List<int>(), PropertyChangedCallback));
+
         private readonly int _lineThickness = 30;
 
         private bool _loaded;
+
         public StackedBarChartControl()
         {
             InitializeComponent();
@@ -41,39 +49,31 @@ namespace MALClient.UserControls
                 _loaded = true;
                 PopulateData();
             };
-
         }
 
-        public static readonly DependencyProperty DataSourceProperty =
-            DependencyProperty.Register(
-                "DataSource",
-                typeof (List<int>),
-                typeof (StackedBarChartControl),
-                new PropertyMetadata(
-                    new List<int>(), PropertyChangedCallback));
+        public List<int> DataSource
+        {
+            get { return (List<int>) GetValue(DataSourceProperty); }
+            set { SetValue(DataSourceProperty, value); }
+        }
 
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private static void PropertyChangedCallback(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var chart = dependencyObject as StackedBarChartControl;
             if (chart._loaded)
                 chart.PopulateData();
         }
 
-        public List<int> DataSource
-        {
-            get { return (List<int>)GetValue(DataSourceProperty); }
-            set { SetValue(DataSourceProperty, value); }
-        }
-
         private async void PopulateData()
         {
-            if(DataSource == null)
+            if (DataSource == null)
                 return;
             ChartCanvas.Children.Clear();
             await Task.Delay(50); // raceeee... wrooom!
-            int margin = 10;
+            var margin = 10;
             var values = DataSource;
-            if(values.Count == 0)
+            if (values.Count == 0)
                 return;
             var nonZeroValuesCount = values.Count(i => i != 0);
             var maxWidth = ChartCanvas.ActualWidth - _lineThickness*3/4*nonZeroValuesCount - margin*2;

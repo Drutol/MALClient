@@ -14,17 +14,21 @@ namespace MALClient.Comm
 {
     public class LibraryListQuery : Query
     {
-        private AnimeListWorkModes _mode;
-        private string _source;
-        public LibraryListQuery(string source,AnimeListWorkModes mode)
+        private readonly AnimeListWorkModes _mode;
+        private readonly string _source;
+
+        public LibraryListQuery(string source, AnimeListWorkModes mode)
         {
             _mode = mode;
             _source = source;
-            string type = _mode == AnimeListWorkModes.Anime ? "anime" : "manga";
+            var type = _mode == AnimeListWorkModes.Anime ? "anime" : "manga";
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request = WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/malappinfo.php?u={source}&status=all&type={type}"));
+                    Request =
+                        WebRequest.Create(
+                            Uri.EscapeUriString(
+                                $"http://myanimelist.net/malappinfo.php?u={source}&status=all&type={type}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
@@ -32,12 +36,16 @@ namespace MALClient.Comm
                     switch (mode)
                     {
                         case AnimeListWorkModes.Anime:
-                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{source}/library"));
+                            Request =
+                                WebRequest.Create(
+                                    Uri.EscapeUriString($"https://hummingbird.me/api/v1/users/{source}/library"));
                             Request.ContentType = "application/x-www-form-urlencoded";
                             Request.Method = "GET";
                             break;
                         case AnimeListWorkModes.Manga:
-                            Request = WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/manga_library_entries?user_id={source}"));
+                            Request =
+                                WebRequest.Create(
+                                    Uri.EscapeUriString($"https://hummingbird.me/manga_library_entries?user_id={source}"));
                             Request.ContentType = "application/x-www-form-urlencoded";
                             Request.Method = "GET";
                             break;
@@ -53,10 +61,12 @@ namespace MALClient.Comm
 
         public async Task<List<ILibraryData>> GetLibrary(bool force = false)
         {
-            var output = force ? new List<ILibraryData>() : await DataCache.RetrieveDataForUser(_source, _mode) ?? new List<ILibraryData>();
+            var output = force
+                ? new List<ILibraryData>()
+                : await DataCache.RetrieveDataForUser(_source, _mode) ?? new List<ILibraryData>();
             if (output.Count > 0)
                 return output;
-            string raw = await GetRequestResponse();
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return output;
 
@@ -108,7 +118,8 @@ namespace MALClient.Comm
                             }
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(_mode), "You gave me something different than anime/manga... b..b-baka (GetLibrary)");
+                            throw new ArgumentOutOfRangeException(nameof(_mode),
+                                "You gave me something different than anime/manga... b..b-baka (GetLibrary)");
                     }
                     break;
                 case ApiType.Hummingbird:
@@ -116,18 +127,19 @@ namespace MALClient.Comm
                     switch (_mode)
                     {
                         case AnimeListWorkModes.Anime:
-                            List<HumRootObject> jsonObj = JsonConvert.DeserializeObject<List<HumRootObject>>(raw,new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
+                            var jsonObj = JsonConvert.DeserializeObject<List<HumRootObject>>(raw,
+                                new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
                             foreach (var entry in jsonObj)
                             {
-                                AnimeType type = AnimeType.TV;
+                                var type = AnimeType.TV;
                                 try
                                 {
                                     float score = 0;
                                     if (entry.rating?.value != null)
                                         float.TryParse(entry.rating.value.ToString(), out score);
                                     if (entry.anime.show_type != null)
-                                        AnimeType.TryParse(entry.anime.show_type, true, out type);
-                                    DateTime lastWatch = new DateTime();
+                                        Enum.TryParse(entry.anime.show_type, true, out type);
+                                    var lastWatch = new DateTime();
                                     try
                                     {
                                         lastWatch = DateTime.Parse(entry.last_watched);
@@ -149,19 +161,19 @@ namespace MALClient.Comm
                                         MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
                                         MyScore = score,
                                         MyStatus = HummingbirdStatusToMal(entry.status),
-                                        LastWatched = lastWatch,
+                                        LastWatched = lastWatch
                                     });
                                 }
                                 catch (Exception e)
                                 {
                                     //
                                 }
-
                             }
                             break;
                         case AnimeListWorkModes.Manga: //rough undocumented endpoint raid
                             dynamic jsonMangaObj = JsonConvert.DeserializeObject(raw);
-                            Dictionary<string, dynamic> mangaData = new Dictionary<string, dynamic>(); //library data and manga dta are not connected
+                            var mangaData = new Dictionary<string, dynamic>();
+                                //library data and manga dta are not connected
                             foreach (var manga in jsonMangaObj.manga)
                                 mangaData.Add(manga.id.ToString(), manga);
                             foreach (var mangaLibraryEntry in jsonMangaObj.manga_library_entries)
@@ -169,8 +181,8 @@ namespace MALClient.Comm
                                 var details = mangaData[mangaLibraryEntry.manga_id.ToString()];
                                 try
                                 {
-                                    MangaType type = MangaType.Manga;
-                                    MangaType.TryParse(details.manga_type.ToString(), true, out type);
+                                    var type = MangaType.Manga;
+                                    Enum.TryParse(details.manga_type.ToString(), true, out type);
                                     float score = 0;
                                     if (details.rating != null)
                                         score = float.Parse(mangaLibraryEntry.rating.value.ToString());
@@ -178,7 +190,7 @@ namespace MALClient.Comm
                                     {
                                         Title = details.romaji_title.ToString(),
                                         ImgUrl = details.cover_image.ToString(),
-                                        Type = (int)type,
+                                        Type = (int) type,
                                         MalId = -1,
                                         Id = Convert.ToInt32(mangaLibraryEntry.id.ToString()),
                                         MyStatus = HummingbirdMangaStatusToMal(mangaLibraryEntry.status.ToString()),
@@ -198,9 +210,7 @@ namespace MALClient.Comm
                                 }
                                 catch (Exception e)
                                 {
-                                    
                                 }
-
                             }
                             break;
                         default:
@@ -223,7 +233,7 @@ namespace MALClient.Comm
                 return null;
             try
             {
-                XElement doc = XElement.Parse(raw);
+                var doc = XElement.Parse(raw);
                 return doc.Element("myinfo");
             }
             catch (Exception)

@@ -11,10 +11,10 @@ namespace MALClient
     {
         public static ApiType SelectedApiType
         {
-            get { return (ApiType)(ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
+            get { return (ApiType) (ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
             set
             {
-                ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int)value;
+                ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int) value;
                 Query.CurrentApiType = value;
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
                 AnimeItemViewModel.UpdateScoreFlyoutChoices();
@@ -118,10 +118,10 @@ namespace MALClient
         }
 
         public static int AirDayOffset
-         {
-             get { return (int) (ApplicationData.Current.LocalSettings.Values["AirDayOffset"] ?? 0); }
-             set { ApplicationData.Current.LocalSettings.Values["AirDayOffset"] = value; }
-         }
+        {
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["AirDayOffset"] ?? 0); }
+            set { ApplicationData.Current.LocalSettings.Values["AirDayOffset"] = value; }
+        }
 
         public static string DefaultMenuTab
         {
@@ -282,33 +282,34 @@ namespace MALClient
         #endregion
 
         #region StartEndDates
+
         public static bool SetStartDateOnWatching
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] = value; }
         }
 
         public static bool SetStartDateOnListAdd
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnListAdd"] = value; }
         }
 
         public static bool SetEndDateOnDropped
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnDropped"] = value; }
         }
 
         public static bool SetEndDateOnCompleted
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] = value; }
         }
 
         public static bool OverrideValidStartEndDate
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] = value; }
         }
 

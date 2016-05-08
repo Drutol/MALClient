@@ -6,7 +6,7 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
+    xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -22,7 +22,8 @@
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill" HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill"
+               HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
                Width="Auto" MaxWidth="120" Margin="1,1" />
         <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">

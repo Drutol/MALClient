@@ -68,9 +68,10 @@ namespace MALClient.ViewModels
                     });
         }
 
-        public void UpdateWithSeasonData(SeasonalAnimeData data)
+        public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)
         {
-            GlobalScore = data.Score;
+            if(updateScore)
+                GlobalScore = data.Score;
             Airing = data.AirDay >= 0;
             if (!Auth)
             {
@@ -712,7 +713,7 @@ namespace MALClient.ViewModels
                            }
                            else
                            {
-                               dp.SetText($"https://hummingbird.me/anime/{Id}");
+                               dp.SetText($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            }
                            Clipboard.SetContent(dp);
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
@@ -738,7 +739,7 @@ namespace MALClient.ViewModels
                            }
                            else
                            {
-                               await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/anime/{Id}"));
+                               await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                            }
                        }));
             }
@@ -758,9 +759,18 @@ namespace MALClient.ViewModels
                         await msg.ShowAsync();
                         return;
                     }
-                    PinTile(
-                        $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
-                }));
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        PinTile(
+                            $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                    }
+                    else
+                    {
+                        PinTile(
+                            $"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                    }
+                }
+                    ));
             }
         }
 

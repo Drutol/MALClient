@@ -628,12 +628,12 @@ namespace MALClient.ViewModels
                     : new List<AnimeItemAbstraction>();
             }
 
-
+            bool updateScore = Settings.SelectedApiType == ApiType.Mal;
             foreach (var animeData in data)
             {
                 try
                 {
-                    if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+                    if (WorkMode == AnimeListWorkModes.SeasonalAnime && updateScore) //seasonal anme comes with mal score, we don't want to polute hummingbird data
                         DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
                         {
                             DayOfAiring = animeData.AirDay,
@@ -655,9 +655,10 @@ namespace MALClient.ViewModels
                     else
                     {
                         abstraction.AirDay = animeData.AirDay;
-                        abstraction.GlobalScore = animeData.Score;
+                        if(updateScore)
+                            abstraction.GlobalScore = animeData.Score;
                         abstraction.Index = animeData.Index;
-                        abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData);
+                        abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData,updateScore);
                         target.Add(abstraction);
                     }
                 }

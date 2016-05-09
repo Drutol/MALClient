@@ -52,7 +52,7 @@ namespace MALClient.Pages
         {
             var page = Utils.GetMainPageInstance();
             Credentials.SetAuthStatus(false);
-            Credentials.Update("", "");
+            Credentials.Reset();
             Credentials.SetAuthToken("");
             await Utils.RemoveProfileImg();
             ViewModelLocator.AnimeList.LogOut();
@@ -106,25 +106,26 @@ namespace MALClient.Pages
             if (_authenticating)
                 return;
             ProgressRing.Visibility = Visibility.Visible;
-            Settings.SelectedApiType = ApiType.Mal;
             _authenticating = true;
-            Credentials.Update(UserName.Text, UserPassword.Password);
+            Credentials.Update(UserName.Text, UserPassword.Password, ApiType.Mal);
             try
             {
                 var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
                 if (string.IsNullOrEmpty(response))
                     throw new Exception();
                 var doc = XDocument.Parse(response);
+                Settings.SelectedApiType = ApiType.Mal;
                 Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Credentials.SetAuthStatus(true);
             }
             catch (Exception)
             {
                 Credentials.SetAuthStatus(false);
-                Credentials.Update(string.Empty, string.Empty);
+                Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
                 var msg = new MessageDialog("Unable to authorize with provided credentials.");
                 await msg.ShowAsync();
                 ProgressRing.Visibility = Visibility.Collapsed;
+                _authenticating = false;
                 return;
             }
             try
@@ -176,9 +177,9 @@ namespace MALClient.Pages
             if (_authenticating)
                 return;
             ProgressRingHum.Visibility = Visibility.Visible;
-            Settings.SelectedApiType = ApiType.Hummingbird;
+
             _authenticating = true;
-            Credentials.Update(UserNameHum.Text, UserPasswordHum.Password);
+            Credentials.Update(UserNameHum.Text, UserPasswordHum.Password, ApiType.Hummingbird);
             try
             {
                 var response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse(false);
@@ -186,16 +187,18 @@ namespace MALClient.Pages
                     throw new Exception();
                 if (response.Contains("\"error\": \"Invalid credentials\""))
                     throw new Exception();
+                Settings.SelectedApiType = ApiType.Hummingbird;
                 Credentials.SetAuthToken(response);
                 Credentials.SetAuthStatus(true);
             }
             catch (Exception)
             {
                 Credentials.SetAuthStatus(false);
-                Credentials.Update(string.Empty, string.Empty);
+                Credentials.Update(string.Empty, string.Empty,ApiType.Hummingbird);
                 var msg = new MessageDialog("Unable to authorize with provided credentials.");
                 await msg.ShowAsync();
                 ProgressRingHum.Visibility = Visibility.Collapsed;
+                _authenticating = false;
                 return;
             }
             try

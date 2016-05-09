@@ -23,11 +23,6 @@ namespace MALClient
 
         public static bool Authenticated { get; private set; }
 
-        private static string ResourceName => Settings.SelectedApiType == ApiType.Mal ? "MALClient" : "MALClientHum";
-
-        private static string ReverseResourceName
-            => Settings.SelectedApiType == ApiType.Mal ? "MALClientHum" : "MALClient";
-
         internal static ICredentials GetHttpCreditentials()
         {
             return new NetworkCredential(UserName, Password);
@@ -38,7 +33,7 @@ namespace MALClient
             return $"username={UserName}&password={Password}";
         }
 
-        public static void Update(string name, string passwd)
+        public static void Update(string name, string passwd, ApiType type)
         {
             var vault = new PasswordVault();
 
@@ -49,7 +44,15 @@ namespace MALClient
             Password = passwd;
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(passwd))
-                vault.Add(new PasswordCredential(ResourceName, UserName, Password));
+                vault.Add(new PasswordCredential(type == ApiType.Mal ? "MALClient" : "MALClientHum", UserName, Password));
+        }
+
+        public static void Reset()
+        {
+            var vault = new PasswordVault();
+
+            foreach (var passwordCredential in vault.RetrieveAll())
+                vault.Remove(passwordCredential);
         }
 
         public static void SetAuthStatus(bool status)

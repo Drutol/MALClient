@@ -139,29 +139,36 @@
                                     Content="{Binding MyScoreBind}">
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyout.Items>
-                                            <MenuFlyoutItem Text="10 - Masterpiece"
-                                                            Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="10" />
-                                            <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="9" />
-                                            <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="8" />
-                                            <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="7" />
-                                            <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="6" />
-                                            <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="5" />
-                                            <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="4" />
-                                            <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="3" />
-                                            <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="2" />
-                                            <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
-                                                            CommandParameter="1" />
-                                        </MenuFlyout.Items>
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[0]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="10" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[1]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="9" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[2]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="8" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[3]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="7" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[4]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="6" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[5]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="5" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[6]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="4" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[7]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="3" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[8]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="2" />
+                                        <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[9]}"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="1" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>

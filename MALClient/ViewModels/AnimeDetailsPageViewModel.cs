@@ -119,6 +119,10 @@ namespace MALClient.ViewModels
             _animeMode = param.AnimeMode;
             Id = param.Id;
             Title = param.Title;
+            if (Settings.SelectedApiType == ApiType.Mal)
+                MalId = Id;
+            else
+                MalId = -1; //we will find this thing later
 
             //so there will be no floting start/end dates
             MyDetailsVisibility = false;
@@ -228,7 +232,7 @@ namespace MALClient.ViewModels
             }
             else
             {
-                await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/anime/{Id}"));
+                await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(_animeMode ? "anime" : "manga")}/{Id}"));
             }
         }
 
@@ -711,7 +715,7 @@ namespace MALClient.ViewModels
                     }
                     else
                     {
-                        dp.SetText($"https://hummingbird.me/anime/{Id}");
+                        dp.SetText($"https://hummingbird.me/{(_animeMode ? "anime" : "manga")}/{Id}");
                     }
                     Clipboard.SetContent(dp);
                     Utils.GiveStatusBarFeedback("Copied to clipboard...");

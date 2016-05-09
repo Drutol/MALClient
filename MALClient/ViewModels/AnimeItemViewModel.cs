@@ -60,9 +60,10 @@ namespace MALClient.ViewModels
         }
 
 
-        public void UpdateWithSeasonData(SeasonalAnimeData data)
+        public void UpdateWithSeasonData(SeasonalAnimeData data,bool updateScore)
         {
-            GlobalScore = data.Score;
+            if(updateScore)
+                GlobalScore = data.Score;
             Airing = data.AirDay >= 0;
             if (!Auth)
             {
@@ -686,8 +687,14 @@ namespace MALClient.ViewModels
                        (_copyLinkToClipboardCommand = new RelayCommand(() =>
                        {
                            var dp = new DataPackage();
-                           dp.SetText(
-                               $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           if (Settings.SelectedApiType == ApiType.Mal)
+                           {
+                               dp.SetText($"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           }
+                           else
+                           {
+                               dp.SetText($"https://hummingbird.me/anime/{Id}");
+                           }
                            Clipboard.SetContent(dp);
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
@@ -703,10 +710,14 @@ namespace MALClient.ViewModels
                 return _openInMALCommand ??
                        (_openInMALCommand = new RelayCommand(async () =>
                        {
-                           await
-                               Launcher.LaunchUriAsync(
-                                   new Uri(
-                                       $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                           if (Settings.SelectedApiType == ApiType.Mal)
+                           {
+                               await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                           }
+                           else
+                           {
+                               await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                           }
                        }));
             }
         }

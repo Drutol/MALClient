@@ -267,7 +267,7 @@ namespace MALClient.ViewModels
             }
             else
             {
-                await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/anime/{Id}"));
+                await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(_animeMode ? "anime" : "manga")}/{Id}"));
             }
 
         }
@@ -787,7 +787,7 @@ namespace MALClient.ViewModels
                     }
                     else
                     {
-                        dp.SetText($"https://hummingbird.me/anime/{Id}");
+                        dp.SetText($"https://hummingbird.me/{(_animeMode ? "anime" : "manga")}/{Id}");
                     }                 
                     Clipboard.SetContent(dp);
                     Utils.GiveStatusBarFeedback("Copied to clipboard...");

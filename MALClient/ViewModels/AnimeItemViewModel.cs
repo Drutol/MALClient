@@ -693,7 +693,7 @@ namespace MALClient.ViewModels
                            }
                            else
                            {
-                               dp.SetText($"https://hummingbird.me/anime/{Id}");
+                               dp.SetText($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            }
                            Clipboard.SetContent(dp);
                            Utils.GiveStatusBarFeedback("Copied to clipboard...");
@@ -736,8 +736,16 @@ namespace MALClient.ViewModels
                         await msg.ShowAsync();
                         return;
                     }
-                    PinTile(
-                        $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        PinTile(
+                            $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                    }
+                    else
+                    {
+                        PinTile(
+                            $"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                    }
                 }));
             }
         }

@@ -1,5 +1,11 @@
 [
   {
+    "Title": "v4.0.5.0 in certification!",
+    "Date": "09.05.2016",
+    "Type": "Updates",
+    "Content": "Hummingbird support is on its way to the store, ETA is 1-2 days depending on how quickly Microsoft approves of this app. Next stop... live tiles!"
+  },
+  {
     "Title": "Hummingbird & Next update",
     "Date": "04.05.2016",
     "Type": "Development",
@@ -10,11 +16,5 @@
     "Date": "28.04.2016",
     "Type": "Info",
     "Content": "App updates will slow down a little bit as I'm busy irl and ill."
-  },
-  {
-    "Title": "News: News!",
-    "Date": "24.04.2016",
-    "Type": "Info",
-    "Content": "Hello, if something happens I'll put an update here :)"
   }
 ]

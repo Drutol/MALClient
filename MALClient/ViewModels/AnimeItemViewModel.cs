@@ -494,7 +494,7 @@ namespace MALClient.ViewModels
 
         public Visibility AddToListVisibility
         {
-            get { return _addToListVisibility; }
+            get { return Settings.SelectedApiType == ApiType.Mal ? _addToListVisibility : Visibility.Collapsed; }
             set
             {
                 _addToListVisibility = value;

@@ -127,44 +127,7 @@ namespace MALClient
             }
         }
 
-        public static void RegisterTile(string id)
-        {
-            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
-                tiles = "";
-            tiles += id + ";";
-            ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
-        }
-
-        public static async void CheckTiles()
-        {
-            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
-                return;
-
-
-            var newTiles = "";
-            foreach (var tileId in tiles.Split(';'))
-            {
-                if (!SecondaryTile.Exists(tileId))
-                {
-                    try
-                    {
-                        var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
-                        await file.DeleteAsync();
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
-                }
-                else
-                {
-                    newTiles += tileId + ";";
-                }
-            }
-            ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
-        }
+        
 
         public static MainViewModel GetMainPageInstance()
         {
@@ -328,38 +291,6 @@ namespace MALClient
         public static string FirstCharToUpper(string input)
         {
             return input.First().ToString().ToUpper() + input.Substring(1);
-        }
-
-        public static async void PinTile(string targetUrl, int id, string imgUrl, string title)
-        {
-            try
-            {
-                var folder = ApplicationData.Current.LocalFolder;
-                var thumb = await folder.CreateFileAsync($"{id}.png", CreationCollisionOption.ReplaceExisting);
-
-                var http = new HttpClient();
-                var response = await http.GetByteArrayAsync(imgUrl); //get bytes
-
-                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-                using (var writer = new DataWriter(fs.AsOutputStream()))
-                {
-                    writer.WriteBytes(response); //write
-                    await writer.StoreAsync();
-                    await writer.FlushAsync();
-                }
-
-                if (!targetUrl.Contains("http"))
-                    targetUrl = "http://" + targetUrl;
-                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"),
-                    TileSize.Default);
-                RegisterTile(id.ToString());
-                await til.RequestCreateAsync();
-            }
-            catch (Exception)
-            {
-                //TODO : feedback
-            }
         }
 
         public static int LevenshteinDistance(string s, string t)

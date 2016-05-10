@@ -475,7 +475,7 @@ namespace MALClient.ViewModels
 
         public Visibility AddToListVisibility
         {
-            get { return _addToListVisibility; }
+            get { return Settings.SelectedApiType == ApiType.Mal ? _addToListVisibility : Visibility.Collapsed; }
             set
             {
                 _addToListVisibility = value;
@@ -767,7 +767,7 @@ namespace MALClient.ViewModels
         //Pinned with custom link.
         public void PinTile(string url = null)
         {
-            Utils.PinTile(url ?? TileUrlInput, Id, ImgUrl, Title);
+            LiveTilesManager.PinTile(url ?? TileUrlInput, ParentAbstraction.EntryData, ImgUrl, Title);
             TileUrlInputVisibility = Visibility.Collapsed;
         }
 

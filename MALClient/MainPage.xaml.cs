@@ -27,7 +27,7 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-            Utils.CheckTiles();
+            //Utils.CheckTiles();
             Loaded += (sender, args) =>
             {
 

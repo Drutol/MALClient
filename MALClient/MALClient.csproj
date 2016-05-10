@@ -239,6 +239,7 @@
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\ItemFlyoutService.cs" />
+    <Compile Include="Utils\LiveTilesManager.cs" />
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />

@@ -166,6 +166,12 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Recommendations";
                     View.Navigate(typeof(RecomendationsPage), args);
                     break;
+                    case PageIndex.PageCalendar:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    CurrentStatus = "Calendar";
+                    View.Navigate(typeof(CalendarPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

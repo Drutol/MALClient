@@ -1,0 +1,107 @@
+﻿<Page
+    x:Class="MALClient.Pages.CalendarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:items="using:MALClient.Items"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CalendarPage}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../XamlResources/DictionaryProfilePage.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot Style="{StaticResource PivotStyleOuterProfilePage}">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}"/>
+                <Style TargetType="GridView">
+                    <Setter Property="Margin" Value="1,1-5,0"/>
+                    <Setter Property="MinWidth" Value="200"/>
+                    <Setter Property="IsItemClickEnabled" Value="True"/>
+                    <Setter Property="ShowsScrollingPlaceholders" Value="False"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Padding" Value="5,5" />
+                                <Setter Property="Margin" Value="2,5" />
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <items:AnimeGridItem DataContext="{Binding}" />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                   ItemWidth="200" ItemHeight="350" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Pivot.Resources>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Mon" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[1]}"/>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Tue" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[2]}"/>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Wed" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[3]}"/>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Thu" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[4]}"/>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Fri" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[5]}"/>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Sat" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[6]}"/>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="Sun" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                </PivotItem.Header>
+                <GridView ItemsSource="{Binding CalendarData[0]}"/>
+            </PivotItem>
+        </Pivot>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding CalendarBuildingVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center" Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}"/>
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..."/>
+        </Grid>
+        
+    </Grid>
+</Page>

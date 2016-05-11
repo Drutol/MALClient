@@ -303,6 +303,7 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["Recommendations"] = new SolidColorBrush(color);
             TxtForegroundBrushes["TopAnime"] = new SolidColorBrush(color);
             TxtForegroundBrushes["TopManga"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Calendar"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -316,6 +317,7 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["Recommendations"] = new Thickness(0);
             TxtBorderBrushThicknesses["TopAnime"] = new Thickness(0);
             TxtBorderBrushThicknesses["TopManga"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Calendar"] = new Thickness(0);
         }
 
         public void SetActiveButton(HamburgerButtons val)

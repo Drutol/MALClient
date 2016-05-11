@@ -428,6 +428,8 @@ namespace MALClient
                     return HamburgerButtons.TopAnime;
                 case PageIndex.PageTopManga:
                     return HamburgerButtons.TopManga;
+                case PageIndex.PageCalendar:
+                    return HamburgerButtons.Calendar;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

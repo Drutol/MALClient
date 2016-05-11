@@ -14,6 +14,7 @@
         PageMangaList,
         PageMangaSearch,
         PageTopAnime,
-        PageTopManga
+        PageTopManga,
+        PageCalendar,
     }
 }

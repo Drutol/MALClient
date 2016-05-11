@@ -234,6 +234,34 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
                             </Grid>
+                        </Button>                        
+                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                PointerEntered="Button_PointerEntered"
+                                PointerExited="Button_PointerExited"
+                                Command="{Binding ButtonNavigationCommand}"
+                                CommandParameter="13">
+                            <Grid Height="45">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                                    BorderThickness="{Binding TxtBorderBrushThicknesses[Calendar]}"
+                                    BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                    Grid.ColumnSpan="2" />
+                                <SymbolIcon Symbol="CalendarDay" HorizontalAlignment="Center"
+                                            Grid.Column="0" Margin="0,0,2,0"
+                                            VerticalAlignment="Center"
+                                            Foreground="{Binding ElementName=TxtCalendar , Path=Foreground}" />
+                                <TextBlock x:Name="TxtCalendar" Text="Top Anime"
+                                           FontWeight="Medium"
+                                           Foreground="{Binding Path=TxtForegroundBrushes[Calendar]}"
+                                           HorizontalAlignment="Left" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center" />
+                            </Grid>
                         </Button>
                         <MenuFlyoutSeparator HorizontalAlignment="Left" x:Name="MidSeparator"
                                              Background="{StaticResource SystemControlBackgroundAccentBrush}" />

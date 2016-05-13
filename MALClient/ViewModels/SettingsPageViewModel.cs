@@ -201,6 +201,32 @@ namespace MALClient.ViewModels
             }
         }
 
+        public static bool CalendarIncludeWatching
+        {
+            get { return Settings.CalendarIncludeWatching; }
+            set { Settings.CalendarIncludeWatching = value; }
+        }
+
+        public static bool CalendarIncludePlanned
+        {
+            get { return Settings.CalendarIncludePlanned; }
+            set { Settings.CalendarIncludePlanned = value; }
+        }
+
+        public static bool CalendarStartOnToday
+        {
+            get { return Settings.CalendarStartOnToday; }
+            set { Settings.CalendarStartOnToday = value; }
+        }
+
+        public static bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
+
+        public static bool CalendarSwitchMonSun
+        {
+            get { return !Settings.CalendarSwitchMonSun; }
+            set { Settings.CalendarSwitchMonSun = !value; }
+        }
+
         public List<NewsData> CurrentNews { get; set; } = new List<NewsData>();
 
         public Visibility MalApiDependatedntSectionsVisibility

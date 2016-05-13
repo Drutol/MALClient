@@ -28,5 +28,10 @@ namespace MALClient.Pages
             this.InitializeComponent();
             Loaded += (a1, a2) => (DataContext as CalendarPageViewModel).Init();
         }
+
+        private void ItemsViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            (e.ClickedItem as AnimeItemViewModel).NavigateDetails();
+        }
     }
 }

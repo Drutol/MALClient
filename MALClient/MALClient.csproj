@@ -237,6 +237,7 @@
     <Compile Include="UserControls\StackedBarChartControl.xaml.cs">
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TemplateSelector.cs" />
     <Compile Include="Utils\AnimeStatusEnum.cs" />
     <Compile Include="Utils\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Credentials.cs" />
@@ -423,12 +424,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.AdMediator.Universal, Version=1.0">
-      <Name>Microsoft Advertising Universal SDK</Name>
-    </SDKReference>
-    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
-      <Name>Microsoft Advertising SDK for XAML</Name>
-    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>

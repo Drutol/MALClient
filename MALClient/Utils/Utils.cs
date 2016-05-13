@@ -92,11 +92,11 @@ namespace MALClient
             }
         }
 
-        public static string DayToString(DayOfWeek day)
+        public static string DayToString(DayOfWeek day,bool ignoreOffset = false)
         {
             if (day < 0)
                 return "";
-            if (Settings.AirDayOffset != 0)
+            if (Settings.AirDayOffset != 0 && !ignoreOffset)
             {
                 var sum = Settings.AirDayOffset + (int) day;
                 if (sum > 6)

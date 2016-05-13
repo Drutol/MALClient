@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:items="using:MALClient.Items"
+    xmlns:viewModels="using:MALClient.ViewModels"
+    xmlns:userControls="using:MALClient.UserControls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CalendarPage}">
 
     <Page.Resources>
@@ -13,11 +15,39 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../XamlResources/DictionaryProfilePage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="DayPageTemplate">
+                <GridView ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}"/>
+            </DataTemplate>            
+            <DataTemplate x:Key="SummaryPageTemplate">
+                <ListView SelectionMode="None" ItemsSource="{Binding Data}" Padding="0">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="UseSystemFocusVisuals" Value="False"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Margin="20,0,0,0" FontSize="20" Text="{Binding Item1}"/>
+                                <MenuFlyoutSeparator Grid.Row="1"/>
+                                <GridView ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2" ItemsSource="{Binding Item2}"/>
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot Style="{StaticResource PivotStyleOuterProfilePage}">
+        <Pivot Margin="-12,0,0,0" Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}" ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}"/>
                 <Style TargetType="GridView">
@@ -51,48 +81,22 @@
                     </Setter>
                 </Style>
             </Pivot.Resources>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Mon" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[1]}"/>
-            </PivotItem>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Tue" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[2]}"/>
-            </PivotItem>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Wed" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[3]}"/>
-            </PivotItem>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Thu" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[4]}"/>
-            </PivotItem>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Fri" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[5]}"/>
-            </PivotItem>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Sat" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[6]}"/>
-            </PivotItem>
-            <PivotItem>
-                <PivotItem.Header>
-                    <TextBlock Text="Sun" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                </PivotItem.Header>
-                <GridView ItemsSource="{Binding CalendarData[0]}"/>
-            </PivotItem>
+            <Pivot.ItemTemplateSelector>
+                <userControls:DataTypeTemplateSelector>
+                    <userControls:DataTypeTemplateSelector.Matches>
+                        <userControls:TemplateMatch TargetType="MALClient.ViewModels.CalendarPivotPage" Template="{StaticResource DayPageTemplate}"/>
+                        <userControls:TemplateMatch TargetType="MALClient.ViewModels.CalendarSummaryPivotPage" Template="{StaticResource SummaryPageTemplate}"/>
+                    </userControls:DataTypeTemplateSelector.Matches>
+                </userControls:DataTypeTemplateSelector>
+            </Pivot.ItemTemplateSelector>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Header}" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                        <TextBlock Text="{Binding Sub}" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                    </StackPanel>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
         </Pivot>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding CalendarBuildingVisibility}">
             <Grid.RowDefinitions>

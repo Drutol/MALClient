@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +12,33 @@ using MALClient.Items;
 
 namespace MALClient.ViewModels
 {
+    public class CalendarPivotPage
+    {
+        public string Header { get; set; }
+        public string Sub { get; set; }
+        public List<AnimeItemViewModel> Items { get; set; } = new List<AnimeItemViewModel>();
+    }
+
+    //just to indicate different data type
+    public sealed class CalendarSummaryPivotPage : CalendarPivotPage
+    {
+        public new string Header => "Summary";
+        public new string Sub => "";
+        public List<Tuple<string,List<AnimeItemViewModel>>> Data { get; set; } = new List<Tuple<string, List<AnimeItemViewModel>>>();
+    }
+
     public class CalendarPageViewModel : ViewModelBase
     {
-        public List<List<AnimeItemViewModel>> CalendarData { get; set; } = new List<List<AnimeItemViewModel>>
+        public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } = new ObservableCollection<CalendarPivotPage>
         {
-            new List<AnimeItemViewModel>(),
-            new List<AnimeItemViewModel>(),
-            new List<AnimeItemViewModel>(),
-            new List<AnimeItemViewModel>(),
-            new List<AnimeItemViewModel>(),
-            new List<AnimeItemViewModel>(),
-            new List<AnimeItemViewModel>(),
+            new CalendarPivotPage(),
+            new CalendarPivotPage(),
+            new CalendarPivotPage(),
+            new CalendarPivotPage(),
+            new CalendarPivotPage(),
+            new CalendarPivotPage(),
+            new CalendarPivotPage(),
+            new CalendarSummaryPivotPage(),
         };
 
         private Visibility _calendarBuildingVisibility = Visibility.Collapsed;
@@ -33,6 +50,18 @@ namespace MALClient.ViewModels
             {
                 _calendarBuildingVisibility = value;
                 RaisePropertyChanged(() => CalendarBuildingVisibility);
+            }
+        }
+
+        private Visibility _calendarVisibility = Visibility.Collapsed;
+
+        public Visibility CalendarVisibility
+        {
+            get { return _calendarVisibility; }
+            set
+            {
+                _calendarVisibility = value;
+                RaisePropertyChanged(() => CalendarVisibility);
             }
         }
 
@@ -62,10 +91,14 @@ namespace MALClient.ViewModels
 
 
         private bool _initialized;
-        public async void Init(bool force = false)
+        public async Task Init(bool force = false)
         {
-            if(_initialized && !force)
+            if (_initialized && !force)
+            {
+                CalendarVisibility = Visibility.Visible;
                 return;
+            }
+            
             _initialized = true;
             List<AnimeItemAbstraction> idsToFetch = new List<AnimeItemAbstraction>();
 
@@ -89,7 +122,7 @@ namespace MALClient.ViewModels
                         else
                             day += Settings.AirDayOffset;
                     }
-                    CalendarData[day].Add(abstraction.ViewModel);
+                    CalendarData[day].Items.Add(abstraction.ViewModel);
                 }
                 else if(Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
                 {
@@ -139,14 +172,36 @@ namespace MALClient.ViewModels
                             else
                                 day += Settings.AirDayOffset;
                         }
-                        CalendarData[day].Add(abstraction.ViewModel);
+                        CalendarData[day].Items.Add(abstraction.ViewModel);
                     }
                     ProgressValue++;
                 }
             }
 
+            if (Settings.CalendarSwitchMonSun)
+            {
+                CalendarData.Move(0,6);
+                CalendarData[0].Header = Utils.DayToString(DayOfWeek.Monday,true);
+                CalendarData[6].Header = Utils.DayToString(DayOfWeek.Sunday,true);
+                for (int i = 1; i < 6; i++)
+                    CalendarData[i].Header = Utils.DayToString((DayOfWeek)i+1,true);
+            }
+            else
+                for (int i = 0; i < 7; i++)
+                    CalendarData[i].Header = Utils.DayToString((DayOfWeek)i,true);
+
+            foreach (var calendarPivotPage in CalendarData.Take(7))
+            {
+                calendarPivotPage.Sub = calendarPivotPage.Items.Count > 0 ? calendarPivotPage.Items.Count.ToString() : "-";
+                if(calendarPivotPage.Items.Count != 0)
+                (CalendarData[7] as CalendarSummaryPivotPage).Data.Add(
+                    new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.Header, calendarPivotPage.Items));
+            }
+
+
             RaisePropertyChanged(() => CalendarData);
             CalendarBuildingVisibility = Visibility.Collapsed;
+            CalendarVisibility = Visibility.Visible;
         }
     }
 }

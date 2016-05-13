@@ -94,7 +94,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageRecomendations ||
                      index == PageIndex.PageProfile ||
                      index == PageIndex.PageLogIn ||
-                     index == PageIndex.PageMangaSearch)
+                     index == PageIndex.PageMangaSearch ||
+                     index == PageIndex.PageCalendar)
             {
                 ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(false);
                 CurrentMainPage = index;

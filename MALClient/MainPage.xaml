@@ -7,12 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
     xmlns:toolkit="using:WinRTXamlToolkit.Controls"
+    xmlns:xamlCropControl="using:XamlCropControl"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <!--<Storyboard TargetName="PinDialog" x:Name="FadeInPinDialogStoryboard">
+            <FadeInThemeAnimation/>
+        </Storyboard>-->
     </Page.Resources>
 
     <Page.DataContext>
@@ -175,8 +179,8 @@
                        Margin="{Binding Source={StaticResource Locator} ,Path=Hamburger.BottomStackPanelMargin}" />
             </Grid>
         </Grid>
-        <Grid DataContext="{Binding PinDialogViewModel}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Background="{ThemeResource BrushPinTileDialogOverlay}">
-            <Grid Margin="20,50,20,98" Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center" HorizontalAlignment="Stretch" MaxWidth="450"  Padding="10">
+        <Grid x:Name="PinDialog" DataContext="{Binding PinDialogViewModel}" Visibility="{Binding GeneralVisibility}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Background="{ThemeResource BrushPinTileDialogOverlay}">
+            <Grid Margin="20,20,20,78" Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center" HorizontalAlignment="Stretch" MaxWidth="450"  Padding="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -184,11 +188,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <StackPanel>
+                <StackPanel Margin="0,30,0,0">
                     <TextBlock Text="Pin tile" FontWeight="SemiLight" HorizontalAlignment="Left" FontSize="30"/>
-                    <TextBlock Text="Some random anime" FontWeight="SemiLight" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding EntryData.Title}" FontWeight="SemiLight" HorizontalAlignment="Left"/>
                 </StackPanel>
-                <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                <Button Width="50" Height="50" VerticalAlignment="Top" Grid.Row="0" Margin="0,20,0,0"
+                        HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" 
+                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                        Command="{Binding CloseDialogCommand}">
                     <SymbolIcon Symbol="Clear"/>
                 </Button>
                 <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,20,0,0">
@@ -212,8 +219,18 @@
                         </ComboBox.Items>
                     </ComboBox>
                     <Grid HorizontalAlignment="Stretch" Visibility="{Binding ImagePreviewVisibility}">
-                        <Image Width="120" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <xamlCropControl:CropControl x:Name="CropControl" ImageSource="{Binding PreviewImage}"  DesiredAspectRatio="1.0"   
+                                                     Width="200" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                     CropLeft="{Binding CropLeft,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" BorderThickness="0"  Visibility="{Binding UndoCropVisibility}"
+                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding UndoCropCommand}">
+                            <SymbolIcon Symbol="Undo"/>
+                        </Button>                        
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0" 
+                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding CropImageCommand}">
                             <SymbolIcon Symbol="Crop"/>
                         </Button>
                     </Grid>

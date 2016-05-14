@@ -673,7 +673,7 @@ namespace MALClient.ViewModels
             {
                 return _pinTileCustomCommand ??
                        (_pinTileCustomCommand =
-                           new RelayCommand(() => { TileUrlInputVisibility = Visibility.Visible; }));
+                           new RelayCommand(() => ViewModelLocator.Main.PinDialogViewModel.Load(this)));
             }
         }
 

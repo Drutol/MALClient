@@ -6,10 +6,12 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
+using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -396,5 +398,6 @@ namespace MALClient
         public static async void GiveStatusBarFeedback(string text)
         {
         }
+        
     }
 }

@@ -11,7 +11,8 @@
     "Newtonsoft.Json": "8.0.3",
     "System.Net.Http": "4.0.0",
     "VungleSDK": "1.1.6",
-    "winrtxamltoolkit": "2.0.0"
+    "winrtxamltoolkit": "2.0.0",
+    "XamlCropControl.WinRT.NuGet": "1.0.4"
   },
   "frameworks": {
     "uap10.0": {}

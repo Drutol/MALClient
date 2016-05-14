@@ -169,7 +169,8 @@ namespace MALClient.ViewModels
                     break;
                     case PageIndex.PageCalendar:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    //RefreshButtonVisibility = Visibility.Visible;
+                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CalendarPage.Init(true));
                     CurrentStatus = "Calendar";
                     View.Navigate(typeof(CalendarPage), args);
                     break;

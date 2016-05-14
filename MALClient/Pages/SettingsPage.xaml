@@ -604,6 +604,7 @@
                         <ToggleSwitch Header="Make sunday 1st day of week" IsOn="{Binding CalendarSwitchMonSun,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <RadioButton Content="Start on all week page" GroupName="CalendarStartTab" IsChecked="{Binding CalendarStartOnSummary}"/>
                         <RadioButton Content="Star on today" GroupName="CalendarStartTab" IsChecked="{Binding CalendarStartOnToday,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <ToggleSwitch Header="Remove empty days" IsOn="{Binding CalendarRemoveEmptyDays,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </PivotItem>
                     <PivotItem Header="News" Padding="2" Margin="0">

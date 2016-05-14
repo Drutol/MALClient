@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Items;
@@ -27,19 +29,22 @@ namespace MALClient.ViewModels
         public List<Tuple<string,List<AnimeItemViewModel>>> Data { get; set; } = new List<Tuple<string, List<AnimeItemViewModel>>>();
     }
 
+
     public class CalendarPageViewModel : ViewModelBase
     {
-        public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } = new ObservableCollection<CalendarPivotPage>
+        public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } =
+            new ObservableCollection<CalendarPivotPage>();
+
+        private int _calendarPivotIndex;
+        public int CalendarPivotIndex
         {
-            new CalendarPivotPage(),
-            new CalendarPivotPage(),
-            new CalendarPivotPage(),
-            new CalendarPivotPage(),
-            new CalendarPivotPage(),
-            new CalendarPivotPage(),
-            new CalendarPivotPage(),
-            new CalendarSummaryPivotPage(),
-        };
+            get { return _calendarPivotIndex; }
+            set
+            {
+                _calendarPivotIndex = value;
+                RaisePropertyChanged(() => CalendarPivotIndex);
+            }
+        }
 
         private Visibility _calendarBuildingVisibility = Visibility.Collapsed;
 
@@ -89,16 +94,38 @@ namespace MALClient.ViewModels
             }
         }
 
+        public ICommand _refreshCalendarCommand;
+
+        public ICommand RefreshCalendarCommand
+            => _refreshCalendarCommand ?? (_refreshCalendarCommand = new RelayCommand(() => Init(true)));
+
+
+        public void InitPages()
+        {
+            CalendarData = new ObservableCollection<CalendarPivotPage>
+            {
+                new CalendarPivotPage(),
+                new CalendarPivotPage(),
+                new CalendarPivotPage(),
+                new CalendarPivotPage(),
+                new CalendarPivotPage(),
+                new CalendarPivotPage(),
+                new CalendarPivotPage(),
+                new CalendarSummaryPivotPage(),
+            };
+        }
+
 
         private bool _initialized;
-        public async Task Init(bool force = false)
+
+        public async void Init(bool force = false)
         {
             if (_initialized && !force)
             {
                 CalendarVisibility = Visibility.Visible;
                 return;
             }
-            
+            InitPages();
             _initialized = true;
             List<AnimeItemAbstraction> idsToFetch = new List<AnimeItemAbstraction>();
 
@@ -106,12 +133,12 @@ namespace MALClient.ViewModels
                 var abstraction in
                     ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
                         abstraction =>
-                            abstraction.MyStatus == (int) AnimeStatus.PlanToWatch ||
-                            abstraction.MyStatus == (int) AnimeStatus.Watching))
+                            (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int) AnimeStatus.PlanToWatch) ||
+                            (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int) AnimeStatus.Watching)))
             {
                 if (abstraction.AirDay != -1)
                 {
-                    int day = abstraction.AirDay-1;
+                    int day = abstraction.AirDay - 1;
                     if (Settings.AirDayOffset != 0)
                     {
                         var sum = Settings.AirDayOffset + day;
@@ -124,7 +151,7 @@ namespace MALClient.ViewModels
                     }
                     CalendarData[day].Items.Add(abstraction.ViewModel);
                 }
-                else if(Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
+                else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
                 {
                     idsToFetch.Add(abstraction);
                 }
@@ -135,14 +162,17 @@ namespace MALClient.ViewModels
                 MaxProgressValue = idsToFetch.Count;
                 foreach (var abstraction in idsToFetch)
                 {
-                    var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(false, abstraction.Id.ToString(), abstraction.Title, true);
-                    int day = 0;
+                    var data =
+                        await
+                            new AnimeGeneralDetailsQuery().GetAnimeDetails(false, abstraction.Id.ToString(),
+                                abstraction.Title, true);
+                    int day;
                     try
                     {
                         day = data.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
                               (string.Equals(data.Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase) ||
                                string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
-                            ? (int)DateTime.Parse(data.StartDate).DayOfWeek + 1
+                            ? (int) DateTime.Parse(data.StartDate).DayOfWeek + 1
                             : -1;
                     }
                     catch (Exception)
@@ -180,26 +210,56 @@ namespace MALClient.ViewModels
 
             if (Settings.CalendarSwitchMonSun)
             {
-                CalendarData.Move(0,6);
-                CalendarData[0].Header = Utils.DayToString(DayOfWeek.Monday,true);
-                CalendarData[6].Header = Utils.DayToString(DayOfWeek.Sunday,true);
+                CalendarData.Move(0, 6);
+                CalendarData[0].Header = Utils.DayToString(DayOfWeek.Monday, true);
+                CalendarData[6].Header = Utils.DayToString(DayOfWeek.Sunday, true);
                 for (int i = 1; i < 6; i++)
-                    CalendarData[i].Header = Utils.DayToString((DayOfWeek)i+1,true);
+                    CalendarData[i].Header = Utils.DayToString((DayOfWeek) i + 1, true);
             }
             else
                 for (int i = 0; i < 7; i++)
-                    CalendarData[i].Header = Utils.DayToString((DayOfWeek)i,true);
-
-            foreach (var calendarPivotPage in CalendarData.Take(7))
+                    CalendarData[i].Header = Utils.DayToString((DayOfWeek) i, true);
+            List<CalendarPivotPage> emptyPages = new List<CalendarPivotPage>();
+            foreach (var calendarPivotPage in CalendarData.Take(CalendarData.Count - 1))
             {
-                calendarPivotPage.Sub = calendarPivotPage.Items.Count > 0 ? calendarPivotPage.Items.Count.ToString() : "-";
-                if(calendarPivotPage.Items.Count != 0)
-                (CalendarData[7] as CalendarSummaryPivotPage).Data.Add(
-                    new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.Header, calendarPivotPage.Items));
+                if (calendarPivotPage.Items.Count > 0)
+                    calendarPivotPage.Sub = calendarPivotPage.Items.Count.ToString();
+                else
+                {
+                    if (Settings.CalendarRemoveEmptyDays)
+                        emptyPages.Add(calendarPivotPage);
+                    else
+                        calendarPivotPage.Sub = "-";
+                }
+                if (calendarPivotPage.Items.Count != 0)
+                    (CalendarData[7] as CalendarSummaryPivotPage).Data.Add(
+                        new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.Header, calendarPivotPage.Items));
             }
+            foreach (var emptyPage in emptyPages)
+                CalendarData.Remove(emptyPage);
+
 
 
             RaisePropertyChanged(() => CalendarData);
+            if (Settings.CalendarStartOnToday)
+            {
+                //we have to find it because it may have been removed
+                //we will do this by comparing header string
+                string today = Utils.DayToString(DateTime.Now.DayOfWeek, true);
+                int index = CalendarData.Count - 1;
+                for (int i = 0; i < CalendarData.Count - 1; i++)
+                {
+                    if (CalendarData[i].Header == today)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                CalendarPivotIndex = index;
+            }
+            else
+                CalendarPivotIndex = CalendarData.Count - 1;
+
             CalendarBuildingVisibility = Visibility.Collapsed;
             CalendarVisibility = Visibility.Visible;
         }

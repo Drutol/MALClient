@@ -371,8 +371,14 @@ namespace MALClient
 
         public static bool CalendarStartOnToday
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] ?? false); }
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] = value; }
+        }
+
+        public static bool CalendarRemoveEmptyDays
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] = value; }
         }
 
         #endregion

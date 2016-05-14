@@ -8,6 +8,7 @@
     xmlns:items="using:MALClient.Items"
     xmlns:viewModels="using:MALClient.ViewModels"
     xmlns:userControls="using:MALClient.UserControls"
+    xmlns:xamlConverters="using:MALClient.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CalendarPage}">
 
     <Page.Resources>
@@ -15,8 +16,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../XamlResources/DictionaryProfilePage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
+            <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
             <DataTemplate x:Key="DayPageTemplate">
-                <GridView ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}"/>
+                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}"/>
             </DataTemplate>            
             <DataTemplate x:Key="SummaryPageTemplate">
                 <ListView SelectionMode="None" ItemsSource="{Binding Data}" Padding="0">
@@ -36,9 +39,8 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock Margin="20,0,0,0" FontSize="20" Text="{Binding Item1}"/>
                                 <MenuFlyoutSeparator Grid.Row="1"/>
-                                <GridView ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2" ItemsSource="{Binding Item2}"/>
+                                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2" ItemsSource="{Binding Item2}"/>
                             </Grid>
-
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -47,7 +49,7 @@
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot Margin="-12,0,0,0" Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}" ItemsSource="{Binding CalendarData}">
+        <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="-12,0,0,0" Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}" ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}"/>
                 <Style TargetType="GridView">
@@ -91,9 +93,10 @@
             </Pivot.ItemTemplateSelector>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Header}" FontSize="19" HorizontalAlignment="Center" FontWeight="SemiLight" />
-                        <TextBlock Text="{Binding Sub}" FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                    <StackPanel MinWidth="35">
+                        <SymbolIcon Visibility="{Binding ElementName=Subtitle,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"  Symbol="List" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding Header}" FontSize="18" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                        <TextBlock x:Name="Subtitle" Text="{Binding Sub}" Visibility="{Binding Sub,Converter={StaticResource AnyTextToVisibilityConverter}}"  FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight" />
                     </StackPanel>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
@@ -106,6 +109,8 @@
             <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center" Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}"/>
             <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..."/>
         </Grid>
-        
+        <Button BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Opacity=".5" PointerEntered="UIElement_OnPointerEntered" PointerExited="UIElement_OnPointerExited" Command="{Binding RefreshCalendarCommand}">
+            <SymbolIcon Symbol="Refresh"/>
+        </Button>
     </Grid>
 </Page>

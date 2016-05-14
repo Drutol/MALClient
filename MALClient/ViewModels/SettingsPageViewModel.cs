@@ -219,6 +219,12 @@ namespace MALClient.ViewModels
             set { Settings.CalendarStartOnToday = value; }
         }
 
+        public static bool CalendarRemoveEmptyDays
+        {
+            get { return Settings.CalendarRemoveEmptyDays; }
+            set { Settings.CalendarRemoveEmptyDays = value; }
+        }
+
         public static bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
 
         public static bool CalendarSwitchMonSun

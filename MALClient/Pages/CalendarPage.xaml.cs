@@ -33,5 +33,22 @@ namespace MALClient.Pages
         {
             (e.ClickedItem as AnimeItemViewModel).NavigateDetails();
         }
+
+        private void UIElement_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            (sender as FrameworkElement).Opacity = 1;
+        }
+
+        private void UIElement_OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            (sender as FrameworkElement).Opacity = .5;
+        }
+
+        private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if((e.OriginalSource as FrameworkElement).DataContext is AnimeItemViewModel)
+                ItemFlyoutService.ShowAnimeGridItemFlyout((FrameworkElement)e.OriginalSource);
+                e.Handled = true;
+        }
     }
 }

@@ -251,11 +251,11 @@
                                     BorderThickness="{Binding TxtBorderBrushThicknesses[Calendar]}"
                                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                     Grid.ColumnSpan="2" />
-                                <SymbolIcon Symbol="CalendarDay" HorizontalAlignment="Center"
+                                <SymbolIcon Symbol="CalendarWeek" HorizontalAlignment="Center"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtCalendar , Path=Foreground}" />
-                                <TextBlock x:Name="TxtCalendar" Text="Top Anime"
+                                <TextBlock x:Name="TxtCalendar" Text="Calendar"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Calendar]}"
                                            HorizontalAlignment="Left" Grid.Column="1"

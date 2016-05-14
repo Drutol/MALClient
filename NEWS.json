@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Tiles&Calendar",
+    "Date": "14.05.2016",
+    "Type": "Development",
+    "Content": "Next update will feature live tiles and calender with breakdown of currently airing/not yet aired anime by day. More info available on github, if you wish for something specific regarding those two, now is the time to tell me :)"
+  },
+  {
     "Title": "v4.0.5.0 in certification!",
     "Date": "09.05.2016",
     "Type": "Updates",
@@ -10,11 +16,5 @@
     "Date": "04.05.2016",
     "Type": "Development",
     "Content": "Highly beta build with hummingbird support is now available on github! Working list caching is on its way too + rewritten old code for performance gains. I'll proably want to release it altogether with Hummingbird so it may take week or so :)"
-  },
-  {
-    "Title": "Development update.",
-    "Date": "28.04.2016",
-    "Type": "Info",
-    "Content": "App updates will slow down a little bit as I'm busy irl and ill."
   }
 ]

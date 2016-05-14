@@ -256,6 +256,7 @@
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
     <Compile Include="ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\SearchPageViewModel.cs" />

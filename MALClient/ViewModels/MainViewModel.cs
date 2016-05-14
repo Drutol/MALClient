@@ -33,6 +33,8 @@ namespace MALClient.ViewModels
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
 
+        public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
+
         public PageIndex CurrentMainPage { get; set; }
         public PageIndex CurrentOffPage { get; set; }
 

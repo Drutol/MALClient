@@ -174,8 +174,62 @@
                        Visibility="{Binding OffContentVisibility}"
                        Margin="{Binding Source={StaticResource Locator} ,Path=Hamburger.BottomStackPanelMargin}" />
             </Grid>
+        </Grid>
+        <Grid DataContext="{Binding PinDialogViewModel}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Background="{ThemeResource BrushPinTileDialogOverlay}">
+            <Grid Margin="20,50,20,98" Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center" HorizontalAlignment="Stretch" MaxWidth="450"  Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Pin tile" FontWeight="SemiLight" HorizontalAlignment="Left" FontSize="30"/>
+                    <TextBlock Text="Some random anime" FontWeight="SemiLight" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <SymbolIcon Symbol="Clear"/>
+                </Button>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                    <TextBlock Text="Tile action:" FontSize="18" FontWeight="SemiLight" HorizontalAlignment="Left" Margin="5"/>
+                    <ComboBox HorizontalAlignment="Stretch" Margin="5,0" SelectedIndex="{Binding SelectedActionIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Open website"/>
+                            <ComboBoxItem Content="Open in mal/hum"/>
+                            <ComboBoxItem Content="Open in application"/>
+                        </ComboBox.Items>
+                    </ComboBox>
+                    <TextBox Margin="5,10" PlaceholderText="Desired url..." Visibility="{Binding UrlInputVisibility}" HorizontalAlignment="Stretch"/>
+                </StackPanel>                
+                <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                    <TextBlock Text="Tile image:" FontSize="18" FontWeight="SemiLight" HorizontalAlignment="Left" Margin="5"/>
+                    <ComboBox HorizontalAlignment="Stretch" Margin="5,0" SelectedIndex="{Binding SelectedImageOptionIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Stock cover image"/>
+                            <ComboBoxItem Content="Custom image"/>
+                            <ComboBoxItem Content="None"/>
+                        </ComboBox.Items>
+                    </ComboBox>
+                    <Grid HorizontalAlignment="Stretch" Visibility="{Binding ImagePreviewVisibility}">
+                        <Image Width="120" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0" Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <SymbolIcon Symbol="Crop"/>
+                        </Button>
+                    </Grid>
+                </StackPanel>                
+                <StackPanel Grid.Row="3" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                    <TextBlock Text="Tile contents:" FontSize="18" FontWeight="SemiLight" HorizontalAlignment="Left" Margin="5"/>
+                    <StackPanel HorizontalAlignment="Stretch" Margin="10,0">
+                        <CheckBox Content="Title"/>
+                        <CheckBox Content="Status"/>
+                        <CheckBox Content="Watched episodes"/>
+                        <CheckBox Content="Air day"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button Grid.Row="4" Margin="5,10" Content="Pin" HorizontalAlignment="Stretch"/>
+            </Grid>
 
         </Grid>
-
     </Grid>
 </Page>

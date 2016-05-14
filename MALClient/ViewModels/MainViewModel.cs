@@ -94,7 +94,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageRecomendations ||
                      index == PageIndex.PageProfile ||
                      index == PageIndex.PageLogIn ||
-                     index == PageIndex.PageMangaSearch)
+                     index == PageIndex.PageMangaSearch ||
+                     index == PageIndex.PageCalendar)
             {
                 ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(false);
                 CurrentMainPage = index;
@@ -165,6 +166,13 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
                     View.Navigate(typeof(RecomendationsPage), args);
+                    break;
+                    case PageIndex.PageCalendar:
+                    HideSearchStuff();
+                    //RefreshButtonVisibility = Visibility.Visible;
+                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CalendarPage.Init(true));
+                    CurrentStatus = "Calendar";
+                    View.Navigate(typeof(CalendarPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

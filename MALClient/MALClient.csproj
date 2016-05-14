@@ -200,6 +200,9 @@
     <Compile Include="Pages\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CalendarPage.xaml.cs">
+      <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HummingbirdProfilePage.xaml.cs">
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
@@ -234,6 +237,7 @@
     <Compile Include="UserControls\StackedBarChartControl.xaml.cs">
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TemplateSelector.cs" />
     <Compile Include="Utils\AnimeStatusEnum.cs" />
     <Compile Include="Utils\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Credentials.cs" />
@@ -248,6 +252,7 @@
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListViewModel.cs" />
+    <Compile Include="ViewModels\CalendarPageViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -349,6 +354,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\CalendarPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\HummingbirdProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -416,12 +425,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.AdMediator.Universal, Version=1.0">
-      <Name>Microsoft Advertising Universal SDK</Name>
-    </SDKReference>
-    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
-      <Name>Microsoft Advertising SDK for XAML</Name>
-    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>

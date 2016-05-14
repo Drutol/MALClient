@@ -349,5 +349,38 @@ namespace MALClient
         }
 
         #endregion
+
+        #region Calendar
+        public static bool CalendarIncludeWatching
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] = value; }
+        }
+
+        public static bool CalendarIncludePlanned
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] = value; }
+        }
+
+        public static bool CalendarSwitchMonSun
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] = value; }
+        }
+
+        public static bool CalendarStartOnToday
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] = value; }
+        }
+
+        public static bool CalendarRemoveEmptyDays
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] = value; }
+        }
+
+        #endregion
     }
 }

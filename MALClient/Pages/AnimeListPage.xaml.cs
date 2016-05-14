@@ -150,19 +150,22 @@ namespace MALClient.Pages
 
         private void AnimesItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
+            if ((e.OriginalSource as FrameworkElement).DataContext is AnimeItemViewModel)
+                ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }
 
         private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ItemFlyoutService.ShowAnimeGridItemFlyout(e.OriginalSource as FrameworkElement);
+            if ((e.OriginalSource as FrameworkElement).DataContext is AnimeItemViewModel)
+                ItemFlyoutService.ShowAnimeGridItemFlyout(e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }
 
         private void AnimeCompactItemsIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
+            if ((e.OriginalSource as FrameworkElement).DataContext is AnimeItemViewModel)
+                ItemFlyoutService.ShowAnimeListItemFlyout(e.OriginalSource as FrameworkElement);
             e.Handled = true;
         }
 

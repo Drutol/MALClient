@@ -11,7 +11,9 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
+using MALClient.Items;
 using MALClient.Models;
+using MALClient.ViewModels;
 
 namespace MALClient
 {
@@ -56,48 +58,47 @@ namespace MALClient
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
         }
 
-        public static async Task PinTile(string targetUrl, ILibraryData entry, string imgUrl, string title)
+        public static async Task PinTile(string targetUrl, IAnimeData entry, Uri imgUri, Uri wideImgUri)
         {
             try
             {
-                var folder = ApplicationData.Current.LocalFolder;
-                var thumb = await folder.CreateFileAsync($"{entry.Id}.png", CreationCollisionOption.ReplaceExisting);
+                //var folder = ApplicationData.Current.LocalFolder;
+                //var thumb = await folder.CreateFileAsync($"{entry.Id}.png", CreationCollisionOption.ReplaceExisting);
 
-                var http = new HttpClient();
-                var response = await http.GetByteArrayAsync(imgUrl); //get bytes
+                //var http = new HttpClient();
+                //var response = await http.GetByteArrayAsync(imgUrl); //get bytes
 
-                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
+                //var fs = await thumb.OpenStreamForWriteAsync(); //get stream
 
-                using (var writer = new DataWriter(fs.AsOutputStream()))
-                {
-                    writer.WriteBytes(response); //write
-                    await writer.StoreAsync();
-                    await writer.FlushAsync();
-                }
-                await Task.Delay(1000);
+                //using (var writer = new DataWriter(fs.AsOutputStream()))
+                //{
+                //    writer.WriteBytes(response); //write
+                //    await writer.StoreAsync();
+                //    await writer.FlushAsync();
+                //}
+                //await Task.Delay(1000);
 
                 if (!targetUrl.Contains("http"))
                     targetUrl = "http://" + targetUrl;
-                var tile = new SecondaryTile($"{entry.Id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{entry.Id}.png"),
-                    TileSize.Wide310x150);
-                tile.WideLogo = new Uri($"ms-appdata:///local/{entry.Id}.png");
+                var tile = new SecondaryTile($"{entry.Id}", $"{entry.Title}", targetUrl, imgUri,
+                    TileSize.Square150x150);
+                tile.WideLogo = wideImgUri;
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();
-
 
                 string tileXmlString = 
                        "<tile>"
                      + "<visual version='2'>"
                      + "<binding template='TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>"
-                     + $"<image id=\"1\" hint-wrap=\"true\" src=\"{new Uri($"ms-appdata:///local/{entry.Id}.png")}\" alt=\"alt text\"/>"
-                     + $"<text hint-style=\"base\" hint-maxLines=\"2\" id=\"1\">{entry.Title}</text>"
-                     + $"<text id=\"2\">{entry.MyStatus}</text>"
+                     + $"<image id=\"1\" hint-removeMargin=\"true\" hint-align=\"stretch\"  hint-crop=\"none\" src=\"{imgUri}\" alt=\"alt text\"/>"
+                     + $"<text hint-style=\"base\" hint-wrap=\"true\" hint-maxLines=\"2\" id=\"1\">{entry.Title}</text>"
+                     + $"<text id=\"2\">{(AnimeStatus)entry.MyStatus}</text>"
                      + $"<text id=\"3\">{entry.MyScore}</text>"
                      + "</binding>"
                      + "<binding template='TileWide310x150ImageAndText02' fallback='TileWideImageAndText02'>"
-                     + $"<image id=\"1\" src=\"{new Uri($"ms-appdata:///local/{entry.Id}.png")}\" alt=\"alt text\"/>"
+                     + $"<image id=\"1\" hint-removeMargin=\"true\" hint-align=\"center\" hint-crop=\"none\" src=\"{wideImgUri}\" alt=\"alt text\"/>"
                      + $"<text hint-style=\"base\" hint-maxLines=\"2\" id=\"1\">{entry.Title}</text>"
-                     + $"<text id=\"2\">{entry.MyStatus}</text>"
+                     + $"<text id=\"2\">{(AnimeStatus)entry.MyStatus}</text>"
                      + $"<text id=\"3\">{entry.MyScore}</text>"
                      + "</binding>"
                      + "</visual>"

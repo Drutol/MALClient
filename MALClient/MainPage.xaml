@@ -207,7 +207,7 @@
                             <ComboBoxItem Content="Open in application"/>
                         </ComboBox.Items>
                     </ComboBox>
-                    <TextBox Margin="5,10" PlaceholderText="Desired url..." Visibility="{Binding UrlInputVisibility}" HorizontalAlignment="Stretch"/>
+                    <TextBox Margin="5,10" PlaceholderText="Desired url..." Text="{Binding TargetUrl,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UrlInputVisibility}" HorizontalAlignment="Stretch"/>
                 </StackPanel>                
                 <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Margin="0,20,0,0">
                     <TextBlock Text="Tile image:" FontSize="18" FontWeight="SemiLight" HorizontalAlignment="Left" Margin="5"/>
@@ -219,20 +219,46 @@
                         </ComboBox.Items>
                     </ComboBox>
                     <Grid HorizontalAlignment="Stretch" Visibility="{Binding ImagePreviewVisibility}">
-                        <xamlCropControl:CropControl x:Name="CropControl" ImageSource="{Binding PreviewImage}"  DesiredAspectRatio="1.0"   
+                        <Pivot>
+                            <PivotItem Header="Normal">
+                                <Grid>
+                                    <xamlCropControl:CropControl ImageSource="{Binding PreviewImageNormal}"  DesiredAspectRatio="1.0"   
                                                      Width="200" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                      CropLeft="{Binding CropLeft,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                      CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                      CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                      CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" BorderThickness="0"  Visibility="{Binding UndoCropVisibility}"
+                                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" BorderThickness="0"  Visibility="{Binding UndoCropVisibility}"
                                 Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding UndoCropCommand}">
-                            <SymbolIcon Symbol="Undo"/>
-                        </Button>                        
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0" 
+                                        <SymbolIcon Symbol="Undo"/>
+                                    </Button>
+                                    <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0" 
                                 Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding CropImageCommand}">
-                            <SymbolIcon Symbol="Crop"/>
-                        </Button>
+                                        <SymbolIcon Symbol="Crop"/>
+                                    </Button>
+                                </Grid>
+                            </PivotItem>
+                            <PivotItem Header="Wide">
+                                <Grid>
+                                    <xamlCropControl:CropControl ImageSource="{Binding PreviewImageWide}"  DesiredAspectRatio="2.0"   
+                                                     Width="200" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                     CropLeft="{Binding CropLeftWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     CropTop="{Binding CropTopWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     CropWidth="{Binding CropWidthWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                     CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" BorderThickness="0"  Visibility="{Binding UndoCropVisibility}"
+                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding UndoWideCropCommand}">
+                                        <SymbolIcon Symbol="Undo"/>
+                                    </Button>
+                                    <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0" 
+                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Command="{Binding CropWideImageCommand}">
+                                        <SymbolIcon Symbol="Crop"/>
+                                    </Button>
+                                </Grid>
+
+                            </PivotItem>
+                        </Pivot>
+
                     </Grid>
                 </StackPanel>                
                 <StackPanel Grid.Row="3" HorizontalAlignment="Stretch" Margin="0,20,0,0">
@@ -244,7 +270,7 @@
                         <CheckBox Content="Air day"/>
                     </StackPanel>
                 </StackPanel>
-                <Button Grid.Row="4" Margin="5,10" Content="Pin" HorizontalAlignment="Stretch"/>
+                <Button Grid.Row="4" Margin="5,10" Content="Pin" HorizontalAlignment="Stretch" Command="{Binding PinThingCommand}"/>
             </Grid>
 
         </Grid>

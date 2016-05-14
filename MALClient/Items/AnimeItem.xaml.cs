@@ -55,24 +55,5 @@ namespace MALClient.Items
         //    var bnd = new Binding { Source = ViewModel.Image };
         //    Image.SetBinding(Image.SourceProperty, bnd);
         //}
-
-        #region CustomTilePin
-
-        private void TxtTileUrl_OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key != VirtualKey.Enter) return;
-            var txt = sender as TextBox;
-            txt.IsEnabled = false; //reset input
-            txt.IsEnabled = true;
-            ViewModel.PinTile();
-            CloseTileUrlInput(null, null);
-        }
-
-        private void CloseTileUrlInput(object sender, RoutedEventArgs e)
-        {
-            ViewModel.TileUrlInputVisibility = Visibility.Collapsed;
-        }
-
-        #endregion
     }
 }

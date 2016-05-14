@@ -12,6 +12,7 @@ using MALClient.Comm.Anime;
 
 using MALClient.UserControls;
 using MALClient.ViewModels;
+using XamlCropControl;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 

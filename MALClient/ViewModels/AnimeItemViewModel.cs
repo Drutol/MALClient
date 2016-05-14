@@ -658,12 +658,6 @@ namespace MALClient.ViewModels
             get { return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList)); }
         }
 
-        private ICommand _pinTileCommand;
-
-        public ICommand PinTileCommand
-        {
-            get { return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(() => PinTile())); }
-        }
 
         private ICommand _pinTileCustomCommand;
 
@@ -722,34 +716,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private ICommand _pinTileMALCommand;
-
-        public ICommand PinTileMALCommand
-        {
-            get
-            {
-                return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
-                {
-                    if (SecondaryTile.Exists(Id.ToString()))
-                    {
-                        var msg = new MessageDialog("Tile for this anime already exists.");
-                        await msg.ShowAsync();
-                        return;
-                    }
-                    if (Settings.SelectedApiType == ApiType.Mal)
-                    {
-                        PinTile(
-                            $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
-                    }
-                    else
-                    {
-                        PinTile(
-                            $"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
-                    }
-                }));
-            }
-        }
-
         private ICommand _navigateDetailsCommand;
 
         public ICommand NavigateDetailsCommand
@@ -771,11 +737,6 @@ namespace MALClient.ViewModels
         }
 
         //Pinned with custom link.
-        public void PinTile(string url = null)
-        {
-            LiveTilesManager.PinTile(url ?? TileUrlInput, ParentAbstraction.EntryData, ImgUrl, Title);
-            TileUrlInputVisibility = Visibility.Collapsed;
-        }
 
         public void SetAuthStatus(bool auth, bool eps = false)
         {

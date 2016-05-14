@@ -764,6 +764,12 @@ namespace MALClient.ViewModels
 
         #region Utils/Helpers
 
+        public void UpdateVolatileData()
+        {
+            RaisePropertyChanged(() => AirDayBind);
+            RaisePropertyChanged(() => GlobalScoreBind);
+        }
+
         //Pinned with custom link.
         public void PinTile(string url = null)
         {

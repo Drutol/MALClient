@@ -27,6 +27,7 @@ namespace MALClient.Items
         public bool LoadedCompact;
         public bool LoadedGrid;
         public bool LoadedModel;
+        public bool LoadedVolatile;
 
         private AnimeItemAbstraction(ILibraryData entry, int? id = null)
         {
@@ -34,6 +35,7 @@ namespace MALClient.Items
                 EntryData = entry;
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(id ?? Id, out data)) return;
+            LoadedVolatile = true;
             AirDay = data.DayOfAiring;
             GlobalScore = data.GlobalScore;
             AirStartDate = data.AirStartDate;
@@ -155,32 +157,6 @@ namespace MALClient.Items
                         MyStartDate, MyEndDate, this,
                         false, MyVolumes, AllVolumes)
                     : new AnimeItemViewModel(_seasonalData, this);
-        }
-
-        private AnimeItem LoadElement()
-        {
-            LoadedAnime = true;
-            return new AnimeItem(ViewModel);
-        }
-
-        public static AnimeLibraryItemData ToLibraryItem(AnimeItemAbstraction source)
-        {
-            return source.RepresentsAnime
-                ? new AnimeLibraryItemData
-                {
-                    Id = source.Id,
-                    MalId = source.MalId,
-                    Title = source.Title,
-                    MyStatus = (AnimeStatus) source.MyStatus,
-                    MyEpisodes = source.MyEpisodes,
-                    AllEpisodes = source.AllEpisodes,
-                    ImgUrl = source.ImgUrl,
-                    Type = source.Type,
-                    MyStartDate = source.MyStartDate,
-                    MyEndDate = source.MyEndDate,
-                    MyScore = source.MyScore
-                }
-                : new MangaLibraryItemData();
         }
     }
 }

@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Next update",
+    "Date": "15.05.2016",
+    "Type": "Updates",
+    "Content": "Calendar and tiles are working but are extremely rough around the corners, most probably it will go live next week as univeristy is taking its toll on me ;d"
+  },
+  {
     "Title": "Tiles&Calendar",
     "Date": "14.05.2016",
     "Type": "Development",
@@ -10,11 +16,6 @@
     "Date": "09.05.2016",
     "Type": "Updates",
     "Content": "Hummingbird support is on its way to the store, ETA is 1-2 days depending on how quickly Microsoft approves of this app. Next stop... live tiles!"
-  },
-  {
-    "Title": "Hummingbird & Next update",
-    "Date": "04.05.2016",
-    "Type": "Development",
-    "Content": "Highly beta build with hummingbird support is now available on github! Working list caching is on its way too + rewritten old code for performance gains. I'll proably want to release it altogether with Hummingbird so it may take week or so :)"
   }
+
 ]

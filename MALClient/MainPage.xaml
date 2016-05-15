@@ -214,7 +214,7 @@
                     <ComboBox HorizontalAlignment="Stretch" Margin="5,0" SelectedIndex="{Binding SelectedImageOptionIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.Items>
                             <ComboBoxItem Content="Stock cover image"/>
-                            <ComboBoxItem Content="Custom image"/>
+                            <!--<ComboBoxItem Content="Custom image"/>-->
                             <ComboBoxItem Content="None"/>
                         </ComboBox.Items>
                     </ComboBox>
@@ -263,11 +263,17 @@
                 </StackPanel>                
                 <StackPanel Grid.Row="3" HorizontalAlignment="Stretch" Margin="0,20,0,0">
                     <TextBlock Text="Tile contents:" FontSize="18" FontWeight="SemiLight" HorizontalAlignment="Left" Margin="5"/>
-                    <StackPanel HorizontalAlignment="Stretch" Margin="10,0">
-                        <CheckBox Content="Title"/>
-                        <CheckBox Content="Status"/>
-                        <CheckBox Content="Watched episodes"/>
-                        <CheckBox Content="Air day"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="10,0">
+                            <CheckBox Content="Title" IsChecked="{Binding PinSettings.AddTitle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Content="Status" IsChecked="{Binding PinSettings.AddStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Content="Score" IsChecked="{Binding PinSettings.AddScore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <CheckBox Content="Watched episodes" IsChecked="{Binding PinSettings.AddWatched,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Content="Air day" IsChecked="{Binding PinSettings.AddAirDay,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Content="Image" IsChecked="{Binding PinSettings.AddImage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <Button Grid.Row="4" Margin="5,10" Content="Pin" HorizontalAlignment="Stretch" Command="{Binding PinThingCommand}"/>

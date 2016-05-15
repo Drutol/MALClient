@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -102,9 +104,9 @@ namespace MALClient.ViewModels
         {
             get { return _selectedImageOptionIndex; }
             set
-            {
+            {    
                 _selectedImageOptionIndex = value;
-                ImagePreviewVisibility = value != 2 ? Visibility.Visible : Visibility.Collapsed;
+                ImagePreviewVisibility = value == 0 ? Visibility.Visible : Visibility.Collapsed;
                 RaisePropertyChanged(() => SelectedImageOptionIndex);
             }
         }
@@ -133,6 +135,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => PreviewImageWide);
             }
         }
+
+        public PinTileSettings PinSettings { get; set; } = new PinTileSettings();
 
         private ICommand _closeDialogCommand;
 
@@ -171,6 +175,33 @@ namespace MALClient.ViewModels
         public int CropWidthWide { get; set; }
         public int CropHeightWide { get; set; }
 
+        //private StorageFile _originaPickedStorageFile;
+        //private async void LoadSelectedImage()
+        //{
+        //    var fp = new FileOpenPicker();
+        //    fp.ViewMode = PickerViewMode.Thumbnail;
+        //    fp.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        //    fp.FileTypeFilter.Add(".png");
+        //    fp.FileTypeFilter.Add(".jpg");
+        //    var file = await fp.PickSingleFileAsync();
+        //    if (file != null)
+        //    {
+        //        _selectedImageOptionIndex = 1;
+        //        ImagePreviewVisibility = Visibility.Visible;
+        //        RaisePropertyChanged(() => SelectedImageOptionIndex);
+        //    }
+        //    _originaPickedStorageFile = file;
+        //    var bmp = new BitmapImage();
+        //    var bmp1 = new BitmapImage();
+        //    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
+        //    {
+        //        bmp.SetSource(fs);
+        //        fs.Seek(0);
+        //        bmp1.SetSource(fs);
+        //    }
+        //    PreviewImageWide = bmp1;
+        //    PreviewImageNormal = bmp;
+        //}
 
         public void Load(AnimeItemViewModel data)
         {
@@ -189,6 +220,9 @@ namespace MALClient.ViewModels
         {
             var img = wide ? _previewImageWide : _previewImageNormal;
             WriteableBitmap resizedBitmap = new WriteableBitmap(CropWidth,CropHeight);
+            //if (img.UriSource == null)
+            //await resizedBitmap.LoadAsync(_originaPickedStorageFile);
+            /*else*/
             if (!img.UriSource.ToString().Contains("ms-appdata"))
                 await resizedBitmap.LoadFromBitmapImageSourceAsync(img);
             else               
@@ -243,6 +277,11 @@ namespace MALClient.ViewModels
             }
             if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
             {
+                if (PreviewImageWide.PixelWidth == 0)
+                {
+                    _lastCroppedFileNameWide = _lastCroppedFileName;
+                    return;
+                }
                 var bmp = new WriteableBitmap(PreviewImageWide.PixelWidth, PreviewImageWide.PixelHeight);
                 bmp = await bmp.LoadFromBitmapImageSourceAsync(PreviewImageWide);
                 var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("_cropTempWide.png", CreationCollisionOption.GenerateUniqueName);
@@ -252,7 +291,7 @@ namespace MALClient.ViewModels
                     _lastCroppedFileName = file.Name;
             }
 
-            await LiveTilesManager.PinTile(TargetUrl ?? "", EntryData, new Uri($"ms-appdata:///local/{_lastCroppedFileName}"), new Uri($"ms-appdata:///local/{_lastCroppedFileNameWide}"));
+            await LiveTilesManager.PinTile(TargetUrl ?? "", EntryData, new Uri($"ms-appdata:///local/{_lastCroppedFileName}"), new Uri($"ms-appdata:///local/{_lastCroppedFileNameWide}"),PinSettings);
 
             foreach (var file in await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery))
                 if(file.Name.Contains("_cropTemp"))

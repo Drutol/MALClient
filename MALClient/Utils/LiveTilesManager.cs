@@ -18,6 +18,12 @@ using MALClient.ViewModels;
 
 namespace MALClient
 {
+    public enum TileActions
+    {
+        OpenUrl,
+        OpenDetails,
+    }
+
     public class PinTileSettings
     {
         public bool AddTitle { get; set; } = true;
@@ -26,6 +32,13 @@ namespace MALClient
         public bool AddImage { get; set; } = true;
         public bool AddAirDay { get; set; } = true;
         public bool AddWatched { get; set; } = true;
+        public bool BigTitle { get; set; } = false;
+    }
+
+    public class PinTileActionSetting
+    {
+        public TileActions Action { get; set; }
+        public string Param { get; set; }
     }
 
     public static class LiveTilesManager
@@ -69,47 +82,33 @@ namespace MALClient
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
         }
 
-        public static async Task PinTile(string targetUrl, IAnimeData entry, Uri imgUri, Uri wideImgUri,PinTileSettings settings)
+        public static async Task PinTile(IAnimeData entry, Uri imgUri, Uri wideImgUri,PinTileSettings settings,PinTileActionSetting action)
         {
             try
             {
-                //var folder = ApplicationData.Current.LocalFolder;
-                //var thumb = await folder.CreateFileAsync($"{entry.Id}.png", CreationCollisionOption.ReplaceExisting);
-
-                //var http = new HttpClient();
-                //var response = await http.GetByteArrayAsync(imgUrl); //get bytes
-
-                //var fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-                //using (var writer = new DataWriter(fs.AsOutputStream()))
-                //{
-                //    writer.WriteBytes(response); //write
-                //    await writer.StoreAsync();
-                //    await writer.FlushAsync();
-                //}
-                //await Task.Delay(1000);
-
-                if (!targetUrl.Contains("http"))
-                    targetUrl = "http://" + targetUrl;
-                var tile = new SecondaryTile($"{entry.Id}", $"{entry.Title}", targetUrl, imgUri,
+                if(action.Action == TileActions.OpenUrl)
+                if (!action.Param.Contains("http"))
+                    action.Param = "http://" + action.Param;
+                var tile = new SecondaryTile($"{entry.Id}", $"{entry.Title}", string.Join(";",new string[] { action.Action.ToString(), action.Param}), imgUri,
                     TileSize.Square150x150);
                 tile.WideLogo = wideImgUri;
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();
 
+                //scaryy...
                 StringBuilder tileXmlString =  new StringBuilder();
                 tileXmlString.Append("<tile>");
                 tileXmlString.Append("<visual version='2'>");
-                tileXmlString.Append("<binding displayName=\"lolo\" template = 'TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>");
+                tileXmlString.Append("<binding template = 'TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>");
                 if(settings.AddImage) tileXmlString.Append( $"<image id=\"1\" src=\"{imgUri}\" alt=\"alt text\"/>");
-                if (settings.AddTitle) tileXmlString.Append( $"<text hint-style=\"base\" hint-wrap=\"true\" hint-maxLines=\"2\" id=\"1\">{entry.Title}</text>");
+                if (settings.AddTitle) tileXmlString.Append( $"<text hint-style=\"base\" hint-wrap=\"true\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");
                 if (settings.AddStatus) tileXmlString.Append( $"<text hint-wrap=\"false\" id=\"2\">{(AnimeStatus)entry.MyStatus}</text>");
                 if (settings.AddScore) tileXmlString.Append( $"<text id=\"3\">{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}</text>");
                 if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel) entry).AirDayBind != "") tileXmlString.Append( $"<text id=\"4\">{((AnimeItemViewModel) entry).AirDayBind}</text>");
                 tileXmlString.Append( "</binding>");
                 tileXmlString.Append( "<binding template='TileWide310x150ImageAndText02' fallback='TileWideImageAndText02'>");
                 if (settings.AddImage) tileXmlString.Append( $"<image id=\"1\" src=\"{wideImgUri}\" alt=\"alt text\"/>");
-                if (settings.AddTitle) tileXmlString.Append( $"<text hint-style=\"base\" hint-maxLines=\"2\" id=\"1\">{entry.Title}</text>");
+                if (settings.AddTitle) tileXmlString.Append( $"<text hint-style=\"base\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");
                 tileXmlString.Append("<text id=\"2\">");
                 if (settings.AddStatus) tileXmlString.Append( $"{(AnimeStatus)entry.MyStatus}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}");
                 if (settings.AddScore) tileXmlString.Append( $"\n{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}");
@@ -118,52 +117,12 @@ namespace MALClient
                 tileXmlString.Append( "</binding>");
                 tileXmlString.Append( "</visual>");
                 tileXmlString.Append("</tile>");
+                //uff, yup... that was scarry mess
 
                 var mgr = TileUpdateManager.CreateTileUpdaterForSecondaryTile($"{entry.Id}");
                 var notif = new Windows.Data.Xml.Dom.XmlDocument();
                 notif.LoadXml(tileXmlString.ToString());
                 mgr.Update(new TileNotification(notif));
-                
-
-                //Windows.Data.Xml.Dom.XmlDocument tileDOM = new Windows.Data.Xml.Dom.XmlDocument();
-                //tileDOM.LoadXml(tileXmlString);
-                //TileNotification tile = new TileNotification(tileDOM);
-
-                //// Send the notification to the secondary tile by creating a secondary tile updater
-                //TileUpdateManager.CreateTileUpdaterForSecondaryTile(MainPage.dynamicTileId).Update(tile);
-
-                //StringBuilder xmlTile = new StringBuilder();
-                //xmlTile.AppendLine("<tile>");
-                //xmlTile.AppendLine("<visual version=\"2\">");
-                //xmlTile.AppendLine("<binding template=\"TileSquare150x150PeekImageAndText01\" fallback=\"TileSquarePeekImageAndText01\">");
-                //xmlTile.AppendLine($"<image id=\"1\" src=\"{new Uri($"ms-appdata:///local/{entry.Id}.png").AbsolutePath}\" alt=\"alt text\"/>");
-                //xmlTile.AppendLine($"<text id=\"1\">{entry.Title}</text>");
-                //xmlTile.AppendLine($"<text id=\"2\">{entry.MyStatus}</text>");
-                //xmlTile.AppendLine($"<text id=\"3\">{entry.MyEpisodes}</text>");
-                //xmlTile.AppendLine($"<text id=\"4\">{entry.MyScore}</text>");
-                //xmlTile.AppendLine("</binding>");
-                //xmlTile.AppendLine("</visual>");
-                //xmlTile.AppendLine("</tile>");
-
-                //Windows.Data.Xml.Dom.XmlDocument xmlDoc = new Windows.Data.Xml.Dom.XmlDocument();
-                //xmlDoc.LoadXml(xmlTile.ToString());
-
-                //TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
-                //TileNotification notifyTile = new TileNotification(xmlDoc);
-                //TileUpdateManager.CreateTileUpdaterForSecondaryTile(entry.Id.ToString()).Update(notifyTile);
-
-                // var xmlTile = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquarePeekImageAndText01);
-
-                //xmlTile.FirstChild.FirstChild.FirstChild.ChildNodes[0]. .SetAttribute("src", new Uri($"ms-appdata:///local/{entry.Id}.png").AbsolutePath);
-                //xmlTile.ChildNodes[1].NodeValue = ;
-                //xmlTile.ChildNodes[2].NodeValue = ;
-                //xmlTile.ChildNodes[3].NodeValue = ;
-                //xmlTile.ChildNodes[4].NodeValue = ;
-
-
-
-
-
             }
             catch (Exception e)
             {

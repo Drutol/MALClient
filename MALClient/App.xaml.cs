@@ -48,10 +48,17 @@ namespace MALClient
         {
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             var rootFrame = Window.Current.Content as Frame;
-
+            Tuple<int, string> navArgs = null;
             if (!string.IsNullOrWhiteSpace(e.Arguments))
             {
-                LaunchUri(e.Arguments);
+                var options = e.Arguments.Split(';');
+                if (options[0] == TileActions.OpenUrl.ToString())
+                    LaunchUri(options[1]);
+                else
+                {
+                    var detailArgs = options[1].Split('|');
+                    navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]),detailArgs[1]);
+                }
             }
             Credentials.Init();
             // Do not repeat app initialization when the Window already has content,
@@ -90,7 +97,7 @@ namespace MALClient
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(MainPage), navArgs);
             }
             // Ensure the current window is active
 

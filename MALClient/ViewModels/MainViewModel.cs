@@ -28,6 +28,7 @@ namespace MALClient.ViewModels
         void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
         void InitSplitter();
+        Tuple<int,string> InitDetails { get; }
         Storyboard PinDialogStoryboard { get; }
         Storyboard CurrentStatusStoryboard { get; }
         Storyboard CurrentOffStatusStoryboard { get; }
@@ -146,6 +147,10 @@ namespace MALClient.ViewModels
                     View.Navigate(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
+                    var detail = ViewModelLocator.AnimeDetails;
+                    detail.DetailImage = null;
+                    detail.LeftDetailsRow.Clear();
+                    detail.RightDetailsRow.Clear();
                     OffRefreshButtonVisibility = Visibility.Visible;
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
@@ -251,12 +256,25 @@ namespace MALClient.ViewModels
                     View.Logo.Visibility = Visibility.Collapsed;
                 }
 
+                   
                 Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                    : PageIndex.PageLogIn);
-                //entry point whatnot
+                    : PageIndex.PageLogIn);//entry point whatnot
+                if (value.InitDetails != null)
+                    ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+
+                
             }
-        } //entry point
+        }
+
+        private async void AnimeListOnInitializedLoadArgs()
+        {
+            await Navigate(PageIndex.PageAnimeDetails,
+                new AnimeDetailsPageNavigationArgs(View.InitDetails.Item1, View.InitDetails.Item2, null, null));
+            ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
+        }
+
+//entry point
 
         private bool _menuPaneState;
 

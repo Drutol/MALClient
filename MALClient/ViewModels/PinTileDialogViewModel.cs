@@ -14,6 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Comm;
 using MALClient.Models;
 using WinRTXamlToolkit.AwaitableUI;
 using WinRTXamlToolkit.Imaging;
@@ -97,7 +98,9 @@ namespace MALClient.ViewModels
         }
 
         public string TargetUrl { get; set; }
-        
+
+        public string OpenWebsiteText => Settings.SelectedApiType == ApiType.Mal ? "Open in Mal" : "Open in hummingbird";
+            
 
         private int _selectedImageOptionIndex = 0;
 
@@ -264,35 +267,60 @@ namespace MALClient.ViewModels
             }          
         }
 
+        private async Task<StorageFile> SaveImage(bool wide)
+        {
+            var img = wide ? PreviewImageWide : PreviewImageNormal;
+            var bmp = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
+            bmp = await bmp.LoadFromBitmapImageSourceAsync(img);
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
+            await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+            return file;
+        }
+
         private async void PinThing()
         {
+            //if we didn't crop
             if (string.IsNullOrEmpty(_lastCroppedFileName))
             {
-                var bmp = new WriteableBitmap(PreviewImageNormal.PixelWidth, PreviewImageNormal.PixelHeight);
-                bmp = await bmp.LoadFromBitmapImageSourceAsync(PreviewImageNormal);
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("_cropTemp.png", CreationCollisionOption.GenerateUniqueName);
-                await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+                var file = await SaveImage(false);
                 _lastCroppedFileName = file.Name;
+                //if we din't crop wide either
                 if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
-                    _lastCroppedFileNameWide = file.Name;
+                    _lastCroppedFileNameWide = file.Name; //set source to this
             }
+            //if we didn't crop wide... you get the idea
             if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
             {
+                //we may have not even opened wide pivot image -> no img loaded -> no width -> assume normal picture
                 if (PreviewImageWide.PixelWidth == 0)
                 {
                     _lastCroppedFileNameWide = _lastCroppedFileName;
                     return;
                 }
-                var bmp = new WriteableBitmap(PreviewImageWide.PixelWidth, PreviewImageWide.PixelHeight);
-                bmp = await bmp.LoadFromBitmapImageSourceAsync(PreviewImageWide);
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("_cropTempWide.png", CreationCollisionOption.GenerateUniqueName);
-                await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+                var file = await SaveImage(true);
                 _lastCroppedFileNameWide = file.Name;
                 if (string.IsNullOrEmpty(_lastCroppedFileName))
                     _lastCroppedFileName = file.Name;
             }
-
-            await LiveTilesManager.PinTile(TargetUrl ?? "", EntryData, new Uri($"ms-appdata:///local/{_lastCroppedFileName}"), new Uri($"ms-appdata:///local/{_lastCroppedFileNameWide}"),PinSettings);
+            var action = new PinTileActionSetting();
+            switch (SelectedActionIndex)
+            {
+                case 0:
+                    action.Action = TileActions.OpenUrl;
+                    action.Param = TargetUrl ?? "";
+                    break;
+                case 1:
+                    action.Action = TileActions.OpenUrl;
+                    action.Param = Settings.SelectedApiType == ApiType.Mal
+                        ? $"http://myanimelist.net/{(EntryData.ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{EntryData.Id}"
+                        : $"https://hummingbird.me/{(EntryData.ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{EntryData.Id}";
+                    break;
+                default:
+                    action.Action = TileActions.OpenDetails;
+                    action.Param = EntryData.Id + "|" + EntryData.Title;
+                    break;
+            }
+            await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///local/{_lastCroppedFileName}"), new Uri($"ms-appdata:///local/{_lastCroppedFileNameWide}"),PinSettings, action);
 
             foreach (var file in await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery))
                 if(file.Name.Contains("_cropTemp"))

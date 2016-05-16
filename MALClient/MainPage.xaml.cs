@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-
+using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 
@@ -25,7 +25,7 @@ namespace MALClient
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
         private double _prevOffContntWidth;
-
+        public Tuple<int,string> InitDetails { get; private set; }
         public MainPage()
         {
             InitializeComponent();
@@ -41,6 +41,11 @@ namespace MALClient
 
                 ViewModelLocator.Main.View = this;
             };
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            InitDetails = e.Parameter as Tuple<int,string>;
         }
 
         public void Navigate(Type page, object args = null)
@@ -123,6 +128,21 @@ namespace MALClient
                 if (properties.IsXButton1Pressed)
                     NavMgr.CurrentViewOnBackRequested();
             }
+        }
+        /// <summary>
+        /// Hack for pivot not to consume mouse wheel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PinPivotItem_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            ScrollView.ScrollToVerticalOffset(ScrollView.VerticalOffset -e.GetCurrentPoint(ScrollView).Properties.MouseWheelDelta);
+        }
+
+        private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            if((e.OriginalSource as FrameworkElement).Name == "PinDialog")
+                ViewModelLocator.Main.PinDialogViewModel.CloseDialogCommand.Execute(null);
         }
     }
 }

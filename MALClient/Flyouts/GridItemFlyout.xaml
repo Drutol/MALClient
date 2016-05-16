@@ -15,7 +15,7 @@
         <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}"
                         Click="FlyoutButtonPressed" />
         <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" Click="FlyoutButtonPressed" />
-        <MenuFlyoutItem Text="Pin with MAL url" Command="{Binding PinTileMALCommand}" Click="FlyoutButtonPressed" />
+        <MenuFlyoutItem Text="Pin to start" Command="{Binding PinTileCustomCommand}" Click="FlyoutButtonPressed" />
         <MenuFlyoutSeparator Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}" />
         <MenuFlyoutSubItem Text="Status"
                            Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">

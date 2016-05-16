@@ -5,6 +5,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
 using MALClient.Comm;
@@ -66,9 +67,14 @@ namespace MALClient
             OffContent.UpdateLayout();
         }
 
+
+
         public HamburgerControl Hamburger => HamburgerControl;
         public Grid GridRootContent => RootContentGrid;
         public Image Logo => LogoImage;
+        public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
+        public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
+        public Storyboard CurrentOffStatusStoryboard => FadeInCurrentOffStatus;
 
         private double GetStartingSplitterWidth()
         {

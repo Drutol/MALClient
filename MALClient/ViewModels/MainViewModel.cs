@@ -9,6 +9,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -27,6 +28,9 @@ namespace MALClient.ViewModels
         void NavigateOff(Type page, object args = null);
         void SearchInputFocus(FocusState state);
         void InitSplitter();
+        Storyboard PinDialogStoryboard { get; }
+        Storyboard CurrentStatusStoryboard { get; }
+        Storyboard CurrentOffStatusStoryboard { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -43,7 +47,7 @@ namespace MALClient.ViewModels
         {
             //if(Settings.SelectedApiType == ApiType.Hummingbird && index == PageIndex.PageProfile)
             //   return;
-
+            PageIndex originalIndex = index;
             var wasOnSearchPage = SearchToggleLock;
 
             await Task.Delay(1);
@@ -53,6 +57,8 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
+
+
             ScrollToTopButtonVisibility = Visibility.Collapsed;
             RefreshButtonVisibility = Visibility.Collapsed;
             OffRefreshButtonVisibility = Visibility.Collapsed;
@@ -118,6 +124,17 @@ namespace MALClient.ViewModels
             switch (index)
             {
                 case PageIndex.PageAnimeList:
+                    if (ViewModelLocator.AnimeList.Initializing)
+                    {
+                        if (!_subscribed)
+                        {
+                            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+                            _subscribed = true;
+                        }
+                        _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex,args);
+                        return;
+                    }
+                    _postponedNavigationArgs = null;
                     ShowSearchStuff();
                     if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
                         (wasOnSearchPage || _wasOnDetailsFromSearch))
@@ -181,6 +198,15 @@ namespace MALClient.ViewModels
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
             RaisePropertyChanged(() => SearchToggleLock);
+        }
+
+        private bool _subscribed;
+        private Tuple<PageIndex, object> _postponedNavigationArgs;
+        private void AnimeListOnInitialized()
+        {
+            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+            _subscribed = false;
+            Navigate(_postponedNavigationArgs.Item1,_postponedNavigationArgs.Item2);
         }
 
         #region Helpers
@@ -290,6 +316,7 @@ namespace MALClient.ViewModels
             set
             {
                 _currentStatus = value;
+                View.CurrentStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatus);
             }
         }
@@ -302,6 +329,7 @@ namespace MALClient.ViewModels
             set
             {
                 _currentOffStatus = value;
+                View.CurrentOffStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentOffStatus);
             }
         }

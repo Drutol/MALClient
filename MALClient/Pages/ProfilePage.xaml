@@ -25,6 +25,18 @@
         </ResourceDictionary>
     </Page.Resources>
 
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

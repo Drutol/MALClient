@@ -30,6 +30,7 @@ namespace MALClient.ViewModels
             set
             {
                 _generalVisibility = value;
+                ViewModelLocator.Main.View.PinDialogStoryboard.Begin();
                 RaisePropertyChanged(() => GeneralVisibility);
             }
         }

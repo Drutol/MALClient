@@ -149,7 +149,8 @@ namespace MALClient.ViewModels
                         else
                             day += Settings.AirDayOffset;
                     }
-                    CalendarData[day].Items.Add(abstraction.ViewModel);
+                    if(day >= 0 && day <=7)
+                     CalendarData[day].Items.Add(abstraction.ViewModel);
                 }
                 else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
                 {

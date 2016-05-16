@@ -16,6 +16,18 @@
         <conversters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter" />
         <conversters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+
     <ScrollViewer>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

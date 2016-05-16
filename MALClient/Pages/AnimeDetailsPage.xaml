@@ -17,6 +17,17 @@
         <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
+    
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
 
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.Resources>

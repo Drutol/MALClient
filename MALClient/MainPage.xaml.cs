@@ -3,6 +3,8 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 using MALClient.Pages;
 using MALClient.ViewModels;
 
@@ -19,7 +21,6 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-            Utils.CheckTiles();
             ViewModelLocator.Main.View = this;
 #if DEBUG
             //new MALProfileQuery().GetProfileData();
@@ -27,6 +28,13 @@ namespace MALClient
         }
 #pragma warning restore 4014
         public MainViewModel ViewModel => DataContext as MainViewModel;
+        public Tuple<int, string> InitDetails { get; private set; }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            InitDetails = e.Parameter as Tuple<int, string>;
+        }
+
 
         public void Navigate(Type page, object args = null)
         {
@@ -37,6 +45,9 @@ namespace MALClient
         {
             SearchInput.Focus(state);
         }
+
+        public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
+        public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
 
         #region Search
 
@@ -57,6 +68,22 @@ namespace MALClient
         {
             if (ViewModel.LastIndex == PageIndex.PageAnimeList)
                 CurrentStatusListFilterSelectorFlyout.ShowAt(sender as FrameworkElement);
+        }
+
+        /// <summary>
+        /// Hack for pivot not to consume mouse wheel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PinPivotItem_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            ScrollView.ScrollToVerticalOffset(ScrollView.VerticalOffset - e.GetCurrentPoint(ScrollView).Properties.MouseWheelDelta);
+        }
+
+        private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
+                ViewModelLocator.Main.PinDialogViewModel.CloseDialogCommand.Execute(null);
         }
     }
 }

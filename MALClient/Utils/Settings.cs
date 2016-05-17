@@ -14,6 +14,8 @@ namespace MALClient
             get { return (ApiType) (ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
             set
             {
+                if (SelectedApiType == value)
+                    return;
                 ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int) value;
                 Query.CurrentApiType = value;
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
@@ -192,7 +194,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["WatchingDisplayMode"] = (int) value; }
         }
@@ -204,7 +206,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["CompletedDisplayMode"] = (int) value; }
         }
@@ -216,7 +218,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["OnHoldDisplayMode"] = (int) value; }
         }
@@ -228,7 +230,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["DroppedDisplayMode"] = (int) value; }
         }
@@ -240,7 +242,7 @@ namespace MALClient
                 return
                     (AnimeListDisplayModes)
                         (ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteList);
+                         AnimeListDisplayModes.IndefiniteGrid);
             }
             set { ApplicationData.Current.LocalSettings.Values["PlannedDisplayMode"] = (int) value; }
         }
@@ -311,6 +313,39 @@ namespace MALClient
         {
             get { return (bool) (ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["OverrideValidStartEndDate"] = value; }
+        }
+
+        #endregion
+
+        #region Calendar
+        public static bool CalendarIncludeWatching
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] = value; }
+        }
+
+        public static bool CalendarIncludePlanned
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] = value; }
+        }
+
+        public static bool CalendarSwitchMonSun
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] = value; }
+        }
+
+        public static bool CalendarStartOnToday
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] = value; }
+        }
+
+        public static bool CalendarRemoveEmptyDays
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] = value; }
         }
 
         #endregion

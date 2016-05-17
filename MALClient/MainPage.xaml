@@ -6,12 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.XamlConverters"
+    xmlns:xamlCropControl="using:XamlCropControl"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Storyboard x:Name="FadeInPinDialogStoryboard">
+            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
+                             EnableDependentAnimation="True" From="0" To="1" />
+            <PopInThemeAnimation Storyboard.TargetName="PinDialogInner" FromVerticalOffset="-20"
+                                 FromHorizontalOffset="0" />
+        </Storyboard>
+        <Storyboard x:Name="FadeInCurrentStatus">
+            <DoubleAnimation Storyboard.TargetName="CurrentStatus" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
+                             EnableDependentAnimation="True" From="0" To="1" />
+            <PopInThemeAnimation Storyboard.TargetName="CurrentStatus" FromVerticalOffset="20" FromHorizontalOffset="0" />
+        </Storyboard>
     </Page.Resources>
 
     <Page.DataContext>
@@ -35,7 +47,7 @@
                     Width="45" Height="45" Background="Transparent" FontSize="20"
                     Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                     Command="{Binding ReversePaneCommand}" />
-            <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
+            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Tapped="CurrentStatus_OnTapped"
                        Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}">
@@ -115,6 +127,165 @@
                 <Frame x:Name="MainContent" />
             </SplitView.Content>
         </SplitView>
-
+        <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding PinDialogViewModel}"
+              Visibility="{Binding GeneralVisibility}"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
+              Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">
+            <Grid x:Name="PinDialogInner" Margin="20,20,20,78"
+                  Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch" MaxWidth="450" Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Pin tile" FontWeight="Normal" HorizontalAlignment="Left" FontSize="30" />
+                    <TextBlock Text="{Binding EntryData.Title}" FontWeight="SemiLight" HorizontalAlignment="Left"
+                               Margin="0,5" />
+                </StackPanel>
+                <Button Width="50" Height="50" VerticalAlignment="Top" Grid.Row="0" Margin="0,-5,-5,0"
+                        HorizontalAlignment="Right" Background="Transparent" BorderThickness="0"
+                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                        Command="{Binding CloseDialogCommand}">
+                    <SymbolIcon Symbol="Clear" />
+                </Button>
+                <MenuFlyoutSeparator Grid.Row="1" />
+                <ScrollViewer Margin="0,5,0,0" Grid.Row="2" x:Name="ScrollView" Padding="0,0,10,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel HorizontalAlignment="Stretch" Margin="0,5,0,0">
+                            <TextBlock Text="Tile action:" FontSize="18" FontWeight="SemiLight"
+                                       HorizontalAlignment="Left" Margin="5" />
+                            <ComboBox HorizontalAlignment="Stretch" Margin="5,0"
+                                      SelectedIndex="{Binding SelectedActionIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Content="Open website" />
+                                    <ComboBoxItem Content="{Binding OpenWebsiteText}" />
+                                    <ComboBoxItem Content="Open in app" />
+                                </ComboBox.Items>
+                            </ComboBox>
+                            <TextBox Margin="5,10" PlaceholderText="Desired url..."
+                                     Text="{Binding TargetUrl,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                     Visibility="{Binding UrlInputVisibility}" HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,10,0,0">
+                            <TextBlock Text="Tile image:" FontSize="18" FontWeight="SemiLight"
+                                       HorizontalAlignment="Left" Margin="5" />
+                            <ComboBox HorizontalAlignment="Stretch" Margin="5,0"
+                                      SelectedIndex="{Binding SelectedImageOptionIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Content="Stock cover image" />
+                                    <ComboBoxItem Content="None" />
+                                </ComboBox.Items>
+                            </ComboBox>
+                            <Grid HorizontalAlignment="Stretch" Visibility="{Binding ImagePreviewVisibility}">
+                                <Pivot PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
+                                    <Pivot.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged"></TextBlock>
+                                        </DataTemplate>
+                                    </Pivot.HeaderTemplate>
+                                    <PivotItem Header="Normal" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
+                                        <Grid>
+                                            <xamlCropControl:CropControl ImageSource="{Binding PreviewImageNormal}"
+                                                                         DesiredAspectRatio="1.0"
+                                                                         Width="200" Height="320"
+                                                                         VerticalAlignment="Center"
+                                                                         HorizontalAlignment="Center"
+                                                                         CropLeft="{Binding CropLeft,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                         CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                         CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                         CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                            <Button HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    Background="Transparent" BorderThickness="0"
+                                                    Visibility="{Binding UndoCropVisibility}"
+                                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                    Command="{Binding UndoCropCommand}">
+                                                <SymbolIcon Symbol="Undo" />
+                                            </Button>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"
+                                                        HorizontalAlignment="Right">
+                                                <TextBlock VerticalAlignment="Center" Text="Confirm crop:" />
+                                                <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                        Background="Transparent" BorderThickness="0"
+                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Command="{Binding CropImageCommand}">
+                                                    <SymbolIcon Symbol="Crop" />
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </PivotItem>
+                                    <PivotItem Header="Wide" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
+                                        <Grid>
+                                            <xamlCropControl:CropControl ImageSource="{Binding PreviewImageWide}"
+                                                                         DesiredAspectRatio="2.0"
+                                                                         Width="200" Height="320"
+                                                                         VerticalAlignment="Center"
+                                                                         HorizontalAlignment="Center"
+                                                                         CropLeft="{Binding CropLeftWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                         CropTop="{Binding CropTopWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                         CropWidth="{Binding CropWidthWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                         CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                            <Button HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    Background="Transparent" BorderThickness="0"
+                                                    Visibility="{Binding UndoWideCropVisibility}"
+                                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                    Command="{Binding UndoWideCropCommand}">
+                                                <SymbolIcon Symbol="Undo" />
+                                            </Button>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"
+                                                        HorizontalAlignment="Right">
+                                                <TextBlock VerticalAlignment="Center" Text="Confirm crop:" />
+                                                <Button VerticalAlignment="Center" Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Command="{Binding CropWideImageCommand}">
+                                                    <SymbolIcon Symbol="Crop" />
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </PivotItem>
+                                </Pivot>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Margin="0,6,0,0">
+                            <TextBlock Text="Tile contents:" FontSize="18" FontWeight="SemiLight"
+                                       HorizontalAlignment="Left" Margin="5" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel>
+                                    <CheckBox x:Name="PinDialogTitleCheckbox" Content="Title"
+                                              IsChecked="{Binding PinSettings.AddTitle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="Big title"
+                                              IsEnabled="{Binding ElementName=PinDialogTitleCheckbox,Path=IsChecked}"
+                                              IsChecked="{Binding PinSettings.BigTitle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="Status"
+                                              IsChecked="{Binding PinSettings.AddStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel>
+                                    <CheckBox Content="Watched"
+                                              IsChecked="{Binding PinSettings.AddWatched,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="Air day"
+                                              IsChecked="{Binding PinSettings.AddAirDay,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel>
+                                    <CheckBox Content="Score"
+                                              IsChecked="{Binding PinSettings.AddScore,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="Image"
+                                              IsChecked="{Binding PinSettings.AddImage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Row="3" Margin="5,6,5,0" Content="Pin" HorizontalAlignment="Stretch"
+                                Command="{Binding PinThingCommand}" />
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

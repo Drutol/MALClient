@@ -26,8 +26,8 @@ namespace MALClient.Items
 
         public int Index;
         public bool LoadedAnime;
-        public bool LoadedGrid;
         public bool LoadedModel;
+        public bool LoadedVolatile;
 
         //three constructors depending on original init
         private AnimeItemAbstraction(ILibraryData entry, int? id = null)
@@ -36,6 +36,7 @@ namespace MALClient.Items
                 EntryData = entry;
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(id ?? Id, out data)) return;
+            LoadedVolatile = true;
             AirDay = data.DayOfAiring;
             GlobalScore = data.GlobalScore;
             AirStartDate = data.AirStartDate;

@@ -148,13 +148,14 @@ namespace MALClient.Comm
                                     {
                                         lastWatch = DateTime.MinValue;
                                     }
+
                                     output.Add(new AnimeLibraryItemData
                                     {
                                         Title = entry.anime.title,
                                         ImgUrl = entry.anime.cover_image,
                                         Type = (int) type,
                                         MalId = entry.anime.mal_id,
-                                        Id = Convert.ToInt32(entry.anime.id.ToString()),
+                                        Id = entry.anime.id,
                                         AllEpisodes = entry.anime.episode_count,
                                         MyStartDate = AnimeItemViewModel.InvalidStartEndDate, //TODO : Do sth
                                         MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
@@ -163,8 +164,30 @@ namespace MALClient.Comm
                                         MyStatus = HummingbirdStatusToMal(entry.status),
                                         LastWatched = lastWatch
                                     });
+                                    if (entry.anime.status == "Currently Airing" ||
+                                        entry.anime.status == "Not Yet Aired")
+                                    {
+                                        try
+                                        {
+                                            var dateObj = DateTime.Parse(entry.anime.started_airing);
+                                            var day = (int)dateObj.DayOfWeek;
+                                            day++;
+                                            DataCache.RegisterVolatileData(entry.anime.id, new VolatileDataCache
+                                            {
+                                                DayOfAiring = day,
+                                                GlobalScore = (float)entry.anime.community_rating,
+                                            });
+                                        }
+                                        catch (Exception)
+                                        {
+                                            //no date
+                                        }
+
+                                    }
+
+
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
                                     //
                                 }

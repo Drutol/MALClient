@@ -103,7 +103,6 @@
     </Content>
     <Content Include="AdMediator.config" />
     <PRIResource Include="MalClientResources.resw" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
@@ -188,6 +187,7 @@
     <Compile Include="Pages\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CalendarPage.xaml.cs" />
     <Compile Include="Pages\HummingbirdProfilePage.xaml.cs">
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
@@ -221,11 +221,13 @@
     <Compile Include="UserControls\StackedBarChartControl.xaml.cs">
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TemplateSelector.cs" />
     <Compile Include="Utils\AnimeStatusEnum.cs" />
     <Compile Include="Utils\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\ItemFlyoutService.cs" />
+    <Compile Include="Utils\LiveTilesManager.cs" />
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="Utils\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />
@@ -234,9 +236,11 @@
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListViewModel.cs" />
+    <Compile Include="ViewModels\CalendarPageViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
     <Compile Include="ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\SearchPageViewModel.cs" />
@@ -330,6 +334,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\CalendarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\HummingbirdProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -397,12 +405,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.AdMediator.Universal, Version=1.0">
-      <Name>Microsoft Advertising Universal SDK</Name>
-    </SDKReference>
-    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
-      <Name>Microsoft Advertising SDK for XAML</Name>
-    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>

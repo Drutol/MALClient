@@ -12,33 +12,38 @@
 
     </FlyoutPresenter.Resources>
     <Flyout x:Name="FlyoutMore">
-        <StackPanel Padding="0">
-            <StackPanel.Resources>
+        <Grid Padding="0">
+            <Grid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Height" Value="35" />
                     <Setter Property="HorizontalAlignment" Value="Left" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Margin" Value="1" />
                 </Style>
-            </StackPanel.Resources>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <SymbolIcon Symbol="World" VerticalAlignment="Center" />
-                <StackPanel HorizontalAlignment="Left">
-                    <Button Content="Copy url to clipboard" Click="FlyoutButtonPressed"
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <SymbolIcon Grid.Column="0" Grid.Row="0" Symbol="Copy" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Grid.Row="0" Content="Copy url to clipboard" Click="FlyoutButtonPressed"
                             Command="{Binding CopyLinkToClipboardCommand}" />
-                    <Button Content="Open in browser" Click="FlyoutButtonPressed" Command="{Binding OpenInMALCommand}" />
-                </StackPanel>
-            </StackPanel>
-            <MenuFlyoutSeparator />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
-                <StackPanel HorizontalAlignment="Left">
-                    <Button Content="Pin with MAL url" Click="FlyoutButtonPressed"
-                            Command="{Binding PinTileMALCommand}" />
-                    <Button Content="Pin with custom url" Click="FlyoutButtonPressed"
+
+            <SymbolIcon Grid.Column="0" Grid.Row="1" Symbol="World" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Grid.Row="1" Content="Open in browser" Click="FlyoutButtonPressed" Command="{Binding OpenInMALCommand}" />
+
+            <MenuFlyoutSeparator Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" />
+
+            <SymbolIcon  Grid.Column="0" Grid.Row="3" Symbol="Pin" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Grid.Row="3" Content="Pin to start" Click="FlyoutButtonPressed"
                             Command="{Binding PinTileCustomCommand}" />
-                </StackPanel>
-            </StackPanel>
-        </StackPanel>
+        </Grid>
     </Flyout>
 </FlyoutPresenter>

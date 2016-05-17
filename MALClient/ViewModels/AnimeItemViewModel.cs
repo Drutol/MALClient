@@ -150,7 +150,6 @@ namespace MALClient.ViewModels
             ParentAbstraction = parent;
             ImgUrl = img;
             Id = id;
-            AdjustIncrementButtonsOrientation();
             if (!ParentAbstraction.RepresentsAnime)
             {
                 UpdateEpsUpperLabel = "Read chapters:";
@@ -327,7 +326,6 @@ namespace MALClient.ViewModels
                 if (ParentAbstraction.MyStatus == value)
                     return;
                 ParentAbstraction.MyStatus = value;
-                AdjustIncrementButtonsOrientation();
                 AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyStatusBind);
                 RaisePropertyChanged(() => MyStatusBindShort);
@@ -349,7 +347,6 @@ namespace MALClient.ViewModels
                 if (ParentAbstraction.MyScore == value)
                     return;
                 ParentAbstraction.MyScore = value;
-                AdjustIncrementButtonsOrientation();
                 AdjustIncrementButtonsVisibility();
                 RaisePropertyChanged(() => MyScoreBind);
                 RaisePropertyChanged(() => MyScoreBindShort);
@@ -550,30 +547,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _tileUrlInputVisibility = Visibility.Collapsed;
-
-        public Visibility TileUrlInputVisibility
-        {
-            get { return _tileUrlInputVisibility; }
-            set
-            {
-                _tileUrlInputVisibility = value;
-                RaisePropertyChanged(() => TileUrlInputVisibility);
-            }
-        }
-
-        private string _tileUrlInput;
-
-        public string TileUrlInput
-        {
-            get { return _tileUrlInput; }
-            set
-            {
-                _tileUrlInput = value;
-                RaisePropertyChanged(() => TileUrlInput);
-            }
-        }
-
         private string _watchedEpsInput;
 
         public string WatchedEpsInput
@@ -677,13 +650,6 @@ namespace MALClient.ViewModels
             get { return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList)); }
         }
 
-        private ICommand _pinTileCommand;
-
-        public ICommand PinTileCommand
-        {
-            get { return _pinTileCommand ?? (_pinTileCommand = new RelayCommand(() => PinTile())); }
-        }
-
         private ICommand _pinTileCustomCommand;
 
         public ICommand PinTileCustomCommand
@@ -692,7 +658,7 @@ namespace MALClient.ViewModels
             {
                 return _pinTileCustomCommand ??
                        (_pinTileCustomCommand =
-                           new RelayCommand(() => { TileUrlInputVisibility = Visibility.Visible; }));
+                           new RelayCommand(() => { ViewModelLocator.Main.PinDialogViewModel.Load(this); }));
             }
         }
 
@@ -745,35 +711,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private ICommand _pinTileMALCommand;
-
-        public ICommand PinTileMALCommand
-        {
-            get
-            {
-                return _pinTileMALCommand ?? (_pinTileMALCommand = new RelayCommand(async () =>
-                {
-                    if (SecondaryTile.Exists(Id.ToString()))
-                    {
-                        var msg = new MessageDialog("Tile for this anime already exists.");
-                        await msg.ShowAsync();
-                        return;
-                    }
-                    if (Settings.SelectedApiType == ApiType.Mal)
-                    {
-                        PinTile(
-                            $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
-                    }
-                    else
-                    {
-                        PinTile(
-                            $"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
-                    }
-                }
-                    ));
-            }
-        }
-
         private ICommand _navigateDetailsCommand;
 
         public ICommand NavigateDetailsCommand
@@ -788,12 +725,7 @@ namespace MALClient.ViewModels
 
         #region Utils/Helpers
 
-        //Pinned with custom link.
-        public void PinTile(string url = null)
-        {
-            Utils.PinTile(url ?? TileUrlInput, Id, ImgUrl, Title);
-            TileUrlInputVisibility = Visibility.Collapsed;
-        }
+        //Pinned with custom link
 
         public void SetAuthStatus(bool auth, bool eps = false)
         {
@@ -846,19 +778,10 @@ namespace MALClient.ViewModels
             }
         }
 
-        private void AdjustIncrementButtonsOrientation()
+        public void UpdateVolatileData()
         {
-            //Too wide update buttons
-            //if (MyScore != 0)
-            //{
-            //    IncrementButtonsOrientation = Orientation.Horizontal;
-            //    return;
-            //}
-            //if (MyStatus == (int) AnimeStatus.Dropped ||
-            //    MyStatus == (int) AnimeStatus.OnHold ||
-            //    MyStatus == (int) AnimeStatus.Completed ||
-            //    MyStatus == (int) AnimeStatus.Watching)
-            //    IncrementButtonsOrientation = Orientation.Vertical;
+            RaisePropertyChanged(() => AirDayBind);
+            RaisePropertyChanged(() => GlobalScoreBind);
         }
 
         #endregion

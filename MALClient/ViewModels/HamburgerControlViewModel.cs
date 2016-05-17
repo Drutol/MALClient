@@ -14,7 +14,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
-using Microsoft.Advertising.WinRT.UI;
+using VungleSDK;
 
 namespace MALClient.ViewModels
 {
@@ -120,35 +120,54 @@ namespace MALClient.ViewModels
                 return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<object>(ButtonClick));
             }
         }
-
+        private VungleAd VungleAdInstance;
         public ICommand ButtonAdCommand
         {
             get
             {
                 return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
                 {
-                    var ad = new InterstitialAd();
                     AdLoadingSpinnerVisibility = Visibility.Visible;
-                    ad.AdReady += (sender, o1) =>
+                    if (VungleAdInstance == null)
                     {
-                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
-                        ad.Show();
-                    };
-                    ad.ErrorOccurred += async (sender, args) =>
-                    {
-                        var msg =
-                            new MessageDialog(
-                                "Microsoft has no ads for you :(\nYou can still donate if you want to...",
-                                "Thanks for trying!");
-                        await msg.ShowAsync();
-                        AdLoadingSpinnerVisibility = Visibility.Collapsed;
-                    };
-                    ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
+                        VungleAdInstance = AdFactory.GetInstance("5735f9ae0b3973633c00004b");
 
-                    ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
+                        VungleAdInstance.OnAdPlayableChanged += VungleAdInstanceOnOnAdPlayableChanged;
+                    }
+
+                    //var ad = new InterstitialAd();
+                    //AdLoadingSpinnerVisibility = Visibility.Visible;
+                    //ad.AdReady += (sender, o1) =>
+                    //{
+                    //    AdLoadingSpinnerVisibility = Visibility.Collapsed;
+                    //    ad.Show();
+                    //};
+                    //ad.ErrorOccurred += async (sender, args) =>
+                    //{
+                    //    var msg =
+                    //        new MessageDialog(
+                    //            "Microsoft has no ads for you :(\nYou can still donate if you want to...",
+                    //            "Thanks for trying!");
+                    //    await msg.ShowAsync();
+                    //    AdLoadingSpinnerVisibility = Visibility.Collapsed;
+                    //};
+                    //ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
+
+                    //ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
                 }
                     ));
             }
+        }
+
+        private async void VungleAdInstanceOnOnAdPlayableChanged(object sender, AdPlayableEventArgs adPlayableEventArgs)
+        {
+            AdLoadingSpinnerVisibility = Visibility.Visible;
+            await
+                VungleAdInstance.PlayAdAsync(new AdConfig
+                {
+                    Incentivized = true,
+                    SoundEnabled = true
+                });
         }
 
         public Visibility MalApiSpecificButtonsVisibility
@@ -314,6 +333,7 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["Recommendations"] = new SolidColorBrush(color);
             TxtForegroundBrushes["TopAnime"] = new SolidColorBrush(color);
             TxtForegroundBrushes["TopManga"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Calendar"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -327,6 +347,7 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["Recommendations"] = new Thickness(0);
             TxtBorderBrushThicknesses["TopAnime"] = new Thickness(0);
             TxtBorderBrushThicknesses["TopManga"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Calendar"] = new Thickness(0);
         }
 
         public void SetActiveButton(HamburgerButtons val)

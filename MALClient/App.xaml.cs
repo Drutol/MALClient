@@ -46,10 +46,17 @@ namespace MALClient
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
-
+            Tuple<int, string> navArgs = null;
             if (!string.IsNullOrWhiteSpace(e.Arguments))
             {
-                LaunchUri(e.Arguments);
+                var options = e.Arguments.Split(';');
+                if (options[0] == TileActions.OpenUrl.ToString())
+                    LaunchUri(options[1]);
+                else
+                {
+                    var detailArgs = options[1].Split('|');
+                    navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                }
             }
             Credentials.Init();
             // Do not repeat app initialization when the Window already has content,
@@ -92,7 +99,7 @@ namespace MALClient
             }
             // Ensure the current window is active
             HtmlClassMgr.Init();
-
+            LiveTilesManager.LoadTileCache();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();

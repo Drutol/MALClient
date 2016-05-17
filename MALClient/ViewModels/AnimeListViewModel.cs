@@ -22,12 +22,16 @@ namespace MALClient.ViewModels
         public string Url;
     }
 
+
+
     public enum AnimeListDisplayModes
     {
         PivotPages,
         IndefiniteList,
         IndefiniteGrid
     }
+
+    public delegate void AnimeItemListInitialized();
 
     public class AnimeListViewModel : ViewModelBase
     {
@@ -42,7 +46,18 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _animeItemsSet =
             new List<AnimeItemAbstraction>(); //All for current list        
 
-        private bool _initiazlized;
+        private bool _initialized;
+
+        private bool Initiazlized
+        {
+            get { return _initialized; }
+            set
+            {
+                _initialized = value;
+                if (value)
+                    Initialized?.Invoke();
+            }
+        }
 
         private int _itemsPerPage = Settings.ItemsPerPage;
         private AnimeListDisplayModes? _manuallySelectedViewMode;
@@ -75,12 +90,14 @@ namespace MALClient.ViewModels
 
 
         public int CurrentStatus => GetDesiredStatus();
+        public event AnimeItemListInitialized Initialized;
+
 
         public async Task Init(AnimeListPageNavigationArgs args)
         {
             //base
             _scrollHandlerAdded = false;
-            _initiazlized = false;
+            Initiazlized = false;
             _manuallySelectedViewMode = null;
             NavMgr.ResetBackNav();
             //take out trash
@@ -196,7 +213,7 @@ namespace MALClient.ViewModels
 
             View.InitSortOptions(SortOption, SortDescending);
             UpdateUpperStatus();
-            _initiazlized = true;
+            Initiazlized = true;
         }
 
         /// <summary>
@@ -1015,7 +1032,7 @@ namespace MALClient.ViewModels
                 Loading = true;
                 CurrentPosition = 1;
                 _lastOffset = 0;
-                if (_initiazlized)
+                if (Initiazlized)
                 {
                     if (Settings.HideFilterSelectionFlyout)
                         View.FlyoutFilters.Hide();
@@ -1058,7 +1075,7 @@ namespace MALClient.ViewModels
             get { return _sortDescending; }
             set
             {
-                if (_initiazlized && Settings.HideSortingSelectionFlyout)
+                if (Initiazlized && Settings.HideSortingSelectionFlyout)
                     View.FlyoutSorting.Hide();
                 _sortDescending = value;
                 RaisePropertyChanged(() => SortDescending);
@@ -1247,7 +1264,7 @@ namespace MALClient.ViewModels
             get { return _sortOption; }
             set
             {
-                if (_initiazlized && Settings.HideSortingSelectionFlyout)
+                if (Initiazlized && Settings.HideSortingSelectionFlyout)
                     View.FlyoutSorting.Hide();
                 _sortOption = value;
                 CurrentPosition = 1;

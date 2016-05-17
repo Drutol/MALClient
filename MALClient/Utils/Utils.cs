@@ -6,11 +6,12 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
-using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -93,11 +94,11 @@ namespace MALClient
             }
         }
 
-        public static string DayToString(DayOfWeek day)
+        public static string DayToString(DayOfWeek day,bool ignoreOffset = false)
         {
             if (day < 0)
                 return "";
-            if (Settings.AirDayOffset != 0)
+            if (Settings.AirDayOffset != 0 && !ignoreOffset)
             {
                 var sum = Settings.AirDayOffset + (int) day;
                 if (sum > 6)
@@ -128,44 +129,7 @@ namespace MALClient
             }
         }
 
-        public static void RegisterTile(string id)
-        {
-            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
-                tiles = "";
-            tiles += id + ";";
-            ApplicationData.Current.LocalSettings.Values["tiles"] = tiles;
-        }
-
-        public static async void CheckTiles()
-        {
-            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
-                return;
-
-
-            var newTiles = "";
-            foreach (var tileId in tiles.Split(';'))
-            {
-                if (!SecondaryTile.Exists(tileId))
-                {
-                    try
-                    {
-                        var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"{tileId}.png");
-                        await file.DeleteAsync();
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
-                }
-                else
-                {
-                    newTiles += tileId + ";";
-                }
-            }
-            ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
-        }
+        
 
         public static MainViewModel GetMainPageInstance()
         {
@@ -282,9 +246,10 @@ namespace MALClient
             await ViewModelLocator.Hamburger.UpdateProfileImg(false);
         }
 
-
         public static async void DownloadCoverImage(string url, string title)
         {
+            if (url == null)
+                return;
             try
             {
                 var sp = new FileSavePicker();
@@ -318,6 +283,7 @@ namespace MALClient
             }
         }
 
+
         public static string CleanAnimeTitle(string title)
         {
             var index = title.IndexOf('+');
@@ -327,38 +293,6 @@ namespace MALClient
         public static string FirstCharToUpper(string input)
         {
             return input.First().ToString().ToUpper() + input.Substring(1);
-        }
-
-        public static async void PinTile(string targetUrl, int id, string imgUrl, string title)
-        {
-            try
-            {
-                var folder = ApplicationData.Current.LocalFolder;
-                var thumb = await folder.CreateFileAsync($"{id}.png", CreationCollisionOption.ReplaceExisting);
-
-                var http = new HttpClient();
-                var response = await http.GetByteArrayAsync(imgUrl); //get bytes
-
-                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
-
-                using (var writer = new DataWriter(fs.AsOutputStream()))
-                {
-                    writer.WriteBytes(response); //write
-                    await writer.StoreAsync();
-                    await writer.FlushAsync();
-                }
-
-                if (!targetUrl.Contains("http"))
-                    targetUrl = "http://" + targetUrl;
-                var til = new SecondaryTile($"{id}", $"{title}", targetUrl, new Uri($"ms-appdata:///local/{id}.png"),
-                    TileSize.Default);
-                RegisterTile(id.ToString());
-                await til.RequestCreateAsync();
-            }
-            catch (Exception)
-            {
-                //TODO : feedback
-            }
         }
 
         public static int LevenshteinDistance(string s, string t)
@@ -427,6 +361,8 @@ namespace MALClient
                     return HamburgerButtons.TopAnime;
                 case PageIndex.PageTopManga:
                     return HamburgerButtons.TopManga;
+                case PageIndex.PageCalendar:
+                    return HamburgerButtons.Calendar;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
@@ -434,37 +370,34 @@ namespace MALClient
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                .Trim()
-                .Replace("[i]", "")
-                .Replace("[/i]", "")
-                .Replace("#039;", "'")
-                .Replace("&quot;", "\"")
-                .Replace("quot;", "\"")
-                .Replace("mdash;", "—")
-                .Replace("amp;", "&");
+            return
+                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("quot;", "\"")
+                    .Replace("mdash;", "—")
+                    .Replace("amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                .Trim()
-                .Replace("[i]", "")
-                .Replace("[/i]", "")
-                .Replace("#039;", "'")
-                .Replace("&quot;", "\"")
-                .Replace("&mdash;", "—")
-                .Replace("&amp;", "&");
+            return
+                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("&mdash;", "—")
+                    .Replace("&amp;", "&");
         }
 
         public static async void GiveStatusBarFeedback(string text)
         {
-            var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-            sb.Text = text;
-            sb.ProgressValue = null;
-            await sb.ShowAsync();
-            await Task.Delay(2000);
-            await sb.HideAsync();
         }
+        
     }
 }

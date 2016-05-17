@@ -74,31 +74,5 @@ namespace MALClient.Items
 
         #endregion
 
-        #region CustomTilePin
-
-        private void TxtTileUrl_OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key != VirtualKey.Enter) return;
-            var txt = sender as TextBox;
-            txt.IsEnabled = false; //reset input
-            txt.IsEnabled = true;
-            ViewModel.PinTile();
-            CloseTileUrlInput(null, null);
-        }
-
-        public void OpenTileUrlInput()
-        {
-            TxtTileUrl.Text = "";
-            //Utils.GetMainPageInstance().AnimeListScrollTo(this);
-            ViewModel.TileUrlInputVisibility = Visibility.Visible;
-            TxtTileUrl.Focus(FocusState.Keyboard);
-        }
-
-        private void CloseTileUrlInput(object sender, RoutedEventArgs e)
-        {
-            ViewModel.TileUrlInputVisibility = Visibility.Collapsed;
-        }
-
-        #endregion
     }
 }

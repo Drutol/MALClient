@@ -8,21 +8,14 @@
     xmlns:xamlConverters="using:MALClient.XamlConverters"
     mc:Ignorable="d">
     <MenuFlyoutPresenter.Resources>
-
-        <ResourceDictionary>
-            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
-            <xamlConverters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:MyStatusSelectionToBrushConverter x:Key="SelectionToBrushConverter" />
     </MenuFlyoutPresenter.Resources>
     <MenuFlyout x:Name="Flyout">
         <MenuFlyoutItem Text="Copy url to clipboard" Command="{Binding CopyLinkToClipboardCommand}"
                         Click="FlyoutButtonPressed" />
         <MenuFlyoutItem Text="Open in browser" Command="{Binding OpenInMALCommand}" Click="FlyoutButtonPressed" />
-        <MenuFlyoutItem Text="Pin with MAL url" Command="{Binding PinTileMALCommand}" Click="FlyoutButtonPressed" />
+        <MenuFlyoutItem Text="Pin to start" Command="{Binding PinTileCustomCommand}" Click="FlyoutButtonPressed" />
         <MenuFlyoutSeparator Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}" />
         <MenuFlyoutSubItem Text="Status"
                            Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">

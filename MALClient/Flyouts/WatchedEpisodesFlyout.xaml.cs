@@ -25,7 +25,7 @@ namespace MALClient.Flyouts
         {
             if (e.Key != VirtualKey.Enter) return;
 
-            (DataContext as AnimeItemViewModel).OnFlyoutEpsKeyDown.Execute(null);
+            (DataContext as AnimeItemViewModel).OnFlyoutEpsKeyDown.Execute(e);
             WatchedEpsFlyout.Hide();
         }
 

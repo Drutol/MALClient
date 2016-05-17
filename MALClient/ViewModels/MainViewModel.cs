@@ -7,6 +7,7 @@ using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -18,6 +19,9 @@ namespace MALClient.ViewModels
     {
         void Navigate(Type page, object args = null);
         void SearchInputFocus(FocusState state);
+        Tuple<int, string> InitDetails { get; }
+        Storyboard PinDialogStoryboard { get; }
+        Storyboard CurrentStatusStoryboard { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -25,6 +29,8 @@ namespace MALClient.ViewModels
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
         public PageIndex LastIndex { get; private set; }
+
+        public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
@@ -121,6 +127,11 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Recommendations";
                     View.Navigate(typeof(RecomendationsPage), args);
                     break;
+                case PageIndex.PageCalendar:
+                    HideSearchStuff();
+                    CurrentStatus = "Calendar";
+                    View.Navigate(typeof(CalendarPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -160,9 +171,17 @@ namespace MALClient.ViewModels
                 Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
-                //entry point whatnot
+                if (value.InitDetails != null)
+                    ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
             }
-        } //entry point
+        }
+
+        private async void AnimeListOnInitializedLoadArgs()
+        {
+            await Navigate(PageIndex.PageAnimeDetails,
+                new AnimeDetailsPageNavigationArgs(View.InitDetails.Item1, View.InitDetails.Item2, null, null));
+            ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
+        }
 
         private bool _menuPaneState;
 
@@ -223,6 +242,7 @@ namespace MALClient.ViewModels
             set
             {
                 _currentStatus = value;
+                View.CurrentStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatus);
             }
         }

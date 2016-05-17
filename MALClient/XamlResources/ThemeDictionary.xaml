@@ -22,6 +22,8 @@
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#e6e6e6" />
             <SolidColorBrush x:Key="BrushNewsBackground" Color="White" Opacity=".75" />
+            <SolidColorBrush x:Key="BrushPinTileDialogOverlay" Color="#F0F0F0" Opacity=".75" />
+            <SolidColorBrush x:Key="BrushPinTileDialogBackground" Color="#a8a8a8" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d" />
@@ -41,6 +43,8 @@
             <SolidColorBrush x:Key="BrushDetailsMoreButton" Color="#404040" />
             <SolidColorBrush x:Key="BrushPivotInnerHeaderBarBackground" Color="#252525" />
             <SolidColorBrush x:Key="BrushNewsBackground" Color="#2f2f2f" Opacity=".75" />
+            <SolidColorBrush x:Key="BrushPinTileDialogOverlay" Color="#2a2c2a" Opacity=".75" />
+            <SolidColorBrush x:Key="BrushPinTileDialogBackground" Color="#303030" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

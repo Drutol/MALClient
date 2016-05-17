@@ -26,6 +26,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<ProfilePageViewModel>();
             SimpleIoc.Default.Register<HummingbirdProfilePageViewModel>();
+            SimpleIoc.Default.Register<CalendarPageViewModel>();
 
             _initialized = true;
         }
@@ -50,5 +51,8 @@ namespace MALClient.ViewModels
 
         public static HummingbirdProfilePageViewModel HumProfilePage
             => ServiceLocator.Current.GetInstance<HummingbirdProfilePageViewModel>();
+
+        public static CalendarPageViewModel CalendarPage
+            => ServiceLocator.Current.GetInstance<CalendarPageViewModel>();
     }
 }

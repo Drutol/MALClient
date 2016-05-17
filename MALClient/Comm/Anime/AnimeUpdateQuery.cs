@@ -12,6 +12,7 @@ namespace MALClient.Comm
         public AnimeUpdateQuery(IAnimeData item)
             : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate)
         {
+            LiveTilesManager.UpdateTile(item);
         }
 
 
@@ -29,6 +30,7 @@ namespace MALClient.Comm
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
         }
 
         private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate)

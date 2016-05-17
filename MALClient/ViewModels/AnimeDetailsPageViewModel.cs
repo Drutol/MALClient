@@ -1007,13 +1007,8 @@ namespace MALClient.ViewModels
         private Query GetAppropriateUpdateQuery()
         {
             if (_animeMode)
-                return new AnimeUpdateQuery(Id, MyEpisodes, MyStatus, MyScore,
-                    StartDateValid ? _animeItemReference.StartDate : "0000-00-00",
-                    //if date was untouched return "no date" value
-                    EndDateValid ? _animeItemReference.EndDate : "0000-00-00");
-            return new MangaUpdateQuery(Id, MyEpisodes, MyStatus, (int) MyScore, MyVolumes,
-                StartDateValid ? _animeItemReference.StartDate : "0000-00-00",
-                EndDateValid ? _animeItemReference.EndDate : "0000-00-00");
+                return new AnimeUpdateQuery(_animeItemReference);
+            return new MangaUpdateQuery(_animeItemReference);
         }
 
         private async void LaunchUpdate()

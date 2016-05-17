@@ -109,7 +109,7 @@ namespace MALClient
             {
                 // no internet?
             }
-
+            LiveTilesManager.LoadTileCache();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             var tb = ApplicationView.GetForCurrentView().TitleBar;

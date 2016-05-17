@@ -56,6 +56,8 @@ namespace MALClient.ViewModels
             set
             {
                 _imagePreviewVisibility = value;
+                PinSettings.AddImage = value != Visibility.Collapsed;
+                RaisePropertyChanged(() => PinSettings);
                 RaisePropertyChanged(() => ImagePreviewVisibility);
             }
         }
@@ -230,14 +232,14 @@ namespace MALClient.ViewModels
             if (!img.UriSource.ToString().Contains("ms-appdata"))
                 await resizedBitmap.LoadFromBitmapImageSourceAsync(img);
             else               
-                await resizedBitmap.LoadAsync((await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery)).First(storageFile => storageFile.Name == _lastCroppedFileName));
+                await resizedBitmap.LoadAsync((await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery)).First(storageFile => storageFile.Name == _lastCroppedFileName));
 
             if(wide)
                 resizedBitmap = resizedBitmap.Crop(CropLeftWide, CropTopWide, CropWidthWide + CropLeftWide, CropTopWide + CropHeightWide);
             else
                 resizedBitmap = resizedBitmap.Crop(CropLeft, CropTop, CropWidth + CropLeft, CropTop + CropHeight);
 
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
+            var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
 
             if (wide)
                 _lastCroppedFileNameWide = file.Name;
@@ -247,9 +249,9 @@ namespace MALClient.ViewModels
             await resizedBitmap.SaveAsync(file, BitmapEncoder.PngEncoderId);
 
             if (wide)
-                PreviewImageWide = new BitmapImage(new Uri($"ms-appdata:///local/{file.Name}"));
+                PreviewImageWide = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
             else
-                PreviewImageNormal = new BitmapImage(new Uri($"ms-appdata:///local/{file.Name}"));
+                PreviewImageNormal = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
             UndoCropVisibility = Visibility.Visible;
         }
 
@@ -272,7 +274,7 @@ namespace MALClient.ViewModels
             var img = wide ? PreviewImageWide : PreviewImageNormal;
             var bmp = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
             bmp = await bmp.LoadFromBitmapImageSourceAsync(img);
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
+            var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
             await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
             return file;
         }
@@ -297,6 +299,7 @@ namespace MALClient.ViewModels
                     _lastCroppedFileNameWide = _lastCroppedFileName;
                     return;
                 }
+
                 var file = await SaveImage(true);
                 _lastCroppedFileNameWide = file.Name;
                 if (string.IsNullOrEmpty(_lastCroppedFileName))
@@ -320,7 +323,7 @@ namespace MALClient.ViewModels
                     action.Param = EntryData.Id + "|" + EntryData.Title;
                     break;
             }
-            await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///local/{_lastCroppedFileName}"), new Uri($"ms-appdata:///local/{_lastCroppedFileNameWide}"),PinSettings, action);
+            await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///temp/{_lastCroppedFileName}"), new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}"),PinSettings, action);
 
             foreach (var file in await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery))
                 if(file.Name.Contains("_cropTemp"))

@@ -59,6 +59,7 @@ namespace MALClient.ViewModels
             }
         }
 
+        public double MaxWidth => AnimeItemViewModel.MaxWidth;
         private int _itemsPerPage = Settings.ItemsPerPage;
         private AnimeListDisplayModes? _manuallySelectedViewMode;
         private string _prevListSource;

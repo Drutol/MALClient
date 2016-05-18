@@ -18,6 +18,7 @@ namespace MALClient.ViewModels
     {
         public string Header { get; set; }
         public string Sub { get; set; }
+        public string FullHeader => Utils.ShortDayToFullDay(Header); //full name
         public List<AnimeItemViewModel> Items { get; set; } = new List<AnimeItemViewModel>();
     }
 
@@ -34,6 +35,8 @@ namespace MALClient.ViewModels
     {
         public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } =
             new ObservableCollection<CalendarPivotPage>();
+
+        public double MaxWidth => AnimeItemViewModel.MaxWidth;
 
         private int _calendarPivotIndex;
         public int CalendarPivotIndex
@@ -234,7 +237,7 @@ namespace MALClient.ViewModels
                 }
                 if (calendarPivotPage.Items.Count != 0)
                     (CalendarData[7] as CalendarSummaryPivotPage).Data.Add(
-                        new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.Header, calendarPivotPage.Items));
+                        new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.FullHeader, calendarPivotPage.Items));
             }
             foreach (var emptyPage in emptyPages)
                 CalendarData.Remove(emptyPage);

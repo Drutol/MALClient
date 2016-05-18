@@ -19,7 +19,19 @@
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
             <DataTemplate x:Key="DayPageTemplate">
-                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}"/>
+                <GridView Padding="0" IsRightTapEnabled="True" HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"  />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="2"/>
+                            <Setter Property="Padding" Value="0"/>
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                </GridView>
             </DataTemplate>            
             <DataTemplate x:Key="SummaryPageTemplate">
                 <ListView SelectionMode="None" ItemsSource="{Binding Data}" Padding="0">
@@ -27,6 +39,8 @@
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="UseSystemFocusVisuals" Value="False"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0,5"/>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
@@ -38,8 +52,22 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <TextBlock Margin="20,0,0,0" FontSize="20" Text="{Binding Item1}"/>
-                                <MenuFlyoutSeparator Grid.Row="1"/>
-                                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2" ItemsSource="{Binding Item2}"/>
+                                <MenuFlyoutSeparator Grid.Row="1" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                <GridView Padding="0" HorizontalAlignment="Center" IsRightTapEnabled="True" 
+                                          RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" 
+                                          Grid.Row="2" ItemsSource="{Binding Item2}">
+                                    <GridView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"  />
+                                        </ItemsPanelTemplate>
+                                    </GridView.ItemsPanel>
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="Margin" Value="2"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                </GridView>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

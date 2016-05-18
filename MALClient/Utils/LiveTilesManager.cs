@@ -71,19 +71,19 @@ namespace MALClient
 
         public static async Task SavePinnedData()
         {
-            try
-            {
-                var json = JsonConvert.SerializeObject(_pinnedCache);
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync("pinned_tiles.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
-            }
-            catch (Exception)
-            {
-                //ignored
-            }
+            //try
+            //{
+            //    var json = JsonConvert.SerializeObject(_pinnedCache);
+            //    var file =
+            //        await
+            //            ApplicationData.Current.LocalFolder.CreateFileAsync("pinned_tiles.json",
+            //                CreationCollisionOption.ReplaceExisting);
+            //    await FileIO.WriteTextAsync(file, json);
+            //}
+            //catch (Exception)
+            //{
+            //    //ignored
+            //}
         }
 
         private static void RegisterTileCache(int id,PinnedTileCache cache)
@@ -189,23 +189,23 @@ namespace MALClient
             }
         }
 
-        public static void UpdateTile(IAnimeData entry, Uri imgUri, Uri wideImgUri, PinTileSettings settings)
+        private static void UpdateTile(IAnimeData entry, Uri imgUri, Uri wideImgUri, PinTileSettings settings)
         {
             //scaryy...
             StringBuilder tileXmlString = new StringBuilder();
             tileXmlString.Append("<tile>");
-            tileXmlString.Append("<visual version='2'>");
-            tileXmlString.Append("<binding template = 'TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>");
+            tileXmlString.Append("<visual version='2' displayName='MALClient'>");
+            tileXmlString.Append("<binding template='TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>");
             if (settings.AddImage) tileXmlString.Append($"<image id=\"1\" src=\"{imgUri}\" alt=\"alt text\"/>");
             if (settings.AddTitle) tileXmlString.Append($"<text hint-style=\"base\" hint-wrap=\"true\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");
-            if (settings.AddStatus) tileXmlString.Append($"<text hint-wrap=\"false\" id=\"2\">{(AnimeStatus)entry.MyStatus}</text>");
-            if (settings.AddScore) tileXmlString.Append($"<text id=\"3\">{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}</text>");
-            if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).AirDayBind != "") tileXmlString.Append($"<text id=\"4\">{((AnimeItemViewModel)entry).AirDayBind}</text>");
+            if (settings.AddStatus) tileXmlString.Append($"<text hint-style=\"body\" hint-wrap=\"false\" id=\"2\">{(AnimeStatus)entry.MyStatus}</text>");
+            if (settings.AddScore) tileXmlString.Append($"<text hint-style=\"body\" id=\"3\">{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}</text>");
+            if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).AirDayBind != "") tileXmlString.Append($"<text hint-style=\"body\" id=\"4\">{((AnimeItemViewModel)entry).AirDayBind}</text>");
             tileXmlString.Append("</binding>");
             tileXmlString.Append("<binding template='TileWide310x150ImageAndText02' fallback='TileWideImageAndText02'>");
             if (settings.AddImage) tileXmlString.Append($"<image id=\"1\" src=\"{wideImgUri}\" alt=\"alt text\"/>");
             if (settings.AddTitle) tileXmlString.Append($"<text hint-style=\"base\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");
-            tileXmlString.Append("<text id=\"2\">");
+            tileXmlString.Append("<text id=\"2\"  hint-style=\"body\">");
             if (settings.AddStatus) tileXmlString.Append($"{(AnimeStatus)entry.MyStatus}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}");
             if (settings.AddScore) tileXmlString.Append($"\n{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}");
             if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).AirDayBind != "") tileXmlString.Append($"   -   {((AnimeItemViewModel)entry).AirDayBind}");

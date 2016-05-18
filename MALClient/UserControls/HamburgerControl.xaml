@@ -205,7 +205,6 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtTop" Text="Top Anime"
-
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
@@ -220,9 +219,9 @@
                                                     PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="13">
-                                                <Grid Height="45">
+                                                <Grid Width="220" Height="45">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="60" />
+                                                        <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
@@ -230,13 +229,13 @@
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
                                                     <SymbolIcon Symbol="CalendarWeek" HorizontalAlignment="Center"
-                                                                Grid.Column="0" Margin="0,0,2,0"
+                                                                Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtCalendar , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtCalendar" Text="Calendar"
                                                                FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Calendar]}"
-                                                               HorizontalAlignment="Left" Grid.Column="1"
+                                                               HorizontalAlignment="Left" Grid.Column="1" Margin="25,0,0,0"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
                                                 </Grid>

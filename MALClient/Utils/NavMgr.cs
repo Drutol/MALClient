@@ -21,6 +21,7 @@ namespace MALClient
 
         private static bool _wasOnStack;
         private static bool _handlerRegistered;
+        private static bool _oneTimeHandler;
 
         private static ICommand _currentOverride;
 
@@ -58,6 +59,13 @@ namespace MALClient
             {
                 _currentOverride.Execute(null);
                 _currentOverride = null;
+                if (_oneTimeHandler)
+                {
+                    _oneTimeHandler = false;
+                    var currentView = SystemNavigationManager.GetForCurrentView();
+                    currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                    currentView.BackRequested -= CurrentViewOnBackRequested;
+                }
                 return;
             }
             if (_detailsNavStack.Count == 0) //nothing on the stack = standard
@@ -106,6 +114,14 @@ namespace MALClient
 
         public static void RegisterOneTimeOverride(ICommand command)
         {
+            if (!_handlerRegistered)
+            {
+                _oneTimeHandler = true;
+                var currentView = SystemNavigationManager.GetForCurrentView();
+                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                currentView.BackRequested += CurrentViewOnBackRequested;
+            }
+
             _currentOverride = command;
         }
 

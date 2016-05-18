@@ -22,6 +22,7 @@ namespace MALClient.ViewModels
         Tuple<int, string> InitDetails { get; }
         Storyboard PinDialogStoryboard { get; }
         Storyboard CurrentStatusStoryboard { get; }
+        Storyboard HidePinDialogStoryboard { get; }
     }
 
     public class MainViewModel : ViewModelBase

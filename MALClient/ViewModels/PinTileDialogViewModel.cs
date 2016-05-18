@@ -11,6 +11,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -31,8 +32,16 @@ namespace MALClient.ViewModels
             set
             {
                 _generalVisibility = value;
-                ViewModelLocator.Main.View.PinDialogStoryboard.Begin();
-                RaisePropertyChanged(() => GeneralVisibility);
+                if (value == Visibility.Visible)
+                {
+                    NavMgr.RegisterOneTimeOverride(new RelayCommand(() => GeneralVisibility = Visibility.Collapsed));
+                    ViewModelLocator.Main.View.PinDialogStoryboard.Begin();
+                    RaisePropertyChanged(() => GeneralVisibility);
+                }
+                else
+                {
+                    HidePinDialog();
+                }             
             }
         }
 
@@ -209,6 +218,19 @@ namespace MALClient.ViewModels
         //    PreviewImageNormal = bmp;
         //}
 
+        public async void HidePinDialog()
+        {
+            var sb = ViewModelLocator.Main.View.HidePinDialogStoryboard;
+            sb.Completed += SbOnCompleted;
+            sb.Begin();
+        }
+
+        private void SbOnCompleted(object sender, object o)
+        {
+            (sender as Storyboard).Completed -= SbOnCompleted;
+            RaisePropertyChanged(() => GeneralVisibility);
+        }
+
         public void Load(AnimeItemViewModel data)
         {
             GeneralVisibility = Visibility.Visible;
@@ -295,15 +317,14 @@ namespace MALClient.ViewModels
             {
                 //we may have not even opened wide pivot image -> no img loaded -> no width -> assume normal picture
                 if (PreviewImageWide.PixelWidth == 0)
-                {
                     _lastCroppedFileNameWide = _lastCroppedFileName;
-                    return;
+                else
+                {
+                    var file = await SaveImage(true);
+                    _lastCroppedFileNameWide = file.Name;
+                    if (string.IsNullOrEmpty(_lastCroppedFileName))
+                        _lastCroppedFileName = file.Name;
                 }
-
-                var file = await SaveImage(true);
-                _lastCroppedFileNameWide = file.Name;
-                if (string.IsNullOrEmpty(_lastCroppedFileName))
-                    _lastCroppedFileName = file.Name;
             }
             var action = new PinTileActionSetting();
             switch (SelectedActionIndex)

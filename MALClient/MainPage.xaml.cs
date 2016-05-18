@@ -48,6 +48,7 @@ namespace MALClient
 
         public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
         public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
+        public Storyboard HidePinDialogStoryboard => FadeOutPinDialogStoryboard;
 
         #region Search
 

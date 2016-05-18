@@ -18,6 +18,11 @@
                              EnableDependentAnimation="True" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="PinDialogInner" FromVerticalOffset="-20"
                                  FromHorizontalOffset="0" />
+        </Storyboard>        
+        <Storyboard x:Name="FadeOutPinDialogStoryboard">
+            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
+                             EnableDependentAnimation="True" From="1" To="0" />
+            <PopOutThemeAnimation Storyboard.TargetName="PinDialogInner" />
         </Storyboard>
         <Storyboard x:Name="FadeInCurrentStatus">
             <DoubleAnimation Storyboard.TargetName="CurrentStatus" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
@@ -131,7 +136,7 @@
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
               Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">
-            <Grid x:Name="PinDialogInner" Margin="20,20,20,78"
+            <Grid x:Name="PinDialogInner" Margin="15,15,15,55"
                   Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center"
                   HorizontalAlignment="Stretch" MaxWidth="450" Padding="10">
                 <Grid.RowDefinitions>

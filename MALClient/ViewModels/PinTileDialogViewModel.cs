@@ -191,6 +191,28 @@ namespace MALClient.ViewModels
         public int CropWidthWide { get; set; }
         public int CropHeightWide { get; set; }
 
+        public bool _isCropEnabled = true;
+        public bool IsCropEnabled
+        {
+            get { return _isCropEnabled; }
+            set
+            {
+                _isCropEnabled = value;
+                RaisePropertyChanged(() => IsCropEnabled);
+            }
+        }
+
+        public bool _isPinEnabled = true;
+        public bool IsPinEnabled
+        {
+            get { return _isPinEnabled; }
+            set
+            {
+                _isPinEnabled = value;
+                RaisePropertyChanged(() => IsPinEnabled);
+            }
+        }
+
         //private StorageFile _originaPickedStorageFile;
         //private async void LoadSelectedImage()
         //{
@@ -247,6 +269,7 @@ namespace MALClient.ViewModels
         private string _lastCroppedFileNameWide;
         private async void CropImage(bool wide = false)
         {
+            IsCropEnabled = false;
             var img = wide ? _previewImageWide : _previewImageNormal;
             WriteableBitmap resizedBitmap = new WriteableBitmap(CropWidth,CropHeight);
             //if (img.UriSource == null)
@@ -283,6 +306,7 @@ namespace MALClient.ViewModels
                 PreviewImageNormal = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
                 UndoCropVisibility = Visibility.Visible;
             }
+            IsCropEnabled = true;
 
         }
 
@@ -330,27 +354,31 @@ namespace MALClient.ViewModels
 
         private async void PinThing()
         {
-            //if we didn't crop
-            if (string.IsNullOrEmpty(_lastCroppedFileName))
+            IsPinEnabled = false;
+            if (SelectedImageOptionIndex == 0)
             {
-                var file = await SaveImage(PreviewImageNormal,false);
-                _lastCroppedFileName = file.Name;
-                //if we din't crop wide either
-                if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
-                    _lastCroppedFileNameWide = file.Name; //set source to this
-            }
-            //if we didn't crop wide... you get the idea
-            if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
-            {
-                //we may have not even opened wide pivot image -> no img loaded -> no width -> assume normal picture
-                if (PreviewImageWide.PixelWidth == 0)
-                    _lastCroppedFileNameWide = _lastCroppedFileName;
-                else
+//if we didn't crop
+                if (string.IsNullOrEmpty(_lastCroppedFileName))
                 {
-                    var file = await SaveImage(PreviewImageWide,true);
-                    _lastCroppedFileNameWide = file.Name;
-                    if (string.IsNullOrEmpty(_lastCroppedFileName))
-                        _lastCroppedFileName = file.Name;
+                    var file = await SaveImage(PreviewImageNormal, false);
+                    _lastCroppedFileName = file.Name;
+                    //if we din't crop wide either
+                    if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
+                        _lastCroppedFileNameWide = file.Name; //set source to this
+                }
+                //if we didn't crop wide... you get the idea
+                if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
+                {
+                    //we may have not even opened wide pivot image -> no img loaded -> no width -> assume normal picture
+                    if (PreviewImageWide.PixelWidth == 0)
+                        _lastCroppedFileNameWide = _lastCroppedFileName;
+                    else
+                    {
+                        var file = await SaveImage(PreviewImageWide, true);
+                        _lastCroppedFileNameWide = file.Name;
+                        if (string.IsNullOrEmpty(_lastCroppedFileName))
+                            _lastCroppedFileName = file.Name;
+                    }
                 }
             }
             var action = new PinTileActionSetting();
@@ -371,8 +399,9 @@ namespace MALClient.ViewModels
                     action.Param = EntryData.Id + "|" + EntryData.Title;
                     break;
             }
-            await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///temp/{_lastCroppedFileName}"), new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}"),PinSettings, action);
+            await LiveTilesManager.PinTile(EntryData, (SelectedImageOptionIndex == 0 ? new Uri($"ms-appdata:///temp/{_lastCroppedFileName}") : null),( SelectedImageOptionIndex == 0 ? new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}") : null),PinSettings, action);
             GeneralVisibility = Visibility.Collapsed;
+            IsPinEnabled = true;
         }
     }
 }

@@ -155,22 +155,29 @@ namespace MALClient
             try
             {
                 //prepare images
-                var file = await StorageFile.GetFileFromApplicationUriAsync(imgUri);
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("PinnedTilesImages",
-                    CreationCollisionOption.OpenIfExists);
-                await file.CopyAsync(folder, entry.Id+".png",NameCollisionOption.ReplaceExisting);
-                
-                if (!imgUri.Equals(wideImgUri))
+                if (imgUri != null)
                 {
-                    file = await StorageFile.GetFileFromApplicationUriAsync(wideImgUri);
-                    await file.CopyAsync(folder, entry.Id + "Wide.png", NameCollisionOption.ReplaceExisting);
-                    wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}Wide.png");
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(imgUri);
+                    var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("PinnedTilesImages",
+                        CreationCollisionOption.OpenIfExists);
+                    await file.CopyAsync(folder, entry.Id + ".png", NameCollisionOption.ReplaceExisting);
+
+                    if (!imgUri.Equals(wideImgUri))
+                    {
+                        file = await StorageFile.GetFileFromApplicationUriAsync(wideImgUri);
+                        await file.CopyAsync(folder, entry.Id + "Wide.png", NameCollisionOption.ReplaceExisting);
+                        wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}Wide.png");
+                    }
+                    else
+                        wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
+
+                    imgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
                 }
                 else
-                    wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
-
-                imgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
-
+                {
+                    imgUri = new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png");
+                    wideImgUri = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
+                }
                 //pin tile
                 if (action.Action == TileActions.OpenUrl)
                 if (!action.Param.Contains("http"))

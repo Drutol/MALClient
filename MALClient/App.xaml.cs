@@ -98,6 +98,11 @@ namespace MALClient
                 // parameter
                 rootFrame.Navigate(typeof(MainPage), navArgs);
             }
+            else
+            {
+                ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
+            }
             // Ensure the current window is active
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();

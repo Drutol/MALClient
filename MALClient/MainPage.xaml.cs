@@ -17,16 +17,13 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
-#pragma warning disable 4014
+
         public MainPage()
         {
             InitializeComponent();
-            ViewModelLocator.Main.View = this;
-#if DEBUG
-            //new MALProfileQuery().GetProfileData();
-#endif
+            Loaded += (a1,a2) => ViewModelLocator.Main.View = this;
         }
-#pragma warning restore 4014
+
         public MainViewModel ViewModel => DataContext as MainViewModel;
         public Tuple<int, string> InitDetails { get; private set; }
 

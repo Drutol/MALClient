@@ -346,27 +346,8 @@ namespace MALClient.ViewModels
         /// <param name="option"></param>
         private void SetSortOrder(SortOptions? option)
         {
-            switch (option ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder)
-                )
-            {
-                case SortOptions.SortNothing:
-                    SortOption = SortOptions.SortNothing;
-                    break;
-                case SortOptions.SortTitle:
-                    SortOption = SortOptions.SortTitle;
-                    break;
-                case SortOptions.SortScore:
-                    SortOption = SortOptions.SortScore;
-                    break;
-                case SortOptions.SortWatched:
-                    SortOption = SortOptions.SortWatched;
-                    break;
-                case SortOptions.SortAirDay:
-                    SortOption = SortOptions.SortAirDay;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            SortOption = option ??
+                           (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder);
         }
 
         private void SetDefaults()

@@ -219,7 +219,7 @@
                                                 <TextBlock VerticalAlignment="Center" Text="Confirm crop:" />
                                                 <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                                         Background="Transparent" BorderThickness="0"
-                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding IsCropEnabled}"
                                                         Command="{Binding CropImageCommand}">
                                                     <SymbolIcon Symbol="Crop" />
                                                 </Button>

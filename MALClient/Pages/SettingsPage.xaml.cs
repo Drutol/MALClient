@@ -110,6 +110,9 @@ namespace MALClient.Pages
                 case SortOptions.SortAirDay:
                     Sort5.IsChecked = true;
                     break;
+                case SortOptions.SortLastWatched:
+                    Sort6.IsChecked = true;
+                    break;
                 default:
                     Sort4.IsChecked = true;
                     break;

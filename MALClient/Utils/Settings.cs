@@ -21,6 +21,9 @@ namespace MALClient
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
                 AnimeItemViewModel.UpdateScoreFlyoutChoices();
                 ViewModelLocator.Hamburger.UpdateApiDependentButtons();
+                //Mal does not provide this thing
+                if (AnimeSortOrder == SortOptions.SortLastWatched)
+                    AnimeSortOrder = SortOptions.SortTitle;
             }
         }
 

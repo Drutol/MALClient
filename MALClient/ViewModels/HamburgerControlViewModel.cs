@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -125,15 +127,10 @@ namespace MALClient.ViewModels
         {
             get
             {
-                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand(() =>
+                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand( () =>
                 {
                     AdLoadingSpinnerVisibility = Visibility.Visible;
-                    if (VungleAdInstance == null)
-                    {
-                        VungleAdInstance = AdFactory.GetInstance("5735f9ae0b3973633c00004b");
 
-                        VungleAdInstance.OnAdPlayableChanged += VungleAdInstanceOnOnAdPlayableChanged;
-                    }
 
                     //var ad = new InterstitialAd();
                     //AdLoadingSpinnerVisibility = Visibility.Visible;
@@ -159,16 +156,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private async void VungleAdInstanceOnOnAdPlayableChanged(object sender, AdPlayableEventArgs adPlayableEventArgs)
-        {
-            AdLoadingSpinnerVisibility = Visibility.Visible;
-            await
-                VungleAdInstance.PlayAdAsync(new AdConfig
-                {
-                    Incentivized = true,
-                    SoundEnabled = true
-                });
-        }
+
 
         public Visibility MalApiSpecificButtonsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;

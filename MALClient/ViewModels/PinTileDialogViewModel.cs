@@ -258,7 +258,7 @@ namespace MALClient.ViewModels
                 await resizedBitmap.LoadAsync(imgFile);
             }
             else               
-                await resizedBitmap.LoadAsync((await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery)).First(storageFile => storageFile.Name == _lastCroppedFileName));
+                await resizedBitmap.LoadAsync(await StorageFile.GetFileFromApplicationUriAsync(img.UriSource));
 
             if(wide)
                 resizedBitmap = resizedBitmap.Crop(CropLeftWide, CropTopWide, CropWidthWide + CropLeftWide, CropTopWide + CropHeightWide);
@@ -275,10 +275,15 @@ namespace MALClient.ViewModels
             await resizedBitmap.SaveAsync(file, BitmapEncoder.PngEncoderId);
 
             if (wide)
+            {
                 PreviewImageWide = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
+            }
             else
+            {
                 PreviewImageNormal = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
-            UndoCropVisibility = Visibility.Visible;
+                UndoCropVisibility = Visibility.Visible;
+            }
+
         }
 
         private void ResetCrop(bool wide = false)
@@ -367,8 +372,6 @@ namespace MALClient.ViewModels
                     break;
             }
             await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///temp/{_lastCroppedFileName}"), new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}"),PinSettings, action);
-
-
             GeneralVisibility = Visibility.Collapsed;
         }
     }

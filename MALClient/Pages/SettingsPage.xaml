@@ -14,6 +14,16 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Pivot SelectionChanged="Pivot_OnSelectionChanged">
             <Pivot.Items>
@@ -84,9 +94,14 @@
                                             <ToggleMenuFlyoutItem x:Name="Sort5" Text="Soonest airing"
                                                                   Click="SelectSortOrder"
                                                                   BorderBrush="LightGray" BorderThickness="0,1,0,1"
-                                                                  Background="{ThemeResource BrushRowAlternate2}" />
-                                            <ToggleMenuFlyoutItem x:Name="Sort4" Text="None" Click="SelectSortOrder"
+                                                                  Background="{ThemeResource BrushRowAlternate2}" /> 
+                                            <ToggleMenuFlyoutItem x:Name="Sort6" Text="Last watched" IsEnabled="{Binding HumApiDependatedntSectionsEnabled}"
+                                                                  Click="SelectSortOrder"
+                                                                  BorderBrush="LightGray"
+                                                                  BorderThickness="0,1,0,1"
                                                                   Background="{ThemeResource BrushRowAlternate1}" />
+                                            <ToggleMenuFlyoutItem x:Name="Sort4" Text="None" Click="SelectSortOrder"
+                                                                  Background="{ThemeResource BrushRowAlternate2}" />
                                             <MenuFlyoutSeparator />
                                             <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending"
                                                                   Click="ChangeSortOrder" />

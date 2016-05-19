@@ -18,6 +18,16 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
     </Page.Resources>
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid x:Name="RootGrid" Background="{ThemeResource BrushDetailsBackground}">
         <ScrollViewer x:Name="ScrollingContainer" VerticalScrollBarVisibility="Hidden" />
         <Grid x:Name="ContentGrid">

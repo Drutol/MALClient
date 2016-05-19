@@ -1,7 +1,11 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MALClient.ViewModels;
+using VungleSDK;
 
 #pragma warning disable 4014
 
@@ -70,6 +74,36 @@ namespace MALClient.UserControls
             //    item.Visibility = Visibility.Collapsed;
             //    break;
             //}
+        }
+
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            _viewModel.AdLoadingSpinnerVisibility = Visibility.Visible;
+            if (VungleAdInstance == null)
+            {
+                VungleAdInstance = AdFactory.GetInstance("5735f9ae0b3973633c00004b");
+
+                VungleAdInstance.OnAdPlayableChanged += VungleAdInstanceOnOnAdPlayableChanged;
+
+            }
+        }
+
+        public VungleAd VungleAdInstance { get; set; }
+
+        private async void VungleAdInstanceOnOnAdPlayableChanged(object sender, AdPlayableEventArgs adPlayableEventArgs)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            {
+                _viewModel.AdLoadingSpinnerVisibility = Visibility.Collapsed;
+                await
+                    VungleAdInstance.PlayAdAsync(new AdConfig
+                    {
+                        Incentivized = true,
+                        SoundEnabled = true,                       
+                    });
+            });
+
         }
     }
 }

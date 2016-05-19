@@ -239,6 +239,7 @@ namespace MALClient.Pages
             Sort3.IsChecked = false;
             Sort4.IsChecked = false;
             Sort5.IsChecked = false;
+            Sort6.IsChecked = false;
             btn.IsChecked = true;
             SortOptions sortOptions;
             switch (btn.Text)
@@ -255,6 +256,9 @@ namespace MALClient.Pages
                 case "Soonest airing":
                     sortOptions = SortOptions.SortAirDay;
                     break;
+                case "Last watched":
+                    sortOptions = SortOptions.SortLastWatched;
+                    break;;
                 default:
                     sortOptions = SortOptions.SortNothing;
                     break;

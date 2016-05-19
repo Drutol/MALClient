@@ -9,7 +9,15 @@
     xmlns:items="using:MALClient.Items"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=HumProfilePage}">
-
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
     <Page.Resources>
         <ResourceDictionary>
             <conversters:UrlToBitmapImageConverter x:Key="BitmapImageConverter" />

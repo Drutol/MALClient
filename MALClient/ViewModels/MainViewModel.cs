@@ -87,6 +87,10 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
+                    var detail = ViewModelLocator.AnimeDetails;
+                    detail.DetailImage = null;
+                    detail.LeftDetailsRow.Clear();
+                    detail.RightDetailsRow.Clear();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;

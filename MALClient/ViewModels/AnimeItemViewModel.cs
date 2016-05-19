@@ -380,6 +380,7 @@ namespace MALClient.ViewModels
                 ParentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyEpisodesBindShort);
+                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
 

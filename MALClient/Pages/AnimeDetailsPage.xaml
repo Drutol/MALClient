@@ -131,7 +131,32 @@
                         </StackPanel>
                     </Button>
                 </StackPanel>
-                <ProgressRing Grid.Row="0" Grid.Column="1" Width="50" Height="50" HorizontalAlignment="Right"
+                <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
+                        Command="{Binding IncrementEpsCommand}"
+                        IsEnabled="{Binding IsIncrementButtonEnabled}"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                        Margin="5"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Add" />
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleY=".75" ScaleX=".75" />
+                        </Button.RenderTransform>
+                    </Button>
+                    <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
+                        Command="{Binding  DecrementEpsCommand}"
+                        IsEnabled="{Binding IsDecrementButtonEnabled}"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                        Margin="5,0"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        <SymbolIcon Symbol="Remove" />
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleY=".75" ScaleX=".75" />
+                        </Button.RenderTransform>
+                    </Button>
+                </StackPanel>
+                <ProgressRing Grid.Row="0" Grid.Column="1" Width="30" Height="30" Margin="0,10,45,0" HorizontalAlignment="Right"
                               VerticalAlignment="Top" IsActive="True"
                               Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
                 <Grid Grid.Row="0" Grid.Column="1"

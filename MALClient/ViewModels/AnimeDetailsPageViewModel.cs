@@ -192,6 +192,10 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => MyScoreBind);
                 RaisePropertyChanged(() => MyStartDate);
                 RaisePropertyChanged(() => MyEndDate);
+                RaisePropertyChanged(() => IncrementEpsCommand);
+                RaisePropertyChanged(() => DecrementEpsCommand);
+                RaisePropertyChanged(() => IsIncrementButtonEnabled);
+                RaisePropertyChanged(() => IsDecrementButtonEnabled);
             }
 
             //Procceed accordingly to navigation source
@@ -259,6 +263,28 @@ namespace MALClient.ViewModels
                             SourceTabIndex = DetailsPivotSelectedIndex
                         })
                     {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
+        }
+
+        /// <summary>
+        ///     Launches update of all UI bound variables.
+        /// </summary>
+        /// <param name="callerId">Anime item id that calls this thing.</param>
+        public void UpdateAnimeReferenceUiBindings(int callerId)
+        {
+            if (callerId != Id)
+                return;
+
+            RaisePropertyChanged(() => StartDateTimeOffset);
+            RaisePropertyChanged(() => EndDateTimeOffset);
+            RaisePropertyChanged(() => MyEpisodesBind);
+            RaisePropertyChanged(() => MyStatusBind);
+            RaisePropertyChanged(() => MyScoreBind);
+            RaisePropertyChanged(() => MyStartDate);
+            RaisePropertyChanged(() => MyEndDate);
+            RaisePropertyChanged(() => IncrementEpsCommand);
+            RaisePropertyChanged(() => DecrementEpsCommand);
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
         }
 
         public static void UpdateScoreFlyoutChoices()
@@ -1015,6 +1041,13 @@ namespace MALClient.ViewModels
 
         #region ChangeStuff
 
+        public bool IsIncrementButtonEnabled
+            => (_animeItemReference as AnimeItemViewModel)?.IncrementEpsVisibility == Visibility.Visible;
+        public bool IsDecrementButtonEnabled
+            => (_animeItemReference as AnimeItemViewModel)?.DecrementEpsVisibility == Visibility.Visible;
+        public ICommand IncrementEpsCommand => (_animeItemReference as AnimeItemViewModel)?.IncrementWatchedCommand;
+        public ICommand DecrementEpsCommand => (_animeItemReference as AnimeItemViewModel)?.DecrementWatchedCommand;
+
         private Query GetAppropriateUpdateQuery()
         {
             if (_animeMode)
@@ -1229,6 +1262,10 @@ namespace MALClient.ViewModels
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
+            RaisePropertyChanged(() => IncrementEpsCommand);
+            RaisePropertyChanged(() => DecrementEpsCommand);
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
         }
 
         private async void RemoveAnime()

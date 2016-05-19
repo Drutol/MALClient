@@ -6,6 +6,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -162,7 +163,16 @@ namespace MALClient
 
         private async void LaunchUri(string url)
         {
-            await Launcher.LaunchUriAsync(new Uri(url));
+            try
+            {
+                await Launcher.LaunchUriAsync(new Uri(url));
+            }
+            catch (Exception)
+            {
+               //wrong url provided
+               Utils.GiveStatusBarFeedback("Invalid target url...");
+            }
+
         }
 
 
@@ -201,6 +211,18 @@ namespace MALClient
             }
             await DataCache.SaveVolatileData();
             await DataCache.SaveHumMalIdDictionary();
+            try
+            {
+                foreach (var file in await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery))
+                    if (file.Name.Contains("_cropTemp"))
+                        await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+            catch (Exception)
+            {
+                //well...
+            }
+
+
             deferral.Complete();
         }
     }

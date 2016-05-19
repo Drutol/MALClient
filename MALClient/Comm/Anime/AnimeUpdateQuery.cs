@@ -12,6 +12,7 @@ namespace MALClient.Comm
         public AnimeUpdateQuery(IAnimeData item)
             : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate)
         {
+            LiveTilesManager.UpdateTile(item);
         }
 
 

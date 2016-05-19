@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -252,7 +253,10 @@ namespace MALClient.ViewModels
             //await resizedBitmap.LoadAsync(_originaPickedStorageFile);
             /*else*/
             if (!img.UriSource.ToString().Contains("ms-appdata"))
-                await resizedBitmap.LoadFromBitmapImageSourceAsync(img);
+            {
+                var imgFile = await SaveImage(img,wide);
+                await resizedBitmap.LoadAsync(imgFile);
+            }
             else               
                 await resizedBitmap.LoadAsync((await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery)).First(storageFile => storageFile.Name == _lastCroppedFileName));
 
@@ -291,14 +295,32 @@ namespace MALClient.ViewModels
             }          
         }
 
-        private async Task<StorageFile> SaveImage(bool wide)
+        private async Task<StorageFile> SaveImage(BitmapImage img,bool wide)
         {
-            var img = wide ? PreviewImageWide : PreviewImageNormal;
-            var bmp = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
-            bmp = await bmp.LoadFromBitmapImageSourceAsync(img);
+            var uri = img.UriSource;
+
+            var http = new HttpClient();
+            byte[] response = { };
             var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
-            await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+            //get bytes
+            await Task.Run(async () => response = await http.GetByteArrayAsync(uri));
+
+
+            var fs = await file.OpenStreamForWriteAsync(); //get stream
+            var writer = new DataWriter(fs.AsOutputStream());
+
+            writer.WriteBytes(response); //write
+            await writer.StoreAsync();
+            await writer.FlushAsync();
+
+            writer.Dispose();
             return file;
+
+            //var bmp = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
+            //bmp = await bmp.LoadFromBitmapImageSourceAsync(img);
+
+            //await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+            //return file;
         }
 
         private async void PinThing()
@@ -306,7 +328,7 @@ namespace MALClient.ViewModels
             //if we didn't crop
             if (string.IsNullOrEmpty(_lastCroppedFileName))
             {
-                var file = await SaveImage(false);
+                var file = await SaveImage(PreviewImageNormal,false);
                 _lastCroppedFileName = file.Name;
                 //if we din't crop wide either
                 if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
@@ -320,7 +342,7 @@ namespace MALClient.ViewModels
                     _lastCroppedFileNameWide = _lastCroppedFileName;
                 else
                 {
-                    var file = await SaveImage(true);
+                    var file = await SaveImage(PreviewImageWide,true);
                     _lastCroppedFileNameWide = file.Name;
                     if (string.IsNullOrEmpty(_lastCroppedFileName))
                         _lastCroppedFileName = file.Name;
@@ -346,9 +368,7 @@ namespace MALClient.ViewModels
             }
             await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///temp/{_lastCroppedFileName}"), new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}"),PinSettings, action);
 
-            foreach (var file in await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery))
-                if(file.Name.Contains("_cropTemp"))
-                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
             GeneralVisibility = Visibility.Collapsed;
         }
     }

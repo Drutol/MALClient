@@ -263,7 +263,7 @@
                             <TextBlock Text="Tile contents:" FontSize="18" FontWeight="SemiLight"
                                        HorizontalAlignment="Left" Margin="5" />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <StackPanel>
+                                <StackPanel Margin="25,0,0,0">
                                     <CheckBox x:Name="PinDialogTitleCheckbox" Content="Title"
                                               IsChecked="{Binding PinSettings.AddTitle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                     <CheckBox Content="Big title"

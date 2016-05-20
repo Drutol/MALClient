@@ -33,7 +33,9 @@ namespace MALClient
         public bool AddImage { get; set; } = true;
         public bool AddAirDay { get; set; } = true;
         public bool AddWatched { get; set; } = true;
-        public bool BigTitle { get; set; } = false;
+        public bool AddBranding { get; set; } = true;
+        public bool BigTitle { get; set; }
+        public bool AnythingAtAll => AddTitle || AddScore || AddStatus || AddAirDay || AddWatched;
     }
 
     public class PinTileActionSetting
@@ -188,7 +190,8 @@ namespace MALClient
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();
                 RegisterTileCache(entry.Id,new PinnedTileCache {ImgUri = imgUri,WideImgUri = wideImgUri,Settings = settings});
-                UpdateTile(entry,imgUri,wideImgUri,settings);
+                if(settings.AnythingAtAll)
+                    UpdateTile(entry,imgUri,wideImgUri,settings);
             }
             catch (Exception)
             {
@@ -201,7 +204,7 @@ namespace MALClient
             //scaryy...
             StringBuilder tileXmlString = new StringBuilder();
             tileXmlString.Append("<tile>");
-            tileXmlString.Append("<visual version='3' branding='nameAndLogo'>");
+            tileXmlString.Append($"<visual version='3' {(settings.AddBranding ? "branding='nameAndLogo'" : "")}>");
             tileXmlString.Append("<binding template='TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>");
             if (settings.AddImage) tileXmlString.Append($"<image id=\"1\" src=\"{imgUri}\"/>");
             if (settings.AddTitle) tileXmlString.Append($"<text hint-style=\"subtitle\" hint-wrap=\"true\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");

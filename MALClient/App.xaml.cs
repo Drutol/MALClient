@@ -98,7 +98,7 @@ namespace MALClient
                 // parameter
                 rootFrame.Navigate(typeof(MainPage), navArgs);
             }
-            else
+            else if(!string.IsNullOrEmpty(e.Arguments))
             {
                 ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));

@@ -277,6 +277,8 @@
                                               IsChecked="{Binding PinSettings.AddWatched,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                     <CheckBox Content="Air day"
                                               IsChecked="{Binding PinSettings.AddAirDay,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="Branding"
+                                              IsChecked="{Binding PinSettings.AddBranding,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                                 <StackPanel>
                                     <CheckBox Content="Score"

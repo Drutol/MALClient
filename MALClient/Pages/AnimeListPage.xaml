@@ -130,7 +130,7 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
-        <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}"
+        <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeListItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <ListView.ItemContainerStyle>
@@ -148,7 +148,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeItems}"
+        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
                   SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
                   ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">

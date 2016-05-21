@@ -112,7 +112,7 @@ namespace MALClient
             if (string.IsNullOrWhiteSpace(tiles))
                 return;
 
-
+            bool removed = false;
             var newTiles = "";
             //var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("PinnedTilesImages",
             //    CreationCollisionOption.OpenIfExists);
@@ -136,6 +136,7 @@ namespace MALClient
                                 await (await StorageFile.GetFileFromApplicationUriAsync(cache.WideImgUri)).DeleteAsync(
                                     StorageDeleteOption.PermanentDelete);
                             }
+                            removed = true;
                             _pinnedCache.Remove(id);
                         }
                     }
@@ -149,6 +150,8 @@ namespace MALClient
                     newTiles += tileId + ";";
                 }
             }
+            if (removed)
+                SavePinnedData();
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
         }
 
@@ -225,10 +228,18 @@ namespace MALClient
             tileXmlString.Append("</tile>");
             //uff, yup... that was scarry mess
 
-            var mgr = TileUpdateManager.CreateTileUpdaterForSecondaryTile(entry.Id.ToString());
-            var notif = new Windows.Data.Xml.Dom.XmlDocument();
-            notif.LoadXml(tileXmlString.ToString());
-            mgr.Update(new TileNotification(notif));
+            try
+            {
+                var mgr = TileUpdateManager.CreateTileUpdaterForSecondaryTile(entry.Id.ToString());
+                var notif = new Windows.Data.Xml.Dom.XmlDocument();
+                notif.LoadXml(tileXmlString.ToString());
+                mgr.Update(new TileNotification(notif));
+            }
+            catch (Exception)
+            {
+                // no tile
+            }
+
         }
 
         /// <summary>

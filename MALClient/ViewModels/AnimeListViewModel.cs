@@ -78,10 +78,25 @@ namespace MALClient.ViewModels
         public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; private set; } =
             new List<AnimeItemAbstraction>();
 
-        public SmartObservableCollection<AnimeItemViewModel> AnimeItems { get; private set; } =
-            new SmartObservableCollection<AnimeItemViewModel>();
+        private SmartObservableCollection<AnimeItemViewModel> _animeItems = new SmartObservableCollection<AnimeItemViewModel>();
+  
+          private SmartObservableCollection<AnimeItemViewModel> AnimeItems
+          {
+              get { return _animeItems; }
+              set
+              {
+                  _animeItems = value;
+                  RaisePropertyChanged(() => AnimeListItems);
+                  RaisePropertyChanged(() => AnimeGridItems);
+              }
+          }
+  
+          public SmartObservableCollection<AnimeItemViewModel> AnimeListItems => DisplayMode == AnimeListDisplayModes.IndefiniteList ? AnimeItems : null;
+  
+          public SmartObservableCollection<AnimeItemViewModel> AnimeGridItems => DisplayMode == AnimeListDisplayModes.IndefiniteGrid ? AnimeItems : null;
+  
 
-        public SmartObservableCollection<ListViewItem> SeasonSelection { get; } =
+          public SmartObservableCollection<ListViewItem> SeasonSelection { get; } =
             new SmartObservableCollection<ListViewItem>();
 
 

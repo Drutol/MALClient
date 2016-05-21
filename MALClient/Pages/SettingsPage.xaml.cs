@@ -427,7 +427,7 @@ namespace MALClient.Pages
         {
             if ((sender as Pivot).SelectedIndex == 1)
                 PopulateCachedEntries();
-            else if ((sender as Pivot).SelectedIndex == 4)
+            else if ((sender as Pivot).SelectedIndex == 5)
                 ViewModel.LoadNews();
         }
     }

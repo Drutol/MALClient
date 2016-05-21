@@ -117,6 +117,12 @@ namespace MALClient.ViewModels
             }
         }
 
+        public bool EnableHearthAnimation
+         {
+             get { return Settings.EnableHearthAnimation; }
+             set { Settings.EnableHearthAnimation = value; }
+         }
+
         public int RatePopUpStartupCounter
         {
             get { return RateReminderPopUp.LaunchThresholdValue - Settings.RatePopUpStartupCounter; }
@@ -237,6 +243,9 @@ namespace MALClient.ViewModels
 
         public Visibility MalApiDependatedntSectionsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+
+        public bool HumApiDependatedntSectionsEnabled
+             => Settings.SelectedApiType != ApiType.Mal;
 
         public async void LoadNews()
         {

@@ -44,6 +44,9 @@
                     TargetProperty="(Button.RenderTransform).(RotateTransform.Angle)">
             <DoubleAnimation EnableDependentAnimation="True" From="0.0" To="90.0" Duration="0:0:.25" />
         </Storyboard>
+        <Storyboard x:Name="SupportMeStoryboard" TargetName="HearthSupport" TargetProperty="Color" AutoReverse="True" RepeatBehavior="Forever">
+            <ColorAnimation From="{StaticResource SystemAccentColor}" To="Red" SpeedRatio=".5"/>
+        </Storyboard>
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Stretch">
@@ -400,10 +403,13 @@
                                            HorizontalAlignment="Center" Grid.Column="0" Margin="0,0,2,0"
                                            VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
                                            Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}"
-                                           Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                                           >
                                     <TextBlock.RenderTransform>
                                         <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                     </TextBlock.RenderTransform>
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush x:Name="HearthSupport" Color="{StaticResource SystemAccentColor}"/>
+                                    </TextBlock.Foreground>
                                 </TextBlock>
                                 <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
                                               Grid.Column="0" IsActive="True"

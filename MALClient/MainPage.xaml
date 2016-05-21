@@ -20,6 +20,11 @@
             <PopInThemeAnimation Storyboard.TargetName="PinDialogInner" FromVerticalOffset="-20"
                                  FromHorizontalOffset="0" />
         </Storyboard>
+        <Storyboard x:Name="FadeOutPinDialogStoryboard">
+            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
+                              EnableDependentAnimation="True" From="1" To="0" />
+            <PopOutThemeAnimation Storyboard.TargetName="PinDialogInner" />
+        </Storyboard>
         <Storyboard x:Name="FadeInCurrentStatus">
             <DoubleAnimation Storyboard.TargetName="CurrentStatus" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
                              EnableDependentAnimation="True" From="0" To="1" />
@@ -284,7 +289,7 @@
                                                 <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                                         Background="Transparent" BorderThickness="0"
                                                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                        Command="{Binding CropImageCommand}">
+                                                        Command="{Binding CropImageCommand}" IsEnabled="{Binding IsCropEnabled}">
                                                     <SymbolIcon Symbol="Crop" />
                                                 </Button>
                                             </StackPanel>
@@ -314,7 +319,7 @@
                                                 <Button VerticalAlignment="Center" Background="Transparent"
                                                         BorderThickness="0"
                                                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                        Command="{Binding CropWideImageCommand}">
+                                                        Command="{Binding CropWideImageCommand}" IsEnabled="{Binding IsCropEnabled}">
                                                     <SymbolIcon Symbol="Crop" />
                                                 </Button>
                                             </StackPanel>
@@ -340,7 +345,9 @@
                                     <CheckBox Content="Watched"
                                               IsChecked="{Binding PinSettings.AddWatched,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                     <CheckBox Content="Air day"
-                                              IsChecked="{Binding PinSettings.AddAirDay,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                              IsChecked="{Binding PinSettings.AddAirDay,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />                                    
+                                    <CheckBox Content="Branding"
+                                              IsChecked="{Binding PinSettings.AddBranding,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                                 <StackPanel>
                                     <CheckBox Content="Score"
@@ -351,7 +358,7 @@
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Row="3" Margin="5,6,5,0" Content="Pin" HorizontalAlignment="Stretch"
-                                Command="{Binding PinThingCommand}" />
+                                Command="{Binding PinThingCommand}" IsEnabled="{Binding IsPinEnabled}"/>
                     </Grid>
                 </ScrollViewer>
             </Grid>

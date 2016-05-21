@@ -80,6 +80,7 @@ namespace MALClient
         public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
         public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
         public Storyboard CurrentOffStatusStoryboard => FadeInCurrentOffStatus;
+        public Storyboard HidePinDialogStoryboard => FadeOutPinDialogStoryboard;
 
         private double GetStartingSplitterWidth()
         {

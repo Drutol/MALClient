@@ -32,6 +32,7 @@ namespace MALClient.ViewModels
         Storyboard PinDialogStoryboard { get; }
         Storyboard CurrentStatusStoryboard { get; }
         Storyboard CurrentOffStatusStoryboard { get; }
+        Storyboard HidePinDialogStoryboard { get; }
     }
 
     public class MainViewModel : ViewModelBase

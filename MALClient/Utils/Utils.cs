@@ -398,6 +398,29 @@ namespace MALClient
         public static async void GiveStatusBarFeedback(string text)
         {
         }
-        
-    }
+
+        public static string ShortDayToFullDay(string sub)
+          {
+              switch (sub)
+              {
+                  case "Fri":
+                      return "Friday";
+                  case "Mon":
+                      return "Monday";
+                  case "Sat":
+                      return "Saturday";
+                  case "Sun":
+                      return "Sunday";
+                  case "Thu":
+                      return "Thursday";
+                  case "Tue":
+                      return "Tuesday";
+                  case "Wed":
+                      return "Wednesday";
+                  default:
+                      return "";
+              }
+          }
+
+}
 }

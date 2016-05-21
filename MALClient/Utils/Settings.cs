@@ -21,6 +21,8 @@ namespace MALClient
                 AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices();
                 AnimeItemViewModel.UpdateScoreFlyoutChoices();
                 ViewModelLocator.Hamburger.UpdateApiDependentButtons();
+                if (AnimeSortOrder == SortOptions.SortLastWatched)
+                    AnimeSortOrder = SortOptions.SortTitle;
             }
         }
 
@@ -216,6 +218,12 @@ namespace MALClient
                         (ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.AnnHum);
             }
             set { ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] = (int) value; }
+        }
+
+        public static bool EnableHearthAnimation
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] = value; }
         }
 
         #region Views

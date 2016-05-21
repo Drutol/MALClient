@@ -33,7 +33,9 @@ namespace MALClient
         public bool AddImage { get; set; } = true;
         public bool AddAirDay { get; set; } = true;
         public bool AddWatched { get; set; } = true;
-        public bool BigTitle { get; set; } = false;
+        public bool AddBranding { get; set; } = true;
+        public bool BigTitle { get; set; }
+        public bool AnythingAtAll => AddTitle || AddScore || AddStatus || AddAirDay || AddWatched;
     }
 
     public class PinTileActionSetting
@@ -147,41 +149,51 @@ namespace MALClient
                     newTiles += tileId + ";";
                 }
             }
+            SavePinnedData();
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
         }
 
-        public static async Task PinTile(IAnimeData entry, Uri imgUri, Uri wideImgUri,PinTileSettings settings,PinTileActionSetting action)
+        public static async Task PinTile(IAnimeData entry, Uri imgUri, Uri wideImgUri, PinTileSettings settings,
+            PinTileActionSetting action)
         {
             try
             {
                 //prepare images
-                var file = await StorageFile.GetFileFromApplicationUriAsync(imgUri);
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("PinnedTilesImages",
-                    CreationCollisionOption.OpenIfExists);
-                await file.CopyAsync(folder, entry.Id+".png",NameCollisionOption.ReplaceExisting);
-                
-                if (!imgUri.Equals(wideImgUri))
+                if (imgUri != null)
                 {
-                    file = await StorageFile.GetFileFromApplicationUriAsync(wideImgUri);
-                    await file.CopyAsync(folder, entry.Id + "Wide.png", NameCollisionOption.ReplaceExisting);
-                    wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}Wide.png");
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(imgUri);
+                    var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("PinnedTilesImages",
+                        CreationCollisionOption.OpenIfExists);
+                    await file.CopyAsync(folder, entry.Id + ".png", NameCollisionOption.ReplaceExisting);
+
+                    if (!imgUri.Equals(wideImgUri))
+                    {
+                        file = await StorageFile.GetFileFromApplicationUriAsync(wideImgUri);
+                        await file.CopyAsync(folder, entry.Id + "Wide.png", NameCollisionOption.ReplaceExisting);
+                        wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}Wide.png");
+                    }
+                    else
+                        wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
+
+                    imgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
                 }
                 else
-                    wideImgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
-
-                imgUri = new Uri($"ms-appdata:///local/PinnedTilesImages/{entry.Id}.png");
-
+                {
+                    imgUri = new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png");
+                    wideImgUri = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
+                }
                 //pin tile
                 if (action.Action == TileActions.OpenUrl)
-                if (!action.Param.Contains("http"))
-                    action.Param = "http://" + action.Param;
-                var tile = new SecondaryTile($"{entry.Id}", $"{entry.Title}", string.Join(";",new string[] { action.Action.ToString(), action.Param}), imgUri,
+                    if (!action.Param.Contains("http"))
+                        action.Param = "http://" + action.Param;
+                var tile = new SecondaryTile(entry.Id.ToString(), "MALClient", string.Join(";", new string[] { action.Action.ToString(), action.Param }), imgUri,
                     TileSize.Square150x150);
                 tile.WideLogo = wideImgUri;
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();
-                RegisterTileCache(entry.Id,new PinnedTileCache {ImgUri = imgUri,WideImgUri = wideImgUri,Settings = settings});
-                UpdateTile(entry,imgUri,wideImgUri,settings);
+                RegisterTileCache(entry.Id, new PinnedTileCache { ImgUri = imgUri, WideImgUri = wideImgUri, Settings = settings });
+                if (settings.AnythingAtAll)
+                    UpdateTile(entry, imgUri, wideImgUri, settings);
             }
             catch (Exception)
             {
@@ -194,7 +206,7 @@ namespace MALClient
             //scaryy...
             StringBuilder tileXmlString = new StringBuilder();
             tileXmlString.Append("<tile>");
-            tileXmlString.Append("<visual version='2'>");
+            tileXmlString.Append($"<visual version='3' {(settings.AddBranding ? "branding = 'nameAndLogo'" : "")}>");
             tileXmlString.Append("<binding template = 'TileSquare150x150PeekImageAndText01' fallback='TileSquarePeekImageAndText01'>");
             if (settings.AddImage) tileXmlString.Append($"<image id=\"1\" src=\"{imgUri}\" alt=\"alt text\"/>");
             if (settings.AddTitle) tileXmlString.Append($"<text hint-style=\"base\" hint-wrap=\"true\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");
@@ -215,10 +227,19 @@ namespace MALClient
             tileXmlString.Append("</tile>");
             //uff, yup... that was scarry mess
 
-            var mgr = TileUpdateManager.CreateTileUpdaterForSecondaryTile(entry.Id.ToString());
-            var notif = new Windows.Data.Xml.Dom.XmlDocument();
-            notif.LoadXml(tileXmlString.ToString());
-            mgr.Update(new TileNotification(notif));
+            try
+            {
+                var mgr = TileUpdateManager.CreateTileUpdaterForSecondaryTile(entry.Id.ToString());
+                var notif = new Windows.Data.Xml.Dom.XmlDocument();
+                notif.LoadXml(tileXmlString.ToString());
+                mgr.Update(new TileNotification(notif));
+            }
+            catch (Exception)
+            {
+                //with some cache mess it may crash just because
+                //happened only once because of odd development circumstances
+            }
+
         }
 
         /// <summary>

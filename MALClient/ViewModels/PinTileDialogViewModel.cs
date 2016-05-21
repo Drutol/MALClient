@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -31,8 +33,15 @@ namespace MALClient.ViewModels
             set
             {
                 _generalVisibility = value;
-                ViewModelLocator.Main.View.PinDialogStoryboard.Begin();
-                RaisePropertyChanged(() => GeneralVisibility);
+                if (value == Visibility.Visible)
+                {
+                    ViewModelLocator.Main.View.PinDialogStoryboard.Begin();
+                    RaisePropertyChanged(() => GeneralVisibility);
+                }
+                else
+                {
+                    HidePinDialog();
+                }
             }
         }
 
@@ -102,7 +111,7 @@ namespace MALClient.ViewModels
         public string TargetUrl { get; set; }
 
         public string OpenWebsiteText => Settings.SelectedApiType == ApiType.Mal ? "Open in Mal" : "Open in hummingbird";
-            
+
 
         private int _selectedImageOptionIndex = 0;
 
@@ -110,7 +119,7 @@ namespace MALClient.ViewModels
         {
             get { return _selectedImageOptionIndex; }
             set
-            {    
+            {
                 _selectedImageOptionIndex = value;
                 ImagePreviewVisibility = value == 0 ? Visibility.Visible : Visibility.Collapsed;
                 RaisePropertyChanged(() => SelectedImageOptionIndex);
@@ -181,6 +190,28 @@ namespace MALClient.ViewModels
         public int CropWidthWide { get; set; }
         public int CropHeightWide { get; set; }
 
+        public bool _isCropEnabled = true;
+        public bool IsCropEnabled
+        {
+            get { return _isCropEnabled; }
+            set
+            {
+                _isCropEnabled = value;
+                RaisePropertyChanged(() => IsCropEnabled);
+            }
+        }
+
+        public bool _isPinEnabled = true;
+        public bool IsPinEnabled
+        {
+            get { return _isPinEnabled; }
+            set
+            {
+                _isPinEnabled = value;
+                RaisePropertyChanged(() => IsPinEnabled);
+            }
+        }
+
         //private StorageFile _originaPickedStorageFile;
         //private async void LoadSelectedImage()
         //{
@@ -209,6 +240,19 @@ namespace MALClient.ViewModels
         //    PreviewImageNormal = bmp;
         //}
 
+        public async void HidePinDialog()
+        {
+            var sb = ViewModelLocator.Main.View.HidePinDialogStoryboard;
+            sb.Completed += SbOnCompleted;
+            sb.Begin();
+        }
+
+        private void SbOnCompleted(object sender, object o)
+        {
+            (sender as Storyboard).Completed -= SbOnCompleted;
+            RaisePropertyChanged(() => GeneralVisibility);
+        }
+
         public void Load(AnimeItemViewModel data)
         {
             GeneralVisibility = Visibility.Visible;
@@ -224,17 +268,21 @@ namespace MALClient.ViewModels
         private string _lastCroppedFileNameWide;
         private async void CropImage(bool wide = false)
         {
+            IsCropEnabled = false;
             var img = wide ? _previewImageWide : _previewImageNormal;
-            WriteableBitmap resizedBitmap = new WriteableBitmap(CropWidth,CropHeight);
+            WriteableBitmap resizedBitmap = new WriteableBitmap(CropWidth, CropHeight);
             //if (img.UriSource == null)
             //await resizedBitmap.LoadAsync(_originaPickedStorageFile);
             /*else*/
             if (!img.UriSource.ToString().Contains("ms-appdata"))
-                await resizedBitmap.LoadFromBitmapImageSourceAsync(img);
-            else               
-                await resizedBitmap.LoadAsync((await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery)).First(storageFile => storageFile.Name == _lastCroppedFileName));
+            {
+                var imgFile = await SaveImage(img, wide);
+                await resizedBitmap.LoadAsync(imgFile);
+            }
+            else
+                await resizedBitmap.LoadAsync(await StorageFile.GetFileFromApplicationUriAsync(img.UriSource));
 
-            if(wide)
+            if (wide)
                 resizedBitmap = resizedBitmap.Crop(CropLeftWide, CropTopWide, CropWidthWide + CropLeftWide, CropTopWide + CropHeightWide);
             else
                 resizedBitmap = resizedBitmap.Crop(CropLeft, CropTop, CropWidth + CropLeft, CropTop + CropHeight);
@@ -249,10 +297,16 @@ namespace MALClient.ViewModels
             await resizedBitmap.SaveAsync(file, BitmapEncoder.PngEncoderId);
 
             if (wide)
+            {
                 PreviewImageWide = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
+            }
             else
+            {
                 PreviewImageNormal = new BitmapImage(new Uri($"ms-appdata:///temp/{file.Name}"));
-            UndoCropVisibility = Visibility.Visible;
+                UndoCropVisibility = Visibility.Visible;
+            }
+            IsCropEnabled = true;
+
         }
 
         private void ResetCrop(bool wide = false)
@@ -266,44 +320,65 @@ namespace MALClient.ViewModels
             {
                 UndoCropVisibility = Visibility.Collapsed;
                 PreviewImageNormal = new BitmapImage(new Uri(EntryData.ImgUrl));
-            }          
+            }
         }
 
-        private async Task<StorageFile> SaveImage(bool wide)
+        private async Task<StorageFile> SaveImage(BitmapImage img, bool wide)
         {
-            var img = wide ? PreviewImageWide : PreviewImageNormal;
-            var bmp = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
-            bmp = await bmp.LoadFromBitmapImageSourceAsync(img);
+            var uri = img.UriSource;
+
+            var http = new HttpClient();
+            byte[] response = { };
             var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"_cropTemp{(wide ? "Wide" : "")}.png", CreationCollisionOption.GenerateUniqueName);
-            await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+            //get bytes
+            await Task.Run(async () => response = await http.GetByteArrayAsync(uri));
+
+
+            var fs = await file.OpenStreamForWriteAsync(); //get stream
+            var writer = new DataWriter(fs.AsOutputStream());
+
+            writer.WriteBytes(response); //write
+            await writer.StoreAsync();
+            await writer.FlushAsync();
+
+            writer.Dispose();
             return file;
+
+            //var bmp = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
+            //bmp = await bmp.LoadFromBitmapImageSourceAsync(img);
+
+            //await bmp.SaveAsync(file, BitmapEncoder.PngEncoderId);
+            //return file;
         }
 
         private async void PinThing()
         {
-            //if we didn't crop
-            if (string.IsNullOrEmpty(_lastCroppedFileName))
+            IsPinEnabled = false;
+            if (SelectedImageOptionIndex == 0)
             {
-                var file = await SaveImage(false);
-                _lastCroppedFileName = file.Name;
-                //if we din't crop wide either
-                if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
-                    _lastCroppedFileNameWide = file.Name; //set source to this
-            }
-            //if we didn't crop wide... you get the idea
-            if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
-            {
-                //we may have not even opened wide pivot image -> no img loaded -> no width -> assume normal picture
-                if (PreviewImageWide.PixelWidth == 0)
-                {
-                    _lastCroppedFileNameWide = _lastCroppedFileName;
-                    return;
-                }
-
-                var file = await SaveImage(true);
-                _lastCroppedFileNameWide = file.Name;
+                //if we didn't crop
                 if (string.IsNullOrEmpty(_lastCroppedFileName))
+                {
+                    var file = await SaveImage(PreviewImageNormal, false);
                     _lastCroppedFileName = file.Name;
+                    //if we din't crop wide either
+                    if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
+                        _lastCroppedFileNameWide = file.Name; //set source to this
+                }
+                //if we didn't crop wide... you get the idea
+                if (string.IsNullOrEmpty(_lastCroppedFileNameWide))
+                {
+                    //we may have not even opened wide pivot image -> no img loaded -> no width -> assume normal picture
+                    if (PreviewImageWide.PixelWidth == 0)
+                        _lastCroppedFileNameWide = _lastCroppedFileName;
+                    else
+                    {
+                        var file = await SaveImage(PreviewImageWide, true);
+                        _lastCroppedFileNameWide = file.Name;
+                        if (string.IsNullOrEmpty(_lastCroppedFileName))
+                            _lastCroppedFileName = file.Name;
+                    }
+                }
             }
             var action = new PinTileActionSetting();
             switch (SelectedActionIndex)
@@ -323,12 +398,9 @@ namespace MALClient.ViewModels
                     action.Param = EntryData.Id + "|" + EntryData.Title;
                     break;
             }
-            await LiveTilesManager.PinTile(EntryData, new Uri($"ms-appdata:///temp/{_lastCroppedFileName}"), new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}"),PinSettings, action);
-
-            foreach (var file in await ApplicationData.Current.TemporaryFolder.GetFilesAsync(CommonFileQuery.DefaultQuery))
-                if(file.Name.Contains("_cropTemp"))
-                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            await LiveTilesManager.PinTile(EntryData, (SelectedImageOptionIndex == 0 ? new Uri($"ms-appdata:///temp/{_lastCroppedFileName}") : null), (SelectedImageOptionIndex == 0 ? new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}") : null), PinSettings, action);
             GeneralVisibility = Visibility.Collapsed;
+            IsPinEnabled = true;
         }
     }
 }

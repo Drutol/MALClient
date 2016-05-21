@@ -81,13 +81,6 @@ namespace MALClient.Pages
             base.OnNavigatedTo(e);
         }
 
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-        }
-
-
         private void SetSortOrder()
         {
             switch (Settings.AnimeSortOrder)
@@ -234,6 +227,7 @@ namespace MALClient.Pages
             Sort3.IsChecked = false;
             Sort4.IsChecked = false;
             Sort5.IsChecked = false;
+            Sort6.IsChecked = false;
             btn.IsChecked = true;
             SortOptions sortOptions;
             switch (btn.Text)
@@ -249,6 +243,9 @@ namespace MALClient.Pages
                     break;
                 case "Soonest airing":
                     sortOptions = SortOptions.SortAirDay;
+                    break;
+                case "Last watched":
+                    sortOptions = SortOptions.SortLastWatched;
                     break;
                 default:
                     sortOptions = SortOptions.SortNothing;
@@ -315,7 +312,6 @@ namespace MALClient.Pages
 
         private void SliderSetup()
         {
-            SliderItemsPerPage.Value = Settings.ItemsPerPage;
             SliderReccommsToPull.Value = Settings.RecommsToPull;
             SliderReviewsToPull.Value = Settings.ReviewsToPull;
             SliderSeasonalToPull.Value = Settings.SeasonalToPull;
@@ -421,7 +417,7 @@ namespace MALClient.Pages
 
         private void Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((sender as Pivot).SelectedIndex == 4)
+            if ((sender as Pivot).SelectedIndex == 5)
                 ViewModel.LoadNews();
         }
     }

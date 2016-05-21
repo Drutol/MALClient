@@ -117,8 +117,13 @@
                                                                   Click="SelectSortOrder"
                                                                   BorderBrush="LightGray" BorderThickness="0,1,0,1"
                                                                   Background="{ThemeResource BrushRowAlternate2}" />
+                                            <ToggleMenuFlyoutItem x:Name="Sort6" Text="Last watched" IsEnabled="{Binding HumApiDependatedntSectionsEnabled}"
+                                                                   Click="SelectSortOrder"
+                                                                   BorderBrush="LightGray"
+                                                                   BorderThickness="0,1,0,1"
+                                                                    Background="{ThemeResource BrushRowAlternate1}" />
                                             <ToggleMenuFlyoutItem x:Name="Sort4" Text="None" Click="SelectSortOrder"
-                                                                  Background="{ThemeResource BrushRowAlternate1}" />
+                                                                   Background="{ThemeResource BrushRowAlternate2}" />
                                             <MenuFlyoutSeparator />
                                             <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending"
                                                                   Click="ChangeSortOrder" />
@@ -505,22 +510,6 @@
                             <Grid HorizontalAlignment="Stretch" Margin="5,5">
                                 <StackPanel HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="Anime/Manga series per page : " FontWeight="Medium"
-                                                   HorizontalAlignment="Center"
-                                                   TextWrapping="WrapWholeWords" />
-                                        <TextBlock Margin="10,0,0,0"
-                                                   Text="{Binding ElementName=SliderItemsPerPage,Path=Value}"
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    </StackPanel>
-                                    <Slider x:Name="SliderItemsPerPage" Minimum="5" Maximum="20"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
-                                            ValueChanged="ChangeItemsPerPage" />
-                                </StackPanel>
-                            </Grid>
-                            <Grid HorizontalAlignment="Stretch" Margin="5,5">
-                                <StackPanel HorizontalAlignment="Stretch">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <TextBlock Text="Reviews to display : " FontWeight="Medium"
                                                    HorizontalAlignment="Center"
                                                    TextWrapping="WrapWholeWords" />
@@ -594,6 +583,17 @@
                                 <Button Content="Rate now!" Command="{Binding ReviewCommand}"
                                         HorizontalAlignment="Center"
                                         Margin="0,10,0,0" />
+                                <MenuFlyoutSeparator Margin="0,5"/>
+                                <Grid Margin="10" HorizontalAlignment="Center">
+                                    <StackPanel>
+                                        <ToggleSwitch Header="Enable 'Support me' button animation" OnContent="Enabled" OffContent="Disabled" IsOn="{Binding EnableHearthAnimation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock
+                                     Text="Changes visible after restart."
+                                     Margin="0,10,0,0"
+                                     FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
+                                     HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
                         </Grid>
                         <Grid Margin="5" Visibility="Collapsed">

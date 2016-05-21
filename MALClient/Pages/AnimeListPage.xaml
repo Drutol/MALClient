@@ -222,7 +222,7 @@
         </StackPanel>
         <controls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
                                       Margin="3,1,-2,1" Padding="3,0,0,0"
-                                      ItemsSource="{Binding AnimeItems}" SelectionMode="Single"
+                                      ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
 
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
@@ -249,7 +249,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </controls:AlternatingListView>
-        <GridView x:Name="AnimesItemsIndefinite" Grid.Row="1" ItemsSource="{Binding AnimeItems}" MinWidth="400"
+        <GridView x:Name="AnimesItemsIndefinite" Grid.Row="1" ItemsSource="{Binding AnimeListItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick"
@@ -279,7 +279,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-5,0" ItemsSource="{Binding AnimeItems}"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-5,0" ItemsSource="{Binding AnimeGridItems}"
                   MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"

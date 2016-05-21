@@ -122,10 +122,9 @@ namespace MALClient.ViewModels
                     gotArgs = true;
                 }
             }
-            else //assume default AnimeList
-            {
+            else //assume default AnimeList          
                 WorkMode = AnimeListWorkModes.Anime;
-            }
+            
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             switch (WorkMode)
             {
@@ -1213,7 +1212,7 @@ namespace MALClient.ViewModels
         }
 
         public Visibility HumApiSpecificControlsVisibility
-            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;     
 
         #endregion
 

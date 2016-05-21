@@ -37,20 +37,17 @@ namespace MALClient.UserControls
         {
             InitializeComponent();
             Loaded += OnLoaded;
-            SupportMeStoryboard.Begin();
+            if(Settings.EnableHearthAnimation)
+                SupportMeStoryboard.Begin();
         }
 
-        private HamburgerControlViewModel _viewModel => (HamburgerControlViewModel) DataContext;
+        private HamburgerControlViewModel ViewModel => (HamburgerControlViewModel) DataContext;
 
-        public double GetScrollBurgerActualHeight()
-        {
-            return ScrlBurger.ActualHeight;
-        }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            _viewModel.UpdateProfileImg();
-            _viewModel.SetActiveButton(Credentials.Authenticated
+            ViewModel.UpdateProfileImg();
+            ViewModel.SetActiveButton(Credentials.Authenticated
                 ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList)
                 : HamburgerButtons.LogIn);
         }
@@ -80,7 +77,7 @@ namespace MALClient.UserControls
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            _viewModel.AdLoadingSpinnerVisibility = Visibility.Visible;
+            ViewModel.AdLoadingSpinnerVisibility = Visibility.Visible;
             if (VungleAdInstance == null)
             {
                 VungleAdInstance = AdFactory.GetInstance("5735f9ae0b3973633c00004b");
@@ -96,7 +93,7 @@ namespace MALClient.UserControls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
             {
-                _viewModel.AdLoadingSpinnerVisibility = Visibility.Collapsed;
+                ViewModel.AdLoadingSpinnerVisibility = Visibility.Collapsed;
                 await
                     VungleAdInstance.PlayAdAsync(new AdConfig
                     {

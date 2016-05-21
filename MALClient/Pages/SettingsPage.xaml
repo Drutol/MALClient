@@ -547,6 +547,17 @@
                         </StackPanel>
                         <Button Content="Rate now!" Command="{Binding ReviewCommand}" HorizontalAlignment="Center"
                                 Margin="0,10,0,0" />
+                        <MenuFlyoutSeparator Margin="0,5"/>
+                        <Grid Margin="10" HorizontalAlignment="Center">
+                            <StackPanel>
+                                <ToggleSwitch Header="Enable 'Support me' button animation" OnContent="Enabled" OffContent="Disabled" IsOn="{Binding EnableHearthAnimation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock
+                                    Text="Changes visible after restart."
+                                    Margin="0,10,0,0"
+                                    FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
+                                    HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </PivotItem>
                 <PivotItem Header="Calendar">

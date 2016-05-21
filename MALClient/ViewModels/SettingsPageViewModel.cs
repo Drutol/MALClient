@@ -95,6 +95,12 @@ namespace MALClient.ViewModels
             set { Settings.HideSortingSelectionFlyout = value; }
         }
 
+        public bool EnableHearthAnimation
+        {
+            get { return Settings.EnableHearthAnimation; }
+            set { Settings.EnableHearthAnimation = value; }
+        }
+
         public bool RatePopUpEnable
         {
             get { return Settings.RatePopUpEnable; }

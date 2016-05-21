@@ -13,6 +13,7 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility" />
+        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
@@ -41,8 +42,9 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
+                <AppBarButton x:Name="AppBarButtonRefresh" Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" Visibility="{Binding AppbarBtnPinTileVisibility}"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
+            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource VisiblityInverterConverter}}"/>
             <AppBarButton Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ViewsFlyout">

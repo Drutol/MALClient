@@ -268,6 +268,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] = value; }
         }
 
+        public static bool EnableHearthAnimation
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] = value; }
+        }
+
         #endregion
 
         #region RatePopUp

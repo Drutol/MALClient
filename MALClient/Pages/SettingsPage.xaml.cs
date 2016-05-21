@@ -296,14 +296,6 @@ namespace MALClient.Pages
             CmbDefaultMFilter.SelectedIndex = value;
         }
 
-        private void ChangeItemsPerPage(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
-                return;
-            Settings.ItemsPerPage = (int) e.NewValue;
-            ViewModelLocator.AnimeList.UpdatePageSetup(true);
-        }
-
         private void ChangedReviewsToPull(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (!_initialized || Math.Abs(e.NewValue - e.OldValue) < 1)
@@ -328,7 +320,6 @@ namespace MALClient.Pages
 
         private void SliderSetup()
         {
-            SliderItemsPerPage.Value = Settings.ItemsPerPage;
             SliderReccommsToPull.Value = Settings.RecommsToPull;
             SliderReviewsToPull.Value = Settings.ReviewsToPull;
             SliderSeasonalToPull.Value = Settings.SeasonalToPull;

@@ -13,8 +13,6 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility" />
-        <converters:DivideValueConverter x:Key="DivideValueConverter" />
-        <x:String x:Key="PivotPagesString">PivotPages</x:String>
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
@@ -43,8 +41,8 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             <AppBarButton Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ViewsFlyout">

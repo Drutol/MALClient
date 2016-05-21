@@ -16,12 +16,6 @@ namespace MALClient.Items
     {
         private Point _initialPoint;
 
-        public AnimeGridItem(AnimeItemViewModel vm)
-        {
-            DataContext = vm;
-            InitializeComponent();
-        }
-
         public AnimeGridItem()
         {
             InitializeComponent();
@@ -49,6 +43,7 @@ namespace MALClient.Items
             DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
         }
 
+        private bool? _incDecState = null;
         private void AnimeGridItem_OnPointerMoved(object sender, PointerRoutedEventArgs e)
         {
             if (_manip == this)
@@ -62,18 +57,21 @@ namespace MALClient.Items
                     {
                         IncrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
                         DecrementField.Background = new SolidColorBrush(Colors.Black);
+                        _incDecState = true; //inc
 
                     }
                     else if (freeDelta > 0)
                     {
                         IncrementField.Background = new SolidColorBrush(Colors.Black);
                         DecrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                        _incDecState = false; //dec
                     }
                 }
                 else
                 {
                     IncrementField.Background = new SolidColorBrush(Colors.Black);
                     DecrementField.Background = new SolidColorBrush(Colors.Black);
+                    _incDecState = null; //do nothing
                 }
                 if(delta < 100)
                     TranslateTransformSwipe.X = point - _initialPoint.X;
@@ -82,8 +80,14 @@ namespace MALClient.Items
 
         private void AnimeGridItem_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if(_manip != null)
+            if (_manip != null)
                 GoBackStoryboard.Begin();
+
+            if (_incDecState != null)
+                if (_incDecState.Value)
+                    ViewModel.IncrementWatchedCommand.Execute(null);
+                else
+                    ViewModel.DecrementWatchedCommand.Execute(null);
         }
 
         private void AnimeGridItem_OnPointerReleased(object sender, PointerRoutedEventArgs e)

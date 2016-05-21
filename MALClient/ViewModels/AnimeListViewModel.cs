@@ -26,7 +26,7 @@ namespace MALClient.ViewModels
 
     public enum AnimeListDisplayModes
     {
-        //PivotPages,
+        Empty,
         IndefiniteList,
         IndefiniteGrid
     }
@@ -59,8 +59,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        public double MaxWidth => AnimeItemViewModel.MaxWidth;
-        private int _itemsPerPage = Settings.ItemsPerPage;
         private AnimeListDisplayModes? _manuallySelectedViewMode;
         private string _prevListSource;
 
@@ -79,9 +77,6 @@ namespace MALClient.ViewModels
 
         public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; private set; } =
             new List<AnimeItemAbstraction>();
-
-        public SmartObservableCollection<PivotItem> AnimePages { get; private set; } =
-            new SmartObservableCollection<PivotItem>();
 
         public SmartObservableCollection<AnimeItemViewModel> AnimeItems { get; private set; } =
             new SmartObservableCollection<AnimeItemViewModel>();
@@ -103,9 +98,7 @@ namespace MALClient.ViewModels
             NavMgr.ResetBackNav();
             //take out trash
             _animeItemsSet.Clear();
-            AnimePages = new SmartObservableCollection<PivotItem>();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
-            RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
 
             //give visual feedback
@@ -483,16 +476,9 @@ namespace MALClient.ViewModels
         ///     Depending on display mode it distributes items to right containers.
         /// </summary>
         /// <param name="updatePerPage"></param>
-        public async void UpdatePageSetup(bool updatePerPage = false)
+        public async void UpdatePageSetup()
         {
             CanLoadPages = false;
-            if (updatePerPage) //called from settings
-            {
-                _itemsPerPage = Settings.ItemsPerPage; //TODO: refactor
-                return;
-            }
-            var realPage = CurrentPosition;
-            AnimePages = new SmartObservableCollection<PivotItem>();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
@@ -506,7 +492,6 @@ namespace MALClient.ViewModels
                     AnimeItems.AddRange(_animeItemsSet.Take(6).Select(abstraction => abstraction.ViewModel));
                         // 6 seems like reasonable number
                     _animeItemsSet = _animeItemsSet.Skip(6).ToList();
-                    RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
                     View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
@@ -517,7 +502,6 @@ namespace MALClient.ViewModels
                     AnimeItems.AddRange(_animeItemsSet.Take(8).Select(abstraction => abstraction.ViewModel));
                         // 8 seems like reasonable number
                     _animeItemsSet = _animeItemsSet.Skip(8).ToList();
-                    RaisePropertyChanged(() => AnimePages);
                     RaisePropertyChanged(() => AnimeItems);
                     View.IndefiniteScrollViewer.UpdateLayout();
                     ScrollToWithDelay(500);
@@ -1135,7 +1119,7 @@ namespace MALClient.ViewModels
 
         public Tuple<AnimeListDisplayModes, string> CurrentlySelectedDisplayMode
         {
-            get { return DisplayModes[(int) DisplayMode]; }
+            get { return DisplayModes.First(it => it.Item1 == DisplayMode); }
             set
             {
                 DisplayMode = value.Item1;
@@ -1389,9 +1373,7 @@ namespace MALClient.ViewModels
         public void LogOut()
         {
             _animeItemsSet.Clear();
-            AnimePages = new SmartObservableCollection<PivotItem>();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
-            RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
             AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
@@ -1406,9 +1388,7 @@ namespace MALClient.ViewModels
         public void LogIn()
         {
             _animeItemsSet.Clear();
-            AnimePages = new SmartObservableCollection<PivotItem>();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
-            RaisePropertyChanged(() => AnimePages);
             RaisePropertyChanged(() => AnimeItems);
             AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
             _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();

@@ -4,6 +4,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 using MALClient.ViewModels;
 using VungleSDK;
 
@@ -30,12 +31,13 @@ namespace MALClient.UserControls
         Calendar
     }
 
-    public sealed partial class HamburgerControl : UserControl, IHamburgerControlView
+    public sealed partial class HamburgerControl : UserControl
     {
         public HamburgerControl()
         {
             InitializeComponent();
             Loaded += OnLoaded;
+            SupportMeStoryboard.Begin();
         }
 
         private HamburgerControlViewModel _viewModel => (HamburgerControlViewModel) DataContext;
@@ -51,7 +53,6 @@ namespace MALClient.UserControls
             _viewModel.SetActiveButton(Credentials.Authenticated
                 ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList)
                 : HamburgerButtons.LogIn);
-            _viewModel.View = this;
         }
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -105,5 +106,6 @@ namespace MALClient.UserControls
             });
 
         }
+
     }
 }

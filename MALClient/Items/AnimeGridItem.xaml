@@ -9,84 +9,117 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400" ManipulationMode="{Binding ItemManipulationMode}" PointerReleased="AnimeGridItem_OnPointerReleased" ManipulationCompleted="AnimeGridItem_OnManipulationCompleted" PointerMoved="AnimeGridItem_OnPointerMoved" ManipulationStarted="AnimeGridItem_OnManipulationStarted">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+            <Storyboard x:Name="GoBackStoryboard" TargetName="TranslateTransformSwipe" TargetProperty="X" SpeedRatio="5">
+                <DoubleAnimation To="0" Completed="Timeline_OnCompleted"/>
+            </Storyboard>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".5*"/>
+            <ColumnDefinition Width=".5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="DecrementField" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Background="Black">
+            <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <SymbolIcon Symbol="Remove" Foreground="White"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
+                    <SymbolIcon.RenderTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+                <TextBlock Text="Decrement" FontWeight="SemiLight" HorizontalAlignment="Center" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="IncrementField" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="Black">
+            <StackPanel Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <SymbolIcon Symbol="Add" Foreground="White"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
+                    <SymbolIcon.RenderTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+                <TextBlock Text="Increment" FontWeight="SemiLight" HorizontalAlignment="Center" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="TranslateTransformSwipe" Y="0" X="0"/>
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill"
                MaxWidth="{Binding MaxWidth}"
                Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" />
-        <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
+            <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
               Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Grid.Background>
-            <StackPanel Margin="1">
-                <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".75" />
+                </Grid.Background>
+                <StackPanel Margin="1">
+                    <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
                            HorizontalAlignment="Center" />
-                <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
+                    <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
                         Style="{StaticResource ButtonDisabledStyle}"
                         Content="{Binding MyEpisodesBindShort}" Foreground="White"
                         FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         BorderThickness="0,0,0,1"
                         HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick" />
-                <!--<MenuFlyoutSeparator Background="LightGray" />-->
-                <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" Margin="0,5,0,0"
+                    <!--<MenuFlyoutSeparator Background="LightGray" />-->
+                    <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" Margin="0,5,0,0"
                            HorizontalAlignment="Center" />
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="0" Width="45" HorizontalAlignment="Left" VerticalAlignment="Top"
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="0" Width="45" HorizontalAlignment="Left" VerticalAlignment="Top"
               Visibility="{Binding AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter}}">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Grid.Background>
-            <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".75" />
+                </Grid.Background>
+                <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="1" TextAlignment="Center"
                        Foreground="{Binding AirDayBrush}" FontSize="20" />
-        </Grid>
-        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            </Grid>
+            <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
               Visibility="{Binding Type,Converter={StaticResource AnyTextToVisibilityConverter}}">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Grid.Background>
-            <TextBlock Text="{Binding Type}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".75" />
+                </Grid.Background>
+                <TextBlock Text="{Binding Type}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                        VerticalAlignment="Bottom" Margin="5,0,5,5" />
-        </Grid>
-        <Grid Grid.Row="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+            </Grid>
+            <Grid Grid.Row="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
               BorderThickness="0,1.5,0,0"
               MaxWidth="{Binding MaxWidth}" VerticalAlignment="Stretch"
               Background="{ThemeResource BrushAnimeItemBackground}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
-            <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate}" IsActive="True" Width="30" Height="30"
+                <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate}" IsActive="True" Width="30" Height="30"
                           VerticalAlignment="Center" HorizontalAlignment="Center" />
-        </Grid>
-        <Button Grid.Row="0"
+            </Grid>
+            <Button Grid.Row="0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"
                 Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick">
-            <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
+                <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                         Foreground="WhiteSmoke" />
-            <Button.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Button.Background>
-        </Button>
+                <Button.Background>
+                    <SolidColorBrush Color="Black" Opacity=".75" />
+                </Button.Background>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

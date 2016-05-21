@@ -10,6 +10,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -106,7 +107,7 @@ namespace MALClient.ViewModels
             if (ParentAbstraction.RepresentsAnime)
                 MyVolumes = 0;
 
-
+            ItemManipulationMode = ManipulationModes.All;
             AdjustIncrementButtonsVisibility();
             AddToListVisibility = Visibility.Collapsed;
             ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
@@ -167,6 +168,7 @@ namespace MALClient.ViewModels
             Id = id;
             _allEpisodes = allEps;
             Auth = auth;
+            ItemManipulationMode = auth ? ManipulationModes.All : ManipulationModes.None;
             //Assign properties
             MyScore = myScore;
             MyStatus = myStatus;
@@ -198,7 +200,7 @@ namespace MALClient.ViewModels
             //We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
-
+            ItemManipulationMode = ManipulationModes.None;
             Title = data.Title;
             MyScore = 0;
             MyStatus = (int) AnimeStatus.AllOrAiring;
@@ -277,20 +279,6 @@ namespace MALClient.ViewModels
             {
                 _titleMargin = value;
                 RaisePropertyChanged(() => TitleMargin);
-            }
-        }
-
-        private Orientation _incrementButtonsOrientation = Orientation.Vertical;
-
-        public Orientation IncrementButtonsOrientation
-        {
-            get { return _incrementButtonsOrientation; }
-            set
-            {
-                if (_incrementButtonsOrientation == value)
-                    return;
-                _incrementButtonsOrientation = value;
-                RaisePropertyChanged(() => IncrementButtonsOrientation);
             }
         }
 
@@ -572,17 +560,26 @@ namespace MALClient.ViewModels
             }
         }
 
-        //private Brush _rootBrush = new SolidColorBrush(Colors.WhiteSmoke);
+        private ManipulationModes _itemManipulationMode;
 
-        //public Brush RootBrush
-        //{
-        //    get { return _rootBrush; }
-        //    set
-        //    {
-        //        _rootBrush = value;
-        //        RaisePropertyChanged(() => RootBrush);
-        //    }
-        //}
+        public ManipulationModes ItemManipulationMode
+        {
+            get { return _itemManipulationMode; }
+            set
+            {
+                switch (value)
+                {
+                    case ManipulationModes.All:
+                        _itemManipulationMode = ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
+                                                ManipulationModes.System | ManipulationModes.TranslateInertia;
+                        break;
+                    case ManipulationModes.None:
+                        _itemManipulationMode = ManipulationModes.System;
+                        break;
+                }
+                RaisePropertyChanged(() => ItemManipulationMode);
+            }
+        }
 
         private Visibility _loadingUpdate = Visibility.Collapsed;
 

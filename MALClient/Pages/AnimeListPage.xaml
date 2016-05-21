@@ -130,33 +130,6 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
-        <Pivot x:Name="AnimesPivot"
-               Style="{StaticResource PivotStyleAnimeList}"
-               SelectionChanged="AnimesPivot_OnSelectionChanged"
-               SelectedIndex="{Binding AnimesPivotSelectedIndex , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
-               ItemsSource="{Binding AnimePages}"
-               PivotItemLoading="AnimesPivot_OnPivotItemLoading"
-               VerticalAlignment="Stretch"
-               Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource PivotPagesString}}">
-            <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemAnimeList}" />
-            </Pivot.Resources>
-            <Pivot.ItemContainerStyle>
-                <Style TargetType="PivotItem">
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="Margin" Value="1" />
-                </Style>
-            </Pivot.ItemContainerStyle>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <Grid Width="30" Height="30" Margin="2,0" VerticalAlignment="Top"
-                          Visibility="{Binding ElementName=AnimesPivot , Path=DataContext.AnimesPivotHeaderVisibility}">
-                        <TextBlock Text="{Binding}" FontSize="20" Foreground="White" FontWeight="SemiLight"
-                                   VerticalAlignment="Top" HorizontalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-        </Pivot>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">

@@ -197,8 +197,6 @@ namespace MALClient.ViewModels
             {
                 _menuPaneState = value;
                 RaisePropertyChanged(() => MenuPaneState);
-                if (value)
-                    ViewModelLocator.Hamburger.PaneOpened();
             }
         }
 

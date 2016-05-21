@@ -15,6 +15,9 @@
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <Storyboard x:Name="SupportMeStoryboard" TargetName="HearthSupport" TargetProperty="Color" AutoReverse="True" RepeatBehavior="Forever">
+            <ColorAnimation From="{StaticResource SystemAccentColor}" To="Red" SpeedRatio=".5"/>
+        </Storyboard>
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Stretch">
@@ -348,11 +351,13 @@
                                     <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
                                                HorizontalAlignment="Center" Grid.Column="0"
                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
-                                               Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}"
-                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
+                                               Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                                         <TextBlock.RenderTransform>
                                             <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                         </TextBlock.RenderTransform>
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush x:Name="HearthSupport" Color="{StaticResource SystemAccentColor}"/>
+                                        </TextBlock.Foreground>
                                     </TextBlock>
                                     <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
                                                   Grid.Column="0" IsActive="True"

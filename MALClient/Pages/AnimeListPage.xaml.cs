@@ -109,26 +109,6 @@ namespace MALClient.Pages
             FlyoutSeasonSelection.Hide();
         }
 
-        private void AnimesPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
-        {
-            if (ViewModel.CanLoadPages)
-                (args.Item.Content as AnimePagePivotContent).LoadContent();
-        }
-
-
-        private void AnimesPivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (e.RemovedItems.Count > 0)
-                    ((e.RemovedItems.First() as PivotItem).Content as AnimePagePivotContent).ResetSelection();
-            }
-            catch (Exception)
-            {
-                //
-            }
-        }
-
         private async void AnimesItemsIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0)
@@ -152,36 +132,12 @@ namespace MALClient.Pages
             InitializeComponent();
             ViewModel.View = this;
             Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
-            var disp = DisplayInformation.GetForCurrentView();
-            ProcessOrientation(disp.CurrentOrientation);
-            disp.OrientationChanged += OnOrientationChanged;
         }
 
-        private async void ProcessOrientation(DisplayOrientations orientation)
-        {
-            if (orientation == DisplayOrientations.Landscape || orientation == DisplayOrientations.LandscapeFlipped)
-            {
-                ViewModel.MaxGridColumns = 3;
-            }
-            else
-            {
-                ViewModel.MaxGridColumns = 2;
-            }
-        }
-
-        private void OnOrientationChanged(DisplayInformation sender, object args)
-        {
-            ProcessOrientation(sender.CurrentOrientation);
-        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
         }
 
         #endregion

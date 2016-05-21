@@ -10,6 +10,7 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -20,12 +21,6 @@ using VungleSDK;
 
 namespace MALClient.ViewModels
 {
-    public interface IHamburgerControlView
-    {
-        double GetScrollBurgerActualHeight();
-    }
-
-
     public class HamburgerControlViewModel : ViewModelBase
     {
         private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
@@ -58,7 +53,6 @@ namespace MALClient.ViewModels
         public HamburgerControlViewModel()
         {
             ResetActiveButton();
-            PaneOpenedCommand = new RelayCommand(PaneOpened);
             MenuPivotSelectedIndex = Settings.DefaultMenuTab == "anime" ? 0 : 1;
         }
 
@@ -66,8 +60,6 @@ namespace MALClient.ViewModels
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
         public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
-
-        public IHamburgerControlView View { get; set; }
 
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
@@ -248,13 +240,6 @@ namespace MALClient.ViewModels
             BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 48) : new Thickness(0);
         }
 
-        public void PaneOpened()
-        {
-            //var val = Convert.ToInt32(View.GetScrollBurgerActualHeight());
-            //GridSeparatorHeight = val - _stackPanelHeightSum < 0 ? 0 : val - _stackPanelHeightSum;
-            //GridBtmMarginHeight = GridSeparatorHeight < 1 ? 50 : 0;
-        }
-
         internal async Task UpdateProfileImg(bool dl = true)
         {
             if (Credentials.Authenticated)
@@ -303,7 +288,6 @@ namespace MALClient.ViewModels
                     _subtractedHeightForButton = true;
                 }
             }
-            PaneOpened();
         }
 
         private void ResetActiveButton()

@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Store;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -108,6 +109,19 @@ namespace MALClient.UserControls
             });
             _adRequested = false;
 
+        }
+
+        private async void Donate(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as MenuFlyoutItem;
+                await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string, false);
+            }
+            catch (Exception)
+            {
+                // no donation
+            }
         }
 
     }

@@ -566,7 +566,7 @@ namespace MALClient.ViewModels
         {
             get { return _itemManipulationMode; }
             set
-            {
+            {             
                 switch (value)
                 {
                     case ManipulationModes.All:

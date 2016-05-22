@@ -341,8 +341,15 @@
                         <StackPanel Grid.Row="2" Margin="{Binding BottomStackPanelMargin}">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited" Visibility="Visible"
-                                    Command="{Binding ButtonAdCommand}" Click="ButtonBase_OnClick">
+                                    PointerExited="Button_PointerExited" Visibility="Visible">
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate"/>
+                                        <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate"/>
+                                        <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate"/>
+                                        <MenuFlyoutItem Text="Watch ad" Click="ButtonBase_OnClick"/>
+                                    </MenuFlyout>
+                                </Button.Flyout>
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
@@ -362,7 +369,7 @@
                                     <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
                                                   Grid.Column="0" IsActive="True"
                                                   Visibility="{Binding AdLoadingSpinnerVisibility}" />
-                                    <TextBlock Text="Support me! Watch ad!" HorizontalAlignment="Stretch"
+                                    <TextBlock Text="Support me!" HorizontalAlignment="Stretch"
                                                TextWrapping="WrapWholeWords" FontSize="14" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>

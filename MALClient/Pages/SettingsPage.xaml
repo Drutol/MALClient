@@ -574,8 +574,8 @@
                             <TextBlock Text="Start page" FontWeight="Medium"
                                                HorizontalAlignment="Center"
                                                TextWrapping="WrapWholeWords" />
-                            <RadioButton Content="Start on all week page" GroupName="CalendarStartTab" IsChecked="{Binding CalendarStartOnSummary}"/>
-                            <RadioButton Content="Star on today" GroupName="CalendarStartTab" IsChecked="{Binding CalendarStartOnToday,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <RadioButton Content="Start on summary" GroupName="CalendarStartTab" IsChecked="{Binding CalendarStartOnSummary}"/>
+                            <RadioButton Content="Start on today" GroupName="CalendarStartTab" IsChecked="{Binding CalendarStartOnToday,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <MenuFlyoutSeparator Margin="0,5"/>
                         <StackPanel Margin="5" HorizontalAlignment="Center">
@@ -716,15 +716,13 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
-                                            <TextBlock Text="10.05.2016 - v4.0.4.0" />
-                                            <TextBlock Text="Hummingbird support!" />
-                                            <TextBlock
-                                                Text="List caching that can be caller reliable (enabled by default)!" />
-                                            <TextBlock Text="Rewritten ancient code => Better performance!" />
-                                            <TextBlock Text="New logo images." />
-                                            <TextBlock Text="Added air day offset setting." />
-                                            <TextBlock Text="Fixed bug when manipulating newly added anime." />
-                                            <TextBlock Text="Added 'Last watched' sort option for hummingbird." />
+                                            <TextBlock Text="24.05.2016 - v4.1.16.0" />
+                                            <TextBlock Text="Live tiles overhaul." />
+                                            <TextBlock Text="Added calendar page." />
+                                            <TextBlock Text="&quot;Support me&quot; button should now serve ads." />
+                                            <TextBlock Text="Added eye candies aka. animations and transitions." />
+                                            <TextBlock Text="Added swipe gesture on grid view to increment/decrement watched episodes." />
+                                            <TextBlock Text="Details page now includes increment/decrement buttons." />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

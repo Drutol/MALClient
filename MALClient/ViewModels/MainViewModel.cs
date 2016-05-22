@@ -26,7 +26,7 @@ namespace MALClient.ViewModels
     }
 
     public class MainViewModel : ViewModelBase
-    {
+    {        
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
         public PageIndex LastIndex { get; private set; }
@@ -35,6 +35,7 @@ namespace MALClient.ViewModels
 
         internal async Task Navigate(PageIndex index, object args = null)
         {
+            PageIndex originalIndex = index;
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             MenuPaneState = false;
@@ -75,6 +76,16 @@ namespace MALClient.ViewModels
             switch (index)
             {
                 case PageIndex.PageAnimeList:
+                    if (!ViewModelLocator.AnimeList.Initiazlized)
+                    {
+                        if (!_subscribed)
+                        {
+                            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+                            _subscribed = true;
+                        }
+                        _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
+                        return;
+                    }
                     ShowSearchStuff();
                     if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
                         (wasOnSearchPage || _wasOnDetailsFromSearch))
@@ -141,6 +152,15 @@ namespace MALClient.ViewModels
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
             RaisePropertyChanged(() => SearchToggleLock);
+        }
+
+        private bool _subscribed;
+        private Tuple<PageIndex, object> _postponedNavigationArgs;
+        private void AnimeListOnInitialized()
+        {
+            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+            _subscribed = false;
+            Navigate(_postponedNavigationArgs.Item1, _postponedNavigationArgs.Item2);
         }
 
         #region Helpers

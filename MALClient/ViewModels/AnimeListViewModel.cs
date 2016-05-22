@@ -46,9 +46,9 @@ namespace MALClient.ViewModels
         private List<AnimeItemAbstraction> _animeItemsSet =
             new List<AnimeItemAbstraction>(); //All for current list        
 
-        private bool _initialized;
+        private bool _initialized = true;
 
-        private bool Initiazlized
+        public bool Initiazlized 
         {
             get { return _initialized; }
             set
@@ -451,7 +451,7 @@ namespace MALClient.ViewModels
                 return;
             _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
             _scrollHandlerAdded = true;
-            View.IndefiniteScrollViewer.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            View.GetIndefiniteScrollViewer().Result.ViewChanging += IndefiniteScrollViewerOnViewChanging;
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace MALClient.ViewModels
         private async void ScrollToWithDelay(int delay)
         {
             await Task.Delay(delay);
-            View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+            View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace MALClient.ViewModels
         public void ScrollToTop()
         {
             CurrentPosition = 0;
-            View.IndefiniteScrollViewer.ScrollToVerticalOffset(0);
+            View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(0);
             ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
 
@@ -507,8 +507,8 @@ namespace MALClient.ViewModels
                         // 6 seems like reasonable number
                     _animeItemsSet = _animeItemsSet.Skip(6).ToList();
                     RaisePropertyChanged(() => AnimeItems);
-                    View.IndefiniteScrollViewer.UpdateLayout();
-                    View.IndefiniteScrollViewer.ScrollToVerticalOffset(CurrentPosition);
+                    View.GetIndefiniteScrollViewer().Result.UpdateLayout();
+                    View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
                     AddScrollHandler();
                     //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
@@ -517,7 +517,7 @@ namespace MALClient.ViewModels
                         // 8 seems like reasonable number
                     _animeItemsSet = _animeItemsSet.Skip(8).ToList();
                     RaisePropertyChanged(() => AnimeItems);
-                    View.IndefiniteScrollViewer.UpdateLayout();
+                    View.GetIndefiniteScrollViewer().Result.UpdateLayout();
                     ScrollToWithDelay(500);
                     AddScrollHandler();
                     break;
@@ -1121,7 +1121,7 @@ namespace MALClient.ViewModels
                 if (_scrollHandlerAdded && CanAddScrollHandler)
                 {
                     //we don't want to be subscribed to wrong srollviewer
-                    View.IndefiniteScrollViewer.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    View.GetIndefiniteScrollViewer().Result.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
                     _scrollHandlerAdded = false;
                 }
                 View.IndefiniteScrollViewer = null;

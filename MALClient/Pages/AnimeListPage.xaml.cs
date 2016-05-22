@@ -87,15 +87,13 @@ namespace MALClient.Pages
 
         public ScrollViewer IndefiniteScrollViewer
         {
-            get
+            private get
             {
                 return _indefiniteScrollViewer ??
                        (_indefiniteScrollViewer =
                            VisualTreeHelper.GetChild(
-                               VisualTreeHelper.GetChild(
-                                   ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteList
-                                       ? (DependencyObject) AnimesItemsIndefinite
-                                       : AnimesGridIndefinite, 0), 0) as ScrollViewer);
+                               VisualTreeHelper.GetChild((DependencyObject)GetScrollingContainer(), 0), 0) as
+                               ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
         }
@@ -103,6 +101,41 @@ namespace MALClient.Pages
         public Flyout FlyoutViews => ViewsFlyout;
         public Flyout FlyoutFilters => FiltersFlyout;
         public Flyout FlyoutSorting => SortingFlyout;
+
+        public async Task<ScrollViewer> GetIndefiniteScrollViewer()
+        {
+            if (!_loaded)
+            {
+                var retries = 5;
+                while (retries-- > 0 && !_loaded)
+                {
+                    await Task.Delay(50);
+                }
+            }
+            try
+            {
+                if (_loaded)
+                    return IndefiniteScrollViewer;
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private object GetScrollingContainer()
+        {
+            switch (ViewModel.DisplayMode)
+            {
+                case AnimeListDisplayModes.IndefiniteList:
+                    return AnimesItemsIndefinite;
+                case AnimeListDisplayModes.IndefiniteGrid:
+                    return AnimesGridIndefinite;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         public void FlyoutSeasonSelectionHide()
         {
@@ -126,14 +159,17 @@ namespace MALClient.Pages
         }
 
         #region Init
-
+        private bool _loaded;
         public AnimeListPage()
         {
             InitializeComponent();
             ViewModel.View = this;
-            Loaded += (sender, args) => ViewModel.CanAddScrollHandler = true;
+            Loaded += (sender, args) =>
+            {
+                ViewModel.CanAddScrollHandler = true;
+                _loaded = true;
+            };
         }
-
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

@@ -80,19 +80,29 @@ namespace MALClient.Items
 
         private void AnimeGridItem_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (_manip != null)
-                GoBackStoryboard.Begin();
-
+            GoBackStoryboard.Begin();
             if (_incDecState != null)
                 if (_incDecState.Value)
                     ViewModel.IncrementWatchedCommand.Execute(null);
                 else
                     ViewModel.DecrementWatchedCommand.Execute(null);
+
+            _incDecState = null;
+            _manip = null;
         }
 
         private void AnimeGridItem_OnPointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            _manip = null;
+            if (_manip != null)
+                if (_incDecState != null)
+                {
+                    if (_incDecState.Value)
+                        ViewModel.IncrementWatchedCommand.Execute(null);
+                    else
+                        ViewModel.DecrementWatchedCommand.Execute(null);
+                    _incDecState = null;
+                }
+
             GoBackStoryboard.Begin();
         }
 

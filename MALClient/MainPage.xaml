@@ -18,7 +18,7 @@
                              EnableDependentAnimation="True" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="PinDialogInner" FromVerticalOffset="-20"
                                  FromHorizontalOffset="0" />
-        </Storyboard>        
+        </Storyboard>
         <Storyboard x:Name="FadeOutPinDialogStoryboard">
             <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
                              EnableDependentAnimation="True" From="1" To="0" />
@@ -193,7 +193,8 @@
                                 <Pivot PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
                                     <Pivot.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding}" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged"></TextBlock>
+                                            <TextBlock Text="{Binding}"
+                                                       PointerWheelChanged="PinPivotItem_OnPointerWheelChanged" />
                                         </DataTemplate>
                                     </Pivot.HeaderTemplate>
                                     <PivotItem Header="Normal" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
@@ -206,7 +207,28 @@
                                                                          CropLeft="{Binding CropLeft,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                                         CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                <xamlCropControl:CropControl.Style>
+                                                    <Style
+                                                        TargetType="xamlCropControl:CropControl">
+                                                        <Setter
+                                                            Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate
+                                                                    TargetType="xamlCropControl:CropControl">
+                                                                    <Canvas
+                                                                        x:Name="PART_Canvas"
+                                                                        Background="#00000000">
+                                                                        <Image
+                                                                            x:Name="PART_Image"
+                                                                            Stretch="Fill" />
+                                                                    </Canvas>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </xamlCropControl:CropControl.Style>
+                                            </xamlCropControl:CropControl>
                                             <Button HorizontalAlignment="Right" VerticalAlignment="Top"
                                                     Background="Transparent" BorderThickness="0"
                                                     Visibility="{Binding UndoCropVisibility}"
@@ -219,7 +241,8 @@
                                                 <TextBlock VerticalAlignment="Center" Text="Confirm crop:" />
                                                 <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                                         Background="Transparent" BorderThickness="0"
-                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding IsCropEnabled}"
+                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        IsEnabled="{Binding IsCropEnabled}"
                                                         Command="{Binding CropImageCommand}">
                                                     <SymbolIcon Symbol="Crop" />
                                                 </Button>
@@ -236,7 +259,28 @@
                                                                          CropLeft="{Binding CropLeftWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropTop="{Binding CropTopWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropWidth="{Binding CropWidthWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                                         CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <xamlCropControl:CropControl.Style>
+                                                <Style
+                                                        TargetType="xamlCropControl:CropControl">
+                                                    <Setter
+                                                            Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate
+                                                                    TargetType="xamlCropControl:CropControl">
+                                                                <Canvas
+                                                                        x:Name="PART_Canvas"
+                                                                        Background="#00000000">
+                                                                    <Image
+                                                                            x:Name="PART_Image"
+                                                                            Stretch="Fill" />
+                                                                </Canvas>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </xamlCropControl:CropControl.Style>
+                                            </xamlCropControl:CropControl>
                                             <Button HorizontalAlignment="Right" VerticalAlignment="Top"
                                                     Background="Transparent" BorderThickness="0"
                                                     Visibility="{Binding UndoWideCropVisibility}"

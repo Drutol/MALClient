@@ -211,6 +211,7 @@
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CropControl.cs" />
     <Compile Include="UserControls\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>

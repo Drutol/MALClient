@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,15 +14,15 @@ namespace MALClient.Items
     {
         private bool _expandState;
 
-        public AnimeItem(AnimeItemViewModel vm)
-        {
-            InitializeComponent();
-            DataContext = vm;
-        }
-
         public AnimeItem()
         {
             InitializeComponent();
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            Bindings.Update();
         }
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;

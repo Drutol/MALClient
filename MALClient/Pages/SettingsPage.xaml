@@ -716,6 +716,11 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
+                                            <TextBlock Text="28.05.2016 - v4.1.22.0" />
+                                            <TextBlock Text="Improved performance." />
+                                            <TextBlock Text="Fixed issue with too big grid items when starting app in landscape orientation." />
+                                            <TextBlock Text="Removed expand button from reviews. Now whole reviews acts like this button." />
+                                            <MenuFlyoutSeparator/>
                                             <TextBlock Text="24.05.2016 - v4.1.16.0" />
                                             <TextBlock Text="Live tiles overhaul." />
                                             <TextBlock Text="Added calendar page." />

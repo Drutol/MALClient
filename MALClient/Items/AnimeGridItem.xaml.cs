@@ -19,6 +19,12 @@ namespace MALClient.Items
         public AnimeGridItem()
         {
             InitializeComponent();
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            Bindings.Update();
         }
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
@@ -73,7 +79,7 @@ namespace MALClient.Items
                     DecrementField.Background = new SolidColorBrush(Colors.Black);
                     _incDecState = null; //do nothing
                 }
-                if(delta < 100)
+                if(delta < 95)
                     TranslateTransformSwipe.X = point - _initialPoint.X;
             }
         }

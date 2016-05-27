@@ -59,43 +59,46 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill"
-               MaxWidth="{Binding MaxWidth}"
-               Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" />
-            <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
-              Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Height="275"
+               MaxWidth="{Binding MaxWidth}">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl,Mode=OneWay}" DecodePixelType="Logical" DecodePixelHeight="275" DecodePixelWidth="200"></BitmapImage>
+                </Image.Source>
+            </Image>
+                <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
+              Visibility="{x:Bind ViewModel.Auth,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>
                 <StackPanel Margin="1">
-                    <TextBlock Text="{Binding MyStatusBindShort}" Foreground="White" FontWeight="SemiBold"
+                    <TextBlock Text="{x:Bind ViewModel.MyStatusBindShort,Mode=OneWay}" Foreground="White" FontWeight="SemiBold"
                            HorizontalAlignment="Center" />
                     <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
                         Style="{StaticResource ButtonDisabledStyle}"
-                        Content="{Binding MyEpisodesBindShort}" Foreground="White"
+                        Content="{x:Bind ViewModel.MyEpisodesBindShort,Mode=OneWay}" Foreground="White"
                         FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         BorderThickness="0,0,0,1"
                         HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick" />
                     <!--<MenuFlyoutSeparator Background="LightGray" />-->
-                    <TextBlock Text="{Binding MyScoreBindShort}" Foreground="White" FontWeight="SemiLight" Margin="0,5,0,0"
+                    <TextBlock Text="{x:Bind ViewModel.MyScoreBindShort,Mode=OneWay}" Foreground="White" FontWeight="SemiLight" Margin="0,5,0,0"
                            HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" Width="45" HorizontalAlignment="Left" VerticalAlignment="Top"
-              Visibility="{Binding AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter}}">
+              Visibility="{x:Bind ViewModel.AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>
-                <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
+                <TextBlock Text="{x:Bind ViewModel.AirDayBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="1" TextAlignment="Center"
-                       Foreground="{Binding AirDayBrush}" FontSize="20" />
+                       Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="20" />
             </Grid>
             <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-              Visibility="{Binding Type,Converter={StaticResource AnyTextToVisibilityConverter}}">
+              Visibility="{x:Bind ViewModel.Type,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>
-                <TextBlock Text="{Binding Type}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                        VerticalAlignment="Bottom" Margin="5,0,5,5" />
             </Grid>
             <Grid Grid.Row="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
@@ -106,9 +109,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
+                <TextBlock Text="{Binding Title,Mode=OneWay}" Margin="2" Height="Auto" FontWeight="SemiBold"
                        TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
-                <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate}" IsActive="True" Width="30" Height="30"
+                <ProgressRing Grid.Column="1" Visibility="{Binding LoadingUpdate,Mode=OneWay}" IsActive="True" Width="30" Height="30"
                           VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
             <Button Grid.Row="0"

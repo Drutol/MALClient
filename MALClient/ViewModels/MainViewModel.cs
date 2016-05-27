@@ -29,7 +29,7 @@ namespace MALClient.ViewModels
     {        
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
-        public PageIndex LastIndex { get; private set; }
+        public PageIndex? LastIndex { get; private set; }
 
         public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
 
@@ -58,7 +58,8 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageTopManga ||
                 index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
-            LastIndex = index;
+
+
 
 
             ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
@@ -94,7 +95,10 @@ namespace MALClient.ViewModels
                         _wasOnDetailsFromSearch = false;
                         UnToggleSearchStuff();
                     }
-                    View.Navigate(typeof(AnimeListPage), args);
+                    if (LastIndex == PageIndex.PageAnimeList)
+                        ViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
+                    else
+                        View.Navigate(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
@@ -106,7 +110,10 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
-                    View.Navigate(typeof(AnimeDetailsPage), args);
+                    if (LastIndex == PageIndex.PageAnimeDetails)
+                        ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
+                    else
+                        View.Navigate(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
@@ -151,6 +158,7 @@ namespace MALClient.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
+            LastIndex = index;
             RaisePropertyChanged(() => SearchToggleLock);
         }
 

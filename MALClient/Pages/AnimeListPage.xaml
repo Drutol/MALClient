@@ -120,16 +120,6 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <Grid.Resources>
-            <ResourceDictionary>
-                <Style TargetType="PivotHeaderPanel">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                </Style>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="../XamlResources/DictionaryAnimeList.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeListItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
@@ -142,6 +132,13 @@
                     <Setter Property="BorderThickness" Value="5,0,0,0" />
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition FromVerticalOffset="100"/>
+                    <AddDeleteThemeTransition/>
+                    <ReorderThemeTransition/>
+                </TransitionCollection>
+            </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <item:AnimeItem DataContext="{Binding}" />
@@ -162,6 +159,13 @@
                     <item:AnimeGridItem DataContext="{Binding}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
+            <GridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition FromVerticalOffset="100"/>
+                    <AddDeleteThemeTransition/>
+                    <ReorderThemeTransition/>
+                </TransitionCollection>
+            </GridView.ItemContainerTransitions>
         </GridView>
         <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">

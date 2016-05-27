@@ -33,6 +33,8 @@ namespace MALClient.ViewModels
             var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
             MaxWidth = bounds.Width/2.1;
+            if (MaxWidth > 400)
+                MaxWidth = 300;
             UpdateScoreFlyoutChoices();
         }
 

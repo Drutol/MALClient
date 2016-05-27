@@ -720,7 +720,7 @@
                                                         <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
                                                         <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
                                                     </StackPanel>
-                                                    <ToggleButton Margin="0,5" x:Name="ExpandReviewButton"
+                                                    <!--<ToggleButton Margin="0,5" x:Name="ExpandReviewButton"
                                                                   Grid.Column="1" Padding="0" Grid.Row="0"
                                                                   HorizontalAlignment="Right"
                                                                   VerticalAlignment="Stretch" Width="40">
@@ -729,13 +729,14 @@
                                                                 <RotateTransform Angle="90" />
                                                             </SymbolIcon.RenderTransform>
                                                         </SymbolIcon>
-                                                    </ToggleButton>
+                                                    </ToggleButton>-->
                                                     <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
                                                           Visibility="{Binding ElementName=ExpandReviewButton,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}">
                                                         <TextBlock Text="{Binding Review}"
                                                                    TextWrapping="WrapWholeWords"
                                                                    Margin="0,5" Padding="5,5,5,0" />
                                                     </Grid>
+                                                    <ToggleButton Grid.ColumnSpan="2" Grid.RowSpan="2" Background="Transparent" x:Name="ExpandReviewButton" Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>

@@ -104,7 +104,7 @@ namespace MALClient.ViewModels
         public event AnimeItemListInitialized Initialized;
 
 
-        public async Task Init(AnimeListPageNavigationArgs args)
+        public async void Init(AnimeListPageNavigationArgs args)
         {
             //base
             _scrollHandlerAdded = false;

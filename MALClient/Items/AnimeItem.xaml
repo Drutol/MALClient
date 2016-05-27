@@ -31,10 +31,14 @@
         </Grid.ColumnDefinitions>
 
         <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
-               Source="{Binding ImgUrl,Converter={StaticResource UrlToBitmapImageConverter}}" Stretch="Fill"
+                Stretch="Fill"
                HorizontalAlignment="Left"
                Width="Auto"
-               MaxWidth="120" Margin="1,1" />
+               MaxWidth="120" Margin="1,1" >
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl,Mode=OneWay}" DecodePixelType="Logical" DecodePixelHeight="200" DecodePixelWidth="150"></BitmapImage>
+            </Image.Source>
+        </Image>
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
                 Visibility="Visible" Click="BtnMoreOnClick">
@@ -43,33 +47,33 @@
             </Button.Background>
             <SymbolIcon Symbol="More" Foreground="White" />
         </Button>
-        <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{Binding AddAnimeCommand}"
+        <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{x:Bind ViewModel.AddAnimeCommand,Mode=OneWay}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40"
-                Visibility="{Binding AddToListVisibility}">
+                Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay}">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
             </Button.Background>
             <SymbolIcon Symbol="Add" Foreground="White" />
         </Button>
         <ProgressBar Grid.Row="0" Grid.Column="1" IsIndeterminate="True"
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding LoadingUpdate}" />
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind ViewModel.LoadingUpdate,Mode=OneWay}" />
         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch">
             <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right">
-                <Grid Visibility="{Binding AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter}}"
+                <Grid Visibility="{x:Bind ViewModel.AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
                       HorizontalAlignment="Right">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
                           Width="45" Height="30">
                         <Grid.Background>
                             <SolidColorBrush Color="Black" Opacity=".5" />
                         </Grid.Background>
-                        <TextBlock Text="{Binding AirDayBind}" FontWeight="SemiLight" VerticalAlignment="Center"
+                        <TextBlock Text="{x:Bind ViewModel.AirDayBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                                    HorizontalAlignment="Center" Margin="0,0,0,3"
-                                   Foreground="{Binding AirDayBrush}" TextAlignment="Center" FontSize="20" />
+                                   Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" TextAlignment="Center" FontSize="20" />
                     </Grid>
                 </Grid>
                 <Grid HorizontalAlignment="Center" Margin="0,0,5,0"
-                      Visibility="{Binding GlobalScoreBind,Converter={StaticResource AnyTextToVisibilityConverter}}">
+                      Visibility="{x:Bind ViewModel.GlobalScoreBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                     <SymbolIcon Symbol="Favorite" Opacity=".5"
                                 Foreground="DarkGray"
                                 VerticalAlignment="Center"
@@ -78,7 +82,7 @@
                             <ScaleTransform ScaleY="1.5" ScaleX="1.5" />
                         </SymbolIcon.RenderTransform>
                     </SymbolIcon>
-                    <TextBlock Text="{Binding GlobalScoreBind}"
+                    <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}"
                                FontWeight="Medium" VerticalAlignment="Center"
                                Margin="10,12,0,0" HorizontalAlignment="Center"
                                TextAlignment="Center" />
@@ -95,23 +99,23 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                    <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" Margin="0,0,5,5" />
-                    <Button Content="{Binding MyEpisodesBind}"
+                    <Button Content="{x:Bind ViewModel.MyEpisodesBind,Mode=OneWay}"
                             Style="{StaticResource ButtonDisabledStyle}" FontWeight="SemiLight"
                             Margin="0,0,0,5" VerticalAlignment="Bottom" Background="Transparent"
                             BorderThickness="0,0,0,2"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                            IsEnabled="{Binding UpdateButtonsEnableState}"
+                            IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
                             HorizontalAlignment="Right" Click="BtnWatchedEpsOnClick" />
                 </StackPanel>
-                <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind}" Margin="0,0,1,0"
+                <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind,Mode=OneWay}" Margin="0,0,1,0"
                         Style="{StaticResource ButtonDisabledStyle}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                         Height="Auto"
                         HorizontalAlignment="Right"
-                        IsEnabled="{Binding UpdateButtonsEnableState}"
-                        Visibility="{Binding UpdateButtonsVisibility}"
+                        IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}"
                         Click="BtnStatusOnClick">
                     <Button.ContentTemplate>
                         <DataTemplate>
@@ -119,12 +123,12 @@
                         </DataTemplate>
                     </Button.ContentTemplate>
                 </Button>
-                <Button Grid.Column="2" Grid.Row="1" Content="{Binding MyScoreBind}" Margin="1,0,0,0"
+                <Button Grid.Column="2" Grid.Row="1" Content="{x:Bind ViewModel.MyScoreBind,Mode=OneWay}" Margin="1,0,0,0"
                         Style="{StaticResource ButtonDisabledStyle}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="Auto"
                         HorizontalAlignment="Right"
-                        IsEnabled="{Binding UpdateButtonsEnableState}"
-                        Visibility="{Binding UpdateButtonsVisibility}"
+                        IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}"
                         Click="BtnScoreOnClick">
                     <Button.ContentTemplate>
                         <DataTemplate>
@@ -134,8 +138,8 @@
                 </Button>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Bottom" Margin="1,0,1,1">
                     <Button Height="40" Width="40"
-                            Command="{Binding IncrementWatchedCommand}"
-                            Visibility="{Binding IncrementEpsVisibility}"
+                            Command="{x:Bind ViewModel.IncrementWatchedCommand,Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Mode=OneWay}"
                             VerticalAlignment="Center" HorizontalAlignment="Center"
                             Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon Symbol="Add" Foreground="White" />
@@ -144,8 +148,8 @@
                         </Button.RenderTransform>
                     </Button>
                     <Button VerticalAlignment="Center" HorizontalAlignment="Center" Height="40"
-                            Width="40" Command="{Binding DecrementWatchedCommand}"
-                            Visibility="{Binding DecrementEpsVisibility}"
+                            Width="40" Command="{x:Bind ViewModel.DecrementWatchedCommand}"
+                            Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Mode=OneWay}"
                             Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon Symbol="Remove" Foreground="White" />
                         <Button.RenderTransform>
@@ -154,8 +158,8 @@
                     </Button>
                 </StackPanel>
             </Grid>
-            <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
-                       TextWrapping="WrapWholeWords" Margin="{Binding TitleMargin}" />
+            <TextBlock Text="{x:Bind ViewModel.Title,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold"
+                       TextWrapping="WrapWholeWords" Margin="{x:Bind ViewModel.TitleMargin,Mode=OneWay}" />
         </Grid>
        
     </Grid>

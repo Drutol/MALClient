@@ -117,18 +117,6 @@ namespace MALClient.Items
         public string MyStartDate { get; set; }
         public string MyEndDate { get; set; }
 
-        public AnimeItem AnimeItem
-        {
-            get
-            {
-                if (LoadedAnime)
-                    return _animeItem;
-
-                ViewModel = LoadElementModel();
-                _animeItem = LoadElement();
-                return _animeItem;
-            }
-        }
 
         public AnimeItemViewModel ViewModel
         {
@@ -137,7 +125,6 @@ namespace MALClient.Items
                 if (LoadedAnime)
                     return _viewModel;
                 ViewModel = LoadElementModel();
-                _animeItem = LoadElement();
                 return _viewModel;
             }
             private set { _viewModel = value; }
@@ -172,12 +159,6 @@ namespace MALClient.Items
                         MyStartDate, MyEndDate, this,
                         false, MyVolumes, AllVolumes)
                     : new AnimeItemViewModel(_seasonalData, this);
-        }
-
-        private AnimeItem LoadElement()
-        {
-            LoadedAnime = true;
-            return new AnimeItem(ViewModel);
         }
     }
 }

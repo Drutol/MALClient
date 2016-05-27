@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Unstable desktop version? Fix on its way!",
+    "Date": "26.05.2016",
+    "Type": "Bugs",
+    "Content": "Update 27.05: I have this fixed, update later today... probably.If app closes by itself(aka. crashes) when switching views/categories/filters please disable upper navigation bar in settings. I was able to pinpoint it down just now and update will take a few hours to complete. I hope that this was the only factor here... sorry for inconvenience, you can expect hotfix and performance update soon."
+  },
+  {
     "Title": "v4.1.16.0 almost done!",
     "Date": "21.05.2016",
     "Type": "Updates",
@@ -16,12 +22,5 @@
     "Date": "14.05.2016",
     "Type": "Development",
     "Content": "Next update will feature live tiles and calender with breakdown of currently airing/not yet aired anime by day. More info available on github, if you wish for something specific regarding those two, now is the time to tell me :)"
-  },
-  {
-    "Title": "v4.0.5.0 in certification!",
-    "Date": "09.05.2016",
-    "Type": "Updates",
-    "Content": "Hummingbird support is on its way to the store, ETA is 1-2 days depending on how quickly Microsoft approves of this app. Next stop... live tiles!"
   }
-
 ]

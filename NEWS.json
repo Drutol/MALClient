@@ -3,7 +3,7 @@
     "Title": "Unstable desktop version? Fix on its way!",
     "Date": "26.05.2016",
     "Type": "Bugs",
-    "Content": "Update 27.05: I have this fixed, update later today... probably.\n\n\If app closes by itself(aka. crashes) when switching views/categories/filters please disable upper navigation bar in settings. I was able to pinpoint it down just now and update will take a few hours to complete. I hope that this was the only factor here... sorry for inconvenience, you can expect hotfix and performance update soon."
+    "Content": "Update 27.05: I have this fixed, update later today... probably.\n\nIf app closes by itself(aka. crashes) when switching views/categories/filters please disable upper navigation bar in settings. I was able to pinpoint it down just now and update will take a few hours to complete. I hope that this was the only factor here... sorry for inconvenience, you can expect hotfix and performance update soon."
   },
   {
     "Title": "v4.1.16.0 almost done!",

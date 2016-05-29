@@ -1,5 +1,11 @@
 [
   {
+    "Title": "New profile page!",
+    "Date": "30.05.2016",
+    "Type": "Updates",
+    "Content": "Profile page gets 3rd update, full revamp for dekstop and updates for mobile. It'll include more stats, basic user details, comments, friends and ability to view other users' accounts. Screenshots on github :)"
+  },
+  {
     "Title": "Manga update issues.",
     "Date": "28.05.2016",
     "Type": "Bugs",
@@ -16,12 +22,6 @@
     "Date": "21.05.2016",
     "Type": "Updates",
     "Content": "Update will go live on Monday/Tuesday. It packs complete overhaul of live tiles , calendar page and swipe to increment/decrement on mobile + tons of eye candies :). 'Support me' button should work with new ad provider too."
-  },
-  {
-    "Title": "Next update",
-    "Date": "15.05.2016",
-    "Type": "Updates",
-    "Content": "Calendar and tiles are working but are extremely rough around the corners, most probably it will go live next week as univeristy is taking its toll on me ;d"
   }
 
 ]

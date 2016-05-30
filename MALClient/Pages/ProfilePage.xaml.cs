@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -20,6 +21,8 @@ namespace MALClient.Pages
             Loaded += OnLoaded;
         }
 
+        public ProfilePageViewModel ViewModel => DataContext as ProfilePageViewModel;
+
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             (DataContext as ProfilePageViewModel).LoadProfileData(_lastArgs);
@@ -27,10 +30,8 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, _lastArgs);
             _lastArgs = e.Parameter as ProfilePageNavigationArgs;
-            ViewModelLocator.Main.CurrentStatus = $"{Credentials.UserName} - Profile";
-
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
 
             base.OnNavigatedTo(e);
         }
@@ -41,5 +42,18 @@ namespace MALClient.Pages
             base.OnNavigatedFrom(e);
             NavMgr.DeregisterBackNav();
         }
+
+        private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            NavMgr.RegisterBackNav(PageIndex.PageProfile,new ProfilePageNavigationArgs {TargetUser = ViewModel.CurrentUser},PageIndex.PageProfile);
+            ViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (e.ClickedItem as MalUser).Name });
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = ViewModel.CurrentUser },PageIndex.PageProfile);
+            ViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (string)(sender as Button).Tag });
+        }
+
     }
 }

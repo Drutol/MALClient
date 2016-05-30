@@ -16,8 +16,8 @@ namespace MALClient
         private static PageIndex _pageTo;
         private static object _args;
 
-        private static readonly Stack<AnimeDetailsPageNavigationArgs> _detailsNavStack =
-            new Stack<AnimeDetailsPageNavigationArgs>(4);
+        private static readonly Stack<object> _detailsNavStack =
+            new Stack<object>(10);
 
         private static bool _wasOnStack;
         private static bool _handlerRegistered;
@@ -29,10 +29,10 @@ namespace MALClient
             //about because it is not used anywhere...
         {
             //if we are navigating inside details we have to create stack
-            if (source == PageIndex.PageAnimeDetails)
+            if (source == PageIndex.PageAnimeDetails || source == PageIndex.PageProfile)
             {
                 _wasOnStack = true;
-                _detailsNavStack.Push(args as AnimeDetailsPageNavigationArgs);
+                _detailsNavStack.Push(args);
                 //we can only navigate to details from details so...
             }
             else //non details navigation
@@ -46,13 +46,12 @@ namespace MALClient
             if (!_handlerRegistered)
             {
                 var currentView = SystemNavigationManager.GetForCurrentView();
-                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 currentView.BackRequested += CurrentViewOnBackRequested;
                 _handlerRegistered = true;
             }
         }
 
-        private static async void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
+        private static void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
         {
             args.Handled = true;
             if (_currentOverride != null)
@@ -63,15 +62,17 @@ namespace MALClient
                 {
                     _oneTimeHandler = false;
                     var currentView = SystemNavigationManager.GetForCurrentView();
-                    currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     currentView.BackRequested -= CurrentViewOnBackRequested;
                 }
                 return;
             }
             if (_detailsNavStack.Count == 0) //nothing on the stack = standard
-                 ViewModelLocator.Main.Navigate(_pageTo, _args);
+                ViewModelLocator.Main.Navigate(_pageTo, _args);
             else //take an element from stack otherwise
-                 ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
+            {
+                object arg = _detailsNavStack.Pop();
+                ViewModelLocator.Main.Navigate( arg is AnimeDetailsPageNavigationArgs ? PageIndex.PageAnimeDetails : PageIndex.PageProfile ,arg );
+            }
 
             if (_args is AnimeListPageNavigationArgs)
             {

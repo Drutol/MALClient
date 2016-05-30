@@ -11,6 +11,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media.Imaging;
 using HtmlAgilityPack;
 using MALClient.Comm;
@@ -398,6 +399,12 @@ namespace MALClient
 
         public static async void GiveStatusBarFeedback(string text)
         {
+            var sb = StatusBar.GetForCurrentView().ProgressIndicator;
+            sb.Text = text;
+            sb.ProgressValue = null;
+            await sb.ShowAsync();
+            await Task.Delay(2000);
+            await sb.HideAsync();
         }
 
         public static string ShortDayToFullDay(string sub)

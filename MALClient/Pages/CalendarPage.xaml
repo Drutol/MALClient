@@ -19,10 +19,10 @@
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
             <DataTemplate x:Key="DayPageTemplate">
-                <GridView Padding="0" IsRightTapEnabled="True" HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}">
+                <GridView  Padding="0" IsRightTapEnabled="True" HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped" ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"  />
+                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" ItemWidth="{Binding ProfilePage.MaxWidth,Source={StaticResource Locator}}" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.ItemContainerStyle>
@@ -58,7 +58,7 @@
                                           Grid.Row="2" ItemsSource="{Binding Item2}">
                                     <GridView.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"  />
+                                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" ItemWidth="{Binding ProfilePage.MaxWidth,Source={StaticResource Locator}}"  />
                                         </ItemsPanelTemplate>
                                     </GridView.ItemsPanel>
                                     <GridView.ItemContainerStyle>
@@ -80,35 +80,17 @@
         <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="-12,0,0,0" Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}" ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}">
-                    <Setter Property="Margin" Value="5,0"></Setter>
+                    <Setter Property="Margin" Value="4,0"/>
                 </Style>
                 <Style TargetType="GridView">
-                    <Setter Property="Margin" Value="1,1-5,0"/>
-                    <Setter Property="MinWidth" Value="200"/>
                     <Setter Property="IsItemClickEnabled" Value="True"/>
                     <Setter Property="ShowsScrollingPlaceholders" Value="False"/>
                     <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="ItemContainerStyle">
-                        <Setter.Value>
-                            <Style TargetType="GridViewItem">
-                                <Setter Property="Padding" Value="5,5" />
-                                <Setter Property="Margin" Value="2,5" />
-                            </Style>
-                        </Setter.Value>
-                    </Setter>
                     <Setter Property="ItemTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <items:AnimeGridItem DataContext="{Binding}" />
+                                <items:AnimeGridItem AllowManipulation="False" DataContext="{Binding}" />
                             </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="ItemsPanel">
-                        <Setter.Value>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
-                                   ItemWidth="200" ItemHeight="350" />
-                            </ItemsPanelTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>

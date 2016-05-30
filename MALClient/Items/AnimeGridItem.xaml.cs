@@ -39,6 +39,17 @@ namespace MALClient.Items
             ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
         }
 
+        public bool AllowManipulation
+        {
+            set
+            {
+                if (!value)
+                {
+                    ManipulationMode = ManipulationModes.System;
+                }
+            }
+        }
+
         private static AnimeGridItem _manip;
         private void AnimeGridItem_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {

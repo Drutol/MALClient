@@ -61,11 +61,11 @@
                                     <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}"  DecodePixelType="Logical" DecodePixelHeight="150" DecodePixelWidth="150"/>
                                 </Image.Source>
                             </Image>
-                            <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0">
+                            <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=".5*"/>
                                     <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width=".5*"/>
+                                    <ColumnDefinition Width=".6*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="1" HorizontalAlignment="Stretch"/>
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Left">
@@ -87,11 +87,11 @@
                                             <Setter Property="TextAlignment" Value="Right"/>
                                         </Style>
                                     </StackPanel.Resources>
-                                    <TextBlock Text="{Binding CurrentData.User.Name}" />
-                                    <TextBlock Text="{Binding CurrentData.LastOnline}" />
-                                    <TextBlock Text="{Binding CurrentData.Gender}" />
-                                    <TextBlock Text="{Binding CurrentData.Location}" />
-                                    <TextBlock Text="{Binding CurrentData.Joined}" />
+                                    <TextBlock Text="{Binding CurrentData.User.Name}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding CurrentData.LastOnline}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding CurrentData.Gender}" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding CurrentData.Location}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding CurrentData.Joined}" TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </Grid>
                         </Grid>

@@ -1227,7 +1227,10 @@ namespace MALClient.ViewModels
         }
 
         public Visibility HumApiSpecificControlsVisibility
-            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;     
+            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
+
+        private double? _maxWidth;
+        public double MaxWidth => (_maxWidth ?? (_maxWidth = AnimeItemViewModel.MaxWidth)).Value;
 
         #endregion
 

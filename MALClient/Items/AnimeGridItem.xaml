@@ -59,10 +59,9 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" Height="275"
-               MaxWidth="{Binding MaxWidth}">
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill" Height="275" MaxWidth="{Binding MaxWidth}">
                 <Image.Source>
-                    <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl,Mode=OneWay}" DecodePixelType="Logical" DecodePixelHeight="275" DecodePixelWidth="200"></BitmapImage>
+                    <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl,Mode=OneWay}" DecodePixelHeight="275" DecodePixelType="Logical" DecodePixelWidth="{Binding MaxWidth}"/>
                 </Image.Source>
             </Image>
                 <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"

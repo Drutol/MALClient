@@ -69,9 +69,9 @@ namespace MALClient
                 return;
             }
             if (_detailsNavStack.Count == 0) //nothing on the stack = standard
-                await ViewModelLocator.Main.Navigate(_pageTo, _args);
+                 ViewModelLocator.Main.Navigate(_pageTo, _args);
             else //take an element from stack otherwise
-                await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
+                 ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
 
             if (_args is AnimeListPageNavigationArgs)
             {

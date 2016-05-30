@@ -56,7 +56,7 @@ namespace MALClient.Pages
             Credentials.SetAuthToken("");
             await Utils.RemoveProfileImg();
             ViewModelLocator.AnimeList.LogOut();
-            await page.Navigate(PageIndex.PageLogIn);
+            page.Navigate(PageIndex.PageLogIn);
             ViewModelLocator.Hamburger.UpdateProfileImg();
         }
 
@@ -139,7 +139,7 @@ namespace MALClient.Pages
             }
             await DataCache.ClearApiRelatedCache();
             ViewModelLocator.AnimeList.LogIn();
-            await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
             ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             _authenticating = false;
@@ -212,7 +212,7 @@ namespace MALClient.Pages
             }
             await DataCache.ClearApiRelatedCache();
             ViewModelLocator.AnimeList.LogIn();
-            await ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
             ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             _authenticating = false;

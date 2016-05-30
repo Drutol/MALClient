@@ -236,7 +236,6 @@
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtCalendar , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtCalendar" Text="Calendar"
-                                                               FontWeight="Medium"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Calendar]}"
                                                                HorizontalAlignment="Left" Grid.Column="1" Margin="25,0,0,0"
                                                                VerticalAlignment="Center"

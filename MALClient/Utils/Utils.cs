@@ -12,6 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Media.Imaging;
+using HtmlAgilityPack;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -421,5 +422,55 @@ namespace MALClient
                     return "";
             }
         }
+
+        public static HtmlNode FirstWithClass(this IEnumerable<HtmlNode> doc, string targettedClass)
+        {
+            return doc.First(
+                node =>
+                    node.Attributes.Contains("class") &&
+                    node.Attributes["class"].Value ==
+                    targettedClass);
+        }
+
+        public static HtmlNode FirstOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
+        {
+            return doc.DocumentNode.Descendants(descendants)
+                .First(
+                    node =>
+                        node.Attributes.Contains("class") &&
+                        node.Attributes["class"].Value ==
+                        targettedClass);
+        }
+
+        public static HtmlNode FirstOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
+        {
+            return doc.Descendants(descendants)
+                .First(
+                    node =>
+                        node.Attributes.Contains("class") &&
+                        node.Attributes["class"].Value ==
+                        targettedClass);
+        }
+
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
+        {
+            return doc.DocumentNode.Descendants(descendants)
+                .Where(
+                    node =>
+                        node.Attributes.Contains("class") &&
+                        node.Attributes["class"].Value ==
+                        targettedClass);
+        }
+
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
+        {
+            return doc.Descendants(descendants).Where(
+                node =>
+                    node.Attributes.Contains("class") &&
+                    node.Attributes["class"].Value ==
+                    targettedClass);
+        }
     }
+
+
 }

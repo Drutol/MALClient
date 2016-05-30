@@ -79,7 +79,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="-12,0,0,0" Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}" ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}"/>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}">
+                    <Setter Property="Margin" Value="5,0"></Setter>
+                </Style>
                 <Style TargetType="GridView">
                     <Setter Property="Margin" Value="1,1-5,0"/>
                     <Setter Property="MinWidth" Value="200"/>

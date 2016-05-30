@@ -664,5 +664,55 @@ namespace MALClient
         }
 
         #endregion
+
+        #region ProfileData
+        public static async void SaveProfileData(string user, ProfileData data)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var folder =
+                        await
+                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
+                                "ProfileData",
+                                CreationCollisionOption.OpenIfExists);
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, ProfileData>(DateTime.UtcNow, data));
+                    var file =
+                        await
+                            folder.CreateFileAsync($"mal_profile_details_{user}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+        }
+
+        public static async Task<ProfileData> RetrieveProfileData(string user)
+        {
+            try
+            {
+                var folder =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfileData",
+                            CreationCollisionOption.OpenIfExists);
+                var file = await folder.GetFileAsync($"mal_profile_details_{user}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, ProfileData>>(data);
+                return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+        #endregion
     }
 }

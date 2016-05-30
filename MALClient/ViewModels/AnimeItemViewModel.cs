@@ -59,7 +59,7 @@ namespace MALClient.ViewModels
             {
                 id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
             }
-            await ViewModelLocator.Main
+            ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(id, Title, null, this,
                         argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())

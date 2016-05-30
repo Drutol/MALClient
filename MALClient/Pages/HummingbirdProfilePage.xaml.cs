@@ -34,12 +34,12 @@ namespace MALClient.Pages
                 await Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentData.website as string));
         }
 
-        private async void NavDetailsFeed(object sender, TappedRoutedEventArgs e)
+        private void NavDetailsFeed(object sender, TappedRoutedEventArgs e)
         {
             var id = (int) (sender as FrameworkElement).Tag;
             if (ViewModelLocator.AnimeDetails.Id == id)
                 return;
-            await ViewModelLocator.Main
+             ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(id, "", null, null)
                     {Source = PageIndex.PageProfile, AnimeMode = true});

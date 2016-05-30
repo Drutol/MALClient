@@ -252,7 +252,7 @@ namespace MALClient.ViewModels
             {
                 args.Id = await new AnimeDetailsHummingbirdQuery(args.Id).GetHummingbirdId();
             }
-            await ViewModelLocator.Main
+            ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
                         new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
@@ -1231,6 +1231,7 @@ namespace MALClient.ViewModels
                     Type = type,
                     Id = Id,
                     MalId = MalId,
+                    AllEpisodes = AllEpisodes,
                     MyStatus = AnimeStatus.PlanToWatch,
                     MyEpisodes = 0,
                     MyScore = 0,
@@ -1244,6 +1245,7 @@ namespace MALClient.ViewModels
                     Type = type,
                     Id = Id,
                     MalId = MalId,
+                    AllEpisodes = AllEpisodes,
                     MyStatus = AnimeStatus.PlanToWatch,
                     MyEpisodes = 0,
                     MyScore = 0,
@@ -1373,8 +1375,7 @@ namespace MALClient.ViewModels
             for (var i = 0; i < _synonyms.Count; i++)
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
             //removes string from brackets (sthsth) lol ->  lol
-            if (_animeItemReference == null)
-                AllEpisodes = Convert.ToInt32(data.AllEpisodes);
+            AllEpisodes = data.AllEpisodes;
             PopulateData();
         }
 

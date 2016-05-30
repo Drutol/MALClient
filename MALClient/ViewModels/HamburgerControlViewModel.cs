@@ -195,14 +195,14 @@ namespace MALClient.ViewModels
         }
 
 
-        private async void ButtonClick(object o)
+        private void ButtonClick(object o)
         {
             if (o == null)
                 return;
             PageIndex page;
             if (Enum.TryParse(o as string, out page))
             {
-                await
+               
                     Utils.GetMainPageInstance()
                         .Navigate(page, GetAppropriateArgsForPage(page));
                 SetActiveButton(Utils.GetButtonForPage(page));

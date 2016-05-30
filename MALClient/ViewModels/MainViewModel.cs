@@ -33,7 +33,7 @@ namespace MALClient.ViewModels
 
         public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
 
-        internal async Task Navigate(PageIndex index, object args = null)
+        internal async void Navigate(PageIndex index, object args = null)
         {
             PageIndex originalIndex = index;
             var wasOnSearchPage = SearchToggleLock;
@@ -130,18 +130,16 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = Visibility.Collapsed;
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
-                        RefreshDataCommand =
-                            new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
-                        View.Navigate(typeof(ProfilePage), args);
+                        if (LastIndex == PageIndex.PageProfile)
+                            ViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
+                        else
+                            View.Navigate(typeof(ProfilePage), args);
                     }
                     else
-                    {
-                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
                         View.Navigate(typeof(HummingbirdProfilePage), args);
-                    }
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
@@ -209,9 +207,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private async void AnimeListOnInitializedLoadArgs()
+        private void AnimeListOnInitializedLoadArgs()
         {
-            await Navigate(PageIndex.PageAnimeDetails,
+            Navigate(PageIndex.PageAnimeDetails,
                 new AnimeDetailsPageNavigationArgs(View.InitDetails.Item1, View.InitDetails.Item2, null, null));
             ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }

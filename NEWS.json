@@ -1,5 +1,17 @@
 [
   {
+    "Title": "New profile page!",
+    "Date": "30.05.2016",
+    "Type": "Updates",
+    "Content": "Profile page will get 3rd update soon, full revamp for dekstop and updates for mobile. It'll include more stats, basic user details, comments, friends and ability to view other users' accounts. Screenshots on github :)"
+  },
+  {
+    "Title": "Manga update issues.",
+    "Date": "28.05.2016",
+    "Type": "Bugs",
+    "Content": "I'm aware of those crashes, fix coming on Monday as MSFT won't certificate update during weekend. Sorry :("
+  },
+  {
     "Title": "Unstable desktop version? Fix on its way!",
     "Date": "26.05.2016",
     "Type": "Bugs",
@@ -10,17 +22,6 @@
     "Date": "21.05.2016",
     "Type": "Updates",
     "Content": "Update will go live on Monday/Tuesday. It packs complete overhaul of live tiles , calendar page and swipe to increment/decrement on mobile + tons of eye candies :). 'Support me' button should work with new ad provider too."
-  },
-  {
-    "Title": "Next update",
-    "Date": "15.05.2016",
-    "Type": "Updates",
-    "Content": "Calendar and tiles are working but are extremely rough around the corners, most probably it will go live next week as univeristy is taking its toll on me ;d"
-  },
-  {
-    "Title": "Tiles&Calendar",
-    "Date": "14.05.2016",
-    "Type": "Development",
-    "Content": "Next update will feature live tiles and calender with breakdown of currently airing/not yet aired anime by day. More info available on github, if you wish for something specific regarding those two, now is the time to tell me :)"
   }
+
 ]

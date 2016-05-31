@@ -125,8 +125,10 @@ namespace MALClient.ViewModels
             if (args != null) //Save current mode
             {
                 WorkMode = args.WorkMode;
-                if(!string.IsNullOrEmpty(args.ListSource))
+                if (!string.IsNullOrEmpty(args.ListSource))
                     ListSource = args.ListSource;
+                else
+                    ListSource = Credentials.UserName;
                 if (args.NavArgs) // Use args if we have any
                 {
 
@@ -140,7 +142,10 @@ namespace MALClient.ViewModels
                 }
             }
             else //assume default AnimeList          
+            {
+                ListSource = Credentials.UserName;
                 WorkMode = AnimeListWorkModes.Anime;
+            }
             
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             switch (WorkMode)

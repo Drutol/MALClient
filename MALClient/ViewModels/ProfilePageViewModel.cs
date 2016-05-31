@@ -161,8 +161,8 @@ namespace MALClient.ViewModels
                     var sb = StatusBar.GetForCurrentView().ProgressIndicator;
                     sb.Text = "Fetching user's library.";
                     sb.ProgressValue = null;
-                    await sb.ShowAsync();
-                    var data = await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Anime).GetLibrary(false);
+                    var data = new List<ILibraryData>();
+                    await Task.Run(async () => data = await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Anime).GetLibrary(false));
                     var abstractions = new List<AnimeItemAbstraction>();
                     foreach (
                         var libraryData in
@@ -171,18 +171,26 @@ namespace MALClient.ViewModels
                                     CurrentData.FavouriteAnime.Any(i => i == entry.Id) ||
                                     CurrentData.RecentAnime.Any(i => i == entry.Id)))
                         abstractions.Add(new AnimeItemAbstraction(false, libraryData as AnimeLibraryItemData));
-                    data = await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Manga).GetLibrary(false);
+                    await Task.Run(async () => data = data = await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Manga).GetLibrary(false));
                     var mangaAbstractions = new List<AnimeItemAbstraction>();
                     foreach (
                         var libraryData in
                             data.Where(
                                 entry =>
                                     CurrentData.FavouriteManga.Any(i => i == entry.Id) ||
-                                    CurrentData.FavouriteAnime.Any(i => i == entry.Id)))
+                                    CurrentData.RecentManga.Any(i => i == entry.Id)))
                         mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
-                    _othersAbstractions.Add(CurrentUser,
-                        new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
-                            mangaAbstractions));
+                    try
+                    {
+                        _othersAbstractions.Add(CurrentUser,
+                            new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
+                                mangaAbstractions));
+                    }
+                    catch (Exception)
+                    {
+                        //oddity od duplicate
+                    }
+
                     await sb.HideAsync();
                     LoadingOhersLibrariesProgressVisiblity = Visibility.Collapsed;
                 }

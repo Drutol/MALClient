@@ -125,9 +125,11 @@ namespace MALClient.ViewModels
             if (args != null) //Save current mode
             {
                 WorkMode = args.WorkMode;
+                if(!string.IsNullOrEmpty(args.ListSource))
+                    ListSource = args.ListSource;
                 if (args.NavArgs) // Use args if we have any
                 {
-                    ListSource = args.ListSource;
+
                     SortDescending = SortDescending = args.Descending;
                     SetSortOrder(args.SortOption); //index
                     SetDesiredStatus(args.Status);

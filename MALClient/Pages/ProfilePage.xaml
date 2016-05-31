@@ -67,8 +67,12 @@
                                     <ColumnDefinition Width="20"/>
                                     <ColumnDefinition Width=".6*"/>
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
                                 <Grid Grid.Column="1" HorizontalAlignment="Stretch"/>
-                                <StackPanel Grid.Column="0" HorizontalAlignment="Left">
+                                <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
                                     <StackPanel.Resources>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="SemiLight"/>
@@ -80,7 +84,7 @@
                                     <TextBlock Text="Location:" />
                                     <TextBlock Text="Joined:" />
                                 </StackPanel>
-                                <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                                <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
                                     <StackPanel.Resources>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="Medium"/>
@@ -93,6 +97,12 @@
                                     <TextBlock Text="{Binding CurrentData.Location}" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Text="{Binding CurrentData.Joined}" TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
+                                <Grid Margin="10" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Anime list" Margin="5,0" Command="{Binding NavigateAnimeListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                        <Button Content="Manga list" Margin="5,0" Command="{Binding NavigateMangaListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                         </Grid>
                         <Grid Grid.Row="1"  Padding="10" Margin="0,10" HorizontalAlignment="Left">
@@ -183,6 +193,7 @@
                                 Visibility="{Binding EmptyFavAnimeNoticeVisibility}"
                                 Text="No favourite anime added yet..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
+                            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
                             <ListView ItemsSource="{Binding FavAnime}"
                                       SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                 <ListView.ItemContainerStyle>
@@ -212,9 +223,10 @@
                         </PivotItem.Header>
                         <Grid>
                             <TextBlock Visibility="{Binding EmptyFavMangaNoticeVisibility}"
-                                       Text="No favourite anime added yet..."
+                                       Text="No favourite manga added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
+                            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
                             <ListView ItemsSource="{Binding FavManga}"
                                       SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                 <ListView.ItemContainerStyle>
@@ -254,9 +266,15 @@
                                         <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
                                     </ItemsPanelTemplate>
                                 </GridView.ItemsPanel>
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid
+                                        <Grid Height="350"
                                             MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
@@ -337,6 +355,12 @@
                                         <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
                                     </ItemsPanelTemplate>
                                 </GridView.ItemsPanel>
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid
@@ -422,6 +446,7 @@
                                    Text="None..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
+                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
                         <ListView ItemsSource="{Binding RecentAnime}"
                                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>
@@ -439,6 +464,7 @@
                                    Text="None..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
+                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
                         <ListView ItemsSource="{Binding RecentManga}"
                                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>

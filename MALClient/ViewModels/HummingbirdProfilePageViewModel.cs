@@ -43,7 +43,9 @@ namespace MALClient.ViewModels
                     }
                 }
                 RaisePropertyChanged(() => CurrentData);
-                FeedData = await new ProfileQuery(true).GetHumFeedData();
+                var feed = await new ProfileQuery(true).GetHumFeedData();
+                foreach (var entry in feed)
+                    entry.substories = entry.substories.Take(8).ToList();
                 SocialFeedData = FeedData.Where(o => o.story_type == "comment").ToList();
                 FeedData = FeedData.Where(o => o.story_type == "media_story").ToList();
 

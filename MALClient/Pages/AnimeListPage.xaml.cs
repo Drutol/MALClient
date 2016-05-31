@@ -28,9 +28,9 @@ namespace MALClient.Pages
     {
         public readonly int CurrPage;
         public readonly bool Descending;
-        public readonly string ListSource;
+        public string ListSource;
         public readonly bool NavArgs;
-        public readonly int Status;
+        public int Status;
         public AnimeSeason CurrSeason;
         public AnimeListDisplayModes DisplayMode;
         public SortOptions SortOption;
@@ -52,6 +52,12 @@ namespace MALClient.Pages
 
         private AnimeListPageNavigationArgs()
         {
+        }
+
+        public AnimeListPageNavigationArgs(int status, AnimeListWorkModes mode)
+        {
+            WorkMode = mode;
+            Status = status;
         }
 
         public static AnimeListPageNavigationArgs Seasonal

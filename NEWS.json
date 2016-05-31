@@ -1,5 +1,11 @@
 [
   {
+    "Title": "v4.2.3.0 preview!",
+    "Date": "31.05.2016",
+    "Type": "Updates",
+    "Content": "Due to random storms randomly trying to fry my computer I did not manage to finish this update today as I planned. I have previews though, which are available on github. Help me test them out!"
+  },
+  {
     "Title": "New profile page!",
     "Date": "30.05.2016",
     "Type": "Updates",
@@ -16,12 +22,6 @@
     "Date": "26.05.2016",
     "Type": "Bugs",
     "Content": "Update 27.05: I have this fixed, update later today... probably.If app closes by itself(aka. crashes) when switching views/categories/filters please disable upper navigation bar in settings. I was able to pinpoint it down just now and update will take a few hours to complete. I hope that this was the only factor here... sorry for inconvenience, you can expect hotfix and performance update soon."
-  },
-  {
-    "Title": "v4.1.16.0 almost done!",
-    "Date": "21.05.2016",
-    "Type": "Updates",
-    "Content": "Update will go live on Monday/Tuesday. It packs complete overhaul of live tiles , calendar page and swipe to increment/decrement on mobile + tons of eye candies :). 'Support me' button should work with new ad provider too."
   }
 
 ]

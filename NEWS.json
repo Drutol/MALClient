@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Mobile crashes",
+    "Date": "04.06.2016",
+    "Type": "Bugs",
+    "Content": "Somehow I managed to bug anime update method, hotfix is already in certification but knowing Microsoft it'll probably arrive on Monday..."
+  },
+  {
     "Title": "Top anime - missing images.",
     "Date": "03.06.2016",
     "Type": "Bugs",

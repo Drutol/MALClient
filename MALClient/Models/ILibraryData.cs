@@ -14,5 +14,7 @@ namespace MALClient.Models
         string ImgUrl { get; set; }
         int Type { get; set; }
         DateTime LastWatched { get; set; }
+        string MyStartDate { get; set; }
+        string MyEndDate { get; set; }
     }
 }

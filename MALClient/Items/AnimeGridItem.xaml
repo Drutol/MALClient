@@ -65,7 +65,7 @@
                 </Image.Source>
             </Image>
                 <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
-              Visibility="{x:Bind ViewModel.Auth,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}">
+              Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>

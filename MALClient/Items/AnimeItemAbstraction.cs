@@ -33,7 +33,12 @@ namespace MALClient.Items
         private AnimeItemAbstraction(ILibraryData entry, int? id = null)
         {
             if (entry != null)
+            {
                 EntryData = entry;
+                MyStartDate = entry.MyStartDate;
+                MyEndDate = entry.MyEndDate;
+            }
+
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(id ?? Id, out data)) return;
             LoadedVolatile = true;
@@ -45,7 +50,7 @@ namespace MALClient.Items
         //three constructors depending on original init
         public AnimeItemAbstraction(SeasonalAnimeData data, bool anime) : this(null, data.Id)
         {
-            _seasonalData = data;
+            _seasonalData = data;           
             Index = data.Index;
             RepresentsAnime = anime;
         }
@@ -54,15 +59,12 @@ namespace MALClient.Items
         {
             RepresentsAnime = false;
             Auth = auth;
-            MyStartDate = data.MyStartDate;
-            MyEndDate = data.MyEndDate;
             _firstConstructor = true;
         }
 
         public AnimeItemAbstraction(bool auth, AnimeLibraryItemData data) : this(data)
         {
             Auth = auth;
-
             _firstConstructor = true;
         }
 

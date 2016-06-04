@@ -21,10 +21,16 @@ namespace MALClient.Comm
             string endDate)
         {
             UpdatedSomething = true;
-            var splitDate = startDate.Split('-');
-            startDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
-            splitDate = endDate.Split('-');
-            endDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
+            if (startDate != null)
+            {
+                var splitDate = startDate.Split('-');
+                startDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
+            }
+            if (endDate == null)
+            {
+                var splitDate = endDate.Split('-');
+                endDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
+            }
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
@@ -36,8 +42,8 @@ namespace MALClient.Comm
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");
             //xml.AppendLine("<rewatch_value></rewatch_value>");
-            xml.AppendLine($"<date_start>{startDate}</date_start>");
-            xml.AppendLine($"<date_finish>{endDate}</date_finish>");
+            if(startDate != null) xml.AppendLine($"<date_start>{startDate}</date_start>");
+            if(endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
             //xml.AppendLine("<enable_rewatching></enable_rewatching>");

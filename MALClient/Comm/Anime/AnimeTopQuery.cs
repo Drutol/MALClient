@@ -59,7 +59,7 @@ namespace MALClient.Comm
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
-                    var img = item.Descendants("img").First().Attributes["src"].Value;
+                    var img = item.Descendants("img").First().Attributes["data-src"].Value;
                     var pos = img.LastIndexOf('t');
                     // we want to remove last "t" from url as this is much smaller image than we would want
                     current.ImgUrl = pos != -1 ? img.Remove(pos, 1) : img;

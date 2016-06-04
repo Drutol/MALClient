@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Top anime - missing images.",
+    "Date": "03.06.2016",
+    "Type": "Bugs",
+    "Content": "MAL has changed how those images are loaded in html, fix on monday. Sorry for inconvenience."
+  },
+  {
     "Title": "v4.2.3.0 preview!",
     "Date": "31.05.2016",
     "Type": "Updates",
@@ -16,12 +22,5 @@
     "Date": "28.05.2016",
     "Type": "Bugs",
     "Content": "I'm aware of those crashes, fix coming on Monday as MSFT won't certificate update during weekend. Sorry :("
-  },
-  {
-    "Title": "Unstable desktop version? Fix on its way!",
-    "Date": "26.05.2016",
-    "Type": "Bugs",
-    "Content": "Update 27.05: I have this fixed, update later today... probably.If app closes by itself(aka. crashes) when switching views/categories/filters please disable upper navigation bar in settings. I was able to pinpoint it down just now and update will take a few hours to complete. I hope that this was the only factor here... sorry for inconvenience, you can expect hotfix and performance update soon."
   }
-
 ]

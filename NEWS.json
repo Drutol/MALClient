@@ -1,9 +1,9 @@
 [
   {
-    "Title": "Mobile crashes",
-    "Date": "04.06.2016",
-    "Type": "Bugs",
-    "Content": "Somehow I managed to bug anime update method, hotfix is already in certification but knowing Microsoft it'll probably arrive on Monday..."
+    "Title": "Articles",
+    "Date": "06.06.2016",
+    "Type": "New stuff",
+    "Content": "Next in queue are Mal articles, development is progressing smoothly and I have them working more or less. Screenshots on github :)"
   },
   {
     "Title": "Top anime - missing images.",
@@ -23,10 +23,4 @@
     "Type": "Updates",
     "Content": "Profile page will get 3rd update soon, full revamp for dekstop and updates for mobile. It'll include more stats, basic user details, comments, friends and ability to view other users' accounts. Screenshots on github :)"
   },
-  {
-    "Title": "Manga update issues.",
-    "Date": "28.05.2016",
-    "Type": "Bugs",
-    "Content": "I'm aware of those crashes, fix coming on Monday as MSFT won't certificate update during weekend. Sorry :("
-  }
 ]

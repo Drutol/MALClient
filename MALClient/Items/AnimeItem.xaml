@@ -43,15 +43,16 @@
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
                 Visibility="Visible" Click="BtnMoreOnClick">
             <Button.Background>
-                <SolidColorBrush Color="Black" Opacity=".5" />
+                <SolidColorBrush Color="Black" Opacity=".75" />
             </Button.Background>
             <SymbolIcon Symbol="More" Foreground="White" />
         </Button>
         <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{x:Bind ViewModel.AddAnimeCommand,Mode=OneWay}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40"
-                Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay}">
+                Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay}"
+                BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
             <Button.Background>
-                <SolidColorBrush Color="Black" Opacity=".5" />
+                <SolidColorBrush Color="Black" Opacity=".75" />
             </Button.Background>
             <SymbolIcon Symbol="Add" Foreground="White" />
         </Button>

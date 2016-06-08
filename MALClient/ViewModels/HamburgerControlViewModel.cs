@@ -17,7 +17,6 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
-using VungleSDK;
 
 namespace MALClient.ViewModels
 {
@@ -114,7 +113,6 @@ namespace MALClient.ViewModels
                 return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<object>(ButtonClick));
             }
         }
-        private VungleAd VungleAdInstance;
         public ICommand ButtonAdCommand
         {
             get

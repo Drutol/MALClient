@@ -7,7 +7,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using MALClient.ViewModels;
-using VungleSDK;
 
 #pragma warning disable 4014
 
@@ -76,40 +75,7 @@ namespace MALClient.UserControls
         }
 
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AdLoadingSpinnerVisibility = Visibility.Visible;
-            _adRequested = true;
-            if (VungleAdInstance == null)
-            {
-                VungleAdInstance = AdFactory.GetInstance("5735f9ae0b3973633c00004b");
-
-                VungleAdInstance.OnAdPlayableChanged += VungleAdInstanceOnOnAdPlayableChanged;
-            }
-            else
-            {
-                VungleAdInstanceOnOnAdPlayableChanged(null,null);
-            }
-        }
-
-        public VungleAd VungleAdInstance { get; set; }
-        private bool _adRequested;
-        private async void VungleAdInstanceOnOnAdPlayableChanged(object sender, AdPlayableEventArgs adPlayableEventArgs)
-        {
-            if(_adRequested)
-            await Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-            {
-                await
-                    VungleAdInstance.PlayAdAsync(new AdConfig
-                    {
-                        Incentivized = true,
-                        SoundEnabled = true,                       
-                    });
-                ViewModel.AdLoadingSpinnerVisibility = Visibility.Collapsed;
-            });
-            _adRequested = false;
-
-        }
+        
 
         private async void Donate(object sender, RoutedEventArgs e)
         {

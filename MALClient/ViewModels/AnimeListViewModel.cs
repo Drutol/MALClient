@@ -565,7 +565,7 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.SeasonalAnime:
                     var tResponse = new List<SeasonalAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
-                        tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime()));
+                        tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
                     data.AddRange(tResponse);
                     break;
                 case AnimeListWorkModes.TopAnime:

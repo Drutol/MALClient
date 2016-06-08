@@ -346,7 +346,6 @@
                                         <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate"/>
                                         <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate"/>
                                         <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate"/>
-                                        <MenuFlyoutItem Text="Watch ad" Click="ButtonBase_OnClick"/>
                                     </MenuFlyout>
                                 </Button.Flyout>
                                 <Grid Width="220" Height="35">

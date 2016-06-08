@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Items;
+using MALClient.Models;
 using MALClient.Pages;
 
 namespace MALClient.ViewModels
@@ -93,12 +94,49 @@ namespace MALClient.ViewModels
 
         private async void AddThisToMyList()
         {
+            LoadingUpdate = Visibility.Visible;
             var response =
                 ParentAbstraction.RepresentsAnime
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
+            LoadingUpdate = Visibility.Collapsed;
             if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
                 return;
+            var startDate = "0000-00-00";
+            if (Settings.SetStartDateOnListAdd)
+                startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+            var animeItem = ParentAbstraction.RepresentsAnime
+               ? new AnimeLibraryItemData
+               {
+                   Title = Title,
+                   ImgUrl = ImgUrl,
+                   Type = ParentAbstraction.Type,
+                   Id = Id,
+                   AllEpisodes = AllEpisodes,
+                   MalId = ParentAbstraction.MalId,
+                   MyStatus = AnimeStatus.PlanToWatch,
+                   MyEpisodes = 0,
+                   MyScore = 0,
+                   MyStartDate = startDate,
+                   MyEndDate = AnimeItemViewModel.InvalidStartEndDate
+               }
+               : new MangaLibraryItemData
+               {
+                   Title = Title,
+                   ImgUrl = ImgUrl,
+                   Type = ParentAbstraction.Type,
+                   Id = Id,
+                   AllEpisodes = AllEpisodes,
+                   MalId = ParentAbstraction.MalId,
+                   MyStatus = AnimeStatus.PlanToWatch,
+                   MyEpisodes = 0,
+                   MyScore = 0,
+                   MyStartDate = startDate,
+                   MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                   AllVolumes = AllVolumes,
+                   MyVolumes = MyVolumes
+               };
+            ParentAbstraction.EntryData = animeItem;
             _seasonalState = false;
             SetAuthStatus(true);
             MyScore = 0;
@@ -110,9 +148,13 @@ namespace MALClient.ViewModels
                 MyVolumes = 0;
 
             ItemManipulationMode = ManipulationModes.All;
-            AdjustIncrementButtonsVisibility();
             AddToListVisibility = Visibility.Collapsed;
             ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
+            await Task.Delay(10);
+            RaisePropertyChanged(() => MyStatusBindShort);
+            RaisePropertyChanged(() => MyStatusBind);
+            if (ViewModelLocator.AnimeDetails.Id == Id)
+                ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
         }
 
         public static void UpdateScoreFlyoutChoices()

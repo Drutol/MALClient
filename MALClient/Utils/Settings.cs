@@ -98,12 +98,6 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["DefaultFilterM"] = value; }
         }
 
-        public static int ItemsPerPage
-        {
-            get { return (int) (ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] ?? 5); }
-            set { ApplicationData.Current.LocalSettings.Values["ItemsPerPage"] = value; }
-        }
-
         public static int ReviewsToPull
         {
             get { return (int) (ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] ?? 4); }
@@ -118,7 +112,7 @@ namespace MALClient
 
         public static int SeasonalToPull
         {
-            get { return (int) (ApplicationData.Current.LocalSettings.Values["SeasonalToPull"] ?? 30); }
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["SeasonalToPull"] ?? 45); }
             set { ApplicationData.Current.LocalSettings.Values["SeasonalToPull"] = value; }
         }
 

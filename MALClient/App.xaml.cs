@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.ViewModels;
-using Microsoft.ApplicationInsights;
+using Microsoft.HockeyApp;
 
 namespace MALClient
 {
@@ -31,9 +31,9 @@ namespace MALClient
         /// </summary>
         public App()
         {
-            WindowsAppInitializer.InitializeAsync(
-                WindowsCollectors.Metadata |
-                WindowsCollectors.Session);
+#if !DEBUG
+            HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c");
+#endif
             Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;

@@ -716,17 +716,18 @@
                                                     <Setter Property="TextAlignment" Value="Left" />
                                                 </Style>
                                             </StackPanel.Resources>
+                                            <TextBlock Text="09.06.2016 - v4.2.6.0" />
+                                            <TextBlock Text="Fixed direct anime add button." />
+                                            <TextBlock Text="Grid items now display add to list button." />
+                                            <TextBlock Text="Reloading seasonal anime will now force update with web." />
+                                            <TextBlock Text="Upped default amount of seasonal items to 45." />
+                                            <MenuFlyoutSeparator/>
                                             <TextBlock Text="01.06.2016 - v4.2.4.0" />
                                             <TextBlock Text="New profile page." />
                                             <TextBlock Text="Grid items will now do their best to stretch themselves while initializing." />
                                             <TextBlock Text="Fixed manga update crashes." />
                                             <TextBlock Text="Adding new item will no longer display unknown amount of episodes total." />
                                             <TextBlock Text="Disabled swipe to increment/decrement in calendar page." />
-                                            <MenuFlyoutSeparator/>
-                                            <TextBlock Text="28.05.2016 - v4.1.22.0" />
-                                            <TextBlock Text="Improved performance." />
-                                            <TextBlock Text="Fixed issue with too big grid items when starting app in landscape orientation." />
-                                            <TextBlock Text="Removed expand button from reviews. Now whole reviews acts like this button." />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

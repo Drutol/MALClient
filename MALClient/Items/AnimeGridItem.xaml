@@ -15,8 +15,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <Storyboard x:Name="GoBackStoryboard" TargetName="TranslateTransformSwipe" TargetProperty="X"
                         SpeedRatio="5">
@@ -125,7 +123,7 @@
                 <ProgressBar Margin="0,2" IsIndeterminate="True" Grid.Column="0" Grid.ColumnSpan="2"
                              Visibility="{x:Bind ViewModel.LoadingUpdate,Mode=OneWay}"
                              VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
-                <Button Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="45" Width="45"
+                <Button Grid.Column="1" HorizontalAlignment="Center" Margin="1,1,0,0" VerticalAlignment="Center" Height="45" Width="45"
                         RenderTransformOrigin="0.5,0.5"
                         Command="{x:Bind ViewModel.AddAnimeCommand,Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay}"

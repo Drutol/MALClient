@@ -52,7 +52,7 @@ namespace MALClient.Comm
                     var current = new DirectRecommendationData();
 
                     var tds = recommNode.Descendants("td").Take(2).ToList();
-                    current.ImageUrl = tds[0].Descendants("img").First().Attributes["src"].Value;
+                    current.ImageUrl = tds[0].Descendants("img").First().Attributes["data-src"].Value;
                     var pos = current.ImageUrl.LastIndexOf('t');
                     // we want to remove last "t" from url as this is much smaller image than we would want
                     if (pos != -1)

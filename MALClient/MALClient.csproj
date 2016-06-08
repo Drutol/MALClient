@@ -263,6 +263,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\GitHub-Mark-120px-plus.png" />
+    <Content Include="Assets\GitHub-Mark-Light-120px-plus.png" />
     <Content Include="Assets\hummingbird150x150.scale-200.png" />
     <Content Include="Assets\mallonglogo300x150.png" />
     <Content Include="Comm\HtmlClassesDefinitions.json" />

@@ -61,7 +61,7 @@ namespace MALClient.Comm
                             .First() //2nd picSurround
                             .Descendants("a").First(); //2nd a tag
                         current.Author = pictureNode.Attributes["href"].Value.Split('/')[2];
-                        current.AuthorAvatar = pictureNode.Descendants("img").First().Attributes["src"].Value;
+                        current.AuthorAvatar = pictureNode.Descendants("img").First().Attributes["data-src"].Value;
                         //
                         current.HelpfulCount = detailsNode.Descendants("div")
                             .First(node =>

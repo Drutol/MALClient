@@ -80,8 +80,7 @@
                                     <Grid>
                                         <StackPanel VerticalAlignment="Top">
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
+                                                    BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="0">
                                                 <Grid Width="220" Height="45">
@@ -106,8 +105,7 @@
                                                 </Grid>
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
+                                                    BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="3">
                                                 <Grid Width="220" Height="45">
@@ -133,8 +131,6 @@
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
-                                                    PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="8">
                                                 <Grid Width="220" Height="45">
@@ -161,8 +157,6 @@
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
-                                                    PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="7"
                                                     Visibility="{Binding MalApiSpecificButtonsVisibility}">
@@ -190,8 +184,6 @@
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
-                                                    PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="11">
                                                 <Grid Width="220" Height="45">
@@ -218,8 +210,6 @@
                                             <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                                     Background="Transparent"
                                                     BorderThickness="0"
-                                                    PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="13">
                                                 <Grid Width="220" Height="45">
@@ -249,8 +239,7 @@
                                     <Grid>
                                         <StackPanel VerticalAlignment="Top">
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
+                                                    BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="9">
                                                 <Grid Width="220" Height="45">
@@ -276,8 +265,7 @@
                                                 </Grid>
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
+                                                    BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="10"
                                                     Visibility="{Binding MalApiSpecificButtonsVisibility}">
@@ -305,8 +293,6 @@
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
-                                                    PointerEntered="Button_PointerEntered"
-                                                    PointerExited="Button_PointerExited"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="12">
                                                 <Grid Width="220" Height="45">
@@ -339,8 +325,7 @@
                         <Grid VerticalAlignment="Stretch" Grid.Row="1" />
                         <StackPanel Grid.Row="2" Margin="{Binding BottomStackPanelMargin}">
                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited" Visibility="Visible">
+                                    BorderThickness="0" Visibility="Visible">
                                 <Button.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate"/>
@@ -368,13 +353,25 @@
                                                   Grid.Column="0" IsActive="True"
                                                   Visibility="{Binding AdLoadingSpinnerVisibility}" />
                                     <TextBlock Text="Support me!" HorizontalAlignment="Stretch"
-                                               TextWrapping="WrapWholeWords" FontSize="14" FontWeight="SemiLight"
+                                               TextWrapping="WrapWholeWords"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
-                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited"
+                                BorderThickness="0" Visibility="Visible"
+                                Click="OpenRepo">
+                                <Grid Height="35" Width="220">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image x:Name="FeedbackImage" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill" Width="25" Height="25"/>
+                                    <TextBlock Text="Feedback" HorizontalAlignment="Center"                                 
+                                           Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                                </Grid>
+                            </Button>
+                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                    BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="4">
                                 <Grid Width="220" Height="35">
@@ -396,8 +393,7 @@
                             </Button>
                             <Button x:Name="BtnProfile" VerticalContentAlignment="Center" Background="Transparent"
                                     Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                    BorderThickness="0" PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited"
+                                    BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="5">
                                 <Grid Width="220" Height="35">
@@ -421,8 +417,6 @@
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0"
-                                    PointerEntered="Button_PointerEntered"
-                                    PointerExited="Button_PointerExited"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="2">
                                 <Grid Width="220" Height="35">

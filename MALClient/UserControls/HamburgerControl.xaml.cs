@@ -1,11 +1,13 @@
 ﻿using System;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Store;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using MALClient.ViewModels;
 
 #pragma warning disable 4014
@@ -50,33 +52,12 @@ namespace MALClient.UserControls
             ViewModel.SetActiveButton(Credentials.Authenticated
                 ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList)
                 : HamburgerButtons.LogIn);
+
+            FeedbackImage.Source = Settings.SelectedTheme == ApplicationTheme.Dark
+                ? new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-Light-120px-plus.png"))
+                : new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-120px-plus.png"));
         }
-
-        private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            //var btn = sender as Button;
-            //var grid = btn.Content as Grid;
-            //foreach (Border item in grid.Children.OfType<Border>())
-            //{
-            //    item.Visibility = Visibility.Visible;
-            //    break;
-            //}
-        }
-
-        private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            //var btn = sender as Button;
-            //var grid = btn.Content as Grid;
-            //foreach (Border item in grid.Children.OfType<Border>())
-            //{
-            //    item.Visibility = Visibility.Collapsed;
-            //    break;
-            //}
-        }
-
-
-        
-
+    
         private async void Donate(object sender, RoutedEventArgs e)
         {
             try
@@ -88,6 +69,11 @@ namespace MALClient.UserControls
             {
                 // no donation
             }
+        }
+
+        private async void OpenRepo(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
         }
 
     }

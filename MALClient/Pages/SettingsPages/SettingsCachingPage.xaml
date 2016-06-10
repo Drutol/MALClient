@@ -1,0 +1,106 @@
+﻿<Page
+    x:Class="MALClient.Pages.SettingsPages.SettingsCachingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:MALClient.UserControls"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <ScrollViewer>
+        <StackPanel HorizontalAlignment="Stretch">
+            <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
+            <userControls:AlternatingListView ItemsSource="{Binding CachedEntries}" Height="Auto"
+                                                          HorizontalAlignment="Stretch"
+                                                          SelectionMode="None" Margin="0,10,0,5">
+                <ListView.Header>
+                    <TextBlock Visibility="{Binding EmptyCachedListVisiblity}"
+                                               Text="No cached entries."
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </ListView.Header>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="BorderBrush"
+                                                Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <Setter Property="BorderThickness" Value="3,0,0,0" />
+                        <Setter Property="Margin" Value="0,1" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+                                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                       Grid.Column="0" TextWrapping="NoWrap"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       FontWeight="Medium"
+                                                       Text="{Binding FileName}"
+                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <TextBlock Text="{Binding Size}" Grid.Row="1" VerticalAlignment="Center"
+                                                       Grid.Column="0" />
+                            <TextBlock Text="{Binding Date}" Grid.Row="1" VerticalAlignment="Center"
+                                                       HorizontalAlignment="Center"
+                                                       Grid.Column="1" TextWrapping="WrapWholeWords"
+                                                       Margin="0,0,5,0" />
+                            <Button Grid.Column="2" Grid.Row="0" Click="BtnCachedEntryRemove" Tag="{Binding}" Command="{Binding RemoveFileCommand}" Grid.RowSpan="2"
+                                                    VerticalAlignment="Center">
+                                <SymbolIcon Symbol="Delete" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </userControls:AlternatingListView>
+            <Button Visibility="{Binding RemoveAllCachedDataButtonVisibility}" Margin="2" Click="RemoveAllAnimeDetails"
+                                    HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Delete" VerticalAlignment="Center" />
+                    <TextBlock  Text="{Binding TotalFilesCached}"
+                                               VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0" />
+                </StackPanel>
+            </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <ToggleSwitch VerticalAlignment="Center"
+                                              IsOn="{Binding IsCachingEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Enable list data caching." VerticalAlignment="Center"
+                                           TextAlignment="Center" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium"
+                                           TextWrapping="WrapWholeWords" HorizontalAlignment="Center" />
+                <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5"
+                                          SelectionChanged="ChangeCachePersistency">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="10 minutes" />
+                        <ComboBoxItem Content="1 hour" />
+                        <ComboBoxItem Content="2 hours" />
+                        <ComboBoxItem Content="3 hours" />
+                        <ComboBoxItem Content="5 hours" />
+                        <ComboBoxItem Content="10 hours" />
+                        <ComboBoxItem Content="1 day" />
+                    </ComboBox.Items>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

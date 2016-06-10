@@ -99,10 +99,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AdMediator.config" />
     <PRIResource Include="MalClientResources.resw" />
     <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
@@ -158,6 +154,7 @@
     <Compile Include="Models\AnimeLibraryItemData.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
+    <Compile Include="Models\CachedEntryModel.cs" />
     <Compile Include="Models\Favourites\FavCharacter.cs" />
     <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ILibraryData.cs" />
@@ -207,6 +204,14 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPages\SettingsAboutPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsCachingPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsCalendarPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsGeneralPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsHomePage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsMiscPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsNewsPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsSlidersPage.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
@@ -357,6 +362,38 @@
     <Page Include="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsAboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsCachingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsCalendarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsGeneralPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsHomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsMiscPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsNewsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsSlidersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\CachedEntryItem.xaml">
       <SubType>Designer</SubType>

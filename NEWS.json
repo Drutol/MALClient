@@ -1,5 +1,11 @@
 [
   {
+    "Title": "v4.3.17 Preview",
+    "Date": "11.06.2016",
+    "Type": "Updates",
+    "Content": "Preview version for desktop is available on github. It features: Articles&News, Top Anime now has 8 categories and Hamburger menu received some lifting. Tell me what you think!"
+  },
+  {
     "Title": "Articles",
     "Date": "06.06.2016",
     "Type": "New stuff",
@@ -16,11 +22,5 @@
     "Date": "31.05.2016",
     "Type": "Updates",
     "Content": "Due to random storms randomly trying to fry my computer I did not manage to finish this update today as I planned. I have previews though, which are available on github. Help me test them out!"
-  },
-  {
-    "Title": "New profile page!",
-    "Date": "30.05.2016",
-    "Type": "Updates",
-    "Content": "Profile page will get 3rd update soon, full revamp for dekstop and updates for mobile. It'll include more stats, basic user details, comments, friends and ability to view other users' accounts. Screenshots on github :)"
-  },
+  }
 ]

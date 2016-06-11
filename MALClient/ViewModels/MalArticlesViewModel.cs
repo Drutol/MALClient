@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Comm.Articles;
 using MALClient.Models;
+using MALClient.Pages;
 
 namespace MALClient.ViewModels
 {
@@ -22,7 +23,7 @@ namespace MALClient.ViewModels
     public class MalArticlesPageNavigationArgs
     {
         public ArticlePageWorkMode WorkMode { get; set; }
-
+        public int NewsId { get; set; } = -1;
         private MalArticlesPageNavigationArgs()
         {
             
@@ -32,13 +33,13 @@ namespace MALClient.ViewModels
         public static MalArticlesPageNavigationArgs News => new MalArticlesPageNavigationArgs {WorkMode = ArticlePageWorkMode.News};
     }
 
-    public delegate void OpenWebViewRequest(string html);
+    public delegate void OpenWebViewRequest(string html,int id);
 
     public class MalArticlesViewModel : ViewModelBase
     {
-        private SmartObservableCollection<MalNewsUnitModel> _articles = new SmartObservableCollection<MalNewsUnitModel>();
+        private List<MalNewsUnitModel> _articles = new List<MalNewsUnitModel>();
 
-        public SmartObservableCollection<MalNewsUnitModel> Articles
+        public List<MalNewsUnitModel> Articles
         {
             get { return _articles; }
             set
@@ -86,6 +87,8 @@ namespace MALClient.ViewModels
             get { return _loadingVisibility; }
             set
             {
+                if(_loadingData)
+                    return;
                 _loadingVisibility = value;
                 RaisePropertyChanged(() => LoadingVisibility);
             }
@@ -114,17 +117,30 @@ namespace MALClient.ViewModels
             }
         }
 
+        private bool _loadingData;
         private ArticlePageWorkMode? _prevWorkMode;
         public async void Init(MalArticlesPageNavigationArgs args,bool force = false)
         {
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ArticleIndexVisibility = Visibility.Visible;
             WebViewVisibility = Visibility.Collapsed;
             ViewModelLocator.Main.CurrentStatus = args.WorkMode == ArticlePageWorkMode.Articles ? "Articles" : "News";
 
             if (_prevWorkMode == args.WorkMode)
+            {
+                try
+                {
+                    if (args.NewsId != -1)
+                        LoadArticle(Articles[args.NewsId]);
+                }
+                catch (Exception)
+                {
+                    //
+                }
                 return;
-
-
+            }          
+            LoadingVisibility = Visibility.Visible;
+            _loadingData = true;
 
             switch (args.WorkMode)
             {
@@ -141,12 +157,17 @@ namespace MALClient.ViewModels
             _prevWorkMode = args.WorkMode;
 
             var data = new List<MalNewsUnitModel>();
-            Articles.Clear();
-            LoadingVisibility = Visibility.Visible;
-            await Task.Delay(10);
-            await Task.Run(new Func<Task>(async () => data = await new MalArticlesIndexQuery(args.WorkMode).GetArticlesIndex(force)));
-            Articles.AddRange(data);
+            Articles = new List<MalNewsUnitModel>();
+           
+            await Task.Run(async () =>
+            {
+                data = await new MalArticlesIndexQuery(args.WorkMode).GetArticlesIndex(force);                
+            });
+            Articles = data;
+            _loadingData = false;
             LoadingVisibility = Visibility.Collapsed;
+
+
         }
 
         private async void LoadArticle(MalNewsUnitModel data)
@@ -154,13 +175,11 @@ namespace MALClient.ViewModels
             LoadingVisibility = Visibility.Visible;
             ArticleIndexVisibility = Visibility.Collapsed;
             ViewModelLocator.Main.CurrentStatus = data.Title;
-            NavMgr.RegisterOneTimeOverride(new RelayCommand(() =>
-            {
-                WebViewVisibility = Visibility.Collapsed;
-                ArticleIndexVisibility = Visibility.Visible;
-                ViewModelLocator.Main.CurrentStatus = _prevWorkMode != null && _prevWorkMode.Value == ArticlePageWorkMode.Articles ? "Artilces" : "News";
-            }));
-            OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml());
+            NavMgr.RegisterBackNav(PageIndex.PageArticles,
+                data.Type == MalNewsType.Article
+                    ? MalArticlesPageNavigationArgs.Articles
+                    : MalArticlesPageNavigationArgs.News);
+            OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml(), Articles.IndexOf(data));
         }
     }
 }

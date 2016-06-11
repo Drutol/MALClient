@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
+using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
@@ -587,7 +588,7 @@ namespace MALClient
 
         #region TopAnime
 
-        public static async void SaveTopAnimeData(List<TopAnimeData> data, bool anime)
+        public static async void SaveTopAnimeData(List<TopAnimeData> data, TopAnimeType type)
         {
             try
             {
@@ -598,7 +599,7 @@ namespace MALClient
                     var file =
                         await
                             ApplicationData.Current.LocalFolder.CreateFileAsync(
-                                $"top_{(anime ? "anime" : "manga")}.json", CreationCollisionOption.ReplaceExisting);
+                                $"top_{type}_data.json", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(file, json);
                 });
             }
@@ -608,12 +609,12 @@ namespace MALClient
             }
         }
 
-        public static async Task<List<TopAnimeData>> RetrieveTopAnimeData(bool anime)
+        public static async Task<List<TopAnimeData>> RetrieveTopAnimeData(TopAnimeType type)
         {
             try
             {
                 var file =
-                    await ApplicationData.Current.LocalFolder.GetFileAsync($"top_{(anime ? "anime" : "manga")}.json");
+                    await ApplicationData.Current.LocalFolder.GetFileAsync($"top_{type}_data.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, List<TopAnimeData>>>(data);

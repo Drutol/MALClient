@@ -29,6 +29,11 @@ namespace MALClient.ViewModels
 
         private ICommand _buttonAdCommand;
         private ICommand _buttonNavigationCommand;
+        private ICommand _buttonNavigationTopAnimeCommand;
+
+        public ICommand ButtonNavigationTopAnimeCommand
+            => _buttonNavigationTopAnimeCommand ?? (_buttonNavigationTopAnimeCommand = new RelayCommand<object>(ButtonClickTopCategory));
+
 
         private double _gridBtmMarginHeight;
 
@@ -38,9 +43,6 @@ namespace MALClient.ViewModels
         private bool? _prevState;
 
         private bool _profileButtonVisibility;
-
-        private int _stackPanelHeightSum = Credentials.Authenticated ? 370 : 420;
-        //base value , we are either on log in page or list page (app bar on/off)
 
         private bool _subtractedHeightForButton = true;
 
@@ -63,18 +65,6 @@ namespace MALClient.ViewModels
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
         public Dictionary<string, Thickness> TxtBorderBrushThicknesses { get; } = new Dictionary<string, Thickness>();
-
-        public RelayCommand PaneOpenedCommand { get; private set; }
-
-        public double GridSeparatorHeight
-        {
-            get { return _gridSeparatorHeight; }
-            set
-            {
-                _gridSeparatorHeight = value;
-                RaisePropertyChanged(() => GridSeparatorHeight);
-            }
-        }
 
         public double GridBtmMarginHeight
         {
@@ -112,41 +102,7 @@ namespace MALClient.ViewModels
             {
                 return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<object>(ButtonClick));
             }
-        }
-        public ICommand ButtonAdCommand
-        {
-            get
-            {
-                return _buttonAdCommand ?? (_buttonAdCommand = new RelayCommand( () =>
-                {
-                    AdLoadingSpinnerVisibility = Visibility.Visible;
-
-
-                    //var ad = new InterstitialAd();
-                    //AdLoadingSpinnerVisibility = Visibility.Visible;
-                    //ad.AdReady += (sender, o1) =>
-                    //{
-                    //    AdLoadingSpinnerVisibility = Visibility.Collapsed;
-                    //    ad.Show();
-                    //};
-                    //ad.ErrorOccurred += async (sender, args) =>
-                    //{
-                    //    var msg =
-                    //        new MessageDialog(
-                    //            "Microsoft has no ads for you :(\nYou can still donate if you want to...",
-                    //            "Thanks for trying!");
-                    //    await msg.ShowAsync();
-                    //    AdLoadingSpinnerVisibility = Visibility.Collapsed;
-                    //};
-                    //ad.Completed += (sender, o) => Utils.GiveStatusBarFeedback("Thank you so much :D");
-
-                    //ad.RequestAd(AdType.Video, "98d3d081-e5b2-46ea-876d-f1d8176fb908", "291908");
-                }
-                    ));
-            }
-        }
-
-
+        }       
 
         public Visibility MalApiSpecificButtonsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
@@ -207,6 +163,15 @@ namespace MALClient.ViewModels
             }
         }
 
+        private void ButtonClickTopCategory(object o)
+        {
+            if (o == null)
+                return;
+            TopAnimeType type = (TopAnimeType)int.Parse(o as string);
+            ViewModelLocator.Main.Navigate(PageIndex.PageTopAnime, AnimeListPageNavigationArgs.TopAnime(type));
+            SetActiveButton(HamburgerButtons.TopAnime);
+        }
+
         private object GetAppropriateArgsForPage(PageIndex page)
         {
             switch (page)
@@ -220,7 +185,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                     return new SearchPageNavigationArgs();
                 case PageIndex.PageTopAnime:
-                    return AnimeListPageNavigationArgs.TopAnime;
+                    return AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General);
                 case PageIndex.PageTopManga:
                     return AnimeListPageNavigationArgs.TopManga;
                 case PageIndex.PageArticles:
@@ -275,20 +240,10 @@ namespace MALClient.ViewModels
                 }
 
                 ProfileButtonVisibility = true;
-                if (_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum += 35;
-                    _subtractedHeightForButton = false;
-                }
             }
             else
             {
                 ProfileButtonVisibility = false;
-                if (!_subtractedHeightForButton)
-                {
-                    _stackPanelHeightSum -= 35;
-                    _subtractedHeightForButton = true;
-                }
             }
         }
 

@@ -15,73 +15,7 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
-    public enum AnimeListWorkModes
-    {
-        Anime,
-        SeasonalAnime,
-        Manga,
-        TopAnime,
-        TopManga
-    }
-
-    public class AnimeListPageNavigationArgs
-    {
-        public readonly int CurrPage;
-        public readonly bool Descending;
-        public string ListSource;
-        public readonly bool NavArgs;
-        public int Status;
-        public AnimeSeason CurrSeason;
-        public AnimeListDisplayModes DisplayMode;
-        public SortOptions SortOption;
-        public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
-
-        public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
-            AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
-        {
-            SortOption = sort;
-            Status = status;
-            Descending = desc;
-            CurrPage = page;
-            WorkMode = seasonal;
-            ListSource = source;
-            NavArgs = true;
-            CurrSeason = season;
-            DisplayMode = dispMode;
-        }
-
-        private AnimeListPageNavigationArgs()
-        {
-        }
-
-        public AnimeListPageNavigationArgs(int status, AnimeListWorkModes mode)
-        {
-            WorkMode = mode;
-            Status = status;
-        }
-
-        public static AnimeListPageNavigationArgs Seasonal
-            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.SeasonalAnime};
-
-        public static AnimeListPageNavigationArgs Manga
-            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.Manga};
-
-        public static AnimeListPageNavigationArgs TopAnime
-            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.TopAnime};
-
-        public static AnimeListPageNavigationArgs TopManga
-            => new AnimeListPageNavigationArgs {WorkMode = AnimeListWorkModes.TopManga};
-    }
-
-    public enum SortOptions
-    {
-        SortTitle,
-        SortScore,
-        SortWatched,
-        SortAirDay,
-        SortLastWatched,
-        SortNothing
-    }
+    
 
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

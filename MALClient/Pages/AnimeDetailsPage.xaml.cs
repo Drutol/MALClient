@@ -68,13 +68,14 @@ namespace MALClient.Pages
             ViewModel.Init(param);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {          
             DataContext = null;
-            base.OnNavigatedFrom(e);
             NavMgr.DeregisterBackNav();
-            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
+            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;           
+            base.OnNavigatingFrom(e);
         }
+
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)
         {

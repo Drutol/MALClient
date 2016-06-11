@@ -8,25 +8,71 @@ using MALClient.Models;
 
 namespace MALClient.Comm
 {
+    public enum TopAnimeType
+    {
+        General,
+        Airing,
+        Upcoming,
+        Tv,
+        Movies,
+        Ovas,
+        Popular,
+        Favourited,
+        Manga
+    }
+
+
     internal class AnimeTopQuery : Query
     {
-        private readonly bool _animeMode;
+        private static Dictionary<TopAnimeType,List<TopAnimeData>> _prevQueriesCache = new Dictionary<TopAnimeType, List<TopAnimeData>>();
 
-        public AnimeTopQuery(bool animeMode = true)
+        private readonly bool _animeMode;
+        private TopAnimeType _type;
+
+        public AnimeTopQuery(TopAnimeType topType)
         {
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/{(animeMode ? "topanime" : "topmanga")}.php"));
+                    Uri.EscapeUriString($"http://myanimelist.net/{GetEndpoint(topType)}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
-            _animeMode = animeMode;
+            _type = topType;
+        }
+
+        private string GetEndpoint(TopAnimeType type)
+        { 
+            switch (type)
+            {
+                case TopAnimeType.General:
+                    return "topanime.php";
+                case TopAnimeType.Airing:
+                    return "topanime.php?type=airing";
+                case TopAnimeType.Upcoming:
+                    return "topanime.php?type=upcoming";
+                case TopAnimeType.Tv:
+                    return "topanime.php?type=tv";
+                case TopAnimeType.Movies:
+                    return "topanime.php?type=movie";
+                case TopAnimeType.Ovas:
+                    return "topanime.php?type=ova";
+                case TopAnimeType.Popular:
+                    return "topanime.php?type=bypopularity";
+                case TopAnimeType.Favourited:
+                    return "topanime.php?type=favorite";
+                case TopAnimeType.Manga:
+                    return "topmanga.php";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
         }
 
         public async Task<List<TopAnimeData>> GetTopAnimeData(bool force = false)
         {
-            var output = force
-                ? new List<TopAnimeData>()
-                : (await DataCache.RetrieveTopAnimeData(_animeMode) ?? new List<TopAnimeData>());
+            if (!force)
+                if (_prevQueriesCache.ContainsKey(_type))
+                    return _prevQueriesCache[_type];
+
+            var output = force ? new List<TopAnimeData>() : (await DataCache.RetrieveTopAnimeData(_type) ?? new List<TopAnimeData>());
             if (output.Count > 0)
                 return output;
             var raw = await GetRequestResponse();
@@ -36,26 +82,14 @@ namespace MALClient.Comm
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            var topNodes =
-                doc.DocumentNode.Descendants("table")
-                    .First(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Top:mainNode:class"]);
+            var topNodes = doc.DocumentNode.Descendants("table").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:mainNode:class"]);
             var i = 0;
-            foreach (var item in topNodes.Descendants("tr").Where(node =>
-                node.Attributes.Contains("class") &&
-                node.Attributes["class"].Value ==
-                HtmlClassMgr.ClassDefs["#Top:topNode:class"]))
+            foreach (var item in topNodes.Descendants("tr").Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:class"]))
             {
                 try
                 {
                     var current = new TopAnimeData();
-                    var epsText = item.Descendants("div").First(node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        HtmlClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
+                    var epsText = item.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
@@ -63,17 +97,18 @@ namespace MALClient.Comm
                     var pos = img.LastIndexOf('t');
                     // we want to remove last "t" from url as this is much smaller image than we would want
                     current.ImgUrl = pos != -1 ? img.Remove(pos, 1) : img;
-                    var titleNode = item.Descendants("a").First(node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        HtmlClassMgr.ClassDefs[
-                            _animeMode ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
+                    var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs[_type != TopAnimeType.Manga  ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(7).Split('/')[2]);
-                    current.Score = float.Parse(item.Descendants("span").First(node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        HtmlClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());
+                    try
+                    {
+                        current.Score = float.Parse(item.Descendants("span").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());
+                    }
+                    catch (Exception)
+                    {
+                        current.Score = 0; //sometimes score in unavailable -> upcoming for example
+                    }
+                    
                     current.Index = ++i;
 
 
@@ -84,8 +119,8 @@ namespace MALClient.Comm
                     //
                 }
             }
-            DataCache.SaveTopAnimeData(output, _animeMode);
-
+            DataCache.SaveTopAnimeData(output, _type);
+            _prevQueriesCache[_type] = output;
             return output;
         }
     }

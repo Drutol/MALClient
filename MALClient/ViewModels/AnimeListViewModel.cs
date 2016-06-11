@@ -22,6 +22,76 @@ namespace MALClient.ViewModels
         public string Url;
     }
 
+    public enum AnimeListWorkModes
+    {
+        Anime,
+        SeasonalAnime,
+        Manga,
+        TopAnime,
+        TopManga
+    }
+
+    public class AnimeListPageNavigationArgs
+    {
+        public readonly int CurrPage;
+        public readonly bool Descending;
+        public string ListSource;
+        public readonly bool NavArgs;
+        public int Status;
+        public AnimeSeason CurrSeason;
+        public AnimeListDisplayModes DisplayMode;
+        public SortOptions SortOption;
+        public TopAnimeType TopWorkMode;
+        public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
+
+        public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
+            AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
+        {
+            SortOption = sort;
+            Status = status;
+            Descending = desc;
+            CurrPage = page;
+            WorkMode = seasonal;
+            ListSource = source;
+            NavArgs = true;
+            CurrSeason = season;
+            DisplayMode = dispMode;
+        }
+
+        private AnimeListPageNavigationArgs()
+        {
+        }
+
+        public AnimeListPageNavigationArgs(int status, AnimeListWorkModes mode)
+        {
+            WorkMode = mode;
+            Status = status;
+        }
+
+        public static AnimeListPageNavigationArgs Seasonal
+            => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.SeasonalAnime };
+
+        public static AnimeListPageNavigationArgs Manga
+            => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.Manga };
+
+        public static AnimeListPageNavigationArgs TopAnime(TopAnimeType type) =>
+         new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.TopAnime, TopWorkMode = type };
+
+        
+
+        public static AnimeListPageNavigationArgs TopManga
+            => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.TopManga };
+    }
+
+    public enum SortOptions
+    {
+        SortTitle,
+        SortScore,
+        SortWatched,
+        SortAirDay,
+        SortLastWatched,
+        SortNothing
+    }
 
 
     public enum AnimeListDisplayModes
@@ -104,6 +174,8 @@ namespace MALClient.ViewModels
         public event AnimeItemListInitialized Initialized;
 
 
+        public TopAnimeType TopAnimeWorkMode { get; set; }
+
         public async void Init(AnimeListPageNavigationArgs args)
         {
             //base
@@ -125,6 +197,8 @@ namespace MALClient.ViewModels
             if (args != null) //Save current mode
             {
                 WorkMode = args.WorkMode;
+                if (WorkMode == AnimeListWorkModes.TopAnime)
+                    TopAnimeWorkMode = args.TopWorkMode; //we have to have it
                 if (!string.IsNullOrEmpty(args.ListSource))
                     ListSource = args.ListSource;
                 else
@@ -230,6 +304,7 @@ namespace MALClient.ViewModels
             UpdateUpperStatus();
             Initiazlized = true;
         }
+
 
         /// <summary>
         ///     Main refresh function
@@ -573,7 +648,7 @@ namespace MALClient.ViewModels
                     var topResponse = new List<TopAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
                         topResponse =
-                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime).GetTopAnimeData(force)));
+                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga).GetTopAnimeData(force)));
                     data.AddRange(topResponse);
                     break;
             }

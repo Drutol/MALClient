@@ -29,10 +29,18 @@ namespace MALClient.Pages
         public SettingsPage()
         {
             InitializeComponent();
+            Loaded += (sender, args) => NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             SettingsNavFrame.Navigate(typeof(SettingsHomePage), null);
             ViewModelLocator.Main.CurrentStatus = $"Settings - {Utils.GetAppVersion()}";
             _initialized = true;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (_initialized)
+                NavMgr.DeregisterBackNav();
+            base.OnNavigatingFrom(e);
         }
 
         private void ViewModelOnNavigationRequest(Type pageType)

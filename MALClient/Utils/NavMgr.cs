@@ -47,6 +47,7 @@ namespace MALClient
             {
                 var currentView = SystemNavigationManager.GetForCurrentView();
                 currentView.BackRequested += CurrentViewOnBackRequested;
+                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 _handlerRegistered = true;
             }
         }
@@ -98,7 +99,6 @@ namespace MALClient
                 return;
             }
             var currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             currentView.BackRequested -= CurrentViewOnBackRequested;
             _handlerRegistered = false;
         }

@@ -407,18 +407,6 @@
                                               OffContent="Keep"
                                               IsOn="{Binding HideFilterSelectionFlyout,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
-            <MenuFlyoutSeparator Margin="0,5" />
-            <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
-                <TextBlock Margin="0,7" Text="Expandable filters list default state:"
-                                           TextWrapping="WrapWholeWords" FontWeight="Medium"
-                                           HorizontalAlignment="Center" />
-                <ToggleSwitch HorizontalAlignment="Center" Header="Anime filters" OnContent="Expanded"
-                                              OffContent="Collapsed"
-                                              IsOn="{Binding HamburgerAnimeFiltersExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <ToggleSwitch HorizontalAlignment="Center" Header="Manga filters" OnContent="Expanded"
-                                              OffContent="Collapsed"
-                                              IsOn="{Binding HamburgerMangaFiltersExpanded,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>

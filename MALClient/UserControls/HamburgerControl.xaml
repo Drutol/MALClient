@@ -190,6 +190,7 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="45" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[TopAnime]}"
@@ -201,10 +202,32 @@
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtTop" Text="Top Anime"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
-                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               HorizontalAlignment="Left" Margin="25,0,-40,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
+                                                    <Button Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                                                Foreground="{Binding ElementName=TxtTop , Path=Foreground}" >
+                                                            <SymbolIcon.RenderTransform>
+                                                                <RotateTransform Angle="90"/>
+                                                            </SymbolIcon.RenderTransform>
+                                                        </SymbolIcon>
+                                                        <Button.Flyout>
+                                                            <MenuFlyout Placement="Right">
+                                                                <MenuFlyoutItem Text="General" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="0"/>
+                                                                <MenuFlyoutItem Text="Airing" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="1"/>
+                                                                <MenuFlyoutItem Text="Upcoming" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="2"/>
+                                                                <MenuFlyoutItem Text="TV Series" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="3"/>
+                                                                <MenuFlyoutItem Text="Movies" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="4"/>
+                                                                <MenuFlyoutItem Text="OVAs" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="5"/>
+                                                                <MenuFlyoutItem Text="Popular" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="6"/>
+                                                                <MenuFlyoutItem Text="Favourites" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="7"/>
+                                                            </MenuFlyout>
+                                                        </Button.Flyout>
+                                                    </Button>
+                                                    
                                                 </Grid>
                                             </Button>
                                             <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

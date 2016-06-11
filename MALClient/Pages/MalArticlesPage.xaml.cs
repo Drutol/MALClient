@@ -24,6 +24,7 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -37,6 +38,7 @@ namespace MALClient.Pages
             @"<style type=""text/css"">@charset ""UTF-8"";
 	        html, body
 	        {
+                zoom: 150%;
 		        background-color: BodyBackgroundThemeColor;
 		        color: BodyForegroundThemeColor;
                 font-family: 'Segoe UI';
@@ -187,8 +189,16 @@ namespace MALClient.Pages
             ViewModel.OpenWebView += ViewModelOnOpenWebView;
         }
 
-        private void ViewModelOnOpenWebView(string html)
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            NavMgr.DeregisterBackNav();
+            base.OnNavigatingFrom(e);
+        }
+
+        private int _currentId;
+        private void ViewModelOnOpenWebView(string html,int id)
+        {
+            _currentId = id;
             var uiSettings = new Windows.UI.ViewManagement.UISettings();
             var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark2);
@@ -247,9 +257,12 @@ namespace MALClient.Pages
                         int id = int.Parse(link[2]);
                         if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
                             id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
+                        var arg = MalArticlesPageNavigationArgs.Articles;
+                        arg.NewsId = _currentId;
                         ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(id, link[3], null, null)
+                            new AnimeDetailsPageNavigationArgs(id, link[3], null,null, arg)
                             {
+                                Source = PageIndex.PageArticles,
                                 AnimeMode = link[1] == "anime"
                             });
                     }

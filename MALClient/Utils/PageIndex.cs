@@ -16,5 +16,7 @@
         PageTopAnime,
         PageTopManga,
         PageCalendar,
+        PageArticles,
+        PageNews
     }
 }

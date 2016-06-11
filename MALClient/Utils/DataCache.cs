@@ -8,6 +8,7 @@ using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
 using MALClient.Pages;
+using MALClient.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient
@@ -705,6 +706,106 @@ namespace MALClient
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, ProfileData>>(data);
                 return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region ArticlesIndex
+        public static async void SaveArticleIndexData(ArticlePageWorkMode mode, List<MalNewsUnitModel> data)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var folder =
+                        await
+                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
+                                "Articles",
+                                CreationCollisionOption.OpenIfExists);
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, List<MalNewsUnitModel>>(DateTime.UtcNow, data));
+                    var file =
+                        await
+                            folder.CreateFileAsync(mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+        }
+
+        public static async Task<List<MalNewsUnitModel>> RetrieveArticleIndexData(ArticlePageWorkMode mode)
+        {
+            try
+            {
+                var folder =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFolderAsync("Articles",
+                            CreationCollisionOption.OpenIfExists);
+                var file = await folder.GetFileAsync(mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, List<MalNewsUnitModel>>>(data);
+                return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region ArticlesContent
+        public static async void SaveArticleContentData(string title, string htmlData, MalNewsType type)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var folder =
+                        await
+                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
+                                "Articles",
+                                CreationCollisionOption.OpenIfExists);
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.UtcNow, htmlData));
+                    var file =
+                        await
+                            folder.CreateFileAsync($"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception e)
+            {
+                //magic
+            }
+        }
+
+        public static async Task<string> RetrieveArticleContentData(string title, MalNewsType type)
+        {
+            try
+            {
+                var folder =
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFolderAsync("Articles",
+                            CreationCollisionOption.OpenIfExists);
+                var file = await folder.GetFileAsync($"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
+                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null; //7 days of validnessssss
             }
             catch (Exception)
             {

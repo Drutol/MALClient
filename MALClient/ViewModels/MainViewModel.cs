@@ -153,6 +153,13 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Calendar";
                     View.Navigate(typeof(CalendarPage), args);
                     break;
+                case PageIndex.PageArticles:
+                case PageIndex.PageNews:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs, true));
+                    View.Navigate(typeof(MalArticlesPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

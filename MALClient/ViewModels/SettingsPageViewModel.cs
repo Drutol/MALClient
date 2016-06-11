@@ -255,6 +255,12 @@ namespace MALClient.ViewModels
             set { Settings.CalendarSwitchMonSun = !value; }
         }
 
+        public static bool ArticlesLaunchExternalLinks
+        {
+            get { return Settings.ArticlesLaunchExternalLinks; }
+            set { Settings.ArticlesLaunchExternalLinks = value; }
+        }
+
         private List<NewsData> _currentNews { get; set; } = new List<NewsData>();
         public List<NewsData> CurrentNews
         {

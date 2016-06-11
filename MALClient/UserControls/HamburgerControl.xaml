@@ -251,12 +251,11 @@
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink"
+                                                    <SymbolIcon HorizontalAlignment="Center" Symbol="Library"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
                                                     <TextBlock x:Name="TxtMangaList" Text="Manga List"
-
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
@@ -319,6 +318,62 @@
                                             </Button>
                                         </StackPanel>
                                     </Grid>
+                                </PivotItem>
+                                <PivotItem Header="Industry" Height="225">
+                                    <StackPanel VerticalAlignment="Top">
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Command="{Binding ButtonNavigationCommand}"
+                                                    CommandParameter="14">
+                                            <Grid Width="220" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
+                                                        BorderThickness="{Binding TxtBorderBrushThicknesses[Articles]}"
+                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Grid.ColumnSpan="2" />
+                                                <SymbolIcon HorizontalAlignment="Center" Symbol="PreviewLink"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{Binding ElementName=TxtArticles , Path=Foreground}" />
+                                                <TextBlock x:Name="TxtArticles" Text="Articles"
+                                                               Foreground="{Binding Path=TxtForegroundBrushes[Articles]}"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center" />
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                    BorderThickness="0" 
+                                                    Command="{Binding ButtonNavigationCommand}"
+                                                    CommandParameter="15"
+                                                    Visibility="{Binding MalApiSpecificButtonsVisibility}">
+                                            <Grid Width="220" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
+                                                        BorderThickness="{Binding TxtBorderBrushThicknesses[News]}"
+                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Grid.ColumnSpan="2" />
+                                                <SymbolIcon Symbol="PostUpdate" HorizontalAlignment="Center"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{Binding ElementName=TxtNews , Path=Foreground}" />
+                                                <TextBlock x:Name="TxtNews" Text="News"
+
+                                                               Foreground="{Binding Path=TxtForegroundBrushes[News]}"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center" />
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
                                 </PivotItem>
                             </Pivot.Items>
                         </Pivot>

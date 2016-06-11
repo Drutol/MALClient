@@ -112,6 +112,8 @@
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
+    <Compile Include="Comm\Articles\MalArticleQuery.cs" />
+    <Compile Include="Comm\Articles\MalArticlesIndexQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
     <Compile Include="Comm\CommUtils\IParameters.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Models\Favourites\FavPerson.cs" />
     <Compile Include="Models\ILibraryData.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
+    <Compile Include="Models\MalNewsUnitModel.cs" />
     <Compile Include="Models\MangaLibraryItemData.cs" />
     <Compile Include="Models\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
@@ -189,12 +192,13 @@
     <Compile Include="Pages\HummingbirdProfilePage.xaml.cs">
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\PageIndex.cs" />
-    <Compile Include="Pages\IDetailsPageArgs.cs" />
+    <Compile Include="Pages\MalArticlesPage.xaml.cs" />
+    <Compile Include="Utils\PageIndex.cs" />
+    <Compile Include="Utils\IDetailsPageArgs.cs" />
     <Compile Include="Pages\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\PageUtils.cs" />
+    <Compile Include="Utils\PageUtils.cs" />
     <Compile Include="Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
@@ -205,6 +209,7 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPages\SettingsAboutPage.xaml.cs" />
+    <Compile Include="Pages\SettingsPages\SettingsArticlesPage.xaml.cs" />
     <Compile Include="Pages\SettingsPages\SettingsCachingPage.xaml.cs" />
     <Compile Include="Pages\SettingsPages\SettingsCalendarPage.xaml.cs" />
     <Compile Include="Pages\SettingsPages\SettingsGeneralPage.xaml.cs" />
@@ -244,6 +249,7 @@
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MalArticlesViewModel.cs" />
     <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
     <Compile Include="ViewModels\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationsViewModel.cs" />
@@ -351,6 +357,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\MalArticlesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\ProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -364,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\SettingsAboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPages\SettingsArticlesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

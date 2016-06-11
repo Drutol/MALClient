@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="MALClient.Pages.MalArticlesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:MALClient.XamlConverters"
+    xmlns:userControls="using:MALClient.UserControls"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=MalArticles}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ProgressRing IsActive="True" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding LoadingVisibility}"/>
+        <WebView x:Name="ArticleWebView" NavigationCompleted="ArticleWebView_OnNavigationCompleted" 
+                 NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark" 
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding WebViewVisibility}"/>
+        <GridView  SelectionMode="None" ItemsSource="{Binding Articles}" HorizontalAlignment="Center" 
+                   IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" 
+                   Visibility="{Binding ArticleIndexVisibility}" Margin="0,0,-10,0">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid ItemWidth="500" ItemHeight="270" Orientation="Horizontal" Margin="0,0,10,0"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid MaxWidth="600" MaxHeight="270">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MaxWidth="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Stretch="Fill" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                               Width="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailWidth}" 
+                               Height="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailHeight}">
+                                <Image.Source>
+                                    <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" 
+                                             DecodePixelHeight="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailHeight}" 
+                                             DecodePixelWidth="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailWidth}"/>
+                                </Image.Source>
+                            </Image>
+                            <Grid Grid.Row="1"  Margin="0,5" MaxWidth="150">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="15"/>
+                                    </Style>
+                                </Grid.Resources>
+                                <TextBlock Margin="5,1"  Text="{Binding Author}"/>
+                                <TextBlock Grid.Row="1" Margin="5,1" FontWeight="Medium" Text="{Binding Views}"/>
+                                <TextBlock Grid.Row="2" Margin="5,1" FontWeight="SemiLight" TextWrapping="WrapWholeWords" 
+                                           TextTrimming="CharacterEllipsis" FontStyle="Italic" MaxLines="2"
+                                           Foreground="{ThemeResource SystemControlDisabledAccentBrush}" Text="{Binding Tags}"/>
+                            </Grid>
+
+                        </Grid>
+                        <Grid Grid.Column="1" Margin="15,2,5,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Margin="0,5,0,10">
+                                <TextBlock FontSize="19" Text="{Binding Title}" FontWeight="Medium" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                                <MenuFlyoutSeparator Margin="-10,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="1" FontWeight="SemiLight" Text="{Binding Highlight}" MaxLines="8" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        
+    </Grid>
+</Page>

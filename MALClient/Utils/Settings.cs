@@ -352,5 +352,13 @@ namespace MALClient
         }
 
         #endregion
+
+        #region Articles
+        public static bool ArticlesLaunchExternalLinks
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] = value; }
+        }
+        #endregion
     }
 }

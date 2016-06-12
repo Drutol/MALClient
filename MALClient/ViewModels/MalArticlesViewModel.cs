@@ -121,12 +121,19 @@ namespace MALClient.ViewModels
         private ArticlePageWorkMode? _prevWorkMode;
         public async void Init(MalArticlesPageNavigationArgs args,bool force = false)
         {
+            if (args == null) //refresh
+            {
+                args = _prevWorkMode == ArticlePageWorkMode.Articles
+                    ? MalArticlesPageNavigationArgs.Articles
+                    : MalArticlesPageNavigationArgs.News;
+                force = true;
+            }
             NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ArticleIndexVisibility = Visibility.Visible;
             WebViewVisibility = Visibility.Collapsed;
             ViewModelLocator.Main.CurrentStatus = args.WorkMode == ArticlePageWorkMode.Articles ? "Articles" : "News";
 
-            if (_prevWorkMode == args.WorkMode)
+            if (_prevWorkMode == args.WorkMode && !force)
             {
                 try
                 {

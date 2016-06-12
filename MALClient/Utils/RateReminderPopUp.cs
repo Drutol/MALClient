@@ -9,7 +9,7 @@ namespace MALClient
     public static class RateReminderPopUp
     {
         public const int LaunchThresholdValue = 7;
-        public const int DonateLaunchThresholdValue = 100;
+        public const int DonateLaunchThresholdValue = 150;
 
         public static async void ProcessRatePopUp()
         {
@@ -36,7 +36,7 @@ namespace MALClient
         }
 
         /// <summary>
-        /// This will showup once every 100 app launches.
+        /// This will showup once every 150 app launches.
         /// </summary>
         public static async void ProcessDonatePopUp()
         {

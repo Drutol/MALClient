@@ -39,7 +39,7 @@ namespace MALClient.Comm
                 var splitDate = startDate.Split('-');
                 startDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
             }
-            if (endDate == null)
+            if (endDate != null)
             {
                 var splitDate = endDate.Split('-');
                 endDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";

@@ -157,11 +157,9 @@ namespace MALClient.ViewModels
                 case PageIndex.PageNews:
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand =
-                        new RelayCommand(
-                            () => ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs, true));
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
                     if (LastIndex == PageIndex.PageArticles)
-                        ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs, true);
+                        ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
                     else
                         View.Navigate(typeof(MalArticlesPage), args);
                     break;

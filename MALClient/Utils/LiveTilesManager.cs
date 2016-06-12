@@ -195,6 +195,7 @@ namespace MALClient
                 RegisterTileCache(entry.Id,new PinnedTileCache {ImgUri = imgUri,WideImgUri = wideImgUri,Settings = settings});
                 if(settings.AnythingAtAll)
                     UpdateTile(entry,imgUri,wideImgUri,settings);
+                Utils.TelemetryTrackEvent(TelemetryTrackedEvents.PinnedTile);
             }
             catch (Exception)
             {

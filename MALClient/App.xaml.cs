@@ -112,6 +112,7 @@ namespace MALClient
             LiveTilesManager.LoadTileCache();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
+            RateReminderPopUp.ProcessDonatePopUp();
             ProcessStatusBar();
             ProcessUpdate();
         }

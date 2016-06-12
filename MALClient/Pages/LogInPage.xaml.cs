@@ -117,6 +117,7 @@ namespace MALClient.Pages
                 Settings.SelectedApiType = ApiType.Mal;
                 Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                 Credentials.SetAuthStatus(true);
+                Utils.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
             }
             catch (Exception)
             {
@@ -190,6 +191,7 @@ namespace MALClient.Pages
                 Settings.SelectedApiType = ApiType.Hummingbird;
                 Credentials.SetAuthToken(response);
                 Credentials.SetAuthStatus(true);
+                Utils.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInHummingbird);
             }
             catch (Exception)
             {

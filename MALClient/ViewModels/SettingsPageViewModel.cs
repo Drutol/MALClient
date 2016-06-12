@@ -286,12 +286,12 @@ namespace MALClient.ViewModels
 
 
 
-        public async void LoadNews()
+        private async void LoadNews()
         {
             if (_newsLoaded)
                 return;
             _newsLoaded = true;
-
+            Utils.TelemetryTrackEvent(TelemetryTrackedEvents.FetchedNews);
             var data = new List<NewsData>();
             try
             {

@@ -284,6 +284,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["RatePopUpStartupCounter"] = value; }
         }
 
+        public static int DonatePopUpStartupCounter
+        {
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["DonatePopUpStartupCounter"] ?? 0); }
+            set { ApplicationData.Current.LocalSettings.Values["DonatePopUpStartupCounter"] = value; }
+        }
+
         #endregion
 
         #region StartEndDates

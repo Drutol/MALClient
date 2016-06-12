@@ -190,7 +190,6 @@ namespace MALClient.ViewModels
                 page.SortOption,
                 page.CurrentStatus,
                 page.SortDescending,
-                page.CurrentPosition,
                 page.WorkMode,
                 page.ListSource,
                 page.CurrentSeason,

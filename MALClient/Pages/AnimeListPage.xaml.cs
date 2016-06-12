@@ -87,7 +87,9 @@ namespace MALClient.Pages
             if (e.AddedItems.Count == 0)
                 return;
             await Task.Delay(1);
-            (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails();
+            var args = ViewModelLocator.Main.GetCurrentListOrderParams();
+            args.SelectedItemIndex = AnimesItemsIndefinite.SelectedIndex;
+            (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null, args);
         }
 
         private async void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -95,7 +97,9 @@ namespace MALClient.Pages
             if (e.AddedItems.Count == 0)
                 return;
             await Task.Delay(1);
-            (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails();
+            var args = ViewModelLocator.Main.GetCurrentListOrderParams();
+            args.SelectedItemIndex = AnimesGridIndefinite.SelectedIndex;
+            (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null,args);
         }
 
         #region Init
@@ -106,9 +110,27 @@ namespace MALClient.Pages
             ViewModel.View = this;
             Loaded += (sender, args) =>
             {
+                ViewModel.ScrollRequest += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 _loaded = true;
             };
+        }
+
+        private void ViewModelOnScrollRequest(AnimeItemViewModel item)
+        {
+            switch (ViewModel.DisplayMode)
+            {
+                case AnimeListDisplayModes.Empty:
+                    break;
+                case AnimeListDisplayModes.IndefiniteList:
+                    AnimesItemsIndefinite.ScrollIntoView(item);
+                    break;
+                case AnimeListDisplayModes.IndefiniteGrid:
+                    AnimesGridIndefinite.ScrollIntoView(item);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

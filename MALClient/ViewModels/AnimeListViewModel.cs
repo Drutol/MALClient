@@ -31,9 +31,11 @@ namespace MALClient.ViewModels
         TopManga
     }
 
+    public delegate void RequestScrollToItem(AnimeItemViewModel item);
+
     public class AnimeListPageNavigationArgs
     {
-        public readonly int CurrPage;
+        public int SelectedItemIndex = -1;
         public readonly bool Descending;
         public string ListSource;
         public readonly bool NavArgs;
@@ -44,13 +46,12 @@ namespace MALClient.ViewModels
         public TopAnimeType TopWorkMode;
         public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
 
-        public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int page,
+        public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc,
             AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
         {
             SortOption = sort;
             Status = status;
             Descending = desc;
-            CurrPage = page;
             WorkMode = seasonal;
             ListSource = source;
             NavArgs = true;
@@ -172,6 +173,7 @@ namespace MALClient.ViewModels
 
         public int CurrentStatus => GetDesiredStatus();
         public event AnimeItemListInitialized Initialized;
+        public event RequestScrollToItem ScrollRequest;
 
 
         public TopAnimeType TopAnimeWorkMode { get; set; }
@@ -209,7 +211,7 @@ namespace MALClient.ViewModels
                     SortDescending = SortDescending = args.Descending;
                     SetSortOrder(args.SortOption); //index
                     SetDesiredStatus(args.Status);
-                    CurrentPosition = args.CurrPage;
+                    CurrentIndexPosition = args.SelectedItemIndex;
                     CurrentSeason = args.CurrSeason;
                     DisplayMode = args.DisplayMode;
                     gotArgs = true;
@@ -487,7 +489,7 @@ namespace MALClient.ViewModels
         #region IndefiniteScrollerino
 
         private int _lastOffset;
-
+        //public int CurrentPosition { get; set; }
         /// <summary>
         ///     Event handler for event fired by one of two scroll viewrs in List and Grid view mode.
         ///     It loads more items as user is scroling further.
@@ -497,8 +499,7 @@ namespace MALClient.ViewModels
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs args)
         {
             var offset = (int) Math.Ceiling(args.FinalView.VerticalOffset);
-            CurrentPosition = offset;
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = offset > 300
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (_animeItemsSet.Count == 0)
@@ -524,6 +525,8 @@ namespace MALClient.ViewModels
             }
         }
 
+
+
         /// <summary>
         ///     Adds handler to scroll viewer provided by view.
         /// </summary>
@@ -541,18 +544,17 @@ namespace MALClient.ViewModels
         ///     It works more or less...
         /// </summary>
         /// <param name="delay"></param>
-        private async void ScrollToWithDelay(int delay)
-        {
-            await Task.Delay(delay);
-            View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
-        }
+        //private async void ScrollToWithDelay(int delay)
+        //{
+        //    await Task.Delay(delay);
+        //    View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
+        //}
 
         /// <summary>
         ///     Scrolls to top of current indefinite scroll viewer.
         /// </summary>
         public void ScrollToTop()
         {
-            CurrentPosition = 0;
             View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(0);
             ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
@@ -579,34 +581,40 @@ namespace MALClient.ViewModels
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
             await Task.Delay(30);
+            int minimumIndex = CurrentIndexPosition == -1 ? 8 : CurrentIndexPosition+1;
             switch (DisplayMode)
             {
-                //case AnimeListDisplayModes.PivotPages:
-                //    //free spot - maybe I'll invent something or add list from desktop...
-                //    break;
                 case AnimeListDisplayModes.IndefiniteList:
-                    AnimeItems.AddRange(_animeItemsSet.Take(6).Select(abstraction => abstraction.ViewModel));
-                        // 6 seems like reasonable number
-                    _animeItemsSet = _animeItemsSet.Skip(6).ToList();
+                    AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
+                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
                     RaisePropertyChanged(() => AnimeItems);
                     View.GetIndefiniteScrollViewer().Result.UpdateLayout();
-                    View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(CurrentPosition);
                     AddScrollHandler();
                     //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
-                    AnimeItems.AddRange(_animeItemsSet.Take(8).Select(abstraction => abstraction.ViewModel));
-                        // 8 seems like reasonable number
-                    _animeItemsSet = _animeItemsSet.Skip(8).ToList();
+                    AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
+                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
                     RaisePropertyChanged(() => AnimeItems);
                     View.GetIndefiniteScrollViewer().Result.UpdateLayout();
-                    ScrollToWithDelay(500);
                     AddScrollHandler();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentPosition > 300
+            if (CurrentIndexPosition != -1)
+            {
+                try
+                {
+                    ScrollRequest?.Invoke(AnimeItems[CurrentIndexPosition]);
+                }
+                catch (Exception)
+                {
+                    //no index
+                }
+                CurrentIndexPosition = -1;
+            }
+            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentIndexPosition >= 7
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             Loading = false;
@@ -969,7 +977,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public int CurrentPosition { get; set; } = 1;
+        public int CurrentIndexPosition { get; set; } = -1;
 
         private bool _emptyNoticeVisibility;
 
@@ -1068,7 +1076,6 @@ namespace MALClient.ViewModels
                 _statusSelectorSelectedIndex = value;
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 Loading = true;
-                CurrentPosition = 1;
                 _lastOffset = 0;
                 if (Initiazlized)
                 {
@@ -1222,7 +1229,6 @@ namespace MALClient.ViewModels
                 if (Settings.LockDisplayMode)
                     _manuallySelectedViewMode = value.Item1;
                 _lastOffset = 0;
-                CurrentPosition = 1;
                 if (Settings.HideViewSelectionFlyout)
                     View.FlyoutViews.Hide();
                 RaisePropertyChanged(() => DisplayMode);
@@ -1262,20 +1268,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        private int _animesPivotSelectedIndex;
-
-        public int AnimesPivotSelectedIndex
-        {
-            get { return _animesPivotSelectedIndex; }
-            set
-            {
-                _animesPivotSelectedIndex = value;
-                CurrentPosition = value + 1;
-                //AppbarBtnPinTileIsEnabled = false;
-                RaisePropertyChanged(() => AnimesPivotSelectedIndex);
-            }
-        }
-
         private int _seasonalUrlsSelectedIndex;
 
         public int SeasonalUrlsSelectedIndex
@@ -1289,7 +1281,6 @@ namespace MALClient.ViewModels
                 CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
                 RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 View.FlyoutSeasonSelectionHide();
-                CurrentPosition = 1;
                 FetchSeasonalData();
             }
         }
@@ -1304,7 +1295,6 @@ namespace MALClient.ViewModels
                 if (Initiazlized && Settings.HideSortingSelectionFlyout)
                     View.FlyoutSorting.Hide();
                 _sortOption = value;
-                CurrentPosition = 1;
             }
         }
 

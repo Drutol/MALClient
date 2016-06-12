@@ -18,9 +18,20 @@ using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.ViewModels;
+using Microsoft.HockeyApp;
 
 namespace MALClient
 {
+    public enum TelemetryTrackedEvents
+    {
+        FetchedNews,
+        DonatePopUpAppeared,
+        LoggedInHummingbird,
+        LoggedInMyAnimeList,
+        PinnedTile,
+        LaunchedFeedback
+    }     
+
     public static class Utils
     {
         private static readonly string[] SizeSuffixes = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
@@ -480,6 +491,13 @@ namespace MALClient
                     node.Attributes.Contains("class") &&
                     node.Attributes["class"].Value ==
                     targettedClass);
+        }
+
+        public static void TelemetryTrackEvent(TelemetryTrackedEvents @event)
+        {
+#if !DEBUG
+            HockeyClient.Current.TrackEvent(@event.ToString());
+#endif
         }
     }
 

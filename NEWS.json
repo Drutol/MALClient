@@ -1,5 +1,11 @@
 [
   {
+    "Title": "What's next?",
+    "Date": "13.05.2016",
+    "Type": "Info",
+    "Content": "I've exams coming up and I won't have time to develop anything major for next 2 weeks or so. If there are critical issues or some minor bugs I'll patch them so no worries here. Once I'm done with exams I'm planning to play around with forums and messages. Actually, I have managed to send message from app today (it's not very straightforward) and it's closely related to forums so we have that going, which is nice :). I have reports of some crashes with pretty criptic descriptions and I have no clue where is their source... I'll continue to monitor those and eventually maybe something will become apparent. You can catch me on github everyday so if you happen to have anything to say/report you are welcome to do so :D "
+  },
+  {
     "Title": "v4.3.17 Preview",
     "Date": "11.06.2016",
     "Type": "Updates",
@@ -16,11 +22,5 @@
     "Date": "03.06.2016",
     "Type": "Bugs",
     "Content": "MAL has changed how those images are loaded in html, fix on monday. Sorry for inconvenience."
-  },
-  {
-    "Title": "v4.2.3.0 preview!",
-    "Date": "31.05.2016",
-    "Type": "Updates",
-    "Content": "Due to random storms randomly trying to fry my computer I did not manage to finish this update today as I planned. I have previews though, which are available on github. Help me test them out!"
   }
 ]

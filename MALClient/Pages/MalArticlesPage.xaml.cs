@@ -62,23 +62,6 @@ namespace MALClient.Pages
             a:active{color:AccentColourBase}
             a:visited{color:AccentColourDark}
             a:hover{color:AccentColourLight}
-        #root{
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        #content{
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
-            overflow-y: scroll;
-            padding-right: 20px;
-            padding-left: 5px;
-        }
         h1 {
 	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 	        font-size: 24px;
@@ -166,7 +149,7 @@ namespace MALClient.Pages
 	        width: 100%;
 	        border-style: solid;
             border-width: 0px 0px 2px 0px;
-            border-color: AccentColourDark;
+            border-color: rgba(0, 0, 0, 0);
         }
 
         .information

@@ -18,7 +18,7 @@
                    Visibility="{Binding ArticleIndexVisibility}" Margin="0,0,-10,0">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Margin" Value="5,5,15,5"/>
                     <Setter Property="Padding" Value="2"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}"/>

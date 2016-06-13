@@ -40,13 +40,18 @@ namespace MALClient
         /// </summary>
         public static async void ProcessDonatePopUp()
         {
+            if(Settings.Donated)
+                return;
             Settings.DonatePopUpStartupCounter++;
             if (Settings.DonatePopUpStartupCounter <= DonateLaunchThresholdValue)
                 return;
             Settings.DonatePopUpStartupCounter = 0;
             var consumables = await CurrentApp.GetUnfulfilledConsumablesAsync();
             if(consumables.Count > 0)
+            {
+                Settings.Donated = true;
                 return; //user has already donated
+            }
             var msg =
                 new MessageDialog(
                     "Did you consider making a donation?\nI've devoted hundreds of hours worth of time so I would be grateful for a little tip :)",

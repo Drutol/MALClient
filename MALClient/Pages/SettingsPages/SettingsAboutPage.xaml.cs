@@ -41,6 +41,7 @@ namespace MALClient.Pages.SettingsPages
             {
                 var btn = sender as MenuFlyoutItem;
                 await CurrentApp.RequestProductPurchaseAsync(btn.Name, false);
+                Settings.Donated = true;
             }
             catch (Exception)
             {

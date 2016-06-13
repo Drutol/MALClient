@@ -290,6 +290,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["DonatePopUpStartupCounter"] = value; }
         }
 
+        public static bool Donated
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["Donated"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["Donated"] = value; }
+        }
+
         #endregion
 
         #region StartEndDates

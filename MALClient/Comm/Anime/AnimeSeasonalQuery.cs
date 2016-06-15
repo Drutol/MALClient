@@ -86,8 +86,6 @@ namespace MALClient.Comm
                         if (htmlNode.Attributes["class"]?.Value != HtmlClassMgr.ClassDefs["#Seasonal:entryNode:class"])
                             continue;
 
-                        var divs = htmlNode.Descendants("div");
-
                         var imageNode =
                             htmlNode.FirstOfDescendantsWithClass("div", "image lazyload");
                         var link = imageNode.ChildNodes.First(node => node.Name == "a").Attributes["href"].Value;

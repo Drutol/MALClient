@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Mal has changed html again :)",
+    "Date": "015.06.2016",
+    "Type": "Bugs",
+    "Content": "Mal has changed how things look in html once again, fix coming asap."
+  }
+  {
     "Title": "What's next?",
     "Date": "13.05.2016",
     "Type": "Info",
@@ -16,11 +22,5 @@
     "Date": "06.06.2016",
     "Type": "New stuff",
     "Content": "Next in queue are Mal articles, development is progressing smoothly and I have them working more or less. Screenshots on github :)"
-  },
-  {
-    "Title": "Top anime - missing images.",
-    "Date": "03.06.2016",
-    "Type": "Bugs",
-    "Content": "MAL has changed how those images are loaded in html, fix on monday. Sorry for inconvenience."
   }
 ]

@@ -106,6 +106,10 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
+                            <TextBlock Text="16.06.2016 - v4.3.20.0" />
+                            <TextBlock Text="Adjusted html parsing once again." />
+                            <TextBlock Text="Multiple bugfixes." />
+                            <MenuFlyoutSeparator />
                             <TextBlock Text="14.06.2016 - v4.3.18.0" />
                             <TextBlock Text="Added News page." />
                             <TextBlock Text="Added Articles page." />

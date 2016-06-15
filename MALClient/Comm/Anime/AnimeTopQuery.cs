@@ -93,10 +93,13 @@ namespace MALClient.Comm
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
-                    var img = item.Descendants("img").First().Attributes["data-src"].Value;
-                    var pos = img.LastIndexOf('t');
-                    // we want to remove last "t" from url as this is much smaller image than we would want
-                    current.ImgUrl = pos != -1 ? img.Remove(pos, 1) : img;
+                    var img = item.Descendants("img").First().Attributes["data-src"].Value.Split('/');
+                    int imgCount = img.Length;
+                    var imgurl = img[imgCount - 2] + "/" + img[imgCount - 1];
+                    var pos = imgurl.IndexOf('?');
+                    if (pos != -1)
+                        imgurl = imgurl.Substring(0, pos);
+                    current.ImgUrl = "http://cdn.myanimelist.net/images/anime/" + imgurl;
                     var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs[_type != TopAnimeType.Manga  ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(7).Split('/')[2]);

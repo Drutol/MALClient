@@ -581,27 +581,22 @@ namespace MALClient.ViewModels
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
             await Task.Delay(30);
-            int minimumIndex = CurrentIndexPosition == -1 ? 8 : CurrentIndexPosition+1;
+            int minimumIndex = CurrentIndexPosition == -1 ? 8 : CurrentIndexPosition+1 <= 8 ? 8 : CurrentIndexPosition+1;
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteList:
                     AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
-                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-                    RaisePropertyChanged(() => AnimeItems);
-                    View.GetIndefiniteScrollViewer().Result.UpdateLayout();
-                    AddScrollHandler();
-                    //if we got to the end of the list we have unsubsribed from this event => we have to do it again                
+                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();          
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
                     AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
                     _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-                    RaisePropertyChanged(() => AnimeItems);
-                    View.GetIndefiniteScrollViewer().Result.UpdateLayout();
-                    AddScrollHandler();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            RaisePropertyChanged(() => AnimeItems);
+            AddScrollHandler();
             if (CurrentIndexPosition != -1)
             {
                 try

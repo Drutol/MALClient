@@ -10,7 +10,7 @@
   "#Seasonal:seasonInfo:class": "horiznav_nav",
   "#Seasonal:seasonInfoCurrent:class": "on",
   "#Seasonal:entryNode:class": "seasonal-anime js-seasonal-anime",
-  "#Seasonal:entryNode:image:class": "image",
+  "#Seasonal:entryNode:image:class": "image lazyload",
   "#Seasonal:entryNode:score:class": "score",
   "#Seasonal:entryNode:info:class": "info",
   "#Seasonal:entryNode:eps:class": "eps",

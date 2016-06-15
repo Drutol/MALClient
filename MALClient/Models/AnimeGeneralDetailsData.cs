@@ -30,9 +30,12 @@ namespace MALClient.Models
 
         public void ParseXElement(XElement xmlObj, bool anime)
         {
+            float score;
+            if (!float.TryParse(xmlObj.Element("score").Value, out score))
+                score = 0;
             MalId = Convert.ToInt32(xmlObj.Element("id").Value);
             Title = xmlObj.Element("title").Value;
-            GlobalScore = float.Parse(xmlObj.Element("score").Value);
+            GlobalScore = score;
             Type = xmlObj.Element("type").Value;
             Status = xmlObj.Element("status").Value;
             Synopsis = Utils.DecodeXmlSynopsisDetail(xmlObj.Element("synopsis").Value);

@@ -38,49 +38,55 @@ namespace MALClient.Comm
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            var recommNodes = doc.DocumentNode.Descendants("div")
-                .Where(
-                    node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:class"]).Take(Settings.RecommsToPull);
-
-            foreach (var recommNode in recommNodes)
+            try
             {
-                try
-                {
-                    var current = new DirectRecommendationData();
-
-                    var tds = recommNode.Descendants("td").Take(2).ToList();
-                    current.ImageUrl = tds[0].Descendants("img").First().Attributes["data-src"].Value;
-                    var pos = current.ImageUrl.LastIndexOf('t');
-                    // we want to remove last "t" from url as this is much smaller image than we would want
-                    if (pos != -1)
-                    {
-                        current.ImageUrl = current.ImageUrl.Remove(pos, 1);
-                    }
-                    current.Description = WebUtility.HtmlDecode(tds[1].Descendants("div").First(
+                var recommNodes = doc.DocumentNode.Descendants("div")
+                    .Where(
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:descClass"])
-                        .Descendants("div")
-                        .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
-                    var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
-                    current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
-                    var link = titleNode.Attributes["href"].Value.Split('/');
-                    current.Id = Convert.ToInt32(link[2]);
-                    current.Type = link[1] == "anime"
-                        ? RelatedItemType.Anime
-                        : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
-                    output.Add(current);
-                }
-                catch (Exception)
+                            HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:class"]).Take(Settings.RecommsToPull);
+
+                foreach (var recommNode in recommNodes)
                 {
-                    //who knows...raw html is scary
+                    try
+                    {
+                        var current = new DirectRecommendationData();
+
+                        var tds = recommNode.Descendants("td").Take(2).ToList();
+                        current.ImageUrl = tds[0].Descendants("img").First().Attributes["data-src"].Value;
+                        var pos = current.ImageUrl.LastIndexOf('t');
+                        // we want to remove last "t" from url as this is much smaller image than we would want
+                        if (pos != -1)
+                        {
+                            current.ImageUrl = current.ImageUrl.Remove(pos, 1);
+                        }
+                        current.Description = WebUtility.HtmlDecode(tds[1].Descendants("div").First(
+                            node =>
+                                node.Attributes.Contains("class") &&
+                                node.Attributes["class"].Value ==
+                                HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:descClass"])
+                            .Descendants("div")
+                            .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
+                        var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
+                        current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
+                        var link = titleNode.Attributes["href"].Value.Split('/');
+                        current.Id = Convert.ToInt32(link[2]);
+                        current.Type = link[1] == "anime"
+                            ? RelatedItemType.Anime
+                            : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
+                        output.Add(current);
+                    }
+                    catch (Exception)
+                    {
+                        //who knows...raw html is scary
+                    }
                 }
             }
-
+            catch (Exception)
+            {
+                //something went wrong
+            }
             DataCache.SaveDirectRecommendationsData(_animeId, output, _animeMode);
 
             return output;

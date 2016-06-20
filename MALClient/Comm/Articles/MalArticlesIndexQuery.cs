@@ -51,7 +51,14 @@ namespace MALClient.Comm
                             var current = new MalNewsUnitModel();
                             var img = newsUnit.Descendants("a").First();
                             current.Url = img.Attributes["href"].Value;
-                            current.ImgUrl = img.Descendants("img").First().Attributes["data-src"].Value;
+                            try
+                            {
+                                current.ImgUrl = img.Descendants("img").First().Attributes["srcset"].Value.Split(' ', ' ')[2];
+                            }
+                            catch (Exception)
+                            {
+                                //html here is messy, there may be change here soon
+                            }
                             var contentDivs = newsUnit.Descendants("div").ToList();
                             current.Title = WebUtility.HtmlDecode(contentDivs[0].Descendants("p").First().InnerText.Trim());
                             current.Highlight = WebUtility.HtmlDecode(contentDivs[1].InnerText.Trim());
@@ -83,7 +90,14 @@ namespace MALClient.Comm
                             var current = new MalNewsUnitModel();
                             var img = newsUnit.Descendants("a").First();
                             current.Url = img.Attributes["href"].Value;
-                            current.ImgUrl = img.Descendants("img").First().Attributes["src"].Value;
+                            try
+                            {
+                                current.ImgUrl = img.Descendants("img").First().Attributes["srcset"].Value.Split(' ', ' ')[2];
+                            }
+                            catch (Exception)
+                            {
+                                //html here is messy, there may be change here soon
+                            }
                             var contentDivs = newsUnit.Descendants("div").ToList();
                             current.Title = WebUtility.HtmlDecode(contentDivs[0].Descendants("p").First().InnerText.Trim());
                             current.Highlight = WebUtility.HtmlDecode(contentDivs[1].InnerText.Trim());
@@ -112,7 +126,7 @@ namespace MALClient.Comm
             }
 
             _cachedData[_mode] = output;
-            DataCache.SaveArticleIndexData(_mode,output);
+            DataCache.SaveArticleIndexData(_mode, output);
             return output;
         }
     }

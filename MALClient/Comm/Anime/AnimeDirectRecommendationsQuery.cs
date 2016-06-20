@@ -54,13 +54,13 @@ namespace MALClient.Comm
                         var current = new DirectRecommendationData();
 
                         var tds = recommNode.Descendants("td").Take(2).ToList();
-                        current.ImageUrl = tds[0].Descendants("img").First().Attributes["data-src"].Value;
-                        var pos = current.ImageUrl.LastIndexOf('t');
-                        // we want to remove last "t" from url as this is much smaller image than we would want
+                        var img = tds[0].Descendants("img").First().Attributes["data-src"].Value.Split('/');
+                        int imgCount = img.Length;
+                        var imgurl = img[imgCount - 2] + "/" + img[imgCount - 1];
+                        var pos = imgurl.IndexOf('?');
                         if (pos != -1)
-                        {
-                            current.ImageUrl = current.ImageUrl.Remove(pos, 1);
-                        }
+                            imgurl = imgurl.Substring(0, pos);
+                        current.ImageUrl = "http://cdn.myanimelist.net/images/anime/" + imgurl;
                         current.Description = WebUtility.HtmlDecode(tds[1].Descendants("div").First(
                             node =>
                                 node.Attributes.Contains("class") &&
@@ -85,8 +85,9 @@ namespace MALClient.Comm
             }
             catch (Exception)
             {
-                //something went wrong
+                //something we wrong
             }
+
             DataCache.SaveDirectRecommendationsData(_animeId, output, _animeMode);
 
             return output;

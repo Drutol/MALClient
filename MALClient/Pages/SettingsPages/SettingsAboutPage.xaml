@@ -106,26 +106,14 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
+                            <TextBlock Text="20.06.2016 - v4.3.22.0" />
+                            <TextBlock Text="Html parsing fixes - recommendations&amp;articles"/>
+                            <TextBlock Text="Scaled down live tile images." />
+                            <TextBlock Text="You can now remove anime rating." />
+                            <MenuFlyoutSeparator />
                             <TextBlock Text="16.06.2016 - v4.3.20.0" />
                             <TextBlock Text="Adjusted html parsing once again." />
                             <TextBlock Text="Multiple bugfixes." />
-                            <MenuFlyoutSeparator />
-                            <TextBlock Text="14.06.2016 - v4.3.18.0" />
-                            <TextBlock Text="Added News page." />
-                            <TextBlock Text="Added Articles page." />
-                            <TextBlock Text="Added new 7 top anime categories." />
-                            <TextBlock Text="Calendar should no longer crash." />
-                            <TextBlock Text="New settings page." />
-                            <TextBlock Text="Fixed rare issues with anime update." />
-                            <TextBlock Text="Navigating back to anime/manga list from details should now scroll back to selected item more reliably." />
-                            <MenuFlyoutSeparator />
-                            <TextBlock Text="09.06.2016 - v4.2.7.0" />
-                            <TextBlock Text="Fixed direct anime add button." />
-                            <TextBlock Text="Grid items now display add to list button." />
-                            <TextBlock Text="Reloading seasonal anime will now force update with web." />
-                            <TextBlock Text="Upped default amount of seasonal items to 45." />
-                            <TextBlock Text="Opening details will make containers scroll to selected item." />
-                            <TextBlock Text="Navigating to seasonal anime will now properly reset upper navigation bar's selection." />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

@@ -203,7 +203,10 @@
                                                         CommandParameter="2" />
                                         <MenuFlyoutItem Text="{Binding ScoreFlyoutChoices[9]}"
                                                         Command="{Binding ChangeScoreCommand}"
-                                                        CommandParameter="1" />
+                                                        CommandParameter="1" />                                        
+                                        <MenuFlyoutItem Text="Unranked"
+                                                        Command="{Binding ChangeScoreCommand}"
+                                                        CommandParameter="0" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>

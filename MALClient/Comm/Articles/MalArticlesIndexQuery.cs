@@ -53,7 +53,7 @@ namespace MALClient.Comm
                             current.Url = img.Attributes["href"].Value;
                             try
                             {
-                                current.ImgUrl = img.Descendants("img").First().Attributes["srcset"].Value.Split(' ', ' ')[2];
+                                current.ImgUrl = img.Descendants("img").First().Attributes["data-src"].Value;
                             }
                             catch (Exception)
                             {
@@ -96,6 +96,14 @@ namespace MALClient.Comm
                             }
                             catch (Exception)
                             {
+                                try
+                                {
+                                    current.ImgUrl = img.Descendants("img").First().Attributes["data-src"].Value;
+                                }
+                                catch (Exception)
+                                {
+                                    //it may work this way, my predicition
+                                }
                                 //html here is messy, there may be change here soon
                             }
                             var contentDivs = newsUnit.Descendants("div").ToList();

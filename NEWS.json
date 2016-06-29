@@ -1,5 +1,17 @@
 [
   {
+    "Title": "Update drought...",
+    "Date": "27.06.2016",
+    "Type": "Info",
+    "Content": "Crazy times in university, I won't be able to push anything new for at least a week. After that I'm planning to do: messaging -> favourites -> forums. I'm also getting reports of crashes on mobile but error messages are quite vague and I don't really know where to look, if you happen to encounter one please let me know what you were doing at the time. (github issue) :)"
+  },
+  {
+    "Title": "Long certification...",
+    "Date": "22.06.2016",
+    "Type": "Info",
+    "Content": "Update has been submitted on monday but Microsoft does not want to certify it. We have to be patient."
+  },
+  {
     "Title": "New html yet again & Messaging update!",
     "Date": "19.06.2016",
     "Type": "Info",
@@ -16,17 +28,5 @@
     "Date": "13.05.2016",
     "Type": "Info",
     "Content": "I've exams coming up and I won't have time to develop anything major for next 2 weeks or so. If there are critical issues or some minor bugs I'll patch them so no worries here. Once I'm done with exams I'm planning to play around with forums and messages. Actually, I have managed to send message from app today (it's not very straightforward) and it's closely related to forums so we have that going, which is nice :). I have reports of some crashes with pretty criptic descriptions and I have no clue where is their source... I'll continue to monitor those and eventually maybe something will become apparent. You can catch me on github everyday so if you happen to have anything to say/report you are welcome to do so :D "
-  },
-  {
-    "Title": "v4.3.17 Preview",
-    "Date": "11.06.2016",
-    "Type": "Updates",
-    "Content": "Preview version for desktop is available on github. It features: Articles&News, Top Anime now has 8 categories and Hamburger menu received some lifting. Tell me what you think!"
-  },
-  {
-    "Title": "Articles",
-    "Date": "06.06.2016",
-    "Type": "New stuff",
-    "Content": "Next in queue are Mal articles, development is progressing smoothly and I have them working more or less. Screenshots on github :)"
   }
 ]

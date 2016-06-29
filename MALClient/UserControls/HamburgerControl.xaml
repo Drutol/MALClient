@@ -430,7 +430,7 @@
                                                   Grid.Column="0" IsActive="True"
                                                   Visibility="{Binding AdLoadingSpinnerVisibility}" />
                                     <TextBlock Text="Help me buy Japanese textbook!" HorizontalAlignment="Stretch"
-                                               TextWrapping="WrapWholeWords"
+                                               TextWrapping="WrapWholeWords" FontSize="15" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </Button>
@@ -450,7 +450,7 @@
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
-                                    CommandParameter="4">
+                                    CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
@@ -507,7 +507,7 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtSettings" Text="Settings" HorizontalAlignment="Center"
+                                    <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Center"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <!--<Button Grid.Column="2" Background="Transparent" Width="35" Height="35"

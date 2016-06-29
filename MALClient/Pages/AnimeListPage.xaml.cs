@@ -46,7 +46,7 @@ namespace MALClient.Pages
         {
             if (!_loaded)
             {
-                var retries = 5;
+                var retries = 15;
                 while (retries-- > 0 && !_loaded)
                 {
                     await Task.Delay(50);

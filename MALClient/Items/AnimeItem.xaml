@@ -68,9 +68,16 @@
                         <Grid.Background>
                             <SolidColorBrush Color="Black" Opacity=".5" />
                         </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind ViewModel.AirDayBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
-                                   HorizontalAlignment="Center" Margin="0,0,0,3"
-                                   Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" TextAlignment="Center" FontSize="20" />
+                       HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
+                       Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="20" />
+                        <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter}}" FontWeight="SemiLight" 
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                       Foreground="LightGray" FontSize="14" FontStyle="Italic" />
                     </Grid>
                 </Grid>
                 <Grid HorizontalAlignment="Center" Margin="0,0,5,0"

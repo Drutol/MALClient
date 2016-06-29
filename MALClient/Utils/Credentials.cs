@@ -51,6 +51,8 @@ namespace MALClient
         {
             var vault = new PasswordVault();
 
+            UserName = Password = string.Empty;
+
             foreach (var passwordCredential in vault.RetrieveAll())
                 vault.Remove(passwordCredential);
         }
@@ -78,17 +80,18 @@ namespace MALClient
         public static void Init()
         {
             var vault = new PasswordVault();
-            if (bool.Parse((string) ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False") &&
-                ApplicationData.Current.LocalSettings.Values["Username"] != null) //check for old auth way
-            {
-                vault.Add(new PasswordCredential("MALClient",
-                    ApplicationData.Current.LocalSettings.Values["Username"] as string, //they are not null
-                    ApplicationData.Current.LocalSettings.Values["password"] as string));
+            // It has been quite a while since this format - safe to remove
+            //if (bool.Parse((string) ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False") &&
+            //    ApplicationData.Current.LocalSettings.Values["Username"] != null) //check for old auth way
+            //{
+            //    vault.Add(new PasswordCredential("MALClient",
+            //        ApplicationData.Current.LocalSettings.Values["Username"] as string, //they are not null
+            //        ApplicationData.Current.LocalSettings.Values["password"] as string));
 
-                //clean old resources
-                ApplicationData.Current.LocalSettings.Values["Username"] = null;
-                ApplicationData.Current.LocalSettings.Values["password"] = null;
-            }
+            //    //clean old resources
+            //    ApplicationData.Current.LocalSettings.Values["Username"] = null;
+            //    ApplicationData.Current.LocalSettings.Values["password"] = null;
+            //}
             try
             {
                 var deductedApiType = ApiType.Mal;

@@ -10,19 +10,17 @@
     DataContext="{Binding Recommendations, Source={StaticResource Locator}}">
 
     <Page.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
 
 
-    <Grid Background="{StaticResource BrushDetailsBackground}">
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
-        <Pivot x:Name="Pivot" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationItems}"
+    <Grid>
+        <Pivot Background="{StaticResource BrushDetailsBackground}" x:Name="Pivot" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationItems}"
                SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
@@ -38,7 +36,7 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100"
+        <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"
                       Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>

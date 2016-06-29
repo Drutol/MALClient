@@ -530,13 +530,23 @@ namespace MALClient.ViewModels
         /// <summary>
         ///     Adds handler to scroll viewer provided by view.
         /// </summary>
-        private void AddScrollHandler()
+        private async void AddScrollHandler()
         {
             if (!CanAddScrollHandler || _scrollHandlerAdded)
                 return;
             _lastOffset = 0; //we are resseting this because we ARE on the very to of the list view when adding handler
             _scrollHandlerAdded = true;
-            View.GetIndefiniteScrollViewer().Result.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            try
+            {
+                (await View.GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            }
+            catch (Exception)
+            {
+                //we didn't get scroll handler -> add all items
+                AnimeItems.AddRange(_animeItemsSet.Select(abstraction => abstraction.ViewModel));
+                _animeItemsSet.Clear();
+            }
+
         }
 
         /// <summary>
@@ -553,9 +563,9 @@ namespace MALClient.ViewModels
         /// <summary>
         ///     Scrolls to top of current indefinite scroll viewer.
         /// </summary>
-        public void ScrollToTop()
+        public async void ScrollToTop()
         {
-            View.GetIndefiniteScrollViewer().Result.ScrollToVerticalOffset(0);
+            (await View.GetIndefiniteScrollViewer()).ScrollToVerticalOffset(0);
             ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
 
@@ -564,19 +574,11 @@ namespace MALClient.ViewModels
         #region Pagination
 
         /// <summary>
-        ///     Used by pages view to determine which page has to be loaded first and avoid loading multiple pages
-        ///     before init finishes.
-        /// </summary>
-        public bool CanLoadPages;
-
-        /// <summary>
         ///     This method is fully responsible for preparing the view.
         ///     Depending on display mode it distributes items to right containers.
         /// </summary>
-        /// <param name="updatePerPage"></param>
-        public async void UpdatePageSetup()
+        private async void UpdatePageSetup()
         {
-            CanLoadPages = false;
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
@@ -1314,7 +1316,7 @@ namespace MALClient.ViewModels
                     if (WorkMode != AnimeListWorkModes.SeasonalAnime)
                         if (WorkMode == AnimeListWorkModes.TopAnime)
                             page.CurrentStatus =
-                                $"Top Anime - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                                $"Top {TopAnimeWorkMode} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                         else if (WorkMode == AnimeListWorkModes.TopManga)
                             page.CurrentStatus =
                                 $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";

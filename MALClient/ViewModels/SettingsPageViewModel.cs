@@ -48,6 +48,12 @@ namespace MALClient.ViewModels
         public ICommand RequestNavigationCommand
             => _requestNavigationCommand ?? (_requestNavigationCommand = new RelayCommand<Type>(page =>
             {
+                //Get to account page from settings
+                if (page == typeof(LogInPage))
+                {
+                    ViewModelLocator.Main.Navigate(PageIndex.PageLogIn);
+                    return;
+                }
                 NavigationRequest?.Invoke(page);
                 if (page != typeof(SettingsHomePage))
                     NavMgr.RegisterOneTimeOverride(new RelayCommand(() =>
@@ -71,6 +77,7 @@ namespace MALClient.ViewModels
             new SettingsPageEntry {Header = "Articles",Subtitle = "Article view settings.",Symbol = Symbol.PreviewLink,PageType = typeof(SettingsArticlesPage)},
             new SettingsPageEntry {Header = "News",Subtitle = "News regarding app development, bugs etc.",Symbol = Symbol.PostUpdate,PageType = typeof(SettingsNewsPage)},
             new SettingsPageEntry {Header = "About",Subtitle = "Github repo, donations etc.",Symbol = Symbol.Manage,PageType = typeof(SettingsAboutPage)},
+            new SettingsPageEntry {Header = "Account",Subtitle = "MyAnimelist or Hummingbird authentication.",Symbol = Symbol.Contact,PageType = typeof(LogInPage)},
             new SettingsPageEntry {Header = "Miscellaneous",Subtitle = "Review popup settings...",Symbol = Symbol.Placeholder,PageType = typeof(SettingsMiscPage)}
         };
 

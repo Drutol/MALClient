@@ -61,6 +61,7 @@ namespace MALClient.ViewModels
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
         public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
+        public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
 
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 
@@ -296,6 +297,7 @@ namespace MALClient.ViewModels
         public void UpdateLogInLabel()
         {
             RaisePropertyChanged(() => LogInLabel);
+            RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
         public void UpdateApiDependentButtons()

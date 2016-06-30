@@ -1193,6 +1193,21 @@ namespace MALClient.ViewModels
             }
         }
 
+        private ICommand _selectAtRandomCommand;
+        private Random _rangomGenerator;
+        public ICommand SelectAtRandomCommand
+        {
+            get
+            {
+                return _selectAtRandomCommand ?? (_selectAtRandomCommand = new RelayCommand(() =>
+                {
+                    var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
+                    var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
+                    pool[random.Next(0, pool.Count - 1)].NavigateDetails();
+                }));
+            }
+        }
+
         public AnimeListPage View { get; set; }
 
         public AnimeListWorkModes WorkMode { get; set; }

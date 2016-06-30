@@ -21,6 +21,7 @@
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
             <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Shuffle" Label="Select one at random" Command="{Binding SelectAtRandomCommand}"></AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
                               Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
                 <AppBarButton

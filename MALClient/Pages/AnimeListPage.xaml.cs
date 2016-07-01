@@ -248,6 +248,9 @@ namespace MALClient.Pages
                 case SortOptions.SortNothing:
                     SortNone.IsChecked = true;
                     break;
+                case SortOptions.SortLastWatched:
+                    SortLastWatched.IsChecked = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }

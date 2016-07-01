@@ -157,6 +157,8 @@ namespace MALClient.ViewModels
               set
               {
                   _animeItems = value;
+                  if(value.Count + _animeItemsSet.Count > 150)
+                    LoadMoreFooterVisibility = Visibility.Collapsed;
                   RaisePropertyChanged(() => AnimeListItems);
                   RaisePropertyChanged(() => AnimeGridItems);
               }
@@ -192,7 +194,7 @@ namespace MALClient.ViewModels
 
             //give visual feedback
             Loading = true;
-            await Task.Delay(20);
+            await Task.Delay(10);
 
             //depending on args
             var gotArgs = false;
@@ -224,13 +226,13 @@ namespace MALClient.ViewModels
             }
             
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
+            LoadMoreFooterVisibility = Visibility.Collapsed;
             switch (WorkMode)
             {
                 case AnimeListWorkModes.Manga:
                 case AnimeListWorkModes.Anime:
                     if (!gotArgs)
                         SetDefaults();
-
                     AppBtnListSourceVisibility = true;
                     AppbarBtnPinTileVisibility = Visibility.Collapsed;
                     AppBtnSortingVisibility = Visibility.Visible;
@@ -277,11 +279,6 @@ namespace MALClient.ViewModels
                         null);
                     Loading = true;
                     EmptyNoticeVisibility = false;
-                    if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
-                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Collapsed;
-                    else
-                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Visible;
-
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
@@ -297,6 +294,13 @@ namespace MALClient.ViewModels
 
                     Sort3Label = "Index";
                     await FetchSeasonalData();
+                    if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+                    {
+                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Collapsed;
+                        LoadMoreFooterVisibility = Visibility.Visible;
+                    }
+                    else
+                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Visible;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -448,6 +452,18 @@ namespace MALClient.ViewModels
             SortDescending = WorkMode == AnimeListWorkModes.Manga
                 ? Settings.IsMangaSortDescending
                 : Settings.IsSortDescending;
+        }
+
+        private async void LoadMore()
+        {
+            LoadMoreFooterVisibility = Visibility.Collapsed;
+            if((AnimeItems.Count + _animeItemsSet.Count)%50 != 0)
+                return; //we have reached max 
+            int page = (int)Math.Floor((AnimeItems.Count + _animeItemsSet.Count)/50.0);
+            CurrentIndexPosition = ((page) * 50)-1;
+            await FetchSeasonalData(true, page);
+            if(page <= 3)
+                 LoadMoreFooterVisibility = Visibility.Visible;
         }
 
         #region CacheManip
@@ -627,7 +643,7 @@ namespace MALClient.ViewModels
         /// </summary>
         /// <param name="force"></param>
         /// <returns></returns>
-        private async Task FetchSeasonalData(bool force = false)
+        private async Task FetchSeasonalData(bool force = false,int page = 0)
         {
             Loading = true;
             EmptyNoticeVisibility = false;
@@ -653,7 +669,7 @@ namespace MALClient.ViewModels
                     var topResponse = new List<TopAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
                         topResponse =
-                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga).GetTopAnimeData(force)));
+                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga,page).GetTopAnimeData(force)));
                     data.AddRange(topResponse);
                     break;
             }
@@ -1060,6 +1076,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _loadMoreFooterVisibility = Visibility.Collapsed;
+
+        public Visibility LoadMoreFooterVisibility
+        {
+            get { return _loadMoreFooterVisibility; }
+            private set
+            {
+                _loadMoreFooterVisibility = value;
+                RaisePropertyChanged(() => LoadMoreFooterVisibility);
+            }
+        }
         private int _statusSelectorSelectedIndex;
 
         public int StatusSelectorSelectedIndex
@@ -1074,6 +1101,14 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 Loading = true;
                 _lastOffset = 0;
+                
+                if(GetDesiredStatus() != (int)AnimeStatus.AllOrAiring)
+                    LoadMoreFooterVisibility = Visibility.Collapsed;
+                else if(WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.Manga)
+                {
+                    if(AnimeItems.Count + _animeItemsSet.Count <= 150)
+                        LoadMoreFooterVisibility = Visibility.Visible;
+                }
                 if (Initiazlized)
                 {
                     if (Settings.HideFilterSelectionFlyout)
@@ -1174,10 +1209,11 @@ namespace MALClient.ViewModels
 
         private ICommand _refreshCommand;
 
-        public ICommand RefreshCommand
-        {
-            get { return _refreshCommand ?? (_refreshCommand = new RelayCommand(ReloadList)); }
-        }
+        public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(ReloadList));
+
+        private ICommand _loadMoreCommand;
+
+        public ICommand LoadMoreCommand => _loadMoreCommand ?? (_loadMoreCommand = new RelayCommand(LoadMore));
 
         private ICommand _goBackToMyListCommand;
 
@@ -1200,9 +1236,11 @@ namespace MALClient.ViewModels
             get
             {
                 return _selectAtRandomCommand ?? (_selectAtRandomCommand = new RelayCommand(() =>
-                {
-                    var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
+                {                    
+                    var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));                
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
+                    if(pool.Count == 0)
+                        return;
                     pool[random.Next(0, pool.Count - 1)].NavigateDetails();
                 }));
             }

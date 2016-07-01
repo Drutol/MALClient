@@ -173,6 +173,15 @@
                     <Setter Property="VerticalAlignment" Value="Stretch" />
                 </Style>
             </GridView.ItemContainerStyle>
+            <GridView.Footer>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding LoadMoreFooterVisibility}">
+                    <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="More"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </GridView.Footer>
         </GridView>
         <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" HorizontalAlignment="Center"
                     VerticalAlignment="Center">

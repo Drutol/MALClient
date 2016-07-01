@@ -145,6 +145,15 @@
                     <item:AnimeItem DataContext="{Binding}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding LoadMoreFooterVisibility}">
+                    <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="More"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </ListView.Footer>
         </ListView>
         <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
                   SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center"

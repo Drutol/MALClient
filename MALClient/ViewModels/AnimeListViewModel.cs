@@ -194,6 +194,7 @@ namespace MALClient.ViewModels
 
             //give visual feedback
             Loading = true;
+            LoadMoreFooterVisibility = Visibility.Collapsed;
             await Task.Delay(10);
 
             //depending on args
@@ -226,7 +227,7 @@ namespace MALClient.ViewModels
             }
             
             RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
-            LoadMoreFooterVisibility = Visibility.Collapsed;
+
             switch (WorkMode)
             {
                 case AnimeListWorkModes.Manga:
@@ -593,12 +594,11 @@ namespace MALClient.ViewModels
         ///     This method is fully responsible for preparing the view.
         ///     Depending on display mode it distributes items to right containers.
         /// </summary>
-        private async void UpdatePageSetup()
+        private void UpdatePageSetup()
         {
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
-            await Task.Delay(30);
             int minimumIndex = CurrentIndexPosition == -1 ? 8 : CurrentIndexPosition+1 <= 8 ? 8 : CurrentIndexPosition+1;
             switch (DisplayMode)
             {
@@ -1104,7 +1104,7 @@ namespace MALClient.ViewModels
                 
                 if(GetDesiredStatus() != (int)AnimeStatus.AllOrAiring)
                     LoadMoreFooterVisibility = Visibility.Collapsed;
-                else if(WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.Manga)
+                else if(WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                 {
                     if(AnimeItems.Count + _animeItemsSet.Count <= 150)
                         LoadMoreFooterVisibility = Visibility.Visible;
@@ -1236,10 +1236,12 @@ namespace MALClient.ViewModels
             get
             {
                 return _selectAtRandomCommand ?? (_selectAtRandomCommand = new RelayCommand(() =>
-                {                    
-                    var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));                
+                {
+                    if (Settings.SelectedApiType == ApiType.Hummingbird && WorkMode == AnimeListWorkModes.TopManga)
+                        return;
+                    var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
-                    if(pool.Count == 0)
+                    if (pool.Count == 0)
                         return;
                     pool[random.Next(0, pool.Count - 1)].NavigateDetails();
                 }));

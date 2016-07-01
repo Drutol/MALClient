@@ -106,7 +106,7 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="01.07.2016 - v4.3.124.0" />
+                            <TextBlock Text="02.07.2016 - v4.3.124.0" />
                             <TextBlock Text="Added day/hour counter to upcoming anime."/>
                             <TextBlock Text="Added option to randomly choose from current list." />
                             <TextBlock Text="Added option to pull more top anime. (up to 200)" />

@@ -64,7 +64,7 @@
                 <Grid Visibility="{x:Bind ViewModel.AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
                       HorizontalAlignment="Right">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                          Width="45" Height="30">
+                          MaxWidth="70" MinWidth="40" Height="30">
                         <Grid.Background>
                             <SolidColorBrush Color="Black" Opacity=".5" />
                         </Grid.Background>

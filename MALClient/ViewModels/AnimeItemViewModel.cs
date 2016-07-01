@@ -298,7 +298,7 @@ namespace MALClient.ViewModels
                     if (diff.TotalSeconds > 0)
                     {
                         _airDayBrush = new SolidColorBrush(Colors.Gray);
-                        _airDayTillBind = diff.TotalDays < 0 ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h" : diff.TotalDays.ToString("N0") + "d";
+                        _airDayTillBind = diff.TotalDays < 1 ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h" : diff.TotalDays.ToString("N0") + "d";
                         RaisePropertyChanged(() => AirDayTillBind);
                     }
                     else

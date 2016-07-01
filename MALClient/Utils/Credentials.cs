@@ -112,10 +112,10 @@ namespace MALClient
                     credential.RetrievePassword();
                     Password = credential.Password;
                     Authenticated = true;
-                    if (Settings.SelectedApiType == ApiType.Mal &&
-                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["UserId"] as string) ||
-                        Settings.SelectedApiType == ApiType.Hummingbird &&
-                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] as string))
+                    if ((Settings.SelectedApiType == ApiType.Mal &&
+                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["UserId"] as string)) ||
+                        (Settings.SelectedApiType == ApiType.Hummingbird &&
+                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] as string)))
                         //we have credentials without Id
                         FillInMissingIdData();
                 }

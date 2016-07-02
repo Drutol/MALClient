@@ -1,5 +1,11 @@
 [
   {
+    "Title": "v4.3.124(3).0",
+    "Date": "02.07.2016",
+    "Type": "Updates",
+    "Content": "New update went to certification but there's long weekend in the USA and I'm not sure whether it will hit the store soon enough. Changelog on github :)"
+  },
+  {
     "Title": "Update drought...",
     "Date": "27.06.2016",
     "Type": "Info",
@@ -16,12 +22,6 @@
     "Date": "19.06.2016",
     "Type": "Info",
     "Content": "Articles and recommendations structure has been changed this time. Fixes coming on Monday. Messaging development progresses smoothly thus far, screenshots on github in TODO issue :)"
-  },
-  {
-    "Title": "Mal has changed html again :)",
-    "Date": "15.06.2016",
-    "Type": "Bugs",
-    "Content": "Mal has changed how things look in html once again, fix coming asap."
   },
   {
     "Title": "What's next?",

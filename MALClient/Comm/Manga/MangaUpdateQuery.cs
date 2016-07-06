@@ -17,7 +17,7 @@ namespace MALClient.Comm
         }
 
 
-        public MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
+        private MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
             string endDate)
         {
             UpdatedSomething = true;

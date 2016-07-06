@@ -54,6 +54,7 @@ namespace MALClient.ViewModels
     {
         //additional fields
         private int _allEpisodes;
+        private int _allVolumes;
         private string _alternateImgUrl;
         private IAnimeData _animeItemReference; //our connection with everything
         private bool _animeMode;
@@ -81,7 +82,6 @@ namespace MALClient.ViewModels
         public IDetailsViewInteraction View { private get; set; } //used to hide flyout
         private string Type { get; set; }
         private string Status { get; set; }
-        public int AllVolumes => _animeItemReference?.AllVolumes ?? 0;
         //Dates when show starts or ends airing
         private string StartDate { get; set; }
         private string EndDate { get; set; }
@@ -123,7 +123,7 @@ namespace MALClient.ViewModels
                 MalId = Id;
             else
                 MalId = -1; //we will find this thing later
-
+            MyVolumesVisibility = _animeMode ? Visibility.Collapsed : Visibility.Visible;
             //so there will be no floting start/end dates
             MyDetailsVisibility = false;
 
@@ -132,15 +132,15 @@ namespace MALClient.ViewModels
             {
                 Status1Label = "Watching";
                 Status5Label = "Plan to watch";
-                WatchedEpsLabel = "My watched\nepisodes :";
-                UpdateEpsUpperLabel = "Watched eps :";
+                WatchedEpsLabel = "Watched\nepisodes";
+                UpdateEpsUpperLabel = "Watched\nepisodes";
             }
             else
             {
                 Status1Label = "Reading";
                 Status5Label = "Plan to read";
-                WatchedEpsLabel = "My read\nchapters :";
-                UpdateEpsUpperLabel = "Read chapters : ";
+                WatchedEpsLabel = "Read\nchapters";
+                UpdateEpsUpperLabel = "Read\nchapters";
             }
 
             if (_animeItemReference == null || _animeItemReference is AnimeSearchItem ||
@@ -184,18 +184,22 @@ namespace MALClient.ViewModels
                     _endDateTimeOffset = DateTimeOffset.Now;
                     EndDateValid = false;
                 }
-                //Launch UI updates without triggering inner update logic -> nothng to update
-                RaisePropertyChanged(() => StartDateTimeOffset);
-                RaisePropertyChanged(() => EndDateTimeOffset);
-                RaisePropertyChanged(() => MyEpisodesBind);
-                RaisePropertyChanged(() => MyStatusBind);
-                RaisePropertyChanged(() => MyScoreBind);
-                RaisePropertyChanged(() => MyStartDate);
-                RaisePropertyChanged(() => MyEndDate);
-                RaisePropertyChanged(() => IncrementEpsCommand);
-                RaisePropertyChanged(() => DecrementEpsCommand);
-                RaisePropertyChanged(() => IsIncrementButtonEnabled);
-                RaisePropertyChanged(() => IsDecrementButtonEnabled);
+                //tags
+                if (Settings.SelectedApiType == ApiType.Mal)
+                {
+                    var tags = string.IsNullOrEmpty(_animeItemReference.Notes)
+                        ? new List<string>()
+                        : _animeItemReference.Notes.Contains(",")
+                            ? _animeItemReference.Notes.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries)
+                                .ToList()
+                            : new List<string> {_animeItemReference.Notes};
+                    var collection = new ObservableCollection<string>();
+                    tags.ForEach(s =>
+                    {
+                        collection.Add(s);
+                    });
+                    MyTags = collection;
+                }
             }
 
             //Procceed accordingly to navigation source
@@ -391,12 +395,28 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string MyVolumesBind => MyVolumes.ToString();
+        public string MyVolumesBind => $"{MyVolumes}/{(AllVolumes == 0 ? "?" : AllVolumes.ToString())}";
 
         public int MyVolumes
         {
             get { return _animeItemReference?.MyVolumes ?? 0; }
-            set { _animeItemReference.MyVolumes = value; }
+            set
+            {
+                _animeItemReference.MyVolumes = value;
+                RaisePropertyChanged(() => MyVolumesBind);
+            }
+        }
+
+        private ObservableCollection<string> _myTags;
+
+        public ObservableCollection<string> MyTags
+        {
+            get { return _myTags; }
+            set
+            {
+                _myTags = value;
+                RaisePropertyChanged(() => MyTags);
+            }
         }
 
         private string _status1Label = "Watching";
@@ -423,7 +443,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private string _watchedEpsLabel = "My watched\nepisodes :";
+        private string _watchedEpsLabel = "Watched episodes";
 
         public string WatchedEpsLabel
         {
@@ -435,7 +455,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        private string _updateEpsUpperLabel = "Watched eps :";
+        private string _updateEpsUpperLabel = "Watched episodes";
 
         public string UpdateEpsUpperLabel
         {
@@ -581,6 +601,30 @@ namespace MALClient.ViewModels
             }
         }
 
+        private string _readVolumesInput;
+
+        public string ReadVolumesInput
+        {
+            get { return _readVolumesInput; }
+            set
+            {
+                _readVolumesInput = value;
+                RaisePropertyChanged(() => ReadVolumesInput);
+            }
+        }
+
+        private string _newTagInput;
+
+        public string NewTagInput
+        {
+            get { return _newTagInput; }
+            set
+            {
+                _newTagInput = value;
+                RaisePropertyChanged(() => NewTagInput);
+            }
+        }
+
         private bool _watchedEpsInputNoticeVisibility;
 
         public bool WatchedEpsInputNoticeVisibility
@@ -637,10 +681,34 @@ namespace MALClient.ViewModels
 
         private ICommand _changeStatusCommand;
 
-        public ICommand ChangeStatusCommand
+        public ICommand ChangeStatusCommand => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus));
+
+        private ICommand _removeTagCommand;
+        public ICommand RemoveTagCommand => _removeTagCommand ?? (_removeTagCommand = new RelayCommand<object>(o =>
         {
-            get { return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus)); }
-        }
+            MyTags.Remove(o as string);
+            _animeItemReference.Notes = MyTags.Aggregate("", (s, s1) => s += s1 + ",");
+            ChangeNotes();
+        }));
+        private ICommand _addTagCommand;
+        public ICommand AddTagCommand => _addTagCommand ?? (_addTagCommand = new RelayCommand(() =>
+        {
+            if (!MyTags.Any(t => string.Equals(NewTagInput, t, StringComparison.CurrentCultureIgnoreCase)) && MyTags.Count < 10)
+            {
+                MyTags.Add(NewTagInput);
+                _animeItemReference.Notes += "," + NewTagInput;
+                ChangeNotes();
+                if (
+                    !ViewModelLocator.Main.SearchHints.Any(
+                        t => string.Equals(NewTagInput, t, StringComparison.CurrentCultureIgnoreCase)))
+                    ViewModelLocator.Main.SearchHints.Add(NewTagInput); // add to hints
+            }
+            NewTagInput = "";
+        }));
+
+        private ICommand _changeVolumesCommand;
+
+        public ICommand ChangeVolumesCommand => _changeVolumesCommand ?? (_changeVolumesCommand = new RelayCommand(ChangeReadVolumes));
 
         private ICommand _resetStartDateCommand;
 
@@ -877,6 +945,12 @@ namespace MALClient.ViewModels
             set { _allEpisodes = value; }
         }
 
+        private int AllVolumes
+        {
+            get { return _animeItemReference?.AllVolumes ?? _allVolumes; }
+            set { _allVolumes = value; }
+        }
+
         private Visibility _noReviewsDataNoticeVisibility = Visibility.Collapsed;
 
         public Visibility NoReviewsDataNoticeVisibility
@@ -937,6 +1011,17 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _myVolumesVisibility = Visibility.Collapsed;
+
+        public Visibility MyVolumesVisibility
+        {
+            get { return _myVolumesVisibility; }
+            set
+            {
+                _myVolumesVisibility = value;
+                RaisePropertyChanged(() => MyVolumesVisibility);
+            }
+        }
 
         private DateTimeOffset _startDateTimeOffset; //= DateTimeOffset.Parse("2015-09-10");
         public bool StartDateValid;
@@ -1056,6 +1141,13 @@ namespace MALClient.ViewModels
             return new MangaUpdateQuery(_animeItemReference);
         }
 
+        private async void ChangeNotes()
+        {
+            LoadingUpdate = true;
+            await GetAppropriateUpdateQuery().GetRequestResponse();
+            LoadingUpdate = false;
+        }
+
         private async void LaunchUpdate()
         {
             LoadingUpdate = true;
@@ -1132,10 +1224,10 @@ namespace MALClient.ViewModels
             LoadingUpdate = false;
         }
 
-        public async void ChangeWatchedEps()
+        private async void ChangeWatchedEps()
         {
             LoadingUpdate = true;
-            int eps, prevEps = MyEpisodes;
+            int eps, prevEps;
             if (!int.TryParse(WatchedEpsInput, out eps))
             {
                 WatchedEpsInputNoticeVisibility = true;
@@ -1146,11 +1238,11 @@ namespace MALClient.ViewModels
             {
                 View.GetWatchedEpsFlyout().Hide();
                 WatchedEpsInputNoticeVisibility = false;
-                var prevWatched = MyEpisodes;
+                prevEps = MyEpisodes;
                 MyEpisodes = eps;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                    MyEpisodes = prevWatched;
+                    MyEpisodes = prevEps;
 
                 if (_animeItemReference is AnimeItemViewModel)
                 {
@@ -1168,7 +1260,8 @@ namespace MALClient.ViewModels
                             ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
-                    ((AnimeItemViewModel) _animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
+                    if (Settings.SelectedApiType == ApiType.Hummingbird)
+                        ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
                 }
                 WatchedEpsInput = "";
             }
@@ -1178,6 +1271,34 @@ namespace MALClient.ViewModels
             }
             LoadingUpdate = false;
         }
+
+        private async void ChangeReadVolumes()
+          {
+              LoadingUpdate = true;
+              int vol;
+              if (!int.TryParse(ReadVolumesInput, out vol))
+              {
+                  WatchedEpsInputNoticeVisibility = true;
+                  LoadingUpdate = false;
+                  return;
+              }
+              if (vol >= 0 && (AllVolumes == 0 || vol <= AllVolumes))
+              {
+                  WatchedEpsInputNoticeVisibility = false;
+                  var prevVol = MyVolumes;
+                  MyVolumes = vol;
+                  var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+                  if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
+                      MyVolumes = prevVol;
+               
+                  WatchedEpsInput = "";
+              }
+              else
+              {
+                  WatchedEpsInputNoticeVisibility = true;
+             }
+             LoadingUpdate = false;
+         }
 
         #endregion
 
@@ -1365,6 +1486,19 @@ namespace MALClient.ViewModels
                 LoadRecommendations();
             if (Settings.DetailsAutoLoadRelated)
                 LoadRelatedAnime();
+
+            RaisePropertyChanged(() => StartDateTimeOffset);
+            RaisePropertyChanged(() => EndDateTimeOffset);
+            RaisePropertyChanged(() => MyEpisodesBind);
+            RaisePropertyChanged(() => MyStatusBind);
+            RaisePropertyChanged(() => MyVolumesBind);
+            RaisePropertyChanged(() => MyScoreBind);
+            RaisePropertyChanged(() => MyStartDate);
+            RaisePropertyChanged(() => MyEndDate);
+            RaisePropertyChanged(() => IncrementEpsCommand);
+            RaisePropertyChanged(() => DecrementEpsCommand);
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
         }
 
         private void ExtractData(AnimeGeneralDetailsData data)
@@ -1387,6 +1521,8 @@ namespace MALClient.ViewModels
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
             //removes string from brackets (sthsth) lol ->  lol
             AllEpisodes = data.AllEpisodes;
+            if (!_animeMode)
+                AllVolumes = data.AllVolumes;
             PopulateData();
         }
 

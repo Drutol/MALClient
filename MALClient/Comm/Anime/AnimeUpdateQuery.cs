@@ -10,19 +10,19 @@ namespace MALClient.Comm
         public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
 
         public AnimeUpdateQuery(IAnimeData item)
-            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate)
+: this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
         {
             LiveTilesManager.UpdateTile(item);
         }
 
 
-        public AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore, string startDate, string endDate)
+        private AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore, string startDate, string endDate, string notes)
         {
             UpdatedSomething = true;
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    UpdateAnimeMal(id, watchedEps, myStatus, (int) myScore, startDate, endDate);
+                    UpdateAnimeMal(id, watchedEps, myStatus, (int)myScore, startDate, endDate, notes);
                     break;
                 case ApiType.Hummingbird:
                     UpdateAnimeHummingbird(id, watchedEps, myStatus, myScore, startDate, endDate);
@@ -32,7 +32,7 @@ namespace MALClient.Comm
             }
         }
 
-        private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate)
+        private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate, string notes)
         {
             if (startDate != null)
             {
@@ -62,7 +62,7 @@ namespace MALClient.Comm
             //xml.AppendLine("<enable_rewatching></enable_rewatching>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
-            //xml.AppendLine("<tags></tags>");
+            xml.AppendLine($"<tags>{notes}</tags>");
             xml.AppendLine("</entry>");
 
 

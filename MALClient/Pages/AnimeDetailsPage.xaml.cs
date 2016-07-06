@@ -12,12 +12,11 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
-    public sealed partial class AnimeDetailsPage : Page, IDetailsViewInteraction
+    public sealed partial class AnimeDetailsPage : Page
     {
         public AnimeDetailsPage()
         {
             InitializeComponent();
-            ViewModel.View = this;
             var disp = DisplayInformation.GetForCurrentView();
             ProcessOrientation(disp.CurrentOrientation);
             disp.OrientationChanged += OnOrientationChanged;
@@ -69,10 +68,10 @@ namespace MALClient.Pages
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {          
+        {
             DataContext = null;
             NavMgr.DeregisterBackNav();
-            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;           
+            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
             base.OnNavigatingFrom(e);
         }
 
@@ -81,7 +80,18 @@ namespace MALClient.Pages
         {
             if (e.Key == VirtualKey.Enter)
             {
-                ViewModel.ChangeWatchedEps();
+                ViewModel.ChangeWatchedCommand.Execute(null);
+                WatchedEpsFlyout.Hide();
+                e.Handled = true;
+            }
+        }
+
+        private void SubmitReadVolumes(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                ViewModel.ChangeVolumesCommand.Execute(null);
+                ReadVolumesFlyout.Hide();
                 e.Handled = true;
             }
         }
@@ -175,6 +185,16 @@ namespace MALClient.Pages
         {
             if (ViewModel.EndDateValid)
                 ResetEndDateFlyout.ShowAt(sender as FrameworkElement);
+        }
+
+        private void ReadVolumesButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ReadVolumesFlyout.Hide();
+        }
+
+        private void WatchedEpsButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            WatchedEpsFlyout.Hide();
         }
     }
 }

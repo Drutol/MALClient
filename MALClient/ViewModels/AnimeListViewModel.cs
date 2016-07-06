@@ -86,11 +86,21 @@ namespace MALClient.ViewModels
 
     public enum SortOptions
     {
+        [Utils.Description("Title")]
         SortTitle,
+        [Utils.Description("Score")]
         SortScore,
+        [Utils.Description("Watched")]
         SortWatched,
+        [Utils.Description("Air day")]
         SortAirDay,
+        [Utils.Description("Last watched")]
         SortLastWatched,
+        [Utils.Description("Start date")]
+        SortStartDate,
+        [Utils.Description("End Date")]
+        SortEndDate,
+        [Utils.Description("")]
         SortNothing
     }
 
@@ -298,7 +308,8 @@ namespace MALClient.ViewModels
                     if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                     {
                         AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Collapsed;
-                        LoadMoreFooterVisibility = Visibility.Visible;
+                        if (AnimeItems.Count + _animeItemsSet.Count <= 150)
+                            LoadMoreFooterVisibility = Visibility.Visible;
                     }
                     else
                         AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Visible;
@@ -313,6 +324,7 @@ namespace MALClient.ViewModels
         }
 
 
+        private string _prevQuery = "";
         /// <summary>
         ///     Main refresh function
         /// </summary>
@@ -323,26 +335,30 @@ namespace MALClient.ViewModels
         ///     To make app more responsive micro delays are good to trigger spinners and such.
         /// </param>
         /// <returns></returns>
-        public async Task RefreshList(bool searchSource = false, bool fakeDelay = false)
+        public async void RefreshList(bool searchSource = false, bool fakeDelay = false)
         {
-            var finished = false;
-            await Task.Run(() =>
+            //await Task.Run(() =>
+            //{
+            var query = ViewModelLocator.Main.CurrentSearchQuery;
+
+            var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
+            if (!_wasPreviousQuery && searchSource && !queryCondition)
+            // refresh was requested from search but there's nothing to update
             {
-                var query = ViewModelLocator.Main.CurrentSearchQuery;
-                var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
-                if (!_wasPreviousQuery && searchSource && !queryCondition)
-                    // refresh was requested from search but there's nothing to update
-                {
-                    finished = true;
-                    return;
-                }
+                return;
+            }
+            if (!queryCondition)
+                _prevQuery = null;
 
-                _wasPreviousQuery = queryCondition;
+            _wasPreviousQuery = queryCondition;
 
-                _animeItemsSet.Clear();
-                var status = queryCondition ? 7 : GetDesiredStatus();
 
-                IEnumerable<AnimeItemAbstraction> items;
+            var status = queryCondition ? 7 : GetDesiredStatus();
+
+            IEnumerable<AnimeItemAbstraction> items;
+            if (queryCondition && _wasPreviousQuery && !string.IsNullOrEmpty(_prevQuery) && query.Contains(_prevQuery)) //use previous results if query is more detailed
+                items = _animeItemsSet.Union(AnimeItems.Select(model => model.ParentAbstraction));
+            else
                 switch (WorkMode)
                 {
                     case AnimeListWorkModes.Anime:
@@ -361,71 +377,81 @@ namespace MALClient.ViewModels
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            _prevQuery = query;
+            _animeItemsSet.Clear();
 
-                items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+            items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
 
-                if (queryCondition)
-                    items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
-                if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
-                    items = items.OrderBy(item => item.Index);
+            if (queryCondition)
+            {
+                query = query.ToLower();
+                if (ViewModelLocator.Main.SearchHints.Count > 0) //if there are any tags to begin with
+                    items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
                 else
-                    switch (SortOption)
-                    {
-                        case SortOptions.SortTitle:
-                            items = items.OrderBy(item => item.Title);
-                            break;
-                        case SortOptions.SortScore:
-                            if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                                items = items.OrderBy(item => item.MyScore);
-                            else
-                                items = items.OrderBy(item => item.GlobalScore);
-                            break;
-                        case SortOptions.SortWatched:
-                            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
-                                items = items.OrderBy(item => item.Index);
-                            else
-                                items = items.OrderBy(item => item.MyEpisodes);
-                            break;
-                        case SortOptions.SortNothing:
-                            break;
-                        case SortOptions.SortLastWatched:
-                            items = items.OrderBy(abstraction => abstraction.LastWatched);
-                            break;
-                        case SortOptions.SortAirDay:
+                    items = items.Where(item => item.Title.ToLower().Contains(query));
+            }
+            if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+                items = items.OrderBy(item => item.Index);
+            else
+                switch (SortOption)
+                {
+                    case SortOptions.SortTitle:
+                        items = items.OrderBy(item => item.Title);
+                        break;
+                    case SortOptions.SortScore:
+                        if (WorkMode != AnimeListWorkModes.SeasonalAnime)
+                            items = items.OrderBy(item => item.MyScore);
+                        else
+                            items = items.OrderBy(item => item.GlobalScore);
+                        break;
+                    case SortOptions.SortWatched:
+                        if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+                            items = items.OrderBy(item => item.Index);
+                        else
+                            items = items.OrderBy(item => item.MyEpisodes);
+                        break;
+                    case SortOptions.SortLastWatched:
+                        items = items.OrderBy(abstraction => abstraction.LastWatched);
+                        break;
+                    case SortOptions.SortNothing:
+                        break;
+                    case SortOptions.SortAirDay:
+                        var today = (int)DateTime.Now.DayOfWeek;
+                        today++;
+                        var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
+                        var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
+                        var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
+                        var airingBeforeToday = airingItems.Where(abstraction => abstraction.AirDay < today);
+                        if (SortDescending)
+                            items =
+                                airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
+                                    .Concat(
+                                        airingBeforeToday.OrderByDescending(
+                                            abstraction => today - abstraction.AirDay)
+                                            .Concat(nonAiringItems));
+                        else
+                            items =
+                                airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                    .Concat(
+                                        airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
+                                            .Concat(nonAiringItems));
 
-                            var today = (int) DateTime.Now.DayOfWeek;
-                            today++;
-                            var nonAiringItems = items.Where(abstraction => abstraction.AirDay == -1);
-                            var airingItems = items.Where(abstraction => abstraction.AirDay != -1);
-                            var airingAfterToday = airingItems.Where(abstraction => abstraction.AirDay >= today);
-                            var airingBeforeToday = airingItems.Where(abstraction => abstraction.AirDay < today);
-                            if (SortDescending)
-                                items =
-                                    airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
-                                        .Concat(
-                                            airingBeforeToday.OrderByDescending(
-                                                abstraction => today - abstraction.AirDay)
-                                                .Concat(nonAiringItems));
-                            else
-                                items =
-                                    airingBeforeToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                        .Concat(
-                                            airingAfterToday.OrderBy(abstraction => today - abstraction.AirDay)
-                                                .Concat(nonAiringItems));
-
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
-                    }
-                //If we are descending then reverse order
-                if (SortDescending && SortOption != SortOptions.SortAirDay)
-                    items = items.Reverse();
-                //Add all abstractions to current set (spread across pages)
-                foreach (var item in items)
-                    _animeItemsSet.Add(item);
-            });
-            if (finished)
-                return;
+                        break;
+                    case SortOptions.SortStartDate:
+                        items = items.OrderBy(abstraction => abstraction.MyStartDate);
+                        break;
+                    case SortOptions.SortEndDate:
+                        items = items.OrderBy(abstraction => abstraction.MyEndDate);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
+                }
+            //If we are descending then reverse order
+            if (SortDescending && SortOption != SortOptions.SortAirDay)
+                items = items.Reverse();
+            //Add all abstractions to current set (spread across pages)
+            _animeItemsSet.AddRange(items);
+            //});
             //If we have items then we should hide EmptyNotice       
             EmptyNoticeVisibility = _animeItemsSet.Count == 0;
 
@@ -676,7 +702,7 @@ namespace MALClient.ViewModels
             //if we don't have any we cannot do anything I guess...
             if (data.Count == 0)
             {
-                await RefreshList();
+                RefreshList();
                 Loading = false;
                 return;
             }
@@ -776,7 +802,7 @@ namespace MALClient.ViewModels
                 }
                 DataCache.SaveVolatileData();
             }
-            await RefreshList();
+            RefreshList();
         }
 
         /// <summary>
@@ -817,7 +843,7 @@ namespace MALClient.ViewModels
                     item.ViewModel.SignalBackToList();
                 }
                 if (_prevWorkMode != modeOverride)
-                    await RefreshList();
+                    RefreshList();
                 return;
             }
             if (WorkMode == requestedMode)
@@ -874,7 +900,7 @@ namespace MALClient.ViewModels
                 if (data?.Count == 0)
                 {
                     //no data?
-                    await RefreshList();
+                    RefreshList();
                     Loading = false;
                     return;
                 }
@@ -914,8 +940,13 @@ namespace MALClient.ViewModels
                                                  StringComparison.CurrentCultureIgnoreCase)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
-
-            await RefreshList();
+            var hints = new List<string>();
+            foreach (var allLoadedAuthAnimeItem in _allLoadedAuthAnimeItems)
+            {
+                hints.AddRange(allLoadedAuthAnimeItem.Tags);
+            }
+            ViewModelLocator.Main.SearchHints = hints.Distinct().ToList();
+            RefreshList();
         }
 
         /// <summary>
@@ -1108,6 +1139,8 @@ namespace MALClient.ViewModels
                 {
                     if(AnimeItems.Count + _animeItemsSet.Count <= 150)
                         LoadMoreFooterVisibility = Visibility.Visible;
+                    else
+                        LoadMoreFooterVisibility = Visibility.Collapsed;
                 }
                 if (Initiazlized)
                 {
@@ -1352,6 +1385,8 @@ namespace MALClient.ViewModels
 
         public Visibility HumApiSpecificControlsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility MalApiSpecificControlsVisibility
+            => Settings.SelectedApiType == ApiType.Hummingbird? Visibility.Collapsed : Visibility.Visible;
 
         private double? _maxWidth;
         public double MaxWidth => (_maxWidth ?? (_maxWidth = AnimeItemViewModel.MaxWidth)).Value;
@@ -1360,39 +1395,28 @@ namespace MALClient.ViewModels
 
         #region StatusRelatedStuff
 
-        private async void UpdateUpperStatus(int retries = 5)
+        private void UpdateUpperStatus()
         {
-            while (true)
-            {
-                var page = Utils.GetMainPageInstance();
+            var page = ViewModelLocator.Main;
 
-                if (page != null)
+            if (WorkMode != AnimeListWorkModes.SeasonalAnime)
+                if (WorkMode == AnimeListWorkModes.TopAnime)
+                    page.CurrentStatus =
+                        $"Top {TopAnimeWorkMode} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                else if (WorkMode == AnimeListWorkModes.TopManga)
+                    page.CurrentStatus =
+                        $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                else if (!string.IsNullOrWhiteSpace(ListSource))
+                    page.CurrentStatus =
+                        $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                else
+                    page.CurrentStatus =
+                        $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
+            else
+                page.CurrentStatus =
+                    $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
 
-                    if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                        if (WorkMode == AnimeListWorkModes.TopAnime)
-                            page.CurrentStatus =
-                                $"Top {TopAnimeWorkMode} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else if (WorkMode == AnimeListWorkModes.TopManga)
-                            page.CurrentStatus =
-                                $"Top Manga - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else if (!string.IsNullOrWhiteSpace(ListSource))
-                            page.CurrentStatus =
-                                $"{ListSource} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-                        else
-                            page.CurrentStatus =
-                                $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
-                    else
-                        page.CurrentStatus =
-                            $"{CurrentSeason?.Name} - {Utils.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-
-                else if (retries >= 0)
-                {
-                    await Task.Delay(1000);
-                    retries = retries - 1;
-                    continue;
-                }
-                break;
-            }
+            page.CurrentStatusSub = SortOption != SortOptions.SortWatched ? SortOption.GetDescription() : Sort3Label;
         }
 
         private int GetDesiredStatus()

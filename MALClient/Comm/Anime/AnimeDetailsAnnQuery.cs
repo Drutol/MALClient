@@ -34,8 +34,6 @@ namespace MALClient.Comm
             if (string.IsNullOrEmpty(raw))
                 return null;
 
-            AnimeDetailsData output;
-
             try
             {
                 var data = XDocument.Parse(raw);
@@ -67,7 +65,7 @@ namespace MALClient.Comm
                 if (node == null)
                     node = nodes.First();
 
-                output = new AnimeDetailsData
+                var output = new AnimeDetailsData
                 {
                     SourceId = node.Attribute("id").Value,
                     Genres =

@@ -64,6 +64,15 @@
                                                      Click="ChangeDefaultTab"
                                                      Tag="manga" />
                     </Grid>
+                    <TextBlock Text="Make manga volumes more important than chapters."
+                                               FontWeight="Medium"
+                                                HorizontalAlignment="Center" Margin="0,5"
+                                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                                            IsOn="{Binding MangaFocusVolumes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             OnContent="Focus volumes" OffContent="Focus chapters" HorizontalAlignment="Center" />
+                    </Grid>
                 </StackPanel>
             </Grid>
             <MenuFlyoutSeparator Margin="0,5" />

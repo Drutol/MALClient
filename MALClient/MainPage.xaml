@@ -29,6 +29,12 @@
                              EnableDependentAnimation="True" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="CurrentStatus" FromVerticalOffset="20" FromHorizontalOffset="0" />
         </Storyboard>
+        <Storyboard x:Name="FadeInCurrentSubStatus">
+            <DoubleAnimation Storyboard.TargetName="CurrentStatusSub" Storyboard.TargetProperty="Opacity" 
+                             SpeedRatio="3" EnableDependentAnimation="True" From="0" To="1" />
+            <PopInThemeAnimation Storyboard.TargetName="CurrentStatusSub" FromVerticalOffset="20"
+                               FromHorizontalOffset="0" />
+        </Storyboard>
     </Page.Resources>
 
     <Page.DataContext>
@@ -52,7 +58,8 @@
                     Width="45" Height="45" Background="Transparent" FontSize="20"
                     Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                     Command="{Binding ReversePaneCommand}" />
-            <TextBlock x:Name="CurrentStatus" Grid.Column="1" FontWeight="Bold" Text="{Binding CurrentStatus}"
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock x:Name="CurrentStatus"  FontWeight="Bold" Text="{Binding CurrentStatus}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Tapped="CurrentStatus_OnTapped"
                        Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}">
@@ -72,7 +79,13 @@
                                         CommandParameter="4" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
-            </TextBlock>
+                </TextBlock>
+                <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
+                        TextTrimming="CharacterEllipsis" FontSize="14" Foreground="{ThemeResource BrushSettingsSubtitle}"
+                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"
+                        Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
+            </StackPanel>
+
 
 
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
@@ -80,7 +93,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="SearchInput" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                <AutoSuggestBox  x:Name="SearchInput" ItemsSource="{Binding CurrentHintSet}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                          KeyDown="SearchInput_OnKeyDown"
                          Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"

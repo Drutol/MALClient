@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -499,6 +500,32 @@ namespace MALClient
             HockeyClient.Current.TrackEvent(@event.ToString());
 #endif
         }
+
+        #region EnumDecorations
+          public class Description : Attribute
+          {
+              public readonly string Text;
+  
+              public Description(string text)
+              {
+                  Text = text;
+              }
+          }
+  
+          public static string GetDescription(this Enum en)
+          {
+              Type type = en.GetType();
+              MemberInfo[] memInfo = type.GetMember(en.ToString());
+              if (memInfo != null && memInfo.Length > 0)
+              {
+                  object[] attrs = memInfo[0].GetCustomAttributes(typeof(Description), false).ToArray();
+  
+                  if (attrs != null && attrs.Length > 0)
+                      return ((Description)attrs[0]).Text;
+              }
+              return en.ToString();
+          }
+  #endregion
     }
 
 

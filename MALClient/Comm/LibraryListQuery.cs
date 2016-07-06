@@ -92,7 +92,8 @@ namespace MALClient.Comm
                                     AllEpisodes = Convert.ToInt32(item.Element("series_episodes").Value),
                                     MyStartDate = item.Element("my_start_date").Value,
                                     MyEndDate = item.Element("my_finish_date").Value,
-                                    MyScore = Convert.ToInt32(item.Element("my_score").Value)
+                                    MyScore = Convert.ToInt32(item.Element("my_score").Value),
+                                    Notes = item.Element("my_tags").Value
                                 });
                             }
                             break;
@@ -113,7 +114,8 @@ namespace MALClient.Comm
                                     MyEndDate = item.Element("my_finish_date").Value,
                                     MyScore = Convert.ToInt32(item.Element("my_score").Value),
                                     MyVolumes = Convert.ToInt32(item.Element("my_read_volumes").Value),
-                                    AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value)
+                                    AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value),
+                                    Notes = item.Element("my_tags").Value
                                 });
                             }
                             break;
@@ -162,7 +164,8 @@ namespace MALClient.Comm
                                         MyEpisodes = Convert.ToInt32(entry.episodes_watched.ToString()),
                                         MyScore = score,
                                         MyStatus = HummingbirdStatusToMal(entry.status),
-                                        LastWatched = lastWatch
+                                        LastWatched = lastWatch,
+                                        Notes = entry.notes.ToString()
                                     });
                                     if (entry.anime.status == "Currently Airing" ||
                                         entry.anime.status == "Not Yet Aired")

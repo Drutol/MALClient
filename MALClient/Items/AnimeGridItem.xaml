@@ -141,6 +141,15 @@
                         <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
                 </Button>
+                <Button Style="{StaticResource TextBlockButtonStyle}" Width="35" Height="35" Foreground="White" Padding="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
+                    <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <Button.Flyout>
+                        <Flyout>
+                            <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+
             </Grid>
             <Button Grid.Row="0"
                     HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"

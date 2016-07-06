@@ -116,9 +116,7 @@
     <Compile Include="Comm\Articles\MalArticlesIndexQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
-    <Compile Include="Comm\CommUtils\IParameters.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
-    <Compile Include="Comm\ListParameters.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRemoveQuery.cs" />
     <Compile Include="Comm\Anime\AnimeReviewsQuery.cs" />
@@ -264,6 +262,7 @@
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
+    <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
   </ItemGroup>

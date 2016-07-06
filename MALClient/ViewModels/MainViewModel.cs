@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
@@ -23,6 +24,7 @@ namespace MALClient.ViewModels
         Storyboard PinDialogStoryboard { get; }
         Storyboard CurrentStatusStoryboard { get; }
         Storyboard HidePinDialogStoryboard { get; }
+        Storyboard CurrentOffSubStatusStoryboard { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -39,8 +41,7 @@ namespace MALClient.ViewModels
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             MenuPaneState = false;
-
-            await Task.Delay(1);
+            CurrentStatusSub = "";
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
@@ -285,6 +286,19 @@ namespace MALClient.ViewModels
             }
         }
 
+        private string _currentStatusSub;
+  
+          public string CurrentStatusSub
+          {
+              get { return _currentStatusSub; }
+              set
+              {
+                  _currentStatusSub = value;
+                  View.CurrentOffSubStatusStoryboard.Begin();
+                  RaisePropertyChanged(() => CurrentStatusSub);
+              }
+        }
+
         private string _currentSearchQuery;
 
         public string CurrentSearchQuery
@@ -294,10 +308,27 @@ namespace MALClient.ViewModels
             {
                 _currentSearchQuery = value;
                 RaisePropertyChanged(() => CurrentSearchQuery);
-
+                CurrentHintSet =
+                    SearchHints.Where(s => s.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))
+                        .Take(3)
+                        .ToList();
                 if (SearchToggleLock) return;
 
                 ViewModelLocator.AnimeList.RefreshList(true);
+            }
+        }
+
+        public List<string> SearchHints { get; set; }
+ 
+         private List<string> _currentHintSet;
+
+        public List<string> CurrentHintSet
+        {
+            get { return _currentHintSet; }
+            set
+            {
+                _currentHintSet = value;
+                RaisePropertyChanged(() => CurrentHintSet);
             }
         }
 

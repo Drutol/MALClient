@@ -76,28 +76,27 @@
             </AppBarButton>
             <AppBarButton Icon="Sort" Label="Order by" Visibility="{Binding AppBtnSortingVisibility}">
                 <AppBarButton.Flyout>
-                    <Flyout x:Name="SortingFlyout">
-                        <StackPanel>
-                            <StackPanel.Resources>
-                                <Style TargetType="ToggleMenuFlyoutItem">
-                                    <Setter Property="Height" Value="46" />
-                                </Style>
-                            </StackPanel.Resources>
-                            <StackPanel x:Name="SortToggles">
-                                <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
-                                <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
+                    <MenuFlyout x:Name="SortingFlyout">
+                        <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" />
+                        <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" />
+                        <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
+                        <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
                                                       Visibility="{Binding SortAirDayVisibility}" />
-                                <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
+                        <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
                                                       Click="SelectSortMode"
                                                       Visibility="{Binding HumApiSpecificControlsVisibility}" />
-                                <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
-                            </StackPanel>
-                            <MenuFlyoutSeparator />
-                            <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />
-                        </StackPanel>
-                    </Flyout>
+                        <ToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
+                                                             Click="SelectSortMode"
+                                                             Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                                             CommandParameter="5"/>
+                        <ToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
+                                                             Click="SelectSortMode"
+                                                             Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                                             CommandParameter="6"/>
+                        <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />
+                    </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">

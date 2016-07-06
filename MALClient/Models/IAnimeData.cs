@@ -11,6 +11,7 @@
         int AllEpisodes { get; }
         string StartDate { get; set; }
         string EndDate { get; set; }
+        string Notes { get; set; }
         //okay ... I know that it doesn't really fit here but 
         //I have to put it here in order to reuse some code
         //TODO : Rename this interface

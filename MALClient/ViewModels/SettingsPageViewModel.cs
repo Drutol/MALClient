@@ -42,6 +42,7 @@ namespace MALClient.ViewModels
                 Launcher.LaunchUriAsync(
                     new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
         }));
+
         public event SettingsNavigationRequest NavigationRequest;
         private ICommand _requestNavigationCommand;
 
@@ -71,49 +72,97 @@ namespace MALClient.ViewModels
 
         public List<SettingsPageEntry> SettingsPages { get; } = new List<SettingsPageEntry>
         {
-            new SettingsPageEntry {Header = "General",Subtitle = "Default filters, theme etc.",Symbol = Symbol.Setting,PageType = typeof(SettingsGeneralPage)},
-            new SettingsPageEntry {Header = "Caching",Subtitle = "Cached data and caching options.",Symbol = Symbol.SaveLocal,PageType = typeof(SettingsCachingPage)},
-            new SettingsPageEntry {Header = "Calendar",Subtitle = "Build options, behaviours etc.",Symbol = Symbol.CalendarWeek,PageType = typeof(SettingsCalendarPage)},
-            new SettingsPageEntry {Header = "Articles",Subtitle = "Article view settings.",Symbol = Symbol.PreviewLink,PageType = typeof(SettingsArticlesPage)},
-            new SettingsPageEntry {Header = "News",Subtitle = "News regarding app development, bugs etc.",Symbol = Symbol.PostUpdate,PageType = typeof(SettingsNewsPage)},
-            new SettingsPageEntry {Header = "About",Subtitle = "Github repo, donations etc.",Symbol = Symbol.Manage,PageType = typeof(SettingsAboutPage)},
-            new SettingsPageEntry {Header = "Account",Subtitle = "MyAnimelist or Hummingbird authentication.",Symbol = Symbol.Contact,PageType = typeof(LogInPage)},
-            new SettingsPageEntry {Header = "Miscellaneous",Subtitle = "Review popup settings...",Symbol = Symbol.Placeholder,PageType = typeof(SettingsMiscPage)}
+            new SettingsPageEntry
+            {
+                Header = "General",
+                Subtitle = "Default filters, theme etc.",
+                Symbol = Symbol.Setting,
+                PageType = typeof(SettingsGeneralPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "Caching",
+                Subtitle = "Cached data and caching options.",
+                Symbol = Symbol.SaveLocal,
+                PageType = typeof(SettingsCachingPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "Calendar",
+                Subtitle = "Build options, behaviours etc.",
+                Symbol = Symbol.CalendarWeek,
+                PageType = typeof(SettingsCalendarPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "Articles",
+                Subtitle = "Article view settings.",
+                Symbol = Symbol.PreviewLink,
+                PageType = typeof(SettingsArticlesPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "News",
+                Subtitle = "News regarding app development, bugs etc.",
+                Symbol = Symbol.PostUpdate,
+                PageType = typeof(SettingsNewsPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "About",
+                Subtitle = "Github repo, donations etc.",
+                Symbol = Symbol.Manage,
+                PageType = typeof(SettingsAboutPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "Account",
+                Subtitle = "MyAnimelist or Hummingbird authentication.",
+                Symbol = Symbol.Contact,
+                PageType = typeof(LogInPage)
+            },
+            new SettingsPageEntry
+            {
+                Header = "Miscellaneous",
+                Subtitle = "Review popup settings...",
+                Symbol = Symbol.Placeholder,
+                PageType = typeof(SettingsMiscPage)
+            }
         };
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForWatching
         {
-            get { return DisplayModes[(int)Settings.WatchingDisplayMode]; }
+            get { return DisplayModes[(int) Settings.WatchingDisplayMode]; }
             set { Settings.WatchingDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForCompleted
         {
-            get { return DisplayModes[(int)Settings.CompletedDisplayMode]; }
+            get { return DisplayModes[(int) Settings.CompletedDisplayMode]; }
             set { Settings.CompletedDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForOnHold
         {
-            get { return DisplayModes[(int)Settings.OnHoldDisplayMode]; }
+            get { return DisplayModes[(int) Settings.OnHoldDisplayMode]; }
             set { Settings.OnHoldDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForDropped
         {
-            get { return DisplayModes[(int)Settings.DroppedDisplayMode]; }
+            get { return DisplayModes[(int) Settings.DroppedDisplayMode]; }
             set { Settings.DroppedDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForPlanned
         {
-            get { return DisplayModes[(int)Settings.PlannedDisplayMode]; }
+            get { return DisplayModes[(int) Settings.PlannedDisplayMode]; }
             set { Settings.PlannedDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForAll
         {
-            get { return DisplayModes[(int)Settings.AllDisplayMode]; }
+            get { return DisplayModes[(int) Settings.AllDisplayMode]; }
             set { Settings.AllDisplayMode = value.Item1; }
         }
 
@@ -269,7 +318,22 @@ namespace MALClient.ViewModels
             set { Settings.ArticlesLaunchExternalLinks = value; }
         }
 
+        public static bool MangaFocusVolumes
+        {
+            get { return Settings.MangaFocusVolumes; }
+            set
+            {
+                Settings.MangaFocusVolumes = value;
+                ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.ForEach(abstraction =>
+                {
+                    if (abstraction.LoadedModel)
+                        abstraction.ViewModel.MangaFocusChanged(value);
+                });
+            }
+        }
+
         private List<NewsData> _currentNews { get; set; } = new List<NewsData>();
+
         public List<NewsData> CurrentNews
         {
             get
@@ -285,11 +349,13 @@ namespace MALClient.ViewModels
         }
 
 
+
+
         public Visibility MalApiDependatedntSectionsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
         public bool HumApiDependatedntSectionsEnabled
-             => Settings.SelectedApiType != ApiType.Mal;
+            => Settings.SelectedApiType != ApiType.Mal;
 
 
 
@@ -318,6 +384,7 @@ namespace MALClient.ViewModels
         }
 
         private bool _cachedItemsLoaded;
+
         public async void LoadCachedEntries()
         {
             if (_cachedItemsLoaded)
@@ -333,7 +400,7 @@ namespace MALClient.ViewModels
                     {
                         Date = data.DateModified.LocalDateTime.ToString("dd/MM/yyyy HH:mm"),
                         FileName = file.Name,
-                        Size = Utils.SizeSuffix((long)data.Size),
+                        Size = Utils.SizeSuffix((long) data.Size),
                     });
                 }
             }
@@ -400,10 +467,6 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => TotalFilesCached);
             }
         }
-
-
-
-
 
         #endregion
 

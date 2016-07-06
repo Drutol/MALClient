@@ -40,7 +40,7 @@ namespace MALClient.Pages
 
         public Flyout FlyoutViews => ViewsFlyout;
         public Flyout FlyoutFilters => FiltersFlyout;
-        public Flyout FlyoutSorting => SortingFlyout;
+        public MenuFlyout FlyoutSorting => SortingFlyout;
 
         public async Task<ScrollViewer> GetIndefiniteScrollViewer()
         {
@@ -158,8 +158,6 @@ namespace MALClient.Pages
 
         #endregion
 
-        #region ActionHandlersPin
-
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
             var btn = sender as ToggleMenuFlyoutItem;
@@ -185,10 +183,14 @@ namespace MALClient.Pages
                     ViewModel.SortOption = SortOptions.SortNothing;
                     break;
             }
-            foreach (var child in SortToggles.Children)
-            {
-                (child as ToggleMenuFlyoutItem).IsChecked = false;
-            }
+            SortTitle.IsChecked =
+                SortScore.IsChecked =
+                    Sort3.IsChecked =
+                        SortAiring.IsChecked =
+                            SortNone.IsChecked =
+                                SortLastWatched.IsChecked =
+                                    SortEndDate.IsChecked =
+                                        SortStartDate.IsChecked = false;
             btn.IsChecked = true;
             ViewModel.RefreshList();
         }
@@ -219,11 +221,6 @@ namespace MALClient.Pages
             FlyoutListSource.ShowAt(sender as FrameworkElement);
         }
 
-        private void SetListSource(object sender, RoutedEventArgs e)
-        {
-            ListSource_OnKeyDown(null, null);
-        }
-
         private void FlyoutListSource_OnOpened(object sender, object e)
         {
             TxtListSource.SelectAll();
@@ -231,6 +228,14 @@ namespace MALClient.Pages
 
         internal void InitSortOptions(SortOptions option, bool descending)
         {
+            SortTitle.IsChecked =
+                SortScore.IsChecked =
+                    Sort3.IsChecked =
+                        SortAiring.IsChecked =
+                            SortNone.IsChecked =
+                                SortLastWatched.IsChecked =
+                                    SortEndDate.IsChecked =
+                                        SortStartDate.IsChecked = false;
             switch (option)
             {
                 case SortOptions.SortTitle:
@@ -251,12 +256,17 @@ namespace MALClient.Pages
                 case SortOptions.SortLastWatched:
                     SortLastWatched.IsChecked = true;
                     break;
+                case SortOptions.SortStartDate:
+                    SortStartDate.IsChecked = true;
+                    break;
+                case SortOptions.SortEndDate:
+                    SortEndDate.IsChecked = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }
             BtnOrderDescending.IsChecked = descending;
         }
 
-        #endregion
     }
 }

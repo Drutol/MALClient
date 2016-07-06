@@ -78,6 +78,12 @@ namespace MALClient
             set { ApplicationData.Current.LocalSettings.Values["SortDescendingM"] = value; }
         }
 
+        public static bool MangaFocusVolumes
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["MangaFocusVolumes"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["MangaFocusVolumes"] = value; }
+        }
+
         public static int DefaultAnimeFilter
         {
             get

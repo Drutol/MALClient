@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MALClient.Models;
 using MALClient.ViewModels;
 
@@ -74,11 +76,32 @@ namespace MALClient.Items
         public int Id => EntryData?.Id ?? _seasonalData.Id;
         public int MalId => EntryData?.MalId ?? _seasonalData.Id;
         public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData.ImgUrl;
-        private int AllEpisodes => EntryData?.AllEpisodes ?? 0;
+        public int AllEpisodes => EntryData?.AllEpisodes ?? 0;
         public int AllVolumes => (EntryData as MangaLibraryItemData)?.AllVolumes ?? 0;
         public int Type => EntryData?.Type ?? 0;
 
-        public DateTime LastWatched
+        public string Notes
+        {
+            get { return EntryData?.Notes ?? ""; }
+            set
+            {
+                if (EntryData != null)
+                {
+                    EntryData.Notes = value;
+                    _tags = null;
+                }
+            }
+        }
+
+        private List<string> _tags;
+
+        public List<string> Tags => _tags ?? (_tags = string.IsNullOrEmpty(Notes)
+            ? new List<string>()
+            : Notes.Contains(",")
+                ? Notes.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.ToLower()).ToList()
+                : new List<string> {Notes.ToLower()});
+public DateTime LastWatched
         {
             get { return EntryData?.LastWatched ?? DateTime.MinValue; }
             set
@@ -151,15 +174,11 @@ namespace MALClient.Items
             LoadedModel = true;
             if (RepresentsAnime)
                 return _firstConstructor
-                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore,
-                        MyStartDate, MyEndDate, this,
-                        false)
+                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, AllEpisodes, this, false)
                     : new AnimeItemViewModel(_seasonalData, this);
             return
                 _firstConstructor
-                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, MyStatus, MyEpisodes, AllEpisodes, MyScore,
-                        MyStartDate, MyEndDate, this,
-                        false, MyVolumes, AllVolumes)
+                    ? new AnimeItemViewModel(Auth, Title, ImgUrl, Id, AllEpisodes, this, false, AllVolumes)
                     : new AnimeItemViewModel(_seasonalData, this);
         }
     }

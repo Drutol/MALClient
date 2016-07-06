@@ -71,7 +71,7 @@
                             CommandParameter="0"
                             Foreground="{Binding MyScore,Converter={StaticResource SelectionToBrushConverter},ConverterParameter=1}" />
         </MenuFlyoutSubItem>
-        <MenuFlyoutSubItem Text="Watched eps"
+        <MenuFlyoutSubItem Text="{Binding UpdateEpsUpperLabel}"
                            Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <MenuFlyoutItem Text="Increment" Command="{Binding IncrementWatchedCommand}"
                             Visibility="{Binding IncrementEpsVisibility}" />

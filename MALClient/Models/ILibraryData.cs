@@ -16,5 +16,6 @@ namespace MALClient.Models
         DateTime LastWatched { get; set; }
         string MyStartDate { get; set; }
         string MyEndDate { get; set; }
+        string Notes { get; set; }
     }
 }

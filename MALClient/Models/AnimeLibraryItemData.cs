@@ -8,6 +8,7 @@ namespace MALClient.Models
         public string MyStartDate { get; set; }
         public string MyEndDate { get; set; }
 
+
         public int Id
         {
             get { return _id == -1 ? MalId : _id; }
@@ -23,5 +24,6 @@ namespace MALClient.Models
         public string ImgUrl { get; set; }
         public int Type { get; set; }
         public DateTime LastWatched { get; set; } = DateTime.MinValue;
+        public string Notes { get; set; }
     }
 }

@@ -55,33 +55,37 @@
                     Width="45" Height="45" Background="Transparent" FontSize="20"
                     Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                     Command="{Binding ReversePaneCommand}" />
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Grid Grid.Column="1" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <TextBlock x:Name="CurrentStatus"  FontWeight="Bold" Text="{Binding CurrentStatus}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Tapped="CurrentStatus_OnTapped"
                        Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}">
-                <FlyoutBase.AttachedFlyout>
-                    <MenuFlyout x:Name="CurrentStatusListFilterSelectorFlyout">
-                        <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter1Label}"
-                                        Command="{Binding ChangeStatusCommand}"
-                                        CommandParameter="0" />
-                        <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
-                                        CommandParameter="1" />
-                        <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
-                                        CommandParameter="2" />
-                        <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
-                                        CommandParameter="3" />
-                        <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter5Label}"
-                                        Command="{Binding ChangeStatusCommand}"
-                                        CommandParameter="4" />
-                    </MenuFlyout>
-                </FlyoutBase.AttachedFlyout>
+                    <FlyoutBase.AttachedFlyout>
+                        <MenuFlyout x:Name="CurrentStatusListFilterSelectorFlyout">
+                            <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter1Label}"
+                                            Command="{Binding ChangeStatusCommand}"
+                                            CommandParameter="0" />
+                            <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
+                                            CommandParameter="1" />
+                            <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
+                                            CommandParameter="2" />
+                            <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
+                                            CommandParameter="3" />
+                            <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter5Label}"
+                                            Command="{Binding ChangeStatusCommand}"
+                                            CommandParameter="4" />
+                        </MenuFlyout>
+                    </FlyoutBase.AttachedFlyout>
                 </TextBlock>
-                <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
+                <TextBlock Grid.Column="1" x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
                         TextTrimming="CharacterEllipsis" FontSize="12" Foreground="{ThemeResource BrushSettingsSubtitle}"
                         VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"
                         Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
-            </StackPanel>
+            </Grid>
 
 
 

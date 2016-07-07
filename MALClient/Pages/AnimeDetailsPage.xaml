@@ -159,7 +159,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <SymbolIcon Symbol="Tag" />
-                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Tags"  />
+                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Tags"  />
                                             </Grid>
                                         </Button>
                                         <Button Height="40" HorizontalAlignment="Stretch"
@@ -171,7 +171,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <SymbolIcon Margin="3,0" Symbol="Copy" />
-                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Copy link to clipboard" />
+                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Copy link to clipboard" />
                                             </Grid>
                                         </Button>
                                         <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
@@ -183,7 +183,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <SymbolIcon Margin="3,0" Symbol="Globe" />
-                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Open in browser" />
+                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Open in browser" />
                                             </Grid>
                                         </Button>
                                         <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
@@ -197,7 +197,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <SymbolIcon Margin="3,0" Symbol="Add" />
-                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Add to my list" />
+                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Add to my list" />
                                             </Grid>
                                         </Button>
                                         <Button Height="40"
@@ -213,7 +213,7 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <SymbolIcon Margin="3,0" Symbol="Delete" />
-                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Remove from my list" />
+                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Remove from my list" />
                                             </Grid>
                                         </Button>
                                     </StackPanel>

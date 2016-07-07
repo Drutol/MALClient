@@ -106,17 +106,21 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
+                            <TextBlock Text="09.07.2016 - v4.3.126.0" />
+                            <TextBlock Text="Added manga volumes support."/>
+                            <TextBlock Text="Added option to focus on either chapters or volumes." />
+                            <TextBlock Text="Added tags." />
+                            <TextBlock Text="Improved search and added suggestion based on tags." />
+                            <TextBlock Text="Added detailed score listing to reviews." />
+                            <TextBlock Text="Tweaked search page a little bit." />
+                            <TextBlock Text="Bugfixes, optimizations, cleanup yaddi yadda... ^^" />
+                            <MenuFlyoutSeparator />
                             <TextBlock Text="02.07.2016 - v4.3.124.0" />
                             <TextBlock Text="Added day/hour counter to upcoming anime."/>
                             <TextBlock Text="Added option to randomly choose from current list." />
                             <TextBlock Text="Added option to pull more top anime. (up to 200)" />
                             <TextBlock Text="Resolved some crashes, some are still lurking..." />
                             <TextBlock Text="Moved Sign in page to Settings &amp; More page when authenticated." />
-                            <MenuFlyoutSeparator />
-                            <TextBlock Text="21.06.2016 - v4.3.122.0" />
-                            <TextBlock Text="Html parsing fixes - recommendations&amp;articles"/>
-                            <TextBlock Text="Scaled down live tile images." />
-                            <TextBlock Text="You can now remove anime rating." />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

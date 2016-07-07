@@ -132,37 +132,37 @@ namespace MALClient.ViewModels
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForWatching
         {
-            get { return DisplayModes[(int) Settings.WatchingDisplayMode]; }
+            get { return DisplayModes[(int) Settings.WatchingDisplayMode-1]; }
             set { Settings.WatchingDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForCompleted
         {
-            get { return DisplayModes[(int) Settings.CompletedDisplayMode]; }
+            get { return DisplayModes[(int) Settings.CompletedDisplayMode - 1]; }
             set { Settings.CompletedDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForOnHold
         {
-            get { return DisplayModes[(int) Settings.OnHoldDisplayMode]; }
+            get { return DisplayModes[(int) Settings.OnHoldDisplayMode - 1]; }
             set { Settings.OnHoldDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForDropped
         {
-            get { return DisplayModes[(int) Settings.DroppedDisplayMode]; }
+            get { return DisplayModes[(int) Settings.DroppedDisplayMode - 1]; }
             set { Settings.DroppedDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForPlanned
         {
-            get { return DisplayModes[(int) Settings.PlannedDisplayMode]; }
+            get { return DisplayModes[(int) Settings.PlannedDisplayMode - 1]; }
             set { Settings.PlannedDisplayMode = value.Item1; }
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForAll
         {
-            get { return DisplayModes[(int) Settings.AllDisplayMode]; }
+            get { return DisplayModes[(int) Settings.AllDisplayMode - 1]; }
             set { Settings.AllDisplayMode = value.Item1; }
         }
 

@@ -78,6 +78,11 @@ namespace MALClient.Comm
                         var reviewNodeContent = reviewNode.Descendants("div").First(node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Reviews:reviewNode:contentNode"]);
+                        foreach (var scoreRow in reviewNodeContent.ChildNodes[1].Descendants("tr").Skip(1))
+                        {
+                            var tds = scoreRow.Descendants("td").ToList();
+                            current.Score.Add(new ReviewScore {Field = tds[0].InnerText,Score = tds[1].InnerText == "&nbsp;" ? "N/A" : tds[1].InnerText });
+                        }
                         reviewNodeContent.ChildNodes.Remove(1);
                         current.Review =
                             WebUtility.HtmlDecode(reviewNodeContent.InnerText.Trim().Replace("read more", ""));

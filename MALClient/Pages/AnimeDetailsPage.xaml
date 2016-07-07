@@ -834,47 +834,49 @@
                                                                 <RowDefinition Height="Auto" />
                                                                 <RowDefinition Height="Auto" />
                                                             </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <StackPanel
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="95" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <StackPanel
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Padding="5,0,0,0" Margin="0,5" BorderThickness="5,0,0,0"
                                                         HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                                                    Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
                                                                    Width="Auto" Height="Auto" MaxHeight="35"
                                                                    HorizontalAlignment="Center" />
-                                                                    <StackPanel Orientation="Vertical" Margin="5,0">
-                                                                        <TextBlock Text="{Binding Author}" FontSize="17"
+                                                                        <StackPanel Orientation="Vertical" Margin="5,0">
+                                                                            <TextBlock Text="{Binding Author}" FontSize="17"
                                                                            FontWeight="Bold" />
-                                                                        <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
+                                                                            <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
+                                                                        </StackPanel>
                                                                     </StackPanel>
-                                                                </StackPanel>
-                                                                <TextBlock Text="{Binding OverallRating}" FontSize="15"
+                                                                    <TextBlock Text="{Binding OverallRating}" FontSize="15"
                                                                    FontWeight="SemiLight" />
-                                                                <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
-                                                                <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
-                                                            </StackPanel>
-                                                            <!--<ToggleButton Margin="0,5" x:Name="ExpandReviewButton"
-                                                                  Grid.Column="1" Padding="0" Grid.Row="0"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Stretch" Width="40">
-                                                        <SymbolIcon Symbol="Remote" RenderTransformOrigin="0.5,0.5">
-                                                            <SymbolIcon.RenderTransform>
-                                                                <RotateTransform Angle="90" />
-                                                            </SymbolIcon.RenderTransform>
-                                                        </SymbolIcon>
-                                                    </ToggleButton>-->
-                                                            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                                                    <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
+                                                                    <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
+                                                                </StackPanel>
+                                                                <ItemsControl Grid.Column="1"  ItemsSource="{Binding Score}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <TextBlock Foreground="White" FontWeight="SemiLight" Text="{Binding Field}"/>
+                                                                                <TextBlock Foreground="White" Margin="5,0" Text="{Binding Score}"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </Grid>
+                                                            <Grid  Grid.Row="1"
                                                           Visibility="{Binding ElementName=ExpandReviewButton,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                 <TextBlock Text="{Binding Review}"
                                                                    TextWrapping="WrapWholeWords"
                                                                    Margin="0,5" Padding="5,5,5,0" />
                                                             </Grid>
-                                                            <ToggleButton Grid.ColumnSpan="2" Grid.RowSpan="2" Background="Transparent" x:Name="ExpandReviewButton" Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                            <ToggleButton Grid.Row="0" Grid.RowSpan="2" Background="Transparent" x:Name="ExpandReviewButton" Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>

@@ -940,12 +940,7 @@ namespace MALClient.ViewModels
                                                  StringComparison.CurrentCultureIgnoreCase)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
-            var hints = new List<string>();
-            foreach (var allLoadedAuthAnimeItem in _allLoadedAuthAnimeItems)
-            {
-                hints.AddRange(allLoadedAuthAnimeItem.Tags);
-            }
-            ViewModelLocator.Main.SearchHints = hints.Distinct().ToList();
+            ViewModelLocator.Main.SearchHints = _allLoadedAuthAnimeItems.Concat(_allLoadedAuthMangaItems).SelectMany(abs => abs.Tags).Distinct().ToList();
             RefreshList();
         }
 

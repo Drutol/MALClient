@@ -73,7 +73,7 @@ namespace MALClient.ViewModels
                 }
                 catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
                 {
-                    EmptyNoticeVisibility = Visibility.Visible;
+                    //will display empty notice
                 }
             }
             else // manga search
@@ -98,7 +98,7 @@ namespace MALClient.ViewModels
                 }
                 catch (Exception) //if MAL returns nothing it returns unparsable xml ... 
                 {
-                    EmptyNoticeVisibility = Visibility.Visible;
+                    //will display empty notice
                 }
             }
             ViewModelLocator.Main.PopulateSearchFilters(_filters);
@@ -116,6 +116,7 @@ namespace MALClient.ViewModels
                             string.IsNullOrWhiteSpace(_currrentFilter) ||
                             string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
                 AnimeSearchItems.Add(item);
+            EmptyNoticeVisibility = AnimeSearchItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void ResetQuery()

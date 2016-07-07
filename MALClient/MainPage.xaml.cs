@@ -84,5 +84,15 @@ namespace MALClient
             if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
                 ViewModelLocator.Main.PinDialogViewModel.CloseDialogCommand.Execute(null);
         }
+
+        private void SearchInput_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if ( SearchInput.Text.Length >= 2)
+            {
+                SearchInput.IsEnabled = false; //reset input
+                SearchInput.IsEnabled = true;
+                ViewModelLocator.Main.OnSearchInputSubmit();
+            }
+        }
     }
 }

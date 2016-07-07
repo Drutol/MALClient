@@ -12,13 +12,13 @@ namespace MALClient.Comm
         public MangaUpdateQuery(IAnimeData item)
             : this(
                 item.Id, item.MyEpisodes, item.MyStatus, (int) item.MyScore, item.MyVolumes, item.StartDate,
-                item.EndDate)
+                item.EndDate,item.Notes)
         {
         }
 
 
         private MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
-            string endDate)
+            string endDate,string notes)
         {
             UpdatedSomething = true;
             if (startDate != null)
@@ -26,7 +26,7 @@ namespace MALClient.Comm
                 var splitDate = startDate.Split('-');
                 startDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
             }
-            if (endDate == null)
+            if (endDate != null)
             {
                 var splitDate = endDate.Split('-');
                 endDate = $"{splitDate[1]}{splitDate[2]}{splitDate[0]}";
@@ -49,7 +49,7 @@ namespace MALClient.Comm
             //xml.AppendLine("<enable_rewatching></enable_rewatching>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
-            //xml.AppendLine("<tags></tags>");
+            xml.AppendLine($"<tags>{notes}</tags>");
             xml.AppendLine("</entry>");
 
 

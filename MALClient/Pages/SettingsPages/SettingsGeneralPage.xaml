@@ -64,6 +64,7 @@
                                                      Click="ChangeDefaultTab"
                                                      Tag="manga" />
                     </Grid>
+                    <MenuFlyoutSeparator/>
                     <TextBlock Text="Make manga volumes more important than chapters."
                                                FontWeight="Medium"
                                                 HorizontalAlignment="Center" Margin="0,5"

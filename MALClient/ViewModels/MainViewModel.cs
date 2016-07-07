@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Media.PlayTo;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -308,6 +309,7 @@ namespace MALClient.ViewModels
             {
                 _currentSearchQuery = value;
                 RaisePropertyChanged(() => CurrentSearchQuery);
+                if(LastIndex == PageIndex.PageAnimeList)
                 CurrentHintSet =
                     SearchHints.Where(s => s.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))
                         .Take(3)

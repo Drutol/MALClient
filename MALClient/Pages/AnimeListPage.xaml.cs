@@ -99,6 +99,7 @@ namespace MALClient.Pages
             await Task.Delay(1);
             var args = ViewModelLocator.Main.GetCurrentListOrderParams();
             args.SelectedItemIndex = AnimesGridIndefinite.SelectedIndex;
+            args.TopWorkMode = ViewModel.TopAnimeWorkMode;
             (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null,args);
         }
 

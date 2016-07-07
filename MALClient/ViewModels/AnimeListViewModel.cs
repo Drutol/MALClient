@@ -1276,7 +1276,10 @@ namespace MALClient.ViewModels
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
                     if (pool.Count == 0)
                         return;
-                    pool[random.Next(0, pool.Count - 1)].NavigateDetails();
+                    pool[random.Next(0, pool.Count - 1)].NavigateDetails(PageIndex.PageAnimeList,
+                        WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga
+                            ? AnimeListPageNavigationArgs.TopAnime(TopAnimeWorkMode)
+                            : null);
                 }));
             }
         }

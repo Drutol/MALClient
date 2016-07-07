@@ -17,44 +17,9 @@ namespace MALClient.Pages
         public AnimeDetailsPage()
         {
             InitializeComponent();
-            var disp = DisplayInformation.GetForCurrentView();
-            ProcessOrientation(disp.CurrentOrientation);
-            disp.OrientationChanged += OnOrientationChanged;
         }
 
         private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;
-
-        public Flyout GetWatchedEpsFlyout()
-        {
-            return WatchedEpsFlyout;
-        }
-
-        /// <summary>
-        ///     Very very dirty hack , don't look at this...
-        ///     But I want to have landscape orientation and I don't know enough XAML magic to do this there.
-        /// </summary>
-        /// <param name="orientation"></param>
-        private void ProcessOrientation(DisplayOrientations orientation)
-        {
-            if (ScrollingContainer.Content == null && (orientation == DisplayOrientations.Landscape ||
-                                                       orientation == DisplayOrientations.LandscapeFlipped))
-            {
-                var grid = RootGrid.Children[1];
-                RootGrid.Children.RemoveAt(1);
-                ScrollingContainer.Content = grid;
-            }
-            else if (ScrollingContainer.Content != null)
-            {
-                var grid = ScrollingContainer.Content;
-                ScrollingContainer.Content = null;
-                RootGrid.Children.Insert(1, grid as FrameworkElement);
-            }
-        }
-
-        private void OnOrientationChanged(DisplayInformation sender, object args)
-        {
-            ProcessOrientation(sender.CurrentOrientation);
-        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -71,7 +36,6 @@ namespace MALClient.Pages
         {
             DataContext = null;
             NavMgr.DeregisterBackNav();
-            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
             base.OnNavigatingFrom(e);
         }
 

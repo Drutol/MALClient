@@ -45,11 +45,6 @@ namespace MALClient.ViewModels
         }
     }
 
-    public interface IDetailsViewInteraction
-    {
-        Flyout GetWatchedEpsFlyout();
-    }
-
     public class AnimeDetailsPageViewModel : ViewModelBase
     {
         //additional fields
@@ -79,7 +74,6 @@ namespace MALClient.ViewModels
         public int Id { get; set; }
         private int MalId { get; set; }
         public string Title { get; set; }
-        public IDetailsViewInteraction View { private get; set; } //used to hide flyout
         private string Type { get; set; }
         private string Status { get; set; }
         //Dates when show starts or ends airing
@@ -1227,7 +1221,7 @@ namespace MALClient.ViewModels
         private async void ChangeWatchedEps()
         {
             LoadingUpdate = true;
-            int eps, prevEps;
+            int eps;
             if (!int.TryParse(WatchedEpsInput, out eps))
             {
                 WatchedEpsInputNoticeVisibility = true;
@@ -1236,9 +1230,8 @@ namespace MALClient.ViewModels
             }
             if (eps >= 0 && (AllEpisodes == 0 || eps <= AllEpisodes))
             {
-                View.GetWatchedEpsFlyout().Hide();
                 WatchedEpsInputNoticeVisibility = false;
-                prevEps = MyEpisodes;
+                var prevEps = MyEpisodes;
                 MyEpisodes = eps;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
@@ -1264,6 +1257,8 @@ namespace MALClient.ViewModels
                         ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
                 }
                 WatchedEpsInput = "";
+                RaisePropertyChanged(() => IsIncrementButtonEnabled);
+                RaisePropertyChanged(() => IsDecrementButtonEnabled);
             }
             else
             {

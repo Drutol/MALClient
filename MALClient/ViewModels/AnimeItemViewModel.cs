@@ -902,7 +902,7 @@ namespace MALClient.ViewModels
 
         private async void IncrementWatchedEp()
         {
-            if(IncrementEpsVisibility == Visibility.Collapsed)
+            if(IncrementEpsVisibility == Visibility.Collapsed || MyEpisodesFocused == AllEpisodesFocused)
                 return;
             LoadingUpdate = Visibility.Visible;
             var trigCompleted = true;
@@ -932,7 +932,7 @@ namespace MALClient.ViewModels
 
         private async void DecrementWatchedEp()
         {
-            if (DecrementEpsVisibility == Visibility.Collapsed)
+            if (DecrementEpsVisibility == Visibility.Collapsed || MyEpisodesFocused == 0)
                 return;
             LoadingUpdate = Visibility.Visible;
             MyEpisodes--;

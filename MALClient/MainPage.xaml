@@ -81,7 +81,7 @@
                 </FlyoutBase.AttachedFlyout>
                 </TextBlock>
                 <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
-                        TextTrimming="CharacterEllipsis" FontSize="14" Foreground="{ThemeResource BrushSettingsSubtitle}"
+                        TextTrimming="CharacterEllipsis" FontSize="12" Foreground="{ThemeResource BrushSettingsSubtitle}"
                         VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"
                         Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
             </StackPanel>

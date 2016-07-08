@@ -1,5 +1,11 @@
 [
   {
+    "Title": "v4.3.126(5).0",
+    "Date": "08.07.2016",
+    "Type": "Updates",
+    "Content": "It turned out to be quite big: tags, volumes etc... Hope you like it :) Changelog can be found on github. Next update will feature Messaging (100%) and maybe favourites, we will se how it goes."
+  },
+  {
     "Title": "v4.3.124(3).0",
     "Date": "02.07.2016",
     "Type": "Updates",
@@ -22,11 +28,5 @@
     "Date": "19.06.2016",
     "Type": "Info",
     "Content": "Articles and recommendations structure has been changed this time. Fixes coming on Monday. Messaging development progresses smoothly thus far, screenshots on github in TODO issue :)"
-  },
-  {
-    "Title": "What's next?",
-    "Date": "13.05.2016",
-    "Type": "Info",
-    "Content": "I've exams coming up and I won't have time to develop anything major for next 2 weeks or so. If there are critical issues or some minor bugs I'll patch them so no worries here. Once I'm done with exams I'm planning to play around with forums and messages. Actually, I have managed to send message from app today (it's not very straightforward) and it's closely related to forums so we have that going, which is nice :). I have reports of some crashes with pretty criptic descriptions and I have no clue where is their source... I'll continue to monitor those and eventually maybe something will become apparent. You can catch me on github everyday so if you happen to have anything to say/report you are welcome to do so :D "
   }
 ]

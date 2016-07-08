@@ -1187,14 +1187,13 @@ namespace MALClient.ViewModels
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = prevStatus;
 
-            if (_animeItemReference is AnimeItemViewModel)
+            var reference = _animeItemReference as AnimeItemViewModel;
+            if (reference != null)
                 if (MyStatus == (int) AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
                 {
-                    await ((AnimeItemViewModel) _animeItemReference).PromptForWatchedEpsChange(AllEpisodes);
+                    await reference.PromptForWatchedEpsChange(AllEpisodes);
                     RaisePropertyChanged(() => MyEpisodesBind);
                 }
-
-
             LoadingUpdate = false;
         }
 
@@ -1237,24 +1236,25 @@ namespace MALClient.ViewModels
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = prevEps;
 
-                if (_animeItemReference is AnimeItemViewModel)
+                var reference = _animeItemReference as AnimeItemViewModel;
+                if (reference != null)
                 {
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
                     {
                         await
-                            ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Watching);
+                           reference.PromptForStatusChange((int) AnimeStatus.Watching);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     else if (MyEpisodes == AllEpisodes && AllEpisodes != 0)
                     {
                         await
-                            ((AnimeItemViewModel) _animeItemReference).PromptForStatusChange((int) AnimeStatus.Completed);
+                            reference.PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     if (Settings.SelectedApiType == ApiType.Hummingbird)
-                        ((AnimeItemViewModel)_animeItemReference).ParentAbstraction.LastWatched = DateTime.Now;
+                        reference.ParentAbstraction.LastWatched = DateTime.Now;
                 }
                 WatchedEpsInput = "";
                 RaisePropertyChanged(() => IsIncrementButtonEnabled);

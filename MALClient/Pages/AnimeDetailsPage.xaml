@@ -138,14 +138,14 @@
                                                         </ListView>
                                                         <MenuFlyoutSeparator Grid.Row="2"></MenuFlyoutSeparator>
                                                         <StackPanel Grid.Row="3" HorizontalAlignment="Stretch">
-                                                            <TextBlock  Text="Add tag" HorizontalAlignment="Center"/>
+                                                            <TextBlock  Text="Add new tag:" HorizontalAlignment="Center"/>
                                                             <Grid HorizontalAlignment="Stretch">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="Auto"/>
                                                                 </Grid.ColumnDefinitions>
                                                                 <TextBox Margin="3,2" HorizontalAlignment="Stretch" Text="{x:Bind ViewModel.NewTagInput,Mode=TwoWay}"/>
-                                                                <Button Grid.Column="1" Padding="0" Width="30" Height="30" Command="{x:Bind ViewModel.AddTagCommand}">
+                                                                <Button Grid.Column="1" Padding="0" Width="32" Height="32" Command="{x:Bind ViewModel.AddTagCommand}">
                                                                     <SymbolIcon Symbol="Add"/>
                                                                 </Button>
                                                             </Grid>
@@ -863,8 +863,8 @@
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <StackPanel Orientation="Horizontal">
-                                                                                <TextBlock Foreground="White" FontWeight="SemiLight" Text="{Binding Field}"/>
-                                                                                <TextBlock Foreground="White" Margin="5,0" Text="{Binding Score}"/>
+                                                                                <TextBlock FontWeight="SemiLight" Text="{Binding Field}"/>
+                                                                                <TextBlock Margin="5,0" Text="{Binding Score}"/>
                                                                             </StackPanel>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>

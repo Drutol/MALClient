@@ -902,7 +902,7 @@ namespace MALClient.ViewModels
 
         private async void IncrementWatchedEp()
         {
-            if(IncrementEpsVisibility == Visibility.Collapsed || MyEpisodesFocused == AllEpisodesFocused)
+            if(IncrementEpsVisibility == Visibility.Collapsed || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
                 return;
             LoadingUpdate = Visibility.Visible;
             var trigCompleted = true;
@@ -924,7 +924,7 @@ namespace MALClient.ViewModels
 
             ParentAbstraction.LastWatched = DateTime.Now;
 
-            if (trigCompleted && MyEpisodes == _allEpisodes && _allEpisodes != 0)
+            if (trigCompleted && MyEpisodes == AllEpisodesFocused && AllEpisodesFocused != 0)
                 await PromptForStatusChange((int) AnimeStatus.Completed);
 
             LoadingUpdate = Visibility.Collapsed;

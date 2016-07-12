@@ -165,7 +165,7 @@ namespace MALClient.Comm
                                         MyScore = score,
                                         MyStatus = HummingbirdStatusToMal(entry.status),
                                         LastWatched = lastWatch,
-                                        Notes = entry.notes.ToString()
+                                        Notes = entry.notes?.ToString()
                                     });
                                     if (entry.anime.status == "Currently Airing" ||
                                         entry.anime.status == "Not Yet Aired")

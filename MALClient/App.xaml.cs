@@ -35,7 +35,6 @@ namespace MALClient
             HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
             {
                 Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
-                DescriptionLoader = (ex) => "HResult = " + ex.HResult.ToString() + "\nStack: " + ex.StackTrace
             });
 #endif
             Current.RequestedTheme = Settings.SelectedTheme;

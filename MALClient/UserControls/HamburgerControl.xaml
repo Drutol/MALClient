@@ -429,7 +429,7 @@
                                     <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
                                                   Grid.Column="0" IsActive="True"
                                                   Visibility="{Binding AdLoadingSpinnerVisibility}" />
-                                    <TextBlock Text="Help me buy Japanese textbook!" HorizontalAlignment="Stretch"
+                                    <TextBlock Text="Support me!" HorizontalAlignment="Stretch"
                                                TextWrapping="WrapWholeWords" FontSize="15" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>

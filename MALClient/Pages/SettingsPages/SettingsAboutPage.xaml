@@ -106,6 +106,9 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
+                            <TextBlock Text="13.07.2016 - v4.3.128.0" />
+                            <TextBlock Text="Hotfix for hummingbird." />
+                            <TextBlock Text="Micro UI adjustments." />
                             <TextBlock Text="09.07.2016 - v4.3.126.0" />
                             <TextBlock Text="Added manga volumes support."/>
                             <TextBlock Text="Added option to focus on either chapters or volumes." />

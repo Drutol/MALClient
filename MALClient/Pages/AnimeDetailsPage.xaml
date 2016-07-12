@@ -94,7 +94,7 @@
                                 <Flyout>
                                     <StackPanel>
                                         <Button Height="40" Margin="0,0,0,5" HorizontalAlignment="Stretch"
-                                        Background="{ThemeResource BrushDetailsMoreButton}">
+                                        Background="{ThemeResource BrushDetailsMoreButton}" Visibility="{Binding MalApiSpecificControlsVisibility}">
                                             <Button.Flyout>
                                                 <Flyout Placement="Left">
                                                     <Grid MinWidth="230">
@@ -104,7 +104,7 @@
                                                             <RowDefinition Height="Auto" MaxHeight="200"/>
                                                             <RowDefinition Height="Auto"/>
                                                         </Grid.RowDefinitions>
-                                                        <TextBlock FontWeight="Medium" Text="Tags" HorizontalAlignment="Center" Margin="2,0,2,5"/>
+                                                        <TextBlock FontWeight="Medium" Text="Tags"  HorizontalAlignment="Center" Margin="2,0,2,5"/>
                                                         <ListView Grid.Row="1" SelectionMode="None" ItemsSource="{Binding MyTags}">
                                                             <ListView.ItemContainerStyle>
                                                                 <Style TargetType="ListViewItem">

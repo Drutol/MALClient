@@ -13,7 +13,7 @@
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml" />
+                <ResourceDictionary Source="/XamlResources/DictionaryRecommendations.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

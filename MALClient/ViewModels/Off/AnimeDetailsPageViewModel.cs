@@ -15,8 +15,10 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
+using MALClient.Comm.MagicalRawQueries;
 using MALClient.Items;
 using MALClient.Models;
+using MALClient.Models.Favourites;
 using MALClient.Pages;
 using MALClient.Utils;
 using MALClient.Utils.Enums;
@@ -93,6 +95,30 @@ namespace MALClient.ViewModels
             => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.EndDate
             ;
 
+        private AnimeStaffData _animeStaffData;
+
+        public AnimeStaffData AnimeStaffData
+        {
+            get { return _animeStaffData; }
+            set
+            {
+                _animeStaffData = value;
+                RaisePropertyChanged(() => AnimeStaffData);
+            }
+        }
+
+        private List<AnimeCharacter> _mangaCharacterData;
+
+        public List<AnimeCharacter> MangaCharacterData
+        {
+            get { return _mangaCharacterData; }
+            set
+            {
+                _mangaCharacterData = value;
+                RaisePropertyChanged(() => MangaCharacterData);
+            }
+        }
+
         public static List<string> ScoreFlyoutChoices { get; set; }
 
 
@@ -121,6 +147,13 @@ namespace MALClient.ViewModels
             else
                 MalId = -1; //we will find this thing later
             MyVolumesVisibility = _animeMode ? Visibility.Collapsed : Visibility.Visible;
+            //favs
+            IsFavourite = FavouritesManager.IsFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga, Id.ToString());
+            //staff
+            CharactersGridVisibility = MangaCharacterGridVisibility = Visibility.Collapsed;
+            LoadCharactersButtonVisibility = Visibility.Visible;
+            AnimeStaffData = null;
+            MangaCharacterData = null;
             //so there will be no floting start/end dates
             MyDetailsVisibility = false;
 
@@ -586,6 +619,48 @@ namespace MALClient.ViewModels
             }
         }
 
+        private Visibility _charactersGridVisibility = Visibility.Collapsed;
+        public Visibility CharactersGridVisibility
+        {
+            get { return _charactersGridVisibility; }
+            set
+            {
+
+                _charactersGridVisibility = value;
+                RaisePropertyChanged(() => CharactersGridVisibility);
+            }
+        }
+        private Visibility _mangaCharacterGridVisibility = Visibility.Collapsed;
+        public Visibility MangaCharacterGridVisibility
+        {
+            get { return _mangaCharacterGridVisibility; }
+            set
+            {
+                _mangaCharacterGridVisibility = value;
+                RaisePropertyChanged(() => MangaCharacterGridVisibility);
+            }
+        }
+        private Visibility _loadingCharactersVisibility = Visibility.Collapsed;
+        public Visibility LoadingCharactersVisibility
+        {
+            get { return _loadingCharactersVisibility; }
+            set
+            {
+                _loadingCharactersVisibility = value;
+                RaisePropertyChanged(() => LoadingCharactersVisibility);
+            }
+        }
+        private Visibility _loadCharactersButtonVisibility;
+        public Visibility LoadCharactersButtonVisibility
+        {
+            get { return _loadCharactersButtonVisibility; }
+            set
+            {
+                _loadCharactersButtonVisibility = value;
+                RaisePropertyChanged(() => LoadCharactersButtonVisibility);
+            }
+        }
+
         private string _watchedEpsInput;
 
         public string WatchedEpsInput
@@ -657,6 +732,22 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => AddAnimeVisibility);
             }
         }
+
+        private ICommand _toggleFavouriteCommand;
+        public ICommand ToggleFavouriteCommand
+            => _toggleFavouriteCommand ?? (_toggleFavouriteCommand = new RelayCommand(async () =>
+            {
+                IsFavouriteButtonEnabled = false;
+                IsFavourite = !IsFavourite;
+                if (IsFavourite)
+                    await FavouritesManager.AddFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga, Id.ToString());
+                else
+                    await FavouritesManager.RemoveFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga, Id.ToString());
+                var reference = _animeItemReference as AnimeItemViewModel;
+                if (reference != null)
+                    reference.IsFavouriteVisibility = IsFavourite ? Visibility.Visible : Visibility.Collapsed;
+                IsFavouriteButtonEnabled = true;
+            }));
 
         private ICommand _saveImageCommand;
 
@@ -759,38 +850,27 @@ namespace MALClient.ViewModels
 
         private ICommand _changeWatchedCommand;
 
-        public ICommand ChangeWatchedCommand
-        {
-            get { return _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps)); }
-        }
+        public ICommand ChangeWatchedCommand => _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps));
 
         private ICommand _addAnimeCommand;
 
-        public ICommand AddAnimeCommand
-        {
-            get { return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddAnime)); }
-        }
+        public ICommand AddAnimeCommand => _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddAnime));
 
         private ICommand _removeAnimeCommand;
 
-        public ICommand RemoveAnimeCommand
-        {
-            get { return _removeAnimeCommand ?? (_removeAnimeCommand = new RelayCommand(RemoveAnime)); }
-        }
+        public ICommand RemoveAnimeCommand => _removeAnimeCommand ?? (_removeAnimeCommand = new RelayCommand(RemoveAnime));
 
         private ICommand _openInMalCommand;
 
-        public ICommand OpenInMalCommand
-        {
-            get { return _openInMalCommand ?? (_openInMalCommand = new RelayCommand(OpenMalPage)); }
-        }
+        public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(OpenMalPage));
 
         private ICommand _openInAnnCommand;
 
-        public ICommand OpenInAnnCommand
-        {
-            get { return _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage)); }
-        }
+        public ICommand OpenInAnnCommand => _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage));
+
+        private ICommand _loadCharactersCommand;
+
+        public ICommand LoadCharactersCommand => _loadCharactersCommand ?? (_loadCharactersCommand = new RelayCommand(() => LoadCharacters()));
 
         private ICommand _copyToClipboardCommand;
 
@@ -1094,6 +1174,28 @@ namespace MALClient.ViewModels
             }
         }
 
+        private bool _isFavouriteButtonEnabled = true;
+        public bool IsFavouriteButtonEnabled
+        {
+            get { return _isFavouriteButtonEnabled; }
+            set
+            {
+                _isFavouriteButtonEnabled = value;
+                RaisePropertyChanged(() => IsFavouriteButtonEnabled);
+            }
+        }
+        private bool _isFavourite;
+        public bool IsFavourite
+        {
+            get { return _isFavourite; }
+            set
+            {
+                _isFavourite = value;
+                RaisePropertyChanged(() => IsFavourite);
+                RaisePropertyChanged(() => FavouriteSymbolIcon);
+            }
+        }
+
         private bool _removeAnimeBtnEnableState = true;
 
         public bool RemoveAnimeBtnEnableState
@@ -1105,6 +1207,7 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => RemoveAnimeBtnEnableState);
             }
         }
+        public Symbol FavouriteSymbolIcon => IsFavourite ? Symbol.UnFavorite : Symbol.Favorite;
 
         private Visibility _imageOverlayVisibility = Visibility.Collapsed;
 
@@ -1784,6 +1887,23 @@ namespace MALClient.ViewModels
             _loadingAlternate = false;
         }
 
+        private async void LoadCharacters(bool force = false)
+        {
+            LoadingCharactersVisibility = Visibility.Visible;
+            LoadCharactersButtonVisibility = Visibility.Collapsed;
+            if (_animeMode)
+            {
+                AnimeStaffData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetCharStaffData(force);
+                CharactersGridVisibility = Visibility.Visible;
+            }
+            else //broken for now -> malformed html
+            {
+                MangaCharacterData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetMangaCharacters(force);
+                MangaCharacterGridVisibility = Visibility.Visible;
+            }
+            LoadingCharactersVisibility = Visibility.Collapsed;
+
+        }
         #endregion
     }
 }

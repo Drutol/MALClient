@@ -24,7 +24,7 @@
             <conversters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter" />
             <conversters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/DictionaryProfilePage.xaml" />
+                <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

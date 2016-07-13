@@ -21,7 +21,7 @@
                 <DoubleAnimation To="0" Completed="Timeline_OnCompleted" />
             </Storyboard>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
+                <ResourceDictionary Source="/XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -64,10 +64,10 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill" Height="275"
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill"
                    MaxWidth="{Binding MaxWidth}">
                 <Image.Source>
-                    <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="275"
+                    <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="325"
                                  DecodePixelType="Logical" DecodePixelWidth="{Binding MaxWidth}" />
                 </Image.Source>
             </Image>
@@ -91,6 +91,7 @@
                     <TextBlock Text="{x:Bind ViewModel.MyScoreBindShort,Mode=OneWay}" Foreground="White"
                                FontWeight="SemiLight" Margin="0,5,0,0"
                                HorizontalAlignment="Center" />
+                    <SymbolIcon Symbol="Favorite" Margin="0,2" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" MinWidth="40" MaxWidth="70" HorizontalAlignment="Left" VerticalAlignment="Top"

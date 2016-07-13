@@ -29,12 +29,12 @@
         </Grid.RowDefinitions>
         <controls:LockableToggleButton x:Name="ToggleMal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                        Checked="MalToggleButtonOnCheck">
-            <Image Source="../Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="150" />
+            <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="150" />
         </controls:LockableToggleButton>
         <controls:LockableToggleButton x:Name="ToggleHum" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"
                                        Checked="HummingbirdToggleButtonOnCheck">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Source="../Assets/hummingbird150x150.scale-200.png" />
+                <Image Source="/Assets/hummingbird150x150.scale-200.png" />
                 <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="18" />
             </StackPanel>
         </controls:LockableToggleButton>
@@ -43,7 +43,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
+            <Image Source="/Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
                    VerticalAlignment="Center" />
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                         MinWidth="200">
@@ -72,7 +72,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Image Source="../Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
+            <Image Source="/Assets/SplashScreen.scale-200.png" Grid.Row="0" Width="310" Height="150"
                    VerticalAlignment="Center" />
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                         MinWidth="200">

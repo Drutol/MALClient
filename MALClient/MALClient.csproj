@@ -108,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
@@ -155,6 +156,7 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\Anime\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\Anime\AnimeHummingbirdDetailsData.cs" />
     <Compile Include="Models\Favourites\FavouriteBase.cs" />
@@ -201,6 +203,9 @@
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Main\MalArticlesPage.xaml.cs" />
+    <Compile Include="UserControls\New\FavButton.xaml.cs">
+      <DependentUpon>FavButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Enums\PageIndex.cs" />
     <Compile Include="Utils\IDetailsPageArgs.cs" />
     <Compile Include="Pages\Main\LogInPage.xaml.cs">
@@ -435,6 +440,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\HamburgerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\New\FavButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

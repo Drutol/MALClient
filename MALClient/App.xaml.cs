@@ -112,6 +112,7 @@ namespace MALClient
             // Ensure the current window is active
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();
+            FavouritesManager.LoadData();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             RateReminderPopUp.ProcessDonatePopUp();

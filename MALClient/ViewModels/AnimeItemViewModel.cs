@@ -16,11 +16,13 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
+using MALClient.Comm.MagicalRawQueries;
 using MALClient.Items;
 using MALClient.Models;
 using MALClient.Pages;
 using MALClient.Utils;
 using MALClient.Utils.Enums;
+using MALClient.Utils.Managers;
 
 namespace MALClient.ViewModels
 {
@@ -36,8 +38,8 @@ namespace MALClient.ViewModels
             var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
             MaxWidth = bounds.Width/2.05;
-            if (MaxWidth > 400)
-                MaxWidth = 250;
+            if (MaxWidth > 200)
+                MaxWidth = 200;
             UpdateScoreFlyoutChoices();
         }
 
@@ -344,6 +346,27 @@ namespace MALClient.ViewModels
                 }
                 _airing = value;
                 RaisePropertyChanged(() => Airing);
+            }
+        }
+
+        private Visibility? _isFavouriteVisibility;
+
+        public Visibility IsFavouriteVisibility
+        {
+            get
+            {
+                return Settings.SelectedApiType == ApiType.Hummingbird ? Visibility.Collapsed : (Visibility)(_isFavouriteVisibility ??
+                       (_isFavouriteVisibility =
+                           FavouritesManager.IsFavourite(
+                               ParentAbstraction.RepresentsAnime ? FavouriteType.Anime : FavouriteType.Manga,
+                               Id.ToString())
+                               ? Visibility.Visible
+                               : Visibility.Collapsed));
+            }
+            set
+            {
+                _isFavouriteVisibility = value;
+                RaisePropertyChanged(() => IsFavouriteVisibility);
             }
         }
 

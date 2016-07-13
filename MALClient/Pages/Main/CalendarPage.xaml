@@ -14,7 +14,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/DictionaryProfilePage.xaml"/>
+                <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter"/>
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>

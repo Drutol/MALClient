@@ -49,5 +49,4 @@
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="LightGray" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-
 </ResourceDictionary>

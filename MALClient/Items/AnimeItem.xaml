@@ -17,7 +17,7 @@
             <converters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
             <converters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../XamlResources/Controlstyles.xaml" />
+                <ResourceDictionary Source="/XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

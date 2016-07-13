@@ -25,7 +25,7 @@
             <Grid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="../XamlResources/DictionaryHamburger.xaml" />
+                        <ResourceDictionary Source="/XamlResources/DictionaryHamburger.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>

@@ -39,6 +39,26 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.DisplayMode" Value="CompactInline"></Setter>
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainSplitView.DisplayMode" Value="CompactOverlay"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
@@ -136,8 +156,8 @@
                 <SymbolIcon Symbol="Refresh" />
             </Button>
         </Grid>
-        <SplitView IsTabStop="False" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
-                   IsPaneOpen="{Binding MenuPaneState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <SplitView x:Name="MainSplitView" IsTabStop="False" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
+                   IsPaneOpen="{x:Bind ViewModel.MenuPaneState, Mode=TwoWay}"
                    DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>
                 <controls:HamburgerControl />

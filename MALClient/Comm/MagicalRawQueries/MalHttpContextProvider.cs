@@ -78,8 +78,9 @@ namespace MALClient.Comm.MagicalRawQueries
                     UseCookies = true,
                     AllowAutoRedirect = false,
                 };
+                Utilities.GiveStatusBarFeedback("Performing http authentication...");
                 _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
-                await _httpClient.GetToken(); //gets token and sets cookies
+                await _httpClient.GetToken(); //gets token and sets cookies            
                 var loginPostInfo = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("user_name", Credentials.UserName),

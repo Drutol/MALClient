@@ -628,7 +628,7 @@ namespace MALClient.ViewModels
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
-            int minimumIndex = CurrentIndexPosition == -1 ? 8 : CurrentIndexPosition+1 <= 8 ? 8 : CurrentIndexPosition+1;
+            int minimumIndex = CurrentIndexPosition == -1 ? GetGridItemsToLoad() : CurrentIndexPosition+1 <= GetGridItemsToLoad() ? GetGridItemsToLoad() : CurrentIndexPosition+1;
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteList:
@@ -660,6 +660,14 @@ namespace MALClient.ViewModels
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             Loading = false;
+        }
+
+        private int GetGridItemsToLoad()
+        {
+            var width = View.ActualWidth;
+            var height = View.ActualHeight;
+
+            return (int)Math.Ceiling(width/200*height/300)+2; //2 for good measure
         }
 
         #endregion

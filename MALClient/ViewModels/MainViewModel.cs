@@ -232,7 +232,7 @@ namespace MALClient.ViewModels
         public bool MenuPaneState
         {
             get { return _menuPaneState; }
-            private set
+            set
             {
                 _menuPaneState = value;
                 RaisePropertyChanged(() => MenuPaneState);
@@ -356,7 +356,7 @@ namespace MALClient.ViewModels
             get
             {
                 return _reversePaneCommand ??
-                       (_reversePaneCommand = new RelayCommand(() => MenuPaneState = true));
+                       (_reversePaneCommand = new RelayCommand(() => MenuPaneState = !MenuPaneState));
             }
         }
 

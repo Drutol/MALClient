@@ -8,6 +8,7 @@
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:new="using:MALClient.UserControls.New"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -56,7 +57,7 @@
                     <Grid.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
-                                <ResourceDictionary Source="../XamlResources/DictionaryRecommendations.xaml" />
+                                <ResourceDictionary Source="/XamlResources/DictionaryRecommendations.xaml" />
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </Grid.Resources>
@@ -82,144 +83,147 @@
                            Source="{Binding DetailImage}" Stretch="Fill" Width="120" Height="148" />
                         </Border>
 
-                        <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                        Background="Transparent" RenderTransformOrigin="0.5,0.5">
-                            <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                            <new:FavButton Visibility="{Binding MalApiSpecificControlsVisibility}"/>
+                            <Button VerticalAlignment="Bottom" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                                <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                                 Foreground="{StaticResource SystemControlBackgroundAccentBrush}">
-                                <SymbolIcon.RenderTransform>
-                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
-                            <Button.Flyout>
-                                <Flyout>
-                                    <StackPanel>
-                                        <Button Height="40" Margin="0,0,0,5" HorizontalAlignment="Stretch"
+                                    <SymbolIcon.RenderTransform>
+                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                    </SymbolIcon.RenderTransform>
+                                </SymbolIcon>
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <Button Height="40" Margin="0,0,0,5" HorizontalAlignment="Stretch"
                                         Background="{ThemeResource BrushDetailsMoreButton}" Visibility="{Binding MalApiSpecificControlsVisibility}">
-                                            <Button.Flyout>
-                                                <Flyout Placement="Left">
-                                                    <Grid MinWidth="230">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto"/>
-                                                            <RowDefinition Height="Auto" MaxHeight="200"/>
-                                                            <RowDefinition Height="Auto" MaxHeight="200"/>
-                                                            <RowDefinition Height="Auto"/>
-                                                        </Grid.RowDefinitions>
-                                                        <TextBlock FontWeight="Medium" Text="Tags"  HorizontalAlignment="Center" Margin="2,0,2,5"/>
-                                                        <ListView Grid.Row="1" SelectionMode="None" ItemsSource="{Binding MyTags}">
-                                                            <ListView.ItemContainerStyle>
-                                                                <Style TargetType="ListViewItem">
-                                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                                                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                                    <Setter Property="BorderThickness" Value="2,0,0,0"/>
-                                                                    <Setter Property="Margin" Value="0,2"/>
-                                                                    <Setter Property="Background">
-                                                                        <Setter.Value>
-                                                                            <SolidColorBrush Color="Black" Opacity=".25"/>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </Style>
-                                                            </ListView.ItemContainerStyle>
-                                                            <ListView.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <Grid HorizontalAlignment="Stretch">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="Auto"/>
-                                                                            <ColumnDefinition Width="*"/>
-                                                                            <ColumnDefinition Width="Auto"/>
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <SymbolIcon Symbol="Tag"/>
-                                                                        <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"  Text="{Binding}"/>
-                                                                        <Button Grid.Column="2" Background="Transparent" Padding="0" Width="30" Height="30" CommandParameter="{Binding}" Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.RemoveTagCommand}">
-                                                                            <SymbolIcon Symbol="Delete"/>
-                                                                        </Button>
-                                                                    </Grid>
-                                                                </DataTemplate>
-                                                            </ListView.ItemTemplate>
-                                                        </ListView>
-                                                        <MenuFlyoutSeparator Grid.Row="2"></MenuFlyoutSeparator>
-                                                        <StackPanel Grid.Row="3" HorizontalAlignment="Stretch">
-                                                            <TextBlock  Text="Add new tag:" HorizontalAlignment="Center"/>
-                                                            <Grid HorizontalAlignment="Stretch">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBox Margin="3,2" HorizontalAlignment="Stretch" Text="{x:Bind ViewModel.NewTagInput,Mode=TwoWay}"/>
-                                                                <Button Grid.Column="1" Padding="0" Width="32" Height="32" Command="{x:Bind ViewModel.AddTagCommand}">
-                                                                    <SymbolIcon Symbol="Add"/>
-                                                                </Button>
-                                                            </Grid>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                </Flyout>
-                                            </Button.Flyout>
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <SymbolIcon Symbol="Tag" />
-                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Tags"  />
-                                            </Grid>
-                                        </Button>
-                                        <Button Height="40" HorizontalAlignment="Stretch"
+                                                <Button.Flyout>
+                                                    <Flyout Placement="Left">
+                                                        <Grid MinWidth="230">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto" MaxHeight="200"/>
+                                                                <RowDefinition Height="Auto" MaxHeight="200"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock FontWeight="Medium" Text="Tags"  HorizontalAlignment="Center" Margin="2,0,2,5"/>
+                                                            <ListView Grid.Row="1" SelectionMode="None" ItemsSource="{Binding MyTags}">
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                                                        <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                                                                        <Setter Property="Margin" Value="0,2"/>
+                                                                        <Setter Property="Background">
+                                                                            <Setter.Value>
+                                                                                <SolidColorBrush Color="Black" Opacity=".25"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+                                                                <ListView.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid HorizontalAlignment="Stretch">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="Auto"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                                <ColumnDefinition Width="Auto"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <SymbolIcon Symbol="Tag"/>
+                                                                            <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"  Text="{Binding}"/>
+                                                                            <Button Grid.Column="2" Background="Transparent" Padding="0" Width="30" Height="30" CommandParameter="{Binding}" Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.RemoveTagCommand}">
+                                                                                <SymbolIcon Symbol="Delete"/>
+                                                                            </Button>
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                            <MenuFlyoutSeparator Grid.Row="2"></MenuFlyoutSeparator>
+                                                            <StackPanel Grid.Row="3" HorizontalAlignment="Stretch">
+                                                                <TextBlock  Text="Add new tag:" HorizontalAlignment="Center"/>
+                                                                <Grid HorizontalAlignment="Stretch">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBox Margin="3,2" HorizontalAlignment="Stretch" Text="{x:Bind ViewModel.NewTagInput,Mode=TwoWay}"/>
+                                                                    <Button Grid.Column="1" Padding="0" Width="32" Height="32" Command="{x:Bind ViewModel.AddTagCommand}">
+                                                                        <SymbolIcon Symbol="Add"/>
+                                                                    </Button>
+                                                                </Grid>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Flyout>
+                                                </Button.Flyout>
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <SymbolIcon Symbol="Tag" />
+                                                    <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Tags"  />
+                                                </Grid>
+                                            </Button>
+                                            <Button Height="40" HorizontalAlignment="Stretch"
                                         Command="{Binding CopyToClipboardCommand}"
                                         Background="{ThemeResource BrushDetailsMoreButton}">
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <SymbolIcon Margin="3,0" Symbol="Copy" />
-                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Copy link to clipboard" />
-                                            </Grid>
-                                        </Button>
-                                        <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <SymbolIcon Margin="3,0" Symbol="Copy" />
+                                                    <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Copy link to clipboard" />
+                                                </Grid>
+                                            </Button>
+                                            <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
                                         Command="{Binding OpenInMalCommand}"
                                         Background="{ThemeResource BrushDetailsMoreButton}">
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <SymbolIcon Margin="3,0" Symbol="Globe" />
-                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Open in browser" />
-                                            </Grid>
-                                        </Button>
-                                        <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <SymbolIcon Margin="3,0" Symbol="Globe" />
+                                                    <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Open in browser" />
+                                                </Grid>
+                                            </Button>
+                                            <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
                                         Command="{Binding AddAnimeCommand}"
                                         IsEnabled="{Binding AddAnimeBtnEnableState}"
                                         Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                         Background="{ThemeResource BrushDetailsMoreButton}" Margin="0,5,0,0">
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <SymbolIcon Margin="3,0" Symbol="Add" />
-                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Add to my list" />
-                                            </Grid>
-                                        </Button>
-                                        <Button Height="40"
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <SymbolIcon Margin="3,0" Symbol="Add" />
+                                                    <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Add to my list" />
+                                                </Grid>
+                                            </Button>
+                                            <Button Height="40"
                                         Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
                                         Command="{Binding RemoveAnimeCommand}"
                                         IsEnabled="{Binding RemoveAnimeBtnEnableState}"
                                         HorizontalAlignment="Stretch"
                                         Background="{ThemeResource BrushDetailsMoreButton}"
                                         Margin="0,5,0,0">
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <SymbolIcon Margin="3,0" Symbol="Delete" />
-                                                <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Remove from my list" />
-                                            </Grid>
-                                        </Button>
-                                    </StackPanel>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <SymbolIcon Margin="3,0" Symbol="Delete" />
+                                                    <TextBlock Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" Text="Remove from my list" />
+                                                </Grid>
+                                            </Button>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+
                         <StackPanel
                     Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
@@ -580,6 +584,204 @@
                                             <TextBlock Text="{Binding Synopsis}" HorizontalAlignment="Stretch"
                                                FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
                                                TextWrapping="WrapWholeWords" Margin="3,1" />
+                                            <MenuFlyoutSeparator/>
+                                            <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center" Visibility="{Binding LoadCharactersButtonVisibility}"/>
+                                            <Button HorizontalAlignment="Center" Content="Load characters" 
+                                        Style="{StaticResource TextBlockButtonStyle}" Command="{Binding LoadCharactersCommand}"
+                                        Visibility="{Binding LoadCharactersButtonVisibility}"/>
+                                            <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility}"/>
+                                            <Grid HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility}">
+                                                <Grid.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <StackPanel>
+                                                    <TextBlock Text="Characters &amp; Voiceactors" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,3"/>
+                                                    <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <ItemsStackPanel/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemContainerStyle>
+                                                            <Style TargetType="ContentPresenter">
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <ContentPresenter Margin="0,3" Content="{Binding}"/>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ItemsControl.ItemContainerStyle>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid HorizontalAlignment="Stretch">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="230"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        <Image Grid.Row="0">
+                                                                            <Image.Source>
+                                                                                <BitmapImage UriSource="{Binding AnimeCharacter.ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="230" DecodePixelWidth="150"/>
+                                                                            </Image.Source>
+                                                                        </Image>
+                                                                        <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding AnimeCharacter.IsFavourite}" Command="{Binding AnimeCharacter.ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding AnimeCharacter.IsFavouriteButtonEnabled}">
+                                                                            <SymbolIcon Symbol="{Binding AnimeCharacter.FavouriteSymbolIcon}"/>
+                                                                            <ToggleButton.Background>
+                                                                                <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                                            </ToggleButton.Background>
+                                                                            <ToolTipService.ToolTip>
+                                                                                <ToolTip Content="Favourite"/>
+                                                                            </ToolTipService.ToolTip>
+                                                                        </ToggleButton>
+                                                                        <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource BrushAnimeItemBackground}" 
+                                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                                <ColumnDefinition Width="Auto"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <StackPanel HorizontalAlignment="Center">
+                                                                                <TextBlock FontWeight="Medium" Text="{Binding AnimeCharacter.Name}"/>
+                                                                                <TextBlock FontWeight="SemiLight" Text="{Binding AnimeCharacter.Notes}"/>
+                                                                            </StackPanel>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                    <Grid Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="230"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        <Image Grid.Row="0">
+                                                                            <Image.Source>
+                                                                                <BitmapImage UriSource="{Binding AnimeStaffPerson.ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="230" DecodePixelWidth="150"/>
+                                                                            </Image.Source>
+                                                                        </Image>
+                                                                        <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding AnimeStaffPerson.IsFavourite}" Command="{Binding AnimeStaffPerson.ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding AnimeStaffPerson.IsFavouriteButtonEnabled}">
+                                                                            <SymbolIcon Symbol="{Binding AnimeStaffPerson.FavouriteSymbolIcon}"/>
+                                                                            <ToggleButton.Background>
+                                                                                <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                                            </ToggleButton.Background>
+                                                                            <ToolTipService.ToolTip>
+                                                                                <ToolTip Content="Favourite"/>
+                                                                            </ToolTipService.ToolTip>
+                                                                        </ToggleButton>
+                                                                        <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource BrushAnimeItemBackground}" 
+                                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                                            <StackPanel HorizontalAlignment="Center">
+                                                                                <TextBlock FontWeight="Medium" Text="{Binding AnimeStaffPerson.Name}"/>
+                                                                                <TextBlock FontWeight="SemiLight" Text="{Binding AnimeStaffPerson.Notes}"/>
+                                                                            </StackPanel>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                    <MenuFlyoutSeparator/>
+                                                    <TextBlock Text="Staff" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,3"/>
+                                                    <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeStaff}" HorizontalAlignment="Stretch">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <ItemsWrapGrid ItemHeight="300" ItemWidth="175" MaximumRowsOrColumns="3" Orientation="Horizontal"></ItemsWrapGrid>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemContainerStyle>
+                                                            <Style TargetType="ContentPresenter">
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <ContentPresenter Margin="0,3" Content="{Binding}"/>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ItemsControl.ItemContainerStyle>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid HorizontalAlignment="Stretch">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="250"/>
+                                                                        <RowDefinition Height="Auto"/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    <Image Grid.Row="0">
+                                                                        <Image.Source>
+                                                                            <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="175"/>
+                                                                        </Image.Source>
+                                                                    </Image>
+                                                                    <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}">
+                                                                        <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
+                                                                        <ToggleButton.Background>
+                                                                            <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                                        </ToggleButton.Background>
+                                                                        <ToolTipService.ToolTip>
+                                                                            <ToolTip Content="Favourite"/>
+                                                                        </ToolTipService.ToolTip>
+                                                                    </ToggleButton>
+                                                                    <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource BrushAnimeItemBackground}" 
+                                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                                        <StackPanel HorizontalAlignment="Stretch">
+                                                                            <TextBlock FontWeight="Medium" Text="{Binding Name}"/>
+                                                                            <TextBlock FontWeight="SemiLight" Text="{Binding Notes}"/>
+                                                                        </StackPanel>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </Grid>
+                                            <!--<Grid HorizontalAlignment="Center" Visibility="{Binding MangaCharacterGridVisibility}">
+                                    <StackPanel>
+                                        <TextBlock Text="Staff" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,3"/>
+                                        <ItemsControl ItemsSource="{Binding MangaCharacterData}" HorizontalAlignment="Stretch">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ItemsWrapGrid ItemHeight="325" ItemWidth="175" MaximumRowsOrColumns="3" Orientation="Horizontal"></ItemsWrapGrid>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="250"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Image Grid.Row="0">
+                                                            <Image.Source>
+                                                                <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="175"/>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource BrushAnimeItemBackground}" 
+                                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                            <StackPanel HorizontalAlignment="Stretch">
+                                                                <TextBlock Text="{Binding Name}"/>
+                                                                <TextBlock FontWeight="SemiLight" Text="{Binding Notes}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Grid>-->
                                         </StackPanel>
                                     </ScrollViewer>
                                 </PivotItem.Content>

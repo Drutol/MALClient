@@ -120,6 +120,26 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="850"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GridViewWrapPanel.ItemHeight" Value="350"/>
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GridViewWrapPanel.ItemHeight" Value="300"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeListItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
@@ -154,13 +174,13 @@
                 </Grid>
             </ListView.Footer>
         </ListView>
-        <GridView x:Name="AnimesGridIndefinite" Margin="1" ItemsSource="{Binding AnimeGridItems}"
+        <GridView x:Name="AnimesGridIndefinite" Margin="0,0,-16,0" ItemsSource="{Binding AnimeGridItems}" IncrementalLoadingTrigger="Edge"  IncrementalLoadingThreshold="4"
                   SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
                   ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" ItemWidth="{Binding MaxWidth}"/>
+                    <ItemsWrapGrid x:Name="GridViewWrapPanel" Margin="0,0,16,0" Orientation="Horizontal" ItemHeight="300" ItemWidth="{Binding MaxWidth}"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>

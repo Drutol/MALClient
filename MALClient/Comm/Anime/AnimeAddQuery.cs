@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using MALClient.Utils;
 
 namespace MALClient.Comm
 {

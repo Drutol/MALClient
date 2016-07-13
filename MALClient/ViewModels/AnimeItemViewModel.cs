@@ -19,6 +19,8 @@ using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
 using MALClient.Pages;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 
 namespace MALClient.ViewModels
 {
@@ -63,7 +65,7 @@ namespace MALClient.ViewModels
             ViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(id, Title, null, this,
-                        argsOverride ?? Utils.GetMainPageInstance().GetCurrentListOrderParams())
+                        argsOverride ?? Utilities.GetMainPageInstance().GetCurrentListOrderParams())
                     {
                         Source =
                             sourceOverride ??
@@ -296,7 +298,7 @@ namespace MALClient.ViewModels
                 ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopAnime ||
                 ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopManga
                     ? ParentAbstraction?.Index.ToString()
-                    : Utils.DayToString((DayOfWeek) (ParentAbstraction.AirDay - 1));
+                    : Utilities.DayToString((DayOfWeek) (ParentAbstraction.AirDay - 1));
 
         private bool _airing;
 
@@ -378,8 +380,8 @@ namespace MALClient.ViewModels
                         : ((MangaType) ParentAbstraction.Type).ToString();
 
 
-        public string MyStatusBind => Utils.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime);
-        public string MyStatusBindShort => Utils.StatusToShortString(MyStatus, !ParentAbstraction.RepresentsAnime);
+        public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime);
+        public string MyStatusBindShort => Utilities.StatusToShortString(MyStatus, !ParentAbstraction.RepresentsAnime);
 
         public int MyStatus
         {
@@ -785,7 +787,7 @@ namespace MALClient.ViewModels
                                dp.SetText($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            }
                            Clipboard.SetContent(dp);
-                           Utils.GiveStatusBarFeedback("Copied to clipboard...");
+                           Utilities.GiveStatusBarFeedback("Copied to clipboard...");
                        }));
             }
         }
@@ -987,7 +989,7 @@ namespace MALClient.ViewModels
         {
             LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
-            MyStatus = Utils.StatusToInt(status as string);
+            MyStatus = Utilities.StatusToInt(status as string);
 
             if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
                 (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
@@ -1057,7 +1059,7 @@ namespace MALClient.ViewModels
                 return;
             var msg =
                 new MessageDialog(
-                    $"From : {Utils.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utils.StatusToString(to)}",
+                    $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to)}",
                     "Would you like to change current status?");
             var confirmation = false;
             msg.Commands.Add(new UICommand("Yes", command => confirmation = true));

@@ -7,7 +7,7 @@ using Windows.Storage;
 using MALClient.Comm;
 using MALClient.ViewModels;
 
-namespace MALClient
+namespace MALClient.Utils
 {
     public static class Credentials
     {
@@ -16,7 +16,7 @@ namespace MALClient
 
         public static string UserName { get; private set; }
 
-        private static string Password { get; set; }
+        public static string Password { get; set; }
 
         public static int Id { get; private set; } =
             (int) (ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);

@@ -1,4 +1,7 @@
-﻿namespace MALClient.Pages
+﻿using MALClient.Pages;
+using MALClient.Utils.Enums;
+
+namespace MALClient.Utils
 {
     public static class PageUtils
     {

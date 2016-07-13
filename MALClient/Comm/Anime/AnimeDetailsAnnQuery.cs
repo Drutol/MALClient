@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Models;
+using MALClient.Utils;
 
 namespace MALClient.Comm
 {

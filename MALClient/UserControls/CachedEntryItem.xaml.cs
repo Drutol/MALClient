@@ -4,6 +4,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using MALClient.Utils;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,7 +28,7 @@ namespace MALClient.UserControls
             _fileName = file.Name;
             _saveTime = data.DateModified.LocalDateTime;
             TxtDate.Text = _saveTime.ToString("dd/MM/yyyy HH:mm");
-            TxtSize.Text = Utils.SizeSuffix((long) data.Size);
+            TxtSize.Text = Utilities.SizeSuffix((long) data.Size);
         }
 
         private async void DeleteFile(object sender, RoutedEventArgs e)

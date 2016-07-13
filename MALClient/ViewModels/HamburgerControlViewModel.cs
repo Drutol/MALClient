@@ -17,6 +17,8 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 
 namespace MALClient.ViewModels
 {
@@ -158,9 +160,9 @@ namespace MALClient.ViewModels
             if (Enum.TryParse(o as string, out page))
             {
                
-                    Utils.GetMainPageInstance()
+                    Utilities.GetMainPageInstance()
                         .Navigate(page, GetAppropriateArgsForPage(page));
-                SetActiveButton(Utils.GetButtonForPage(page));
+                SetActiveButton(Utilities.GetButtonForPage(page));
             }
         }
 
@@ -230,7 +232,7 @@ namespace MALClient.ViewModels
                 {
                     UserImage = new BitmapImage();
                     if (dl)
-                        await Utils.DownloadProfileImg();
+                        await Utilities.DownloadProfileImg();
                     else
                         UsrImgPlaceholderVisibility = Visibility.Visible;
                 }

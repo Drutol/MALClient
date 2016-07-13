@@ -7,6 +7,8 @@ using System.Xml.Linq;
 using MALClient.Models;
 using MALClient.Models.ApiResponses;
 using MALClient.Pages;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 using MALClient.ViewModels;
 using Newtonsoft.Json;
 

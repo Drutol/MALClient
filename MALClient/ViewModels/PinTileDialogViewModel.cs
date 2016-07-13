@@ -18,6 +18,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Models;
+using MALClient.Utils;
+using MALClient.Utils.Managers;
 using WinRTXamlToolkit.AwaitableUI;
 using WinRTXamlToolkit.Imaging;
 
@@ -312,7 +314,7 @@ namespace MALClient.ViewModels
             }
             catch (Exception)
             {
-                Utils.GiveStatusBarFeedback("An error occured...");
+                Utilities.GiveStatusBarFeedback("An error occured...");
             }
             IsCropEnabled = true;
         }
@@ -356,7 +358,7 @@ namespace MALClient.ViewModels
             }
             catch (Exception)
             {
-                Utils.GiveStatusBarFeedback("An error occured...");
+                Utilities.GiveStatusBarFeedback("An error occured...");
                 return null;
             }
 
@@ -422,7 +424,7 @@ namespace MALClient.ViewModels
             }
             catch (Exception)
             {
-                Utils.GiveStatusBarFeedback("An error occured...");
+                Utilities.GiveStatusBarFeedback("An error occured...");
             }           
             IsPinEnabled = true;
         }

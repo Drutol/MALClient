@@ -8,9 +8,11 @@ using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Items;
 using MALClient.Models;
-using MALClient.Pages;
+using MALClient.Utils;
 using MALClient.ViewModels;
 using Newtonsoft.Json;
+
+//Okay it's big copy paste... feel free to laugh
 
 namespace MALClient
 {
@@ -668,6 +670,7 @@ namespace MALClient
         #endregion
 
         #region ProfileData
+
         public static async void SaveProfileData(string user, ProfileData data)
         {
             try
@@ -718,6 +721,7 @@ namespace MALClient
         #endregion
 
         #region ArticlesIndex
+
         public static async void SaveArticleIndexData(ArticlePageWorkMode mode, List<MalNewsUnitModel> data)
         {
             try
@@ -733,7 +737,8 @@ namespace MALClient
                         JsonConvert.SerializeObject(new Tuple<DateTime, List<MalNewsUnitModel>>(DateTime.UtcNow, data));
                     var file =
                         await
-                            folder.CreateFileAsync(mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json",
+                            folder.CreateFileAsync(
+                                mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json",
                                 CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(file, json);
                 });
@@ -752,7 +757,11 @@ namespace MALClient
                     await
                         ApplicationData.Current.LocalFolder.CreateFolderAsync("Articles",
                             CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync(mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json");
+                var file =
+                    await
+                        folder.GetFileAsync(mode == ArticlePageWorkMode.Articles
+                            ? "mal_article_index.json"
+                            : "mal_news_index.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, List<MalNewsUnitModel>>>(data);
@@ -768,6 +777,7 @@ namespace MALClient
         #endregion
 
         #region ArticlesContent
+
         public static async void SaveArticleContentData(string title, string htmlData, MalNewsType type)
         {
             try
@@ -783,7 +793,8 @@ namespace MALClient
                         JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.UtcNow, htmlData));
                     var file =
                         await
-                            folder.CreateFileAsync($"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json",
+                            folder.CreateFileAsync(
+                                $"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json",
                                 CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteTextAsync(file, json);
                 });
@@ -802,7 +813,10 @@ namespace MALClient
                     await
                         ApplicationData.Current.LocalFolder.CreateFolderAsync("Articles",
                             CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json");
+                var file =
+                    await
+                        folder.GetFileAsync(
+                            $"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json");
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
@@ -816,5 +830,66 @@ namespace MALClient
         }
 
         #endregion
+
+        public static async Task SaveData<T>(T data, string filename, StorageFolder targetFolder)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var folder = targetFolder ?? ApplicationData.Current.LocalFolder;
+                    var json =
+                        JsonConvert.SerializeObject(new Tuple<DateTime, T>(DateTime.UtcNow, data));
+                    var file =
+                        await
+                            folder.CreateFileAsync(
+                                $"{filename}.json",
+                                CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteTextAsync(file, json);
+                });
+            }
+            catch (Exception e)
+            {
+                //magic
+            }
+        }
+        public static async Task SaveData<T>(T data, string filename, string targetFolder)
+        {
+            var folder = targetFolder == "" ? ApplicationData.Current.LocalFolder :
+                    await
+                        ApplicationData.Current.LocalFolder.CreateFolderAsync(targetFolder,
+                            CreationCollisionOption.OpenIfExists);
+            await SaveData(data, filename, folder);
+        }
+
+        public static async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
+        {
+            var folder = originFolder == ""
+                ? ApplicationData.Current.LocalFolder
+                : await
+                    ApplicationData.Current.LocalFolder.CreateFolderAsync(originFolder,
+                        CreationCollisionOption.OpenIfExists);
+            return await RetrieveData<T>(filename, folder, expiration);
+        }
+        public static async Task<T> RetrieveData<T>(string filename, StorageFolder originFolder, int expiration)
+        {
+            try
+            {
+                var folder = originFolder ?? ApplicationData.Current.LocalFolder;
+                var file =
+                    await
+                        folder.GetFileAsync(
+                            $"{filename}.json");
+                var data = await FileIO.ReadTextAsync(file);
+                var tuple =
+                    JsonConvert.DeserializeObject<Tuple<DateTime, T>>(data);
+                return expiration > 1 ? CheckForOldDataDetails(tuple.Item1, expiration) ? tuple.Item2 : default(T) : tuple.Item2;
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return default(T);
+        }
     }
 }

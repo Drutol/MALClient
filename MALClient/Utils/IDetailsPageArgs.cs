@@ -1,6 +1,6 @@
 ﻿using MALClient.Comm;
 
-namespace MALClient.Pages
+namespace MALClient.Utils
 {
     public interface IDetailsPageArgs
     {

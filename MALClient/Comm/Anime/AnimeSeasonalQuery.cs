@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Items;
+using MALClient.Utils;
 using MALClient.ViewModels;
 
 namespace MALClient.Comm

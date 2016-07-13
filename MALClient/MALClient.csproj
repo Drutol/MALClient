@@ -125,6 +125,12 @@
     <Compile Include="Comm\Anime\AnimeUpdateQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Messages\AccountMessagesMangaer.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
     <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
@@ -149,72 +155,77 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
-    <Compile Include="Models\AnimeGeneralDetailsData.cs" />
-    <Compile Include="Models\AnimeHummingbirdDetailsData.cs" />
-    <Compile Include="Models\AnimeLibraryItemData.cs" />
+    <Compile Include="Models\Anime\AnimeGeneralDetailsData.cs" />
+    <Compile Include="Models\Anime\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\Favourites\FavouriteBase.cs" />
+    <Compile Include="Models\Library\AnimeLibraryItemData.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
-    <Compile Include="Models\CachedEntryModel.cs" />
-    <Compile Include="Models\Favourites\FavCharacter.cs" />
-    <Compile Include="Models\Favourites\FavPerson.cs" />
-    <Compile Include="Models\ILibraryData.cs" />
+    <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
+    <Compile Include="Models\Misc\CachedEntryModel.cs" />
+    <Compile Include="Models\Favourites\AnimeCharacter.cs" />
+    <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
+    <Compile Include="Models\Library\ILibraryData.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
-    <Compile Include="Models\MalNewsUnitModel.cs" />
-    <Compile Include="Models\MangaLibraryItemData.cs" />
-    <Compile Include="Models\NewsData.cs" />
+    <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
+    <Compile Include="Models\Library\MangaLibraryItemData.cs" />
+    <Compile Include="Models\Misc\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
-    <Compile Include="Models\TopAnimeData.cs" />
-    <Compile Include="Models\AnimeDetailsData.cs" />
-    <Compile Include="Models\AnimeReviewData.cs" />
-    <Compile Include="Models\DirectRecommendationData.cs" />
-    <Compile Include="Models\IAnimeData.cs" />
-    <Compile Include="Models\RecomendationData.cs" />
+    <Compile Include="Models\AnimeScrapped\TopAnimeData.cs" />
+    <Compile Include="Models\Anime\AnimeDetailsData.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
+    <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
+    <Compile Include="Models\Library\IAnimeData.cs" />
+    <Compile Include="Models\AnimeScrapped\RecomendationData.cs" />
     <Compile Include="Items\RecomendationItem.xaml.cs">
       <DependentUpon>RecomendationItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\RelatedAnimeData.cs" />
-    <Compile Include="Models\SeasonalAnimeData.cs" />
+    <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />
+    <Compile Include="Models\AnimeScrapped\SeasonalAnimeData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AnimeDetailsPage.xaml.cs">
+    <Compile Include="Pages\Messages\MalMessageDetailsPage.xaml.cs" />
+    <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs" />
+    <Compile Include="Pages\Off\AnimeDetailsPage.xaml.cs">
       <DependentUpon>AnimeDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AnimeListPage.xaml.cs">
+    <Compile Include="Pages\Main\AnimeListPage.xaml.cs">
       <DependentUpon>AnimeListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AnimeSearchPage.xaml.cs">
+    <Compile Include="Pages\Main\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CalendarPage.xaml.cs" />
-    <Compile Include="Pages\HummingbirdProfilePage.xaml.cs">
+    <Compile Include="Pages\Main\CalendarPage.xaml.cs" />
+    <Compile Include="Pages\Main\HummingbirdProfilePage.xaml.cs">
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MalArticlesPage.xaml.cs" />
-    <Compile Include="Utils\PageIndex.cs" />
+    <Compile Include="Pages\Main\MalArticlesPage.xaml.cs" />
+    <Compile Include="Utils\Enums\PageIndex.cs" />
     <Compile Include="Utils\IDetailsPageArgs.cs" />
-    <Compile Include="Pages\LogInPage.xaml.cs">
+    <Compile Include="Pages\Main\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Managers\FavouritesManager.cs" />
     <Compile Include="Utils\PageUtils.cs" />
-    <Compile Include="Pages\ProfilePage.xaml.cs">
+    <Compile Include="Pages\Main\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RecomendationsPage.xaml.cs">
+    <Compile Include="Pages\Main\RecomendationsPage.xaml.cs">
       <DependentUpon>RecomendationsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SettingsPage.xaml.cs">
+    <Compile Include="Pages\Off\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SettingsPages\SettingsAboutPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsArticlesPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsCachingPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsCalendarPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsGeneralPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsHomePage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsMiscPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsNewsPage.xaml.cs" />
-    <Compile Include="Pages\SettingsPages\SettingsSlidersPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsHomePage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
@@ -229,36 +240,39 @@
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TemplateSelector.cs" />
-    <Compile Include="Utils\AnimeStatusEnum.cs" />
-    <Compile Include="Utils\AnimeTypeEnum.cs" />
+    <Compile Include="Utils\Enums\AnimeStatusEnum.cs" />
+    <Compile Include="Utils\Enums\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
-    <Compile Include="Utils\ItemFlyoutService.cs" />
-    <Compile Include="Utils\LiveTilesManager.cs" />
-    <Compile Include="Utils\NavMgr.cs" />
-    <Compile Include="Utils\RateReminderPopUp.cs" />
+    <Compile Include="Utils\Managers\ItemFlyoutService.cs" />
+    <Compile Include="Utils\Managers\LiveTilesManager.cs" />
+    <Compile Include="Utils\Managers\NavMgr.cs" />
+    <Compile Include="Utils\Managers\RateReminderPopUp.cs" />
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\SmartObservableCollection.cs" />
-    <Compile Include="Utils\Utils.cs" />
-    <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
+    <Compile Include="Utils\Utilities.cs" />
+    <Compile Include="ViewModels\Messages\MalMessageDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Messages\MalMessagingViewModel.cs" />
+    <Compile Include="ViewModels\Off\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
-    <Compile Include="ViewModels\AnimeListViewModel.cs" />
-    <Compile Include="ViewModels\CalendarPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
+    <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
-    <Compile Include="ViewModels\HummingbirdProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MalArticlesViewModel.cs" />
+    <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
     <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
-    <Compile Include="ViewModels\ProfilePageViewModel.cs" />
-    <Compile Include="ViewModels\RecommendationsViewModel.cs" />
-    <Compile Include="ViewModels\SearchPageViewModel.cs" />
-    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
+    <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
+    <Compile Include="ViewModels\Off\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />
+    <Compile Include="XamlConverters\MailIconToBrushConverter.cs" />
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
@@ -332,79 +346,87 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\AnimeDetailsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AnimeListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AnimeSearchPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\CalendarPage.xaml">
+    <Page Include="Pages\Messages\MalMessageDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\HummingbirdProfilePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\LogInPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MalArticlesPage.xaml">
+    <Page Include="Pages\Messages\MalMessagingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\ProfilePage.xaml">
+    <Page Include="Pages\Off\AnimeDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RecomendationsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SettingsPage.xaml">
+    <Page Include="Pages\Main\AnimeListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsAboutPage.xaml">
+    <Page Include="Pages\Main\AnimeSearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\CalendarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsArticlesPage.xaml">
+    <Page Include="Pages\Main\HummingbirdProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\LogInPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\MalArticlesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsCachingPage.xaml">
+    <Page Include="Pages\Main\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\RecomendationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsCalendarPage.xaml">
+    <Page Include="Pages\Off\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsGeneralPage.xaml">
+    <Page Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsHomePage.xaml">
+    <Page Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsMiscPage.xaml">
+    <Page Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsNewsPage.xaml">
+    <Page Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPages\SettingsSlidersPage.xaml">
+    <Page Include="Pages\Off\SettingsPages\SettingsHomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

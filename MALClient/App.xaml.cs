@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
+using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using Microsoft.HockeyApp;
 
@@ -119,7 +122,7 @@ namespace MALClient
         private async void ProcessUpdate()
         {
             if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
-                || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utils.GetAppVersion())
+                || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
                 await Task.Run(async () =>
                 {
                     try
@@ -136,7 +139,7 @@ namespace MALClient
                         //
                     }
                 });
-            ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utils.GetAppVersion();
+            ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
         }
 
         private void ProcessStatusBar()
@@ -179,7 +182,7 @@ namespace MALClient
             catch (Exception)
             {
                //wrong url provided
-               Utils.GiveStatusBarFeedback("Invalid target url...");
+               Utilities.GiveStatusBarFeedback("Invalid target url...");
             }
 
         }

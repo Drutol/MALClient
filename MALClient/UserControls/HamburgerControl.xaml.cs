@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Utils;
 using MALClient.ViewModels;
 
 #pragma warning disable 4014
@@ -76,7 +77,7 @@ namespace MALClient.UserControls
 
         private async void OpenRepo(object sender, RoutedEventArgs e)
         {
-            Utils.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
+            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
             await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
         }
 

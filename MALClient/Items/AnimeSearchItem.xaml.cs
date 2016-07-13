@@ -11,6 +11,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Models;
 using MALClient.Pages;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 using MALClient.ViewModels;
 
 namespace MALClient.Items
@@ -90,7 +92,7 @@ namespace MALClient.Items
             if (!e.IsInertial || !(e.Position.X - _initialPoint.X >= 70)) return;
             if (!(e.Position.X - _initialPoint.X >= 70)) return;
             
-                Utils.GetMainPageInstance()
+                Utilities.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
                         new AnimeDetailsPageNavigationArgs(Id, Title, _item, this,
                             new SearchPageNavigationArgs
@@ -109,7 +111,7 @@ namespace MALClient.Items
         {
             await Task.Delay(10);
             
-                Utils.GetMainPageInstance()
+                Utilities.GetMainPageInstance()
                     .Navigate(PageIndex.PageAnimeDetails,
                         new AnimeDetailsPageNavigationArgs(Id, Title, _item, this,
                             new SearchPageNavigationArgs
@@ -130,7 +132,7 @@ namespace MALClient.Items
             dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
             Clipboard.SetContent(dp);
             FlyoutMore.Hide();
-            Utils.GiveStatusBarFeedback("Copied to clipboard...");
+            Utilities.GiveStatusBarFeedback("Copied to clipboard...");
         }
 
         private async void OpenInMALCommand(object sender, RoutedEventArgs e)

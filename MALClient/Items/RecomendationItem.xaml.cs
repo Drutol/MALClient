@@ -6,6 +6,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Pages;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 using MALClient.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -110,7 +112,7 @@ namespace MALClient.Items
 
         private  void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
         {
-             Utils.GetMainPageInstance()
+             Utilities.GetMainPageInstance()
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(_data.RecommendationId, _data.RecommendationTitle,
                         _data.RecommendationData, null,
@@ -120,7 +122,7 @@ namespace MALClient.Items
 
         private  void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
         {
-             Utils.GetMainPageInstance()
+             Utilities.GetMainPageInstance()
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(_data.DependentId, _data.DependentTitle,
                         _data.DependentData, null,

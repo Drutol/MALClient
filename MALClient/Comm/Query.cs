@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using MALClient.Utils;
 
 namespace MALClient.Comm
 {
@@ -55,7 +56,7 @@ namespace MALClient.Comm
                 }
                 if (statusBarMsg != null)
                 {
-                    Utils.GiveStatusBarFeedback(statusBarMsg);
+                    Utilities.GiveStatusBarFeedback(statusBarMsg);
                 }
             }
             return responseString;

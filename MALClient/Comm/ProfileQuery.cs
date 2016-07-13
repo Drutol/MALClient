@@ -4,16 +4,19 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MALClient.Comm.MagicalRawQueries;
 using MALClient.Models;
 using MALClient.Models.ApiResponses;
 using MALClient.Models.Favourites;
+using MALClient.Utils;
+using MALClient.Utils.Managers;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm
 {
     public class ProfileQuery : Query
     {
-        private string _userName;
+        private readonly string _userName;
 
         public ProfileQuery(bool feed = false, string userName = "")
         {
@@ -41,7 +44,7 @@ namespace MALClient.Comm
             _userName = userName;
         }
 
-        public async Task<ProfileData> GetProfileData(bool force = false)
+        public async Task<ProfileData> GetProfileData(bool force = false, bool updateFavsOnly = false)
         {
             ProfileData possibleData = null;
             if (!force)
@@ -54,10 +57,9 @@ namespace MALClient.Comm
             var current = new ProfileData { User = { Name = _userName } };
 
             #region Recents
+
             try
             {
-
-
                 var i = 1;
                 foreach (
                     var recentNode in
@@ -87,9 +89,11 @@ namespace MALClient.Comm
             {
                 //no recents
             }
+
             #endregion
 
             #region FavChar
+
             try
             {
                 foreach (
@@ -102,7 +106,7 @@ namespace MALClient.Comm
                                     HtmlClassMgr.ClassDefs["#Profile:favCharacterNode:class"])
                             .Descendants("li"))
                 {
-                    var curr = new FavCharacter();
+                    var curr = new AnimeCharacter();
                     var imgNode = favCharNode.Descendants("a").First();
                     var styleString = imgNode.Attributes["style"].Value.Substring(22);
                     curr.ImgUrl = styleString.Replace("/r/80x120", "");
@@ -112,7 +116,7 @@ namespace MALClient.Comm
                     curr.Name = nameNode.InnerText.Trim();
                     curr.Id = nameNode.Attributes["href"].Value.Substring(9).Split('/')[2];
                     var originNode = infoNode.Descendants("a").Skip(1).First();
-                    curr.OriginatingShowName = originNode.InnerText.Trim();
+                    curr.Notes = originNode.InnerText.Trim();
                     curr.ShowId = originNode.Attributes["href"].Value.Split('/')[2];
                     curr.FromAnime = originNode.Attributes["href"].Value.Split('/')[1] == "anime";
                     current.FavouriteCharacters.Add(curr);
@@ -122,9 +126,11 @@ namespace MALClient.Comm
             {
                 //no favs
             }
+
             #endregion
 
             #region FavManga
+
             try
             {
                 foreach (
@@ -147,9 +153,11 @@ namespace MALClient.Comm
             {
                 //no favs
             }
+
             #endregion
 
             #region FavAnime
+
             try
             {
                 foreach (
@@ -176,6 +184,7 @@ namespace MALClient.Comm
             #endregion
 
             #region FavPpl
+
             try
             {
                 foreach (
@@ -188,7 +197,7 @@ namespace MALClient.Comm
                                     HtmlClassMgr.ClassDefs["#Profile:favPeopleNode:class"])
                             .Descendants("li"))
                 {
-                    var curr = new FavPerson();
+                    var curr = new AnimeStaffPerson();
                     var aElems = favPersonNode.Descendants("a");
                     var styleString = aElems.First().Attributes["style"].Value.Substring(22);
                     curr.ImgUrl = styleString.Replace("/r/80x120", "");
@@ -204,219 +213,245 @@ namespace MALClient.Comm
             {
                 //no favs
             }
+
             #endregion
 
             #region Stats
-            try
-            {
-                var animeStats = doc.FirstOfDescendantsWithClass("div", "stats anime");
-                var generalStats = animeStats.Descendants("div").First().Descendants("div");
-                current.AnimeDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim());
-                current.AnimeMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim());
-                int i = 0;
-                #region AnimeStats
-                foreach (
+            if (!updateFavsOnly)
+                try
+                {
+                    var animeStats = doc.FirstOfDescendantsWithClass("div", "stats anime");
+                    var generalStats = animeStats.Descendants("div").First().Descendants("div");
+                    current.AnimeDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim());
+                    current.AnimeMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim());
+                    var i = 0;
+
+                    #region AnimeStats
+
+                    foreach (
                         var htmlNode in
                             animeStats.FirstOfDescendantsWithClass("ul", "stats-status fl-l").Descendants("li"))
-                {
-                    switch (i)
                     {
-                        case 0:
-                            current.AnimeWatching =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
+                        switch (i)
+                        {
+                            case 0:
+                                current.AnimeWatching =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
 
-                        case 1:
-                            current.AnimeCompleted =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 2:
-                            current.AnimeOnHold =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 3:
-                            current.AnimeDropped =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 4:
-                            current.AnimePlanned =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
+                            case 1:
+                                current.AnimeCompleted =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 2:
+                                current.AnimeOnHold =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 3:
+                                current.AnimeDropped =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 4:
+                                current.AnimePlanned =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                        }
+                        i++;
                     }
-                    i++;
-                }
-                //left stats done now right
-                i = 0;
-                foreach (var htmlNode in animeStats.FirstOfDescendantsWithClass("ul", "stats-data fl-r").Descendants("li"))
-                {
-                    switch (i)
+                    //left stats done now right
+                    i = 0;
+                    foreach (
+                        var htmlNode in animeStats.FirstOfDescendantsWithClass("ul", "stats-data fl-r").Descendants("li"))
                     {
-                        case 0:
-                            current.AnimeTotal =
-                                     int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
+                        switch (i)
+                        {
+                            case 0:
+                                current.AnimeTotal =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
 
-                        case 1:
-                            current.AnimeRewatched =
-                                int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 2:
-                            current.AnimeEpisodes =
-                                int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
+                            case 1:
+                                current.AnimeRewatched =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 2:
+                                current.AnimeEpisodes =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
+                        }
+                        i++;
                     }
-                    i++;
-                }
-                //we are done with anime
-                #endregion
-                i = 0;
-                animeStats = doc.FirstOfDescendantsWithClass("div", "stats manga");
-                generalStats = animeStats.Descendants("div").First().Descendants("div");
-                current.MangaDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim());
-                current.MangaMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim());
-                #region MangaStats
-                foreach (
+                    //we are done with anime
+
+                    #endregion
+
+                    i = 0;
+                    animeStats = doc.FirstOfDescendantsWithClass("div", "stats manga");
+                    generalStats = animeStats.Descendants("div").First().Descendants("div");
+                    current.MangaDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim());
+                    current.MangaMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim());
+
+                    #region MangaStats
+
+                    foreach (
                         var htmlNode in
                             animeStats.FirstOfDescendantsWithClass("ul", "stats-status fl-l").Descendants("li"))
-                {
-                    switch (i)
                     {
-                        case 0:
-                            current.MangaReading =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
+                        switch (i)
+                        {
+                            case 0:
+                                current.MangaReading =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
 
-                        case 1:
-                            current.MangaCompleted =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 2:
-                            current.MangaOnHold =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 3:
-                            current.MangaDropped =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 4:
-                            current.MangaPlanned =
-                                int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
-                            break;
+                            case 1:
+                                current.MangaCompleted =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 2:
+                                current.MangaOnHold =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 3:
+                                current.MangaDropped =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 4:
+                                current.MangaPlanned =
+                                    int.Parse(htmlNode.Descendants("span").First().InnerText.Trim().Replace(",", ""));
+                                break;
+                        }
+                        i++;
                     }
-                    i++;
-                }
-                //left stats done now right
-                i = 0;
-                foreach (var htmlNode in animeStats.FirstOfDescendantsWithClass("ul", "stats-data fl-r").Descendants("li"))
-                {
-                    switch (i)
+                    //left stats done now right
+                    i = 0;
+                    foreach (
+                        var htmlNode in animeStats.FirstOfDescendantsWithClass("ul", "stats-data fl-r").Descendants("li"))
                     {
-                        case 0:
-                            current.MangaTotal =
-                                int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
+                        switch (i)
+                        {
+                            case 0:
+                                current.MangaTotal =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
 
-                        case 1:
-                            current.MangaReread =
-                                int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 2:
-                            current.MangaChapters =
-                                int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
-                        case 3:
-                            current.MangaVolumes =
-                                int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
-                            break;
+                            case 1:
+                                current.MangaReread =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 2:
+                                current.MangaChapters =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
+                            case 3:
+                                current.MangaVolumes =
+                                    int.Parse(htmlNode.Descendants("span").Last().InnerText.Trim().Replace(",", ""));
+                                break;
+                        }
+                        i++;
                     }
-                    i++;
+                    //we are done with manga
+
+                    #endregion
                 }
-                //we are done with manga
-                #endregion
-            }
-            catch (Exception)
-            {
-                //hatml
-            }
+                catch (Exception)
+                {
+                    //hatml
+                }
 
             #endregion
 
             #region LeftSideBar
-
-            try
-            {
-                var sideInfo = doc.FirstOfDescendantsWithClass("ul", "user-status border-top pb8 mb4").Descendants("li").ToList();
-                current.User.ImgUrl =
-                    doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First().Attributes["src"]
-                        .Value;
+            if (!updateFavsOnly)
                 try
                 {
-                    current.LastOnline = sideInfo[0].LastChild.InnerText;
-                    current.Gender = sideInfo[1].LastChild.InnerText;
-                    current.Birthday = sideInfo[2].LastChild.InnerText;
-                    current.Location = sideInfo[3].LastChild.InnerText;
-                    current.Joined = sideInfo[4].LastChild.InnerText;
+                    var sideInfo =
+                        doc.FirstOfDescendantsWithClass("ul", "user-status border-top pb8 mb4").Descendants("li").ToList();
+                    current.User.ImgUrl =
+                        doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First().Attributes["src"
+                            ]
+                            .Value;
+                    try
+                    {
+                        current.LastOnline = sideInfo[0].LastChild.InnerText;
+                        current.Gender = sideInfo[1].LastChild.InnerText;
+                        current.Birthday = sideInfo[2].LastChild.InnerText;
+                        current.Location = sideInfo[3].LastChild.InnerText;
+                        current.Joined = sideInfo[4].LastChild.InnerText;
+                    }
+                    catch (Exception)
+                    {
+                        current.LastOnline = sideInfo[0].LastChild.InnerText;
+                        current.Joined = sideInfo[1].LastChild.InnerText;
+                    }
                 }
                 catch (Exception)
                 {
-                    current.LastOnline = sideInfo[0].LastChild.InnerText;
-                    current.Joined = sideInfo[1].LastChild.InnerText;
+                    //???
                 }
-            }
-            catch (Exception)
-            {
-                //???
-            }
-
 
             #endregion
 
             #region Friends
+            if (!updateFavsOnly)
+                try
+                {
+                    var friends = doc.FirstOfDescendantsWithClass("div", "user-friends pt4 pb12").Descendants("a");
+                    foreach (var friend in friends)
+                    {
+                        var curr = new MalUser();
+                        var styleString = friend.Attributes["style"].Value.Substring(22);
+                        curr.ImgUrl = styleString.Replace("/r/76x120", "");
+                        curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
 
-            var friends = doc.FirstOfDescendantsWithClass("div", "user-friends pt4 pb12").Descendants("a");
-            foreach (var friend in friends)
-            {
-                var curr = new MalUser();
-                var styleString = friend.Attributes["style"].Value.Substring(22);
-                curr.ImgUrl = styleString.Replace("/r/76x120", "");
-                curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
-
-                curr.Name = friend.InnerText;
-                current.Friends.Add(curr);
-            }
+                        curr.Name = friend.InnerText;
+                        current.Friends.Add(curr);
+                    }
+                }
+                catch (Exception)
+                {
+                    //
+                }
 
             #endregion
 
             #region Comments
-
-            try
-            {
-                var commentBox = doc.FirstOfDescendantsWithClass("div", "user-comments mt24 pt24");
-                foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
+            if (!updateFavsOnly)
+                try
                 {
-                    var curr = new MalComment();
-                    curr.User.ImgUrl = comment.Descendants("img").First().Attributes["src"].Value;
-                    var textBlock = comment.Descendants("div").First();
-                    var header = textBlock.Descendants("div").First();
-                    curr.User.Name = header.ChildNodes[1].InnerText;
-                    curr.Date = header.ChildNodes[3].InnerText;
-                    curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
-                    current.Comments.Add(curr);
+                    var commentBox = doc.FirstOfDescendantsWithClass("div", "user-comments mt24 pt24");
+                    foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
+                    {
+                        var curr = new MalComment();
+                        curr.User.ImgUrl = comment.Descendants("img").First().Attributes["src"].Value;
+                        var textBlock = comment.Descendants("div").First();
+                        var header = textBlock.Descendants("div").First();
+                        curr.User.Name = header.ChildNodes[1].InnerText;
+                        curr.Date = header.ChildNodes[3].InnerText;
+                        curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
+                        current.Comments.Add(curr);
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                //no comments
-            }
-
+                catch (Exception)
+                {
+                    //no comments
+                }
 
             #endregion
 
-            DataCache.SaveProfileData(_userName, current);
+            if (_userName == Credentials.UserName) //umm why do we need someone's favs?
+            {
+                FavouritesManager.ForceNewSet(FavouriteType.Anime, current.FavouriteAnime.Select(i => i.ToString()).ToList());
+                FavouritesManager.ForceNewSet(FavouriteType.Manga, current.FavouriteManga.Select(i => i.ToString()).ToList());
+                FavouritesManager.ForceNewSet(FavouriteType.Character, current.FavouriteCharacters.Select(i => i.Id).ToList());
+                FavouritesManager.ForceNewSet(FavouriteType.Person, current.FavouritePeople.Select(i => i.Id).ToList());
+            }
+
+
+            if (!updateFavsOnly)
+                DataCache.SaveProfileData(_userName, current);
 
             return current;
-
-
         }
 
         public async Task<string> GetHummingBirdAvatarUrl()

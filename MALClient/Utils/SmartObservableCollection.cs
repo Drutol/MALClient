@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace MALClient
+namespace MALClient.Utils
 {
     public class SmartObservableCollection<T> : ObservableCollection<T>
     {

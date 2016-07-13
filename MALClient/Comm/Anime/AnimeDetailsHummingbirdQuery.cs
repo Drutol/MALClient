@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using MALClient.Models;
+using MALClient.Utils;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm.Anime

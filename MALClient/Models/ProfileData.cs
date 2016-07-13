@@ -90,9 +90,9 @@ namespace MALClient.Models
         //Fav Manga
         public List<int> FavouriteManga { get; set; } = new List<int>();
         //Fav Characters
-        public List<FavCharacter> FavouriteCharacters { get; set; } = new List<FavCharacter>();
+        public List<AnimeCharacter> FavouriteCharacters { get; set; } = new List<AnimeCharacter>();
         //Fav Ppl
-        public List<FavPerson> FavouritePeople { get; set; } = new List<FavPerson>();
+        public List<AnimeStaffPerson> FavouritePeople { get; set; } = new List<AnimeStaffPerson>();
         //Recent Anime
         public List<int> RecentAnime { get; set; } = new List<int>();
         //Recent Manga 

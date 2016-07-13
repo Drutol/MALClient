@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using MALClient.Comm;
 using MALClient.Models;
 using MALClient.Pages;
+using MALClient.Utils.Enums;
 using MALClient.ViewModels;
 
 namespace MALClient
@@ -308,7 +309,7 @@ namespace MALClient
 
         public static bool SetStartDateOnWatching
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["SetStartDateOnWatching"] = value; }
         }
 
@@ -326,7 +327,7 @@ namespace MALClient
 
         public static bool SetEndDateOnCompleted
         {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["SetEndDateOnCompleted"] = value; }
         }
 
@@ -377,6 +378,22 @@ namespace MALClient
             get { return (bool)(ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] = value; }
         }
+        #endregion
+
+        #region Favs
+
+        public static bool SyncFavsFromTimeToTime
+        {
+            get { return (bool)(ApplicationData.Current.LocalSettings.Values["SyncFavsFromTimeToTime"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["SyncFavsFromTimeToTime"] = value; }
+        }
+
+        public static int LastFavTimeSync //ticks
+        {
+            get { return (int)(ApplicationData.Current.LocalSettings.Values["LastFavTimeSync"] ?? 0); }
+            set { ApplicationData.Current.LocalSettings.Values["LastFavTimeSync"] = value; }
+        }
+
         #endregion
     }
 }

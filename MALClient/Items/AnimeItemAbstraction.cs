@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using MALClient.Models;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 using MALClient.ViewModels;
 
 // ReSharper disable InconsistentNaming

@@ -14,6 +14,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
 using MALClient.Pages;
+using MALClient.Utils;
+using MALClient.Utils.Enums;
 
 namespace MALClient.ViewModels
 {

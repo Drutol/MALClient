@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using MALClient.Items;
+using MALClient.Utils;
 
 namespace MALClient.Comm
 {

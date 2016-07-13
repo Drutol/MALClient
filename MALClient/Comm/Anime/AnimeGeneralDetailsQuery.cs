@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Models;
+using MALClient.Utils;
 using Newtonsoft.Json;
 
 namespace MALClient.Comm.Anime
@@ -25,8 +26,8 @@ namespace MALClient.Comm.Anime
                 {
                     case ApiType.Mal:
                         var data = animeMode
-                            ? await new AnimeSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false)
-                            : await new MangaSearchQuery(Utils.CleanAnimeTitle(title)).GetRequestResponse(false);
+                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false)
+                            : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
                         data = WebUtility.HtmlDecode(data);
                         data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", "");
 

@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Messaging&Favourites",
+    "Date": "14.07.2016",
+    "Type": "Updates",
+    "Content": "Sooo... I've update with those almost completed but it'll probably go live early next week! Mobile version will get extremely basic Continuum support so it's at least usable."
+  },
+  {
     "Title": "App stats",
     "Date": "08.07.2016",
     "Type": "Info",
@@ -11,28 +17,4 @@
     "Type": "Updates",
     "Content": "It turned out to be quite big: tags, volumes etc... Hope you like it :) Changelog can be found on github. Next update will feature Messaging (100%) and maybe favourites, we will se how it goes."
   },
-  {
-    "Title": "v4.3.124(3).0",
-    "Date": "02.07.2016",
-    "Type": "Updates",
-    "Content": "New update went to certification but there's long weekend in the USA and I'm not sure whether it will hit the store soon enough. Changelog on github :)"
-  },
-  {
-    "Title": "Update drought...",
-    "Date": "27.06.2016",
-    "Type": "Info",
-    "Content": "Crazy times in university, I won't be able to push anything new for at least a week. After that I'm planning to do: messaging -> favourites -> forums. I'm also getting reports of crashes on mobile but error messages are quite vague and I don't really know where to look, if you happen to encounter one please let me know what you were doing at the time. (github issue) :)"
-  },
-  {
-    "Title": "Long certification...",
-    "Date": "22.06.2016",
-    "Type": "Info",
-    "Content": "Update has been submitted on monday but Microsoft does not want to certify it. We have to be patient."
-  },
-  {
-    "Title": "New html yet again & Messaging update!",
-    "Date": "19.06.2016",
-    "Type": "Info",
-    "Content": "Articles and recommendations structure has been changed this time. Fixes coming on Monday. Messaging development progresses smoothly thus far, screenshots on github in TODO issue :)"
-  }
 ]

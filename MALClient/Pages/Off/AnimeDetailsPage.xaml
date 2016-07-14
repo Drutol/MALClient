@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:new="using:MALClient.UserControls.New"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
-    mc:Ignorable="d">
+    mc:Ignorable="d" MaxWidth="1000">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
@@ -428,10 +428,14 @@
                                     General
                                 </PivotItem.Header>
                                 <PivotItem.Content>
-                                    <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
-                                          VerticalAlignment="Stretch">
-                                        <StackPanel>
-                                            <Grid>
+                                    <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=".5*" />
                                                     <ColumnDefinition Width=".5*" />
@@ -579,18 +583,20 @@
                                                 </StackPanel>
 
                                             </Grid>
-                                            <MenuFlyoutSeparator VerticalAlignment="Top" />
-                                            <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center" />
-                                            <TextBlock Text="{Binding Synopsis}" HorizontalAlignment="Stretch"
-                                               FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
-                                               TextWrapping="WrapWholeWords" Margin="3,1" />
-                                            <MenuFlyoutSeparator/>
-                                            <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center" Visibility="{Binding LoadCharactersButtonVisibility}"/>
-                                            <Button HorizontalAlignment="Center" Content="Load characters" 
-                                        Style="{StaticResource TextBlockButtonStyle}" Command="{Binding LoadCharactersCommand}"
-                                        Visibility="{Binding LoadCharactersButtonVisibility}"/>
-                                            <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility}"/>
-                                            <Grid HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility}">
+                                            <StackPanel Grid.Row="1">
+                                                <MenuFlyoutSeparator VerticalAlignment="Top" />
+                                                <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding Synopsis}" HorizontalAlignment="Stretch"
+                                                           FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
+                                                           TextWrapping="WrapWholeWords" Margin="3,1" />
+                                                <MenuFlyoutSeparator/>
+                                                <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center" Visibility="{Binding LoadCharactersButtonVisibility}"/>
+                                                <Button HorizontalAlignment="Center" Content="Load characters" 
+                                                        Style="{StaticResource TextBlockButtonStyle}" Command="{Binding LoadCharactersCommand}"
+                                                        Visibility="{Binding LoadCharactersButtonVisibility}"/>
+                                                <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility}"/>
+                                            </StackPanel>
+                                            <Grid Grid.Row="2" HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility}">
                                                 <Grid.Resources>
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -602,7 +608,7 @@
                                                     <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}">
                                                         <ItemsControl.ItemsPanel>
                                                             <ItemsPanelTemplate>
-                                                                <ItemsStackPanel/>
+                                                                <ItemsWrapGrid Orientation="Horizontal"/>
                                                             </ItemsPanelTemplate>
                                                         </ItemsControl.ItemsPanel>
                                                         <ItemsControl.ItemContainerStyle>
@@ -610,7 +616,7 @@
                                                                 <Setter Property="ContentTemplate">
                                                                     <Setter.Value>
                                                                         <DataTemplate>
-                                                                            <ContentPresenter Margin="0,3" Content="{Binding}"/>
+                                                                            <ContentPresenter Margin="2,3" Content="{Binding}"/>
                                                                         </DataTemplate>
                                                                     </Setter.Value>
                                                                 </Setter>
@@ -693,10 +699,10 @@
                                                     </ItemsControl>
                                                     <MenuFlyoutSeparator/>
                                                     <TextBlock Text="Staff" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,3"/>
-                                                    <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeStaff}" HorizontalAlignment="Stretch">
+                                                    <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeStaff}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                                         <ItemsControl.ItemsPanel>
                                                             <ItemsPanelTemplate>
-                                                                <ItemsWrapGrid ItemHeight="300" ItemWidth="175" MaximumRowsOrColumns="3" Orientation="Horizontal"></ItemsWrapGrid>
+                                                                <WrapGrid ItemWidth="175" Orientation="Horizontal"/>
                                                             </ItemsPanelTemplate>
                                                         </ItemsControl.ItemsPanel>
                                                         <ItemsControl.ItemContainerStyle>
@@ -735,7 +741,7 @@
                                                                         </ToolTipService.ToolTip>
                                                                     </ToggleButton>
                                                                     <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource BrushAnimeItemBackground}" 
-                                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                                                                         <StackPanel HorizontalAlignment="Stretch">
                                                                             <TextBlock FontWeight="Medium" Text="{Binding Name}"/>
                                                                             <TextBlock FontWeight="SemiLight" Text="{Binding Notes}"/>
@@ -782,7 +788,7 @@
                                         </ItemsControl>
                                     </StackPanel>
                                 </Grid>-->
-                                        </StackPanel>
+                                        </Grid>
                                     </ScrollViewer>
                                 </PivotItem.Content>
                             </PivotItem>

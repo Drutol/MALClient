@@ -8,12 +8,15 @@ using Windows.Media.PlayTo;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
+using MALClient.Models;
 using MALClient.Pages;
+using MALClient.Pages.Messages;
 using MALClient.Utils;
 using MALClient.Utils.Enums;
 
@@ -28,6 +31,7 @@ namespace MALClient.ViewModels
         Storyboard CurrentStatusStoryboard { get; }
         Storyboard HidePinDialogStoryboard { get; }
         Storyboard CurrentOffSubStatusStoryboard { get; }
+        SplitViewDisplayMode CurrentDisplayMode { get; }
     }
 
     public class MainViewModel : ViewModelBase
@@ -43,7 +47,8 @@ namespace MALClient.ViewModels
             PageIndex originalIndex = index;
             var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
-            MenuPaneState = false;
+            if(View.CurrentDisplayMode == SplitViewDisplayMode.CompactOverlay)
+                MenuPaneState = false;
             CurrentStatusSub = "";
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
@@ -166,6 +171,18 @@ namespace MALClient.ViewModels
                         ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
                     else
                         View.Navigate(typeof(MalArticlesPage), args);
+                    break;
+                case PageIndex.PageMessanging:
+                    HideSearchStuff();
+                    CurrentStatus = $"{Credentials.UserName} - Messages";
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
+                    View.Navigate(typeof(MalMessagingPage), args);
+                    break;
+                case PageIndex.PageMessageDetails:
+                    var msgModel = args as MalMessageModel;
+                    CurrentStatus = msgModel != null ? $"{msgModel.Sender} - {msgModel.Subject}" : "New Message";
+                    View.Navigate(typeof(MalMessageDetailsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

@@ -3,7 +3,10 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using MALClient.Models;
+using MALClient.Utils.Enums;
+using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -19,6 +22,16 @@ namespace MALClient.Pages.Messages
         {
             InitializeComponent();
             Loaded += (sender, args) => ViewModel.Init();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            NavMgr.DeregisterBackNav();
         }
 
         private MalMessagingViewModel ViewModel => DataContext as MalMessagingViewModel;

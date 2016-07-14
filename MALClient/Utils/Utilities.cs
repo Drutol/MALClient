@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -378,6 +379,8 @@ namespace MALClient.Utils
                     return HamburgerButtons.Articles;
                 case PageIndex.PageNews:
                     return HamburgerButtons.News;
+                case PageIndex.PageMessanging:
+                    return HamburgerButtons.Messanging;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
@@ -412,12 +415,15 @@ namespace MALClient.Utils
 
         public static async void GiveStatusBarFeedback(string text)
         {
-            var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-            sb.Text = text;
-            sb.ProgressValue = null;
-            await sb.ShowAsync();
-            await Task.Delay(2000);
-            await sb.HideAsync();
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var sb = StatusBar.GetForCurrentView().ProgressIndicator;
+                sb.Text = text;
+                sb.ProgressValue = null;
+                await sb.ShowAsync();
+                await Task.Delay(2000);
+                await sb.HideAsync();
+            }
         }
 
         public static string ShortDayToFullDay(string sub)

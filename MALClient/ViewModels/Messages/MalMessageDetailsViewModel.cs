@@ -151,8 +151,11 @@ namespace MALClient.ViewModels.Messages
                         MessageSet.Clear();
                         MessageSet.AddRange(new[]
                         {
-                        new MessageEntry(message)
+                        new MessageEntry(message)                       
                     });
+                        MessageText = "";
+                        MessageSubject = "";
+                        MessageTarget = "";
                     }
                     catch (Exception)
                     {
@@ -197,6 +200,9 @@ namespace MALClient.ViewModels.Messages
                 {
                     new MessageEntry(message)
                 });
+                MessageText = "";
+                MessageSubject = "";
+                MessageTarget = "";
             }
             else
             {

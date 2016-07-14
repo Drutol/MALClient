@@ -490,6 +490,15 @@
                                     <TextBlock Text="Profile" HorizontalAlignment="Center"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                                    <Button Grid.Column="1" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="16" Margin="0,0,4,0"
+                                        Width="40" Height="35" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Black" Opacity=".25" />
+                                        </Button.Background>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,1,0" />
+                                    </Button>
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"

@@ -122,15 +122,15 @@
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState>
+                <VisualState x:Name="TallItems">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="850"/>
+                        <AdaptiveTrigger MinWindowHeight="700"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GridViewWrapPanel.ItemHeight" Value="350"/>
                     </VisualState.Setters>
-                </VisualState>                
-                <VisualState>
+                </VisualState>
+                <VisualState  x:Name="ShortItems">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowHeight="0"/>
                     </VisualState.StateTriggers>

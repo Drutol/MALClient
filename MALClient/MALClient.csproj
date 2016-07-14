@@ -203,6 +203,7 @@
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Main\MalArticlesPage.xaml.cs" />
+    <Compile Include="UserControls\Derived\VariableWarpGrid.cs" />
     <Compile Include="UserControls\New\FavButton.xaml.cs">
       <DependentUpon>FavButton.xaml</DependentUpon>
     </Compile>

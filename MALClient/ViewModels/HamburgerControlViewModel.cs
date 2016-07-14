@@ -99,13 +99,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ICommand ButtonNavigationCommand
-        {
-            get
-            {
-                return _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<object>(ButtonClick));
-            }
-        }       
+        public ICommand ButtonNavigationCommand => _buttonNavigationCommand ?? (_buttonNavigationCommand = new RelayCommand<object>(ButtonClick));
 
         public Visibility MalApiSpecificButtonsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
@@ -160,8 +154,7 @@ namespace MALClient.ViewModels
             if (Enum.TryParse(o as string, out page))
             {
                
-                    Utilities.GetMainPageInstance()
-                        .Navigate(page, GetAppropriateArgsForPage(page));
+                ViewModelLocator.Main.Navigate(page, GetAppropriateArgsForPage(page));
                 SetActiveButton(Utilities.GetButtonForPage(page));
             }
         }

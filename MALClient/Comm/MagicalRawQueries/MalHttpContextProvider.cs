@@ -33,7 +33,7 @@ namespace MALClient.Comm.MagicalRawQueries
 
         public async Task GetToken()
         {
-            var raw = await GetAsync("/login.php");
+            var raw = await GetAsync("/pressroom"); //because it's lightweight and does not redirect
             var doc = new HtmlDocument();
             doc.LoadHtml(await raw.Content.ReadAsStringAsync());
 
@@ -42,8 +42,7 @@ namespace MALClient.Comm.MagicalRawQueries
                 nodes.First(
                     htmlNode =>
                         htmlNode.Attributes.Contains("name") && htmlNode.Attributes["name"].Value == "csrf_token")
-                    .Attributes["content"].Value;
-
+                    .Attributes["content"].Value;                                
             Token = csfr;
         }
     }
@@ -95,7 +94,7 @@ namespace MALClient.Comm.MagicalRawQueries
                 //we won't dispose it here because this instance gonna be passed further down to other queries
                 
                 var response = await _httpClient.PostAsync("/login.php", content);
-                if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found)
+                if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.RedirectMethod)
                 {
                     _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
                     if (updateToken) //we are here just to update this thing

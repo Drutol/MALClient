@@ -254,22 +254,6 @@ namespace MALClient.Comm
             return output;
         }
 
-        public async Task<XElement> GetProfileStats(bool wantMsg = true)
-        {
-            var raw = await GetRequestResponse(wantMsg);
-            if (string.IsNullOrEmpty(raw))
-                return null;
-            try
-            {
-                var doc = XElement.Parse(raw);
-                return doc.Element("myinfo");
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
         public static AnimeStatus HummingbirdStatusToMal(string humStatus)
         {
             switch (humStatus)

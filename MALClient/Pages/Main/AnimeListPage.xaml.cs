@@ -103,7 +103,6 @@ namespace MALClient.Pages
             (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null,args);
         }
 
-        #region Init
         private bool _loaded;
         public AnimeListPage()
         {
@@ -114,6 +113,15 @@ namespace MALClient.Pages
                 ViewModel.ScrollRequest += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 _loaded = true;
+                try
+                {
+                    VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false); //force update on startup
+                }
+                catch (Exception)
+                {
+                    //comexception
+                }
+                
             };
         }
 
@@ -139,7 +147,6 @@ namespace MALClient.Pages
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
         }
 
-        #endregion
 
         #region UIHelpers
 

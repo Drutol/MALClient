@@ -47,6 +47,7 @@ namespace MALClient
         public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
         public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
         public Storyboard CurrentOffSubStatusStoryboard => FadeInCurrentSubStatus;
+        public SplitViewDisplayMode CurrentDisplayMode => MainSplitView.DisplayMode;
         public Storyboard HidePinDialogStoryboard => FadeOutPinDialogStoryboard;
 
         #region Search

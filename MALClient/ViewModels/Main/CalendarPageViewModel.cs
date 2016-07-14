@@ -38,6 +38,8 @@ namespace MALClient.ViewModels
         public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } =
             new ObservableCollection<CalendarPivotPage>();
 
+        public static double ItemWidth => AnimeItemViewModel.MaxWidth;
+
         private int _calendarPivotIndex;
         public int CalendarPivotIndex
         {

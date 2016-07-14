@@ -417,6 +417,21 @@
                                               OffContent="Keep"
                                               IsOn="{Binding HideFilterSelectionFlyout,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
+            <MenuFlyoutSeparator Margin="0,5"/>
+            <TextBlock Text="Sync favorites from time to time"
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+            <Grid HorizontalAlignment="Stretch">
+                <ToggleSwitch
+                            IsOn="{Binding SyncFavsFromTimeToTime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Sync" OffContent="Don't sync" HorizontalAlignment="Center" />
+            </Grid>
+            <Button Content="Sync now!" HorizontalAlignment="Center" Margin="0,5" IsEnabled="{Binding IsSyncFavsButtonEnabled}" Command="{Binding SyncFavsCommand}"/>
+            <TextBlock
+                    Text="Getting and updating favourites is pretty tricky and that's why I have to cache them, visiting and forcing update on your profile page will sync your favourites too. Favourites will sync accross devices."
+                    FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" TextAlignment="Center"
+                    HorizontalAlignment="Center" Margin="0,5" />
         </StackPanel>
     </ScrollViewer>
 </Page>

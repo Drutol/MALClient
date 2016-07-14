@@ -35,7 +35,7 @@ namespace MALClient.ViewModels
     {
         private bool _newsLoaded;
         private ICommand _reviewCommand;
-
+        private ICommand _syncFavsCommand;
 
 
         public ICommand ReviewCommand => _reviewCommand ?? (_reviewCommand = new RelayCommand(async () =>
@@ -65,6 +65,13 @@ namespace MALClient.ViewModels
                         NavigationRequest?.Invoke(typeof(SettingsHomePage));
                     }));
             }));
+
+        public ICommand SyncFavsCommand => _syncFavsCommand ?? (_syncFavsCommand = new RelayCommand(async () =>
+        {
+            IsSyncFavsButtonEnabled = false;
+            await new ProfileQuery().GetProfileData(true, true);
+            IsSyncFavsButtonEnabled = true;
+        }));
 
         public ObservableCollection<Tuple<AnimeListDisplayModes, string>> DisplayModes { get; } = new ObservableCollection
             <Tuple<AnimeListDisplayModes, string>>
@@ -321,6 +328,12 @@ namespace MALClient.ViewModels
             set { Settings.ArticlesLaunchExternalLinks = value; }
         }
 
+        public static bool SyncFavsFromTimeToTime
+        {
+            get { return Settings.SyncFavsFromTimeToTime; }
+            set { Settings.SyncFavsFromTimeToTime = value; }
+        }
+
         public static bool MangaFocusVolumes
         {
             get { return Settings.MangaFocusVolumes; }
@@ -419,6 +432,18 @@ namespace MALClient.ViewModels
             {
                 //No folder yet
                 RemoveAllCachedDataButtonVisibility = Visibility.Collapsed;
+            }
+        }
+
+        private bool _isSyncFavsButtonEnabled = true;
+
+        public bool IsSyncFavsButtonEnabled
+        {
+            get { return _isSyncFavsButtonEnabled; }
+            set
+            {
+                _isSyncFavsButtonEnabled = value;
+                RaisePropertyChanged(() => IsSyncFavsButtonEnabled);
             }
         }
 

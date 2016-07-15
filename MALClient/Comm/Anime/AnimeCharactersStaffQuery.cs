@@ -112,7 +112,7 @@ namespace MALClient.Comm.Anime
             {
                 var mainContainer = doc.FirstOfDescendantsWithClass("div", "js-scrollfix-bottom-rel");
                 var tables = mainContainer.ChildNodes.Where(node => node.Name == "table").ToList();
-
+                int i = 0;
                 foreach (var table in tables.Take(tables.Count - 1))
                 {
                     try
@@ -148,6 +148,8 @@ namespace MALClient.Comm.Anime
                         current.AnimeStaffPerson.Notes = infos[3].ChildNodes[4].InnerText;
 
                         output.AnimeCharacterPairs.Add(current);
+                        if (i++ > 30)
+                            break;
                     }
                     catch (Exception)
                     {
@@ -155,6 +157,7 @@ namespace MALClient.Comm.Anime
                     }
 
                 }
+                i = 0;
                 foreach (var staffRow in tables.Last().Descendants("tr"))
                 {
                     try
@@ -174,6 +177,8 @@ namespace MALClient.Comm.Anime
                         current.Notes = info.ChildNodes[3].InnerText;
 
                         output.AnimeStaff.Add(current);
+                        if (i++ > 30)
+                            break;
                     }
                     catch (Exception)
                     {

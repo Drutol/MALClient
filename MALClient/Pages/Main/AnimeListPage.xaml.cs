@@ -108,13 +108,14 @@ namespace MALClient.Pages
         {
             InitializeComponent();
             ViewModel.View = this;
-            Loaded += (sender, args) =>
+            Loaded += async (sender, args) =>
             {
                 ViewModel.ScrollRequest += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 _loaded = true;
                 try
                 {
+                    await Task.Delay(100);
                     VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false); //force update on startup
                 }
                 catch (Exception)

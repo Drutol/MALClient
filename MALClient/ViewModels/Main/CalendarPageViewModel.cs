@@ -5,7 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.Appointments;
+using Windows.Foundation;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Comm;
@@ -38,9 +42,10 @@ namespace MALClient.ViewModels
         public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } =
             new ObservableCollection<CalendarPivotPage>();
 
-        public static double ItemWidth => AnimeItemViewModel.MaxWidth;
+        public static double ItemWidth { get; private set; }
 
         private int _calendarPivotIndex;
+
         public int CalendarPivotIndex
         {
             get { return _calendarPivotIndex; }
@@ -50,6 +55,8 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => CalendarPivotIndex);
             }
         }
+
+        public CalendarPivotPage CurrentPivotPage { get; set; }
 
         private Visibility _calendarBuildingVisibility = Visibility.Collapsed;
 
@@ -99,13 +106,19 @@ namespace MALClient.ViewModels
             }
         }
 
-        public ICommand _refreshCalendarCommand;
+        private ICommand _refreshCalendarCommand;
 
         public ICommand RefreshCalendarCommand
             => _refreshCalendarCommand ?? (_refreshCalendarCommand = new RelayCommand(() => Init(true)));
 
 
-        public void InitPages()
+        private ICommand _exportToCalendarCommand;
+
+        public ICommand ExportToCalendarCommand
+            => _exportToCalendarCommand ?? (_exportToCalendarCommand = new RelayCommand(ExportToCalendar));
+
+
+        private void InitPages()
         {
             CalendarData = new ObservableCollection<CalendarPivotPage>
             {
@@ -120,6 +133,10 @@ namespace MALClient.ViewModels
             };
         }
 
+        public CalendarPageViewModel()
+        {
+            ItemWidth = AnimeItemViewModel.MaxWidth - 8;
+        }
 
         private bool _initialized;
 
@@ -138,8 +155,8 @@ namespace MALClient.ViewModels
                 var abstraction in
                     ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
                         abstraction =>
-                            (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int)AnimeStatus.PlanToWatch) ||
-                            (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int)AnimeStatus.Watching)))
+                            (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int) AnimeStatus.PlanToWatch) ||
+                            (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int) AnimeStatus.Watching)))
             {
                 try
                 {
@@ -233,61 +250,119 @@ namespace MALClient.ViewModels
                 }
             }
 
-                if (Settings.CalendarSwitchMonSun)
-                {
-                    CalendarData.Move(0, 6);
-                    CalendarData[0].Header = Utilities.DayToString(DayOfWeek.Monday, true);
-                    CalendarData[6].Header = Utilities.DayToString(DayOfWeek.Sunday, true);
-                    for (int i = 1; i < 6; i++)
-                        CalendarData[i].Header = Utilities.DayToString((DayOfWeek)i + 1, true);
-                }
+            if (Settings.CalendarSwitchMonSun)
+            {
+                CalendarData.Move(0, 6);
+                CalendarData[0].Header = Utilities.DayToString(DayOfWeek.Monday, true);
+                CalendarData[6].Header = Utilities.DayToString(DayOfWeek.Sunday, true);
+                for (int i = 1; i < 6; i++)
+                    CalendarData[i].Header = Utilities.DayToString((DayOfWeek) i + 1, true);
+            }
+            else
+                for (int i = 0; i < 7; i++)
+                    CalendarData[i].Header = Utilities.DayToString((DayOfWeek) i, true);
+            List<CalendarPivotPage> emptyPages = new List<CalendarPivotPage>();
+            foreach (var calendarPivotPage in CalendarData.Take(CalendarData.Count - 1))
+            {
+                if (calendarPivotPage.Items.Count > 0)
+                    calendarPivotPage.Sub = calendarPivotPage.Items.Count.ToString();
                 else
-                    for (int i = 0; i < 7; i++)
-                        CalendarData[i].Header = Utilities.DayToString((DayOfWeek)i, true);
-                List<CalendarPivotPage> emptyPages = new List<CalendarPivotPage>();
-                foreach (var calendarPivotPage in CalendarData.Take(CalendarData.Count - 1))
                 {
-                    if (calendarPivotPage.Items.Count > 0)
-                        calendarPivotPage.Sub = calendarPivotPage.Items.Count.ToString();
+                    if (Settings.CalendarRemoveEmptyDays)
+                        emptyPages.Add(calendarPivotPage);
                     else
-                    {
-                        if (Settings.CalendarRemoveEmptyDays)
-                            emptyPages.Add(calendarPivotPage);
-                        else
-                            calendarPivotPage.Sub = "-";
-                    }
-                    if (calendarPivotPage.Items.Count != 0)
-                        (CalendarData[7] as CalendarSummaryPivotPage).Data.Add(
-                            new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.FullHeader, calendarPivotPage.Items));
+                        calendarPivotPage.Sub = "-";
                 }
-                foreach (var emptyPage in emptyPages)
-                    CalendarData.Remove(emptyPage);
+                if (calendarPivotPage.Items.Count != 0)
+                    (CalendarData[7] as CalendarSummaryPivotPage).Data.Add(
+                        new Tuple<string, List<AnimeItemViewModel>>(calendarPivotPage.FullHeader,
+                            calendarPivotPage.Items));
+            }
+            foreach (var emptyPage in emptyPages)
+                CalendarData.Remove(emptyPage);
 
 
 
-                RaisePropertyChanged(() => CalendarData);
-                if (Settings.CalendarStartOnToday)
+            RaisePropertyChanged(() => CalendarData);
+            if (Settings.CalendarStartOnToday)
+            {
+                //we have to find it because it may have been removed
+                //we will do this by comparing header string
+                string today = Utilities.DayToString(DateTime.Now.DayOfWeek, true);
+                int index = CalendarData.Count - 1;
+                for (int i = 0; i < CalendarData.Count - 1; i++)
                 {
-                    //we have to find it because it may have been removed
-                    //we will do this by comparing header string
-                    string today = Utilities.DayToString(DateTime.Now.DayOfWeek, true);
-                    int index = CalendarData.Count - 1;
-                    for (int i = 0; i < CalendarData.Count - 1; i++)
+                    if (CalendarData[i].Header == today)
                     {
-                        if (CalendarData[i].Header == today)
-                        {
-                            index = i;
-                            break;
-                        }
+                        index = i;
+                        break;
                     }
-                    CalendarPivotIndex = index;
+                }
+                CalendarPivotIndex = index;
+            }
+            else
+                CalendarPivotIndex = CalendarData.Count - 1;
+
+            CalendarBuildingVisibility = Visibility.Collapsed;
+            CalendarVisibility = Visibility.Visible;
+
+        }
+
+        public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+        {
+            // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
+            int daysToAdd = ((int) day - (int) start.DayOfWeek + 7)%7;
+            return start.AddDays(daysToAdd);
+        }
+
+        private async void ExportToCalendar()
+        {
+            if (CurrentPivotPage == null)
+                return;
+            DayOfWeek day = Utilities.StringToDay(CurrentPivotPage.Header);
+            var date = GetNextWeekday(DateTime.Today, day);
+
+            var timeZoneOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
+            var startTime = new DateTimeOffset(date.Year, date.Month, date.Day, 0, 0, 0, timeZoneOffset);
+
+            foreach (var animeItemViewModel in CurrentPivotPage.Items)
+            {
+                var appointment = new Appointment();
+
+                appointment.StartTime = startTime;
+                appointment.Subject = "Anime - " + animeItemViewModel.Title;
+                appointment.AllDay = true;
+                var recurrence = new AppointmentRecurrence();
+                recurrence.Unit = AppointmentRecurrenceUnit.Weekly;
+                recurrence.Interval = 1;
+                recurrence.DaysOfWeek = Utilities.DayToAppointementDay(day);
+                if (animeItemViewModel.EndDate != AnimeItemViewModel.InvalidStartEndDate)
+                {
+                    var endDate = DateTime.Parse(animeItemViewModel.EndDate);
+                    recurrence.Until = endDate;
+                }
+                else if (animeItemViewModel.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                         animeItemViewModel.AllEpisodes != 0)
+                {
+                    var weeksPassed = (DateTime.Today - DateTime.Parse(animeItemViewModel.StartDate)).Days/7;
+                    if (weeksPassed < 0)
+                        continue;
+                    var weeks = (uint) (animeItemViewModel.AllEpisodes - weeksPassed);
+                    recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(weeks * 7));
+                }
+                else if (animeItemViewModel.AllEpisodes != 0)
+                {
+                    var epsLeft = animeItemViewModel.AllEpisodes - animeItemViewModel.MyEpisodes;
+                    recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(epsLeft*7));
                 }
                 else
-                    CalendarPivotIndex = CalendarData.Count - 1;
-
-                CalendarBuildingVisibility = Visibility.Collapsed;
-                CalendarVisibility = Visibility.Visible;
-            
+                {
+                    continue;
+                }
+                appointment.Recurrence = recurrence;
+                var rect = new Rect(new Point(Window.Current.Bounds.Width/2, Window.Current.Bounds.Height/2), new Size());
+                await AppointmentManager.ShowAddAppointmentAsync(appointment, rect, Placement.Default);
+            }
         }
     }
 }

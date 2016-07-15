@@ -364,16 +364,11 @@ namespace MALClient.ViewModels
             }
         }
 
-
-
-
         public Visibility MalApiDependatedntSectionsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
         public bool HumApiDependatedntSectionsEnabled
             => Settings.SelectedApiType != ApiType.Mal;
-
-
 
         private async void LoadNews()
         {

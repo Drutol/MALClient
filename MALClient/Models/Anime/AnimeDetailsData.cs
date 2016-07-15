@@ -9,7 +9,6 @@ namespace MALClient.Models
         AnnHum
     }
 
-
     public class AnimeDetailsData
     {
         public string AlternateCoverImgUrl;

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Appointments;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -141,7 +142,50 @@ namespace MALClient.Utils
             }
         }
 
-        
+        public static DayOfWeek StringToDay(string day)
+        {
+            switch (day)
+            {
+                case "Fri":
+                    return DayOfWeek.Friday; ;
+                case "Mon":
+                    return DayOfWeek.Monday; ;
+                case "Sat":
+                    return DayOfWeek.Saturday; ;
+                case "Sun":
+                    return DayOfWeek.Sunday; ;
+                case "Thu":
+                    return DayOfWeek.Thursday; ;
+                case "Tue":
+                    return DayOfWeek.Tuesday; ;
+                case "Wed":
+                    return DayOfWeek.Wednesday; ;
+            }
+            return DayOfWeek.Friday;
+        }
+
+        public static AppointmentDaysOfWeek DayToAppointementDay(DayOfWeek day)
+        {
+            switch (day)
+            {
+                case DayOfWeek.Friday:
+                    return AppointmentDaysOfWeek.Friday;
+                case DayOfWeek.Monday:
+                    return AppointmentDaysOfWeek.Monday;
+                case DayOfWeek.Saturday:
+                    return AppointmentDaysOfWeek.Saturday;
+                case DayOfWeek.Sunday:
+                    return AppointmentDaysOfWeek.Sunday;
+                case DayOfWeek.Thursday:
+                    return AppointmentDaysOfWeek.Thursday;
+                case DayOfWeek.Tuesday:
+                    return AppointmentDaysOfWeek.Tuesday;
+                case DayOfWeek.Wednesday:
+                    return AppointmentDaysOfWeek.Wednesday;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(day), day, null);
+            }
+        }
 
         public static MainViewModel GetMainPageInstance()
         {
@@ -198,8 +242,7 @@ namespace MALClient.Utils
         {
             try
             {
-                await (await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png")).DeleteAsync(
-                    StorageDeleteOption.PermanentDelete);
+                await (await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png")).DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
             catch (Exception)
             {
@@ -221,13 +264,7 @@ namespace MALClient.Utils
                 switch (Settings.SelectedApiType)
                 {
                     case ApiType.Mal:
-                        await
-                            Task.Run(
-                                async () =>
-                                    response =
-                                        await
-                                            http.GetByteArrayAsync(
-                                                $"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
+                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                         break;
                     case ApiType.Hummingbird:
                         var avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
@@ -388,29 +425,12 @@ namespace MALClient.Utils
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return
-                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                    .Trim()
-                    .Replace("[i]", "")
-                    .Replace("[/i]", "")
-                    .Replace("#039;", "'")
-                    .Replace("&quot;", "\"")
-                    .Replace("quot;", "\"")
-                    .Replace("mdash;", "—")
-                    .Replace("amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("quot;", "\"").Replace("mdash;", "—").Replace("amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
-            return
-                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
-                    .Trim()
-                    .Replace("[i]", "")
-                    .Replace("[/i]", "")
-                    .Replace("#039;", "'")
-                    .Replace("&quot;", "\"")
-                    .Replace("&mdash;", "—")
-                    .Replace("&amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("&mdash;", "—").Replace("&amp;", "&");
         }
 
         public static async void GiveStatusBarFeedback(string text)
@@ -451,50 +471,27 @@ namespace MALClient.Utils
 
         public static HtmlNode FirstWithClass(this IEnumerable<HtmlNode> doc, string targettedClass)
         {
-            return doc.First(
-                node =>
-                    node.Attributes.Contains("class") &&
-                    node.Attributes["class"].Value ==
-                    targettedClass);
+            return doc.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
         {
-            return doc.DocumentNode.Descendants(descendants)
-                .First(
-                    node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        targettedClass);
+            return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
         {
-            return doc.Descendants(descendants)
-                .First(
-                    node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        targettedClass);
+            return doc.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
         public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
         {
-            return doc.DocumentNode.Descendants(descendants)
-                .Where(
-                    node =>
-                        node.Attributes.Contains("class") &&
-                        node.Attributes["class"].Value ==
-                        targettedClass);
+            return doc.DocumentNode.Descendants(descendants).Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
         public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
         {
-            return doc.Descendants(descendants).Where(
-                node =>
-                    node.Attributes.Contains("class") &&
-                    node.Attributes["class"].Value ==
-                    targettedClass);
+            return doc.Descendants(descendants).Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
         public static void TelemetryTrackEvent(TelemetryTrackedEvents @event)
@@ -505,31 +502,31 @@ namespace MALClient.Utils
         }
 
         #region EnumDecorations
-          public class Description : Attribute
-          {
-              public readonly string Text;
-  
-              public Description(string text)
-              {
-                  Text = text;
-              }
-          }
-  
-          public static string GetDescription(this Enum en)
-          {
-              Type type = en.GetType();
-              MemberInfo[] memInfo = type.GetMember(en.ToString());
-              if (memInfo != null && memInfo.Length > 0)
-              {
-                  object[] attrs = memInfo[0].GetCustomAttributes(typeof(Description), false).ToArray();
-  
-                  if (attrs != null && attrs.Length > 0)
-                      return ((Description)attrs[0]).Text;
-              }
-              return en.ToString();
-          }
-  #endregion
+
+        public class Description : Attribute
+        {
+            public readonly string Text;
+
+            public Description(string text)
+            {
+                Text = text;
+            }
+        }
+
+        public static string GetDescription(this Enum en)
+        {
+            Type type = en.GetType();
+            MemberInfo[] memInfo = type.GetMember(en.ToString());
+            if (memInfo != null && memInfo.Length > 0)
+            {
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(Description), false).ToArray();
+
+                if (attrs != null && attrs.Length > 0)
+                    return ((Description) attrs[0]).Text;
+            }
+            return en.ToString();
+        }
+
+        #endregion
     }
-
-
 }

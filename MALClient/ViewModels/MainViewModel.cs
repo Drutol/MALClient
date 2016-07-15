@@ -71,7 +71,9 @@ namespace MALClient.ViewModels
 
 
 
-            ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList);
+            ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
+                                                                    index == PageIndex.PageMessanging ||
+                                                                    index == PageIndex.PageCalendar);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {

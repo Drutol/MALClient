@@ -20,12 +20,12 @@
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
             <DataTemplate x:Key="DayPageTemplate">
-                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped" Padding="0"
                           ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch"
-                                           ItemWidth="190" ItemHeight="350" />
+                                           ItemWidth="{Binding CalendarPage.ItemWidth,Source={StaticResource Locator}}" ItemHeight="325" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                 </GridView>
@@ -41,7 +41,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch">
+                                <Grid HorizontalAlignment="Stretch" Margin="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -56,7 +56,7 @@
                                             <ItemsPanelTemplate>
                                                 <WrapGrid Orientation="Horizontal"
                                                                HorizontalAlignment="Stretch"
-                                                               ItemWidth="190" ItemHeight="350" />
+                                                               ItemWidth="{Binding CalendarPage.ItemWidth,Source={StaticResource Locator}}" ItemHeight="325" />
                                             </ItemsPanelTemplate>
                                         </GridView.ItemsPanel>
                                     </GridView>
@@ -68,11 +68,18 @@
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Refresh" Command="{Binding RefreshCalendarCommand}"/>
+            <AppBarButton Icon="Calendar" Command="{Binding ExportToCalendarCommand}"></AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0">
         <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="0,0,0,0" Padding="0"
                Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}"
-               ItemsSource="{Binding CalendarData}">
+               ItemsSource="{Binding CalendarData}" SelectedItem="{Binding CurrentPivotPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
                 <Style TargetType="GridView">
@@ -85,7 +92,7 @@
                         <Setter.Value>
                             <Style TargetType="GridViewItem">
                                 <Setter Property="Padding" Value="0" />
-                                <Setter Property="Margin" Value="4" />
+                                <Setter Property="Margin" Value="2" />
                             </Style>
                         </Setter.Value>
                     </Setter>
@@ -96,6 +103,9 @@
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
+                </Style>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </Pivot.Resources>
             <Pivot.ItemTemplateSelector>
@@ -133,10 +143,5 @@
                          Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}" />
             <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
         </Grid>
-        <Button BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Opacity=".5"
-                PointerEntered="UIElement_OnPointerEntered" PointerExited="UIElement_OnPointerExited"
-                Command="{Binding RefreshCalendarCommand}">
-            <SymbolIcon Symbol="Refresh" />
-        </Button>
     </Grid>
 </Page>

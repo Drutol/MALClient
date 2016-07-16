@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MALClient.UserControls;
 using MALClient.ViewModels;
 
@@ -87,7 +89,7 @@ namespace MALClient.Pages
             if (e.AddedItems.Count == 0)
                 return;
             await Task.Delay(1);
-            var args = ViewModelLocator.Main.GetCurrentListOrderParams();
+            var args = MobileViewModelLocator.Main.GetCurrentListOrderParams();
             args.SelectedItemIndex = AnimesItemsIndefinite.SelectedIndex;
             (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null, args);
         }
@@ -97,7 +99,7 @@ namespace MALClient.Pages
             if (e.AddedItems.Count == 0)
                 return;
             await Task.Delay(1);
-            var args = ViewModelLocator.Main.GetCurrentListOrderParams();
+            var args = MobileViewModelLocator.Main.GetCurrentListOrderParams();
             args.SelectedItemIndex = AnimesGridIndefinite.SelectedIndex;
             args.TopWorkMode = ViewModel.TopAnimeWorkMode;
             (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null,args);

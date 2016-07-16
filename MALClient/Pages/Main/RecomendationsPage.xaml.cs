@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
 using MALClient.Items;
 using MALClient.Utils.Enums;
 using MALClient.Utils.Managers;
@@ -9,10 +10,7 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
-    public class RecommendationPageNavigationArgs
-    {
-        public int Index;
-    }
+
 
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
@@ -35,13 +33,13 @@ namespace MALClient.Pages
                 (DataContext as RecommendationsViewModel).PivotItemIndex =
                     (e.Parameter as RecommendationPageNavigationArgs).Index;
 
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             DataContext = null;
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
     }
 }

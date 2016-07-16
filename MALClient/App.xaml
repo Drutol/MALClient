@@ -8,6 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <viewModels:ViewModelLocator x:Key="Locator" />
+            <viewModels:MobileViewModelLocator x:Key="MobileLocator" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>

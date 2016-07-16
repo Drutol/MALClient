@@ -26,12 +26,12 @@ namespace MALClient.Pages.Messages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
 
         private MalMessagingViewModel ViewModel => DataContext as MalMessagingViewModel;

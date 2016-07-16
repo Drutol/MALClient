@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -22,7 +24,7 @@ using MALClient.Utils.Enums;
 
 namespace MALClient.ViewModels
 {
-    public class HamburgerControlViewModel : ViewModelBase
+    public class HamburgerControlViewModel : ViewModelBase , IHamburgerViewModel
     {
         private Visibility _adLoadingSpinnerVisibility = Visibility.Collapsed;
 
@@ -153,8 +155,8 @@ namespace MALClient.ViewModels
             PageIndex page;
             if (Enum.TryParse(o as string, out page))
             {
-               
-                ViewModelLocator.Main.Navigate(page, GetAppropriateArgsForPage(page));
+
+                MobileViewModelLocator.Main.Navigate(page, GetAppropriateArgsForPage(page));
                 SetActiveButton(Utilities.GetButtonForPage(page));
             }
         }
@@ -164,7 +166,7 @@ namespace MALClient.ViewModels
             if (o == null)
                 return;
             TopAnimeType type = (TopAnimeType)int.Parse(o as string);
-            ViewModelLocator.Main.Navigate(PageIndex.PageTopAnime, AnimeListPageNavigationArgs.TopAnime(type));
+            MobileViewModelLocator.Main.Navigate(PageIndex.PageTopAnime, AnimeListPageNavigationArgs.TopAnime(type));
             SetActiveButton(HamburgerButtons.TopAnime);
         }
 
@@ -203,7 +205,7 @@ namespace MALClient.ViewModels
             BottomStackPanelMargin = up ? new Thickness(0, 0, 0, 48) : new Thickness(0);
         }
 
-        internal async Task UpdateProfileImg(bool dl = true)
+        public async Task UpdateProfileImg(bool dl = true)
         {
             if (Credentials.Authenticated)
             {

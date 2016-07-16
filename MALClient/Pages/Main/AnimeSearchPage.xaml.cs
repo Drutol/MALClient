@@ -28,7 +28,7 @@ namespace MALClient.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
     }
 }

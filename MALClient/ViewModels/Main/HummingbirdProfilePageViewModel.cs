@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
+using MalClient.Shared.NavArgs;
 using MALClient.Comm;
 using MALClient.Models.ApiResponses;
 using MALClient.Pages;
@@ -37,7 +38,7 @@ namespace MALClient.ViewModels
                 CurrentData = await new ProfileQuery().GetHumProfileData();
                 foreach (var fav in CurrentData.favorites)
                 {
-                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
+                    var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
                     if (data != null)
                     {
                         FavAnime.Add(data as AnimeItemViewModel);

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.NavArgs;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Comm.MagicalRawQueries;
@@ -26,31 +27,8 @@ using MALClient.Utils.Managers;
 
 namespace MALClient.ViewModels
 {
-    public class AnimeDetailsPageNavigationArgs
-    {
-        public readonly AnimeGeneralDetailsData AnimeElement;
-        public readonly IAnimeData AnimeItem;
-        public readonly int Id;
-        public readonly object PrevPageSetup;
-        public readonly string Title;
-        public bool AnimeMode = true;
-        public bool RegisterBackNav = true;
-        public PageIndex Source;
-        public int SourceTabIndex;
 
-        public AnimeDetailsPageNavigationArgs(int id, string title, AnimeGeneralDetailsData element,
-            IAnimeData animeReference,
-            object args = null)
-        {
-            Id = id;
-            Title = title;
-            AnimeElement = element;
-            PrevPageSetup = args;
-            AnimeItem = animeReference;
-        }
-    }
-
-    public class AnimeDetailsPageViewModel : ViewModelBase
+    public class AnimeDetailsPageViewModel : ViewModelBase , IAnimeDetailsViewModel
     {
         //additional fields
         private int _allEpisodes;
@@ -178,7 +156,7 @@ namespace MALClient.ViewModels
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 var possibleRef =
-                    await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, _animeMode);
+                    await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, _animeMode);
                 if (possibleRef == null) // else we don't have this item
                 {
                     //we may only prepare for its creation
@@ -238,23 +216,23 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
                 case PageIndex.PageArticles:
                     await FetchData();
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeDetails:
                     await FetchData();
                     if (param.RegisterBackNav) //we are already going back
-                        NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
+                        ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
-                    NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
             _initialized = true;
@@ -287,7 +265,7 @@ namespace MALClient.ViewModels
             {
                 args.Id = await new AnimeDetailsHummingbirdQuery(args.Id).GetHummingbirdId();
             }
-            ViewModelLocator.Main
+            MobileViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
                         new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
@@ -787,9 +765,9 @@ namespace MALClient.ViewModels
                 _animeItemReference.Notes += "," + NewTagInput;
                 ChangeNotes();
                 if (
-                    !ViewModelLocator.Main.SearchHints.Any(
+                    !MobileViewModelLocator.Main.SearchHints.Any(
                         t => string.Equals(NewTagInput, t, StringComparison.CurrentCultureIgnoreCase)))
-                    ViewModelLocator.Main.SearchHints.Add(NewTagInput); // add to hints
+                    MobileViewModelLocator.Main.SearchHints.Add(NewTagInput); // add to hints
             }
             NewTagInput = "";
         }));
@@ -1218,7 +1196,7 @@ namespace MALClient.ViewModels
             {
                 _imageOverlayVisibility = value;
                 if (value == Visibility.Visible)
-                    NavMgr.RegisterOneTimeOverride(new RelayCommand(() => ImageOverlayVisibility = Visibility.Collapsed));
+                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => ImageOverlayVisibility = Visibility.Collapsed));
                 RaisePropertyChanged(() => ImageOverlayVisibility);
             }
         }
@@ -1485,7 +1463,7 @@ namespace MALClient.ViewModels
             GlobalScore = GlobalScore; //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
-            ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
+            MobileViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
             RaisePropertyChanged(() => IncrementEpsCommand);
             RaisePropertyChanged(() => DecrementEpsCommand);
@@ -1525,7 +1503,7 @@ namespace MALClient.ViewModels
             if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Deleted"))
                 return;
 
-            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
+            MobileViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
 
             (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
             AddAnimeVisibility = true;
@@ -1574,7 +1552,7 @@ namespace MALClient.ViewModels
                 EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
 
             Synopsis = Synopsis;
-            Utilities.GetMainPageInstance().CurrentStatus = Title;
+            MobileViewModelLocator.Main.CurrentStatus = Title;
 
             DetailImage = new BitmapImage(new Uri(_imgUrl));
             LoadingGlobal = Visibility.Collapsed;

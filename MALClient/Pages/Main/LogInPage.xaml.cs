@@ -5,6 +5,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Comm;
 using MALClient.UserControls;
 using MALClient.Utils;
@@ -26,7 +27,7 @@ namespace MALClient.Pages
         {
             InitializeComponent();
 
-            Utilities.GetMainPageInstance()
+            MobileViewModelLocator.Main
                 .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
             switch (Settings.SelectedApiType)
             {
@@ -52,14 +53,13 @@ namespace MALClient.Pages
 
         private async void LogOut(object sender, RoutedEventArgs e)
         {
-            var page = Utilities.GetMainPageInstance();
             Credentials.SetAuthStatus(false);
             Credentials.Reset();
             Credentials.SetAuthToken("");
             await Utilities.RemoveProfileImg();
-            ViewModelLocator.AnimeList.LogOut();
-            page.Navigate(PageIndex.PageLogIn);
-            ViewModelLocator.Hamburger.UpdateProfileImg();
+            MobileViewModelLocator.AnimeList.LogOut();
+            MobileViewModelLocator.Main.Navigate(PageIndex.PageLogIn);
+            MobileViewModelLocator.Hamburger.UpdateProfileImg();
         }
 
 
@@ -134,16 +134,16 @@ namespace MALClient.Pages
             try
             {
                 await Utilities.RemoveProfileImg();
-                await ViewModelLocator.Hamburger.UpdateProfileImg();
+                await MobileViewModelLocator.Hamburger.UpdateProfileImg();
             }
             catch (Exception)
             {
                 //
             }
             await DataCache.ClearApiRelatedCache();
-            ViewModelLocator.AnimeList.LogIn();
-            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
-            ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+            MobileViewModelLocator.AnimeList.LogIn();
+            MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+            MobileViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             _authenticating = false;
         }
@@ -208,16 +208,16 @@ namespace MALClient.Pages
             try
             {
                 await Utilities.RemoveProfileImg();
-                await ViewModelLocator.Hamburger.UpdateProfileImg();
+                await MobileViewModelLocator.Hamburger.UpdateProfileImg();
             }
             catch (Exception)
             {
                 //
             }
             await DataCache.ClearApiRelatedCache();
-            ViewModelLocator.AnimeList.LogIn();
-            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
-            ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+            MobileViewModelLocator.AnimeList.LogIn();
+            MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeList);
+            MobileViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             _authenticating = false;
         }

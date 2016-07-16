@@ -22,7 +22,7 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-            Loaded += (a1,a2) => ViewModelLocator.Main.View = this;
+            Loaded += (a1,a2) => MobileViewModelLocator.Main.View = this;
         }
 
         public MainViewModel ViewModel => DataContext as MainViewModel;
@@ -58,7 +58,7 @@ namespace MALClient
             {
                 SearchInput.IsEnabled = false; //reset input
                 SearchInput.IsEnabled = true;
-                ViewModelLocator.Main.OnSearchInputSubmit();
+                MobileViewModelLocator.Main.OnSearchInputSubmit();
                 e.Handled = true;
             }
         }
@@ -84,7 +84,7 @@ namespace MALClient
         private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
-                ViewModelLocator.Main.PinDialogViewModel.CloseDialogCommand.Execute(null);
+                MobileViewModelLocator.Main.PinDialogViewModel.CloseDialogCommand.Execute(null);
         }
 
         private void SearchInput_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -93,7 +93,7 @@ namespace MALClient
             {
                 SearchInput.IsEnabled = false; //reset input
                 SearchInput.IsEnabled = true;
-                ViewModelLocator.Main.OnSearchInputSubmit();
+                MobileViewModelLocator.Main.OnSearchInputSubmit();
             }
         }
     }

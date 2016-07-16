@@ -28,13 +28,13 @@ namespace MALClient.Pages
         public CalendarPage()
         {
             this.InitializeComponent();
-            Loaded += (sender, args) => NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            Loaded += (sender, args) => ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             Loaded += (a1, a2) => (DataContext as CalendarPageViewModel).Init();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
             base.OnNavigatingFrom(e);
         }
 

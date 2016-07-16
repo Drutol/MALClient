@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
 using MALClient.Comm;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
@@ -36,7 +37,7 @@ namespace MALClient.Pages
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             DataContext = null;
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
             base.OnNavigatingFrom(e);
         }
 

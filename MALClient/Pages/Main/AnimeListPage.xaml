@@ -7,7 +7,7 @@
     xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
+    DataContext="{Binding AnimeList , Source={StaticResource MobileLocator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -185,7 +185,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <item:AnimeGridItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}" />
+                    <item:AnimeGridItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource MobileLocator},Path=AnimeList.AnimeItemsDisplayContext}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.ItemContainerTransitions>

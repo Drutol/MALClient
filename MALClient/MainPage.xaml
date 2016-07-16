@@ -35,7 +35,7 @@
     </Page.Resources>
 
     <Page.DataContext>
-        <Binding Path="Main" Source="{StaticResource Locator}" />
+        <Binding Path="Main" Source="{StaticResource MobileLocator}" />
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -86,7 +86,7 @@
                        Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}">
                     <FlyoutBase.AttachedFlyout>
                         <MenuFlyout x:Name="CurrentStatusListFilterSelectorFlyout">
-                            <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter1Label}"
+                            <MenuFlyoutItem Text="{Binding Source={StaticResource MobileLocator},Path=AnimeList.Filter1Label}"
                                             Command="{Binding ChangeStatusCommand}"
                                             CommandParameter="0" />
                             <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
@@ -95,7 +95,7 @@
                                             CommandParameter="2" />
                             <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
                                             CommandParameter="3" />
-                            <MenuFlyoutItem Text="{Binding Source={StaticResource Locator},Path=AnimeList.Filter5Label}"
+                            <MenuFlyoutItem Text="{Binding Source={StaticResource MobileLocator},Path=AnimeList.Filter5Label}"
                                             Command="{Binding ChangeStatusCommand}"
                                             CommandParameter="4" />
                         </MenuFlyout>

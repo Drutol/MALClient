@@ -9,6 +9,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Models;
@@ -19,12 +21,7 @@ using MALClient.Utils.Enums;
 
 namespace MALClient.ViewModels
 {
-    public class ProfilePageNavigationArgs
-    {
-        public int OuterPivotSelectedIndex { get; set; }
-        public int InnerPivotSelectedIndex { get; set; }
-        public string TargetUser { get; set; }
-    }
+
 
     public sealed class ProfilePageViewModel : ViewModelBase
     {
@@ -50,7 +47,7 @@ namespace MALClient.ViewModels
                 CurrentUser = args?.TargetUser ?? Credentials.UserName;
             }
             _authenticatedUser = args == null || args.TargetUser == Credentials.UserName;
-            ViewModelLocator.Main.CurrentStatus = $"{CurrentUser} - Profile";
+            MobileViewModelLocator.Main.CurrentStatus = $"{CurrentUser} - Profile";
             _loadedFavManga = false;
             _loadedFavAnime = false;
             _loadedRecent = false;
@@ -86,7 +83,7 @@ namespace MALClient.ViewModels
                     {
                         foreach (var id in CurrentData.FavouriteAnime)
                         {
-                            var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                            var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                             if (data != null)
                             {
                                 list.Add(data as AnimeItemViewModel);
@@ -121,7 +118,7 @@ namespace MALClient.ViewModels
                     {
                         foreach (var id in CurrentData.FavouriteManga)
                         {
-                            var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                            var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                             if (data != null)
                             {
                                 mlist.Add(data as AnimeItemViewModel);
@@ -238,7 +235,7 @@ namespace MALClient.ViewModels
                         var list = new List<AnimeItemViewModel>();
                         foreach (var id in CurrentData.RecentAnime)
                         {
-                            var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                            var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                             if (data != null)
                             {
                                 list.Add(data as AnimeItemViewModel);
@@ -248,7 +245,7 @@ namespace MALClient.ViewModels
                         list = new List<AnimeItemViewModel>();
                         foreach (var id in CurrentData.RecentManga)
                         {
-                            var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                            var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                             if (data != null)
                             {
                                 list.Add(data as AnimeItemViewModel);
@@ -290,7 +287,7 @@ namespace MALClient.ViewModels
 
         private void NavigateDetails(AnimeCharacter character)
         {
-            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
+            MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
                 new AnimeDetailsPageNavigationArgs(int.Parse(character.ShowId), character.Notes, null,
                     null,
                     new ProfilePageNavigationArgs
@@ -561,7 +558,7 @@ namespace MALClient.ViewModels
                 (_navAnimeListCommand =
                     new RelayCommand(
                         () =>
-                            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
+                            MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = CurrentUser})))
             ;
 
@@ -571,7 +568,7 @@ namespace MALClient.ViewModels
                 (_navMangaListCommand =
                     new RelayCommand(
                         () =>
-                            ViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
+                            MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = CurrentUser})))
             ;
 

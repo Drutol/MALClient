@@ -404,7 +404,7 @@
                                     <Grid x:Name="PivotLayoutElement">
                                         <Grid.RowDefinitions>
                                             <RowDefinition
-                                                Height="{Binding Source={StaticResource Locator}, Path=AnimeList.PivotHeaerGridRowHeight}" />
+                                                Height="{Binding Source={StaticResource MobileLocator}, Path=AnimeList.PivotHeaerGridRowHeight}" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>

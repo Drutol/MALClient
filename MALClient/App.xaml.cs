@@ -13,6 +13,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Comm;
 using MALClient.Pages;
 using MALClient.Utils;
@@ -40,6 +42,7 @@ namespace MALClient
                 Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
             });
 #endif
+            MobileViewModelLocator.RegisterDependencies();
             Current.RequestedTheme = Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;
@@ -106,7 +109,7 @@ namespace MALClient
             }
             else if(navArgs != null)
             {
-                ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
+                MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
             }
             // Ensure the current window is active
@@ -214,12 +217,12 @@ namespace MALClient
                 if (AnimeUpdateQuery.UpdatedSomething)
                     await
                         DataCache.SaveDataForUser(Credentials.UserName,
-                            ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
+                            MobileViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
                 if (MangaUpdateQuery.UpdatedSomething)
                     await
                         DataCache.SaveDataForUser(Credentials.UserName,
-                            ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
+                            MobileViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
             await DataCache.SaveVolatileData();

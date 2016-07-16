@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.NavArgs;
 using MALClient.Comm;
 using MALClient.Models;
 using MALClient.Pages;
@@ -34,7 +35,7 @@ namespace MALClient.ViewModels
         SplitViewDisplayMode CurrentDisplayMode { get; }
     }
 
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase , IMainViewModel
     {        
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
@@ -42,7 +43,7 @@ namespace MALClient.ViewModels
 
         public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
 
-        internal async void Navigate(PageIndex index, object args = null)
+        public async void Navigate(PageIndex index, object args = null)
         {
             PageIndex originalIndex = index;
             var wasOnSearchPage = SearchToggleLock;
@@ -71,7 +72,7 @@ namespace MALClient.ViewModels
 
 
 
-            ViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
+            MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
                                                                     index == PageIndex.PageMessanging ||
                                                                     index == PageIndex.PageCalendar);
 
@@ -88,11 +89,11 @@ namespace MALClient.ViewModels
             switch (index)
             {
                 case PageIndex.PageAnimeList:
-                    if (!ViewModelLocator.AnimeList.Initiazlized)
+                    if (!MobileViewModelLocator.AnimeList.Initiazlized)
                     {
                         if (!_subscribed)
                         {
-                            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+                            MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
                             _subscribed = true;
                         }
                         _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
@@ -107,22 +108,22 @@ namespace MALClient.ViewModels
                         UnToggleSearchStuff();
                     }
                     if (LastIndex == PageIndex.PageAnimeList)
-                        ViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
+                        MobileViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
                     else
                         View.Navigate(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
-                    var detail = ViewModelLocator.AnimeDetails;
+                    var detail = MobileViewModelLocator.AnimeDetails;
                     detail.DetailImage = null;
                     detail.LeftDetailsRow.Clear();
                     detail.RightDetailsRow.Clear();
                     RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
+                    RefreshDataCommand = new RelayCommand(() => MobileViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     if (LastIndex == PageIndex.PageAnimeDetails)
-                        ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
+                        MobileViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
                     else
                         View.Navigate(typeof(AnimeDetailsPage), args);
                     break;
@@ -197,16 +198,16 @@ namespace MALClient.ViewModels
         private Tuple<PageIndex, object> _postponedNavigationArgs;
         private void AnimeListOnInitialized()
         {
-            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+            MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
             _subscribed = false;
             Navigate(_postponedNavigationArgs.Item1, _postponedNavigationArgs.Item2);
         }
 
         #region Helpers
 
-        internal AnimeListPageNavigationArgs GetCurrentListOrderParams()
+        public AnimeListPageNavigationArgs GetCurrentListOrderParams()
         {
-            var page = ViewModelLocator.AnimeList;
+            var page = MobileViewModelLocator.AnimeList;
             return new AnimeListPageNavigationArgs(
                 page.SortOption,
                 page.CurrentStatus,
@@ -235,7 +236,7 @@ namespace MALClient.ViewModels
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
                 if (value.InitDetails != null)
-                    ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+                    MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
             }
         }
 
@@ -243,7 +244,7 @@ namespace MALClient.ViewModels
         {
             Navigate(PageIndex.PageAnimeDetails,
                 new AnimeDetailsPageNavigationArgs(View.InitDetails.Item1, View.InitDetails.Item2, null, null));
-            ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
+            MobileViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }
 
         private bool _menuPaneState;
@@ -337,7 +338,7 @@ namespace MALClient.ViewModels
                         .ToList();
                 if (SearchToggleLock) return;
 
-                ViewModelLocator.AnimeList.RefreshList(true);
+                MobileViewModelLocator.AnimeList.RefreshList(true);
             }
         }
 
@@ -364,7 +365,7 @@ namespace MALClient.ViewModels
                 return _changeStatusCommand ??
                        (_changeStatusCommand =
                            new RelayCommand<string>(
-                               s => ViewModelLocator.AnimeList.StatusSelectorSelectedIndex = int.Parse(s)));
+                               s => MobileViewModelLocator.AnimeList.StatusSelectorSelectedIndex = int.Parse(s)));
             }
         }
 
@@ -414,7 +415,7 @@ namespace MALClient.ViewModels
             get
             {
                 return _goTopCommand ??
-                       (_goTopCommand = new RelayCommand(() => ViewModelLocator.AnimeList.ScrollToTop()));
+                       (_goTopCommand = new RelayCommand(() => MobileViewModelLocator.AnimeList.ScrollToTop()));
             }
         }
 
@@ -498,7 +499,7 @@ namespace MALClient.ViewModels
             SearchInputVisibility = SearchToggleStatus;
             if (!SearchToggleLock)
             {
-                ViewModelLocator.AnimeList.RefreshList(true);
+                MobileViewModelLocator.AnimeList.RefreshList(true);
             }
             else
             {

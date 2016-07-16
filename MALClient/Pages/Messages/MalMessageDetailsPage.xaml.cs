@@ -3,6 +3,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Models;
 using MALClient.Utils.Enums;
 using MALClient.Utils.Managers;
+using MALClient.ViewModels;
 using MALClient.ViewModels.Messages;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -27,13 +28,13 @@ namespace MALClient.Pages.Messages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as MalMessageModel;
-            NavMgr.RegisterBackNav(PageIndex.PageMessanging,null);
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging,null);
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
     }
 }

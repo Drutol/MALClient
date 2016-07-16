@@ -21,7 +21,6 @@ using MALClient.ViewModels;
 
 namespace MALClient.Pages
 {
-    public delegate void SettingsNavigationRequest(Type pageType);
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -32,17 +31,17 @@ namespace MALClient.Pages
         public SettingsPage()
         {
             InitializeComponent();
-            Loaded += (sender, args) => NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            Loaded += (sender, args) => ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             SettingsNavFrame.Navigate(typeof(SettingsHomePage), null);
-            ViewModelLocator.Main.CurrentStatus = $"Settings - {Utilities.GetAppVersion()}";
+            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {Utilities.GetAppVersion()}";
             _initialized = true;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (_initialized)
-                NavMgr.DeregisterBackNav();
+                ViewModelLocator.NavMgr.DeregisterBackNav();
             base.OnNavigatingFrom(e);
         }
 

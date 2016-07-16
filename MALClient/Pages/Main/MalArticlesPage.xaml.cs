@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
 using MALClient.Comm;
 using MALClient.Comm.Anime;
 using MALClient.Utils.Enums;
@@ -176,7 +177,7 @@ namespace MALClient.Pages
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.DeregisterBackNav();
             base.OnNavigatingFrom(e);
         }
 
@@ -212,7 +213,7 @@ namespace MALClient.Pages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            NavMgr.ResetBackNav();
+            ViewModelLocator.NavMgr.ResetBackNav();
             ArticleWebView.NavigateToString("");
             base.OnNavigatedFrom(e);
         }
@@ -244,7 +245,7 @@ namespace MALClient.Pages
                             id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
                         var arg = MalArticlesPageNavigationArgs.Articles;
                         arg.NewsId = _currentId;
-                        ViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
+                        MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
                             new AnimeDetailsPageNavigationArgs(id, link[3], null,null, arg)
                             {
                                 Source = PageIndex.PageArticles,

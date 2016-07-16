@@ -8,6 +8,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Comm;
 using MALClient.Items;
 using MALClient.Models;
@@ -19,105 +22,11 @@ using MALClient.Utils.Managers;
 
 namespace MALClient.ViewModels
 {
-    public class AnimeSeason
-    {
-        public string Name;
-        public string Url;
-    }
-
-    public enum AnimeListWorkModes
-    {
-        Anime,
-        SeasonalAnime,
-        Manga,
-        TopAnime,
-        TopManga
-    }
-
     public delegate void RequestScrollToItem(AnimeItemViewModel item);
-
-    public class AnimeListPageNavigationArgs
-    {
-        public int SelectedItemIndex = -1;
-        public readonly bool Descending;
-        public string ListSource;
-        public readonly bool NavArgs;
-        public int Status;
-        public AnimeSeason CurrSeason;
-        public AnimeListDisplayModes DisplayMode;
-        public SortOptions SortOption;
-        public TopAnimeType TopWorkMode;
-        public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
-
-        public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc,
-            AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
-        {
-            SortOption = sort;
-            Status = status;
-            Descending = desc;
-            WorkMode = seasonal;
-            ListSource = source;
-            NavArgs = true;
-            CurrSeason = season;
-            DisplayMode = dispMode;
-        }
-
-        private AnimeListPageNavigationArgs()
-        {
-        }
-
-        public AnimeListPageNavigationArgs(int status, AnimeListWorkModes mode)
-        {
-            WorkMode = mode;
-            Status = status;
-        }
-
-        public static AnimeListPageNavigationArgs Seasonal
-            => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.SeasonalAnime };
-
-        public static AnimeListPageNavigationArgs Manga
-            => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.Manga };
-
-        public static AnimeListPageNavigationArgs TopAnime(TopAnimeType type) =>
-         new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.TopAnime, TopWorkMode = type };
-
-        
-
-        public static AnimeListPageNavigationArgs TopManga
-            => new AnimeListPageNavigationArgs { WorkMode = AnimeListWorkModes.TopManga };
-    }
-
-    public enum SortOptions
-    {
-        [Utilities.Description("Title")]
-        SortTitle,
-        [Utilities.Description("Score")]
-        SortScore,
-        [Utilities.Description("Watched")]
-        SortWatched,
-        [Utilities.Description("Air day")]
-        SortAirDay,
-        [Utilities.Description("Last watched")]
-        SortLastWatched,
-        [Utilities.Description("Start date")]
-        SortStartDate,
-        [Utilities.Description("End Date")]
-        SortEndDate,
-        [Utilities.Description("")]
-        SortNothing
-    }
-
-
-    public enum AnimeListDisplayModes
-    {
-        Empty,
-        IndefiniteList,
-        IndefiniteGrid
-    }
 
     public delegate void AnimeItemListInitialized();
 
-    public class AnimeListViewModel : ViewModelBase
+    public class AnimeListViewModel : ViewModelBase , IAnimeListViewModel
     {
         private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
@@ -199,7 +108,7 @@ namespace MALClient.ViewModels
             _scrollHandlerAdded = false;
             Initiazlized = false;
             _manuallySelectedViewMode = null;
-            NavMgr.ResetBackNav();
+            ViewModelLocator.NavMgr.ResetBackNav();
             //take out trash
             _animeItemsSet.Clear();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
@@ -289,7 +198,7 @@ namespace MALClient.ViewModels
                 case AnimeListWorkModes.SeasonalAnime:
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    NavMgr.RegisterBackNav(
+                    ViewModelLocator.NavMgr.RegisterBackNav(
                         WorkMode == AnimeListWorkModes.TopManga ? PageIndex.PageMangaList : PageIndex.PageAnimeList,
                         null);
                     Loading = true;
@@ -344,7 +253,7 @@ namespace MALClient.ViewModels
         {
             //await Task.Run(() =>
             //{
-            var query = ViewModelLocator.Main.CurrentSearchQuery;
+            var query = MobileViewModelLocator.Main.CurrentSearchQuery;
 
             var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
             if (!_wasPreviousQuery && searchSource && !queryCondition)
@@ -390,7 +299,7 @@ namespace MALClient.ViewModels
             if (queryCondition)
             {
                 query = query.ToLower();
-                if (ViewModelLocator.Main.SearchHints.Count > 0) //if there are any tags to begin with
+                if (MobileViewModelLocator.Main.SearchHints.Count > 0) //if there are any tags to begin with
                     items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
                 else
                     items = items.Where(item => item.Title.ToLower().Contains(query));
@@ -547,7 +456,7 @@ namespace MALClient.ViewModels
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs args)
         {
             var offset = (int) Math.Ceiling(args.FinalView.VerticalOffset);
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = offset > 300
+            MobileViewModelLocator.Main.ScrollToTopButtonVisibility = offset > 300
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (_animeItemsSet.Count == 0)
@@ -615,7 +524,7 @@ namespace MALClient.ViewModels
         public async void ScrollToTop()
         {
             (await View.GetIndefiniteScrollViewer()).ScrollToVerticalOffset(0);
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
+            MobileViewModelLocator.Main.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
 
         #endregion
@@ -659,7 +568,7 @@ namespace MALClient.ViewModels
                 }
                 CurrentIndexPosition = -1;
             }
-            ViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentIndexPosition >= 7
+            MobileViewModelLocator.Main.ScrollToTopButtonVisibility = CurrentIndexPosition >= 7
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             Loading = false;
@@ -693,7 +602,7 @@ namespace MALClient.ViewModels
                 CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
                 setDefaultSeason = true;
             }
-            Utilities.GetMainPageInstance().CurrentStatus = "Downloading data...\nThis may take a while...";
+            MobileViewModelLocator.Main.CurrentStatus = "Downloading data...\nThis may take a while...";
             //get top or seasonal anime
             var data = new List<ISeasonalAnimeBaseData>();
             switch (WorkMode)
@@ -954,7 +863,7 @@ namespace MALClient.ViewModels
                                                  StringComparison.CurrentCultureIgnoreCase)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
-            ViewModelLocator.Main.SearchHints = _allLoadedAuthAnimeItems.Concat(_allLoadedAuthMangaItems).SelectMany(abs => abs.Tags).Distinct().ToList();
+            MobileViewModelLocator.Main.SearchHints = _allLoadedAuthAnimeItems.Concat(_allLoadedAuthMangaItems).SelectMany(abs => abs.Tags).Distinct().ToList();
             RefreshList();
         }
 
@@ -1386,7 +1295,7 @@ namespace MALClient.ViewModels
 
         private void UpdateUpperStatus()
         {
-            var page = ViewModelLocator.Main;
+            var page = MobileViewModelLocator.Main;
 
             if (WorkMode != AnimeListWorkModes.SeasonalAnime)
                 if (WorkMode == AnimeListWorkModes.TopAnime)

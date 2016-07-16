@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Utils;
 using MALClient.ViewModels;
 
@@ -16,26 +17,7 @@ using MALClient.ViewModels;
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MALClient.UserControls
-{
-    public enum HamburgerButtons
-    {
-        AnimeList,
-        AnimeSearch,
-        LogIn,
-        Settings,
-        Profile,
-        Seasonal,
-        About,
-        Recommendations,
-        MangaList,
-        MangaSearch,
-        TopAnime,
-        TopManga,
-        Calendar,
-        Articles,
-        News,
-        Messanging
-    }
+{ 
 
     public sealed partial class HamburgerControl : UserControl
     {

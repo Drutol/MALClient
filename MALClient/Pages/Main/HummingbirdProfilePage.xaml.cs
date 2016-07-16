@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
 using MALClient.Utils;
 using MALClient.Utils.Enums;
 using MALClient.ViewModels;
@@ -23,11 +24,11 @@ namespace MALClient.Pages
             Loaded += (sender, args) => ViewModel.Init();
         }
 
-        public HummingbirdProfilePageViewModel ViewModel => DataContext as HummingbirdProfilePageViewModel;
+        private HummingbirdProfilePageViewModel ViewModel => DataContext as HummingbirdProfilePageViewModel;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModelLocator.Main.CurrentStatus = $"{Credentials.UserName} - Profile";
+            MobileViewModelLocator.Main.CurrentStatus = $"{Credentials.UserName} - Profile";
         }
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -39,9 +40,9 @@ namespace MALClient.Pages
         private void NavDetailsFeed(object sender, TappedRoutedEventArgs e)
         {
             var id = (int) (sender as FrameworkElement).Tag;
-            if (ViewModelLocator.AnimeDetails.Id == id)
+            if (MobileViewModelLocator.AnimeDetails.Id == id)
                 return;
-             ViewModelLocator.Main
+            MobileViewModelLocator.Main
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(id, "", null, null)
                     {Source = PageIndex.PageProfile, AnimeMode = true});

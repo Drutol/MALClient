@@ -23,8 +23,21 @@ namespace MALClient.Items
             DataContextChanged += OnDataContextChanged;
         }
 
+        public static readonly DependencyProperty DisplayContextProperty =
+            DependencyProperty.Register("DisplayContext", typeof(AnimeItemDisplayContext), typeof(AnimeGridItem),
+                new PropertyMetadata(AnimeItemDisplayContext.AirDay));
+
+        public AnimeItemDisplayContext DisplayContext
+        {
+            get { return (AnimeItemDisplayContext)GetValue(DisplayContextProperty); }
+            set { SetValue(DisplayContextProperty, value); }
+        }
+
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
+            if(DataContext == null)
+                return;
+            ViewModel.AnimeItemDisplayContext = DisplayContext;
             Bindings.Update();
         }
 
@@ -40,13 +53,11 @@ namespace MALClient.Items
             ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
         }
 
+        private static AnimeGridItem _manip;
 
-
-
-    private static AnimeGridItem _manip;
         private void AnimeGridItem_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            if(_manip != null)
+            if (_manip != null)
                 return;
             _initialPoint = e.Position;
             _manip = this;

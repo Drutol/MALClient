@@ -250,6 +250,7 @@ namespace MALClient.ViewModels
                     AppBtnListSourceVisibility = true;
                     AppbarBtnPinTileVisibility = Visibility.Collapsed;
                     AppBtnSortingVisibility = Visibility.Visible;
+                    AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
                     if (WorkMode == AnimeListWorkModes.Anime)
                     {
                         SortAirDayVisibility = Visibility.Visible;
@@ -296,6 +297,7 @@ namespace MALClient.ViewModels
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
+                    AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
 
                     if (!gotArgs)
                     {
@@ -359,7 +361,7 @@ namespace MALClient.ViewModels
             var status = queryCondition ? 7 : GetDesiredStatus();
 
             IEnumerable<AnimeItemAbstraction> items;
-            if (queryCondition && _wasPreviousQuery && !string.IsNullOrEmpty(_prevQuery) && query.Contains(_prevQuery)) //use previous results if query is more detailed
+            if (queryCondition && _wasPreviousQuery && !string.IsNullOrEmpty(_prevQuery) && query.Substring(0,_prevQuery.Length) == _prevQuery) //use previous results if query is more detailed
                 items = _animeItemsSet.Union(AnimeItems.Select(model => model.ParentAbstraction));
             else
                 switch (WorkMode)
@@ -557,15 +559,16 @@ namespace MALClient.ViewModels
                 (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 3))
             {
                 _lastOffset = offset;
+                var itemsCount = (int)(sender as FrameworkElement).ActualWidth / 200;
                 switch (DisplayMode)
                 {
                     case AnimeListDisplayModes.IndefiniteList:
-                        AnimeItems.AddRange(_animeItemsSet.Take(2).Select(abstraction => abstraction.ViewModel));
-                        _animeItemsSet = _animeItemsSet.Skip(2).ToList();
+                        AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
+                        _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimeItems.AddRange(_animeItemsSet.Take(3).Select(abstraction => abstraction.ViewModel));
-                        _animeItemsSet = _animeItemsSet.Skip(3).ToList();
+                        AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
+                        _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                 }
             }
@@ -1355,13 +1358,26 @@ namespace MALClient.ViewModels
                 _sortOption = value;
             }
         }
-    
+
+        private AnimeItemDisplayContext _animeItemsDisplayContext;
+
+        public AnimeItemDisplayContext AnimeItemsDisplayContext
+        {
+            get { return _animeItemsDisplayContext; }
+            set
+            {
+                _animeItemsDisplayContext = value;
+                RaisePropertyChanged(() => AnimeItemsDisplayContext);
+            }
+        }
+
         public Visibility HumApiSpecificControlsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
         public Visibility MalApiSpecificControlsVisibility
             => Settings.SelectedApiType == ApiType.Hummingbird? Visibility.Collapsed : Visibility.Visible;
 
         private double? _maxWidth;
+
         public double MaxWidth => (_maxWidth ?? (_maxWidth = AnimeItemViewModel.MaxWidth)).Value;
 
         #endregion

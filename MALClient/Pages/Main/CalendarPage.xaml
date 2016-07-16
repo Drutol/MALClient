@@ -99,7 +99,7 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <Grid>
-                                    <items:AnimeGridItem DataContext="{Binding}" />
+                                    <items:AnimeGridItem DataContext="{Binding}" DisplayContext="AirDay"/>
                                     <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
                                             Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
                                             CommandParameter="{Binding}">

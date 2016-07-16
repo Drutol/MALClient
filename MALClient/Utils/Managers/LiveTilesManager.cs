@@ -208,7 +208,7 @@ namespace MALClient.Utils.Managers
             if (settings.AddTitle) tileXmlString.Append($"<text hint-style=\"subtitle\" hint-wrap=\"true\" hint-maxLines=\"{(settings.BigTitle ? "2" : "1")}\" id=\"1\">{entry.Title}</text>");
             if (settings.AddStatus) tileXmlString.Append($"<text hint-style=\"caption\" hint-wrap=\"false\" id=\"2\">{(AnimeStatus)entry.MyStatus}</text>");
             if (settings.AddScore) tileXmlString.Append($"<text hint-style=\"caption\" id=\"3\">{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}</text>");
-            if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).AirDayBind != "") tileXmlString.Append($"<text hint-style=\"caption\" id=\"4\">\n{((AnimeItemViewModel)entry).AirDayBind}</text>");
+            if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).TopLeftInfoBind != "") tileXmlString.Append($"<text hint-style=\"caption\" id=\"4\">\n{((AnimeItemViewModel)entry).TopLeftInfoBind}</text>");
             tileXmlString.Append("</binding>");
             tileXmlString.Append("<binding template='TileWide310x150ImageAndText02' fallback='TileWideImageAndText02'>");
             if (settings.AddImage) tileXmlString.Append($"<image id=\"1\" src=\"{wideImgUri}\"/>");
@@ -216,7 +216,7 @@ namespace MALClient.Utils.Managers
             tileXmlString.Append("<text id=\"2\"  hint-style=\"body\">");
             if (settings.AddStatus) tileXmlString.Append($"{(AnimeStatus)entry.MyStatus}{(settings.AddWatched ? " - " + entry.MyEpisodes + $"/{(entry.AllEpisodes == 0 ? "?" : entry.AllEpisodes.ToString())}" : "")}");
             if (settings.AddScore) tileXmlString.Append($"\n{(entry.MyScore == 0 ? "Unranked" : entry.MyScore + $"/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}")}");
-            if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).AirDayBind != "") tileXmlString.Append($" - {((AnimeItemViewModel)entry).AirDayBind}");
+            if (settings.AddAirDay && entry is AnimeItemViewModel && ((AnimeItemViewModel)entry).TopLeftInfoBind != "") tileXmlString.Append($" - {((AnimeItemViewModel)entry).TopLeftInfoBind}");
             tileXmlString.Append("</text>");
             tileXmlString.Append("</binding>");
             tileXmlString.Append("</visual>");

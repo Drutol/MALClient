@@ -185,7 +185,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <item:AnimeGridItem DataContext="{Binding}" />
+                    <item:AnimeGridItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.ItemContainerTransitions>

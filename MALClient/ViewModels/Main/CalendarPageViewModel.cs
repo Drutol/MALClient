@@ -317,7 +317,7 @@ namespace MALClient.ViewModels
 
         private async void ExportToCalendar(AnimeItemViewModel animeItemViewModel)
         {
-            DayOfWeek day = Utilities.StringToDay(animeItemViewModel.AirDayBind);
+            DayOfWeek day = Utilities.StringToDay(animeItemViewModel.TopLeftInfoBind);
             var date = GetNextWeekday(DateTime.Today, day);
 
             var timeZoneOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);

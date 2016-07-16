@@ -26,6 +26,12 @@ using MALClient.Utils.Managers;
 
 namespace MALClient.ViewModels
 {
+    public enum AnimeItemDisplayContext
+    {
+        Index,
+        AirDay,
+    }
+
     public class AnimeItemViewModel : ViewModelBase, IAnimeData
     {
         public const string InvalidStartEndDate = "0000-00-00";
@@ -93,7 +99,7 @@ namespace MALClient.ViewModels
         {
             _seasonalState = false;
             RaisePropertyChanged(() => MyEpisodesBind);
-            RaisePropertyChanged(() => AirDayBind);
+            RaisePropertyChanged(() => TopLeftInfoBind);
         }
 
         private async void AddThisToMyList()
@@ -265,11 +271,11 @@ namespace MALClient.ViewModels
         #region PropertyPairs
 
          private int _allEpisodes;
-          private int _allVolumes;
-          public int AllEpisodes => ParentAbstraction.AllEpisodes;
-          public int AllVolumes => ParentAbstraction.AllVolumes;
-          public int AllEpisodesFocused => _allEpisodes;
-          public int AllVolumesFocused => _allVolumes;
+         private int _allVolumes;
+         public int AllEpisodes => ParentAbstraction.AllEpisodes;
+         public int AllVolumes => ParentAbstraction.AllVolumes;
+         public int AllEpisodesFocused => _allEpisodes;
+         public int AllVolumesFocused => _allVolumes;
 
         public string Notes
          {
@@ -281,12 +287,12 @@ namespace MALClient.ViewModels
                  RaisePropertyChanged(() => TagsControlVisibility);
              }
          }
-  
-          public string EndDate
-          {
-              get { return ParentAbstraction.MyEndDate; }
-              set { ParentAbstraction.MyEndDate = value; }
-          }
+
+        public string EndDate
+        {
+            get { return ParentAbstraction.MyEndDate; }
+            set { ParentAbstraction.MyEndDate = value; }
+        }
 
         public string StartDate
         {
@@ -295,10 +301,9 @@ namespace MALClient.ViewModels
         }
 
 
-        public string AirDayBind
+        public string TopLeftInfoBind
             =>
-                ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopAnime ||
-                ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.TopManga
+                AnimeItemDisplayContext == AnimeItemDisplayContext.Index
                     ? ParentAbstraction?.Index.ToString()
                     : Utilities.DayToString((DayOfWeek) (ParentAbstraction.AirDay - 1));
 
@@ -330,6 +335,19 @@ namespace MALClient.ViewModels
             }
         }
 
+        public AnimeItemDisplayContext _animeItemDisplayContext;
+
+        public AnimeItemDisplayContext AnimeItemDisplayContext
+        {
+            get { return _animeItemDisplayContext; }
+            set
+            {
+                _animeItemDisplayContext = value;
+                RaisePropertyChanged(() => TopLeftInfoBind);
+            }
+        }
+
+
         private string _airDayTillBind;
 
         public string AirDayTillBind => _airDayTillBind;
@@ -341,7 +359,7 @@ namespace MALClient.ViewModels
             {
                 if (ParentAbstraction.TryRetrieveVolatileData())
                 {
-                    RaisePropertyChanged(() => AirDayBind);
+                    RaisePropertyChanged(() => TopLeftInfoBind);
                     TitleMargin = new Thickness(5, 3, 70, 0);
                 }
                 _airing = value;
@@ -908,7 +926,7 @@ namespace MALClient.ViewModels
 
         public void UpdateVolatileData()
         {
-            RaisePropertyChanged(() => AirDayBind);
+            RaisePropertyChanged(() => TopLeftInfoBind);
             RaisePropertyChanged(() => GlobalScoreBind);
         }
 

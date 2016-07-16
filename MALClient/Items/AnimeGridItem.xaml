@@ -95,7 +95,7 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" MinWidth="40" MaxWidth="70" HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Visibility="{x:Bind ViewModel.AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
+                  Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>
@@ -103,7 +103,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{x:Bind ViewModel.AirDayBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
+                <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
                        Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="20" />
                 <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter}}" FontWeight="SemiLight" 

@@ -61,7 +61,7 @@
         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch">
             <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right">
-                <Grid Visibility="{x:Bind ViewModel.AirDayBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
+                <Grid Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
                       HorizontalAlignment="Right">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
                           MaxWidth="70" MinWidth="40" Height="30">
@@ -72,7 +72,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{x:Bind ViewModel.AirDayBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
+                        <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
                        Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="20" />
                         <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter}}" FontWeight="SemiLight" 

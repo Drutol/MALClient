@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
-using MALClient.Utils;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm
 {
     public enum ApiType
     {

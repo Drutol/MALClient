@@ -1,7 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
-using MALClient.ViewModels.Messages;
+using MalClient.Shared.ViewModels;
+using MALClient.Utils;
+using MALClient.ViewModels.Main;
+using MALClient.ViewModels.Off;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.ViewModels

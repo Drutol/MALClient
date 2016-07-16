@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Windows.Input;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Comm.MagicalRawQueries;
-using MALClient.Comm.MagicalRawQueries.Messages;
-using MALClient.Models;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
+using MalClient.Shared.Comm.MagicalRawQueries;
+using MalClient.Shared.Comm.MagicalRawQueries.Messages;
+using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
     public class MalMessagingViewModel : ViewModelBase
     {

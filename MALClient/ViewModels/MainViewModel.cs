@@ -13,13 +13,25 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
-using MALClient.Comm;
-using MALClient.Models;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.Pages;
 using MALClient.Pages.Messages;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
+using AnimeDetailsPage = MALClient.Pages.Off.AnimeDetailsPage;
+using AnimeListPage = MALClient.Pages.Main.AnimeListPage;
+using AnimeSearchPage = MALClient.Pages.Main.AnimeSearchPage;
+using CalendarPage = MALClient.Pages.Main.CalendarPage;
+using HummingbirdProfilePage = MALClient.Pages.Main.HummingbirdProfilePage;
+using LogInPage = MALClient.Pages.Main.LogInPage;
+using MalArticlesPage = MALClient.Pages.Main.MalArticlesPage;
+using ProfilePage = MALClient.Pages.Main.ProfilePage;
+using RecomendationsPage = MALClient.Pages.Main.RecomendationsPage;
+using SettingsPage = MALClient.Pages.Off.SettingsPage;
 
 namespace MALClient.ViewModels
 {

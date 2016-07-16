@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MALClient.Models;
-using MALClient.Models.AnimeScrapped;
-using MALClient.Models.Favourites;
-using MALClient.Utils;
+using MalClient.Shared.Models.AnimeScrapped;
+using MalClient.Shared.Models.Favourites;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm.Anime
+namespace MalClient.Shared.Comm.Anime
 {
     public class AnimeStaffData
     {

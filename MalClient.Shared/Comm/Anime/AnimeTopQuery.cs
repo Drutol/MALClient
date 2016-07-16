@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MALClient.Models;
-using MALClient.Utils;
+using MalClient.Shared.Comm.CommUtils;
+using MalClient.Shared.Models.AnimeScrapped;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm.Anime
 {
     public enum TopAnimeType
     {

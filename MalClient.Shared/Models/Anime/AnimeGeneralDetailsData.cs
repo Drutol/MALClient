@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using MALClient.Utils;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Models
+namespace MalClient.Shared.Models.Anime
 {
     public class AnimeGeneralDetailsData
     {

@@ -1,11 +1,7 @@
 ﻿using System.Runtime.Serialization;
-using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using MALClient.Comm.MagicalRawQueries;
-using MALClient.Utils;
+using MalClient.Shared.Comm.MagicalRawQueries;
 
-namespace MALClient.Models.Favourites
+namespace MalClient.Shared.Models.Favourites
 {
     [DataContract]
     public class AnimeCharacter : FavouriteBase

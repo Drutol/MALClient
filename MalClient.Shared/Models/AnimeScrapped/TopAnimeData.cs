@@ -1,6 +1,4 @@
-﻿using MALClient.Items;
-
-namespace MALClient.Models
+﻿namespace MalClient.Shared.Models.AnimeScrapped
 {
     public class TopAnimeData : SeasonalAnimeData
     {

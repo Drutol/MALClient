@@ -9,16 +9,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Models;
+using MalClient.Shared.Models.Favourites;
+using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.Items;
-using MALClient.Models;
-using MALClient.Models.Favourites;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
 
 

@@ -4,7 +4,7 @@ using Windows.ApplicationModel.Store;
 using Windows.System;
 using Windows.UI.Popups;
 
-namespace MALClient.Utils.Managers
+namespace MalClient.Shared.Utils.Managers
 {
     public static class RateReminderPopUp
     {

@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 
-namespace MALClient.Models
+namespace MalClient.Shared.Models.MalSpecific
 {
     public class MalMessageModel : ViewModelBase
     {

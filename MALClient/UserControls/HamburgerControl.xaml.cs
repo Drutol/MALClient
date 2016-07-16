@@ -8,8 +8,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Utils;
 using MALClient.ViewModels;
 
 #pragma warning disable 4014

@@ -1,7 +1,7 @@
-﻿using MALClient.Comm;
-using MALClient.Utils;
+﻿using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Models
+namespace MalClient.Shared.Models.AnimeScrapped
 {
     /// <summary>
     ///     Direct as in recommendation from details page

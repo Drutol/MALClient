@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
-using MALClient.Comm;
-using MALClient.Items;
-using MALClient.Models;
-using MALClient.Utils;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Comm.Manga;
+using MalClient.Shared.Items;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Utils;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
     public class SearchPageNavigationArgs
     {

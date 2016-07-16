@@ -7,11 +7,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Comm.MagicalRawQueries.Messages;
-using MALClient.Models;
-using MALClient.Utils;
+using MalClient.Shared.Comm.MagicalRawQueries.Messages;
+using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.Utils;
 
-namespace MALClient.ViewModels.Messages
+namespace MalClient.Shared.ViewModels.Main
 {
     public class MalMessageDetailsViewModel : ViewModelBase
     {

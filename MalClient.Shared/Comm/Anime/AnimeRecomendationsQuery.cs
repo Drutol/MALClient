@@ -4,9 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MALClient.Items;
+using MalClient.Shared.Comm.CommUtils;
+using MalClient.Shared.Models.AnimeScrapped;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm.Anime
 {
     public class AnimeRecomendationsQuery : Query
     {

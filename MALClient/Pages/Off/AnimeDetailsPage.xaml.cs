@@ -1,18 +1,18 @@
 ﻿using System;
-using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Comm;
 using MalClient.Shared.NavArgs;
-using MALClient.Comm;
-using MALClient.Utils.Managers;
-using MALClient.ViewModels;
+using MalClient.Shared.Utils;
+using MalClient.Shared.ViewModels;
+using MALClient.ViewModels.Off;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages
+namespace MALClient.Pages.Off
 {
     public sealed partial class AnimeDetailsPage : Page
     {

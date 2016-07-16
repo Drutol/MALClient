@@ -5,8 +5,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Utils.Enums;
 using MALClient.Pages;
-using MALClient.Utils.Enums;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409

@@ -1,11 +1,12 @@
 ﻿<Page
-    x:Class="MALClient.Pages.LogInPage"
+    x:Class="MALClient.Pages.Main.LogInPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
     mc:Ignorable="d" MinWidth="310">
 
     <Page.Transitions>
@@ -27,17 +28,17 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:LockableToggleButton x:Name="ToggleMal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <userControls:LockableToggleButton x:Name="ToggleMal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                        Checked="MalToggleButtonOnCheck">
             <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="150" />
-        </controls:LockableToggleButton>
-        <controls:LockableToggleButton x:Name="ToggleHum" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"
+        </userControls:LockableToggleButton>
+        <userControls:LockableToggleButton x:Name="ToggleHum" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"
                                        Checked="HummingbirdToggleButtonOnCheck">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Image Source="/Assets/hummingbird150x150.scale-200.png" />
                 <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="18" />
             </StackPanel>
-        </controls:LockableToggleButton>
+        </userControls:LockableToggleButton>
         <Grid Grid.ColumnSpan="2" Grid.Row="1" x:Name="MALLoginGrid" Visibility="Collapsed" Margin="0,2,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="150" />

@@ -1,8 +1,6 @@
-﻿using System;
-using Windows.UI.Xaml.Media.Imaging;
-using MALClient.Comm.MagicalRawQueries;
+﻿using MalClient.Shared.Comm.MagicalRawQueries;
 
-namespace MALClient.Models.Favourites
+namespace MalClient.Shared.Models.Favourites
 {
     public class AnimeStaffPerson : FavouriteBase
     {

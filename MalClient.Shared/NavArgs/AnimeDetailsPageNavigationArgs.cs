@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MALClient.Items;
-using MALClient.Models;
-using MALClient.Utils.Enums;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.Library;
+using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.NavArgs
 {

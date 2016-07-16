@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Appointments;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Comm;
-using MALClient.Comm.Anime;
-using MALClient.Items;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
     public class CalendarPivotPage
     {

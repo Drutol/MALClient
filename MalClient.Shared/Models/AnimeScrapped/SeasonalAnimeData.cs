@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using MALClient.Models;
 
-namespace MALClient.Items
+namespace MalClient.Shared.Models.AnimeScrapped
 {
     public class SeasonalAnimeData : ISeasonalAnimeBaseData
     {

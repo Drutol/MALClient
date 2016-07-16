@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm
 {
     public class NewsQuery : Query
     {

@@ -3,8 +3,9 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
+using MalClient.Shared.Utils;
 
-namespace MALClient.XamlConverters
+namespace MalClient.Shared.XamlConverters
 {
     /// <summary>
     ///     If anime status in grid view's selection menu is the same -> return accent color

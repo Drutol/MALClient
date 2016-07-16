@@ -1,4 +1,4 @@
-﻿namespace MALClient.Utils.Enums
+﻿namespace MalClient.Shared.Utils.Enums
 {
     public enum AnimeStatus
     {

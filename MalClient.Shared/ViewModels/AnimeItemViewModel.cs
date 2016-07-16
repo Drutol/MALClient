@@ -6,25 +6,24 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
-using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Comm.MagicalRawQueries;
+using MalClient.Shared.Comm.Manga;
+using MalClient.Shared.Models.AnimeScrapped;
+using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
-using MALClient.Comm;
-using MALClient.Comm.Anime;
-using MALClient.Comm.MagicalRawQueries;
-using MALClient.Items;
-using MALClient.Models;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.Utils.Managers;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels
 {
     public enum AnimeItemDisplayContext
     {

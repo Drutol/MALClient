@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace MALClient.UserControls
+namespace MalClient.Shared.UserControls
 {
     public class AlternatingListView : ListView
     {

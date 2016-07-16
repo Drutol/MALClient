@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace MALClient.XamlConverters
+namespace MalClient.Shared.XamlConverters
 {
     /// <summary>
     ///     Lost as in lost watching anime .... xd

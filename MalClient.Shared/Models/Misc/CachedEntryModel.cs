@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight.Command;
 
-namespace MALClient.Models
+namespace MalClient.Shared.Models.Misc
 {
     public class CachedEntryModel
     {

@@ -9,13 +9,15 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
-using MALClient.Models;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.ViewModels;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 
-namespace MALClient.Items
+namespace MalClient.Shared.Items
 {
     public sealed partial class AnimeSearchItem : UserControl, IAnimeData
     {

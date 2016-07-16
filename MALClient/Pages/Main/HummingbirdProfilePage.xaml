@@ -1,12 +1,12 @@
 ﻿<Page
-    x:Class="MALClient.Pages.HummingbirdProfilePage"
+    x:Class="MALClient.Pages.Main.HummingbirdProfilePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
-    xmlns:conversters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items="using:MALClient.Items"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MalClient.Shared.Items"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=HumProfilePage}">
     <Page.Transitions>
@@ -20,9 +20,9 @@
     </Page.Transitions>
     <Page.Resources>
         <ResourceDictionary>
-            <conversters:UrlToBitmapImageConverter x:Key="BitmapImageConverter" />
-            <conversters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter" />
-            <conversters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <xamlConverters:UrlToBitmapImageConverter x:Key="BitmapImageConverter" />
+            <xamlConverters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter" />
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
             </ResourceDictionary.MergedDictionaries>

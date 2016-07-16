@@ -3,10 +3,11 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
-using MALClient.Comm;
-using MALClient.Items;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Items;
+using MalClient.Shared.Models.AnimeScrapped;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
     public class RecommendationsViewModel : ViewModelBase
     {

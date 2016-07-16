@@ -3,18 +3,18 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.UserControls"
-    xmlns:converters="using:MALClient.XamlConverters"
     xmlns:enum="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d"
     DataContext="{Binding Hamburger , Source={StaticResource MobileLocator}}"
     d:DesignHeight="300"
     d:DesignWidth="400" IsTabStop="False">
 
     <UserControl.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <Storyboard x:Name="SupportMeStoryboard" TargetName="HearthSupport" TargetProperty="Color" AutoReverse="True" RepeatBehavior="Forever">
             <ColorAnimation From="{StaticResource SystemAccentColor}" To="Red" SpeedRatio=".5"/>
         </Storyboard>

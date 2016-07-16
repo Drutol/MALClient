@@ -2,11 +2,12 @@
 using System.Windows.Input;
 using Windows.UI.Core;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Utils.Enums;
+using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
 
-namespace MALClient.Utils.Managers
+namespace MALClient.Utils
 {
     /// <summary>
     ///     Back navigation manager

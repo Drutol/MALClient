@@ -1,19 +1,19 @@
 ﻿<Page
-    x:Class="MALClient.Pages.AnimeListPage"
+    x:Class="MALClient.Pages.Main.AnimeListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
-    xmlns:item="using:MALClient.Items"
-    xmlns:converters="using:MALClient.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MalClient.Shared.Items"
     DataContext="{Binding AnimeList , Source={StaticResource MobileLocator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility" />
-        <converters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility" />
+        <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
@@ -161,7 +161,7 @@
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <item:AnimeItem DataContext="{Binding}" />
+                    <items:AnimeItem DataContext="{Binding}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
@@ -185,7 +185,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <item:AnimeGridItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource MobileLocator},Path=AnimeList.AnimeItemsDisplayContext}" />
+                    <items:AnimeGridItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource MobileLocator},Path=AnimeList.AnimeItemsDisplayContext}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.ItemContainerTransitions>

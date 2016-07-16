@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Models.ApiResponses;
 using MalClient.Shared.NavArgs;
-using MALClient.Comm;
-using MALClient.Models.ApiResponses;
-using MALClient.Utils.Enums;
+using MalClient.Shared.Utils.Enums;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
     public class HummingbirdProfilePageViewModel : ViewModelBase
     {

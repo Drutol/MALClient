@@ -2,7 +2,7 @@
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace MALClient.XamlConverters
+namespace MalClient.Shared.XamlConverters
 {
     public class UrlToBitmapImageConverter : IValueConverter
     {

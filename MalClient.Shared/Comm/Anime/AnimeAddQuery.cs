@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using MALClient.Utils;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm.Anime
 {
     public class AnimeAddQuery : Query
     {

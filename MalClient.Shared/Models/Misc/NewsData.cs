@@ -1,4 +1,4 @@
-﻿namespace MALClient.Models
+﻿namespace MalClient.Shared.Models.Misc
 {
     public class NewsData
     {

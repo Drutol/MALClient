@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using MALClient.Models;
-using MALClient.Utils;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Utils;
 using Newtonsoft.Json;
 
-namespace MALClient.Comm.Anime
+namespace MalClient.Shared.Comm.Anime
 {
     public class AnimeDetailsHummingbirdQuery : Query
     {

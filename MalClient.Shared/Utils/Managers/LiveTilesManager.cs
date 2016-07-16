@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
-using MALClient.Comm;
-using MALClient.Items;
-using MALClient.Utils.Enums;
-using MALClient.ViewModels;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Models.Library;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
 using Newtonsoft.Json;
 
-namespace MALClient.Utils.Managers
+namespace MalClient.Shared.Utils.Managers
 {
     public enum TileActions
     {

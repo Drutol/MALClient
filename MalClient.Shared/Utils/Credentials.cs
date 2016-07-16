@@ -4,10 +4,9 @@ using System.Net;
 using System.Xml.Linq;
 using Windows.Security.Credentials;
 using Windows.Storage;
-using MALClient.Comm;
-using MALClient.ViewModels;
+using MalClient.Shared.Comm;
 
-namespace MALClient.Utils
+namespace MalClient.Shared.Utils
 {
     public static class Credentials
     {

@@ -2,9 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using MalClient.Shared.Utils.Enums;
-using MALClient.ViewModels;
 
-namespace MALClient.XamlConverters
+namespace MalClient.Shared.XamlConverters
 {
     public class DisplayModeToPresenterControlVisibility : IValueConverter
     {

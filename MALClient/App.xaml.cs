@@ -13,13 +13,14 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Comm.CommUtils;
+using MalClient.Shared.Comm.Manga;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
+using MalClient.Shared.Utils.Managers;
 using MALClient.Pages;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using Microsoft.HockeyApp;
 

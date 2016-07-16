@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Comm;
-using MALClient.Models;
-using MALClient.Utils;
-using MALClient.Utils.Managers;
-using WinRTXamlToolkit.AwaitableUI;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Managers;
 using WinRTXamlToolkit.Imaging;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels
 {
     public class PinTileDialogViewModel : ViewModelBase
     {

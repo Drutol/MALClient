@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MALClient.Comm.MagicalRawQueries
+namespace MalClient.Shared.Comm.MagicalRawQueries
 {
     public enum FavouriteType
     {

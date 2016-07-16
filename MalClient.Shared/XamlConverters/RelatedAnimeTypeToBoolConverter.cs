@@ -1,8 +1,10 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
-using MALClient.Comm;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Utils;
 
-namespace MALClient.XamlConverters
+namespace MalClient.Shared.XamlConverters
 {
     public class RelatedAnimeTypeToBoolConverter : IValueConverter
     {

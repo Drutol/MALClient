@@ -13,19 +13,22 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Comm.MagicalRawQueries;
+using MalClient.Shared.Comm.Manga;
+using MalClient.Shared.Items;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.AnimeScrapped;
+using MalClient.Shared.Models.Favourites;
+using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
-using MALClient.Comm;
-using MALClient.Comm.Anime;
-using MALClient.Comm.MagicalRawQueries;
-using MALClient.Items;
-using MALClient.Models;
-using MALClient.Models.Favourites;
-using MALClient.Pages;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.Utils.Managers;
+using MalClient.Shared.ViewModels;
 
-namespace MALClient.ViewModels
+namespace MALClient.ViewModels.Off
 {
 
     public class AnimeDetailsPageViewModel : ViewModelBase , IAnimeDetailsViewModel

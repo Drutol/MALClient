@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using MALClient.Items;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
+using MalClient.Shared.Models.Library;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.Utils.Managers;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm.Anime
 {
     public class AnimeUpdateQuery : Query
     {

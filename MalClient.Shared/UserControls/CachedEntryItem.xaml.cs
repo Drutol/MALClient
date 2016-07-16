@@ -4,11 +4,11 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using MALClient.Utils;
+using MalClient.Shared.Utils;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.UserControls
+namespace MalClient.Shared.UserControls
 {
     public sealed partial class CachedEntryItem : UserControl
     {

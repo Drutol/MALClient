@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MALClient.Models;
-using MALClient.Utils;
+using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm.Articles
+namespace MalClient.Shared.Comm.Articles
 {
     public class MalArticleQuery : Query
     {

@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm.Articles;
+using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.Comm.Articles;
-using MALClient.Models;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels.Main
 {
     public class MalArticlesPageNavigationArgs
     {

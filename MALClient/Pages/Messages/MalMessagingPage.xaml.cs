@@ -4,9 +4,10 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Models;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
+using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238

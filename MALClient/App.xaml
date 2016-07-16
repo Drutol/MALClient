@@ -3,11 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient"
-    xmlns:viewModels="using:MALClient.ViewModels">
+    xmlns:viewModels="using:MALClient.ViewModels"
+    xmlns:viewModels1="using:MalClient.Shared.ViewModels">
 
     <Application.Resources>
         <ResourceDictionary>
-            <viewModels:ViewModelLocator x:Key="Locator" />
+            <viewModels1:ViewModelLocator x:Key="Locator" />
             <viewModels:MobileViewModelLocator x:Key="MobileLocator" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/ThemeDictionary.xaml" />

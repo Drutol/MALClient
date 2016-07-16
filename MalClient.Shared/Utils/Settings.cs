@@ -1,12 +1,11 @@
 ﻿using Windows.Storage;
 using Windows.UI.Xaml;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Models.Anime;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.Models;
-using MALClient.Utils.Enums;
-using MALClient.ViewModels;
+using MalClient.Shared.ViewModels;
 
-namespace MALClient
+namespace MalClient.Shared.Utils
 {
     public static class Settings
     {

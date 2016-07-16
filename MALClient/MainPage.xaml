@@ -5,8 +5,8 @@
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConverters="using:MALClient.XamlConverters"
-    xmlns:xamlCropControl="using:XamlCropControl"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
@@ -140,7 +140,7 @@
                     <SymbolIcon Symbol="Up" />
                 </Button>
             </Grid>
-            <controls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
+            <userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
                                            HorizontalAlignment="Right" IsThreeState="False"
                                            VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2"
                                            Background="Transparent"
@@ -148,7 +148,7 @@
                                            Command="{Binding ToggleSearchCommand}"
                                            Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
-            </controls:LockableToggleButton>
+            </userControls:LockableToggleButton>
             <Button IsTabStop="False" HorizontalAlignment="Right"
                     VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
                     Command="{Binding RefreshDataCommand}"
@@ -233,7 +233,7 @@
                                     </Pivot.HeaderTemplate>
                                     <PivotItem Header="Normal" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
                                         <Grid>
-                                            <xamlCropControl:CropControl ImageSource="{Binding PreviewImageNormal}"
+                                            <userControls:CropControl ImageSource="{Binding PreviewImageNormal}"
                                                                          DesiredAspectRatio="1.0"
                                                                          Width="200" Height="320"
                                                                          VerticalAlignment="Center"
@@ -242,14 +242,14 @@
                                                                          CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                                                <xamlCropControl:CropControl.Style>
+                                                <userControls:CropControl.Style>
                                                     <Style
-                                                        TargetType="xamlCropControl:CropControl">
+                                                        TargetType="userControls:CropControl">
                                                         <Setter
                                                             Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate
-                                                                    TargetType="xamlCropControl:CropControl">
+                                                                    TargetType="userControls:CropControl">
                                                                     <Canvas
                                                                         x:Name="PART_Canvas"
                                                                         Background="#00000000">
@@ -261,8 +261,8 @@
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Style>
-                                                </xamlCropControl:CropControl.Style>
-                                            </xamlCropControl:CropControl>
+                                                </userControls:CropControl.Style>
+                                            </userControls:CropControl>
                                             <Button HorizontalAlignment="Right" VerticalAlignment="Top"
                                                     Background="Transparent" BorderThickness="0"
                                                     Visibility="{Binding UndoCropVisibility}"
@@ -285,7 +285,7 @@
                                     </PivotItem>
                                     <PivotItem Header="Wide" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
                                         <Grid>
-                                            <xamlCropControl:CropControl ImageSource="{Binding PreviewImageWide}"
+                                            <userControls:CropControl ImageSource="{Binding PreviewImageWide}"
                                                                          DesiredAspectRatio="2.0"
                                                                          Width="200" Height="320"
                                                                          VerticalAlignment="Center"
@@ -294,14 +294,14 @@
                                                                          CropTop="{Binding CropTopWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropWidth="{Binding CropWidthWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                          CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                                            <xamlCropControl:CropControl.Style>
+                                            <userControls:CropControl.Style>
                                                 <Style
-                                                        TargetType="xamlCropControl:CropControl">
+                                                        TargetType="userControls:CropControl">
                                                     <Setter
                                                             Property="Template">
                                                         <Setter.Value>
                                                             <ControlTemplate
-                                                                    TargetType="xamlCropControl:CropControl">
+                                                                    TargetType="userControls:CropControl">
                                                                 <Canvas
                                                                         x:Name="PART_Canvas"
                                                                         Background="#00000000">
@@ -313,8 +313,8 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Style>
-                                            </xamlCropControl:CropControl.Style>
-                                            </xamlCropControl:CropControl>
+                                            </userControls:CropControl.Style>
+                                            </userControls:CropControl>
                                             <Button HorizontalAlignment="Right" VerticalAlignment="Top"
                                                     Background="Transparent" BorderThickness="0"
                                                     Visibility="{Binding UndoWideCropVisibility}"

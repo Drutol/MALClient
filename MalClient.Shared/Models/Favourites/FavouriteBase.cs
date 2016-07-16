@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Comm.MagicalRawQueries;
-using MALClient.Utils.Managers;
+using MalClient.Shared.Comm.MagicalRawQueries;
+using MalClient.Shared.Utils.Managers;
 
-namespace MALClient.Models.Favourites
+namespace MalClient.Shared.Models.Favourites
 {
     [DataContract]
     public abstract class FavouriteBase : ViewModelBase

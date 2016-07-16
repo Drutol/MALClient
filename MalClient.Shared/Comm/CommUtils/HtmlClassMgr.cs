@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.Storage;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm.CommUtils
 {
     /// <summary>
     ///     As we are scrapping html here this thing here will try to fetch class data file from github

@@ -8,19 +8,19 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.AnimeScrapped;
+using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.Items;
-using MALClient.Models;
-using MALClient.Pages;
-using MALClient.UserControls;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
+using MalClient.Shared.ViewModels;
+using AnimeListPage = MALClient.Pages.Main.AnimeListPage;
 
-namespace MALClient.ViewModels
+namespace MALClient.ViewModels.Main
 {
     public delegate void RequestScrollToItem(AnimeItemViewModel item);
 

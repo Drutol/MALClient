@@ -1,4 +1,4 @@
-﻿namespace MALClient.Items
+﻿namespace MalClient.Shared.Models.Library
 {
     public interface IAnimeData
     {

@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace MALClient.XamlConverters
+namespace MalClient.Shared.XamlConverters
 {
     public class BoolToVisibilityConverter : IValueConverter
     {

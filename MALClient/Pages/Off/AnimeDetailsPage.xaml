@@ -1,14 +1,15 @@
 ﻿<Page
-    x:Class="MALClient.Pages.AnimeDetailsPage"
+    x:Class="MALClient.Pages.Off.AnimeDetailsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages"
+    xmlns:local="using:MALClient.Pages.Off"
     xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
-    xmlns:xamlConverters="using:MALClient.XamlConverters"
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:new="using:MALClient.UserControls.New"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:new="using:MalClient.Shared.UserControls.New"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
     DataContext="{Binding AnimeDetails ,Source={StaticResource MobileLocator}}"
     mc:Ignorable="d">
 
@@ -469,7 +470,7 @@
                                                     </Style>
                                                 </Grid.Resources>
                                                 <StackPanel>
-                                                    <controls:AlternatingListView SelectionMode="None"
+                                                    <userControls:AlternatingListView SelectionMode="None"
                                                                           BorderThickness="0,0,1,0"
                                                                           BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                           ItemsSource="{Binding LeftDetailsRow}">
@@ -497,7 +498,7 @@
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
-                                                    </controls:AlternatingListView>
+                                                    </userControls:AlternatingListView>
                                                     <Border Visibility="{Binding MalApiSpecificControlsVisibility}"
                                                     BorderThickness="0,0,1,0"
                                                     BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
@@ -536,7 +537,7 @@
                                                 </StackPanel>
 
                                                 <StackPanel Grid.Column="1">
-                                                    <controls:AlternatingListView SelectionMode="None"
+                                                    <userControls:AlternatingListView SelectionMode="None"
                                                                           BorderThickness="1,0,0,0"
                                                                           BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                           ItemsSource="{Binding RightDetailsRow}">
@@ -565,7 +566,7 @@
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
-                                                    </controls:AlternatingListView>
+                                                    </userControls:AlternatingListView>
                                                     <Border Visibility="{Binding MalApiSpecificControlsVisibility}"
                                                     BorderThickness="1,0,0,0"
                                                     BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
@@ -829,7 +830,7 @@
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.Resources>
-                                                    <Style TargetType="controls:AlternatingListView">
+                                                    <Style TargetType="userControls:AlternatingListView">
                                                         <Setter Property="SelectionMode" Value="None" />
                                                     </Style>
                                                 </Grid.Resources>
@@ -850,7 +851,7 @@
                                                             <RowDefinition Height="10" />
                                                             <RowDefinition Height="*" />
                                                         </Grid.RowDefinitions>
-                                                        <controls:AlternatingListView Grid.Column="0" Grid.Row="1"
+                                                        <userControls:AlternatingListView Grid.Column="0" Grid.Row="1"
                                                                               ItemsSource="{Binding RightGenres}"
                                                                               BorderThickness="0,0,1,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
@@ -871,8 +872,8 @@
                                                                        FontWeight="SemiLight" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
-                                                        </controls:AlternatingListView>
-                                                        <controls:AlternatingListView Grid.Column="1" Grid.Row="1"
+                                                        </userControls:AlternatingListView>
+                                                        <userControls:AlternatingListView Grid.Column="1" Grid.Row="1"
                                                                               ItemsSource="{Binding LeftGenres}"
                                                                               BorderThickness="1,0,0,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
@@ -893,7 +894,7 @@
                                                                        FontWeight="SemiLight" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
-                                                        </controls:AlternatingListView>
+                                                        </userControls:AlternatingListView>
                                                     </Grid>
                                                     <MenuFlyoutSeparator />
                                                 </StackPanel>
@@ -904,7 +905,7 @@
                                                        Text="No data available"
                                                        TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                        Foreground="#FFB9B9B9" />
-                                                    <controls:AlternatingListView ItemsSource="{Binding Episodes}">
+                                                    <userControls:AlternatingListView ItemsSource="{Binding Episodes}">
                                                         <ListView.ItemContainerStyle>
                                                             <Style TargetType="ListViewItem">
                                                                 <Setter Property="BorderBrush"
@@ -931,7 +932,7 @@
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
-                                                    </controls:AlternatingListView>
+                                                    </userControls:AlternatingListView>
                                                 </StackPanel>
                                                 <MenuFlyoutSeparator Grid.Row="4" Visibility="{Binding DetailsOpsVisibility}" />
                                                 <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold"
@@ -943,7 +944,7 @@
                                                        Text="No data available"
                                                        TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                        Foreground="#FFB9B9B9" />
-                                                    <controls:AlternatingListView ItemsSource="{Binding OPs}">
+                                                    <userControls:AlternatingListView ItemsSource="{Binding OPs}">
                                                         <ListView.ItemContainerStyle>
                                                             <Style TargetType="ListViewItem">
                                                                 <Setter Property="BorderBrush"
@@ -965,7 +966,7 @@
                                                                    TextTrimming="CharacterEllipsis" />
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
-                                                    </controls:AlternatingListView>
+                                                    </userControls:AlternatingListView>
                                                 </StackPanel>
                                                 <MenuFlyoutSeparator Grid.Row="7" Visibility="{Binding DetailsEdsVisibility}" />
                                                 <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold"
@@ -977,7 +978,7 @@
                                                        Visibility="{Binding NoEDsDataVisibility}"
                                                        TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                        Foreground="#FFB9B9B9" />
-                                                    <controls:AlternatingListView ItemsSource="{Binding EDs}">
+                                                    <userControls:AlternatingListView ItemsSource="{Binding EDs}">
                                                         <ListView.ItemContainerStyle>
                                                             <Style TargetType="ListViewItem">
                                                                 <Setter Property="BorderBrush"
@@ -1000,7 +1001,7 @@
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
 
-                                                    </controls:AlternatingListView>
+                                                    </userControls:AlternatingListView>
                                                 </StackPanel>
                                                 <Button VerticalAlignment="Bottom" Grid.Row="10"
                                                 Margin="0,15,0,0" HorizontalAlignment="Left"

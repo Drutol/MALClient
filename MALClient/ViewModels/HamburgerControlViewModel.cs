@@ -14,13 +14,15 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
+using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.Pages;
 using MALClient.UserControls;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
 
 namespace MALClient.ViewModels
 {

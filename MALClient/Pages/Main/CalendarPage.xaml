@@ -1,15 +1,17 @@
 ﻿<Page
-    x:Class="MALClient.Pages.CalendarPage"
+    x:Class="MALClient.Pages.Main.CalendarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items="using:MALClient.Items"
     xmlns:viewModels="using:MALClient.ViewModels"
     xmlns:userControls="using:MALClient.UserControls"
-    xmlns:xamlConverters="using:MALClient.XamlConverters"
     xmlns:malClient="using:MALClient"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:derived="using:MalClient.Shared.UserControls.Derived"
+    xmlns:items="using:MalClient.Shared.Items"
+    xmlns:userControls1="using:MalClient.Shared.UserControls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CalendarPage}">
 
     <Page.Resources>
@@ -36,7 +38,7 @@
                                   Padding="0">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <malClient:TrueVariableWarpGrid  SqeezeChildren="False" Orientation="Horizontal" />
+                                <derived:TrueVariableWarpGrid  SqeezeChildren="False" Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -118,14 +120,14 @@
                 </Style>
             </Pivot.Resources>
             <Pivot.ItemTemplateSelector>
-                <userControls:DataTypeTemplateSelector>
-                    <userControls:DataTypeTemplateSelector.Matches>
-                        <userControls:TemplateMatch TargetType="MALClient.ViewModels.CalendarPivotPage"
+                <userControls1:DataTypeTemplateSelector>
+                    <userControls1:DataTypeTemplateSelector.Matches>
+                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarPivotPage"
                                                     Template="{StaticResource DayPageTemplate}" />
-                        <userControls:TemplateMatch TargetType="MALClient.ViewModels.CalendarSummaryPivotPage"
+                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarSummaryPivotPage"
                                                     Template="{StaticResource SummaryPageTemplate}" />
-                    </userControls:DataTypeTemplateSelector.Matches>
-                </userControls:DataTypeTemplateSelector>
+                    </userControls1:DataTypeTemplateSelector.Matches>
+                </userControls1:DataTypeTemplateSelector>
             </Pivot.ItemTemplateSelector>
             <Pivot.HeaderTemplate>
                 <DataTemplate>

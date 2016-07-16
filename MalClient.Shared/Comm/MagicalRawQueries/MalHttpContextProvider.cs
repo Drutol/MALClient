@@ -6,9 +6,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using HtmlAgilityPack;
-using MALClient.Utils;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm.MagicalRawQueries
+namespace MalClient.Shared.Comm.MagicalRawQueries
 {
     /// <summary>
     ///     Client wrapped with token.

@@ -4,15 +4,16 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MALClient.Comm.MagicalRawQueries;
-using MALClient.Models;
-using MALClient.Models.ApiResponses;
-using MALClient.Models.Favourites;
-using MALClient.Utils;
-using MALClient.Utils.Managers;
+using MalClient.Shared.Comm.CommUtils;
+using MalClient.Shared.Comm.MagicalRawQueries;
+using MalClient.Shared.Models;
+using MalClient.Shared.Models.ApiResponses;
+using MalClient.Shared.Models.Favourites;
+using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Managers;
 using Newtonsoft.Json;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm
 {
     public class ProfileQuery : Query
     {

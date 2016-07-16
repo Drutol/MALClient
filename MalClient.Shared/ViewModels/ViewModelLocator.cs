@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Ioc;
+using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
-using MALClient.Items;
-using MALClient.Utils.Enums;
-using MALClient.ViewModels.Messages;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
 
-namespace MALClient.ViewModels
+namespace MalClient.Shared.ViewModels
 {
     public interface IMainViewModel
     {

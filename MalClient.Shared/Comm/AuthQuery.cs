@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
-using MALClient.Utils;
+using MalClient.Shared.Utils;
 
-namespace MALClient.Comm
+namespace MalClient.Shared.Comm
 {
     public class AuthQuery : Query
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,12 +9,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
-using MALClient.UserControls;
+using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
+using MALClient.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages
+namespace MALClient.Pages.Main
 {
     
 

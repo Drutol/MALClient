@@ -11,16 +11,18 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.Comm;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.Misc;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.Models;
+using MalClient.Shared.Utils.Managers;
+using MalClient.Shared.ViewModels;
 using MALClient.Pages;
-using MALClient.Pages.SettingsPages;
+using MALClient.Pages.Off.SettingsPages;
 using MALClient.UserControls;
-using MALClient.Utils;
-using MALClient.Utils.Enums;
-using MALClient.Utils.Managers;
 using Newtonsoft.Json;
+using LogInPage = MALClient.Pages.Main.LogInPage;
 
 namespace MALClient.ViewModels
 {

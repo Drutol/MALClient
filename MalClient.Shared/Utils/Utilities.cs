@@ -14,13 +14,11 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
 using HtmlAgilityPack;
+using MalClient.Shared.Comm;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.UserControls;
-using MALClient.Utils.Enums;
-using MALClient.ViewModels;
+using MalClient.Shared.ViewModels;
 
-namespace MALClient.Utils
+namespace MalClient.Shared.Utils
 {
     public enum TelemetryTrackedEvents
     {

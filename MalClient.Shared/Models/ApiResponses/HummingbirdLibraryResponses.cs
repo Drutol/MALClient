@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MALClient.Models.ApiResponses
+namespace MalClient.Shared.Models.ApiResponses
 {
     public class HumGenre
     {

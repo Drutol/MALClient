@@ -1,7 +1,7 @@
 ﻿using System;
-using MALClient.Utils.Enums;
+using MalClient.Shared.Utils.Enums;
 
-namespace MALClient.Models
+namespace MalClient.Shared.Models.Library
 {
     public interface ILibraryData
     {

@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.Foundation;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI;
+using Windows.UI.Xaml.Shapes;
 using WinRTXamlToolkit.Controls.Extensions;
 
-namespace XamlCropControl
+namespace MalClient.Shared.UserControls
 {
 
     static class Extensions

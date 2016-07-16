@@ -5,13 +5,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using MalClient.Shared.Models.AnimeScrapped;
 using MalClient.Shared.NavArgs;
-using MALClient.Utils.Enums;
-using MALClient.ViewModels;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Items
+namespace MalClient.Shared.Items
 {
     public sealed partial class RecomendationItem : UserControl
     {

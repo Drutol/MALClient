@@ -4,16 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
+using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Models;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.AnimeScrapped;
+using MalClient.Shared.Models.Library;
+using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.Utils.Enums;
-using MALClient.Comm;
-using MALClient.Comm.Anime;
-using MALClient.Items;
-using MALClient.Models;
 using Newtonsoft.Json;
 
 //Okay it's big copy paste... feel free to laugh
 
-namespace MALClient
+namespace MalClient.Shared.Utils
 {
     /// <summary>
     ///     Contains stuff like GlobalScore and air date

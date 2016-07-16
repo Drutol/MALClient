@@ -141,8 +141,18 @@
     <Compile Include="Comm\NewsQuery.cs" />
     <Compile Include="Comm\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
+    <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
       <DependentUpon>GridItemFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Flyouts\HamburgerFlyouts\HamburgerAnimeFiltersFlyout.xaml.cs">
+      <DependentUpon>HamburgerAnimeFiltersFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Flyouts\HamburgerFlyouts\HamburgerMangaFiltersFlyout .xaml.cs">
+      <DependentUpon>HamburgerMangaFiltersFlyout .xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Flyouts\HamburgerFlyouts\HamburgerTopCategoriesFlyout.xaml.cs">
+      <DependentUpon>HamburgerTopCategoriesFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Flyouts\ListItemFlyout.xaml.cs">
       <DependentUpon>ListItemFlyout.xaml</DependentUpon>
@@ -205,6 +215,7 @@
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CropControl.cs" />
+    <Compile Include="UserControls\Derived\RadioToggleMenuFlyoutItem.cs" />
     <Compile Include="UserControls\Derived\VariableWarpGrid.cs" />
     <Compile Include="UserControls\LockableToggleButton.cs" />
     <Compile Include="UserControls\New\FavButton.xaml.cs">
@@ -255,10 +266,23 @@
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
+    <Compile Include="XamlConverters\WorkModeToPivotFilterVisibility.cs" />
     <EmbeddedResource Include="Properties\MalClient.Shared.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Flyouts\GridItemFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\HamburgerFlyouts\HamburgerAnimeFiltersFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\HamburgerFlyouts\HamburgerMangaFiltersFlyout .xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\HamburgerFlyouts\HamburgerTopCategoriesFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

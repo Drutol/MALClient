@@ -12,7 +12,7 @@ namespace MalClient.Shared.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ((Symbol)value == Symbol.Mail)
+            if ((Symbol) value == Symbol.Mail)
                 return Application.Current.Resources["SystemControlBackgroundAccentBrush"];
             return Settings.SelectedTheme == ApplicationTheme.Dark
                 ? new SolidColorBrush(Colors.White)

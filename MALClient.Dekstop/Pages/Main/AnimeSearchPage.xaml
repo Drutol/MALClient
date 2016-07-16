@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="MALClient.Pages.AnimeSearchPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <Grid>
+            <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
+                      SelectedItem="{Binding CurrentlySelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0,5,0,0" SelectionMode="Single"
+                      Padding="0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <Setter Property="BorderThickness" Value="2,0,0,0" />
+                        <Setter Property="Margin" Value="2,5,0,5" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility}"
+                       Text="No data received from MAL, try searching for something more specific. :("
+                       TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Foreground="#FFB9B9B9" />
+            <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                          IsActive="True" Visibility="{Binding Loading}" />
+        </Grid>
+    </Grid>
+</Page>

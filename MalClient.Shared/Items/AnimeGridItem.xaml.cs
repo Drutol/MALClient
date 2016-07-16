@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
+using MALClient.Utils.Managers;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

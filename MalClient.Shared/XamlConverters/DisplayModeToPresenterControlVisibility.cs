@@ -12,12 +12,14 @@ namespace MalClient.Shared.XamlConverters
             var mode = (AnimeListDisplayModes) value;
             switch (parameter as string)
             {
-                //case "PivotPages":
-                //    return mode == AnimeListDisplayModes.PivotPages ? Visibility.Visible : Visibility.Collapsed;
                 case "IndefiniteList":
                     return mode == AnimeListDisplayModes.IndefiniteList ? Visibility.Visible : Visibility.Collapsed;
                 case "IndefiniteGrid":
                     return mode == AnimeListDisplayModes.IndefiniteGrid ? Visibility.Visible : Visibility.Collapsed;
+                case "IndefiniteCompactList":
+                    return mode == AnimeListDisplayModes.IndefiniteCompactList
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
             }
             return null;
         }

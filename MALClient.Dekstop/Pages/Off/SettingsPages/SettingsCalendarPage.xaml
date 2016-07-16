@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="MALClient.Pages.SettingsPages.SettingsCalendarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <StackPanel HorizontalAlignment="Stretch">
+        <StackPanel Margin="5" HorizontalAlignment="Center">
+            <TextBlock Text="Build options" FontWeight="Medium"
+                       HorizontalAlignment="Center"
+                       TextWrapping="WrapWholeWords" />
+            <CheckBox Content="Include watching"
+                      IsChecked="{Binding CalendarIncludeWatching,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox Content="Include plan to watch"
+                      IsChecked="{Binding CalendarIncludePlanned,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <MenuFlyoutSeparator Margin="0,5" />
+        <StackPanel Margin="5" HorizontalAlignment="Center">
+            <TextBlock Text="Start page" FontWeight="Medium"
+                       HorizontalAlignment="Center"
+                       TextWrapping="WrapWholeWords" />
+            <RadioButton Content="Start on summary" GroupName="CalendarStartTab"
+                         IsChecked="{Binding CalendarStartOnSummary}" />
+            <RadioButton Content="Start on today" GroupName="CalendarStartTab"
+                         IsChecked="{Binding CalendarStartOnToday,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <MenuFlyoutSeparator Margin="0,5" />
+        <StackPanel Margin="5" HorizontalAlignment="Center">
+            <TextBlock Text="Misc" FontWeight="Medium"
+                       HorizontalAlignment="Center"
+                       TextWrapping="WrapWholeWords" />
+            <ToggleSwitch Header="Make sunday 1st day of week"
+                          IsOn="{Binding CalendarSwitchMonSun,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <ToggleSwitch Header="Remove empty days"
+                          IsOn="{Binding CalendarRemoveEmptyDays,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+    </StackPanel>
+</Page>

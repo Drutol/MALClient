@@ -1,0 +1,72 @@
+﻿<Page
+    x:Class="MALClient.Pages.SettingsPages.SettingsSlidersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <ScrollViewer>
+        <StackPanel>
+            <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                <StackPanel HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Reviews to display : " FontWeight="Medium"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <TextBlock Margin="10,0,0,0"
+                                   Text="{Binding ElementName=SliderReviewsToPull,Path=Value}"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </StackPanel>
+                    <Slider x:Name="SliderReviewsToPull" Minimum="3" Maximum="7"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
+                            ValueChanged="ChangedReviewsToPull" />
+                </StackPanel>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                <StackPanel HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Recommendations to display : " FontWeight="Medium"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <TextBlock Margin="10,0,0,0"
+                                   Text="{Binding ElementName=SliderReccommsToPull,Path=Value}"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </StackPanel>
+                    <Slider x:Name="SliderReccommsToPull" Minimum="3" Maximum="10"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
+                            ValueChanged="ChangedRecommsToPull" />
+                </StackPanel>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Margin="5,5">
+                <StackPanel HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Seasonal anime to pull :" FontWeight="Medium"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <TextBlock Margin="10,0,0,0"
+                                   Text="{Binding ElementName=SliderSeasonalToPull,Path=Value}"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </StackPanel>
+                    <Slider x:Name="SliderSeasonalToPull" Minimum="20" Maximum="45"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
+                            ValueChanged="ChangedSeasonalToPull" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

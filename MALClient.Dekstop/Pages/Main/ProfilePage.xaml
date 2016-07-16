@@ -1,0 +1,861 @@
+﻿<Page
+    x:Class="MALClient.Pages.ProfilePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient"
+    xmlns:controls="using:MALClient.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:items="using:MALClient.Items" 
+    xmlns:items1="using:MalClient.Shared.Items" 
+    xmlns:userControls="using:MalClient.Shared.UserControls"
+    DataContext="{Binding Source={StaticResource Locator}, Path=ProfilePage}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <ScrollViewer>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="58" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="ContactInfo" />
+                        <TextBlock Text="General" FontWeight="SemiLight" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="Favorite" />
+                        <TextBlock Text="Favs" FontWeight="SemiLight" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="Clock" />
+                        <TextBlock FontWeight="SemiLight" TextAlignment="Center">
+                            Recent
+                            <LineBreak />
+                            Updates
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="AllApps" />
+                        <TextBlock FontWeight="SemiLight" TextAlignment="Center" Text="Stats" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="Comment" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
+                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                          Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Width="150" Height="150" Stretch="UniformToFill" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}" DecodePixelType="Logical"
+                                             DecodePixelHeight="150" DecodePixelWidth="150" />
+                            </Image.Source>
+                        </Image>
+                        <Grid Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".5*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width=".5*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" HorizontalAlignment="Stretch" />
+                            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+                                <StackPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiLight" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="Username:" />
+                                <TextBlock Text="Last online:" />
+                                <TextBlock Text="Gender:" />
+                                <TextBlock Text="Location:" />
+                                <TextBlock Text="Joined:" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
+                                <StackPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Medium" />
+                                        <Setter Property="TextAlignment" Value="Right" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="{Binding CurrentData.User.Name}" />
+                                <TextBlock Text="{Binding CurrentData.LastOnline}" />
+                                <TextBlock Text="{Binding CurrentData.Gender}" />
+                                <TextBlock Text="{Binding CurrentData.Location}" />
+                                <TextBlock Text="{Binding CurrentData.Joined}" />
+                            </StackPanel>
+                            <Grid Margin="10" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Anime list" Margin="5,0"
+                                            Command="{Binding NavigateAnimeListCommand}"
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <Button Content="Manga list" Margin="5,0"
+                                            Command="{Binding NavigateMangaListCommand}"
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="2" Margin="10,0" HorizontalAlignment="Right" MaxWidth="310" MaxHeight="175">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="Friends" FontWeight="SemiLight" FontSize="20" />
+                            <GridView IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" Grid.Row="1"
+                                      ItemsSource="{Binding CurrentData.Friends}">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Width="75" Height="75">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelHeight="75"
+                                                             DecodePixelWidth="75" DecodePixelType="Logical" />
+                                            </Image.Source>
+                                        </Image>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                              Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <TextBlock Grid.Row="1"
+                                       Visibility="{Binding EmptyFavAnimeNoticeVisibility}"
+                                       Text="No favourite anime added yet..."
+                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                       Margin="5" />
+                            <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Center"
+                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                            <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                      ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
+                                      SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="5,5" />
+                                        <Setter Property="Margin" Value="0,5" />
+                                        <Setter Property="Width" Value="200" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <items1:AnimeGridItem DataContext="{Binding}" />
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                              Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <TextBlock Grid.Row="1" Visibility="{Binding EmptyFavMangaNoticeVisibility}"
+                                       Text="No favourite manga added yet..."
+                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                       Margin="5" />
+                            <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Center"
+                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                            <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                      ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
+                                      SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="5,5" />
+                                        <Setter Property="Margin" Value="0,5" />
+                                        <Setter Property="Width" Value="200" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <items1:AnimeGridItem DataContext="{Binding}" />
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                              Margin="10" MinWidth="250" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
+                                       FontSize="26"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <TextBlock Grid.Row="1" Visibility="{Binding EmptyFavCharactersNoticeVisibility}"
+                                       Text="No favourite characters added yet..."
+                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                       Margin="5" />
+                            <GridView Grid.Row="1" ItemsSource="{Binding CurrentData.FavouriteCharacters}"
+                                      HorizontalAlignment="Center"
+                                      Margin="0,5,0,0">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Width="200" Height="300" PointerPressed="FavCharacter_OnClick">
+                                            <FlyoutBase.AttachedFlyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem
+                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateCharPageCommand}"
+                                                                CommandParameter="{Binding}" Text="Open in browser"/>
+                                                    <MenuFlyoutItem
+                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateDetailsCommand}"
+                                                                CommandParameter="{Binding}" Text="Open show details"/>
+                                                </MenuFlyout>
+                                            </FlyoutBase.AttachedFlyout>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="52" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch" Background="Transparent"
+                                                    BorderBrush="Transparent">
+                                                <Image Stretch="UniformToFill" Width="200" Height="300">
+                                                    <Image.Source>
+                                                        <BitmapImage UriSource="{Binding ImgUrl}"
+                                                                     DecodePixelHeight="300"
+                                                                     DecodePixelWidth="200" DecodePixelType="Logical" />
+                                                    </Image.Source>
+                                                </Image>
+                                            </Grid>
+                                            <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}">
+                                                <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
+                                                <ToggleButton.Background>
+                                                    <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                </ToggleButton.Background>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="Favourite"/>
+                                                </ToolTipService.ToolTip>
+                                            </ToggleButton>
+                                            <Grid Row="1" HorizontalAlignment="Stretch"
+                                                  Background="{ThemeResource BrushAnimeItemBackground}"
+                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                  BorderThickness="0,1,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height=".5*" />
+                                                    <RowDefinition Height=".5*" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{Binding Name}" />
+                                                <TextBlock Grid.Row="1" Text="{Binding Notes}"
+                                                           FontWeight="SemiLight" FontStyle="Italic"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                              MinWidth="250" HorizontalAlignment="Stretch" Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <TextBlock Grid.Row="1" Visibility="{Binding EmptyFavPeopleNoticeVisibility}"
+                                       Text="No favourite people added yet..."
+                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                       Margin="5" />
+                            <GridView Grid.Row="1" ItemsSource="{Binding CurrentData.FavouritePeople}"
+                                      HorizontalAlignment="Center">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Width="200" Height="350" Margin="0,5,0,0" PointerPressed="FavCharacter_OnClick">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="52" />
+                                            </Grid.RowDefinitions>
+                                            <FlyoutBase.AttachedFlyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem
+                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigatePersonPageCommand}"
+                                                                CommandParameter="{Binding}" Text="Open in browser"/>
+                                                </MenuFlyout>
+                                            </FlyoutBase.AttachedFlyout>
+                                            <Image Stretch="UniformToFill">
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{Binding ImgUrl}"
+                                                                     DecodePixelHeight="350"
+                                                                     DecodePixelWidth="200" DecodePixelType="Logical" />
+                                                </Image.Source>
+                                            </Image>
+                                            <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}" >
+                                                <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
+                                                <ToggleButton.Background>
+                                                    <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                </ToggleButton.Background>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="Favourite"/>
+                                                </ToolTipService.ToolTip>
+                                            </ToggleButton>
+                                            <Grid Row="1" HorizontalAlignment="Stretch"
+                                                  Background="{ThemeResource BrushAnimeItemBackground}"
+                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                  BorderThickness="0,1.5,0,0">
+                                                <TextBlock Text="{Binding Name}" />
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="GridView">
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="Height" Value="350" />
+                                        <Setter Property="Width" Value="200" />
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                          x:Name="RecentAnime" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <Grid Grid.Row="1">
+                            <TextBlock Visibility="{Binding EmptyRecentAnimeNoticeVisibility}"
+                                       Text="None updated recently..." TextAlignment="Center" Foreground="#FFB9B9B9"
+                                       Margin="5" />
+                            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Center"
+                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                            <GridView HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                      ItemsSource="{Binding RecentAnime}"
+                                      SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <items1:AnimeGridItem DataContext="{Binding}" />
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10" Padding="10"
+                          Background="{ThemeResource BrushAnimeItemInnerBackground}"
+                          CornerRadius="10" x:Name="RecentManga" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <TextBlock Grid.Row="1" Visibility="{Binding EmptyRecentMangaNoticeVisibility}"
+                                   Text="None updated recently..."
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                   Margin="5" />
+                        <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Center"
+                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                        <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                  ItemsSource="{Binding RecentManga}" HorizontalAlignment="Center"
+                                  SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <items1:AnimeGridItem DataContext="{Binding}" />
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1" Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="10" Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
+                          CornerRadius="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="140" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Anime Stats" FontWeight="Medium" FontSize="23"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <userControls:StackedBarChartControl Grid.Row="1" VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center" MinWidth="350"
+                                                         DataSource="{Binding AnimeChartValues}" />
+                        <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
+                              HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8,8,8,8">
+                            <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel HorizontalAlignment="Center" Width="Auto">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="ForestGreen" Width="20" Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Watching" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeWatching}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="DodgerBlue" Width="20" Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeCompleted}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeOnHold}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeDropped}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimePlanned}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <TextBlock Text="{Binding CurrentData.AnimeDaysBind}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                               FontWeight="Bold" FontSize="20" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Width="Auto">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Total" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeTotal}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Rewatched" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeRewatched}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Episodes" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.AnimeEpisodes}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <TextBlock Text="{Binding CurrentData.AnimeMeanBind}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                               FontWeight="Bold" FontSize="20" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10" Padding="10"
+                          Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="140" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Manga Stats" FontWeight="Medium" FontSize="23"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <userControls:StackedBarChartControl VerticalAlignment="Center" Grid.Row="1"
+                                                         HorizontalAlignment="Center" MinWidth="350"
+                                                         DataSource="{Binding MangaChartValues}" />
+                        <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
+                              HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8,8,8,8">
+                            <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel HorizontalAlignment="Center" Width="Auto">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="ForestGreen" Width="20" Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Reading" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaReading}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="DodgerBlue" Width="20" Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Completed" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaCompleted}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="Yellow" Width="20" Height="20" VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="On Hold" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaOnHold}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="Crimson" Width="20" Height="20" VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Dropped" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaDropped}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="Gray" Width="20" Height="20" VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Planned" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaPlanned}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <TextBlock Text="{Binding CurrentData.MangaDaysBind}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" Margin="10,5"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                               FontWeight="Bold" FontSize="20" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Width="Auto">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Total" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaTotal}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Reread" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaReread}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Chapters" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaChapters}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" MaxWidth="80" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Fill="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                                 Height="20"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="Volumes" HorizontalAlignment="Center"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding CurrentData.MangaVolumes}"
+                                                   FontWeight="Medium"
+                                                   HorizontalAlignment="Center" TextAlignment="Center" />
+                                    </Grid>
+                                    <MenuFlyoutSeparator Margin="5,5" />
+                                    <TextBlock Text="{Binding CurrentData.MangaMeanBind}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10"
+                                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                               FontWeight="Bold" FontSize="20" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1" Grid.Row="4" Padding="10"
+                      Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding CurrentData.Comments}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0,5" />
+                                <Setter Property="Padding" Value="5" />
+                                <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <Button Padding="0" Margin="0" Width="75" Height="75"
+                                                HorizontalAlignment="Center" Click="ButtonBase_OnClick"
+                                                Tag="{Binding User.Name}">
+                                            <Image Stretch="UniformToFill" HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{Binding User.ImgUrl}"
+                                                                 DecodePixelWidth="75" DecodePixelHeight="75"
+                                                                 DecodePixelType="Logical" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Button>
+                                        <TextBlock Margin="1,10,1,0" HorizontalAlignment="Center" FontWeight="Medium"
+                                                   Text="{Binding User.Name}" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
+                                               TextAlignment="Left" Margin="10" HorizontalAlignment="Left" />
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                               FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+        <Grid Grid.ColumnSpan="2" Visibility="{Binding LoadingVisibility}"
+              Background="{ThemeResource BrushLoadingNonTransparent}"
+              Margin="0,0,0,0">
+            <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
+                          IsActive="True" />
+        </Grid>
+    </Grid>
+</Page>

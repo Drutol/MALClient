@@ -19,8 +19,6 @@ using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.ViewModels.Main
 {
-
-
     public sealed class ProfilePageViewModel : ViewModelBase
     {
         private List<int> _animeChartValues = new List<int>();
@@ -44,6 +42,7 @@ namespace MalClient.Shared.ViewModels.Main
                             CurrentData = await new ProfileQuery(false, args?.TargetUser ?? "").GetProfileData(force));
                 CurrentUser = args?.TargetUser ?? Credentials.UserName;
             }
+            PrevArgs = args;
             _authenticatedUser = args == null || args.TargetUser == Credentials.UserName;
             ViewModelLocator.GeneralMain.CurrentStatus = $"{CurrentUser} - Profile";
             _loadedFavManga = false;
@@ -64,6 +63,8 @@ namespace MalClient.Shared.ViewModels.Main
             LoadingVisibility = Visibility.Collapsed;
             _initialized = true;
         }
+
+        public ProfilePageNavigationArgs PrevArgs { get; set; }
 
         private async void InnerPivotItemChanged(string tag)
         {

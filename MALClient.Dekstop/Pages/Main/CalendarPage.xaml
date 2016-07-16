@@ -1,0 +1,146 @@
+﻿<Page
+    x:Class="MALClient.Pages.CalendarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:items="using:MALClient.Items"
+    xmlns:viewModels="using:MALClient.ViewModels"
+    xmlns:userControls="using:MALClient.UserControls"
+    xmlns:malClient="using:MALClient" 
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:derived="using:MalClient.Shared.UserControls.Derived" 
+    xmlns:items1="using:MalClient.Shared.Items" 
+    xmlns:userControls1="using:MalClient.Shared.UserControls"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CalendarPage}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+            <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+            <DataTemplate x:Key="DayPageTemplate">
+                <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                          ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                           ItemWidth="200" ItemHeight="350" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+            </DataTemplate>
+            <DataTemplate x:Key="SummaryPageTemplate">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding Data}" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                  Padding="0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <derived:TrueVariableWarpGrid SqeezeChildren="False" Margin="0,0,16,0"
+                                                                Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="20,0,0,0" FontSize="20" Text="{Binding Item1}" />
+                                    <MenuFlyoutSeparator Grid.Row="1" />
+                                    <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                              ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2"
+                                              ItemsSource="{Binding Item2}">
+                                        <GridView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal"
+                                                               HorizontalAlignment="Stretch"
+                                                               ItemWidth="200" ItemHeight="350" />
+                                            </ItemsPanelTemplate>
+                                        </GridView.ItemsPanel>
+                                    </GridView>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="0,0,0,0"
+               Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}"
+               ItemsSource="{Binding CalendarData}">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
+                <Style TargetType="GridView">
+                    <Setter Property="Margin" Value="1,1-5,0" />
+                    <Setter Property="MinWidth" Value="200" />
+                    <Setter Property="IsItemClickEnabled" Value="True" />
+                    <Setter Property="ShowsScrollingPlaceholders" Value="False" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Padding" Value="5,5" />
+                                <Setter Property="Margin" Value="2,5" />
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <items1:AnimeGridItem DataContext="{Binding}" />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Pivot.Resources>
+            <Pivot.ItemTemplateSelector>
+                <userControls1:DataTypeTemplateSelector>
+                    <userControls1:DataTypeTemplateSelector.Matches>
+                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarPivotPage"
+                                                    Template="{StaticResource DayPageTemplate}" />
+                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarSummaryPivotPage"
+                                                    Template="{StaticResource SummaryPageTemplate}" />
+                    </userControls1:DataTypeTemplateSelector.Matches>
+                </userControls1:DataTypeTemplateSelector>
+            </Pivot.ItemTemplateSelector>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel MinWidth="35">
+                        <SymbolIcon
+                            Visibility="{Binding ElementName=Subtitle,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
+                            Symbol="List" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding Header}" FontSize="18" HorizontalAlignment="Center"
+                                   FontWeight="SemiLight" />
+                        <TextBlock x:Name="Subtitle" Text="{Binding Sub}"
+                                   Visibility="{Binding Sub,Converter={StaticResource AnyTextToVisibilityConverter}}"
+                                   FontSize="15" HorizontalAlignment="Center" FontWeight="SemiLight" />
+                    </StackPanel>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+        </Pivot>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center"
+              Visibility="{Binding CalendarBuildingVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center"
+                         Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}" />
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
+        </Grid>
+        <Button BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Opacity=".5"
+                PointerEntered="UIElement_OnPointerEntered" PointerExited="UIElement_OnPointerExited"
+                Command="{Binding RefreshCalendarCommand}">
+            <SymbolIcon Symbol="Refresh" />
+        </Button>
+    </Grid>
+</Page>

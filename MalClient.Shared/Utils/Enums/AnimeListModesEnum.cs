@@ -11,7 +11,7 @@
 
     public enum AnimeListDisplayModes
     {
-        Empty,
+        IndefiniteCompactList,
         IndefiniteList,
         IndefiniteGrid
     }

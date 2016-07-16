@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 using GalaSoft.MvvmLight.Ioc;
+using MalClient.Shared.Delegates;
 using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
@@ -17,11 +19,22 @@ namespace MalClient.Shared.ViewModels
         AnimeListPageNavigationArgs GetCurrentListOrderParams();
         PinTileDialogViewModel PinDialogViewModel { get; }
         void PopulateSearchFilters(HashSet<string> filters);
+        //Desktop
+        void OnSearchInputSubmit();
+        event OffContentPaneStateChanged OffContentPaneStateChanged ;
+        ICommand HideOffContentCommand { get; }
+        string CurrentOffStatus { get; set; }
+        Visibility NavigateBackButtonVisibility { get; set; }
+        Visibility NavigateMainBackButtonVisibility { get; set; }
+        string CurrentSearchQuery { get; set; }
     }
 
     public interface IHamburgerViewModel
     {
         Task UpdateProfileImg(bool dl = true);
+        //Desktop
+        void SetActiveButton(HamburgerButtons val);
+        void UpdateApiDependentButtons();
     }
 
     public interface IAnimeListViewModel
@@ -30,13 +43,16 @@ namespace MalClient.Shared.ViewModels
         List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; }
         List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; }
         Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false);
+        //Dekstop
+        void RefreshList(bool searchSource = false, bool fakeDelay = false);
     }
 
     public interface IAnimeDetailsViewModel
     {
         int Id { get; }
         void CurrentAnimeHasBeenAddedToList(IAnimeData viewModel);
-        void UpdateAnimeReferenceUiBindings(int Id);
+        void UpdateAnimeReferenceUiBindings(int id);
+        //Desktop
     }
 
     public interface INavMgr
@@ -45,6 +61,12 @@ namespace MalClient.Shared.ViewModels
         void RegisterOneTimeOverride(ICommand command);
         void DeregisterBackNav();
         void ResetBackNav();
+        //Desktop
+        void RegisterBackNav(ProfilePageNavigationArgs args);
+        void CurrentMainViewOnBackRequested();
+        void CurrentViewOnBackRequested();
+        void ResetMainBackNav();
+        void RegisterBackNav(AnimeDetailsPageNavigationArgs args);
     }
 
     public class ViewModelLocator

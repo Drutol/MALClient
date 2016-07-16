@@ -991,17 +991,6 @@ namespace MALClient.ViewModels
 
         #region PropertyPairs
 
-        public int _maxGridColumns = 2;
-
-        public int MaxGridColumns
-        {
-            get { return _maxGridColumns; }
-            set
-            {
-                _maxGridColumns = value;
-                RaisePropertyChanged(() => MaxGridColumns);
-            }
-        }
 
         private string _listSource;
 
@@ -1038,18 +1027,6 @@ namespace MALClient.ViewModels
             {
                 _emptyNoticeVisibility = value;
                 RaisePropertyChanged(() => EmptyNoticeVisibility);
-            }
-        }
-
-        private bool _updateNoticeVisibility;
-
-        public bool UpdateNoticeVisibility
-        {
-            get { return _updateNoticeVisibility; }
-            set
-            {
-                _updateNoticeVisibility = value;
-                RaisePropertyChanged(() => UpdateNoticeVisibility);
             }
         }
 
@@ -1337,19 +1314,6 @@ namespace MALClient.ViewModels
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid")
         };
 
-        private Visibility _animesPivotHeaderVisibility;
-
-        public Visibility AnimesPivotHeaderVisibility
-        {
-            get { return _animesPivotHeaderVisibility; }
-            set
-            {
-                _animesPivotHeaderVisibility = value;
-                PivotHeaerGridRowHeight = value == Visibility.Collapsed ? new GridLength(0) : new GridLength(40);
-                RaisePropertyChanged(() => AnimesPivotHeaderVisibility);
-            }
-        }
-
         private Visibility _sortAirDayVisibility;
 
         public Visibility SortAirDayVisibility
@@ -1391,7 +1355,7 @@ namespace MALClient.ViewModels
                 _sortOption = value;
             }
         }
-
+    
         public Visibility HumApiSpecificControlsVisibility
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Collapsed : Visibility.Visible;
         public Visibility MalApiSpecificControlsVisibility

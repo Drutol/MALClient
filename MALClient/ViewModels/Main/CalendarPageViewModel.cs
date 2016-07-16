@@ -115,7 +115,7 @@ namespace MALClient.ViewModels
         private ICommand _exportToCalendarCommand;
 
         public ICommand ExportToCalendarCommand
-            => _exportToCalendarCommand ?? (_exportToCalendarCommand = new RelayCommand(ExportToCalendar));
+            => _exportToCalendarCommand ?? (_exportToCalendarCommand = new RelayCommand<AnimeItemViewModel>(ExportToCalendar));
 
 
         private void InitPages()
@@ -308,61 +308,57 @@ namespace MALClient.ViewModels
 
         }
 
-        public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+        private static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
         {
             // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
             int daysToAdd = ((int) day - (int) start.DayOfWeek + 7)%7;
             return start.AddDays(daysToAdd);
         }
 
-        private async void ExportToCalendar()
+        private async void ExportToCalendar(AnimeItemViewModel animeItemViewModel)
         {
-            if (CurrentPivotPage == null)
-                return;
-            DayOfWeek day = Utilities.StringToDay(CurrentPivotPage.Header);
+            DayOfWeek day = Utilities.StringToDay(animeItemViewModel.AirDayBind);
             var date = GetNextWeekday(DateTime.Today, day);
 
             var timeZoneOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
             var startTime = new DateTimeOffset(date.Year, date.Month, date.Day, 0, 0, 0, timeZoneOffset);
 
-            foreach (var animeItemViewModel in CurrentPivotPage.Items)
-            {
-                var appointment = new Appointment();
+            var appointment = new Appointment();
 
-                appointment.StartTime = startTime;
-                appointment.Subject = "Anime - " + animeItemViewModel.Title;
-                appointment.AllDay = true;
-                var recurrence = new AppointmentRecurrence();
-                recurrence.Unit = AppointmentRecurrenceUnit.Weekly;
-                recurrence.Interval = 1;
-                recurrence.DaysOfWeek = Utilities.DayToAppointementDay(day);
-                if (animeItemViewModel.EndDate != AnimeItemViewModel.InvalidStartEndDate)
-                {
-                    var endDate = DateTime.Parse(animeItemViewModel.EndDate);
-                    recurrence.Until = endDate;
-                }
-                else if (animeItemViewModel.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
-                         animeItemViewModel.AllEpisodes != 0)
-                {
-                    var weeksPassed = (DateTime.Today - DateTime.Parse(animeItemViewModel.StartDate)).Days/7;
-                    if (weeksPassed < 0)
-                        continue;
-                    var weeks = (uint) (animeItemViewModel.AllEpisodes - weeksPassed);
-                    recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(weeks * 7));
-                }
-                else if (animeItemViewModel.AllEpisodes != 0)
-                {
-                    var epsLeft = animeItemViewModel.AllEpisodes - animeItemViewModel.MyEpisodes;
-                    recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(epsLeft*7));
-                }
-                else
-                {
-                    continue;
-                }
-                appointment.Recurrence = recurrence;
-                var rect = new Rect(new Point(Window.Current.Bounds.Width/2, Window.Current.Bounds.Height/2), new Size());
-                await AppointmentManager.ShowAddAppointmentAsync(appointment, rect, Placement.Default);
+            appointment.StartTime = startTime;
+            appointment.Subject = "Anime - " + animeItemViewModel.Title;
+            appointment.AllDay = true;
+
+            var recurrence = new AppointmentRecurrence();
+            recurrence.Unit = AppointmentRecurrenceUnit.Weekly;
+            recurrence.Interval = 1;
+            recurrence.DaysOfWeek = Utilities.DayToAppointementDay(day);
+            if (animeItemViewModel.EndDate != AnimeItemViewModel.InvalidStartEndDate)
+            {
+                var endDate = DateTime.Parse(animeItemViewModel.EndDate);
+                recurrence.Until = endDate;
             }
+            else if (animeItemViewModel.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                     animeItemViewModel.AllEpisodes != 0)
+            {
+                var weeksPassed = (DateTime.Today - DateTime.Parse(animeItemViewModel.StartDate)).Days/7;
+                if (weeksPassed < 0)
+                    return;
+                var weeks = (uint) (animeItemViewModel.AllEpisodes - weeksPassed);
+                recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(weeks*7));
+            }
+            else if (animeItemViewModel.AllEpisodes != 0)
+            {
+                var epsLeft = animeItemViewModel.AllEpisodes - animeItemViewModel.MyEpisodes;
+                recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(epsLeft*7));
+            }
+            else
+            {
+                return;
+            }
+            appointment.Recurrence = recurrence;
+            var rect = new Rect(new Point(Window.Current.Bounds.Width/2, Window.Current.Bounds.Height/2), new Size());
+            await AppointmentManager.ShowAddAppointmentAsync(appointment, rect, Placement.Default);
         }
     }
 }

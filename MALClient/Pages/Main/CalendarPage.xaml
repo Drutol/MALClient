@@ -71,8 +71,7 @@
     
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Refresh" Command="{Binding RefreshCalendarCommand}"/>
-            <AppBarButton Icon="Calendar" Command="{Binding ExportToCalendarCommand}"></AppBarButton>
+            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCalendarCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -99,7 +98,17 @@
                     <Setter Property="ItemTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <items:AnimeGridItem DataContext="{Binding}" />
+                                <Grid>
+                                    <items:AnimeGridItem DataContext="{Binding}" />
+                                    <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
+                                            Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
+                                            CommandParameter="{Binding}">
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Black" Opacity=".75"/>
+                                        </Button.Background>
+                                        <SymbolIcon Symbol="Calendar" Foreground="White"/>
+                                    </Button>
+                                </Grid>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>

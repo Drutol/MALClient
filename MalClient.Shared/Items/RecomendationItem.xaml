@@ -1,10 +1,9 @@
 ﻿<UserControl
-    x:Class="MALClient.Items.RecomendationItem"
+    x:Class="MalClient.Shared.Items.RecomendationItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.Items"
     xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
-    xmlns:controls="using:MALClient"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:MalClient.Shared.UserControls"
@@ -13,6 +12,96 @@
     d:DesignWidth="400">
 
     <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}" VerticalScrollBarVisibility="Hidden">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsListView.ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width=".2*" />
+                                            <ColumnDefinition Width=".3*" />
+                                            <ColumnDefinition Width=".4*" />
+                                            <ColumnDefinition Width=".3*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Item1}" FontWeight="Medium" />
+                                        <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="110" />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Item2}" TextAlignment="Left"
+                                                   HorizontalAlignment="Stretch" />
+                                            <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" />
+                                            <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item3}"
+                                                   Margin="10,0,0,0"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                   HorizontalAlignment="Stretch" />
+                                        </Grid>
+                                        <Grid Column="2" HorizontalAlignment="Stretch" />
+                                        <Grid Grid.Column="3" HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="110" />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Item4}" TextAlignment="Left" 
+                                                   HorizontalAlignment="Stretch" />
+                                            <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" />
+                                            <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item5}"
+                                                   Margin="10,0,0,0"
+                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                   HorizontalAlignment="Stretch" />
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsListView.ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width=".2*" />
+                                            <ColumnDefinition Width=".4*" />
+                                            <ColumnDefinition Width=".4*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Item1}" FontWeight="Medium" />
+                                        <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Item2}" HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding Item3}" HorizontalAlignment="Center"
+                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Margin="10,0,0,0" Grid.Column="2" HorizontalAlignment="Stretch">
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Item4}" HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding Item5}" HorizontalAlignment="Center"
+                                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid Padding="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*" />
@@ -86,48 +175,6 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".2*" />
-                                        <ColumnDefinition Width=".3*" />
-                                        <ColumnDefinition Width=".4*" />
-                                        <ColumnDefinition Width=".3*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Item1}" FontWeight="Medium" />
-                                    <Grid Grid.Column="1" HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="110" />
-                                            <ColumnDefinition Width="10" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Item2}" TextAlignment="Left"
-                                                   HorizontalAlignment="Stretch" />
-                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" />
-                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item3}"
-                                                   Margin="10,0,0,0"
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                   HorizontalAlignment="Stretch" />
-                                    </Grid>
-                                    <Grid Column="2" HorizontalAlignment="Stretch" />
-                                    <Grid Grid.Column="3" HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="110" />
-                                            <ColumnDefinition Width="10" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Item4}" TextAlignment="Left"
-                                                   HorizontalAlignment="Stretch" />
-                                        <Grid Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" />
-                                        <TextBlock Grid.Column="2" TextAlignment="Right" Text="{Binding Item5}"
-                                                   Margin="10,0,0,0"
-                                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                   HorizontalAlignment="Stretch" />
-                                    </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
                     </userControls:AlternatingListView>
                 </StackPanel>
             </Grid>

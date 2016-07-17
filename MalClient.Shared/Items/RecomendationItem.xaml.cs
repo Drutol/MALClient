@@ -11,7 +11,7 @@ using MalClient.Shared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Items
+namespace MalClient.Shared.Items
 {
     public sealed partial class RecomendationItem : UserControl
     {

@@ -275,7 +275,7 @@
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Height="350"
-                                            MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}">
+                                            MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource MobileLocator}}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="52" />
@@ -293,7 +293,7 @@
                                                     <Flyout>
                                                         <StackPanel>
                                                             <Button
-                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateCharPageCommand}"
+                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigateCharPageCommand}"
                                                                 CommandParameter="{Binding}"
                                                                 Background="{ThemeResource BrushDetailsMoreButton}"
                                                                 Height="40" Margin="0,5" HorizontalAlignment="Stretch">
@@ -304,7 +304,7 @@
                                                                 </StackPanel>
                                                             </Button>
                                                             <Button
-                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateDetailsCommand}"
+                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigateDetailsCommand}"
                                                                 CommandParameter="{Binding}"
                                                                 Background="{ThemeResource BrushDetailsMoreButton}"
                                                                 Height="40" Margin="0,5" HorizontalAlignment="Stretch">
@@ -327,7 +327,7 @@
                                                     <RowDefinition Height=".5*" />
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Text="{Binding Name}" />
-                                                <TextBlock Grid.Row="1" Text="{Binding OriginatingShowName}"
+                                                <TextBlock Grid.Row="1" Text="{Binding Notes}"
                                                            FontWeight="SemiLight" FontStyle="Italic"
                                                            TextTrimming="CharacterEllipsis" />
                                             </Grid>
@@ -364,7 +364,7 @@
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid
-                                            MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource Locator}}"
+                                            MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource MobileLocator}}"
                                             Margin="0,5,0,0">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
@@ -383,7 +383,7 @@
                                                     <Flyout>
                                                         <StackPanel>
                                                             <Button
-                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigatePersonPageCommand}"
+                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigatePersonPageCommand}"
                                                                 CommandParameter="{Binding}"
                                                                 Background="{ThemeResource BrushDetailsMoreButton}"
                                                                 Height="40" Margin="0,5" HorizontalAlignment="Stretch">

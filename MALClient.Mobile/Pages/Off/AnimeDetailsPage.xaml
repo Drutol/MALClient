@@ -152,7 +152,7 @@
                                                                             </Grid.ColumnDefinitions>
                                                                             <SymbolIcon Symbol="Tag"/>
                                                                             <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"  Text="{Binding}"/>
-                                                                            <Button Grid.Column="2" Background="Transparent" Padding="0" Width="30" Height="30" CommandParameter="{Binding}" Command="{Binding Source={StaticResource MobileLocator},Path=AnimeDetails.RemoveTagCommand}">
+                                                                            <Button Grid.Column="2" Background="Transparent" Padding="0" Width="30" Height="30" CommandParameter="{Binding}" Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.RemoveTagCommand}">
                                                                                 <SymbolIcon Symbol="Delete"/>
                                                                             </Button>
                                                                         </Grid>
@@ -1156,7 +1156,7 @@
                                                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                                                 </StackPanel>
                                                                 <Button Margin="1" Grid.Column="0" Grid.Row="1" MaxWidth="125"
-                                                                Command="{Binding Source={StaticResource MobileLocator}, Path=AnimeDetails.NavigateDetailsCommand}"
+                                                                Command="{Binding Source={StaticResource Locator}, Path=AnimeDetails.NavigateDetailsCommand}"
                                                                 CommandParameter="{Binding}"
                                                                 HorizontalAlignment="Left" Background="Transparent"
                                                                 Padding="0"
@@ -1238,7 +1238,7 @@
                                                             IsEnabled="{Binding Type , Converter={StaticResource RelatedAnimeTypeToBoolConverter}}"
                                                             Background="Transparent"
                                                             HorizontalAlignment="Stretch"
-                                                            Command="{Binding Source={StaticResource MobileLocator} ,Path=AnimeDetails.NavigateDetailsCommand}"
+                                                            Command="{Binding Source={StaticResource Locator} ,Path=AnimeDetails.NavigateDetailsCommand}"
                                                             CommandParameter="{Binding}">
                                                                 <Button.Content>
                                                                     <TextBlock Text="{Binding WholeRelation}"

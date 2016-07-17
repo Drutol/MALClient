@@ -274,10 +274,10 @@
                                             <FlyoutBase.AttachedFlyout>
                                                 <MenuFlyout>
                                                     <MenuFlyoutItem
-                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateCharPageCommand}"
+                                                                Command="{Binding Source={StaticResource DesktopLocator} , Path=ProfilePage.NavigateCharPageCommand}"
                                                                 CommandParameter="{Binding}" Text="Open in browser"/>
                                                     <MenuFlyoutItem
-                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateDetailsCommand}"
+                                                                Command="{Binding Source={StaticResource DesktopLocator} , Path=ProfilePage.NavigateDetailsCommand}"
                                                                 CommandParameter="{Binding}" Text="Open show details"/>
                                                 </MenuFlyout>
                                             </FlyoutBase.AttachedFlyout>
@@ -349,7 +349,7 @@
                                             <FlyoutBase.AttachedFlyout>
                                                 <MenuFlyout>
                                                     <MenuFlyoutItem
-                                                                Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigatePersonPageCommand}"
+                                                                Command="{Binding Source={StaticResource DesktopLocator} , Path=ProfilePage.NavigatePersonPageCommand}"
                                                                 CommandParameter="{Binding}" Text="Open in browser"/>
                                                 </MenuFlyout>
                                             </FlyoutBase.AttachedFlyout>

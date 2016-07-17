@@ -7,6 +7,7 @@ using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Items;
 using MalClient.Shared.Models.AnimeScrapped;
 using MALClient.Items;
+using RecomendationItem = MalClient.Shared.Items.RecomendationItem;
 
 namespace MalClient.Shared.ViewModels.Main
 {

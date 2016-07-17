@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
@@ -174,6 +175,12 @@ namespace MALClient.Pages.Main
         private int _currentId;
         private void ViewModelOnOpenWebView(string html,int id)
         {
+            //BackNav
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
+                ViewModel.Articles[id].Type == MalNewsType.Article
+                    ? MalArticlesPageNavigationArgs.Articles
+                    : MalArticlesPageNavigationArgs.News);
+            //
             _currentId = id;
             var uiSettings = new Windows.UI.ViewManagement.UISettings();
             var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);

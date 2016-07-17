@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.UserControls;
+using MalClient.Shared.Utils;
 using MalClient.Shared.ViewModels;
 using MALClient.UserControls;
 using MALClient.Utils;

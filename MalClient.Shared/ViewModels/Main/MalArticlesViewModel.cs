@@ -109,12 +109,12 @@ namespace MalClient.Shared.ViewModels.Main
         }
 
         private bool _loadingData;
-        private ArticlePageWorkMode? _prevWorkMode;
+        public ArticlePageWorkMode? PrevWorkMode;
         public async void Init(MalArticlesPageNavigationArgs args,bool force = false)
         {
             if (args == null) //refresh
             {
-                args = _prevWorkMode == ArticlePageWorkMode.Articles
+                args = PrevWorkMode == ArticlePageWorkMode.Articles
                     ? MalArticlesPageNavigationArgs.Articles
                     : MalArticlesPageNavigationArgs.News;
                 force = true;
@@ -124,7 +124,7 @@ namespace MalClient.Shared.ViewModels.Main
             WebViewVisibility = Visibility.Collapsed;
             ViewModelLocator.GeneralMain.CurrentStatus = args.WorkMode == ArticlePageWorkMode.Articles ? "Articles" : "News";
 
-            if (_prevWorkMode == args.WorkMode && !force)
+            if (PrevWorkMode == args.WorkMode && !force)
             {
                 try
                 {
@@ -152,7 +152,7 @@ namespace MalClient.Shared.ViewModels.Main
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            _prevWorkMode = args.WorkMode;
+            PrevWorkMode = args.WorkMode;
 
             var data = new List<MalNewsUnitModel>();
             Articles = new List<MalNewsUnitModel>();
@@ -167,16 +167,12 @@ namespace MalClient.Shared.ViewModels.Main
 
 
         }
-
+        
         private async void LoadArticle(MalNewsUnitModel data)
         {
             LoadingVisibility = Visibility.Visible;
             ArticleIndexVisibility = Visibility.Collapsed;
             ViewModelLocator.GeneralMain.CurrentStatus = data.Title;
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
-                data.Type == MalNewsType.Article
-                    ? MalArticlesPageNavigationArgs.Articles
-                    : MalArticlesPageNavigationArgs.News);
             OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml(), Articles.IndexOf(data));
         }
     }

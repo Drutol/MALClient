@@ -4,7 +4,7 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
-using Settings = MALClient.Utils.Settings;
+using Settings = MalClient.Shared.Utils.Settings;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

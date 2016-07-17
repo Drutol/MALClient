@@ -35,7 +35,7 @@ namespace MALClient.Pages
         private void NavDetailsFeed(object sender, TappedRoutedEventArgs e)
         {
             var id = (int) (sender as FrameworkElement).Tag;
-            if (ViewModelLocator.GeneralAnimeDetails.Id == id)
+            if (ViewModelLocator.AnimeDetails.Id == id)
                 return;
             ViewModelLocator.GeneralMain
                 .Navigate(PageIndex.PageAnimeDetails,

@@ -20,7 +20,7 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MALClient.Pages;
-using Settings = MALClient.Utils.Settings;
+using Settings = MalClient.Shared.Utils.Settings;
 
 namespace MALClient.ViewModels
 {
@@ -98,8 +98,7 @@ namespace MALClient.ViewModels
         public SmartObservableCollection<AnimeItemViewModel> AnimeCompactItems
             => DisplayMode == AnimeListDisplayModes.IndefiniteCompactList ? AnimeItems : null;
 
-        public ObservableCollection<AnimeSeason> SeasonSelection { get; } = new ObservableCollection<AnimeSeason>();
-
+        public List<AnimeSeason> SeasonSelection { get; } = new List<AnimeSeason>();
 
         public bool AreThereItemsWaitingForLoad => _animeItemsSet.Count != 0;
         public int CurrentStatus => GetDesiredStatus();
@@ -1141,7 +1140,7 @@ namespace MALClient.ViewModels
             get { return null; }
             set
             {
-                if (value != null && DesktopViewModelLocator.AnimeDetails.Id != value.Id)
+                if (value != null && ViewModelLocator.AnimeDetails.Id != value.Id)
                     value.NavigateDetails();
                 RaisePropertyChanged(() => TemporarilySelectedAnimeItem);
                 SelectionResetRequested?.Invoke(DisplayMode);

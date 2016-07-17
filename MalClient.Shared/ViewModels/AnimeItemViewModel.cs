@@ -162,8 +162,8 @@ namespace MalClient.Shared.ViewModels
             await Task.Delay(10);
             RaisePropertyChanged(() => MyStatusBindShort);
             RaisePropertyChanged(() => MyStatusBind);
-            if (ViewModelLocator.GeneralAnimeDetails.Id == Id)
-                ViewModelLocator.GeneralAnimeDetails.CurrentAnimeHasBeenAddedToList(this);
+            if (ViewModelLocator.AnimeDetails.Id == Id)
+                ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
         }
 
         public static void UpdateScoreFlyoutChoices()
@@ -485,7 +485,7 @@ namespace MalClient.Shared.ViewModels
                 ParentAbstraction.MyEpisodes = value;
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyEpisodesBindShort);
-                ViewModelLocator.GeneralAnimeDetails.UpdateAnimeReferenceUiBindings(Id);
+                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
 
@@ -512,7 +512,7 @@ namespace MalClient.Shared.ViewModels
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyEpisodesBindShort);
                 AdjustIncrementButtonsVisibility();
-                ViewModelLocator.GeneralAnimeDetails.UpdateAnimeReferenceUiBindings(Id);
+                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
             }
         }
 

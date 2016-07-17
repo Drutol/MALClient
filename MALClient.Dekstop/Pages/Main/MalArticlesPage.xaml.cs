@@ -5,9 +5,11 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
@@ -39,6 +41,18 @@ namespace MALClient.Pages
 
         private void ViewModelOnOpenWebView(string html,int id)
         {
+            //back nav
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() =>
+            {
+                ViewModel.WebViewVisibility = Visibility.Collapsed;
+                ViewModel.ArticleIndexVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.CurrentStatus = ViewModel.PrevWorkMode != null &&
+                                                      ViewModel.PrevWorkMode.Value == ArticlePageWorkMode.Articles
+                    ? "Artilces"
+                    : "News";
+            }));
+            //
+
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);

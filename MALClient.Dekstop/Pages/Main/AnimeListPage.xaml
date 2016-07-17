@@ -11,7 +11,8 @@
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:userControls="using:MalClient.Shared.UserControls" 
     xmlns:items="using:MalClient.Shared.Items" 
-    xmlns:viewModels1="using:MalClient.Shared.ViewModels"
+    xmlns:viewModels1="using:MalClient.Shared.ViewModels" 
+    xmlns:anime="using:MalClient.Shared.Models.Anime"
     DataContext="{Binding AnimeList , Source={StaticResource DesktopLocator}}"
     mc:Ignorable="d">
 
@@ -76,8 +77,8 @@
                         <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
                                   SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Name}" />
+                                <DataTemplate x:DataType="anime:AnimeSeason">
+                                    <TextBlock Text="{x:Bind Name}" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

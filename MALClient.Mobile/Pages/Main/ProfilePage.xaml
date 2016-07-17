@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:items="using:MalClient.Shared.Items"
     xmlns:userControls="using:MalClient.Shared.UserControls"
-    DataContext="{Binding Source={StaticResource Locator}, Path=ProfilePage}"
+    DataContext="{Binding Source={StaticResource MobileLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
     <Page.Transitions>

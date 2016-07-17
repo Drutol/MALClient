@@ -96,7 +96,17 @@
                     <Setter Property="ItemTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <items1:AnimeGridItem DataContext="{Binding}" />
+                                <Grid>
+                                    <items1:AnimeGridItem DataContext="{Binding}" DisplayContext="AirDay"/>
+                                    <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
+                                            Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
+                                            CommandParameter="{Binding}">
+                                        <Button.Background>
+                                            <SolidColorBrush Color="Black" Opacity=".75"/>
+                                        </Button.Background>
+                                        <SymbolIcon Symbol="Calendar" Foreground="White"/>
+                                    </Button>
+                                </Grid>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
@@ -105,9 +115,9 @@
             <Pivot.ItemTemplateSelector>
                 <userControls1:DataTypeTemplateSelector>
                     <userControls1:DataTypeTemplateSelector.Matches>
-                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarPivotPage"
+                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarPivotPage"
                                                     Template="{StaticResource DayPageTemplate}" />
-                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarSummaryPivotPage"
+                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarSummaryPivotPage"
                                                     Template="{StaticResource SummaryPageTemplate}" />
                     </userControls1:DataTypeTemplateSelector.Matches>
                 </userControls1:DataTypeTemplateSelector>

@@ -4,12 +4,13 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Models;
-using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
+using MALClient.ViewModels.Main;
+using ProfilePageNavigationArgs = MalClient.Shared.NavArgs.ProfilePageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

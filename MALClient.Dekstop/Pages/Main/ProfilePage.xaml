@@ -9,7 +9,7 @@
     xmlns:items="using:MALClient.Items" 
     xmlns:items1="using:MalClient.Shared.Items" 
     xmlns:userControls="using:MalClient.Shared.UserControls"
-    DataContext="{Binding Source={StaticResource Locator}, Path=ProfilePage}"
+    DataContext="{Binding Source={StaticResource DesktopLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
     <Page.Resources>

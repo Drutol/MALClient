@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using MalClient.Shared.Utils;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
-using Settings = MALClient.Utils.Settings;
+using Settings = MalClient.Shared.Utils.Settings;
 
 #pragma warning disable 4014
 

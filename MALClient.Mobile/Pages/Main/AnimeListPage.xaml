@@ -2,7 +2,6 @@
     x:Class="MALClient.Pages.Main.AnimeListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
@@ -70,7 +69,13 @@
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
                         <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
-                                  SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                  SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>    
+                        </ListView>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

@@ -23,7 +23,7 @@ using MALClient.Pages;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using Microsoft.HockeyApp;
-using Settings = MALClient.Utils.Settings;
+using Settings = MalClient.Shared.Utils.Settings;
 
 namespace MALClient
 {

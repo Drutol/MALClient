@@ -91,8 +91,8 @@ namespace MALClient.ViewModels.Main
           public SmartObservableCollection<AnimeItemViewModel> AnimeGridItems => DisplayMode == AnimeListDisplayModes.IndefiniteGrid ? AnimeItems : null;
   
 
-          public SmartObservableCollection<ListViewItem> SeasonSelection { get; } =
-            new SmartObservableCollection<ListViewItem>();
+          public List<AnimeSeason> SeasonSelection { get; } =
+            new List<AnimeSeason>();
 
 
         public int CurrentStatus => GetDesiredStatus();
@@ -592,14 +592,14 @@ namespace MALClient.ViewModels.Main
         /// </summary>
         /// <param name="force"></param>
         /// <returns></returns>
-        private async Task FetchSeasonalData(bool force = false,int page = 0)
+        private async Task FetchSeasonalData(bool force = false, int page = 0)
         {
             Loading = true;
             EmptyNoticeVisibility = false;
             var setDefaultSeason = false;
             if (CurrentSeason == null)
             {
-                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
+                CurrentSeason = new AnimeSeason { Name = "Airing", Url = "http://myanimelist.net/anime/season" };
                 setDefaultSeason = true;
             }
             MobileViewModelLocator.Main.CurrentStatus = "Downloading data...\nThis may take a while...";
@@ -618,7 +618,10 @@ namespace MALClient.ViewModels.Main
                     var topResponse = new List<TopAnimeData>();
                     await Task.Run(new Func<Task>(async () =>
                         topResponse =
-                            await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga,page).GetTopAnimeData(force)));
+                            await
+                                new AnimeTopQuery(
+                                    WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga,
+                                    page).GetTopAnimeData(force)));
                     data.AddRange(topResponse);
                     break;
             }
@@ -626,7 +629,6 @@ namespace MALClient.ViewModels.Main
             if (data.Count == 0)
             {
                 RefreshList();
-                Loading = false;
                 return;
             }
             List<AnimeItemAbstraction> source;
@@ -653,12 +655,13 @@ namespace MALClient.ViewModels.Main
                     : new List<AnimeItemAbstraction>();
             }
 
-            bool updateScore = Settings.SelectedApiType == ApiType.Mal;
+            var updateScore = Settings.SelectedApiType == ApiType.Mal;
             foreach (var animeData in data)
             {
                 try
                 {
-                    if (WorkMode == AnimeListWorkModes.SeasonalAnime && updateScore) //seasonal anme comes with mal score, we don't want to polute hummingbird data
+                    if (WorkMode == AnimeListWorkModes.SeasonalAnime && Settings.SelectedApiType == ApiType.Mal)
+                        //seasonal anme comes with mal score, we don't want to polute hummingbird data
                         DataCache.RegisterVolatileData(animeData.Id, new VolatileDataCache
                         {
                             DayOfAiring = animeData.AirDay,
@@ -680,10 +683,10 @@ namespace MALClient.ViewModels.Main
                     else
                     {
                         abstraction.AirDay = animeData.AirDay;
-                        if(updateScore)
+                        if (updateScore)
                             abstraction.GlobalScore = animeData.Score;
                         abstraction.Index = animeData.Index;
-                        abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData,updateScore);
+                        abstraction.ViewModel.UpdateWithSeasonData(animeData as SeasonalAnimeData, updateScore);
                         target.Add(abstraction);
                     }
                 }
@@ -692,7 +695,7 @@ namespace MALClient.ViewModels.Main
                     // wat
                 }
             }
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime && SeasonSelection.Count == 0)
             {
                 SeasonSelection.Clear();
                 var i = 0;
@@ -701,11 +704,7 @@ namespace MALClient.ViewModels.Main
                 {
                     if (seasonalUrl.Key != "current")
                     {
-                        SeasonSelection.Add(new ListViewItem
-                        {
-                            Content = seasonalUrl.Key,
-                            Tag = new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value}
-                        });
+                        SeasonSelection.Add(new AnimeSeason { Name = seasonalUrl.Key, Url = seasonalUrl.Value });
                         i++;
                     }
                     else
@@ -719,12 +718,12 @@ namespace MALClient.ViewModels.Main
                 //we have set artificial default one because we did not know what lays ahead of us
                 if (setDefaultSeason && currSeasonIndex != -1)
                 {
-                    CurrentSeason = SeasonSelection[currSeasonIndex].Tag as AnimeSeason;
+                    CurrentSeason = SeasonSelection[currSeasonIndex];
                     _seasonalUrlsSelectedIndex = currSeasonIndex;
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
-                DataCache.SaveVolatileData();
             }
+
             RefreshList();
         }
 
@@ -1248,7 +1247,7 @@ namespace MALClient.ViewModels.Main
                 if (value == _seasonalUrlsSelectedIndex || value < 0)
                     return;
                 _seasonalUrlsSelectedIndex = value;
-                CurrentSeason = SeasonSelection[value].Tag as AnimeSeason;
+                CurrentSeason = SeasonSelection[value];
                 RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 View.FlyoutSeasonSelectionHide();
                 FetchSeasonalData();

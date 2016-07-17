@@ -24,7 +24,6 @@ using MALClient.Pages;
 using MALClient.Pages.Messages;
 using MALClient.UserControls;
 using MALClient.Utils.Managers;
-using Settings = MALClient.Utils.Settings;
 
 namespace MALClient.ViewModels
 {
@@ -169,18 +168,18 @@ namespace MALClient.ViewModels
                         View.Navigate(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
-                    var detail = DesktopViewModelLocator.AnimeDetails;
+                    var detail = ViewModelLocator.AnimeDetails;
                     detail.DetailImage = null;
                     detail.LeftDetailsRow.Clear();
                     detail.RightDetailsRow.Clear();
                     OffRefreshButtonVisibility = Visibility.Visible;
-                    RefreshOffDataCommand = new RelayCommand(() => DesktopViewModelLocator.AnimeDetails.RefreshData());
+                    RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     OffContentVisibility = Visibility.Visible;
 
                     if (CurrentOffPage == PageIndex.PageAnimeDetails)
-                        DesktopViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
+                        ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
                     else
                         View.NavigateOff(typeof(AnimeDetailsPage), args);
                     break;
@@ -203,13 +202,13 @@ namespace MALClient.ViewModels
                     RefreshButtonVisibility = Visibility.Visible;
                     if (Settings.SelectedApiType == ApiType.Mal)
                         RefreshDataCommand =
-                            new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                            new RelayCommand(() => DesktopViewModelLocator.ProfilePage.LoadProfileData(null, true));
                     else
                         RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
                         if (CurrentMainPage == PageIndex.PageProfile)
-                            ViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
+                            DesktopViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
                         else
                             View.Navigate(typeof(ProfilePage), args);
                     }
@@ -520,7 +519,7 @@ namespace MALClient.ViewModels
                 return _hideOffContentCommand ??
                        (_hideOffContentCommand = new RelayCommand(() =>
                        {
-                           DesktopViewModelLocator.AnimeDetails.Id = -1;
+                           ViewModelLocator.AnimeDetails.Id = -1;
                            OffContentVisibility = Visibility.Collapsed;
                            ViewModelLocator.NavMgr.ResetBackNav();
                        }));

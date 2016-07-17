@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:userControls="using:MalClient.Shared.UserControls"
-    DataContext="{Binding AnimeDetails ,Source={StaticResource DesktopLocator}}"
+    DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -114,7 +114,7 @@
                                                            FontWeight="Medium" Text="{Binding}" />
                                                 <Button Grid.Column="2" Background="Transparent" Padding="0" Width="30"
                                                         Height="30" CommandParameter="{Binding}"
-                                                        Command="{Binding Source={StaticResource DesktopLocator},Path=AnimeDetails.RemoveTagCommand}">
+                                                        Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.RemoveTagCommand}">
                                                     <SymbolIcon Symbol="Delete" />
                                                 </Button>
                                             </Grid>

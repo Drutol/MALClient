@@ -21,7 +21,7 @@ using MALClient.Pages;
 using MALClient.Pages.SettingsPages;
 using MALClient.Utils.Managers;
 using Newtonsoft.Json;
-using Settings = MALClient.Utils.Settings;
+using Settings = MalClient.Shared.Utils.Settings;
 
 namespace MALClient.ViewModels
 {

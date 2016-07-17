@@ -127,16 +127,16 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
-                    var detail = MobileViewModelLocator.AnimeDetails;
+                    var detail = ViewModelLocator.AnimeDetails;
                     detail.DetailImage = null;
                     detail.LeftDetailsRow.Clear();
                     detail.RightDetailsRow.Clear();
                     RefreshButtonVisibility = Visibility.Visible;
-                    RefreshDataCommand = new RelayCommand(() => MobileViewModelLocator.AnimeDetails.RefreshData());
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
                     if (LastIndex == PageIndex.PageAnimeDetails)
-                        MobileViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
+                        ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
                     else
                         View.Navigate(typeof(AnimeDetailsPage), args);
                     break;
@@ -159,7 +159,7 @@ namespace MALClient.ViewModels
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
                         if (LastIndex == PageIndex.PageProfile)
-                            ViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
+                            MobileViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
                         else
                             View.Navigate(typeof(ProfilePage), args);
                     }

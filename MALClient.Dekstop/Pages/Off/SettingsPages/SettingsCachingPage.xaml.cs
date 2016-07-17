@@ -3,6 +3,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MalClient.Shared.Models.Misc;
+using MalClient.Shared.Utils;
 using MALClient.Utils;
 using MALClient.ViewModels;
 

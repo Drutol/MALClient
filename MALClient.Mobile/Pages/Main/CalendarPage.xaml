@@ -122,9 +122,9 @@
             <Pivot.ItemTemplateSelector>
                 <userControls1:DataTypeTemplateSelector>
                     <userControls1:DataTypeTemplateSelector.Matches>
-                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarPivotPage"
+                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarPivotPage"
                                                     Template="{StaticResource DayPageTemplate}" />
-                        <userControls1:TemplateMatch TargetType="MALClient.ViewModels.CalendarSummaryPivotPage"
+                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarSummaryPivotPage"
                                                     Template="{StaticResource SummaryPageTemplate}" />
                     </userControls1:DataTypeTemplateSelector.Matches>
                 </userControls1:DataTypeTemplateSelector>

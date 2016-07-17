@@ -116,27 +116,32 @@ namespace MALClient.Utils
 
         public void RegisterBackNav(ProfilePageNavigationArgs args)
         {
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
         }
 
         public void CurrentMainViewOnBackRequested()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         public void CurrentViewOnBackRequested()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         public void ResetMainBackNav()
         {
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
         }
 
         public void RegisterBackNav(AnimeDetailsPageNavigationArgs args)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+        }
+
+        public void RegisterOneTimeMainOverride(ICommand command)
+        {
+            //throw new System.NotImplementedException();
         }
 
         public void RegisterOneTimeOverride(ICommand command)

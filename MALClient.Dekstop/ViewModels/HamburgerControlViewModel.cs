@@ -18,7 +18,6 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
-using Settings = MALClient.Utils.Settings;
 
 namespace MALClient.ViewModels
 {

@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using System;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Models.Anime;
@@ -11,17 +12,26 @@ namespace MalClient.Shared.Utils
     {
         public static ApiType SelectedApiType
         {
-            get { return (ApiType) (ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal); }
+            get
+            {
+                try
+                {
+                    return (ApiType) (ApplicationData.Current.LocalSettings.Values["SelectedApiType"] ?? ApiType.Mal);
+                }
+                catch (Exception) //in case of testing
+                {
+                    return ApiType.Mal;
+                }
+            }
             set
             {
                 if (SelectedApiType == value)
                     return;
                 ApplicationData.Current.LocalSettings.Values["SelectedApiType"] = (int) value;
                 Query.CurrentApiType = value;
-                //AnimeDetailsPageViewModel.UpdateScoreFlyoutChoices(); TODO vml
+                ViewModelLocator.AnimeDetails.UpdateScoreFlyoutChoices();
                 AnimeItemViewModel.UpdateScoreFlyoutChoices();
-                //ViewModelLocator.Hamburger.UpdateApiDependentButtons(); TODO vml
-                //Mal does not provide this thing
+                ViewModelLocator.GeneralHamburger.UpdateApiDependentButtons();
                 if (AnimeSortOrder == SortOptions.SortLastWatched)
                     AnimeSortOrder = SortOptions.SortTitle;
             }
@@ -177,6 +187,64 @@ namespace MalClient.Shared.Utils
             set { ApplicationData.Current.LocalSettings.Values["HideSortingSelectionFlyout"] = value; }
         }
 
+        public static bool HamburgerAnimeFiltersExpanded
+        {
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerAnimeFiltersExpanded"] = value; }
+        }
+
+        public static bool HamburgerTopCategoriesExpanded
+        {
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerTopCategoriesExpanded"] ?? true);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerTopCategoriesExpanded"] = value; }
+        }
+
+        public static bool AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse
+        {
+            get
+            {
+                return
+                    (bool)
+                        (ApplicationData.Current.LocalSettings.Values[
+                            "AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse"] ?? false);
+            }
+            set
+            {
+                ApplicationData.Current.LocalSettings.Values["AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse"
+                    ] = value;
+            }
+        }
+
+        public static bool HamburgerMangaFiltersExpanded
+        {
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] = value; }
+        }
+
+        public static bool HamburgerMenuDefaultPaneState
+        {
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] ?? true);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] = value; }
+        }
+
+        public static bool IsPivotFilterBarVisible
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["IsPivotFilterBarVisible"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["IsPivotFilterBarVisible"] = value; }
+        }
+
         public static DataSource PrefferedDataSource
         {
             get
@@ -186,6 +254,30 @@ namespace MalClient.Shared.Utils
                         (ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] ?? DataSource.AnnHum);
             }
             set { ApplicationData.Current.LocalSettings.Values["PrefferedDataSource"] = (int) value; }
+        }
+
+        public static bool EnableHearthAnimation
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] = value; }
+        }
+
+        public static bool EnableSwipeToIncDec
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["EnableSwipeToIncDec"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["EnableSwipeToIncDec"] = value; }
+        }
+
+        public static bool DetailsListRecomsView
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["DetailsListRecomsView"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["DetailsListRecomsView"] = value; }
+        }
+
+        public static bool DetailsListReviewsView
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["DetailsListReviewsView"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["DetailsListReviewsView"] = value; }
         }
 
         #region Views
@@ -268,12 +360,6 @@ namespace MalClient.Shared.Utils
             set { ApplicationData.Current.LocalSettings.Values["LockDisplayMode"] = value; }
         }
 
-        public static bool EnableHearthAnimation
-        {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] ?? true); }
-            set { ApplicationData.Current.LocalSettings.Values["EnableHearthAnimation"] = value; }
-        }
-
         #endregion
 
         #region RatePopUp
@@ -298,7 +384,7 @@ namespace MalClient.Shared.Utils
 
         public static bool Donated
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["Donated"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["Donated"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["Donated"] = value; }
         }
 
@@ -339,44 +425,53 @@ namespace MalClient.Shared.Utils
         #endregion
 
         #region Calendar
+
         public static bool CalendarIncludeWatching
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["CalendarIncludeWatching"] = value; }
         }
 
         public static bool CalendarIncludePlanned
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["CalendarIncludePlanned"] = value; }
         }
 
         public static bool CalendarSwitchMonSun
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] ?? false); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["CalendarSwitchMonSun"] = value; }
         }
 
         public static bool CalendarStartOnToday
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] ?? false); }
             set { ApplicationData.Current.LocalSettings.Values["CalendarStartOnToday"] = value; }
         }
 
         public static bool CalendarRemoveEmptyDays
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["CalendarRemoveEmptyDays"] = value; }
         }
 
         #endregion
 
         #region Articles
+
         public static bool ArticlesLaunchExternalLinks
         {
-            get { return (bool)(ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] ?? true); }
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] ?? true); }
             set { ApplicationData.Current.LocalSettings.Values["ArticlesLaunchExternalLinks"] = value; }
         }
+
+        public static bool ArticlesDisplayScrollBar
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["ArticlesDisplayScrollBar"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["ArticlesDisplayScrollBar"] = value; }
+        }
+
         #endregion
 
         #region Favs
@@ -394,5 +489,6 @@ namespace MalClient.Shared.Utils
         }
 
         #endregion
+
     }
 }

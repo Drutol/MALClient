@@ -8,7 +8,6 @@ using MalClient.Shared.Comm;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.ViewModels;
-using MALClient.ViewModels.Off;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

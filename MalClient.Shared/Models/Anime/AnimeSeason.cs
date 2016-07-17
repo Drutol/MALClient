@@ -8,8 +8,8 @@ namespace MalClient.Shared.Models.Anime
 {
     public class AnimeSeason
     {
-        public string Name;
-        public string Url;
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 
 }

@@ -9,6 +9,7 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
+using AnimeDetailsPageNavigationArgs = MalClient.Shared.NavArgs.AnimeDetailsPageNavigationArgs;
 
 namespace MalClient.Shared.ViewModels
 {
@@ -27,6 +28,8 @@ namespace MalClient.Shared.ViewModels
         Visibility NavigateBackButtonVisibility { get; set; }
         Visibility NavigateMainBackButtonVisibility { get; set; }
         string CurrentSearchQuery { get; set; }
+        List<string> SearchHints { get; set; }
+
     }
 
     public interface IHamburgerViewModel
@@ -43,16 +46,9 @@ namespace MalClient.Shared.ViewModels
         List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; }
         List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; }
         Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false);
+        void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction);
         //Dekstop
         void RefreshList(bool searchSource = false, bool fakeDelay = false);
-    }
-
-    public interface IAnimeDetailsViewModel
-    {
-        int Id { get; }
-        void CurrentAnimeHasBeenAddedToList(IAnimeData viewModel);
-        void UpdateAnimeReferenceUiBindings(int id);
-        //Desktop
     }
 
     public interface INavMgr
@@ -67,6 +63,7 @@ namespace MalClient.Shared.ViewModels
         void CurrentViewOnBackRequested();
         void ResetMainBackNav();
         void RegisterBackNav(AnimeDetailsPageNavigationArgs args);
+        void RegisterOneTimeMainOverride(ICommand command);
     }
 
     public class ViewModelLocator
@@ -76,22 +73,19 @@ namespace MalClient.Shared.ViewModels
         /// <summary>
         ///     Initializes a new instance of the ViewModelLocator class.
         /// </summary>
-        public ViewModelLocator()
+        public static void RegisterBase()
         {
-            if (_initialized)
-                return;
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register<RecommendationsViewModel>();
             SimpleIoc.Default.Register<SearchPageViewModel>();
-            SimpleIoc.Default.Register<ProfilePageViewModel>();
             SimpleIoc.Default.Register<HummingbirdProfilePageViewModel>();
             SimpleIoc.Default.Register<CalendarPageViewModel>();
             SimpleIoc.Default.Register<MalArticlesViewModel>();
             SimpleIoc.Default.Register<MalMessagingViewModel>();
             SimpleIoc.Default.Register<MalMessageDetailsViewModel>();
+            SimpleIoc.Default.Register<AnimeDetailsPageViewModel>();
 
-            _initialized = true;
         }
 
 
@@ -101,16 +95,14 @@ namespace MalClient.Shared.ViewModels
 
         public static IAnimeListViewModel GeneralAnimeList => ServiceLocator.Current.GetInstance<IAnimeListViewModel>();
 
-        public static IAnimeDetailsViewModel GeneralAnimeDetails => ServiceLocator.Current.GetInstance<IAnimeDetailsViewModel>();
-
         public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
+
+        public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
 
         public static RecommendationsViewModel Recommendations
             => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();
 
-        public static SearchPageViewModel SearchPage => ServiceLocator.Current.GetInstance<SearchPageViewModel>();
-
-        public static ProfilePageViewModel ProfilePage => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
+        public static SearchPageViewModel SearchPage => ServiceLocator.Current.GetInstance<SearchPageViewModel>();      
 
         public static HummingbirdProfilePageViewModel HumProfilePage
             => ServiceLocator.Current.GetInstance<HummingbirdProfilePageViewModel>();

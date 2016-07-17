@@ -28,7 +28,7 @@ using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
 using MALClient.Utils.Managers;
-using Settings = MALClient.Utils.Settings;
+using Settings = MalClient.Shared.Utils.Settings;
 
 namespace MALClient.ViewModels
 {  
@@ -55,7 +55,7 @@ namespace MALClient.ViewModels
         private AnimeDetailsPageNavigationArgs _prevArgs;
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
 
-        static AnimeDetailsPageViewModel()
+        public AnimeDetailsPageViewModel()
         {
             UpdateScoreFlyoutChoices();
         }
@@ -378,7 +378,7 @@ namespace MALClient.ViewModels
             return data?.AlternateCoverImgUrl;
         }
 
-        public static void UpdateScoreFlyoutChoices()
+        public void UpdateScoreFlyoutChoices()
         {
             ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
                 ? new List<string>

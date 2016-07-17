@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.Utils;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels.Main;
@@ -23,7 +24,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<ProfilePageViewModel>();
             SimpleIoc.Default.Register<IMainViewModel>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
-            SimpleIoc.Default.Register<IAnimeListViewModel>(() => SimpleIoc.Default.GetInstance<AnimeListViewModel>());
+            //SimpleIoc.Default.Register<IAnimeListViewModel>(() => SimpleIoc.Default.GetInstance<AnimeListViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());
             SimpleIoc.Default.Register<INavMgr, NavMgr>();
         }
@@ -33,7 +34,7 @@ namespace MALClient.ViewModels
         public static HamburgerControlViewModel Hamburger
             => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
 
-        public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
+        //public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
 
         public static SettingsPageViewModel SettingsPage
             => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();

@@ -211,7 +211,7 @@ namespace MalClient.Shared.ViewModels
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 var possibleRef =
-                    await ViewModelLocator.GeneralAnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, _animeMode);
+                    await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, _animeMode);
                 if (possibleRef == null) // else we don't have this item
                 {
                     //we may only prepare for its creation
@@ -1539,7 +1539,7 @@ namespace MalClient.Shared.ViewModels
             GlobalScore = GlobalScore; //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
-            ViewModelLocator.GeneralAnimeList.AddAnimeEntry(animeItem);
+            ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IncrementEpsCommand);
@@ -1578,7 +1578,7 @@ namespace MalClient.Shared.ViewModels
             if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Deleted"))
                 return;
 
-            ViewModelLocator.GeneralAnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
+            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
 
             (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
             AddAnimeVisibility = true;

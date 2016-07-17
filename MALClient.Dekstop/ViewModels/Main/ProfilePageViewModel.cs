@@ -64,7 +64,7 @@ namespace MALClient.ViewModels.Main
                 var list = new List<AnimeItemViewModel>();
                 foreach (var id in CurrentData.FavouriteAnime)
                 {
-                    var data = await DesktopViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
 
                     if (data != null)
                     {
@@ -75,7 +75,7 @@ namespace MALClient.ViewModels.Main
                 list = new List<AnimeItemViewModel>();
                 foreach (var id in CurrentData.FavouriteManga)
                 {
-                    var data = await DesktopViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                     if (data != null)
                     {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
@@ -85,7 +85,7 @@ namespace MALClient.ViewModels.Main
                 list = new List<AnimeItemViewModel>();
                 foreach (var id in CurrentData.RecentAnime)
                 {
-                    var data = await DesktopViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                     if (data != null)
                     {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
@@ -95,7 +95,7 @@ namespace MALClient.ViewModels.Main
                 list = new List<AnimeItemViewModel>();
                 foreach (var id in CurrentData.RecentManga)
                 {
-                    var data = await DesktopViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                     if (data != null)
                     {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);

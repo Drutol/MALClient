@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:items="using:MalClient.Shared.Items"
-    DataContext="{Binding AnimeList , Source={StaticResource MobileLocator}}"
+    DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
     <Page.Resources>

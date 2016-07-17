@@ -108,9 +108,9 @@ namespace MALClient
             if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
                 RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
             {
-                var vm = DesktopViewModelLocator.AnimeList;
+                var vm = ViewModelLocator.AnimeList;
                 if (vm.AreThereItemsWaitingForLoad)
-                    ViewModelLocator.GeneralAnimeList.RefreshList();
+                    ViewModelLocator.AnimeList.RefreshList();
             }
 
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;

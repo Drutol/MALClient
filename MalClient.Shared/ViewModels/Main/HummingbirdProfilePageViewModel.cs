@@ -37,7 +37,7 @@ namespace MalClient.Shared.ViewModels.Main
                 CurrentData = await new ProfileQuery().GetHumProfileData();
                 foreach (var fav in CurrentData.favorites)
                 {
-                    var data = await ViewModelLocator.GeneralAnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
+                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
                     if (data != null)
                     {
                         FavAnime.Add(data as AnimeItemViewModel);

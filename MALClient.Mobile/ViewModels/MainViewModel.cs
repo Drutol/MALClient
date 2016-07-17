@@ -102,7 +102,7 @@ namespace MALClient.ViewModels
             switch (index)
             {
                 case PageIndex.PageAnimeList:
-                    if (!MobileViewModelLocator.AnimeList.Initiazlized)
+                    if (MobileViewModelLocator.AnimeList.Initializing)
                     {
                         if (!_subscribed)
                         {

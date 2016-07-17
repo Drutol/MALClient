@@ -345,7 +345,7 @@ namespace MALClient.ViewModels
             set
             {
                 Settings.MangaFocusVolumes = value;
-                ViewModelLocator.GeneralAnimeList.AllLoadedMangaItemAbstractions.ForEach(abstraction =>
+                ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.ForEach(abstraction =>
                 {
                     if (abstraction.LoadedModel)
                         abstraction.ViewModel.MangaFocusChanged(value);

@@ -7,11 +7,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.ViewModels;
 using MALClient.ViewModels.Main;
+using AnimeListPageNavigationArgs = MalClient.Shared.NavArgs.AnimeListPageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,7 +23,7 @@ namespace MALClient.Pages.Main
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page
+    public sealed partial class AnimeListPage : Page , IAnimeListViewInteractions
     {
         private ScrollViewer _indefiniteScrollViewer;
         private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
@@ -112,7 +113,7 @@ namespace MALClient.Pages.Main
             ViewModel.View = this;
             Loaded += async (sender, args) =>
             {
-                ViewModel.ScrollRequest += ViewModelOnScrollRequest;
+                ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 _loaded = true;
                 try

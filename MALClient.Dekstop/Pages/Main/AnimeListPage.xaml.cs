@@ -10,18 +10,18 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
-using MALClient.Utils;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages
+namespace MALClient.Pages.Main
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page
+    public sealed partial class AnimeListPage : Page , IAnimeListViewInteractions
     {
         private ScrollViewer _indefiniteScrollViewer;
         public AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;

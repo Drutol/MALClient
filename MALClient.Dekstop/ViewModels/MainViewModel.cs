@@ -24,6 +24,7 @@ using MALClient.Pages;
 using MALClient.Pages.Messages;
 using MALClient.UserControls;
 using MALClient.Utils.Managers;
+using AnimeListPage = MALClient.Pages.Main.AnimeListPage;
 
 namespace MALClient.ViewModels
 {
@@ -143,11 +144,11 @@ namespace MALClient.ViewModels
             switch (index)
             {
                 case PageIndex.PageAnimeList:
-                    if (DesktopViewModelLocator.AnimeList.Initializing)
+                    if (ViewModelLocator.AnimeList.Initializing)
                     {
                         if (!_subscribed)
                         {
-                            DesktopViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+                            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
                             _subscribed = true;
                         }
                         _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
@@ -163,7 +164,7 @@ namespace MALClient.ViewModels
                         UnToggleSearchStuff();
                     }
                     if (CurrentMainPageKind == PageIndex.PageAnimeList)
-                        DesktopViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
+                        ViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
                     else
                         View.Navigate(typeof(AnimeListPage), args);
                     break;
@@ -264,7 +265,7 @@ namespace MALClient.ViewModels
 
         private void AnimeListOnInitialized()
         {
-            DesktopViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
             _subscribed = false;
             if (_postponedNavigationArgs != null)
                 Navigate(_postponedNavigationArgs.Item1, _postponedNavigationArgs.Item2);
@@ -274,7 +275,7 @@ namespace MALClient.ViewModels
 
         public AnimeListPageNavigationArgs GetCurrentListOrderParams()
         {
-            var page = DesktopViewModelLocator.AnimeList;
+            var page = ViewModelLocator.AnimeList;
             return new AnimeListPageNavigationArgs(
                 page.SortOption,
                 page.CurrentStatus,
@@ -317,7 +318,7 @@ namespace MALClient.ViewModels
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn); //entry point whatnot
                 if (value.InitDetails != null)
-                    DesktopViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+                    ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
             }
         }
 
@@ -325,7 +326,7 @@ namespace MALClient.ViewModels
         {
             Navigate(PageIndex.PageAnimeDetails,
                 new AnimeDetailsPageNavigationArgs(View.InitDetails.Item1, View.InitDetails.Item2, null, null));
-            DesktopViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
+            ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }
 
 //entry point
@@ -431,7 +432,7 @@ namespace MALClient.ViewModels
                 SetSearchHints();
                 if (SearchToggleLock) return;
 
-                DesktopViewModelLocator.AnimeList.RefreshList(true);
+                ViewModelLocator.AnimeList.RefreshList(true);
             }
         }
 
@@ -493,7 +494,7 @@ namespace MALClient.ViewModels
             get
             {
                 return _goTopCommand ??
-                       (_goTopCommand = new RelayCommand(() => DesktopViewModelLocator.AnimeList.ScrollToTop()));
+                       (_goTopCommand = new RelayCommand(() => ViewModelLocator.AnimeList.ScrollToTop()));
             }
         }
 
@@ -705,7 +706,7 @@ namespace MALClient.ViewModels
             SearchInputVisibility = SearchToggleStatus;
             if (!SearchToggleLock)
             {
-                DesktopViewModelLocator.AnimeList.RefreshList(true);
+                ViewModelLocator.AnimeList.RefreshList(true);
             }
             else
             {

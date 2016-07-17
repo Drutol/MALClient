@@ -158,7 +158,7 @@ namespace MalClient.Shared.ViewModels
 
             ItemManipulationMode = ManipulationModes.All;
             AddToListVisibility = Visibility.Collapsed;
-            ViewModelLocator.GeneralAnimeList.AddAnimeEntry(ParentAbstraction);
+            ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
             await Task.Delay(10);
             RaisePropertyChanged(() => MyStatusBindShort);
             RaisePropertyChanged(() => MyStatusBind);

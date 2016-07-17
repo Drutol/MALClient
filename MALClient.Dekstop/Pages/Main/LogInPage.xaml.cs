@@ -213,7 +213,7 @@ namespace MALClient.Pages
             }
             ViewModelLocator.GeneralMain.HideOffContentCommand.Execute(null);
             await DataCache.ClearApiRelatedCache();
-            DesktopViewModelLocator.AnimeList.LogIn();
+            ViewModelLocator.AnimeList.LogIn();
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList);
             ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
 

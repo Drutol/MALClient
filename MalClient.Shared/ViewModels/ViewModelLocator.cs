@@ -29,7 +29,8 @@ namespace MalClient.Shared.ViewModels
         Visibility NavigateMainBackButtonVisibility { get; set; }
         string CurrentSearchQuery { get; set; }
         List<string> SearchHints { get; set; }
-
+        Visibility ScrollToTopButtonVisibility { get; set; }
+        string CurrentStatusSub { get; set; }
     }
 
     public interface IHamburgerViewModel
@@ -38,18 +39,19 @@ namespace MalClient.Shared.ViewModels
         //Desktop
         void SetActiveButton(HamburgerButtons val);
         void UpdateApiDependentButtons();
+        void UpdateAnimeFiltersSelectedIndex();
     }
 
-    public interface IAnimeListViewModel
-    {
-        void AddAnimeEntry(AnimeItemAbstraction animeItemAbstraction);
-        List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; }
-        List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; }
-        Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false);
-        void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction);
-        //Dekstop
-        void RefreshList(bool searchSource = false, bool fakeDelay = false);
-    }
+    //public interface IAnimeListViewModel
+    //{
+    //    void AddAnimeEntry(AnimeItemAbstraction animeItemAbstraction);
+    //    List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; }
+    //    List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; }
+    //    Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false);
+    //    void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction);
+    //    //Dekstop
+    //    void RefreshList(bool searchSource = false, bool fakeDelay = false);
+    //}
 
     public interface INavMgr
     {
@@ -85,6 +87,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<MalMessagingViewModel>();
             SimpleIoc.Default.Register<MalMessageDetailsViewModel>();
             SimpleIoc.Default.Register<AnimeDetailsPageViewModel>();
+            SimpleIoc.Default.Register<AnimeListViewModel>();
 
         }
 
@@ -93,11 +96,13 @@ namespace MalClient.Shared.ViewModels
 
         public static IHamburgerViewModel GeneralHamburger => ServiceLocator.Current.GetInstance<IHamburgerViewModel>();
 
-        public static IAnimeListViewModel GeneralAnimeList => ServiceLocator.Current.GetInstance<IAnimeListViewModel>();
+        //public static IAnimeListViewModel GeneralAnimeList => ServiceLocator.Current.GetInstance<IAnimeListViewModel>();
 
         public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
 
         public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
+
+        public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
 
         public static RecommendationsViewModel Recommendations
             => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();

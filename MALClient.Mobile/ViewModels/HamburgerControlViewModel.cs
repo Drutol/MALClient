@@ -303,5 +303,10 @@ namespace MALClient.ViewModels
         {
             RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
         }
+
+        public void UpdateAnimeFiltersSelectedIndex()
+        {
+            
+        }
     }
 }

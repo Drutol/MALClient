@@ -149,7 +149,7 @@ namespace MalClient.Shared.ViewModels.Main
 
             foreach (
                 var abstraction in
-                    ViewModelLocator.GeneralAnimeList.AllLoadedAnimeItemAbstractions.Where(
+                    ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
                         abstraction =>
                             (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int) AnimeStatus.PlanToWatch) ||
                             (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int) AnimeStatus.Watching)))

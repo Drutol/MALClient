@@ -60,8 +60,8 @@ namespace MalClient.Shared.Items
             TxtRecTitle.Text = _data.RecommendationTitle;
             TxtRecommendation.Text = _data.Description;
 
-            var myDepItem = await ViewModelLocator.GeneralAnimeList.TryRetrieveAuthenticatedAnimeItem(_data.DependentId);
-            var myRecItem = await ViewModelLocator.GeneralAnimeList.TryRetrieveAuthenticatedAnimeItem(_data.RecommendationId);
+            var myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.DependentId);
+            var myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(_data.RecommendationId);
 
             _detailItems.Add(new Tuple<string, string, string, string, string>("Episodes:",
                 _data.DependentData.AllEpisodes.ToString(),

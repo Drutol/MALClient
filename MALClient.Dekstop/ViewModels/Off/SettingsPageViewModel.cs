@@ -330,7 +330,7 @@ namespace MALClient.ViewModels
             get { return Settings.IsPivotFilterBarVisible; }
             set
             {
-                DesktopViewModelLocator.AnimeList.UpperCommandBarVisibility = value ? Visibility.Visible : Visibility.Collapsed;
+                ViewModelLocator.AnimeList.UpperCommandBarVisibility = value ? Visibility.Visible : Visibility.Collapsed;
                 Settings.IsPivotFilterBarVisible = value;
             }
         }
@@ -415,7 +415,7 @@ namespace MALClient.ViewModels
             set
             {
                 Settings.MangaFocusVolumes = value;
-                DesktopViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.ForEach(abstraction =>
+                ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.ForEach(abstraction =>
                 {
                     if (abstraction.LoadedModel)
                         abstraction.ViewModel.MangaFocusChanged(value);

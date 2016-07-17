@@ -185,12 +185,12 @@ namespace MALClient
                 if (AnimeUpdateQuery.UpdatedSomething)
                     await
                         DataCache.SaveDataForUser(Credentials.UserName,
-                            ViewModelLocator.GeneralAnimeList.AllLoadedAnimeItemAbstractions.Select(
+                            ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
                 if (MangaUpdateQuery.UpdatedSomething)
                     await
                         DataCache.SaveDataForUser(Credentials.UserName,
-                            ViewModelLocator.GeneralAnimeList.AllLoadedMangaItemAbstractions.Select(
+                            ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
             await DataCache.SaveVolatileData();

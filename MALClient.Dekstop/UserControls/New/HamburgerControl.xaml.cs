@@ -16,7 +16,7 @@ using Settings = MalClient.Shared.Utils.Settings;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.UserControls
+namespace MALClient.UserControls.New
 {
     public sealed partial class HamburgerControl : UserControl
     {

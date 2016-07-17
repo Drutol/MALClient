@@ -42,17 +42,6 @@ namespace MalClient.Shared.ViewModels
         void UpdateAnimeFiltersSelectedIndex();
     }
 
-    //public interface IAnimeListViewModel
-    //{
-    //    void AddAnimeEntry(AnimeItemAbstraction animeItemAbstraction);
-    //    List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; }
-    //    List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; }
-    //    Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false);
-    //    void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction);
-    //    //Dekstop
-    //    void RefreshList(bool searchSource = false, bool fakeDelay = false);
-    //}
-
     public interface INavMgr
     {
         void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout);
@@ -70,8 +59,6 @@ namespace MalClient.Shared.ViewModels
 
     public class ViewModelLocator
     {
-        private static bool _initialized;
-
         /// <summary>
         ///     Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -95,8 +82,6 @@ namespace MalClient.Shared.ViewModels
         public static IMainViewModel GeneralMain => ServiceLocator.Current.GetInstance<IMainViewModel>();
 
         public static IHamburgerViewModel GeneralHamburger => ServiceLocator.Current.GetInstance<IHamburgerViewModel>();
-
-        //public static IAnimeListViewModel GeneralAnimeList => ServiceLocator.Current.GetInstance<IAnimeListViewModel>();
 
         public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
 

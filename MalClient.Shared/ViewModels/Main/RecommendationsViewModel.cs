@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Items;
 using MalClient.Shared.Models.AnimeScrapped;
+using MALClient.Items;
 
 namespace MalClient.Shared.ViewModels.Main
 {

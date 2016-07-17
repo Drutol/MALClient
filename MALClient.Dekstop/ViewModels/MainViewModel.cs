@@ -24,7 +24,17 @@ using MALClient.Pages;
 using MALClient.Pages.Messages;
 using MALClient.UserControls;
 using MALClient.Utils.Managers;
+using AnimeDetailsPage = MALClient.Pages.Off.AnimeDetailsPage;
 using AnimeListPage = MALClient.Pages.Main.AnimeListPage;
+using AnimeSearchPage = MALClient.Pages.Main.AnimeSearchPage;
+using CalendarPage = MALClient.Pages.Main.CalendarPage;
+using HamburgerControl = MALClient.UserControls.New.HamburgerControl;
+using HummingbirdProfilePage = MALClient.Pages.Main.HummingbirdProfilePage;
+using LogInPage = MALClient.Pages.Main.LogInPage;
+using MalArticlesPage = MALClient.Pages.Main.MalArticlesPage;
+using ProfilePage = MALClient.Pages.Main.ProfilePage;
+using RecomendationsPage = MALClient.Pages.Main.RecomendationsPage;
+using SettingsPage = MALClient.Pages.Off.SettingsPage;
 
 namespace MALClient.ViewModels
 {
@@ -280,7 +290,6 @@ namespace MALClient.ViewModels
                 page.SortOption,
                 page.CurrentStatus,
                 page.SortDescending,
-                page.CurrentPosition,
                 page.WorkMode,
                 page.ListSource,
                 page.CurrentSeason,

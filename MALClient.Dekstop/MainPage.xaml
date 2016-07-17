@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:WinRTXamlToolkit.Controls"
     xmlns:xamlConverters1="using:MalClient.Shared.XamlConverters"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:userControls="using:MalClient.Shared.UserControls" 
+    xmlns:new="using:MALClient.UserControls.New"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
@@ -196,7 +197,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <controls:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" />
+            <new:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" />
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

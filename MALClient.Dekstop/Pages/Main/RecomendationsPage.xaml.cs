@@ -3,11 +3,10 @@ using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Items;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Items;
-using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages
+namespace MALClient.Pages.Main
 {
     public class RecommendationPageNavigationArgs
     {

@@ -75,6 +75,8 @@ namespace MALClient.Pages.Main
                     return AnimesItemsIndefinite;
                 case AnimeListDisplayModes.IndefiniteGrid:
                     return AnimesGridIndefinite;
+                case AnimeListDisplayModes.IndefiniteCompactList:
+                    return AnimeCompactItemsIndefinite;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -91,19 +93,8 @@ namespace MALClient.Pages.Main
                 return;
             await Task.Delay(1);
             var args = MobileViewModelLocator.Main.GetCurrentListOrderParams();
-            args.SelectedItemIndex = AnimesItemsIndefinite.SelectedIndex;
+            args.SelectedItemIndex = (sender as ListViewBase).SelectedIndex;
             (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null, args);
-        }
-
-        private async void AnimesGridIndefinite_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
-            await Task.Delay(1);
-            var args = MobileViewModelLocator.Main.GetCurrentListOrderParams();
-            args.SelectedItemIndex = AnimesGridIndefinite.SelectedIndex;
-            args.TopWorkMode = ViewModel.TopAnimeWorkMode;
-            (e.AddedItems.First() as AnimeItemViewModel).NavigateDetails(null,args);
         }
 
         private bool _loaded;
@@ -115,6 +106,7 @@ namespace MALClient.Pages.Main
             {
                 ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
+                ViewModel.SortingSettingChanged += InitSortOptions;
                 _loaded = true;
                 try
                 {
@@ -134,6 +126,7 @@ namespace MALClient.Pages.Main
             switch (ViewModel.DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteCompactList:
+                    AnimeCompactItemsIndefinite.ScrollIntoView(item);
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
                     AnimesItemsIndefinite.ScrollIntoView(item);
@@ -150,7 +143,6 @@ namespace MALClient.Pages.Main
         {
             ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
         }
-
 
         #region UIHelpers
 

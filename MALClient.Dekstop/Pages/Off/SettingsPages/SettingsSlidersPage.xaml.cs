@@ -3,11 +3,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using MalClient.Shared.Utils;
-using MALClient.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.SettingsPages
+namespace MALClient.Pages.Off.SettingsPages
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

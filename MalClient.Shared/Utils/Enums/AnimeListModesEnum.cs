@@ -10,10 +10,10 @@
     }
 
     public enum AnimeListDisplayModes
-    {
-        IndefiniteCompactList,
+    {      
         IndefiniteList,
-        IndefiniteGrid
+        IndefiniteGrid,
+        IndefiniteCompactList,
     }
 
     public enum SortOptions

@@ -166,6 +166,9 @@
     <Compile Include="Flyouts\WatchedEpisodesFlyout.xaml.cs">
       <DependentUpon>WatchedEpisodesFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Items\AnimeCompactItem.xaml.cs">
+      <DependentUpon>AnimeCompactItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Items\AnimeGridItem.xaml.cs">
       <DependentUpon>AnimeGridItem.xaml</DependentUpon>
     </Compile>
@@ -300,6 +303,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Flyouts\WatchedEpisodesFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Items\AnimeCompactItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

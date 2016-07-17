@@ -6,7 +6,6 @@ using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
-using MALClient.Utils.Managers;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

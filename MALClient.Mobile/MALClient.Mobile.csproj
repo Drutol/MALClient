@@ -315,9 +315,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MalClient.Shared\MalClient.Shared.csproj">
+    <ProjectReference Include="..\MalClient.Shared\MALClient.Shared.csproj">
       <Project>{fbd14ec9-e60e-4155-bd43-210f3096ca5a}</Project>
-      <Name>MalClient.Shared</Name>
+      <Name>MALClient.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

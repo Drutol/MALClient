@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Utils.Managers;

@@ -12,7 +12,8 @@
     xmlns:userControls="using:MalClient.Shared.UserControls" 
     xmlns:items="using:MalClient.Shared.Items" 
     xmlns:viewModels1="using:MalClient.Shared.ViewModels" 
-    xmlns:anime="using:MalClient.Shared.Models.Anime"
+    xmlns:anime="using:MalClient.Shared.Models.Anime" 
+    xmlns:derived="using:MalClient.Shared.UserControls.Derived"
     DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -162,32 +163,32 @@
                 <SymbolIcon Symbol="Sort" />
                 <Button.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortTitle" Text="Title"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortTitle" Text="Title"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="0"
                                                             GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortScore" Text="Score"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortScore" Text="Score"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="1"
                                                             GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="2"
                                                             GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="3"
                                                             GroupName="SortOptionsPivotUpperItems"
                                                             Visibility="{Binding SortAirDayVisibility}" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
                                                             Command="{Binding SetSortModeCommand}"
                                                             Visibility="{Binding HumApiSpecificControlsVisibility}"
                                                             CommandParameter="4" GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
                                                             Command="{Binding SetSortModeCommand}"
                                                             Visibility="{Binding MalApiSpecificControlsVisibility}"
                                                             CommandParameter="5" GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
                                                             Command="{Binding SetSortModeCommand}"
                                                             Visibility="{Binding MalApiSpecificControlsVisibility}"
                                                             CommandParameter="6" GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None"
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="7"
                                                             GroupName="SortOptionsPivotUpperItems" />
                         <MenuFlyoutSeparator />

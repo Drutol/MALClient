@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:items="using:MalClient.Shared.Items"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:items1="using:MALClient.Items"
     DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -13,6 +15,7 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:DisplayModeToPresenterControlVisibility x:Key="DisplayModeToPresenterControlVisibility" />
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <x:String x:Key="IndefiniteCompactListString">IndefiniteCompactList</x:String>
         <x:String x:Key="IndefiniteListString">IndefiniteList</x:String>
         <x:String x:Key="IndefiniteGridString">IndefiniteGrid</x:String>
     </Page.Resources>
@@ -145,6 +148,50 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
+                                      Margin="3,1,-2,1" Padding="3,0,0,0"
+                                      ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
+                                      SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
+                                      ShowsScrollingPlaceholders="False"
+                                      IsItemClickEnabled="True"
+                                      Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
+            <userControls:AlternatingListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    <Setter Property="BorderThickness" Value="2,0,0,0" />
+                    <Setter Property="Margin" Value="1" />
+                    <Setter Property="Padding" Value="3,0,0,0" />
+                </Style>
+            </userControls:AlternatingListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Margin="0,0,16,0" Orientation="Vertical" HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition FromVerticalOffset="100" />
+                    <AddDeleteThemeTransition />
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </ListView.ItemContainerTransitions>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <items1:AnimeCompactItem DataContext="{Binding}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                      Visibility="{Binding LoadMoreFooterVisibility}">
+                    <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="More" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </ListView.Footer>
+        </userControls:AlternatingListView>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeListItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
@@ -179,8 +226,8 @@
                 </Grid>
             </ListView.Footer>
         </ListView>
-        <GridView x:Name="AnimesGridIndefinite" Margin="0,0,-16,0" ItemsSource="{Binding AnimeGridItems}" IncrementalLoadingTrigger="Edge"  IncrementalLoadingThreshold="4"
-                  SelectionChanged="AnimesGridIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
+        <GridView x:Name="AnimesGridIndefinite" Margin="0,0,-16,0" ItemsSource="{Binding AnimeGridItems}"
+                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
                   ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>

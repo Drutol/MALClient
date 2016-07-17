@@ -7,11 +7,10 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
-using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages
+namespace MALClient.Pages.Main
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

@@ -4,13 +4,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Utils;
 using MalClient.Shared.ViewModels;
-using MALClient.Pages.SettingsPages;
-using MALClient.Utils;
-using MALClient.ViewModels;
+using MALClient.Pages.Off.SettingsPages;
+using MALClient.ViewModels.Off;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages
+namespace MALClient.Pages.Off
 {
     public delegate void SettingsNavigationRequest(Type pageType);
 

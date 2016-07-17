@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -12,7 +11,7 @@ using MalClient.Shared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MalClient.Shared.Items
+namespace MALClient.Items
 {
     public sealed partial class RecomendationItem : UserControl
     {
@@ -48,12 +47,20 @@ namespace MalClient.Shared.Items
         }
 
 
-        public async Task PopulateData()
+        public async void PopulateData()
         {
             if (_dataLoaded)
                 return;
             SpinnerLoading.Visibility = Visibility.Visible;
-            await _data.FetchData();
+            try
+            {
+                await _data.FetchData();
+            }
+            catch (ArgumentNullException)
+            {
+                return; //umm tried to search for show with K as a title...
+            }
+
             DepImg.Source = new BitmapImage(new Uri(_data.DependentData.ImgUrl));
             RecImg.Source = new BitmapImage(new Uri(_data.RecommendationData.ImgUrl));
             TxtDepTitle.Text = _data.DependentTitle;
@@ -110,24 +117,22 @@ namespace MalClient.Shared.Items
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 
-        private  void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
         {
             ViewModelLocator.GeneralMain
-               .Navigate(PageIndex.PageAnimeDetails,
+                .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(_data.RecommendationId, _data.RecommendationTitle,
                         _data.RecommendationData, null,
-                        new RecommendationPageNavigationArgs {Index = Index})
-                    {Source = PageIndex.PageRecomendations});
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
 
-        private  void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
         {
             ViewModelLocator.GeneralMain
-               .Navigate(PageIndex.PageAnimeDetails,
+                .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(_data.DependentId, _data.DependentTitle,
                         _data.DependentData, null,
-                        new RecommendationPageNavigationArgs {Index = Index})
-                    {Source = PageIndex.PageRecomendations});
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
     }
 }

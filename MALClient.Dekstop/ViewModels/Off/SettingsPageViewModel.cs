@@ -17,13 +17,13 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
-using MALClient.Pages;
-using MALClient.Pages.SettingsPages;
-using MALClient.Utils.Managers;
+using MALClient.Pages.Off;
+using MALClient.Pages.Off.SettingsPages;
 using Newtonsoft.Json;
+using LogInPage = MALClient.Pages.Main.LogInPage;
 using Settings = MalClient.Shared.Utils.Settings;
 
-namespace MALClient.ViewModels
+namespace MALClient.ViewModels.Off
 {
     public class SettingsPageEntry
     {

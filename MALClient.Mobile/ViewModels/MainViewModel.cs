@@ -22,39 +22,23 @@ using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Pages;
+using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
-using AnimeDetailsPage = MALClient.Pages.Off.AnimeDetailsPage;
-using AnimeListPage = MALClient.Pages.Main.AnimeListPage;
-using AnimeSearchPage = MALClient.Pages.Main.AnimeSearchPage;
-using CalendarPage = MALClient.Pages.Main.CalendarPage;
-using HummingbirdProfilePage = MALClient.Pages.Main.HummingbirdProfilePage;
-using LogInPage = MALClient.Pages.Main.LogInPage;
-using MalArticlesPage = MALClient.Pages.Main.MalArticlesPage;
-using ProfilePage = MALClient.Pages.Main.ProfilePage;
-using RecomendationsPage = MALClient.Pages.Main.RecomendationsPage;
-using SettingsPage = MALClient.Pages.Off.SettingsPage;
+using MALClient.Pages.Off;
 
 namespace MALClient.ViewModels
 {
-    public interface IMainViewInteractions
-    {
-        void Navigate(Type page, object args = null);
-        void SearchInputFocus(FocusState state);
-        Tuple<int, string> InitDetails { get; }
-        Storyboard PinDialogStoryboard { get; }
-        Storyboard CurrentStatusStoryboard { get; }
-        Storyboard HidePinDialogStoryboard { get; }
-        Storyboard CurrentOffSubStatusStoryboard { get; }
-        SplitViewDisplayMode CurrentDisplayMode { get; }
-    }
-
     public class MainViewModel : ViewModelBase , IMainViewModel
-    {        
+    {
+        public static Tuple<int, string> InitDetails;
+
         private bool? _searchStateBeforeNavigatingToSearch;
         private bool _wasOnDetailsFromSearch;
         public PageIndex? LastIndex { get; private set; }
 
         public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
+
+        public event NavigationRequest NavigationRequested;
 
         public async void Navigate(PageIndex index, object args = null)
         {
@@ -123,7 +107,7 @@ namespace MALClient.ViewModels
                     if (LastIndex == PageIndex.PageAnimeList)
                         MobileViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
                     else
-                        View.Navigate(typeof(AnimeListPage), args);
+                        NavigationRequested?.Invoke(typeof(AnimeListPage), args);
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();
@@ -138,11 +122,11 @@ namespace MALClient.ViewModels
                     if (LastIndex == PageIndex.PageAnimeDetails)
                         ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
                     else
-                        View.Navigate(typeof(AnimeDetailsPage), args);
+                        NavigationRequested?.Invoke(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
-                    View.Navigate(typeof(SettingsPage));
+                    NavigationRequested?.Invoke(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
@@ -151,7 +135,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    View.Navigate(typeof(LogInPage));
+                    NavigationRequested?.Invoke(typeof(LogInPage));
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
@@ -161,22 +145,22 @@ namespace MALClient.ViewModels
                         if (LastIndex == PageIndex.PageProfile)
                             MobileViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
                         else
-                            View.Navigate(typeof(ProfilePage), args);
+                            NavigationRequested?.Invoke(typeof(ProfilePage), args);
                     }
                     else
-                        View.Navigate(typeof(HummingbirdProfilePage), args);
+                        NavigationRequested?.Invoke(typeof(HummingbirdProfilePage), args);
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
-                    View.Navigate(typeof(RecomendationsPage), args);
+                    NavigationRequested?.Invoke(typeof(RecomendationsPage), args);
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();
                     CurrentStatus = "Calendar";
-                    View.Navigate(typeof(CalendarPage), args);
+                    NavigationRequested?.Invoke(typeof(CalendarPage), args);
                     break;
                 case PageIndex.PageArticles:
                 case PageIndex.PageNews:
@@ -186,19 +170,19 @@ namespace MALClient.ViewModels
                     if (LastIndex == PageIndex.PageArticles)
                         ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
                     else
-                        View.Navigate(typeof(MalArticlesPage), args);
+                        NavigationRequested?.Invoke(typeof(MalArticlesPage), args);
                     break;
                 case PageIndex.PageMessanging:
                     HideSearchStuff();
                     CurrentStatus = $"{Credentials.UserName} - Messages";
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
-                    View.Navigate(typeof(MalMessagingPage), args);
+                    NavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
                 case PageIndex.PageMessageDetails:
                     var msgModel = args as MalMessageModel;
                     CurrentStatus = msgModel != null ? $"{msgModel.Sender} - {msgModel.Subject}" : "New Message";
-                    View.Navigate(typeof(MalMessageDetailsPage), args);
+                    NavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -248,7 +232,7 @@ namespace MALClient.ViewModels
                 Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
-                if (value.InitDetails != null)
+                if (InitDetails != null)
                     MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
             }
         }
@@ -256,7 +240,7 @@ namespace MALClient.ViewModels
         private void AnimeListOnInitializedLoadArgs()
         {
             Navigate(PageIndex.PageAnimeDetails,
-                new AnimeDetailsPageNavigationArgs(View.InitDetails.Item1, View.InitDetails.Item2, null, null));
+                new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
             MobileViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }
 
@@ -544,7 +528,7 @@ namespace MALClient.ViewModels
                 View.SearchInputFocus(FocusState.Keyboard);
                 (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
             }
-            View.Navigate(typeof(AnimeSearchPage), args);
+            NavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
         }
 
         #endregion

@@ -106,7 +106,8 @@ namespace MALClient
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), navArgs);
+                MainViewModel.InitDetails = navArgs;
+                rootFrame.Navigate(typeof(MainPage));
             }
             else if(navArgs != null)
             {
@@ -126,24 +127,9 @@ namespace MALClient
 
         private async void ProcessUpdate()
         {
-            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
-                || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
-                await Task.Run(async () =>
-                {
-                    try
-                    {
-                        var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
-                        foreach (var file in await folder.GetFilesAsync())
-                        {
-                            if (file.Name.Contains("related") || file.Name.Contains("direct_recommendations"))
-                                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        //
-                    }
-                });
+            //if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
+            //    || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
+
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
         }
 

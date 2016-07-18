@@ -44,6 +44,42 @@ namespace MALClient.Pages.Main
         public Flyout FlyoutFilters => FiltersFlyout;
         public MenuFlyout FlyoutSorting => SortingFlyout;
 
+        private double _prevWidth;
+        private double _prevHeight;
+        private bool _loaded;
+        private AnimeListPageNavigationArgs _navArgs;
+
+        public AnimeListPage()
+        {
+            InitializeComponent();
+            Loaded += (sender, args) =>
+            {
+                ViewModel.View = this;
+                _loaded = true;
+                ViewModel.CanAddScrollHandler = true;
+                ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
+                ViewModel.SortingSettingChanged += OnSortingSettingChanged;
+                ViewModel.SelectionResetRequested += ResetSelectionForMode;
+                ViewModel.Init(_navArgs);
+                SizeChanged += (s, a) => { ViewModel.UpdateGridItemWidth(a); };
+            };
+
+            
+            ViewModelLocator.GeneralMain.OffContentPaneStateChanged += MainOnOffContentPaneStateChanged;
+        }
+
+        private void MainOnOffContentPaneStateChanged()
+        {
+            if (Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse &&
+                AnimesGridIndefinite.SelectedItem != null)
+                AnimesGridIndefinite.ScrollIntoView(AnimesGridIndefinite.SelectedItem);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            _navArgs = e.Parameter as AnimeListPageNavigationArgs;
+        }
+
         public async Task<ScrollViewer> GetIndefiniteScrollViewer()
         {
             if (!_loaded)
@@ -107,7 +143,7 @@ namespace MALClient.Pages.Main
             e.Handled = true;
         }
 
-        public void ResetSelectionForMode(AnimeListDisplayModes currMode)
+        private void ResetSelectionForMode(AnimeListDisplayModes currMode)
         {
             try
             {
@@ -244,48 +280,7 @@ namespace MALClient.Pages.Main
             ViewModel.StatusSelectorSelectedIndex = UpperNavBarPivot.SelectedIndex;
         }
 
-        public void SetUpperPivotIndex(int index)
-        {
-            UpperNavBarPivot.SelectedIndex = index;
-        }
 
-        #region Init
 
-        private double _prevWidth;
-        private double _prevHeight;
-        private bool _loaded;
-        private AnimeListPageNavigationArgs navArgs;
-
-        public AnimeListPage()
-        {
-            InitializeComponent();
-            Loaded += (sender, args) =>
-            {
-                ViewModel.View = this;
-                _loaded = true;
-                ViewModel.CanAddScrollHandler = true;
-                ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
-                ViewModel.SortingSettingChanged += OnSortingSettingChanged;
-                ViewModel.SelectionResetRequested += ResetSelectionForMode;
-                ViewModel.Init(navArgs);
-            };
-
-            SizeChanged += (sender, args) => { ViewModel.UpdateGridItemWidth(); };
-            ViewModelLocator.GeneralMain.OffContentPaneStateChanged += MainOnOffContentPaneStateChanged;
-        }
-
-        private void MainOnOffContentPaneStateChanged()
-        {
-            if (Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse &&
-                AnimesGridIndefinite.SelectedItem != null)
-                AnimesGridIndefinite.ScrollIntoView(AnimesGridIndefinite.SelectedItem);
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            navArgs = e.Parameter as AnimeListPageNavigationArgs;
-        }
-
-        #endregion
     }
 }

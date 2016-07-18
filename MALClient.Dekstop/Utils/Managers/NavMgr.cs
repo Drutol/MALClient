@@ -57,7 +57,7 @@ namespace MALClient.Utils.Managers
 
         public void DeregisterBackNav()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public void ResetBackNav()

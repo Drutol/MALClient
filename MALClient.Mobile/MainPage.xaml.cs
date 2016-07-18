@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.ViewModels;
 
@@ -23,18 +24,12 @@ namespace MALClient
         {
             InitializeComponent();
             Loaded += (a1,a2) => MobileViewModelLocator.Main.View = this;
+            ViewModel.NavigationRequested += Navigate;
         }
 
         public MainViewModel ViewModel => DataContext as MainViewModel;
-        public Tuple<int, string> InitDetails { get; private set; }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            InitDetails = e.Parameter as Tuple<int, string>;
-        }
-
-
-        public void Navigate(Type page, object args = null)
+        private void Navigate(Type page, object args = null)
         {
             MainContent.Navigate(page, args);
         }
@@ -44,11 +39,17 @@ namespace MALClient
             SearchInput.Focus(state);
         }
 
-        public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
+        public void InitSplitter()
+        {
+            
+        }
+
         public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
+        public Storyboard CurrentOffStatusStoryboard { get; } //unused
         public Storyboard CurrentOffSubStatusStoryboard => FadeInCurrentSubStatus;
-        public SplitViewDisplayMode CurrentDisplayMode => MainSplitView.DisplayMode;
+        public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
         public Storyboard HidePinDialogStoryboard => FadeOutPinDialogStoryboard;
+        public SplitViewDisplayMode CurrentDisplayMode => MainSplitView.DisplayMode;
 
         #region Search
 

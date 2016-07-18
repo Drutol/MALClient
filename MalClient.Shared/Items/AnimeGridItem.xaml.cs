@@ -32,6 +32,15 @@ namespace MalClient.Shared.Items
             set { SetValue(DisplayContextProperty, value); }
         }
 
+        public bool AllowSwipeInGivenContext
+        {
+            set
+            {
+                if(!value)
+                    ManipulationMode = ManipulationModes.System;
+            }
+        }
+
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if(DataContext == null)

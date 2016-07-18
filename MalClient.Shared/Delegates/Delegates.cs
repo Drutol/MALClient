@@ -13,4 +13,5 @@ namespace MalClient.Shared.Delegates
     public delegate void ScrollIntoViewRequest(AnimeItemViewModel item);
     public delegate void SelectionResetRequest(AnimeListDisplayModes mode);
     public delegate void SortingSettingChange(SortOptions option, bool descencing);
+    public delegate void NavigationRequest(Type page, object args = null);
 }

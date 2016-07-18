@@ -31,15 +31,23 @@ namespace MalClient.Shared.ViewModels
                 if (value == Visibility.Visible)
                 {
                     ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => GeneralVisibility = Visibility.Collapsed));
-                    //ViewModelLocator.GeneralMain.View.PinDialogStoryboard.Begin(); TODO
+                    ViewModelLocator.GeneralMain.View.PinDialogStoryboard.Begin();
                     RaisePropertyChanged(() => GeneralVisibility);
                 }
                 else
                 {
-                    //HidePinDialog();
+                    HidePinDialog();
                 }             
             }
         }
+
+        public async void HidePinDialog()
+        {
+            var sb = ViewModelLocator.GeneralMain.View.HidePinDialogStoryboard;
+            sb.Completed += SbOnCompleted;
+            sb.Begin();
+        }
+
 
         private Visibility _urlInputVisibility = Visibility.Visible;
 

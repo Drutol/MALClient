@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight.Ioc;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.Models.Library;
@@ -13,6 +16,19 @@ using AnimeDetailsPageNavigationArgs = MalClient.Shared.NavArgs.AnimeDetailsPage
 
 namespace MalClient.Shared.ViewModels
 {
+
+    public interface IMainViewInteractions
+    {
+        Storyboard CurrentStatusStoryboard { get; }
+        Storyboard CurrentOffStatusStoryboard { get; }
+        Storyboard CurrentOffSubStatusStoryboard { get; }
+        Storyboard PinDialogStoryboard { get; }
+        Storyboard HidePinDialogStoryboard { get;}
+        SplitViewDisplayMode CurrentDisplayMode { get; }
+        void SearchInputFocus(FocusState state);
+        void InitSplitter();
+    }
+
     public interface IMainViewModel
     {
         void Navigate(PageIndex page, object args = null);
@@ -31,6 +47,7 @@ namespace MalClient.Shared.ViewModels
         List<string> SearchHints { get; set; }
         Visibility ScrollToTopButtonVisibility { get; set; }
         string CurrentStatusSub { get; set; }
+        IMainViewInteractions View { get; }
     }
 
     public interface IHamburgerViewModel
@@ -40,6 +57,7 @@ namespace MalClient.Shared.ViewModels
         void SetActiveButton(HamburgerButtons val);
         void UpdateApiDependentButtons();
         void UpdateAnimeFiltersSelectedIndex();
+        void UpdateLogInLabel();
     }
 
     public interface INavMgr

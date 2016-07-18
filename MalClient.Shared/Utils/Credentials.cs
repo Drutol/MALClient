@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using Windows.Security.Credentials;
 using Windows.Storage;
 using MalClient.Shared.Comm;
+using MalClient.Shared.ViewModels;
 
 namespace MalClient.Shared.Utils
 {
@@ -60,7 +61,7 @@ namespace MalClient.Shared.Utils
         {
             Authenticated = status;
             ApplicationData.Current.LocalSettings.Values["Auth"] = status.ToString();
-            //TODO hamburger update
+            ViewModelLocator.GeneralHamburger.UpdateLogInLabel();
         }
 
         public static void SetId(int id)

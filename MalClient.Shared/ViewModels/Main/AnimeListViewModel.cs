@@ -442,8 +442,11 @@ namespace MalClient.Shared.ViewModels.Main
                 LoadMoreFooterVisibility = Visibility.Collapsed;
         }
 
-        public void UpdateGridItemWidth()
+        public void UpdateGridItemWidth(SizeChangedEventArgs args)
         {
+            if(args.PreviousSize.Width - args.NewSize.Width < -600 || args.PreviousSize.Height - args.NewSize.Height < -350)
+                if(ViewModelLocator.AnimeList.AreThereItemsWaitingForLoad)
+                    ViewModelLocator.AnimeList.RefreshList();
             if (DisplayMode == AnimeListDisplayModes.IndefiniteList)
                 RaisePropertyChanged(() => ListItemGridWidth);
         }
@@ -503,8 +506,8 @@ namespace MalClient.Shared.ViewModels.Main
 
         private int GetGridItemsToLoad()
         {
-            var width = View.ActualWidth;
-            var height = View.ActualHeight;
+            var width = View?.ActualWidth ?? 1920;
+            var height = View?.ActualHeight ?? 1080;
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteCompactList:

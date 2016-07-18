@@ -42,12 +42,15 @@ namespace MALClient.UserControls.New
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             ViewModel.UpdateProfileImg();
-            if (Settings.HamburgerAnimeFiltersExpanded)
-                ButtonExpandAnimeFiltersOnClick(null, null);
-            if (Settings.HamburgerMangaFiltersExpanded)
-                ButtonExpandMangaFiltersOnClick(null, null);
-            if (Settings.HamburgerTopCategoriesExpanded)
-                ButtonExpandTopCategoriesOnClick(null, null);
+            if (DesktopViewModelLocator.Main.MenuPaneState)
+            {
+                if (Settings.HamburgerAnimeFiltersExpanded)
+                    ButtonExpandAnimeFiltersOnClick(null, null);
+                if (Settings.HamburgerMangaFiltersExpanded)
+                    ButtonExpandMangaFiltersOnClick(null, null);
+                if (Settings.HamburgerTopCategoriesExpanded)
+                    ButtonExpandTopCategoriesOnClick(null, null);
+            }
 
             FeedbackImage.Source = Settings.SelectedTheme == ApplicationTheme.Dark
                 ? new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-Light-120px-plus.png"))

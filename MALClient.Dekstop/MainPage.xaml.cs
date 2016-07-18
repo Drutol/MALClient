@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.Devices.Input;
 using Windows.UI.ViewManagement;
@@ -11,9 +12,6 @@ using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.UserControls;
 using MalClient.Shared.Utils;
 using MalClient.Shared.ViewModels;
-using MALClient.UserControls;
-using MALClient.Utils;
-using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using HamburgerControl = MALClient.UserControls.New.HamburgerControl;
 
@@ -39,22 +37,40 @@ namespace MALClient
                         new Uri(Settings.SelectedTheme == ApplicationTheme.Dark
                             ? "ms-appx:///Assets/upperappbarlogowhite.png"
                             : "ms-appx:///Assets/upperappbarlogoblue.png"));
-
+                var vm = DesktopViewModelLocator.Main;
+                vm.MainNavigationRequested += Navigate;
+                vm.OffNavigationRequested += NavigateOff;
+                vm.PropertyChanged += VmOnPropertyChanged;
                 DesktopViewModelLocator.Main.View = this;
             };
         }
 
+        private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if(args.PropertyName == "MenuPaneState")
+            {
+                var paneState = (sender as MainViewModel).MenuPaneState;
+                HamburgerControl.Width = paneState ? 250 : 60;
+                LogoImage.Visibility = paneState ? Visibility.Visible : Visibility.Collapsed;
+
+
+            }
+
+        }
+
         public Tuple<int, string> InitDetails { get; private set; }
 
-        public void Navigate(Type page, object args = null)
+        private void Navigate(Type page, object args = null)
         {
             MainContent.Navigate(page, args);
         }
 
-        public void NavigateOff(Type page, object args = null)
+        private void NavigateOff(Type page, object args = null)
         {
             OffContent.Navigate(page, args);
         }
+
+        public SplitViewDisplayMode CurrentDisplayMode { get; }
 
         public void SearchInputFocus(FocusState state)
         {
@@ -70,10 +86,6 @@ namespace MALClient
             OffContent.UpdateLayout();
         }
 
-
-        public HamburgerControl Hamburger => HamburgerControl;
-        public Grid GridRootContent => RootContentGrid;
-        public Image Logo => LogoImage;
         public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
         public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
         public Storyboard CurrentOffStatusStoryboard => FadeInCurrentOffStatus;
@@ -150,8 +162,8 @@ namespace MALClient
         /// <param name="e"></param>
         private void PinPivotItem_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
-            ScrollView.ScrollToVerticalOffset(ScrollView.VerticalOffset -
-                                              e.GetCurrentPoint(ScrollView).Properties.MouseWheelDelta);
+            ScrollView.ChangeView(null, ScrollView.VerticalOffset -
+                                        e.GetCurrentPoint(ScrollView).Properties.MouseWheelDelta, null);
         }
 
         private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)

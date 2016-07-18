@@ -17,6 +17,7 @@ using HtmlAgilityPack;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
+using Microsoft.HockeyApp;
 
 namespace MalClient.Shared.Utils
 {

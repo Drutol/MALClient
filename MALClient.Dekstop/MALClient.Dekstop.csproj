@@ -103,6 +103,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
     <PRIResource Include="MalClientResources.resw" />
   </ItemGroup>
@@ -359,8 +360,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>MALClient_StoreKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Native Debug|x86'">
     <OutputPath>bin\x86\Native Debug\</OutputPath>

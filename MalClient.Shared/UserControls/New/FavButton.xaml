@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <ToggleButton Padding="0" Margin="5,5,0,0" Height="40" Width="40" Background="Transparent" 
+    <ToggleButton x:Name="Root" Padding="0" Margin="5,5,0,0" Height="40" Width="40" Background="Transparent"
                               IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
                               IsEnabled="{Binding IsFavouriteButtonEnabled}">
         <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>

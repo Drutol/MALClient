@@ -197,47 +197,55 @@ namespace MalClient.Shared.Comm
                             }
                             break;
                         case AnimeListWorkModes.Manga: //rough undocumented endpoint raid
-                            dynamic jsonMangaObj = JsonConvert.DeserializeObject(raw);
-                            var mangaData = new Dictionary<string, dynamic>();
-                                //library data and manga dta are not connected
-                            foreach (var manga in jsonMangaObj.manga)
-                                mangaData.Add(manga.id.ToString(), manga);
-                            foreach (var mangaLibraryEntry in jsonMangaObj.manga_library_entries)
+                            try
                             {
-                                var details = mangaData[mangaLibraryEntry.manga_id.ToString()];
-                                try
+                                dynamic jsonMangaObj = JsonConvert.DeserializeObject(raw);
+                                var mangaData = new Dictionary<string, dynamic>();
+                                //library data and manga dta are not connected
+                                foreach (var manga in jsonMangaObj.manga)
+                                    mangaData.Add(manga.id.ToString(), manga);
+                                foreach (var mangaLibraryEntry in jsonMangaObj.manga_library_entries)
                                 {
-                                    var type = MangaType.Manga;
-                                    Enum.TryParse(details.manga_type.ToString(), true, out type);
-                                    float score = 0;
-                                    if (details.rating != null)
-                                        score = float.Parse(mangaLibraryEntry.rating.value.ToString());
-                                    output.Add(new MangaLibraryItemData
+                                    var details = mangaData[mangaLibraryEntry.manga_id.ToString()];
+                                    try
                                     {
-                                        Title = details.romaji_title.ToString(),
-                                        ImgUrl = details.cover_image.ToString(),
-                                        Type = (int) type,
-                                        MalId = -1,
-                                        Id = Convert.ToInt32(mangaLibraryEntry.id.ToString()),
-                                        MyStatus = HummingbirdMangaStatusToMal(mangaLibraryEntry.status.ToString()),
-                                        MyEpisodes = Convert.ToInt32(mangaLibraryEntry.chapters_read.ToString()),
-                                        AllEpisodes = Convert.ToInt32(details.chapter_count.ToString()),
-                                        MyStartDate = "0000-00-00",
-                                        MyEndDate = "0000-00-00",
-                                        MyScore = score,
-                                        MyVolumes = Convert.ToInt32(mangaLibraryEntry.volumes_read.ToString()),
-                                        AllVolumes = Convert.ToInt32(details.volume_count.ToString()),
-                                        SlugId = mangaLibraryEntry.manga_id.ToString()
-                                    });
-                                    if (output.Last().ImgUrl == "/cover_images/original/missing.png")
+                                        var type = MangaType.Manga;
+                                        Enum.TryParse(details.manga_type.ToString(), true, out type);
+                                        float score = 0;
+                                        if (details.rating != null)
+                                            score = float.Parse(mangaLibraryEntry.rating.value.ToString());
+                                        output.Add(new MangaLibraryItemData
+                                        {
+                                            Title = details.romaji_title.ToString(),
+                                            ImgUrl = details.cover_image.ToString(),
+                                            Type = (int)type,
+                                            MalId = -1,
+                                            Id = Convert.ToInt32(mangaLibraryEntry.id.ToString()),
+                                            MyStatus = HummingbirdMangaStatusToMal(mangaLibraryEntry.status.ToString()),
+                                            MyEpisodes = Convert.ToInt32(mangaLibraryEntry.chapters_read.ToString()),
+                                            AllEpisodes = Convert.ToInt32(details.chapter_count.ToString()),
+                                            MyStartDate = "0000-00-00",
+                                            MyEndDate = "0000-00-00",
+                                            MyScore = score,
+                                            MyVolumes = Convert.ToInt32(mangaLibraryEntry.volumes_read.ToString()),
+                                            AllVolumes = Convert.ToInt32(details.volume_count.ToString()),
+                                            SlugId = mangaLibraryEntry.manga_id.ToString()
+                                        });
+                                        if (output.Last().ImgUrl == "/cover_images/original/missing.png")
+                                        {
+                                            output.Last().ImgUrl = details.poster_image.ToString();
+                                        }
+                                    }
+                                    catch (Exception e)
                                     {
-                                        output.Last().ImgUrl = details.poster_image.ToString();
                                     }
                                 }
-                                catch (Exception e)
-                                {
-                                }
                             }
+                            catch (Exception)
+                            {
+                                //aaand we've derailed
+                            }
+                            
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

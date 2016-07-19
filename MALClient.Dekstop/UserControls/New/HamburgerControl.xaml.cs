@@ -2,6 +2,7 @@
 using Windows.ApplicationModel.Store;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -42,7 +43,7 @@ namespace MALClient.UserControls.New
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             ViewModel.UpdateProfileImg();
-            if (DesktopViewModelLocator.Main.MenuPaneState)
+            if (Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500)
             {
                 if (Settings.HamburgerAnimeFiltersExpanded)
                     ButtonExpandAnimeFiltersOnClick(null, null);

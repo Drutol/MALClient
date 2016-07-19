@@ -83,7 +83,6 @@ namespace MalClient.Shared.Comm.Anime
             if (string.IsNullOrEmpty(raw))
                 return new List<TopAnimeData>();
 
-
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
             var topNodes = doc.DocumentNode.Descendants("table").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:mainNode:class"]);

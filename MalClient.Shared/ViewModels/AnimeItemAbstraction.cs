@@ -55,6 +55,10 @@ namespace MalClient.Shared.ViewModels
             _seasonalData = data;           
             Index = data.Index;
             RepresentsAnime = anime;
+            int eps;
+            if (!int.TryParse(data.Episodes, out eps))
+                eps = 0;
+            AllEpisodes = eps;
         }
 
         public AnimeItemAbstraction(bool auth, MangaLibraryItemData data) : this(data)
@@ -71,12 +75,17 @@ namespace MalClient.Shared.ViewModels
         }
 
         public ILibraryData EntryData { get; set; }
-
+        private int _seasonalAllEps;
         public string Title => EntryData?.Title ?? _seasonalData.Title;
         public int Id => EntryData?.Id ?? _seasonalData.Id;
         public int MalId => EntryData?.MalId ?? _seasonalData.Id;
         public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData.ImgUrl;
-        public int AllEpisodes => EntryData?.AllEpisodes ?? 0;
+        public int AllEpisodes
+        {
+            get { return EntryData?.AllEpisodes ?? _seasonalAllEps; }
+            set { _seasonalAllEps = value; }
+        }
+
         public int AllVolumes => (EntryData as MangaLibraryItemData)?.AllVolumes ?? 0;
         public int Type => EntryData?.Type ?? 0;
 

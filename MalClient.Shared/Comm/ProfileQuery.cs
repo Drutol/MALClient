@@ -374,16 +374,20 @@ namespace MalClient.Shared.Comm
                             .Value;
                     try
                     {
-                        current.LastOnline = sideInfo[0].LastChild.InnerText;
-                        current.Gender = sideInfo[1].LastChild.InnerText;
-                        current.Birthday = sideInfo[2].LastChild.InnerText;
-                        current.Location = sideInfo[3].LastChild.InnerText;
-                        current.Joined = sideInfo[4].LastChild.InnerText;
+                        foreach (var htmlNode in sideInfo)
+                        {
+                            current.Details.Add(new Tuple<string, string>(htmlNode.FirstChild.InnerText, htmlNode.LastChild.InnerText));
+                        }
+                        //current.LastOnline = sideInfo[0].LastChild.InnerText;
+                        //current.Gender = sideInfo[1].LastChild.InnerText;
+                        //current.Birthday = sideInfo[2].LastChild.InnerText;
+                        //current.Location = sideInfo[3].LastChild.InnerText;
+                        //current.Joined = sideInfo[4].LastChild.InnerText;
                     }
                     catch (Exception)
                     {
-                        current.LastOnline = sideInfo[0].LastChild.InnerText;
-                        current.Joined = sideInfo[1].LastChild.InnerText;
+                        //current.LastOnline = sideInfo[0].LastChild.InnerText;
+                        //current.Joined = sideInfo[1].LastChild.InnerText;
                     }
                 }
                 catch (Exception)

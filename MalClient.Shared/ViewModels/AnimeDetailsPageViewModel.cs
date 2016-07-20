@@ -1283,9 +1283,19 @@ namespace MalClient.Shared.ViewModels
         public bool IsDecrementButtonEnabled
             => (_animeItemReference as AnimeItemViewModel)?.DecrementEpsVisibility == Visibility.Visible;
 
-        public ICommand IncrementEpsCommand => (_animeItemReference as AnimeItemViewModel)?.IncrementWatchedCommand;
-        public ICommand DecrementEpsCommand => (_animeItemReference as AnimeItemViewModel)?.DecrementWatchedCommand;
+        public ICommand IncrementEpsCommand => new RelayCommand(() =>
+        {
+            (_animeItemReference as AnimeItemViewModel)?.IncrementWatchedCommand.Execute(null);
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
+        });
 
+        public ICommand DecrementEpsCommand => new RelayCommand(() =>
+        {
+            (_animeItemReference as AnimeItemViewModel)?.DecrementWatchedCommand.Execute(null);
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
+        });
         #endregion
 
         private Query GetAppropriateUpdateQuery()

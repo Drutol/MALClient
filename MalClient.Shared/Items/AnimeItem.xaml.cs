@@ -11,16 +11,27 @@ namespace MalClient.Shared.Items
 {
     public sealed partial class AnimeItem : UserControl
     {
-        private bool _expandState;
-
         public AnimeItem()
         {
             InitializeComponent();
             DataContextChanged += OnDataContextChanged;
         }
 
+        public static readonly DependencyProperty DisplayContextProperty =
+            DependencyProperty.Register("DisplayContext", typeof(AnimeItemDisplayContext), typeof(AnimeItem),
+                new PropertyMetadata(AnimeItemDisplayContext.AirDay));
+
+        public AnimeItemDisplayContext DisplayContext
+        {
+            get { return (AnimeItemDisplayContext)GetValue(DisplayContextProperty); }
+            set { SetValue(DisplayContextProperty, value); }
+        }
+
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
+            if (DataContext == null)
+                return;
+            ViewModel.AnimeItemDisplayContext = DisplayContext;
             Bindings.Update();
         }
 

@@ -210,7 +210,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            ViewModelLocator.NavMgr.ResetBackNav();
+            ViewModelLocator.NavMgr.ResetOffBackNav();
             ArticleWebView.NavigateToString("");
             base.OnNavigatedFrom(e);
         }

@@ -157,28 +157,36 @@ namespace MALClient.Pages.Main
             }
         }
 
-        private void ViewModelOnScrollRequest(AnimeItemViewModel item)
+        private void ViewModelOnScrollRequest(AnimeItemViewModel item, bool select = false)
         {
-            try
+            switch (ViewModel.DisplayMode)
             {
-                switch (ViewModel.DisplayMode)
-                {
-                    case AnimeListDisplayModes.IndefiniteCompactList:
-                        AnimeCompactItemsIndefinite.ScrollIntoView(item);
-                        break;
-                    case AnimeListDisplayModes.IndefiniteList:
-                        AnimesItemsIndefinite.ScrollIntoView(item);
-                        break;
-                    case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimesGridIndefinite.ScrollIntoView(item);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            catch (Exception)
-            {
-                //
+                case AnimeListDisplayModes.IndefiniteCompactList:
+                    AnimeCompactItemsIndefinite.ScrollIntoView(item);
+                    if (select)
+                    {
+                        AnimeCompactItemsIndefinite.SelectedItem = item;
+                        AnimeCompactItemsIndefinite.Focus(FocusState.Pointer);
+                    }
+                    break;
+                case AnimeListDisplayModes.IndefiniteList:
+                    AnimesItemsIndefinite.ScrollIntoView(item);
+                    if (select)
+                    {
+                        AnimesItemsIndefinite.SelectedItem = item;
+                        AnimesItemsIndefinite.Focus(FocusState.Pointer);
+                    }
+                    break;
+                case AnimeListDisplayModes.IndefiniteGrid:
+                    AnimesGridIndefinite.ScrollIntoView(item);
+                    if (select)
+                    {
+                        AnimesGridIndefinite.SelectedItem = item;
+                        AnimesGridIndefinite.Focus(FocusState.Pointer);
+                    }                 
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

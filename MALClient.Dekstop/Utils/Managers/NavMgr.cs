@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using MalClient.Shared.NavArgs;
@@ -18,41 +19,40 @@ namespace MALClient.Utils.Managers
         private ICommand _currentOverride;
         private ICommand _currentOverrideMain;
 
-        private readonly Stack<AnimeDetailsPageNavigationArgs> _detailsNavStack =
-            new Stack<AnimeDetailsPageNavigationArgs>(10);
+        private readonly Stack<Tuple<PageIndex,object>> _randomNavigationStackMain =
+            new Stack<Tuple<PageIndex, object>>(30);
 
-        private readonly Stack<ProfilePageNavigationArgs> _profileNavigationStack =
-            new Stack<ProfilePageNavigationArgs>(10);
+        private readonly Stack<Tuple<PageIndex,object>> _randomNavigationStackOff =
+            new Stack<Tuple<PageIndex, object>>(30);
+
 
         public void RegisterBackNav(AnimeDetailsPageNavigationArgs args)
         {
-            _detailsNavStack.Push(args);
-            ViewModelLocator.GeneralMain.NavigateBackButtonVisibility = Visibility.Visible;
+            RegisterBackNav(PageIndex.PageAnimeDetails,args);
         }
 
         public void RegisterBackNav(ProfilePageNavigationArgs args)
         {
-            _profileNavigationStack.Push(args);
-            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+            RegisterBackNav(PageIndex.PageProfile, args);
         }
 
-        public void CurrentViewOnBackRequested()
+        public void CurrentOffViewOnBackRequested()
         {
             if (_currentOverride != null)
             {
                 _currentOverride.Execute(null);
                 _currentOverride = null;
-                if (_detailsNavStack.Count == 0)
-                    ViewModelLocator.GeneralMain.NavigateBackButtonVisibility = Visibility.Collapsed;
+                if (_randomNavigationStackOff.Count == 0)
+                    ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
                 return;
             }
 
-            if (_detailsNavStack.Count == 0) //when we are called from mouse back button
+            if (_randomNavigationStackOff.Count == 0) //when we are called from mouse back button
                 return;
-
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails, _detailsNavStack.Pop());
-            if (_detailsNavStack.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateBackButtonVisibility = Visibility.Collapsed;
+            var data = _randomNavigationStackOff.Pop();
+            ViewModelLocator.GeneralMain.Navigate(data.Item1, data.Item2);
+            if (_randomNavigationStackOff.Count == 0)
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void DeregisterBackNav()
@@ -60,29 +60,45 @@ namespace MALClient.Utils.Managers
 
         }
 
-        public void ResetBackNav()
+        public void ResetOffBackNav()
         {
-            _detailsNavStack.Clear();
+            _randomNavigationStackOff.Clear();
             _currentOverride = null;
-            ViewModelLocator.GeneralMain.NavigateBackButtonVisibility = Visibility.Collapsed;
+            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void ResetMainBackNav()
         {
-            _profileNavigationStack.Clear();
+            _randomNavigationStackMain.Clear();
             _currentOverrideMain = null;
             ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
         {
-           
+            if (page == PageIndex.PageAnimeDetails)
+            {
+                _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+            }
+            else if(page == PageIndex.PageProfile || page == PageIndex.PageArticles)
+            {
+                _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+            }
         }
 
         public void RegisterOneTimeOverride(ICommand command)
         {
             _currentOverride = command;
-            ViewModelLocator.GeneralMain.NavigateBackButtonVisibility = Visibility.Visible;
+            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+        }
+
+        public void ResetOneTimeOverride()
+        {
+            _currentOverride = null;
+            if (_randomNavigationStackOff.Count == 0)
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
         }
 
         public void RegisterOneTimeMainOverride(ICommand command)
@@ -91,23 +107,30 @@ namespace MALClient.Utils.Managers
             ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
         }
 
+        public void ResetOneTimeMainOverride()
+        {
+            _currentOverrideMain = null;
+            if(_randomNavigationStackMain.Count == 0)
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+        }
+
         public void CurrentMainViewOnBackRequested()
         {
             if (_currentOverrideMain != null)
             {
                 _currentOverrideMain.Execute(null);
                 _currentOverrideMain = null;
-                if (_profileNavigationStack.Count == 0)
+                if (_randomNavigationStackMain.Count == 0)
                     ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
                 return;
             }
 
 
-            if (_profileNavigationStack.Count == 0) //when we are called from mouse back button
+            if (_randomNavigationStackMain.Count == 0) //when we are called from mouse back button
                 return;
-
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, _profileNavigationStack.Pop());
-            if (_profileNavigationStack.Count == 0)
+            var data = _randomNavigationStackMain.Pop();
+            ViewModelLocator.GeneralMain.Navigate(data.Item1, data.Item2);
+            if (_randomNavigationStackMain.Count == 0)
                 ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
         }
     }

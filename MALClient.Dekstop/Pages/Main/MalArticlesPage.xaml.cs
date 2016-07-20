@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -47,6 +48,7 @@ namespace MALClient.Pages.Main
                                                       ViewModel.PrevWorkMode.Value == ArticlePageWorkMode.Articles
                     ? "Artilces"
                     : "News";
+                ViewModel.CurrentNews = -1;
             }));
             //
 
@@ -80,17 +82,11 @@ namespace MALClient.Pages.Main
             ViewModel.LoadArticleCommand.Execute(e.ClickedItem);
         }
 
-        private void ArticleWebView_OnScriptNotify(object sender, NotifyEventArgs e)
-        {
-            if (e.Value == "MouseBackNav")
-            {
-                ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
-            }
-        }
-
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
+            if(!(e.Parameter is ProfilePageNavigationArgs))
+                ViewModelLocator.NavMgr.ResetMainBackNav();
             base.OnNavigatedFrom(e);
         }
 
@@ -125,6 +121,12 @@ namespace MALClient.Pages.Main
                             {
                                 AnimeMode = link[1] == "anime"
                             });
+                    }
+                    else if (uri.Contains("/profile/"))
+                    {
+                        var vm = ViewModelLocator.MalArticles;
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,new MalArticlesPageNavigationArgs { NewsId = vm.CurrentNews, WorkMode = vm.PrevWorkMode.Value});
+                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,new ProfilePageNavigationArgs {TargetUser = uri.Split('/').Last()});
                     }
                     else if (Settings.ArticlesLaunchExternalLinks)
                     {

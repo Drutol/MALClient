@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Height="155" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root"
+    <Grid Height="170" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root"
           Background="{ThemeResource BrushAnimeItemBackground}">
         <!--ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
           ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia"-->
@@ -79,21 +79,32 @@
                        Foreground="LightGray" FontSize="14" FontStyle="Italic" />
                     </Grid>
                 </Grid>
-                <Grid HorizontalAlignment="Center" Margin="0,0,5,0"
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="35" Height="35" Foreground="White" Padding="0" HorizontalAlignment="Center" Background="Transparent"
+                        VerticalAlignment="Bottom" Margin="0,0,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
+                        <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}"/>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Grid HorizontalAlignment="Center" Margin="0,0,5,0"
                       Visibility="{x:Bind ViewModel.GlobalScoreBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
-                    <SymbolIcon Symbol="Favorite" Opacity=".5"
+                        <SymbolIcon Symbol="Favorite" Opacity=".5"
                                 Foreground="DarkGray"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
-                        <SymbolIcon.RenderTransform>
-                            <ScaleTransform ScaleY="1.5" ScaleX="1.5" />
-                        </SymbolIcon.RenderTransform>
-                    </SymbolIcon>
-                    <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}"
+                            <SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleY="1.5" ScaleX="1.5" />
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
+                        <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}"
                                FontWeight="Medium" VerticalAlignment="Center"
                                Margin="10,12,0,0" HorizontalAlignment="Center"
                                TextAlignment="Center" />
-                </Grid>
+                    </Grid>
+                </StackPanel>
             </StackPanel>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="1">
                 <Grid.ColumnDefinitions>

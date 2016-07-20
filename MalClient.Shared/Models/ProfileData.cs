@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MalClient.Shared.Models.Favourites;
 
 namespace MalClient.Shared.Models
@@ -27,6 +28,7 @@ namespace MalClient.Shared.Models
         public string Birthday { get; set; }
         public string Location { get; set; }
         public string Joined { get; set; }
+        public List<Tuple<string, string>> Details { get; } = new List<Tuple<string, string>>();
         public List<MalUser> Friends { get; set; } = new List<MalUser>();
         public List<MalComment> Comments { get; set; } = new List<MalComment>();
 

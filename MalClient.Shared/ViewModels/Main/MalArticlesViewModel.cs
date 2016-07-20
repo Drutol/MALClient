@@ -15,7 +15,7 @@ namespace MalClient.Shared.ViewModels.Main
     {
         public ArticlePageWorkMode WorkMode { get; set; }
         public int NewsId { get; set; } = -1;
-        private MalArticlesPageNavigationArgs()
+        public MalArticlesPageNavigationArgs()
         {
             
         }
@@ -110,6 +110,7 @@ namespace MalClient.Shared.ViewModels.Main
 
         private bool _loadingData;
         public ArticlePageWorkMode? PrevWorkMode;
+        public int CurrentNews = -1;
         public async void Init(MalArticlesPageNavigationArgs args,bool force = false)
         {
             if (args == null) //refresh
@@ -173,6 +174,7 @@ namespace MalClient.Shared.ViewModels.Main
             LoadingVisibility = Visibility.Visible;
             ArticleIndexVisibility = Visibility.Collapsed;
             ViewModelLocator.GeneralMain.CurrentStatus = data.Title;
+            CurrentNews = Articles.IndexOf(data);
             OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml(), Articles.IndexOf(data));
         }
     }

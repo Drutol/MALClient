@@ -7,6 +7,7 @@ using MalClient.Shared.Models;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
+using MALClient.ViewModels;
 using MALClient.ViewModels.Main;
 using ProfilePageNavigationArgs = MalClient.Shared.NavArgs.ProfilePageNavigationArgs;
 
@@ -42,7 +43,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            (DataContext as ProfilePageViewModel).Cleanup();
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             base.OnNavigatedFrom(e);
         }
 
@@ -56,9 +57,9 @@ namespace MALClient.Pages.Main
             NavigateProfile((string) (sender as Button).Tag);
         }
 
-        private void NavigateProfile(string target)
+        private static void NavigateProfile(string target)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(ViewModel.PrevArgs);
+            ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs {TargetUser = target});
         }
 

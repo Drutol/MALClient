@@ -513,7 +513,7 @@ namespace MalClient.Shared.ViewModels.Main
                 case AnimeListDisplayModes.IndefiniteCompactList:
                     return (int)Math.Ceiling(height / 50) + 2;
                 case AnimeListDisplayModes.IndefiniteList:
-                    return (int)Math.Ceiling(width / 400 * height / 300) + 2;
+                    return (int)Math.Ceiling(width / ListItemGridWidth * height / 170) + 2;
                 case AnimeListDisplayModes.IndefiniteGrid:
                     return (int)Math.Ceiling(width / 200 * height / 300) + 2; //2 for good measure
                 default:
@@ -622,7 +622,6 @@ namespace MalClient.Shared.ViewModels.Main
                 AnimeItems.AddRange(_animeItemsSet.Select(abstraction => abstraction.ViewModel));
                 _animeItemsSet.Clear();
             }
-            (await View.GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
         }
 
         /// <summary>
@@ -630,7 +629,7 @@ namespace MalClient.Shared.ViewModels.Main
         /// </summary>
         public async void ScrollToTop()
         {
-            (await View.GetIndefiniteScrollViewer()).ScrollToVerticalOffset(0);
+            (await View.GetIndefiniteScrollViewer()).ChangeView(null,0,null);
             ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = Visibility.Collapsed;
         }
 
@@ -725,7 +724,7 @@ namespace MalClient.Shared.ViewModels.Main
                         target.Add(abstraction);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // wat
                 }
@@ -1032,7 +1031,9 @@ namespace MalClient.Shared.ViewModels.Main
                         return;
                     var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
-                    pool[random.Next(0, pool.Count - 1)].NavigateDetails();
+                    var winner = pool[random.Next(0, pool.Count - 1)];
+                    winner.NavigateDetails();
+                    ScrollIntoViewRequested?.Invoke(winner,true);
                 }));
             }
         }
@@ -1286,6 +1287,7 @@ namespace MalClient.Shared.ViewModels.Main
                 }
                 View.IndefiniteScrollViewer = null;
                 _displayMode = value;
+                RaisePropertyChanged(() => ListItemGridWidth);
                 RaisePropertyChanged(() => DisplayMode);
                 RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
             }

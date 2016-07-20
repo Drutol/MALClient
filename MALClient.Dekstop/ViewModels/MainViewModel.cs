@@ -80,7 +80,7 @@ namespace MALClient.ViewModels
                 mainPage = false;
                 currOffPage = index;
                 if (index != PageIndex.PageAnimeDetails)
-                    ViewModelLocator.NavMgr.ResetBackNav();
+                    ViewModelLocator.NavMgr.ResetOffBackNav();
             }
             else
             {
@@ -178,7 +178,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+                    if (CurrentMainPage.Value != PageIndex.PageSearch && CurrentMainPage.Value != PageIndex.PageMangaSearch)
+                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
@@ -477,7 +478,7 @@ namespace MALClient.ViewModels
 
         public ICommand NavigateBackCommand => _navigateBackCommand ??
                                                (_navigateBackCommand =
-                                                   new RelayCommand(ViewModelLocator.NavMgr.CurrentViewOnBackRequested));
+                                                   new RelayCommand(ViewModelLocator.NavMgr.CurrentOffViewOnBackRequested));
 
         private ICommand _navigateMainBackCommand;
 
@@ -497,7 +498,7 @@ namespace MALClient.ViewModels
                        {
                            ViewModelLocator.AnimeDetails.Id = -1;
                            OffContentVisibility = Visibility.Collapsed;
-                           ViewModelLocator.NavMgr.ResetBackNav();
+                           ViewModelLocator.NavMgr.ResetOffBackNav();
                        }));
             }
         }
@@ -527,15 +528,15 @@ namespace MALClient.ViewModels
         }
 
 
-        private Visibility _navigateBackButtonVisibility = Visibility.Collapsed;
+        private Visibility _navigateOffBackButtonVisibility = Visibility.Collapsed;
 
-        public Visibility NavigateBackButtonVisibility
+        public Visibility NavigateOffBackButtonVisibility
         {
-            get { return _navigateBackButtonVisibility; }
+            get { return _navigateOffBackButtonVisibility; }
             set
             {
-                _navigateBackButtonVisibility = value;
-                RaisePropertyChanged(() => NavigateBackButtonVisibility);
+                _navigateOffBackButtonVisibility = value;
+                RaisePropertyChanged(() => NavigateOffBackButtonVisibility);
             }
         }
 

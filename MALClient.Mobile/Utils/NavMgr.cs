@@ -104,7 +104,7 @@ namespace MALClient.Utils
             _handlerRegistered = false;
         }
 
-        public void ResetBackNav()
+        public void ResetOffBackNav()
         {
             DetailsNavStack.Clear();
             _wasOnStack = false;
@@ -124,7 +124,7 @@ namespace MALClient.Utils
             //throw new System.NotImplementedException();
         }
 
-        public void CurrentViewOnBackRequested()
+        public void CurrentOffViewOnBackRequested()
         {
             //throw new System.NotImplementedException();
         }
@@ -142,6 +142,16 @@ namespace MALClient.Utils
         public void RegisterOneTimeMainOverride(ICommand command)
         {
             //throw new System.NotImplementedException();
+        }
+
+        public void ResetOneTimeOverride()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ResetOneTimeMainOverride()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void RegisterOneTimeOverride(ICommand command)

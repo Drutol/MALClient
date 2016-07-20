@@ -359,7 +359,6 @@ namespace MalClient.Shared.ViewModels
                 if (ParentAbstraction.TryRetrieveVolatileData())
                 {
                     RaisePropertyChanged(() => TopLeftInfoBind);
-                    TitleMargin = new Thickness(5, 3, 70, 0);
                 }
                 _airing = value;
                 RaisePropertyChanged(() => Airing);
@@ -387,17 +386,10 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        private Thickness _titleMargin = new Thickness(5, 3, 5, 3);
 
         public Thickness TitleMargin
-        {
-            get { return _titleMargin; }
-            set
-            {
-                _titleMargin = value;
-                RaisePropertyChanged(() => TitleMargin);
-            }
-        }
+            => string.IsNullOrEmpty(TopLeftInfoBind) ? new Thickness(5, 3, 5, 3) : new Thickness(5, 3, 70, 3);
+
 
         private bool _auth;
 

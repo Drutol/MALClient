@@ -13,7 +13,7 @@
                       Visibility="{Binding LoadingVisibility}" />
         <WebView x:Name="ArticleWebView" NavigationCompleted="ArticleWebView_OnNavigationCompleted"
                  NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark"
-                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScriptNotify="ArticleWebView_OnScriptNotify"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                  Visibility="{Binding WebViewVisibility}" />
         <GridView SelectionMode="None" ItemsSource="{Binding Articles}" HorizontalAlignment="Center"
                   IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick"

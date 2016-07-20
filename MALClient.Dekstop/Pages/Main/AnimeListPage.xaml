@@ -30,27 +30,29 @@
 
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
-            <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
-                          Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
-            <AppBarButton
+            <CommandBar.SecondaryCommands>
+                <AppBarButton
                 Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                 Icon="Contact2" Label="List source">
-                <AppBarButton.Flyout>
-                    <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
-                        <StackPanel>
-                            <TextBlock VerticalAlignment="Center" Text="Username:" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBox x:Name="TxtListSource"
+                    <AppBarButton.Flyout>
+                        <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
+                            <StackPanel>
+                                <TextBlock VerticalAlignment="Center" Text="Username:" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="TxtListSource"
                                          Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                          Margin="5,5" KeyDown="ListSource_OnKeyDown" />
-                                <Button Command="{Binding RefreshCommand}">
-                                    <SymbolIcon Symbol="Accept" />
-                                </Button>
+                                    <Button Command="{Binding RefreshCommand}">
+                                        <SymbolIcon Symbol="Accept" />
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
+                          Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
             <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             <AppBarButton Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
@@ -318,7 +320,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <items:AnimeItem DataContext="{Binding}" />
+                    <items:AnimeItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.Footer>
@@ -361,7 +363,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels1:AnimeItemViewModel">
-                    <items:AnimeGridItem DataContext="{x:Bind}" />
+                    <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.Footer>

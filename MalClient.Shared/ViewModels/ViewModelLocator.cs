@@ -41,7 +41,7 @@ namespace MalClient.Shared.ViewModels
         event OffContentPaneStateChanged OffContentPaneStateChanged ;
         ICommand HideOffContentCommand { get; }
         string CurrentOffStatus { get; set; }
-        Visibility NavigateBackButtonVisibility { get; set; }
+        Visibility NavigateOffBackButtonVisibility { get; set; }
         Visibility NavigateMainBackButtonVisibility { get; set; }
         string CurrentSearchQuery { get; set; }
         List<string> SearchHints { get; set; }
@@ -65,14 +65,16 @@ namespace MalClient.Shared.ViewModels
         void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout);
         void RegisterOneTimeOverride(ICommand command);
         void DeregisterBackNav();
-        void ResetBackNav();
+        void ResetOffBackNav();
         //Desktop
         void RegisterBackNav(ProfilePageNavigationArgs args);
         void CurrentMainViewOnBackRequested();
-        void CurrentViewOnBackRequested();
+        void CurrentOffViewOnBackRequested();
         void ResetMainBackNav();
         void RegisterBackNav(AnimeDetailsPageNavigationArgs args);
         void RegisterOneTimeMainOverride(ICommand command);
+        void ResetOneTimeOverride();
+        void ResetOneTimeMainOverride();
     }
 
     public class ViewModelLocator

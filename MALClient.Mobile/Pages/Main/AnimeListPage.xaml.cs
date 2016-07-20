@@ -120,18 +120,24 @@ namespace MALClient.Pages.Main
             };
         }
 
-        private void ViewModelOnScrollRequest(AnimeItemViewModel item)
+        private void ViewModelOnScrollRequest(AnimeItemViewModel item,bool select = false)
         {
             switch (ViewModel.DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteCompactList:
                     AnimeCompactItemsIndefinite.ScrollIntoView(item);
+                    if (select)
+                        AnimeCompactItemsIndefinite.SelectedItem = item;
                     break;
                 case AnimeListDisplayModes.IndefiniteList:
                     AnimesItemsIndefinite.ScrollIntoView(item);
+                    if (select)
+                        AnimesItemsIndefinite.SelectedItem = item;
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
                     AnimesGridIndefinite.ScrollIntoView(item);
+                    if (select)
+                        AnimesGridIndefinite.SelectedItem = item;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

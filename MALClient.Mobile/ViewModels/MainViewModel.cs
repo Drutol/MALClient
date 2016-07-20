@@ -130,7 +130,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+                    if(LastIndex != PageIndex.PageSearch && LastIndex != PageIndex.PageMangaSearch)
+                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
@@ -516,7 +517,7 @@ namespace MALClient.ViewModels
         public event OffContentPaneStateChanged OffContentPaneStateChanged;
         public ICommand HideOffContentCommand { get; }
         public string CurrentOffStatus { get; set; }
-        public Visibility NavigateBackButtonVisibility { get; set; }
+        public Visibility NavigateOffBackButtonVisibility { get; set; }
 
         private void NavigateSearch(object args)
         {

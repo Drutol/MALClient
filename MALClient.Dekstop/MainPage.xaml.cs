@@ -141,7 +141,7 @@ namespace MALClient
             {
                 var properties = e.GetCurrentPoint(this).Properties;
                 if (properties.IsXButton1Pressed)
-                    ViewModelLocator.NavMgr.CurrentViewOnBackRequested();
+                    ViewModelLocator.NavMgr.CurrentOffViewOnBackRequested();
             }
         }
 

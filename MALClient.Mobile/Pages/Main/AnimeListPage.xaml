@@ -213,7 +213,7 @@
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <items:AnimeItem DataContext="{Binding}" />
+                    <items:AnimeItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource MobileLocator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>

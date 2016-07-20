@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
@@ -151,7 +152,9 @@ namespace MALClient.Utils
 
         public void ResetOneTimeMainOverride()
         {
-            throw new System.NotImplementedException();
+            _currentOverride = null;
+            if (DetailsNavStack.Count == 0)
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
         }
 
         public void RegisterOneTimeOverride(ICommand command)

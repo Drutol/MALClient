@@ -157,7 +157,8 @@ namespace MALClient.ViewModels
             PageIndex page;
             if (Enum.TryParse(o as string, out page))
             {
-
+                if(page == PageIndex.PageProfile)
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
                 MobileViewModelLocator.Main.Navigate(page, GetAppropriateArgsForPage(page));
                 SetActiveButton(Utilities.GetButtonForPage(page));
             }

@@ -388,7 +388,7 @@ namespace MalClient.Shared.ViewModels
 
 
         public Thickness TitleMargin
-            => string.IsNullOrEmpty(TopLeftInfoBind) ? new Thickness(5, 3, 5, 3) : new Thickness(5, 3, 70, 3);
+            => string.IsNullOrEmpty(TopLeftInfoBind) ? new Thickness(5, 3, 25, 3) : new Thickness(5, 3, 70, 3);
 
 
         private bool _auth;
@@ -1087,46 +1087,62 @@ namespace MalClient.Shared.ViewModels
 
         public async Task PromptForStatusChange(int to)
         {
-            if (MyStatus == to)
-                return;
-            var msg =
-                new MessageDialog(
-                    $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to)}",
-                    "Would you like to change current status?");
-            var confirmation = false;
-            msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
-            msg.Commands.Add(new UICommand("No"));
-            await msg.ShowAsync();
-            if (confirmation)
+            try
             {
-                var myPrevStatus = MyStatus;
-                MyStatus = to;
-                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                    MyStatus = myPrevStatus;
+                if (MyStatus == to)
+                    return;
+                var msg =
+                    new MessageDialog(
+                        $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to)}",
+                        "Would you like to change current status?");
+                var confirmation = false;
+                msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
+                msg.Commands.Add(new UICommand("No"));
+                await msg.ShowAsync();
+                if (confirmation)
+                {
+                    var myPrevStatus = MyStatus;
+                    MyStatus = to;
+                    var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+                    if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
+                        MyStatus = myPrevStatus;
+                }
             }
+            catch (Exception)
+            {
+                //TODO access denied excpetion? we can try that 
+            }
+
         }
 
         public async Task PromptForWatchedEpsChange(int to)
         {
-            if (MyEpisodes == to)
-                return;
-            var msg = new MessageDialog($"From : {MyEpisodes}\nTo : {to}",
-                "Would you like to change watched episodes value?");
-            var confirmation = false;
-            msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
-            msg.Commands.Add(new UICommand("No"));
-            await msg.ShowAsync();
-            if (confirmation)
+            try
             {
-                var myPrevEps = MyEpisodes;
-                MyEpisodes = to;
-                var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                    MyStatus = myPrevEps;
+                if (MyEpisodes == to)
+                    return;
+                var msg = new MessageDialog($"From : {MyEpisodes}\nTo : {to}",
+                    "Would you like to change watched episodes value?");
+                var confirmation = false;
+                msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
+                msg.Commands.Add(new UICommand("No"));
+                await msg.ShowAsync();
+                if (confirmation)
+                {
+                    var myPrevEps = MyEpisodes;
+                    MyEpisodes = to;
+                    var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+                    if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
+                        MyStatus = myPrevEps;
 
-                AdjustIncrementButtonsVisibility();
+                    AdjustIncrementButtonsVisibility();
+                }
             }
+            catch (Exception)
+            {
+                //TODO access denied excpetion? we can try that 
+            }
+
         }
 
         #endregion

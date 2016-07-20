@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.UserControls;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MALClient.Pages;
@@ -96,6 +98,14 @@ namespace MALClient
                 SearchInput.IsEnabled = true;
                 MobileViewModelLocator.Main.OnSearchInputSubmit();
             }
+        }
+
+        private async void ToggleButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(10); // wait for it to appear.. nana, this is completly vaild approach... nananaa
+            var btn = sender as LockableToggleButton;
+            if (btn.IsChecked.GetValueOrDefault(false))
+                SearchInput.Focus(FocusState.Keyboard);
         }
     }
 }

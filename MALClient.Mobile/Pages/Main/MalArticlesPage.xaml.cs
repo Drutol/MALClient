@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -166,12 +167,6 @@ namespace MALClient.Pages.Main
             ViewModel.OpenWebView += ViewModelOnOpenWebView;
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            ViewModelLocator.NavMgr.DeregisterBackNav();
-            base.OnNavigatingFrom(e);
-        }
-
         private int _currentId;
         private void ViewModelOnOpenWebView(string html,int id)
         {
@@ -210,8 +205,9 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            ViewModelLocator.NavMgr.ResetOffBackNav();
-            ArticleWebView.NavigateToString("");
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
+            if (!(e.Parameter is ProfilePageNavigationArgs))
+                ViewModelLocator.NavMgr.ResetMainBackNav();
             base.OnNavigatedFrom(e);
         }
 
@@ -249,11 +245,23 @@ namespace MALClient.Pages.Main
                                 AnimeMode = link[1] == "anime"
                             });
                     }
-                    else if(Settings.ArticlesLaunchExternalLinks)
+                    else if (uri.Contains("/profile/"))
+                    {
+                        var vm = ViewModelLocator.MalArticles;
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
+                            new MalArticlesPageNavigationArgs
+                            {
+                                NewsId = vm.CurrentNews,
+                                WorkMode = vm.PrevWorkMode.Value
+                            });
+                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
+                            new ProfilePageNavigationArgs {TargetUser = uri.Split('/').Last()});
+                    }
+                    else if (Settings.ArticlesLaunchExternalLinks)
                     {
                         await Launcher.LaunchUriAsync(args.Uri);
                     }
-                    
+
                 }
             }
             catch (Exception)

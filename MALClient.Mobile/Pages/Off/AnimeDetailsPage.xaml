@@ -387,7 +387,7 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBox x:Name="TxtBoxWatchedEps"
                                                      Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                     KeyDown="SubmitWatchedEps" InputScope="TelephoneNumber" />
+                                                     KeyDown="SubmitWatchedEps" InputScope="Number" />
                                                         <Button Command="{Binding ChangeWatchedCommand}" Click="WatchedEpsButton_OnClick" Margin="2,0,0,0">
                                                             <SymbolIcon Symbol="Accept" />
                                                         </Button>
@@ -470,7 +470,7 @@
                                                     </Style>
                                                 </Grid.Resources>
                                                 <StackPanel>
-                                                    <userControls:AlternatingListView SelectionMode="None"
+                                                    <userControls:AlternatingListView SelectionMode="None" ScrollViewer.VerticalScrollMode="Disabled"
                                                                           BorderThickness="0,0,1,0"
                                                                           BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                           ItemsSource="{Binding LeftDetailsRow}">
@@ -537,7 +537,7 @@
                                                 </StackPanel>
 
                                                 <StackPanel Grid.Column="1">
-                                                    <userControls:AlternatingListView SelectionMode="None"
+                                                    <userControls:AlternatingListView SelectionMode="None" ScrollViewer.VerticalScrollMode="Disabled"
                                                                           BorderThickness="1,0,0,0"
                                                                           BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
                                                                           ItemsSource="{Binding RightDetailsRow}">
@@ -833,7 +833,7 @@
                                                             <RowDefinition Height="10" />
                                                             <RowDefinition Height="*" />
                                                         </Grid.RowDefinitions>
-                                                        <userControls:AlternatingListView Grid.Column="0" Grid.Row="1"
+                                                        <userControls:AlternatingListView Grid.Column="0" Grid.Row="1" ScrollViewer.VerticalScrollMode="Disabled"
                                                                               ItemsSource="{Binding RightGenres}"
                                                                               BorderThickness="0,0,1,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
@@ -855,7 +855,7 @@
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </userControls:AlternatingListView>
-                                                        <userControls:AlternatingListView Grid.Column="1" Grid.Row="1"
+                                                        <userControls:AlternatingListView Grid.Column="1" Grid.Row="1" ScrollViewer.VerticalScrollMode="Disabled"
                                                                               ItemsSource="{Binding LeftGenres}"
                                                                               BorderThickness="1,0,0,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
@@ -887,7 +887,7 @@
                                                        Text="No data available"
                                                        TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                        Foreground="#FFB9B9B9" />
-                                                    <userControls:AlternatingListView ItemsSource="{Binding Episodes}">
+                                                    <userControls:AlternatingListView ItemsSource="{Binding Episodes}" ScrollViewer.VerticalScrollMode="Disabled">
                                                         <ListView.ItemContainerStyle>
                                                             <Style TargetType="ListViewItem">
                                                                 <Setter Property="BorderBrush"
@@ -926,7 +926,7 @@
                                                        Text="No data available"
                                                        TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                        Foreground="#FFB9B9B9" />
-                                                    <userControls:AlternatingListView ItemsSource="{Binding OPs}">
+                                                    <userControls:AlternatingListView ItemsSource="{Binding OPs}" ScrollViewer.VerticalScrollMode="Disabled">
                                                         <ListView.ItemContainerStyle>
                                                             <Style TargetType="ListViewItem">
                                                                 <Setter Property="BorderBrush"
@@ -960,7 +960,7 @@
                                                        Visibility="{Binding NoEDsDataVisibility}"
                                                        TextWrapping="WrapWholeWords" TextAlignment="Center"
                                                        Foreground="#FFB9B9B9" />
-                                                    <userControls:AlternatingListView ItemsSource="{Binding EDs}">
+                                                    <userControls:AlternatingListView ItemsSource="{Binding EDs}" ScrollViewer.VerticalScrollMode="Disabled">
                                                         <ListView.ItemContainerStyle>
                                                             <Style TargetType="ListViewItem">
                                                                 <Setter Property="BorderBrush"

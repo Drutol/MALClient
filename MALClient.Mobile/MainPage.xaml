@@ -97,7 +97,10 @@
                                             CommandParameter="3" />
                             <MenuFlyoutItem Text="{Binding Source={StaticResource MobileLocator},Path=AnimeList.Filter5Label}"
                                             Command="{Binding ChangeStatusCommand}"
-                                            CommandParameter="4" />
+                                            CommandParameter="4" />                            
+                            <MenuFlyoutItem Text="{Binding Source={StaticResource MobileLocator},Path=AnimeList.StatusAllLabel}"
+                                            Command="{Binding ChangeStatusCommand}"
+                                            CommandParameter="5" />
                         </MenuFlyout>
                     </FlyoutBase.AttachedFlyout>
                 </TextBlock>
@@ -143,7 +146,7 @@
             <userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
                                            HorizontalAlignment="Right" IsThreeState="False"
                                            VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2"
-                                           Background="Transparent"
+                                           Background="Transparent" Click="ToggleButton_OnClick"
                                            IsChecked="{Binding SearchToggleStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                            Command="{Binding ToggleSearchCommand}"
                                            Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -62,42 +62,27 @@
                                 </Image.Source>
                             </Image>
                             <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width=".5*"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width=".6*"/>
-                                </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Grid Grid.Column="1" HorizontalAlignment="Stretch"/>
-                                <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-                                    <StackPanel.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontWeight" Value="SemiLight"/>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                    <TextBlock Text="Username:" />
-                                    <TextBlock Text="Last online:" />
-                                    <TextBlock Text="Gender:" />
-                                    <TextBlock Text="Location:" />
-                                    <TextBlock Text="Joined:" />
-                                </StackPanel>
-                                <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
-                                    <StackPanel.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontWeight" Value="Medium"/>
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                    <TextBlock Text="{Binding CurrentData.User.Name}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Text="{Binding CurrentData.LastOnline}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Text="{Binding CurrentData.Gender}" TextTrimming="CharacterEllipsis" />
-                                    <TextBlock Text="{Binding CurrentData.Location}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Text="{Binding CurrentData.Joined}" TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                                <Grid Margin="10" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid  HorizontalAlignment="Stretch"/>
+                                <ItemsControl Grid.Row="0" Grid.Column="0" ItemsSource="{Binding CurrentData.Details}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width=".5*" />
+                                                    <ColumnDefinition Width="10" />
+                                                    <ColumnDefinition Width=".5*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding Item1}" FontWeight="SemiLight"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding Item2}" FontWeight="Medium" TextAlignment="Right"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Grid Margin="10" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
                                         <Button Content="Anime list" Margin="5,0" Command="{Binding NavigateAnimeListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                         <Button Content="Manga list" Margin="5,0" Command="{Binding NavigateMangaListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
@@ -112,7 +97,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Text="Friends" HorizontalAlignment="Left" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <GridView Margin="5" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" Grid.Row="1" ItemsSource="{Binding CurrentData.Friends}">
+                            <GridView Margin="5" IsItemClickEnabled="True" ItemClick="NavigateProfile" Grid.Row="1" ItemsSource="{Binding CurrentData.Friends}">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Image Width="75" Height="75">

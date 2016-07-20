@@ -508,6 +508,11 @@ namespace MalClient.Shared.ViewModels.Main
         {
             var width = View?.ActualWidth ?? 1920;
             var height = View?.ActualHeight ?? 1080;
+            if (width == 0 || height == 0)
+            {
+                width = 1920;
+                height = 1080; //because
+            }
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteCompactList:

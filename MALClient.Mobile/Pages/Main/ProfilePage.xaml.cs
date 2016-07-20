@@ -34,20 +34,17 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, _lastArgs);
             _lastArgs = e.Parameter as ProfilePageNavigationArgs;
-
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            (DataContext as ProfilePageViewModel).Cleanup();
             base.OnNavigatedFrom(e);
             ViewModelLocator.NavMgr.DeregisterBackNav();
         }
 
-        private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        private void NavigateProfile(object sender, ItemClickEventArgs e)
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,new ProfilePageNavigationArgs {TargetUser = ViewModel.CurrentUser},PageIndex.PageProfile);
             MobileViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (e.ClickedItem as MalUser).Name });

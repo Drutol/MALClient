@@ -23,7 +23,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Msg.Content}" TextWrapping="WrapWholeWords" />
+                            <TextBlock Text="{Binding Msg.Content}" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords" />
                             <TextBlock HorizontalAlignment="{Binding HorizontalAlignment}" Grid.Row="1"
                                        FontWeight="SemiLight" FontSize="14"
                                        Foreground="{ThemeResource BrushSettingsSubtitle}" Text="{Binding Msg.Date}"

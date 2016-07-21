@@ -105,23 +105,15 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="09.07.2016 - v4.3.125.0" />
-                            <TextBlock Text="Added manga volumes support." />
-                            <TextBlock Text="Added option to focus on either chapters or volumes." />
-                            <TextBlock Text="Added tags." />
-                            <TextBlock Text="Improved search and added suggestion based on tags." />
-                            <TextBlock Text="Added detailed score listing to reviews." />
-                            <TextBlock Text="Tweaked search page a little bit." />
-                            <TextBlock Text="Calendar summary page UI has been tweaked." />
-                            <TextBlock Text="Added option to display scrollbar in articles and news." />
-                            <TextBlock Text="Bugfixes, optimizations, cleanup yaddi yadda... ^^" />
-                            <MenuFlyoutSeparator />
-                            <TextBlock Text="02.07.2016 - v4.3.123.0" />
-                            <TextBlock Text="Added day/hour counter to upcoming anime." />
-                            <TextBlock Text="Added option to randomly choose from current list." />
-                            <TextBlock Text="Added option to pull more top anime." />
-                            <TextBlock Text="Resolved some crashes, some are still lurking..." />
-                            <TextBlock Text="Moved Log in page to Settings &amp; More page when authenticated." />
+                            <TextBlock Text="25.07.2016 -  v4.4.6.0 &amp; v4.4.5.0" />
+                            <TextBlock Text="Added favourites." />
+                            <TextBlock Text="Added messaging." />
+                            <TextBlock Text="Cleaned up project structure and unified codebases." />
+                            <TextBlock Text="You can now export show to Windows calendar from calendar page." />
+                            <TextBlock Text="Added characters &amp; voice actors and staff listings to anime details." />
+                            <TextBlock Text="Mobile version should be now usable with Continuum." />
+                            <TextBlock Text="Fixed TONS of bugs (more on github)." />
+                            <TextBlock Text="Bazillion UI adjustments and minor changes." />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

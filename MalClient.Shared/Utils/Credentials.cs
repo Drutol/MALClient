@@ -113,7 +113,7 @@ namespace MalClient.Shared.Utils
                     Password = credential.Password;
                     Authenticated = true;
                     if ((Settings.SelectedApiType == ApiType.Mal &&
-                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["UserId"] as string)) ||
+                        ApplicationData.Current.LocalSettings.Values["UserId"] == null) ||
                         (Settings.SelectedApiType == ApiType.Hummingbird &&
                         string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] as string)))
                         //we have credentials without Id

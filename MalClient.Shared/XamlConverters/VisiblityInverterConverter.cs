@@ -9,7 +9,7 @@ namespace MalClient.Shared.XamlConverters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var param = (Visibility) value;
-            return param == Visibility.Visible ? "Collapsed" : "Visible";
+            return param == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

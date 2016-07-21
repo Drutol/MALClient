@@ -12,6 +12,7 @@
 
     <UserControl.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch">
@@ -39,15 +40,15 @@
                                 <SymbolIcon Symbol="World" VerticalAlignment="Center" />
                                 <StackPanel HorizontalAlignment="Left">
                                     <Button Content="Copy url to clipboard"
-                                            Command="{Binding CopyLinkToClipboardCommand}" />
-                                    <Button Content="Open in browser" Command="{Binding OpenInMALCommand}" />
+                                            Command="{x:Bind ViewModel.CopyLinkToClipboardCommand}" />
+                                    <Button Content="Open in browser" Command="{x:Bind ViewModel.OpenInMALCommand}" />
                                 </StackPanel>
                             </StackPanel>
                             <MenuFlyoutSeparator />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <SymbolIcon Symbol="Pin" VerticalAlignment="Center" />
                                 <StackPanel HorizontalAlignment="Left">
-                                    <Button Content="Pin with MAL url" Command="{Binding PinTileMALCommand}" />
+                                    <Button Content="Pin with MAL url" Command="{x:Bind ViewModel.PinTileCustomCommand}" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -63,39 +64,54 @@
                     <ColumnDefinition Width="*" MinWidth="20" MaxWidth="120" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="35,5,0,5" />
-                <TextBlock Grid.Column="0" Text="{Binding Title}" Width="Auto" VerticalAlignment="Center"
+                <TextBlock Grid.Column="0" Text="{x:Bind ViewModel.Title}" Width="Auto" VerticalAlignment="Center"
                            FontWeight="SemiLight"
                            TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2"
                            Margin="40,0,0,0" />
-                <StackPanel Grid.Column="0" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding GlobalScoreBind}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                <Grid Grid.Column="0" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                    <TextBlock Text="{Binding Type}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                        <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis">
-                        <ToolTipService.ToolTip>
-                            <ToolTip Content="{Binding Type}" />
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
+                    <Grid  MinWidth="40" MaxWidth="70" HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
+                       HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
+                       Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="18 A"/>
+                        <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" 
+                               Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}" FontWeight="SemiLight" 
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                       Foreground="LightGray" FontSize="14" FontStyle="Italic" />
+                    </Grid>
                 </StackPanel>
-                <SymbolIcon Grid.Column="1" VerticalAlignment="Center" Symbol="Favorite" Margin="0,2" Visibility="{Binding IsFavouriteVisibility}"/>
                 <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
                         Padding="0"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"
-                        Visibility="{Binding TagsControlVisibility}">
+                        Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
                     <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Center" />
                     <Button.Flyout>
                         <Flyout>
-                            <TextBlock Text="{Binding Notes}" />
+                            <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button Grid.Column="3" Content="{Binding MyScoreBind}" Margin="5"
+                <Button Grid.Column="3" Content="{x:Bind ViewModel.MyScoreBind,Mode=OneWay}" Margin="5"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         Height="Auto"
                         HorizontalAlignment="Right"
-                        IsEnabled="{Binding UpdateButtonsEnableState}"
-                        Visibility="{Binding UpdateButtonsVisibility}">
+                        IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
@@ -104,39 +120,39 @@
                     <Button.Flyout>
                         <MenuFlyout>
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="10 - Masterpiece" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="10 - Masterpiece" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="10" />
-                                <MenuFlyoutItem Text="9 - Great" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="9 - Great" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="9" />
-                                <MenuFlyoutItem Text="8 - Very Good" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="8 - Very Good" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="8" />
-                                <MenuFlyoutItem Text="7 - Good" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="7 - Good" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="7" />
-                                <MenuFlyoutItem Text="6 - Fine" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="6 - Fine" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="6" />
-                                <MenuFlyoutItem Text="5 - Average" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="5 - Average" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="5" />
-                                <MenuFlyoutItem Text="4 - Bad" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="4 - Bad" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="4" />
-                                <MenuFlyoutItem Text="3 - Very Bad" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="3 - Very Bad" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="3" />
-                                <MenuFlyoutItem Text="2 - Horrible" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="2 - Horrible" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="2" />
-                                <MenuFlyoutItem Text="1 - Appaling" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="1 - Appaling" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="1" />
-                                <MenuFlyoutItem Text="Unranked" Command="{Binding ChangeScoreCommand}"
+                                <MenuFlyoutItem Text="Unranked" Command="{x:Bind ViewModel.ChangeScoreCommand}"
                                                 CommandParameter="0" />
                             </MenuFlyout.Items>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
-                <Button Grid.Column="4" Content="{Binding MyStatusBind}" Margin="5"
+                <Button Grid.Column="4" Content="{x:Bind ViewModel.MyStatusBind,Mode=OneWay}" Margin="5"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         Height="Auto"
                         HorizontalAlignment="Right"
-                        IsEnabled="{Binding UpdateButtonsEnableState}"
-                        Visibility="{Binding UpdateButtonsVisibility}">
+                        IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
@@ -145,15 +161,15 @@
                     <Button.Flyout>
                         <MenuFlyout>
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="{Binding Status1Label}" Command="{Binding ChangeStatusCommand}"
+                                <MenuFlyoutItem Text="{x:Bind ViewModel.Status1Label,Mode=OneWay}" Command="{x:Bind ViewModel.ChangeStatusCommand}"
                                                 CommandParameter="Watching" />
-                                <MenuFlyoutItem Text="Completed" Command="{Binding ChangeStatusCommand}"
+                                <MenuFlyoutItem Text="Completed" Command="{x:Bind ViewModel.ChangeStatusCommand}"
                                                 CommandParameter="Completed" />
-                                <MenuFlyoutItem Text="On hold" Command="{Binding ChangeStatusCommand}"
+                                <MenuFlyoutItem Text="On hold" Command="{x:Bind ViewModel.ChangeStatusCommand}"
                                                 CommandParameter="On hold" />
-                                <MenuFlyoutItem Text="Dropped" Command="{Binding ChangeStatusCommand}"
+                                <MenuFlyoutItem Text="Dropped" Command="{x:Bind ViewModel.ChangeStatusCommand}"
                                                 CommandParameter="Dropped" />
-                                <MenuFlyoutItem Text="{Binding Status5Label}" Command="{Binding ChangeStatusCommand}"
+                                <MenuFlyoutItem Text="{x:Bind ViewModel.Status5Label,Mode=OneWay}" Command="{x:Bind ViewModel.ChangeStatusCommand}"
                                                 CommandParameter="Plan to watch" />
                             </MenuFlyout.Items>
                         </MenuFlyout>
@@ -164,49 +180,49 @@
             </Grid>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <Grid Height="40" Width="40" Margin="5"
-                      Visibility="{Binding DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
-                <Button VerticalAlignment="Center" Height="40" Margin="5"
-                        Width="40" Command="{Binding DecrementWatchedCommand}"
-                        Visibility="{Binding DecrementEpsVisibility}"
+                      Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
+                <Button VerticalAlignment="Center" Height="40" Margin="5" RenderTransformOrigin="0.5,0.5"
+                        Width="40" Command="{x:Bind ViewModel.DecrementWatchedCommand}"
+                        Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Mode=OneWay}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                     <SymbolIcon Symbol="Remove" Foreground="White" />
                     <Button.RenderTransform>
-                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
+                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0"/>
                     </Button.RenderTransform>
                 </Button>
                 <Grid Height="40" Width="40" Margin="5"
-                      Visibility="{Binding IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
-                <Button Height="40" Width="40" Margin="5"
-                        Command="{Binding IncrementWatchedCommand}"
-                        Visibility="{Binding IncrementEpsVisibility}"
+                      Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
+                <Button Height="40" Width="40" Margin="5" RenderTransformOrigin="0.5,0.5"
+                        Command="{x:Bind ViewModel.IncrementWatchedCommand}"
+                        Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Mode=OneWay}"
                         VerticalAlignment="Center"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="0">
                     <SymbolIcon Symbol="Add" Foreground="White" />
                     <Button.RenderTransform>
-                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0" CenterY="40" />
+                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0"/>
                     </Button.RenderTransform>
                 </Button>
-                <Button Content="{Binding MyEpisodesBind}" FontWeight="SemiLight" Height="40"
+                <Button Content="{x:Bind ViewModel.MyEpisodesBind,Mode=OneWay}" FontWeight="SemiLight" Height="40"
                         Margin="0,5,5,5" VerticalAlignment="Center" Background="Transparent"
                         BorderThickness="0,0,0,2" Width="120"
                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                        IsEnabled="{Binding UpdateButtonsEnableState}" Padding="0">
+                        IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}" Padding="0">
                     <Button.Flyout>
                         <Flyout x:Name="WatchedEpsFlyout">
                             <StackPanel>
-                                <TextBlock Text="{Binding UpdateEpsUpperLabel}" HorizontalAlignment="Center"
+                                <TextBlock Text="{x:Bind ViewModel.UpdateEpsUpperLabel,Mode=OneWay}" HorizontalAlignment="Center"
                                            FontWeight="SemiLight" />
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="TxtBoxWatchedEps" Margin="0,3"
-                                             Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             Text="{x:Bind ViewModel.WatchedEpsInput,Mode=TwoWay}"
                                              KeyDown="SubmitWatchedEps" />
-                                    <Button Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0">
+                                    <Button Command="{x:Bind ViewModel.ChangeWatchedCommand}" Margin="2,0,0,0">
                                         <SymbolIcon Symbol="Accept" />
                                     </Button>
                                 </StackPanel>
                                 <TextBlock Text="Wrong input!"
                                            HorizontalAlignment="Center" FontWeight="SemiLight"
-                                           Visibility="{Binding WatchedEpsInputNoticeVisibility}" />
+                                           Visibility="{x:Bind ViewModel.WatchedEpsInputNoticeVisibility,Mode=OneWay}" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>

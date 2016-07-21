@@ -148,7 +148,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
+        <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" HorizontalAlignment="Stretch"
                                       Margin="3,1,-2,1" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
@@ -178,7 +178,7 @@
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <items1:AnimeCompactItem DataContext="{Binding}" />
+                    <items1:AnimeCompactItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>

@@ -231,7 +231,7 @@ namespace MalClient.Shared.ViewModels.Main
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
-                    AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
+                    
 
                     if (!gotArgs)
                     {
@@ -251,9 +251,13 @@ namespace MalClient.Shared.ViewModels.Main
                         AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Collapsed;
                         if (AnimeItems.Count + _animeItemsSet.Count <= 150)
                             LoadMoreFooterVisibility = Visibility.Visible;
+                        AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
                     }
                     else
+                    {
                         AppbarBtnPinTileVisibility = AppBtnSortingVisibility = Visibility.Visible;
+                        AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -1043,7 +1047,7 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
-        private Visibility _upperCommandBarVisibility = Settings.IsPivotFilterBarVisible ? Visibility.Visible : Visibility.Collapsed;
+        private Visibility _upperCommandBarVisibility = Visibility.Visible;
 
         public Visibility UpperCommandBarVisibility
         {

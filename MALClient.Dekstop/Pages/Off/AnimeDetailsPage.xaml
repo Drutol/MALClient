@@ -559,9 +559,12 @@
                                            TextWrapping="WrapWholeWords" Margin="3,1" />
                                 <MenuFlyoutSeparator/>
                                 <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center" Visibility="{Binding LoadCharactersButtonVisibility}"/>
-                                <Button HorizontalAlignment="Center" Content="Load chacters" 
-                                        Style="{StaticResource TextBlockButtonStyle}" Command="{Binding LoadCharactersCommand}"
-                                        Visibility="{Binding LoadCharactersButtonVisibility}"/>
+                                <Button HorizontalAlignment="Center" Content="Load characters" 
+                                                        Command="{Binding LoadCharactersCommand}"
+                                                        Visibility="{Binding LoadCharactersButtonVisibility}"
+                                                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                                                        Margin="5,10"
+                                                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                 <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility}"/>
                                 <Grid HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility}">
                                     <Grid.Resources>

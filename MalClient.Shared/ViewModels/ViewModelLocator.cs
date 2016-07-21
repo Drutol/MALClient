@@ -58,6 +58,7 @@ namespace MalClient.Shared.ViewModels
         void UpdateApiDependentButtons();
         void UpdateAnimeFiltersSelectedIndex();
         void UpdateLogInLabel();
+        Visibility MangaSectionVisbility { get; set; }
     }
 
     public interface INavMgr

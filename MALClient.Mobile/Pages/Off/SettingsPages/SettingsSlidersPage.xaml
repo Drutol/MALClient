@@ -28,7 +28,7 @@
                                                    Text="{Binding ElementName=SliderReviewsToPull,Path=Value}"
                                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                     </StackPanel>
-                    <Slider x:Name="SliderReviewsToPull" Minimum="3" Maximum="7"
+                    <Slider x:Name="SliderReviewsToPull" Minimum="3" Maximum="10"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
                                             ValueChanged="ChangedReviewsToPull" />
@@ -44,7 +44,7 @@
                                                    Text="{Binding ElementName=SliderReccommsToPull,Path=Value}"
                                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                     </StackPanel>
-                    <Slider x:Name="SliderReccommsToPull" Minimum="3" Maximum="10"
+                    <Slider x:Name="SliderReccommsToPull" Minimum="3" Maximum="15"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5"
                                             ValueChanged="ChangedRecommsToPull" />

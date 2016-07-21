@@ -77,13 +77,13 @@
                             IsOn="{Binding HamburgerMenuDefaultPaneState,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="Expanded" OffContent="Collapsed" HorizontalAlignment="Center" />
                     </Grid>
-                    <TextBlock Text="Upper list navigation bar visibility." FontWeight="Medium"
+                    <TextBlock Text="Manga section visibility in hamburger menu." FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"
                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
                     <Grid HorizontalAlignment="Stretch">
                         <ToggleSwitch
-                            IsOn="{Binding IsPivotFilterBarVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            OnContent="Visible" OffContent="Collapsed" HorizontalAlignment="Center" />
+                            IsOn="{Binding HamburgerHideMangaSection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Collapsed" OffContent="Visible" HorizontalAlignment="Center" />
                     </Grid>
                     <TextBlock Text="Enable swipe to increment/decrement on grid items."
                                FontWeight="Medium"

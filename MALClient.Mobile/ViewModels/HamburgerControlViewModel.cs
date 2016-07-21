@@ -300,6 +300,8 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
+        public Visibility MangaSectionVisbility { get; set; }
+
         public void UpdateApiDependentButtons()
         {
             RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);

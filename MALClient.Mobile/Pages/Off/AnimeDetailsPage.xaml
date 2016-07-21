@@ -613,8 +613,11 @@
                                                 <MenuFlyoutSeparator/>
                                                 <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center" Visibility="{Binding LoadCharactersButtonVisibility}"/>
                                                 <Button HorizontalAlignment="Center" Content="Load characters" 
-                                                        Style="{StaticResource TextBlockButtonStyle}" Command="{Binding LoadCharactersCommand}"
-                                                        Visibility="{Binding LoadCharactersButtonVisibility}"/>
+                                                        Command="{Binding LoadCharactersCommand}"
+                                                        Visibility="{Binding LoadCharactersButtonVisibility}"
+                                                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                                                        Margin="5"
+                                                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                                 <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility}"/>
                                             </StackPanel>
                                             <Grid Grid.Row="2" HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility}">
@@ -727,7 +730,7 @@
                                                                             <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="175"/>
                                                                         </Image.Source>
                                                                     </Image>
-                                                                    <new:FavButton Grid.Row="0" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                    <new:FavButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
                                                                         <new:FavButton.Background>
                                                                             <SolidColorBrush Color="Black" Opacity=".75"></SolidColorBrush>
                                                                         </new:FavButton.Background>

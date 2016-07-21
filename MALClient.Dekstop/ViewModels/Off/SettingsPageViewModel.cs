@@ -325,13 +325,15 @@ namespace MALClient.ViewModels.Off
             set { Settings.HamburgerMenuDefaultPaneState = value; }
         }
 
-        public static bool IsPivotFilterBarVisible
+        public static bool HamburgerHideMangaSection
         {
-            get { return Settings.IsPivotFilterBarVisible; }
+            get { return Settings.HamburgerHideMangaSection; }
             set
             {
-                ViewModelLocator.AnimeList.UpperCommandBarVisibility = value ? Visibility.Visible : Visibility.Collapsed;
-                Settings.IsPivotFilterBarVisible = value;
+                ViewModelLocator.GeneralHamburger.MangaSectionVisbility = value
+                    ? Visibility.Collapsed
+                    : Visibility.Visible;
+                Settings.HamburgerHideMangaSection = value;
             }
         }
 

@@ -390,6 +390,18 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
+        public Visibility _mangaSectionVisbility = Settings.HamburgerHideMangaSection ? Visibility.Collapsed : Visibility.Visible;
+
+        public Visibility MangaSectionVisbility
+        {
+            get { return _mangaSectionVisbility; }
+            set
+            {
+                _mangaSectionVisbility = value;
+                RaisePropertyChanged(() => MangaSectionVisbility);
+            }
+        }
+
         public void UpdateApiDependentButtons()
         {
             RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);

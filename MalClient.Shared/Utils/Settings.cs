@@ -116,13 +116,13 @@ namespace MalClient.Shared.Utils
 
         public static int ReviewsToPull
         {
-            get { return (int) (ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] ?? 4); }
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] ?? 8); }
             set { ApplicationData.Current.LocalSettings.Values["ReviewsToPull"] = value; }
         }
 
         public static int RecommsToPull
         {
-            get { return (int) (ApplicationData.Current.LocalSettings.Values["RecommsToPull"] ?? 8); }
+            get { return (int) (ApplicationData.Current.LocalSettings.Values["RecommsToPull"] ?? 10); }
             set { ApplicationData.Current.LocalSettings.Values["RecommsToPull"] = value; }
         }
 
@@ -230,6 +230,15 @@ namespace MalClient.Shared.Utils
             set { ApplicationData.Current.LocalSettings.Values["HamburgerMangaFiltersExpanded"] = value; }
         }
 
+        public static bool HamburgerHideMangaSection
+        {
+            get
+            {
+                return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerHideMangaSection"] ?? false);
+            }
+            set { ApplicationData.Current.LocalSettings.Values["HamburgerHideMangaSection"] = value; }
+        }
+
         public static bool HamburgerMenuDefaultPaneState
         {
             get
@@ -237,12 +246,6 @@ namespace MalClient.Shared.Utils
                 return (bool) (ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] ?? true);
             }
             set { ApplicationData.Current.LocalSettings.Values["HamburgerMenuDefaultPaneState"] = value; }
-        }
-
-        public static bool IsPivotFilterBarVisible
-        {
-            get { return (bool) (ApplicationData.Current.LocalSettings.Values["IsPivotFilterBarVisible"] ?? true); }
-            set { ApplicationData.Current.LocalSettings.Values["IsPivotFilterBarVisible"] = value; }
         }
 
         public static DataSource PrefferedDataSource

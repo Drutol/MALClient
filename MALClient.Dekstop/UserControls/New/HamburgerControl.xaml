@@ -422,9 +422,10 @@
                                            TextAlignment="Center" />
                             </Grid>
                         </Button>
-                        <MenuFlyoutSeparator HorizontalAlignment="Left" x:Name="MidSeparator"
+                        <StackPanel Visibility="{Binding MangaSectionVisbility}">
+                            <MenuFlyoutSeparator HorizontalAlignment="Left" x:Name="MidSeparator" Visibility="{Binding MangaSectionVisbility}"
                                              Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -432,72 +433,72 @@
                                 RightTapped="ButtonExpandMangaFiltersOnRightClick"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="9">
-                            <Grid Height="Auto">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="45" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Border
+                                <Grid Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Border
                                     BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"
                                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                     Grid.ColumnSpan="2" />
-                                <SymbolIcon Grid.Row="0" HorizontalAlignment="Center" Symbol="Library"
+                                    <SymbolIcon Grid.Row="0" HorizontalAlignment="Center" Symbol="Library"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
-                                <TextBlock Grid.Row="0" x:Name="TxtMangaList" Text="Manga List"
+                                    <TextBlock Grid.Row="0" x:Name="TxtMangaList" Text="Manga List"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
-                                <Button x:Name="ExpandMangaFiltersButton" Grid.Row="0" Background="Transparent"
+                                    <Button x:Name="ExpandMangaFiltersButton" Grid.Row="0" Background="Transparent"
                                         Click="ButtonExpandMangaFiltersOnClick" Width="35" Height="35" Margin="0,0,5,0"
                                         Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                         RenderTransformOrigin="0.5,0.5">
-                                    <Button.RenderTransform>
-                                        <RotateTransform Angle="90.0" />
-                                    </Button.RenderTransform>
-                                    <SymbolIcon Symbol="Remote" />
-                                </Button>
-                                <Grid x:Name="MangaFiltersList" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                        <Button.RenderTransform>
+                                            <RotateTransform Angle="90.0" />
+                                        </Button.RenderTransform>
+                                        <SymbolIcon Symbol="Remote" />
+                                    </Button>
+                                    <Grid x:Name="MangaFiltersList" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
                                       Height="0" Margin="-1,0">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="Black" Opacity=".25" />
-                                    </Grid.Background>
-                                    <GridView
+                                        <Grid.Background>
+                                            <SolidColorBrush Color="Black" Opacity=".25" />
+                                        </Grid.Background>
+                                        <GridView
                                         ItemsSource="{Binding MangaListFilters}"
                                         SelectedIndex="{Binding CurrentMangaFiltersSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Item2}"
+                                            <GridView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Item2}"
                                                            VerticalAlignment="Center" HorizontalAlignment="Stretch"
                                                            TextAlignment="Center" />
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                        <GridView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsWrapGrid ItemHeight="35" MaximumRowsOrColumns="2"
+                                                </DataTemplate>
+                                            </GridView.ItemTemplate>
+                                            <GridView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ItemsWrapGrid ItemHeight="35" MaximumRowsOrColumns="2"
                                                                Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </GridView.ItemsPanel>
-                                        <GridView.ItemContainerStyle>
-                                            <Style TargetType="GridViewItem"
+                                                </ItemsPanelTemplate>
+                                            </GridView.ItemsPanel>
+                                            <GridView.ItemContainerStyle>
+                                                <Style TargetType="GridViewItem"
                                                    BasedOn="{StaticResource GridViewItemCustomStyle}">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Width" Value="122" />
-                                                <Setter Property="Margin" Value="0" />
-                                            </Style>
-                                        </GridView.ItemContainerStyle>
-                                    </GridView>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Width" Value="122" />
+                                                    <Setter Property="Margin" Value="0" />
+                                                </Style>
+                                            </GridView.ItemContainerStyle>
+                                        </GridView>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Button>
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            </Button>
+                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -505,55 +506,56 @@
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="10"
                                 Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                            <Grid Height="45">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Border
+                                <Grid Height="45">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
                                     BorderThickness="{Binding TxtBorderBrushThicknesses[MangaSearch]}"
                                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                     Grid.ColumnSpan="2" />
-                                <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
+                                    <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
-                                <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
+                                    <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
-                            </Grid>
-                        </Button>
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                                </Grid>
+                            </Button>
+                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="12">
-                            <Grid Height="45">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Border
+                                <Grid Height="45">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
                                     BorderThickness="{Binding TxtBorderBrushThicknesses[TopManga]}"
                                     BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                     Grid.ColumnSpan="2" />
-                                <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                                    <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
-                                <TextBlock x:Name="TxtTopManga" Text="Top Manga"
+                                    <TextBlock x:Name="TxtTopManga" Text="Top Manga"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
-                            </Grid>
-                        </Button>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
                         <MenuFlyoutSeparator HorizontalAlignment="Left" x:Name="Mid2Separator"
                                              Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

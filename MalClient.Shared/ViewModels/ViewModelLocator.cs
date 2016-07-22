@@ -7,12 +7,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight.Ioc;
 using MalClient.Shared.Delegates;
-using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels.Forums;
 using MalClient.Shared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
-using AnimeDetailsPageNavigationArgs = MalClient.Shared.NavArgs.AnimeDetailsPageNavigationArgs;
 
 namespace MalClient.Shared.ViewModels
 {
@@ -96,6 +95,8 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<MalMessageDetailsViewModel>();
             SimpleIoc.Default.Register<AnimeDetailsPageViewModel>();
             SimpleIoc.Default.Register<AnimeListViewModel>();
+            SimpleIoc.Default.Register<ForumIndexViewModel>();
+            SimpleIoc.Default.Register<ForumsMainViewModel>();
 
         }
 
@@ -129,5 +130,11 @@ namespace MalClient.Shared.ViewModels
 
         public static MalMessageDetailsViewModel MalMessageDetails
             => ServiceLocator.Current.GetInstance<MalMessageDetailsViewModel>();
+
+        public static ForumIndexViewModel MalForumIndex
+            => ServiceLocator.Current.GetInstance<ForumIndexViewModel>();
+
+        public static ForumsMainViewModel ForumsMain 
+            => ServiceLocator.Current.GetInstance<ForumsMainViewModel>();
     }
 }

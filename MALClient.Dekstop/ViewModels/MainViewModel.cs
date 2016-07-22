@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Popups;
@@ -13,14 +14,17 @@ using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Forums;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Pages;
+using MALClient.Pages.Forums;
 using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
 using MALClient.Pages.Off;
@@ -239,6 +243,13 @@ namespace MALClient.ViewModels
                     OffContentVisibility = Visibility.Visible;
                     OffNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
+                case PageIndex.PageForumIndex:
+                    HideSearchStuff();
+                    CurrentStatus = $"{Credentials.UserName} - Messages";
+                    RefreshButtonVisibility = Visibility.Visible;
+                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
+                    MainNavigationRequested?.Invoke(typeof(ForumsMainPage),args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -289,9 +300,10 @@ namespace MALClient.ViewModels
             {
                 _view = value;
 
-                Navigate(Credentials.Authenticated
-                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                    : PageIndex.PageLogIn); //entry point whatnot
+                Navigate(PageIndex.PageForumIndex);
+                //Navigate(Credentials.Authenticated
+                //    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
+                //    : PageIndex.PageLogIn); //entry point whatnot
                 if (InitDetails != null)
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
 
@@ -308,7 +320,7 @@ namespace MALClient.ViewModels
 
 //entry point
 
-        private bool _menuPaneState;
+private bool _menuPaneState;
 
         public bool MenuPaneState
         {

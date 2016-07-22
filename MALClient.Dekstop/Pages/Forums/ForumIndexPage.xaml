@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="MALClient.Pages.Forums.ForumIndexPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Forums"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fa="using:FontAwesome.UWP"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=MalForumIndex}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Boards}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Group}" FontSize="28" Margin="0,5" HorizontalAlignment="Center"
+                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
+                            <GridView ItemsSource="{Binding Items}" HorizontalAlignment="Center" SelectionMode="None">
+                                <GridView.ItemContainerTransitions>
+                                    <TransitionCollection>
+                                        <RepositionThemeTransition/>
+                                        <EntranceThemeTransition/>
+                                        <AddDeleteThemeTransition/>
+                                    </TransitionCollection>
+                                </GridView.ItemContainerTransitions>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Width="500" Padding="15,10" Height="175" Background="{ThemeResource BrushAnimeItemBackground}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal">
+                                                <fa:FontAwesome Icon="{Binding Icon}" FontSize="21" Margin="10,0"/>
+                                                <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium" FontSize="19"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Row="1" Text="{Binding Entry.Description}" TextWrapping="WrapWholeWords" FontWeight="SemiLight" Height="40" Foreground="{ThemeResource BrushSettingsSubtitle}"/>
+                                            <MenuFlyoutSeparator Grid.Row="2" Margin="0,2"/>
+                                            <ItemsControl Grid.Row="3" ItemsSource="{Binding Entry.PeekPosts}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <ItemsStackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Width="250">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="35"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Stretch="Uniform" VerticalAlignment="Top">
+                                                                <Image.Source>
+                                                                    <BitmapImage UriSource="{Binding User.ImgUrl}" DecodePixelWidth="35" DecodePixelHeight="45" DecodePixelType="Logical"/>
+                                                                </Image.Source>
+                                                            </Image>
+                                                            <Grid Grid.Column="1" VerticalAlignment="Top" Margin="3,0">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock Text="{Binding Title}" Height="40" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                                                                <TextBlock Grid.Row="1" Margin="0,5,0,0" Text="{Binding PostTime}" TextWrapping="WrapWholeWords" FontWeight="SemiLight" Foreground="{ThemeResource BrushSettingsSubtitle}"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

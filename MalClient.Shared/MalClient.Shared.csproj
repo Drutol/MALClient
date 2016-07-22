@@ -127,6 +127,7 @@
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
+    <Compile Include="Comm\Forums\ForumBoardIndexPeekPostsQuery.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Models\Favourites\AnimeCharacter.cs" />
     <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
     <Compile Include="Models\Favourites\FavouriteBase.cs" />
+    <Compile Include="Models\Forums\ForumBoardEntry.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
     <Compile Include="Models\Library\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Library\IAnimeData.cs" />
@@ -210,6 +212,7 @@
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
+    <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -234,6 +237,8 @@
     <Compile Include="Utils\Enums\AnimeStatusEnum.cs" />
     <Compile Include="Utils\Enums\AnimeTypeEnum.cs" />
     <Compile Include="Utils\Enums\ArticlePageEnums.cs" />
+    <Compile Include="Utils\Enums\ForumBoards.cs" />
+    <Compile Include="Utils\Enums\ForumsPageIndex.cs" />
     <Compile Include="Utils\Enums\HamburgerButtonsEnum.cs" />
     <Compile Include="Utils\Enums\PageIndex.cs" />
     <Compile Include="Utils\IDetailsPageArgs.cs" />
@@ -248,6 +253,9 @@
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
+    <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />
+    <Compile Include="ViewModels\Forums\ForumsMainViewModel.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />

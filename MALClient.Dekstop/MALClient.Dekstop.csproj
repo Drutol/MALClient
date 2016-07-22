@@ -114,6 +114,18 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Forums\ForumBoardPage.xaml.cs">
+      <DependentUpon>ForumBoardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumIndexPage.xaml.cs">
+      <DependentUpon>ForumIndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumsMainPage.xaml.cs">
+      <DependentUpon>ForumsMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
+      <DependentUpon>ForumTopicPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Messages\MalMessageDetailsPage.xaml.cs" />
     <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs" />
     <Compile Include="Pages\Off\AnimeDetailsPage.xaml.cs">
@@ -219,6 +231,22 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Forums\ForumBoardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumIndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumsMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumTopicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Messages\MalMessageDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

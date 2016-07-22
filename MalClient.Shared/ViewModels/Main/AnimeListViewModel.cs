@@ -508,6 +508,7 @@ namespace MalClient.Shared.ViewModels.Main
             Loading = false;
         }
 
+
         private int GetGridItemsToLoad()
         {
             var width = View?.ActualWidth ?? 1920;

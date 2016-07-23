@@ -97,6 +97,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<AnimeListViewModel>();
             SimpleIoc.Default.Register<ForumIndexViewModel>();
             SimpleIoc.Default.Register<ForumsMainViewModel>();
+            SimpleIoc.Default.Register<ForumBoardViewModel>();
 
         }
 
@@ -131,10 +132,15 @@ namespace MalClient.Shared.ViewModels
         public static MalMessageDetailsViewModel MalMessageDetails
             => ServiceLocator.Current.GetInstance<MalMessageDetailsViewModel>();
 
-        public static ForumIndexViewModel MalForumIndex
+        //Forums
+
+        public static ForumsMainViewModel ForumsMain
+            => ServiceLocator.Current.GetInstance<ForumsMainViewModel>();
+
+        public static ForumIndexViewModel ForumsIndex
             => ServiceLocator.Current.GetInstance<ForumIndexViewModel>();
 
-        public static ForumsMainViewModel ForumsMain 
-            => ServiceLocator.Current.GetInstance<ForumsMainViewModel>();
+        public static ForumBoardViewModel ForumsBoard 
+            => ServiceLocator.Current.GetInstance<ForumBoardViewModel>();
     }
 }

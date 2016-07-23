@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Forums;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +25,25 @@ namespace MALClient.Pages.Forums
     /// </summary>
     public sealed partial class ForumBoardPage : Page
     {
+        private ForumsBoardNavigationArgs _args;
+
+        public ForumBoardViewModel ViewModel = ViewModelLocator.ForumsBoard;
+
         public ForumBoardPage()
         {
             this.InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ViewModel.Init(_args);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            _args = e.Parameter as ForumsBoardNavigationArgs;
+            base.OnNavigatedTo(e);
         }
     }
 }

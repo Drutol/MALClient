@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Forums;
 
@@ -24,7 +26,7 @@ namespace MALClient.Pages.Forums
     /// </summary>
     public sealed partial class ForumIndexPage : Page
     {
-        public ForumIndexViewModel ViewModel => ViewModelLocator.MalForumIndex;
+        public ForumIndexViewModel ViewModel => ViewModelLocator.ForumsIndex;
 
         public ForumIndexPage()
         {
@@ -35,6 +37,12 @@ namespace MALClient.Pages.Forums
         {
             ViewModel.Init();
             base.OnNavigatedTo(e);
+        }
+
+        private void BoardGridOnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                new ForumsBoardNavigationArgs((e.ClickedItem as ForumBoardEntryViewModel).Board));
         }
     }
 }

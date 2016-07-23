@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="using:FontAwesome.UWP"
-    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=MalForumIndex}">
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsIndex}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
@@ -16,7 +16,7 @@
                         <StackPanel>
                             <TextBlock Text="{Binding Group}" FontSize="28" Margin="0,5" HorizontalAlignment="Center"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
-                            <GridView ItemsSource="{Binding Items}" HorizontalAlignment="Center" SelectionMode="None">
+                            <GridView ItemsSource="{Binding Items}" ItemClick="BoardGridOnItemClick" IsItemClickEnabled="True" HorizontalAlignment="Center" SelectionMode="None">
                                 <GridView.ItemContainerTransitions>
                                     <TransitionCollection>
                                         <RepositionThemeTransition/>

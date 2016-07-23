@@ -15,4 +15,5 @@ namespace MalClient.Shared.Delegates
     public delegate void SortingSettingChange(SortOptions option, bool descencing);
     public delegate void NavigationRequest(Type page, object args = null);
     public delegate void AmbiguousNavigationRequest(int enumId,object args);
+    public delegate void WebViewNavigationRequest(object content);
 }

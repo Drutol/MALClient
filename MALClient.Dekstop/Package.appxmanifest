@@ -20,6 +20,9 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <uap:ApplicationContentUriRules>
+        <uap:Rule Match="http://myanimelist.net" Type="include" WindowsRuntimeAccess="all" />
+      </uap:ApplicationContentUriRules>
     </Application>
   </Applications>
   <Capabilities>

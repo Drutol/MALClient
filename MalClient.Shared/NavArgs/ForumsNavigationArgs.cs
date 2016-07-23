@@ -30,7 +30,7 @@ namespace MalClient.Shared.NavArgs
         public ForumsTopicNavigationArgs(string topicId)
         {
             TopicId = topicId;
-            Page = ForumsPageIndex.PageBoard;
+            Page = ForumsPageIndex.PageTopic;
         }
     }
 }

@@ -98,6 +98,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<ForumIndexViewModel>();
             SimpleIoc.Default.Register<ForumsMainViewModel>();
             SimpleIoc.Default.Register<ForumBoardViewModel>();
+            SimpleIoc.Default.Register<ForumTopicViewModel>();
 
         }
 
@@ -142,5 +143,8 @@ namespace MalClient.Shared.ViewModels
 
         public static ForumBoardViewModel ForumsBoard 
             => ServiceLocator.Current.GetInstance<ForumBoardViewModel>();
+
+        public static ForumTopicViewModel ForumsTopic
+            => ServiceLocator.Current.GetInstance<ForumTopicViewModel>();
     }
 }

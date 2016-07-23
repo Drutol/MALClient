@@ -18,7 +18,7 @@
     </Page.Transitions>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding Topics}">
+        <ListView ItemsSource="{Binding Topics}" ItemClick="TopicOnClick" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>

@@ -5,9 +5,9 @@
     xmlns:local="using:MALClient.Pages.Forums"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsTopic}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <WebView x:Name="TopicWebView" LoadCompleted="TopicWebView_OnLoadCompleted" DOMContentLoaded="TopicWebView_OnDOMContentLoaded" NavigationStarting="TopicWebView_OnNavigationStarting"/>
     </Grid>
 </Page>

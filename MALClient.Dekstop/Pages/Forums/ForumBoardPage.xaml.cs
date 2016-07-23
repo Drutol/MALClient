@@ -12,7 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Models.Forums;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Forums;
 
@@ -44,6 +46,12 @@ namespace MALClient.Pages.Forums
         {
             _args = e.Parameter as ForumsBoardNavigationArgs;
             base.OnNavigatedTo(e);
+        }
+
+        private void TopicOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                new ForumsTopicNavigationArgs((e.ClickedItem as ForumTopicEntry).Id));
         }
     }
 }

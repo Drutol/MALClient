@@ -15,11 +15,14 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
     /// </summary>
     public class CsrfHttpClient : HttpClient
     {
-        public CsrfHttpClient(HttpClientHandler hander) : base(hander)
+        public CsrfHttpClient(HttpClientHandler handler) : base(handler)
         {
+            Handler = handler;
         }
 
         public string Token { get; set; }
+
+        public HttpClientHandler Handler { get; }
 
         protected new void Dispose(bool disposing)
         {

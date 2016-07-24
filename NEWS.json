@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Forums!",
+    "Date": "24.07.2016",
+    "Type": "Info",
+    "Content": "Forums are now in development, it's pretty hard and WILL take some time but I have the basics figured out :) Screenshots on github (TODO issue)."
+  },
+  {
     "Title": "Messaging&Favourites Preview",
     "Date": "19.07.2016",
     "Type": "Info",
@@ -16,11 +22,5 @@
     "Date": "08.07.2016",
     "Type": "Info",
     "Content": "I've uploaded app stats screenshots to github, if you are interested feel free to check them out :)"
-  },
-  {
-    "Title": "v4.3.126(5).0",
-    "Date": "08.07.2016",
-    "Type": "Updates",
-    "Content": "It turned out to be quite big: tags, volumes etc... Hope you like it :) Changelog can be found on github. Next update will feature Messaging (100%) and maybe favourites, we will se how it goes."
   }
 ]

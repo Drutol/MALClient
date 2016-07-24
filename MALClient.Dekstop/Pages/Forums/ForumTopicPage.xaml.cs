@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,6 +22,7 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using MalClient.Shared.Comm.MagicalRawQueries;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Forums;
 
@@ -51,20 +53,7 @@ namespace MALClient.Pages.Forums
 
         private async void ViewModelOnWebViewNavigationRequested(object content)
         {
-            var filter = new HttpBaseProtocolFilter();
-            var httpContext = await MalHttpContextProvider.GetHttpContextAsync();
-            var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri("http://myanimelist.net/"));
-            foreach (var cookie in cookies.Cast<Cookie>())
-            {
-                var newCookie = new HttpCookie(cookie.Name, cookie.Domain, cookie.Path);
-                newCookie.Value = cookie.Value;
-                filter.CookieManager.SetCookie(newCookie);
-            }
-
-            filter.AllowAutoRedirect = true;
-            
-            HttpClient client = new HttpClient(filter);
-
+            await MalHttpContextProvider.InitializeContextForWebViews();
             TopicWebView.Navigate(new Uri("http://myanimelist.net/forum/?topicid=1499207"));
         }
 
@@ -78,14 +67,43 @@ namespace MALClient.Pages.Forums
 
         private async void TopicWebView_OnLoadCompleted(object sender, NavigationEventArgs e)
         {
-            TopicWebView.AllowedScriptNotifyUris.Add(new Uri("http://myanimelist.net"));
-            string[] args = { "document.getElementById(\"headerSmall\").outerHTML=\'\';document.getElementById(\"menu\").outerHTML=\'\';document.getElementsByClassName(\"js-sns-icon-container icon-block-small\")[0].outerHTML=\'\';document.getElementsByTagName(\"footer\")[0].innerHTML=\'\';document.getElementsByClassName(\"mauto clearfix pt24\")[0].outerHTML=\'\';" };
-            await TopicWebView.InvokeScriptAsync("eval", args);
+
         }
 
 
         private async void TopicWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
+            var uiSettings = new UISettings();
+            var color = uiSettings.GetColorValue(UIColorType.Accent);
+            //this chain of commands will remove unnecessary stuff
+            string bodyLight = Settings.SelectedTheme == ApplicationTheme.Dark ? "#3d3d3d" : "#e6e6e6";
+            string bodyLighter = Settings.SelectedTheme == ApplicationTheme.Dark ? "#2f2f2f" : "#e6e6e6";
+            string bodyDarker = Settings.SelectedTheme == ApplicationTheme.Dark ? "#212121" : "#e6e6e6";
+            string fontColor = Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black";
+            string fontColorInverted = Settings.SelectedTheme == ApplicationTheme.Dark ? "black" : "white";
+            string[] commands = 
+            {
+                 "document.getElementById(\"headerSmall\").outerHTML=\'\';document.getElementById(\"menu\").outerHTML=\'\';document.getElementsByClassName(\"js-sns-icon-container icon-block-small\")[0].outerHTML=\'\';document.getElementsByTagName(\"footer\")[0].innerHTML=\'\';document.getElementsByClassName(\"mauto clearfix pt24\")[0].outerHTML=\'\';",
+                 "$(\"#contentWrapper\").find(\'div:first\').remove();",
+                 $"$(\"body\").css(\"font-family\", \"Segoe UI\").css(\"color\", \"{fontColor}\").css(\"background-color\", \"{bodyLighter}\");",
+                 $"$(\"td\").css(\"background-color\", \"{bodyDarker}\").css(\"border-color\", \"{bodyDarker}\");",
+                 $"$(\".forum_boardrow2\").css(\"background-color\", \"{bodyDarker}\");",
+                 $"$(\".forum_boardrow1\").css(\"background-color\", \"{bodyLighter}\").css(\"border-color\",\"{fontColorInverted}\");",
+                 $"$(\".forum_category\").css(\"background-color\", \"{bodyLight}\");",
+                 $"$(\".forum_boardrowspacer\").css(\"background-color\", \"{bodyLighter}\");",
+                 $"$(\".btn-forum\").css(\"background-color\", \"{bodyLight}\").css(\"border-color\",\"{fontColorInverted}\");",
+                 "$(\"html\").css(\"zoom\", \"150%\");",
+                 "$(\".wrapper\").find(\".fl-r.ar\").remove()",
+                 $"$(\".inputButton\").css(\"border-color\",\"{fontColorInverted}\").css(\"background-color\",\"{bodyLight}\")",
+                 $"$(\"a\").css(\"color\", \"#{color.ToString().Substring(3)}\");",
+                 $"$(\"#content\").css(\"border-color\", \"{bodyLighter}\").css(\"background-color\",\"{bodyLighter}\");",
+                 $"$(\".forum_category,.forum_locheader\").css(\"color\",\"{fontColor}\");",
+                 "document.getElementById(\"messageText\").style.width = document.getElementById(\"content\").offsetWidth+\'px\';"
+            };
+            foreach (var command in commands)
+            {
+                await TopicWebView.InvokeScriptAsync("eval",new string[]{ command });
+            }
             
         }
 
@@ -93,6 +111,12 @@ namespace MALClient.Pages.Forums
         private void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             
+        }
+
+        private void TopicWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            //we don't like iframes
+            args.Cancel = true;
         }
     }
 }

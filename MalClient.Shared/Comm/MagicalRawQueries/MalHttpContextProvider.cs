@@ -5,8 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using HtmlAgilityPack;
 using MalClient.Shared.Utils;
+using HttpClient = System.Net.Http.HttpClient;
+using HttpStatusCode = System.Net.HttpStatusCode;
 
 namespace MalClient.Shared.Comm.MagicalRawQueries
 {
@@ -55,6 +59,7 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
         private const string MalBaseUrl = "http://myanimelist.net";
         private static CsrfHttpClient _httpClient;
         private static DateTime? _contextExpirationTime;
+        private static bool _webViewsInitialized;
 
         /// <summary>
         ///     Establishes connection with MAL, attempts to authenticate.
@@ -108,6 +113,29 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
                 throw new WebException("Unable to authorize");
             }
             return _httpClient;
+        }
+
+        /// <summary>
+        /// Moves needed cookies to globaly used client by WebViews control, web view authentication in other words.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task InitializeContextForWebViews()
+        {
+            if(_webViewsInitialized)
+                return;
+            _webViewsInitialized = true;
+            var filter = new HttpBaseProtocolFilter();
+            var httpContext = await GetHttpContextAsync();
+            var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri(MalBaseUrl));
+            foreach (var cookie in cookies.Cast<Cookie>())
+            {
+                var newCookie = new HttpCookie(cookie.Name, cookie.Domain, cookie.Path) {Value = cookie.Value};
+                filter.CookieManager.SetCookie(newCookie);
+            }
+
+            filter.AllowAutoRedirect = true;
+
+            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(filter); //it is used globally by web views... somehow
         }
 
         public static async void ErrorMessage(string what)

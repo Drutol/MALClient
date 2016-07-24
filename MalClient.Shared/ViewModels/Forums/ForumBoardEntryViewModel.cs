@@ -18,6 +18,7 @@ namespace MalClient.Shared.ViewModels.Forums
         {
             Entry = new ForumBoardEntry {Name = name, Description = description};
             Icon = icon;
+            Board = board;
         }
 
         public ForumBoardEntry Entry { get; }

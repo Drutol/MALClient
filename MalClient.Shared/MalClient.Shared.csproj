@@ -260,6 +260,7 @@
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumsMainViewModel.cs" />
+    <Compile Include="ViewModels\Forums\ForumTopicEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />

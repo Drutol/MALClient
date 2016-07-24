@@ -5,6 +5,8 @@
     xmlns:local="using:MALClient.Pages.Forums"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uwp="using:FontAwesome.UWP"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsBoard}">
 
     <Page.Transitions>
@@ -18,22 +20,60 @@
     </Page.Transitions>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding Topics}" ItemClick="TopicOnClick" IsItemClickEnabled="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" Margin="0,5"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".6*"/>
+                    <ColumnDefinition Width=".2*"/>
+                    <ColumnDefinition Width=".2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Topic" HorizontalAlignment="Stretch"/>
+                <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch"/>
+                <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch"/>
+            </Grid>
+        </StackPanel>
+
+        <userControls:AlternatingListView Grid.Row="1" ItemsSource="{Binding Topics}" ItemClick="TopicOnClick" IsItemClickEnabled="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0,3"/>
+                    <Setter Property="BorderThickness" Value="2.5,0,0,0"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".6*"/>
+                            <ColumnDefinition Width=".2*"/>
+                            <ColumnDefinition Width=".2*"/>
+                        </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <TextBlock Text="{Binding Type}"/>
-                            <TextBlock Text="{Binding Title}"/>
-                            <TextBlock Text="{Binding Op}"/>
-                            <TextBlock Text="{Binding Created}"/>
-                            <TextBlock Text="{Binding Replies}"/>
-                            <TextBlock Text="{Binding LastPoster}"/>
-                            <TextBlock Text="{Binding LastPostDate}"/>
+                            <Grid>
+                                <uwp:FontAwesome Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left"/> 
+                                <TextBlock Margin="30,0" Text="{Binding Data.Title}" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
+                            </Grid>
+                            <StackPanel Margin="30,0" Orientation="Horizontal">
+                                <TextBlock Text="{Binding Data.Op}" Margin="5,0"/>
+                                <TextBlock Text="{Binding Data.Created}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="{Binding Data.Replies}" HorizontalAlignment="Center"/>
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Right" Margin="10,0">                          
+                            <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Right"/>
+                            <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Right"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </userControls:AlternatingListView>
     </Grid>
 </Page>

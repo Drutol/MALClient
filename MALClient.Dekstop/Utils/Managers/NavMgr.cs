@@ -76,12 +76,12 @@ namespace MALClient.Utils.Managers
 
         public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
         {
-            if (page == PageIndex.PageAnimeDetails || page == PageIndex.PageForumIndex)
+            if (page == PageIndex.PageAnimeDetails)
             {
                 _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
             }
-            else if(page == PageIndex.PageProfile || page == PageIndex.PageArticles)
+            else if(page == PageIndex.PageProfile || page == PageIndex.PageArticles || page == PageIndex.PageForumIndex)
             {
                 _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;

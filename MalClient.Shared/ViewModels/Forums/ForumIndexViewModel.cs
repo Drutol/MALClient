@@ -77,8 +77,13 @@ namespace MalClient.Shared.ViewModels.Forums
             },
         };
 
+        private bool _loaded;
         public async void Init()
         {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            if(_loaded)
+                return;
+            _loaded = true;
             var peekPosts = await new ForumBoardIndexPeekPostsQuery().GetPeekPosts();
             for(int i = 0;i< 5;i++)
                 Boards[0].Items[i].SetPeekPosts(peekPosts[i]);

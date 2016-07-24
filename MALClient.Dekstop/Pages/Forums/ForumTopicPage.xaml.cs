@@ -54,7 +54,8 @@ namespace MALClient.Pages.Forums
         private async void ViewModelOnWebViewNavigationRequested(object content)
         {
             await MalHttpContextProvider.InitializeContextForWebViews();
-            TopicWebView.Navigate(new Uri("http://myanimelist.net/forum/?topicid=1499207"));
+            //TopicWebView.Navigate(new Uri("http://myanimelist.net/forum/?topicid=1499207"));
+            TopicWebView.Navigate(new Uri($"http://myanimelist.net/forum/?topicid={content as string}"));
         }
 
         
@@ -98,11 +99,19 @@ namespace MALClient.Pages.Forums
                  $"$(\"a\").css(\"color\", \"#{color.ToString().Substring(3)}\");",
                  $"$(\"#content\").css(\"border-color\", \"{bodyLighter}\").css(\"background-color\",\"{bodyLighter}\");",
                  $"$(\".forum_category,.forum_locheader\").css(\"color\",\"{fontColor}\");",
-                 "document.getElementById(\"messageText\").style.width = document.getElementById(\"content\").offsetWidth+\'px\';"
+                 $"$(\".quotetext\").css(\"background-color\",\"{bodyLight}\").css(\"border-color\",\"{bodyLighter}\");",
             };
             foreach (var command in commands)
             {
-                await TopicWebView.InvokeScriptAsync("eval",new string[]{ command });
+                try
+                {
+                    await TopicWebView.InvokeScriptAsync("eval", new string[] { command });
+                }
+                catch (Exception)
+                {
+                    //htm.. no it's javascript this time oh, how fun!
+                }
+
             }
             
         }

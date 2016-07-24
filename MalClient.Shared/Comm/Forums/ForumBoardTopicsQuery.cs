@@ -12,18 +12,32 @@ namespace MalClient.Shared.Comm.Forums
 {
     public class ForumBoardTopicsQuery : Query
     {
-        public ForumBoardTopicsQuery(ForumBoards board)
+        private static Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>> _boardCache =
+            new Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>>();
+
+        private ForumBoards _board;
+        private int _page;
+        
+        public ForumBoardTopicsQuery(ForumBoards board,int page)
         {
             Request =
                 WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/{GetEndpoint(board)}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
+            _board = board;
+            _page = page;
         }
+
+        
 
         public async Task<List<ForumTopicEntry>> GetTopicPosts()
         {
+            if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
+                return _boardCache[_board][_page];
+
             var output = new List<ForumTopicEntry>();
 
+/*
             #region testString
 
             var raw = @"<html><head>
@@ -970,7 +984,8 @@ window.MAL.headerNotification.templates = {""root"":""    <header-notification-b
 <div id=""fancybox-tmp""></div><div id=""fancybox-loading""><div></div></div><div id=""fancybox-overlay""></div><div id=""fancybox-wrap""><div id=""fancybox-outer""><div class=""fancy-bg"" id=""fancy-bg-n""></div><div class=""fancy-bg"" id=""fancy-bg-ne""></div><div class=""fancy-bg"" id=""fancy-bg-e""></div><div class=""fancy-bg"" id=""fancy-bg-se""></div><div class=""fancy-bg"" id=""fancy-bg-s""></div><div class=""fancy-bg"" id=""fancy-bg-sw""></div><div class=""fancy-bg"" id=""fancy-bg-w""></div><div class=""fancy-bg"" id=""fancy-bg-nw""></div><div id=""fancybox-inner""></div><a id=""fancybox-close""></a><a href=""javascript:;"" id=""fancybox-left""><span class=""fancy-ico"" id=""fancybox-left-ico""></span></a><a href=""javascript:;"" id=""fancybox-right""><span class=""fancy-ico"" id=""fancybox-right-ico""></span></a></div></div><iframe id=""google_osd_static_frame_3828419403306"" name=""google_osd_static_frame"" style=""display: none; width: 0px; height: 0px;""></iframe></body></html>";
 
 #endregion
-
+*/
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
             var doc = new HtmlDocument();
@@ -994,8 +1009,8 @@ window.MAL.headerNotification.templates = {""root"":""    <header-notification-b
                 current.Id = titleLink.Attributes["href"].Value.Split('=').Last();
 
                 var spans = tds[1].Descendants("span").ToList();
-                current.Op = spans[1].InnerText;
-                current.Created = spans[2].InnerText;
+                current.Op = spans[0].InnerText;
+                current.Created = spans[1].InnerText;
 
                 current.Replies = tds[2].InnerText;
 
@@ -1004,6 +1019,10 @@ window.MAL.headerNotification.templates = {""root"":""    <header-notification-b
 
                 output.Add(current);
             }
+
+            if(!_boardCache.ContainsKey(_board))
+                _boardCache[_board] = new Dictionary<int, List<ForumTopicEntry>>();
+            _boardCache[_board].Add(_page, output);
 
             return output;
         }

@@ -26,11 +26,13 @@ namespace MalClient.Shared.NavArgs
     public class ForumsTopicNavigationArgs : ForumsNavigationArgs
     {
         public string TopicId { get; set; }
+        public ForumBoards SourceBoard { get; set; }
 
-        public ForumsTopicNavigationArgs(string topicId)
+        public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard)
         {
             TopicId = topicId;
             Page = ForumsPageIndex.PageTopic;
+            SourceBoard = sourceBoard;
         }
     }
 }

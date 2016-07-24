@@ -51,7 +51,7 @@ namespace MALClient.Pages.Forums
         private void TopicOnClick(object sender, ItemClickEventArgs e)
         {
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsTopicNavigationArgs((e.ClickedItem as ForumTopicEntryViewModel).Data.Id));
+                new ForumsTopicNavigationArgs((e.ClickedItem as ForumTopicEntryViewModel).Data.Id,_args.TargetBoard));
         }
     }
 }

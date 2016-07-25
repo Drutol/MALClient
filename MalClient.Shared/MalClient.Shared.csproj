@@ -276,6 +276,7 @@
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
+    <Compile Include="XamlConverters\EnumWithDescriptionToStringConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\MailIconToBrushConverter.cs" />
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />

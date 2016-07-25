@@ -1002,7 +1002,7 @@ window.MAL.headerNotification.templates = {""root"":""    <header-notification-b
                 current.Type = tds[1].ChildNodes[1].InnerText;
 
                 var titleLinks = tds[1].Descendants("a").ToList();
-                var titleLink = titleLinks[titleLinks.Count - 2];
+                var titleLink = titleLinks[0].InnerText.Length == 0 ? titleLinks[1] : titleLinks[0];
 
                 current.Title = titleLink.InnerText;
                 current.Url = "http://myanimelist.net" + titleLink.Attributes["href"].Value;
@@ -1030,7 +1030,7 @@ window.MAL.headerNotification.templates = {""root"":""    <header-notification-b
         private static string GetEndpoint(ForumBoards board)
         {
             if (board == ForumBoards.AnimeDisc || board == ForumBoards.MangaDisc)
-                return $"?subboard={(int) board}";
+                return $"?subboard={(int) board - 100}"; //100 is offset to differentiate from other boards
             return $"?board={(int) board}";
         }
     }

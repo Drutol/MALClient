@@ -5,13 +5,45 @@
     xmlns:local="using:MALClient.Pages.Forums"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsMain}">
 
+    <Page.Resources>
+        <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumWithDescriptionToStringConverter"/>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MaxHeight="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid>
+            <ScrollViewer HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
+                <ItemsControl ItemsSource="{Binding PinnedBoards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Margin" Value="10,0"></Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Converter={StaticResource EnumWithDescriptionToStringConverter}}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <EntranceThemeTransition/>
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
         <Frame Grid.Row="1" x:Name="MainForumContentFrame"/>
     </Grid>
 </Page>

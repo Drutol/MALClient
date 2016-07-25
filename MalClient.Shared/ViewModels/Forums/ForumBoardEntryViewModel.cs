@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Models.Forums;
@@ -21,9 +22,7 @@ namespace MalClient.Shared.ViewModels.Forums
             Board = board;
         }
 
-        public ForumBoardEntry Entry { get; }
-
-        public string Group { get; }
+        public ForumBoardEntry Entry { get; }   
 
         public FontAwesomeIcon Icon { get; }
 
@@ -34,6 +33,9 @@ namespace MalClient.Shared.ViewModels.Forums
             Entry.PeekPosts = posts;
             RaisePropertyChanged(() => Entry);
         }
+
+        public ICommand AddToFavouritesCommand
+            => new RelayCommand<ForumBoards>(board => ViewModelLocator.ForumsMain.AddFavouriteBoard(board));
 
     }
 }

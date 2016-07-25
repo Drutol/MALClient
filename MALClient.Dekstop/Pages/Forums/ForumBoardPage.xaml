@@ -29,13 +29,13 @@
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" Margin="0,5"/>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".6*"/>
+                    <ColumnDefinition Width=".8*"/>
                     <ColumnDefinition Width=".2*"/>
-                    <ColumnDefinition Width=".2*"/>
+                    <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Topic" HorizontalAlignment="Stretch"/>
-                <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch"/>
-                <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch"/>
+                <TextBlock Text="Topic" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </Grid>
         </StackPanel>
 
@@ -52,24 +52,23 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width=".6*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width=".8*"/>
                             <ColumnDefinition Width=".2*"/>
-                            <ColumnDefinition Width=".2*"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <Grid>
-                                <uwp:FontAwesome Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left"/> 
-                                <TextBlock Margin="30,0" Text="{Binding Data.Title}" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
-                            </Grid>
-                            <StackPanel Margin="30,0" Orientation="Horizontal">
-                                <TextBlock Text="{Binding Data.Op}" Margin="5,0"/>
-                                <TextBlock Text="{Binding Data.Created}"/>
+                        <uwp:FontAwesome Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Margin="0,4" Text="{Binding Data.Title}" FontSize="18" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
+                            <StackPanel Margin="0,3" Orientation="Horizontal">
+                                <TextBlock Text="{Binding Data.Op}" FontWeight="Medium"/>
+                                <TextBlock Text="{Binding Dgata.Created}" Margin="5,0" FontWeight="SemiLight"/>
                             </StackPanel>
                         </StackPanel>
-                        <TextBlock Grid.Column="1" Text="{Binding Data.Replies}" HorizontalAlignment="Center"/>
-                        <StackPanel Grid.Column="2" HorizontalAlignment="Right" Margin="10,0">                          
-                            <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Right"/>
-                            <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Right"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Data.Replies}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="3" HorizontalAlignment="Right" Margin="10,0" VerticalAlignment="Center">                          
+                            <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium"/>
+                            <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center" FontWeight="SemiLight"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

@@ -44,5 +44,12 @@ namespace MALClient.Pages.Forums
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                 new ForumsBoardNavigationArgs((e.ClickedItem as ForumBoardEntryViewModel).Board));
         }
+
+        private void BoardGridOnRightClick(object sender, RightTappedRoutedEventArgs e)
+        {
+            var item = sender as FrameworkElement;
+            var flyout = FlyoutBase.GetAttachedFlyout(item);
+            flyout.ShowAt(item);
+        }
     }
 }

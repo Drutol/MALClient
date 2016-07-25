@@ -17,9 +17,9 @@
         [Utilities.Description("Anime & Manga Recommendations")]
         Recomms = 16,
         [Utilities.Description("Anime Series Discussion")]
-        AnimeSeriesDisc = 1, //sub
+        AnimeSeriesDisc = 101, //sub
         [Utilities.Description("Manga Series Discussion")]
-        MangaSeriesDisc = 4, //sub
+        MangaSeriesDisc = 104, //sub
         [Utilities.Description("Anime Discussion")]
         AnimeDisc = 1,
         [Utilities.Description("Manga Discussion")]

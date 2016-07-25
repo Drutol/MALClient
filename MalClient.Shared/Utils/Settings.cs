@@ -493,5 +493,15 @@ namespace MalClient.Shared.Utils
 
         #endregion
 
+        #region Forums
+
+        public static string ForumsPinnedBoards
+        {
+            get { return (string) (ApplicationData.Current.LocalSettings.Values["ForumsPinnedBoards"] ?? ""); }
+            set { ApplicationData.Current.LocalSettings.Values["ForumsPinnedBoards"] = value; }
+        }
+
+        #endregion
+
     }
 }

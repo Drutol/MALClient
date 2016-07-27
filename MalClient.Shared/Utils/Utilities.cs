@@ -13,6 +13,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
+using FontAwesome.UWP;
 using HtmlAgilityPack;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Utils.Enums;
@@ -183,6 +184,51 @@ namespace MalClient.Shared.Utils
                     return AppointmentDaysOfWeek.Wednesday;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(day), day, null);
+            }
+        }
+
+        public static FontAwesomeIcon BoardToIcon(ForumBoards board)
+        {
+            switch (board)
+            {
+                case ForumBoards.Updates:
+                    return FontAwesomeIcon.Bullhorn;
+                case ForumBoards.Guidelines:
+                    return FontAwesomeIcon.Gavel;
+                case ForumBoards.Support:
+                    return FontAwesomeIcon.Support;
+                case ForumBoards.Suggestions:
+                    return FontAwesomeIcon.LightbulbOutline;
+                case ForumBoards.Contests:
+                    return FontAwesomeIcon.Trophy;
+                case ForumBoards.NewsDisc:
+                    return FontAwesomeIcon.NewspaperOutline;
+                case ForumBoards.Recomms:
+                    return FontAwesomeIcon.Gift;
+                case ForumBoards.AnimeSeriesDisc:
+                    return FontAwesomeIcon.FolderOutline;
+                case ForumBoards.MangaSeriesDisc:
+                    return FontAwesomeIcon.FolderOutline;
+                case ForumBoards.AnimeDisc:
+                    return FontAwesomeIcon.Television;
+                case ForumBoards.MangaDisc:
+                    return FontAwesomeIcon.Book;
+                case ForumBoards.Intro:
+                    return FontAwesomeIcon.CommentOutline;
+                case ForumBoards.GamesTech:
+                    return FontAwesomeIcon.Gamepad;
+                case ForumBoards.Music:
+                    return FontAwesomeIcon.Music;
+                case ForumBoards.Events:
+                    return FontAwesomeIcon.Glass;
+                case ForumBoards.CasualDisc:
+                    return FontAwesomeIcon.Coffee;
+                case ForumBoards.Creative:
+                    return FontAwesomeIcon.PictureOutline;
+                case ForumBoards.ForumsGames:
+                    return FontAwesomeIcon.PuzzlePiece;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(board), board, null);
             }
         }
 
@@ -419,7 +465,7 @@ namespace MalClient.Shared.Utils
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("quot;", "\"").Replace("mdash;", "—").Replace("amp;", "&");
+            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("mdash;", "—").Replace("&amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)

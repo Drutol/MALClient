@@ -117,7 +117,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageCalendar ||
                      index == PageIndex.PageArticles ||
                      index == PageIndex.PageNews ||
-                     index == PageIndex.PageMessanging)
+                     index == PageIndex.PageMessanging ||
+                     index == PageIndex.PageForumIndex)
             {
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
                 currPage = index;
@@ -182,7 +183,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    if (CurrentMainPage.Value != PageIndex.PageSearch && CurrentMainPage.Value != PageIndex.PageMangaSearch)
+                    if (CurrentMainPage.Value != PageIndex.PageSearch &&
+                        CurrentMainPage.Value != PageIndex.PageMangaSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
@@ -245,10 +247,13 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageForumIndex:
                     HideSearchStuff();
-                    CurrentStatus = $"{Credentials.UserName} - Messages";
-                    RefreshButtonVisibility = Visibility.Visible;
+                    CurrentStatus = "Forums";
+                    //RefreshButtonVisibility = Visibility.Visible;
                     //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
-                    MainNavigationRequested?.Invoke(typeof(ForumsMainPage),args);
+                    if (CurrentMainPage != null && CurrentMainPage == PageIndex.PageForumIndex)
+                        ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
+                    else
+                        MainNavigationRequested?.Invoke(typeof(ForumsMainPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

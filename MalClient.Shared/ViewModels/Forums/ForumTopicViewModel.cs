@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using MalClient.Shared.Comm.Forums;
 using MalClient.Shared.Delegates;
@@ -19,6 +20,18 @@ namespace MalClient.Shared.ViewModels.Forums
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(args.SourceBoard));
             WebViewNavigationRequested?.Invoke(args.TopicId);
+        }
+
+        private Visibility _loadingTopic;
+
+        public Visibility LoadingTopic
+        {
+            get { return _loadingTopic; }
+            set
+            {
+                _loadingTopic = value;
+                RaisePropertyChanged(() => LoadingTopic);
+            }
         }
     }
 }

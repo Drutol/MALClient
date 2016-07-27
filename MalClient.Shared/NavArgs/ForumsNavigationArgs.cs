@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FontAwesome.UWP;
 using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.NavArgs

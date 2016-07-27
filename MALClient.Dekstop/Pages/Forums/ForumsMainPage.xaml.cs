@@ -66,5 +66,11 @@ namespace MALClient.Pages.Forums
             }
             
         }
+
+        private void PinnedButtonOnRightClick(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as FrameworkElement;
+            (FlyoutBase.GetAttachedFlyout(btn)).ShowAt(btn);
+        }
     }
 }

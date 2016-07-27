@@ -18,27 +18,38 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid>
-            <ScrollViewer HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden"
+                HorizontalScrollMode="Enabled"
+                VerticalScrollMode="Disabled"  Background="{ThemeResource BrushAnimeItemInnerBackground}">
                 <ItemsControl ItemsSource="{Binding PinnedBoards}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal"/>
+                            <VirtualizingStackPanel  Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ContentPresenter">
-                            <Setter Property="Margin" Value="10,0"></Setter>
+                            <Setter Property="Margin" Value="10,2"></Setter>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Content="{Binding Converter={StaticResource EnumWithDescriptionToStringConverter}}"/>
+                            <Button IsRightTapEnabled="True" RightTapped="PinnedButtonOnRightClick" Background="{ThemeResource BrushAnimeItemBackground}"
+                                    Command="{Binding Source={StaticResource Locator},Path=ForumsMain.GotoPinnedBoardCommand}" CommandParameter="{Binding}">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Remove" Command="{Binding Source={StaticResource Locator},Path=ForumsMain.RemovePinnedBoardCommand}" CommandParameter="{Binding}"></MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                                <TextBlock Text="{Binding Converter={StaticResource EnumWithDescriptionToStringConverter}}" Foreground="{ThemeResource BrushSettingsSubtitle}" FontWeight="Bold"/>
+                            </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemContainerTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition/>
                             <EntranceThemeTransition/>
+                            <ReorderThemeTransition/>
                         </TransitionCollection>
                     </ItemsControl.ItemContainerTransitions>
                 </ItemsControl>

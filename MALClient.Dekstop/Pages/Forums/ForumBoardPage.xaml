@@ -19,23 +19,25 @@
         </TransitionCollection>
     </Page.Transitions>
     
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel>
-            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" Margin="0,5"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
+            </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=".8*"/>
                     <ColumnDefinition Width=".2*"/>
                     <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Topic" HorizontalAlignment="Stretch" TextAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch" TextAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+                <TextBlock Text="Topic" HorizontalAlignment="Stretch"  Margin="0,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
+                <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
+                <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
             </Grid>
         </StackPanel>
 
@@ -57,16 +59,16 @@
                             <ColumnDefinition Width=".2*"/>
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
-                        <uwp:FontAwesome Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <uwp:FontAwesome Margin="0,0,3,0" Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left" Grid.Column="0"/>
                         <StackPanel Grid.Column="1">
                             <TextBlock Margin="0,4" Text="{Binding Data.Title}" FontSize="18" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
                             <StackPanel Margin="0,3" Orientation="Horizontal">
                                 <TextBlock Text="{Binding Data.Op}" FontWeight="Medium"/>
-                                <TextBlock Text="{Binding Dgata.Created}" Margin="5,0" FontWeight="SemiLight"/>
+                                <TextBlock Text="{Binding Data.Created}" Margin="5,0" FontWeight="SemiLight"/>
                             </StackPanel>
                         </StackPanel>
                         <TextBlock Grid.Column="2" Text="{Binding Data.Replies}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <StackPanel Grid.Column="3" HorizontalAlignment="Right" Margin="10,0" VerticalAlignment="Center">                          
+                        <StackPanel Grid.Column="3" HorizontalAlignment="Center" Margin="10,0" VerticalAlignment="Center">                          
                             <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium"/>
                             <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center" FontWeight="SemiLight"/>
                         </StackPanel>
@@ -74,5 +76,13 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </userControls:AlternatingListView>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding LoadingTopics}"
+              Background="{ThemeResource BrushLoading}">
+            <ProgressRing
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                IsActive="True" />
+        </Grid>
     </Grid>
 </Page>

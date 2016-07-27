@@ -5,7 +5,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
@@ -15,6 +17,22 @@ namespace MalClient.Shared.ViewModels.Forums
 {
     public class ForumsMainViewModel : ViewModelBase
     {
+        private ICommand _removePinnedBoardCommand;
+
+        public ICommand RemovePinnedBoardCommand
+            =>
+                _removePinnedBoardCommand ??
+                (_removePinnedBoardCommand = new RelayCommand<ForumBoards>(RemoveFavouriteBoard));
+
+        private ICommand _gotoPinnedBoardCommand;
+
+        public ICommand GotoPinnedBoardCommand
+            =>
+                _gotoPinnedBoardCommand ??
+                (_gotoPinnedBoardCommand = new RelayCommand<ForumBoards>(GotoFavouriteBoard));
+
+
+
         public SmartObservableCollection<ForumBoards> PinnedBoards { get; } = new SmartObservableCollection<ForumBoards>();
 
         public event AmbiguousNavigationRequest NavigationRequested;
@@ -39,6 +57,17 @@ namespace MalClient.Shared.ViewModels.Forums
                 PinnedBoards.Add(board);
                 Settings.ForumsPinnedBoards = string.Join(",", PinnedBoards.Cast<int>());              
             }
+        }
+
+        private void RemoveFavouriteBoard(ForumBoards board)
+        {
+            PinnedBoards.Remove(board);
+            Settings.ForumsPinnedBoards = string.Join(",", PinnedBoards.Cast<int>());              
+        }
+
+        private void GotoFavouriteBoard(ForumBoards board)
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsBoardNavigationArgs(board));
         }
     }
 }

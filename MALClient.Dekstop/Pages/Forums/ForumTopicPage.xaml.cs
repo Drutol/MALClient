@@ -39,6 +39,7 @@ namespace MALClient.Pages.Forums
             await MalHttpContextProvider.InitializeContextForWebViews();
             //TopicWebView.Navigate(new Uri("http://myanimelist.net/forum/?topicid=1499207"));
             TopicWebView.Navigate(new Uri($"http://myanimelist.net/forum/?topicid={content as string}"));
+            ViewModel.LoadingTopic = Visibility.Visible;
         }
 
         
@@ -57,6 +58,7 @@ namespace MALClient.Pages.Forums
 
         private async void TopicWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
+            ViewModel.LoadingTopic = Visibility.Collapsed;
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             //this chain of commands will remove unnecessary stuff
@@ -76,7 +78,7 @@ namespace MALClient.Pages.Forums
                  $"$(\".forum_category\").css(\"background-color\", \"{bodyLight}\");",
                  $"$(\".forum_boardrowspacer\").css(\"background-color\", \"{bodyLighter}\");",
                  $"$(\".btn-forum\").css(\"background-color\", \"{bodyLight}\").css(\"border-color\",\"{fontColorInverted}\");",
-                 "$(\"html\").css(\"zoom\", \"150%\");",
+                 "$(\"html\").css(\"zoom\", \"125%\");",
                  "$(\".wrapper\").find(\".fl-r.ar\").remove()",
                  $"$(\".inputButton\").css(\"border-color\",\"{fontColorInverted}\").css(\"background-color\",\"{bodyLight}\")",
                  $"$(\"a\").css(\"color\", \"#{color.ToString().Substring(3)}\");",

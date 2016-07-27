@@ -8,6 +8,14 @@
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsTopic}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
         <WebView x:Name="TopicWebView" LoadCompleted="TopicWebView_OnLoadCompleted" FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" DOMContentLoaded="TopicWebView_OnDOMContentLoaded" NavigationStarting="TopicWebView_OnNavigationStarting"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding LoadingTopic}"
+              Background="{ThemeResource BrushLoading}">
+            <ProgressRing
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                IsActive="True" />
+        </Grid>
     </Grid>
 </Page>

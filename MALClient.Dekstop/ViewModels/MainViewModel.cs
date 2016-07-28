@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Popups;
@@ -172,7 +173,6 @@ namespace MALClient.ViewModels
                         OffNavigationRequested?.Invoke(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
-                    HideSearchStuff();
                     OffContentVisibility = Visibility.Visible;
                     OffNavigationRequested?.Invoke(typeof(SettingsPage));
                     break;
@@ -364,6 +364,8 @@ namespace MALClient.ViewModels
             get { return _currentStatus; }
             set
             {
+                if(_currentStatus == value)
+                    return;
                 _currentStatus = value;
                 View.CurrentStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatus);
@@ -377,7 +379,9 @@ namespace MALClient.ViewModels
             get { return _currentStatusSub; }
             set
             {
-                _currentStatusSub = value;
+                if (_currentStatusSub == value)
+                    return;
+                 _currentStatusSub = value;
                 View.CurrentOffSubStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatusSub);
             }
@@ -407,8 +411,11 @@ namespace MALClient.ViewModels
                 RaisePropertyChanged(() => CurrentSearchQuery);
                 SetSearchHints();
                 if (SearchToggleLock) return;
-
-                ViewModelLocator.AnimeList.RefreshList(true);
+                
+                if(string.IsNullOrEmpty(value))
+                    ViewModelLocator.AnimeList.RefreshList(true);
+                else
+                    SubmitSearchQueryWithDelayCheck();
             }
         }
 
@@ -720,6 +727,14 @@ namespace MALClient.ViewModels
         }
 
         #endregion
+
+        public async void SubmitSearchQueryWithDelayCheck()
+        {
+            string query = CurrentSearchQuery;
+            await Task.Delay(500);
+            if(query == CurrentSearchQuery)
+                ViewModelLocator.AnimeList.RefreshList(true);
+        }
 
         #region UIHelpers
 

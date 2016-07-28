@@ -37,7 +37,7 @@
                                     <TextBox x:Name="TxtListSource"
                                              Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              Margin="5,5" KeyDown="ListSource_OnKeyDown" />
-                                    <Button Command="{Binding RefreshCommand}">
+                                    <Button x:Name="AcceptListSourceBtn" Command="{Binding RefreshCommand}">
                                         <SymbolIcon Symbol="Accept" />
                                     </Button>
                                 </StackPanel>

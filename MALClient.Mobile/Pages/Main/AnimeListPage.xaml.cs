@@ -220,7 +220,7 @@ namespace MALClient.Pages.Main
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
-                BottomCommandBar.IsOpen = false;
+                BottomCommandBar.IsOpen = false;              
                 await ViewModel.FetchData();
             }
         }

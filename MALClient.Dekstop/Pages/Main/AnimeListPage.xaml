@@ -161,7 +161,7 @@
         </Grid.Resources>
         <StackPanel Grid.Row="0" Margin="0,0,-16,0" Orientation="Horizontal"
                     Visibility="{Binding UpperCommandBarVisibility}">
-            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding AppBtnSortingVisibility}">
                 <SymbolIcon Symbol="Sort" />
                 <Button.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">

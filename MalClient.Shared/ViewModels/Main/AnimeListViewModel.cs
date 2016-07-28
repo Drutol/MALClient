@@ -140,6 +140,8 @@ namespace MalClient.Shared.ViewModels.Main
             _animeItemsSet = new List<AnimeItemAbstraction>();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimeItems);
+            _randomedIds = new List<int>();
+            _fetching = _fetchingSeasonal = false;
 
             //give visual feedback
             Loading = true;
@@ -293,17 +295,20 @@ namespace MalClient.Shared.ViewModels.Main
             if (!queryCondition)
                 _prevQuery = null;
 
+            if(queryCondition && !_wasPreviousQuery)
+                SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+
             _wasPreviousQuery = queryCondition;
 
 
-            var status = queryCondition ? 7 : GetDesiredStatus();
+            var status = GetDesiredStatus();
 
             IEnumerable<AnimeItemAbstraction> items;
             if (queryCondition &&
                 _wasPreviousQuery &&
                 !string.IsNullOrEmpty(_prevQuery) &&
                 query.Length > _prevQuery.Length &&
-                query.Substring(0, _prevQuery.Length) == _prevQuery) //use previous results if query is more detailed
+                query.Substring(0, _prevQuery.Length-1) == _prevQuery) //use previous results if query is more detailed
                 items = _animeItemsSet.Union(AnimeItems.Select(model => model.ParentAbstraction));
             else
                 switch (WorkMode)
@@ -328,7 +333,7 @@ namespace MalClient.Shared.ViewModels.Main
                 _prevQuery = query;
             _animeItemsSet.Clear();
 
-            items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+            items = items.Where(item => status == 7 || item.MyStatus == status);
 
             if (queryCondition)
             {
@@ -506,6 +511,7 @@ namespace MalClient.Shared.ViewModels.Main
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             Loading = false;
+            _randomedIds = new List<int>();
         }
 
         private int GetGridItemsToLoad()
@@ -652,8 +658,14 @@ namespace MalClient.Shared.ViewModels.Main
         /// </summary>
         /// <param name="force"></param>
         /// <returns></returns>
+        private bool _fetchingSeasonal;
         private async Task FetchSeasonalData(bool force = false, int page = 0)
         {
+            if(_fetchingSeasonal)
+                return;
+            _fetchingSeasonal = true;
+
+
             Loading = true;
             EmptyNoticeVisibility = false;
             var setDefaultSeason = false;
@@ -682,6 +694,7 @@ namespace MalClient.Shared.ViewModels.Main
             //if we don't have any we cannot do anything I guess...
             if (data.Count == 0)
             {
+                _fetchingSeasonal = false;
                 RefreshList();
                 return;
             }
@@ -766,7 +779,7 @@ namespace MalClient.Shared.ViewModels.Main
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
             }
-
+            _fetchingSeasonal = false;
             RefreshList();
         }
 
@@ -795,19 +808,20 @@ namespace MalClient.Shared.ViewModels.Main
         ///     but it wasn't downloaded by the application.
         /// </param>
         /// <returns></returns>
+        private bool _fetching;
         public async Task FetchData(bool force = false, AnimeListWorkModes? modeOverride = null)
         {
-            AnimeListWorkModes requestedMode;
-            requestedMode = modeOverride ?? WorkMode;
+            if(_fetching)
+                return;
+            _fetching = true;
+
+            var requestedMode = modeOverride ?? WorkMode;
 
             if (!force && _prevListSource == ListSource && _prevWorkMode == requestedMode)
             {
-                //foreach (var item in AllLoadedAnimeItemAbstractions.Where(abstraction => abstraction.LoadedAnime))
-                //{
-                //    item.ViewModel.SignalBackToList();
-                //}
                 if (_prevWorkMode != modeOverride)
                     RefreshList();
+                _fetching = false;
                 return;
             }
             if (WorkMode == requestedMode)
@@ -860,6 +874,7 @@ namespace MalClient.Shared.ViewModels.Main
                 {
                     //no data?
                     RefreshList();
+                    _fetching = false;
                     return;
                 }
 
@@ -886,6 +901,7 @@ namespace MalClient.Shared.ViewModels.Main
                 }
             }
 
+            _fetching = false;
             if (WorkMode != requestedMode)
                 return; // manga or anime is loaded top manga can proceed loading something else
 
@@ -934,6 +950,8 @@ namespace MalClient.Shared.ViewModels.Main
             get { return _listSource; }
             set
             {
+                if(_listSource == value)
+                    return;
                 _listSource = value;
                 RaisePropertyChanged(() => ListSource);
             }
@@ -1029,6 +1047,7 @@ namespace MalClient.Shared.ViewModels.Main
 
         private ICommand _selectAtRandomCommand;
         private Random _rangomGenerator;
+        private List<int> _randomedIds = new List<int>();
 
         public ICommand SelectAtRandomCommand
         {
@@ -1040,8 +1059,17 @@ namespace MalClient.Shared.ViewModels.Main
                         return;
                     var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
-                    var winner = pool[random.Next(0, pool.Count - 1)];
+                    if(_randomedIds.Count == pool.Count)
+                        _randomedIds = new List<int>();
+                    _randomedIds.ForEach(id =>
+                    {
+                        var item = pool.FirstOrDefault(model => model.Id == id);
+                        if (item != null)
+                            pool.Remove(item);
+                    });
+                    var winner = pool[random.Next(0, pool.Count)];
                     winner.NavigateDetails();
+                    _randomedIds.Add(winner.Id);
                     ScrollIntoViewRequested?.Invoke(winner,true);
                 }));
             }
@@ -1443,8 +1471,9 @@ namespace MalClient.Shared.ViewModels.Main
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
-
+            Initializing = true;
             StatusSelectorSelectedIndex = (int) value;
+            Initializing = false;
         }
 
         #endregion

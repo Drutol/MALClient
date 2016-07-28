@@ -1664,7 +1664,7 @@ namespace MalClient.Shared.ViewModels
 
         private void ExtractData(AnimeGeneralDetailsData data)
         {
-            Title = data.Title;
+            Title = _animeItemReference.Title;
             Type = data.Type;
             Status = data.Status;
             Synopsis = data.Synopsis;

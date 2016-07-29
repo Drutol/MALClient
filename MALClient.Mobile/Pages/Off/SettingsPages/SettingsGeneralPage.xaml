@@ -73,6 +73,15 @@
                                             IsOn="{Binding MangaFocusVolumes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              OnContent="Focus volumes" OffContent="Focus chapters" HorizontalAlignment="Center" />
                     </Grid>
+                    <TextBlock Text="When choosing at random ensure winner to be selected."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding EnsureRandomizerAlwaysSelectsWinner,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Ensure selected" OffContent="Do nothing" HorizontalAlignment="Center" />
+                    </Grid>
                 </StackPanel>
             </Grid>
             <MenuFlyoutSeparator Margin="0,5" />

@@ -143,7 +143,7 @@
                         <AdaptiveTrigger MinWindowHeight="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="GridViewWrapPanel.ItemHeight" Value="300"/>
+                        <Setter Target="GridViewWrapPanel.ItemHeight" Value="320"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -232,7 +232,7 @@
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="GridViewWrapPanel" Margin="0,0,16,0" Orientation="Horizontal" ItemHeight="300" ItemWidth="{Binding MaxWidth}"/>
+                    <ItemsWrapGrid x:Name="GridViewWrapPanel" Margin="0,0,16,0" Orientation="Horizontal" ItemHeight="320" ItemWidth="{Binding MaxWidth}"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>

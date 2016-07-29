@@ -119,7 +119,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <ToggleSwitch
                             IsOn="{Binding EnsureRandomizerAlwaysSelectsWinner,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            OnContent="Focus volumes" OffContent="Focus chapters" HorizontalAlignment="Center" />
+                            OnContent="Ensure selected" OffContent="Do nothing" HorizontalAlignment="Center" />
                     </Grid>
                 </StackPanel>
             </Grid>

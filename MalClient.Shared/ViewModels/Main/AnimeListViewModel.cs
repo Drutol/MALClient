@@ -57,6 +57,7 @@ namespace MalClient.Shared.ViewModels.Main
         private string _prevListSource;
 
         private string _prevQuery = "";
+        private int _prevAnimeStatus;
 
 
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
@@ -297,6 +298,8 @@ namespace MalClient.Shared.ViewModels.Main
 
             if(queryCondition && !_wasPreviousQuery)
                 SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+            else if(!queryCondition && _wasPreviousQuery)
+                SetDesiredStatus(_prevAnimeStatus);
 
             _wasPreviousQuery = queryCondition;
 
@@ -334,6 +337,9 @@ namespace MalClient.Shared.ViewModels.Main
             _animeItemsSet.Clear();
 
             items = items.Where(item => status == 7 || item.MyStatus == status);
+
+            if(!queryCondition)
+                _prevAnimeStatus = status;
 
             if (queryCondition)
             {
@@ -472,6 +478,7 @@ namespace MalClient.Shared.ViewModels.Main
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
             var minItems = GetGridItemsToLoad();
+            minItems = minItems < 10 ? 10 : minItems;
             var minimumIndex = CurrentIndexPosition == -1
                 ? minItems
                 : CurrentIndexPosition + 1 <= minItems ? minItems : CurrentIndexPosition + 1;
@@ -1066,8 +1073,15 @@ namespace MalClient.Shared.ViewModels.Main
                         var item = pool.FirstOrDefault(model => model.Id == id);
                         if (item != null)
                             pool.Remove(item);
-                    });
+                    });                  
                     var winner = pool[random.Next(0, pool.Count)];
+                    if (Settings.EnsureRandomizerAlwaysSelectsWinner && !AnimeItems.Contains(winner))
+                    {
+                        var indexesToLoad = _animeItemsSet.IndexOf(winner.ParentAbstraction) + 10;
+                        AnimeItems.AddRange(_animeItemsSet.Take(indexesToLoad).Select(abstraction => abstraction.ViewModel));
+                        _animeItemsSet = _animeItemsSet.Skip(indexesToLoad).ToList();
+                    }
+
                     winner.NavigateDetails();
                     _randomedIds.Add(winner.Id);
                     ScrollIntoViewRequested?.Invoke(winner,true);

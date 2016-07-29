@@ -9,12 +9,15 @@
     xmlns:items="using:MALClient.Items" 
     xmlns:items1="using:MalClient.Shared.Items" 
     xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     DataContext="{Binding Source={StaticResource DesktopLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
+            <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/> 
             <ResourceDictionary.MergedDictionaries>
+                
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -160,7 +163,7 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch">
+                              Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch" Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -168,7 +171,7 @@
                             <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                             <TextBlock Grid.Row="1"
-                                       Visibility="{Binding EmptyFavAnimeNoticeVisibility}"
+                                       Visibility="Collapsed"
                                        Text="No favourite anime added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
@@ -195,14 +198,14 @@
                             </GridView>
                         </Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch">
+                              Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch" Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1" Visibility="{Binding EmptyFavMangaNoticeVisibility}"
+                            <TextBlock Grid.Row="1" Visibility="Collapsed"
                                        Text="No favourite manga added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
@@ -231,7 +234,8 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              Margin="10" MinWidth="250" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime">
+                              Margin="10" MinWidth="250" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime"
+                              Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -239,7 +243,7 @@
                             <TextBlock Text="Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
                                        FontSize="26"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1" Visibility="{Binding EmptyFavCharactersNoticeVisibility}"
+                            <TextBlock Grid.Row="1" Visibility="Collapsed"
                                        Text="No favourite characters added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
@@ -310,14 +314,14 @@
                             </GridView>
                         </Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              MinWidth="250" HorizontalAlignment="Stretch" Margin="10">
+                              MinWidth="250" HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1" Visibility="{Binding EmptyFavPeopleNoticeVisibility}"
+                            <TextBlock Grid.Row="1" Visibility="Collapsed"
                                        Text="No favourite people added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />

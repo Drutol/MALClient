@@ -301,6 +301,8 @@ namespace MALClient.ViewModels
             get { return _currentStatus; }
             set
             {
+                if(_currentStatus == value)
+                    return;
                 _currentStatus = value;
                 View.CurrentStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatus);
@@ -314,6 +316,8 @@ namespace MALClient.ViewModels
               get { return _currentStatusSub; }
               set
               {
+                  if(_currentStatusSub == value)
+                    return;
                   _currentStatusSub = value;
                   View.CurrentOffSubStatusStoryboard.Begin();
                   RaisePropertyChanged(() => CurrentStatusSub);
@@ -338,11 +342,22 @@ namespace MALClient.ViewModels
                         .ToList();
                 if (SearchToggleLock) return;
 
-                MobileViewModelLocator.AnimeList.RefreshList(true);
+                if (string.IsNullOrEmpty(value))
+                    ViewModelLocator.AnimeList.RefreshList(true);
+                else
+                    SubmitSearchQueryWithDelayCheck();
             }
         }
 
-        public List<string> SearchHints { get; set; }
+        private async void SubmitSearchQueryWithDelayCheck()
+        {
+             string query = CurrentSearchQuery;
+             await Task.Delay(500);
+             if(query == CurrentSearchQuery)
+                 ViewModelLocator.AnimeList.RefreshList(true);
+        }
+
+    public List<string> SearchHints { get; set; }
  
          private List<string> _currentHintSet;
 
@@ -516,7 +531,13 @@ namespace MALClient.ViewModels
 
         public event OffContentPaneStateChanged OffContentPaneStateChanged;
         public ICommand HideOffContentCommand { get; }
-        public string CurrentOffStatus { get; set; }
+
+        public string CurrentOffStatus
+        {
+            get { return CurrentStatus; }
+            set { CurrentStatus = value; }
+        }
+
         public Visibility NavigateOffBackButtonVisibility { get; set; }
 
         private void NavigateSearch(object args)

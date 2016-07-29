@@ -283,6 +283,12 @@ namespace MalClient.Shared.Utils
             set { ApplicationData.Current.LocalSettings.Values["DetailsListReviewsView"] = value; }
         }
 
+        public static bool EnsureRandomizerAlwaysSelectsWinner
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["EnsureRandomizerAlwaysSelectsWinner"] ?? false); }
+            set { ApplicationData.Current.LocalSettings.Values["EnsureRandomizerAlwaysSelectsWinner"] = value; }
+        }
+
         #region Views
 
         public static AnimeListDisplayModes WatchingDisplayMode

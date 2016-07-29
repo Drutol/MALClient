@@ -97,6 +97,8 @@ namespace MALClient.Pages.Main
         }
 
         private bool _loaded;
+        private AnimeListPageNavigationArgs _lastArgs;
+
         public AnimeListPage()
         {
             InitializeComponent();
@@ -106,6 +108,7 @@ namespace MALClient.Pages.Main
                 ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 ViewModel.SortingSettingChanged += InitSortOptions;
+                ViewModel.Init(_lastArgs);
                 _loaded = true;
                 try
                 {
@@ -146,7 +149,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
+            _lastArgs = e.Parameter as AnimeListPageNavigationArgs;
         }
 
         #region UIHelpers

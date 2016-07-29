@@ -411,6 +411,12 @@ namespace MALClient.ViewModels.Off
             set { Settings.SyncFavsFromTimeToTime = value; }
         }
 
+        public static bool EnsureRandomizerAlwaysSelectsWinner
+        {
+            get { return Settings.EnsureRandomizerAlwaysSelectsWinner; }
+            set { Settings.EnsureRandomizerAlwaysSelectsWinner = value; }
+        }
+
         public static bool MangaFocusVolumes
         {
             get { return Settings.MangaFocusVolumes; }

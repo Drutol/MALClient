@@ -242,9 +242,8 @@
             </Pivot>
         </StackPanel>
         <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
-                                      Margin="3,1,-2,1" Padding="3,0,0,0"
+                                      Margin="3,1,-16,1" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
-
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
                                       ShowsScrollingPlaceholders="False"

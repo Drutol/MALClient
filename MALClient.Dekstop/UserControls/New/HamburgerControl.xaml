@@ -686,10 +686,15 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
-                                PointerExited="Button_PointerExited"
+                                PointerExited="Button_PointerExited" RightTapped="BtnProfile_OnClick" IsRightTapEnabled="True"
                                 Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="5">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <ListView SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick"/>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
                             <Grid Height="35">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />

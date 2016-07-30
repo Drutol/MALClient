@@ -5,10 +5,14 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
+using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using Settings = MalClient.Shared.Utils.Settings;
@@ -194,6 +198,18 @@ namespace MALClient.UserControls.New
         {
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
             await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
+        }
+
+        private void BtnProfile_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(ViewModel.PinnedProfiles.Count > 0)
+                FlyoutBase.GetAttachedFlyout(BtnProfile).ShowAt(BtnProfile);
+        }
+
+        private void PinnedProfilesOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
+                new ProfilePageNavigationArgs {TargetUser = e.ClickedItem as string});
         }
     }
 }

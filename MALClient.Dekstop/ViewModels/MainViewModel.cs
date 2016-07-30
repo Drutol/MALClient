@@ -115,7 +115,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageCalendar ||
                      index == PageIndex.PageArticles ||
                      index == PageIndex.PageNews ||
-                     index == PageIndex.PageMessanging)
+                     index == PageIndex.PageMessanging ||
+                     index == PageIndex.PageHistory)
             {
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
                 currPage = index;
@@ -241,7 +242,10 @@ namespace MALClient.ViewModels
                     OffNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
                 case PageIndex.PageHistory:
-                    CurrentStatus = "History";
+                    HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null,true); });
+                    CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
                     MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 default:

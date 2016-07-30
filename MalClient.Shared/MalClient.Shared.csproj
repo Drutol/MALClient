@@ -212,6 +212,7 @@
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
+    <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="XamlConverters\MailIconToBrushConverter.cs" />
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
+    <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />

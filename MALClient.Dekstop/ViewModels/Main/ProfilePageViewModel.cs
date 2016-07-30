@@ -21,12 +21,15 @@ using MALClient.Utils.Managers;
 
 namespace MALClient.ViewModels.Main
 {
-    public sealed class ProfilePageViewModel : ViewModelBase
+    public sealed class ProfilePageViewModel : ViewModelBase , IProfileViewModel
     {
         //anime -<>- manga
         private readonly Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>
             _othersAbstractions =
                 new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
+
+        public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions
+            => _othersAbstractions;
 
         private List<int> _animeChartValues = new List<int>();
 
@@ -56,9 +59,11 @@ namespace MALClient.ViewModels.Main
             RecentManga = new List<AnimeItemViewModel>();
             RecentAnime = new List<AnimeItemViewModel>();
             DesktopViewModelLocator.Main.CurrentStatus = $"{_currUser} - Profile";
-            var authenticatedUser = args == null || args.TargetUser == Credentials.UserName;
+            var authenticatedUser = args.TargetUser == Credentials.UserName;
             RaisePropertyChanged(() => CurrentData);
             LoadingVisibility = Visibility.Collapsed;
+            RaisePropertyChanged(() => IsPinned);
+            RaisePropertyChanged(() => PinProfileVisibility);
             if (authenticatedUser)
             {
                 _initialized = true;
@@ -106,7 +111,7 @@ namespace MALClient.ViewModels.Main
             }
             else
             {
-                if (!_othersAbstractions.ContainsKey(args?.TargetUser ?? ""))
+                if (!_othersAbstractions.ContainsKey(args.TargetUser ?? ""))
                 {
                     LoadingOhersLibrariesProgressVisiblity = Visibility.Visible;
                     var data = new List<ILibraryData>();
@@ -118,12 +123,7 @@ namespace MALClient.ViewModels.Main
                                         new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Anime).GetLibrary(false));
 
                     var abstractions = new List<AnimeItemAbstraction>();
-                    foreach (
-                        var libraryData in
-                            data.Where(
-                                entry =>
-                                    CurrentData.FavouriteAnime.Any(i => i == entry.Id) ||
-                                    CurrentData.RecentAnime.Any(i => i == entry.Id)))
+                    foreach (var libraryData in data)
                         abstractions.Add(new AnimeItemAbstraction(false, libraryData as AnimeLibraryItemData));
 
                     await
@@ -135,11 +135,7 @@ namespace MALClient.ViewModels.Main
 
                     var mangaAbstractions = new List<AnimeItemAbstraction>();
                     foreach (
-                        var libraryData in
-                            data.Where(
-                                entry =>
-                                    CurrentData.FavouriteManga.Any(i => i == entry.Id) ||
-                                    CurrentData.RecentManga.Any(i => i == entry.Id)))
+                        var libraryData in data)
                         mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
 
                     _othersAbstractions.Add(args.TargetUser,
@@ -284,6 +280,28 @@ namespace MALClient.ViewModels.Main
         private ICommand _navAnimeListCommand;
         private ICommand _navMangaListCommand;
 
+        private ICommand _navigateHistoryCommand;
+
+        public ICommand NavigateHistoryCommand
+            =>
+                _navigateHistoryCommand ??
+                (_navigateHistoryCommand =
+                    new RelayCommand(
+                        () =>
+                        {
+
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageHistory,
+                                new HistoryNavigationArgs {Source = CurrentData.User.Name});
+                            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
+                                new RelayCommand(
+                                    () =>
+                                    {
+                                        DesktopViewModelLocator.Main.Navigate(PageIndex.PageProfile,
+                                            new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
+                                    }));
+
+                        }));
+
         private List<AnimeItemViewModel> _recentAnime;
         private List<AnimeItemViewModel> _recentManga;
 
@@ -383,6 +401,24 @@ namespace MALClient.ViewModels.Main
             }
         }
 
+        public bool IsPinned
+        {
+            get { return CurrentData.User.Name != null && Settings.PinnedProfiles.Contains(CurrentData.User.Name); }
+            set
+            {
+                if (value)
+                    Settings.PinnedProfiles += ";" + CurrentData.User.Name;
+                else
+                {
+                    var pinned = Settings.PinnedProfiles.Split(';').ToList();
+                    pinned.Remove(CurrentData.User.Name);
+                    Settings.PinnedProfiles = string.Join(";",pinned);
+                }
+                DesktopViewModelLocator.Hamburger.UpdatePinnedProfiles();
+                RaisePropertyChanged(() => IsPinned);
+            }
+        }
+
         public static double MaxWidth { get; set; }
 
         public ICommand NavigateDetailsCommand
@@ -423,6 +459,10 @@ namespace MALClient.ViewModels.Main
                             DesktopViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = _currUser})))
             ;
+
+        public Visibility PinProfileVisibility
+            => CurrentData.User.Name == null || Credentials.UserName == CurrentData.User.Name ? Visibility.Collapsed : Visibility.Visible;
+
 
         public Visibility EmptyFavAnimeNoticeVisibility
         {

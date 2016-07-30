@@ -12,11 +12,11 @@ namespace MalClient.Shared.Comm
 {
     public class ProfileHistoryQuery : Query
     {
-        public ProfileHistoryQuery()
+        public ProfileHistoryQuery(string source)
         {
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/history/{Credentials.UserName}"));
+                    Uri.EscapeUriString($"http://myanimelist.net/history/{source}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

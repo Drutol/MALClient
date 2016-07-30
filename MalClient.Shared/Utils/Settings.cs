@@ -289,6 +289,12 @@ namespace MalClient.Shared.Utils
             set { ApplicationData.Current.LocalSettings.Values["EnsureRandomizerAlwaysSelectsWinner"] = value; }
         }
 
+        public static string PinnedProfiles
+        {
+                get { return (string)(ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] ?? ""); }
+                set { ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] = value; }
+            }
+
         #region Views
 
         public static AnimeListDisplayModes WatchingDisplayMode

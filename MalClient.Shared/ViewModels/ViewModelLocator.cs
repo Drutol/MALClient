@@ -79,6 +79,11 @@ namespace MalClient.Shared.ViewModels
         void ResetOneTimeMainOverride();
     }
 
+    public interface IProfileViewModel
+    {
+        Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions { get; }
+    }
+
     public class ViewModelLocator
     {
         /// <summary>
@@ -107,6 +112,8 @@ namespace MalClient.Shared.ViewModels
         public static IHamburgerViewModel GeneralHamburger => ServiceLocator.Current.GetInstance<IHamburgerViewModel>();
 
         public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
+
+        public static IProfileViewModel GeneralProfile => ServiceLocator.Current.GetInstance<IProfileViewModel>();
 
         public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
 

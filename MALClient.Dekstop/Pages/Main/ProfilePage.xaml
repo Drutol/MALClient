@@ -16,6 +16,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
+            <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -126,7 +127,16 @@
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <Button Content="Manga list" Margin="5,0"
                                             Command="{Binding NavigateMangaListCommand}"
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />                                    
+                                    <Button Content="History" Margin="5,0"
+                                            Command="{Binding NavigateHistoryCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}" Visibility="{Binding PinProfileVisibility}">
+                                        <SymbolIcon Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}"/>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu"/>
+                                        </ToolTipService.ToolTip>
+                                    </ToggleButton>
                                 </StackPanel>
                             </Grid>
                         </Grid>
@@ -834,7 +844,7 @@
         <Grid Grid.ColumnSpan="2" Visibility="{Binding LoadingVisibility}"
               Background="{ThemeResource BrushLoadingNonTransparent}"
               Margin="0,0,0,0">
-            <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"
+            <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                           IsActive="True" />
         </Grid>
     </Grid>

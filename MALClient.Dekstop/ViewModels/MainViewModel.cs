@@ -240,6 +240,10 @@ namespace MALClient.ViewModels
                     OffContentVisibility = Visibility.Visible;
                     OffNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
+                case PageIndex.PageHistory:
+                    CurrentStatus = "History";
+                    MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

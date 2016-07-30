@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.Favourites;
 using MalClient.Shared.Models.Library;

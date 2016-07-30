@@ -19,6 +19,7 @@
         PageArticles,
         PageNews,
         PageMessanging,
-        PageMessageDetails
+        PageMessageDetails,
+        PageHistory
     }
 }

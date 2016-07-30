@@ -97,6 +97,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<MalMessageDetailsViewModel>();
             SimpleIoc.Default.Register<AnimeDetailsPageViewModel>();
             SimpleIoc.Default.Register<AnimeListViewModel>();
+            SimpleIoc.Default.Register<HistoryViewModel>();
 
         }
 
@@ -130,5 +131,8 @@ namespace MalClient.Shared.ViewModels
 
         public static MalMessageDetailsViewModel MalMessageDetails
             => ServiceLocator.Current.GetInstance<MalMessageDetailsViewModel>();
+
+        public static HistoryViewModel History
+            => ServiceLocator.Current.GetInstance<HistoryViewModel>();
     }
 }

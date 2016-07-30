@@ -17,6 +17,7 @@
         Calendar,
         Articles,
         News,
-        Messanging
+        Messanging,
+        History,
     }
 }

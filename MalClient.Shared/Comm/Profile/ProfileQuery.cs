@@ -13,7 +13,7 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Managers;
 using Newtonsoft.Json;
 
-namespace MalClient.Shared.Comm
+namespace MalClient.Shared.Comm.Profile
 {
     public class ProfileQuery : Query
     {

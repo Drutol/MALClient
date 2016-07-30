@@ -15,6 +15,7 @@ using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
 using HtmlAgilityPack;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using Microsoft.HockeyApp;
@@ -412,6 +413,8 @@ namespace MalClient.Shared.Utils
                     return HamburgerButtons.News;
                 case PageIndex.PageMessanging:
                     return HamburgerButtons.Messanging;
+                case PageIndex.PageHistory:
+                    return HamburgerButtons.History;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

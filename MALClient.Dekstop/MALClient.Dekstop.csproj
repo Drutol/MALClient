@@ -114,6 +114,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\HistoryPage.xaml.cs">
+      <DependentUpon>HistoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Messages\MalMessageDetailsPage.xaml.cs" />
     <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs" />
     <Compile Include="Pages\Off\AnimeDetailsPage.xaml.cs">
@@ -219,6 +222,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Main\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Messages\MalMessageDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

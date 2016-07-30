@@ -694,7 +694,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
@@ -705,15 +705,29 @@
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                 <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                             Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-40,0"
+                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-80,0"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                <Button Grid.Column="2" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
-                                        CommandParameter="16" Margin="0,0,-1,0"
-                                        Width="40" Height="35" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{ThemeResource BrushHamburgerInnerBackground}"> 
-                                    <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="18" Background="Transparent"
+                                        Width="40" Height="35">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="History"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,1,0" />
-                                </Button>
+                                    </Button>
+                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="16" Background="Transparent"
+                                        Width="40" Height="35" >
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Messaging"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,1,0" />
+                                    </Button>                                    
+                                </StackPanel>
                             </Grid>
                         </Button>
                         <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

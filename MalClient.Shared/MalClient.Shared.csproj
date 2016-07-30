@@ -139,7 +139,8 @@
     <Compile Include="Comm\Manga\MangaSearchQuery.cs" />
     <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
     <Compile Include="Comm\NewsQuery.cs" />
-    <Compile Include="Comm\ProfileQuery.cs" />
+    <Compile Include="Comm\Profile\ProfileHistoryQuery.cs" />
+    <Compile Include="Comm\Profile\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
@@ -205,6 +206,7 @@
     <Compile Include="Models\Library\MangaLibraryItemData.cs" />
     <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
     <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
+    <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\HistoryViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
     <Compile Include="ViewModels\Main\MalMessageDetailsViewModel.cs" />

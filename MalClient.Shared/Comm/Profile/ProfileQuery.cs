@@ -52,9 +52,9 @@ namespace MalClient.Shared.Comm.Profile
                 possibleData = await DataCache.RetrieveProfileData(_userName);
             if (possibleData != null)
                 return possibleData;
-            var raw = await GetRequestResponse();
+            var raw = await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
             var doc = new HtmlDocument();
-            doc.LoadHtml(raw);
+            doc.LoadHtml(await raw.Content.ReadAsStringAsync());
             var current = new ProfileData { User = { Name = _userName } };
 
             #region Recents
@@ -443,6 +443,10 @@ namespace MalClient.Shared.Comm.Profile
                 }
 
             #endregion
+
+            current.ProfileMemId = doc.DocumentNode.Descendants("input")
+                .First(node => node.Attributes.Contains("name") && node.Attributes["name"].Value == "profileMemId")
+                .Attributes["value"].Value;
 
             if (_userName == Credentials.UserName) //umm why do we need someone's favs?
             {

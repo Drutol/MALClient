@@ -49,6 +49,22 @@
 
                 <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent">
+                        <Button.Flyout>
+                            <Flyout x:Name="GotoFlyout">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="GotoUserName" PlaceholderText="Username..." KeyDown="GotoUserName_OnKeyDown" Margin="5,0,0,0"/>
+                                    <Button Margin="5,0" Click="ButtonGotoProfileOnClick">
+                                        <SymbolIcon Symbol="Accept"/>
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <StackPanel>
+                            <SymbolIcon Symbol="Go" />
+                            <TextBlock Text="Goto" FontWeight="SemiLight" />
+                        </StackPanel>
+                    </Button>
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="ContactInfo" />
                         <TextBlock Text="General" FontWeight="SemiLight" />
@@ -794,6 +810,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -837,6 +854,12 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Stretch">
+                        <TextBox HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
+                        <Button Content="Send Comment" Margin="20,0"
+                                Command="{Binding SendCommentCommand}"
+                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </StackPanel>
                 </Grid>
             </Grid>
         </ScrollViewer>

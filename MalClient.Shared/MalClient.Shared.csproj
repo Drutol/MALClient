@@ -134,6 +134,7 @@
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaSearchQuery.cs" />

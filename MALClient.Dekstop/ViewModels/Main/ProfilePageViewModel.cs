@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.MagicalRawQueries.Profile;
 using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.Favourites;
@@ -254,6 +255,7 @@ namespace MALClient.ViewModels.Main
         private Visibility _emptyFavAnimeNoticeVisibility = Visibility.Collapsed;
 
         private Visibility _emptyFavCharactersNoticeVisibility = Visibility.Collapsed;
+
         private Visibility _emptyFavMangaNoticeVisibility = Visibility.Collapsed;
 
         private Visibility _emptyFavPeopleNoticeVisibility = Visibility.Collapsed;
@@ -278,6 +280,7 @@ namespace MALClient.ViewModels.Main
         private ICommand _navigatePersonPageCommand;
 
         private ICommand _navAnimeListCommand;
+
         private ICommand _navMangaListCommand;
 
         private ICommand _navigateHistoryCommand;
@@ -301,6 +304,18 @@ namespace MALClient.ViewModels.Main
                                     }));
 
                         }));
+
+        private ICommand _sendCommentCommand;
+
+        public ICommand SendCommentCommand => _sendCommentCommand ?? (_sendCommentCommand = new RelayCommand(async () =>
+        {
+            if(string.IsNullOrEmpty(CommentText))
+                return;
+            if (await
+                ProfileCommentQuery.SendComment(CurrentData.User?.Name ?? Credentials.UserName, CurrentData.ProfileMemId,
+                    CommentText))
+                CommentText = "";
+        }));
 
         private List<AnimeItemViewModel> _recentAnime;
         private List<AnimeItemViewModel> _recentManga;
@@ -533,6 +548,18 @@ namespace MALClient.ViewModels.Main
             {
                 _loadingOhersLibrariesProgressVisiblity = value;
                 RaisePropertyChanged(() => LoadingOhersLibrariesProgressVisiblity);
+            }
+        }
+
+        private string _commentText;
+
+        public string CommentText
+        {
+            get { return _commentText; }
+            set
+            {
+                _commentText = value;
+                RaisePropertyChanged(() => CommentText);
             }
         }
 

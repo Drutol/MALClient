@@ -60,7 +60,6 @@ namespace MalClient.Shared.ViewModels.Main
 
             var data = new Dictionary<string, List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>>();
 
-
             if (args.Source == Credentials.UserName)
             {
                 foreach (var key in history.Keys)

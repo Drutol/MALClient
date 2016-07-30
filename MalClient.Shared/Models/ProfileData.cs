@@ -23,11 +23,7 @@ namespace MalClient.Shared.Models
         //User details
         //
         public MalUser User { get; set; } = new MalUser();
-        public string LastOnline { get; set; }
-        public string Gender { get; set; }
-        public string Birthday { get; set; }
-        public string Location { get; set; }
-        public string Joined { get; set; }
+        public string ProfileMemId { get; set; }
         public List<Tuple<string, string>> Details { get; } = new List<Tuple<string, string>>();
         public List<MalUser> Friends { get; set; } = new List<MalUser>();
         public List<MalComment> Comments { get; set; } = new List<MalComment>();

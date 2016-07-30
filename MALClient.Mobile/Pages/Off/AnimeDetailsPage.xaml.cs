@@ -63,7 +63,7 @@ namespace MALClient.Pages.Off
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            if (!ViewModel._initialized)
+            if (!ViewModel.Initialized)
                 return;
             switch (args.Item.Tag as string)
             {

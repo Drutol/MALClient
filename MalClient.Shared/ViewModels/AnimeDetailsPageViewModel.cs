@@ -41,6 +41,18 @@ namespace MalClient.Shared.ViewModels
         //crucial fields
         private string _imgUrl;
         public bool _initialized;
+
+        public bool Initialized
+        {
+            get { return _initialized; }
+            private set
+            {
+                _initialized = value;
+                //OnInitialized?.Invoke(null, null);
+            }
+        }
+
+
         //loaded fields
         private bool _loadedDetails;
         private bool _loadedRecomm;
@@ -142,13 +154,15 @@ namespace MalClient.Shared.ViewModels
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
 
+        //public event EventHandler OnInitialized; 
+
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
-            _initialized = false;
+            Initialized = false;
             LoadingGlobal = Visibility.Visible;
             //wait for UI
             await Task.Delay(5);
-
+            ViewModelLocator.GeneralMain.IsCurrentStatusSelectable = true;
 
             _loadingAlternate = false;
 
@@ -298,7 +312,7 @@ namespace MalClient.Shared.ViewModels
             _prevArgs = param;
             _prevArgs.RegisterBackNav = false;
             _prevArgs.Source = PageIndex.PageAnimeDetails;
-            _initialized = true;
+            Initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
             //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
         }
@@ -1664,7 +1678,7 @@ namespace MalClient.Shared.ViewModels
 
         private void ExtractData(AnimeGeneralDetailsData data)
         {
-            Title = _animeItemReference.Title;
+            Title = _animeItemReference?.Title ?? data.Title;
             Type = data.Type;
             Status = data.Status;
             Synopsis = data.Synopsis;
@@ -1716,7 +1730,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadDetails(bool force = false)
         {
-            if (_loadedDetails && !force && _initialized)
+            if (_loadedDetails && !force && Initialized)
                 return;
             _loadedDetails = true;
             LoadingDetails = Visibility.Visible;
@@ -1853,7 +1867,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadReviews(bool force = false)
         {
-            if (_loadedReviews && !force && _initialized)
+            if (_loadedReviews && !force && Initialized)
                 return;
             LoadingReviews = Visibility.Visible;
             _loadedReviews = true;
@@ -1874,7 +1888,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadRecommendations(bool force = false)
         {
-            if (_loadedRecomm && !force && _initialized)
+            if (_loadedRecomm && !force && Initialized)
                 return;
             LoadingRecommendations = Visibility.Visible;
             _loadedRecomm = true;
@@ -1899,7 +1913,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadRelatedAnime(bool force = false)
         {
-            if (_loadedRelated && !force && _initialized)
+            if (_loadedRelated && !force && Initialized)
                 return;
             LoadingRelated = Visibility.Visible;
             _loadedRelated = true;

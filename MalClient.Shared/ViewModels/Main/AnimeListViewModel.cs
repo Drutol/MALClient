@@ -600,19 +600,24 @@ namespace MalClient.Shared.ViewModels.Main
                 return;
             //Depending on display mode we load more or less items.
             //This is the place where offset thresholds are defined
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : (DisplayMode == AnimeListDisplayModes.IndefiniteCompactList ? 50 : 100)) || (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) || (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
+            if (offset - _lastOffset >
+                (DisplayMode == AnimeListDisplayModes.IndefiniteList
+                    ? 75
+                    : (DisplayMode == AnimeListDisplayModes.IndefiniteCompactList ? 50 : 100)) ||
+                (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
+                (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
                 _lastOffset = offset;
                 int itemsCount;
                 switch (DisplayMode)
                 {
                     case AnimeListDisplayModes.IndefiniteList:
-                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/400;
+                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/200;
                         AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
-                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/200;
+                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/160;
                         AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;

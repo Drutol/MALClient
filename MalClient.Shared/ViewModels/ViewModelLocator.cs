@@ -48,6 +48,7 @@ namespace MalClient.Shared.ViewModels
         Visibility ScrollToTopButtonVisibility { get; set; }
         string CurrentStatusSub { get; set; }
         IMainViewInteractions View { get; }
+        bool IsCurrentStatusSelectable { get; set; }
     }
 
     public interface IHamburgerViewModel

@@ -154,9 +154,6 @@
                 <Style TargetType="PivotHeaderPanel">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
-                <Style TargetType="ScrollBar">
-                    <Setter Property="Margin" Value="10,0,0,0" />
-                </Style>
             </ResourceDictionary>
         </Grid.Resources>
         <StackPanel Grid.Row="0" Margin="0,0,-16,0" Orientation="Horizontal"
@@ -242,7 +239,7 @@
             </Pivot>
         </StackPanel>
         <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
-                                      Margin="3,1,-16,1" Padding="3,0,0,0"
+                                      Margin="3,1,0,1" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"

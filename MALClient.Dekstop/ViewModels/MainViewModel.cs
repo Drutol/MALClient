@@ -79,6 +79,7 @@ namespace MALClient.ViewModels
             {
                 OffRefreshButtonVisibility = Visibility.Collapsed;
                 mainPage = false;
+                IsCurrentStatusSelectable = false;
                 currOffPage = index;
                 if (index != PageIndex.PageAnimeDetails)
                     ViewModelLocator.NavMgr.ResetOffBackNav();
@@ -296,6 +297,18 @@ namespace MALClient.ViewModels
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
 
                 MenuPaneState = Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500;
+            }
+        }
+
+        public bool _isCurrentStatusSelectable;
+
+        public bool IsCurrentStatusSelectable
+        {
+            get { return _isCurrentStatusSelectable; }
+            set
+            {
+                _isCurrentStatusSelectable = value;
+                RaisePropertyChanged(() => IsCurrentStatusSelectable);
             }
         }
 

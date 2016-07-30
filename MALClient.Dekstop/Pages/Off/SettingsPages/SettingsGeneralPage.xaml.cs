@@ -29,6 +29,7 @@ namespace MALClient.Pages.Off.SettingsPages
             BtnMDescending.IsChecked = Settings.IsMangaSortDescending;
             SetDesiredStatus();
             ToggleSwitchSetup();
+            ScrollViewer.Focus(FocusState.Pointer);
             ComboThemes.SelectedIndex = (int) Settings.SelectedTheme;
             TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
                 ? Visibility.Visible

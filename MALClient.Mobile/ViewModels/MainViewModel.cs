@@ -48,6 +48,7 @@ namespace MALClient.ViewModels
             if(View.CurrentDisplayMode == SplitViewDisplayMode.CompactOverlay)
                 MenuPaneState = false;
             CurrentStatusSub = "";
+            IsCurrentStatusSelectable = false;
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
@@ -291,6 +292,18 @@ namespace MALClient.ViewModels
             {
                 _searchInputVisibility = value;
                 RaisePropertyChanged(() => SearchInputVisibility);
+            }
+        }
+
+        private bool _isCurrentStatusSelectable;
+
+        public bool IsCurrentStatusSelectable
+        {
+            get { return _isCurrentStatusSelectable; }
+            set
+            {
+                _isCurrentStatusSelectable = value;
+                RaisePropertyChanged(() => IsCurrentStatusSelectable);
             }
         }
 

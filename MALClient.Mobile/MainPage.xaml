@@ -81,7 +81,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="CurrentStatus"  FontWeight="Bold" Text="{Binding CurrentStatus}"
-                       TextTrimming="CharacterEllipsis"
+                       TextTrimming="CharacterEllipsis" IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}"
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Tapped="CurrentStatus_OnTapped"
                        Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}">
                     <FlyoutBase.AttachedFlyout>

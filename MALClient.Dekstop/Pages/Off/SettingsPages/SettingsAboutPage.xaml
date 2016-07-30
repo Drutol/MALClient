@@ -17,14 +17,14 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+    <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
         <ScrollViewer.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="FontWeight" Value="SemiLight" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
             </Style>
         </ScrollViewer.Resources>
-        <Grid>
+        <Grid Margin="0,0,16,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>

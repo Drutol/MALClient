@@ -320,7 +320,7 @@ namespace MalClient.Shared.ViewModels
                     var diff = DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now);
                     if (diff.TotalSeconds > 0)
                     {
-                        _airDayBrush = new SolidColorBrush(Colors.Gray);
+                        _airDayBrush = new SolidColorBrush(Settings.SelectedTheme == ApplicationTheme.Dark ? Colors.Gray : Colors.LightGray);
                         _airDayTillBind = diff.TotalDays < 1 ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h" : diff.TotalDays.ToString("N0") + "d";
                         RaisePropertyChanged(() => AirDayTillBind);
                     }

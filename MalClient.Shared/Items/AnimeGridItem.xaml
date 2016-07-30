@@ -141,7 +141,7 @@
                         <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
                 </Button>
-                <Button Width="35" Height="35" Foreground="White" Padding="0" Grid.Column="1" HorizontalAlignment="Center" Background="Transparent"
+                <Button Width="35" Height="35" Foreground="{ThemeResource BrushText}" Padding="0" Grid.Column="1" HorizontalAlignment="Center" Background="Transparent"
                         VerticalAlignment="Bottom" Margin="0,0,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
                     <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                     <Button.Flyout>

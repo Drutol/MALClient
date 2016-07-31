@@ -15,6 +15,8 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter"/>
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
             <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter"/>
         </ResourceDictionary>
@@ -812,9 +814,12 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                    <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top" Command="{Binding RefreshCommentsCommand}">
+                        <SymbolIcon Symbol="Refresh" Margin="5"/>
+                    </Button>
+                    <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding CurrentData.Comments}">
+                    <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding MalComments}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -850,16 +855,34 @@
                                                TextAlignment="Left" Margin="10" HorizontalAlignment="Left" />
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
                                                FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                        <Button Content="Conversation" Margin="5"
+                                                Visibility="{Binding ComToCom,Converter={StaticResource IsThereAnyTextToVisibilityConverter}}"
+                                                Background="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.NavigateConversationCommand}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Content="Delete" Margin="5"
+                                                Visibility="{Binding CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Background="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.DeleteCommentCommand}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <StackPanel Grid.Row="2" HorizontalAlignment="Stretch">
-                        <TextBox HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
+                        <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
                         <Button Content="Send Comment" Margin="20,0"
-                                Command="{Binding SendCommentCommand}"
+                                Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                     </StackPanel>
+                    <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity}"
+                                          Background="{ThemeResource BrushLoadingNonTransparent}"
+                                          Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
+                          IsActive="True" />
+                    </Grid>
                 </Grid>
             </Grid>
         </ScrollViewer>

@@ -476,6 +476,11 @@ namespace MalClient.Shared.Utils
             return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
+        public static HtmlNode FirstOfDescendantsWithId(this HtmlDocument doc, string descendants, string targettedId)
+        {
+            return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == targettedId);
+        }
+
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
         {
             return doc.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);

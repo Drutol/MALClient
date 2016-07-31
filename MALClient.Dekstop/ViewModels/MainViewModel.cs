@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Delegates;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
@@ -236,8 +237,12 @@ namespace MALClient.ViewModels
                     MainNavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
                 case PageIndex.PageMessageDetails:
-                    var msgModel = args as MalMessageModel;
-                    CurrentOffStatus = msgModel != null ? $"{msgModel.Sender} - {msgModel.Subject}" : "New Message";
+                    var msgModel = args as MalMessageDetailsNavArgs;
+                    CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
+                        ? (msgModel.Arg != null
+                            ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
+                            : "New Message")
+                        : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
                     OffContentVisibility = Visibility.Visible;
                     OffNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;

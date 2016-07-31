@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,6 +32,18 @@ namespace MALClient.ViewModels.Main
 
         public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions
             => _othersAbstractions;
+
+        private ObservableCollection<MalComment> _malComments = new ObservableCollection<MalComment>();
+
+        public ObservableCollection<MalComment> MalComments
+        {
+            get { return _malComments; }
+            set
+            {
+                _malComments = value;
+                RaisePropertyChanged(() => MalComments);
+            }
+        }
 
         private List<int> _animeChartValues = new List<int>();
 
@@ -65,6 +78,7 @@ namespace MALClient.ViewModels.Main
             LoadingVisibility = Visibility.Collapsed;
             RaisePropertyChanged(() => IsPinned);
             RaisePropertyChanged(() => PinProfileVisibility);
+            MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
             if (authenticatedUser)
             {
                 _initialized = true;
@@ -311,10 +325,46 @@ namespace MALClient.ViewModels.Main
         {
             if(string.IsNullOrEmpty(CommentText))
                 return;
+            IsSendCommentButtonEnabled = false;
             if (await
-                ProfileCommentQuery.SendComment(CurrentData.User?.Name ?? Credentials.UserName, CurrentData.ProfileMemId,
+                ProfileCommentQueries.SendComment(CurrentData.User?.Name ?? Credentials.UserName,
+                    CurrentData.ProfileMemId,
                     CommentText))
+            {
                 CommentText = "";
+                await CurrentData.UpdateComments();
+                MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            }
+            IsSendCommentButtonEnabled = true;
+        }));
+
+        private ICommand _deleteCommentCommand;
+
+        public ICommand DeleteCommentCommand => _deleteCommentCommand ?? (_deleteCommentCommand = new RelayCommand<MalComment>(async comment =>
+        {
+            if (await ProfileCommentQueries.DeleteComment(comment.Id))
+                MalComments.Remove(comment);
+        }));
+
+        private ICommand _navigateConversationCommand;
+
+        public ICommand NavigateConversationCommand => _navigateConversationCommand ?? (_navigateConversationCommand = new RelayCommand<MalComment>(comment =>
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
+                new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.ProfileComments, Arg = comment});
+        }));
+
+        private bool _refreshingComments;
+        private ICommand _refreshCommentsCommand;
+
+        public ICommand RefreshCommentsCommand => _refreshCommentsCommand ?? (_refreshCommentsCommand = new RelayCommand(async () =>
+        {
+            if(_refreshingComments)
+                return;
+            _refreshingComments = true;
+            await CurrentData.UpdateComments();
+            MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            _refreshingComments = false;
         }));
 
         private List<AnimeItemViewModel> _recentAnime;
@@ -551,6 +601,18 @@ namespace MALClient.ViewModels.Main
             }
         }
 
+        private Visibility _loadingCommentsVisiblity = Visibility.Collapsed;
+
+        public Visibility LoadingCommentsVisiblity
+        {
+            get { return _loadingCommentsVisiblity; }
+            set
+            {
+                _loadingCommentsVisiblity = value;
+                RaisePropertyChanged(() => LoadingCommentsVisiblity);
+            }
+        }
+
         private string _commentText;
 
         public string CommentText
@@ -560,6 +622,18 @@ namespace MALClient.ViewModels.Main
             {
                 _commentText = value;
                 RaisePropertyChanged(() => CommentText);
+            }
+        }
+
+        private bool _isSendCommentButtonEnabled = true;
+
+        public bool IsSendCommentButtonEnabled
+        {
+            get { return _isSendCommentButtonEnabled; }
+            set
+            {
+                _isSendCommentButtonEnabled = value;
+                RaisePropertyChanged(() => IsSendCommentButtonEnabled);
             }
         }
 

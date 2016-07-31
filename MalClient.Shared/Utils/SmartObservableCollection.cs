@@ -17,6 +17,16 @@ namespace MalClient.Shared.Utils
             set { _isObserving = value; }
         }
 
+        public SmartObservableCollection()
+        {
+            
+        }
+
+        public SmartObservableCollection(IEnumerable<T> source) : base(source)
+        {
+            
+        }
+
         public void AddRange(IEnumerable<T> range)
         {
             // get out if no new items

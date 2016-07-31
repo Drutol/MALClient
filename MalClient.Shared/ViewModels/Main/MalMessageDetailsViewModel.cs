@@ -8,24 +8,23 @@ using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm.MagicalRawQueries.Messages;
+using MalClient.Shared.Comm.MagicalRawQueries.Profile;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 
 namespace MalClient.Shared.ViewModels.Main
 {
     public class MalMessageDetailsViewModel : ViewModelBase
     {
-        private static readonly Dictionary<string, List<MalMessageModel>> _messageThreads =
+        private static readonly Dictionary<string, List<MalMessageModel>> MessageThreads =
             new Dictionary<string, List<MalMessageModel>>();
 
+        public SmartObservableCollection<MessageEntry> MessageSet { get; set; } =
+            new SmartObservableCollection<MessageEntry>();
+
         private Visibility _loadingVisibility = Visibility.Collapsed;
-        private bool _newMessage;
-
-        private Visibility _newMessageFieldsVisibility;
-
-        private MalMessageModel _prevMsg;
-
-        private ICommand _sendMessageCommand;
 
         public Visibility LoadingVisibility
         {
@@ -36,6 +35,8 @@ namespace MalClient.Shared.ViewModels.Main
                 RaisePropertyChanged(() => LoadingVisibility);
             }
         }
+
+        private Visibility _newMessageFieldsVisibility;
 
         public Visibility NewMessageFieldsVisibility
         {
@@ -72,6 +73,9 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
+        private ICommand _sendMessageCommand;
+
+
         public ICommand SendMessageCommand
             => _sendMessageCommand ?? (_sendMessageCommand = new RelayCommand(SendMessage));
 
@@ -79,38 +83,58 @@ namespace MalClient.Shared.ViewModels.Main
         public string MessageTarget { get; set; } //targetted user
         public string MessageSubject { get; set; }
 
-        
+        private bool _newMessage;
+        private MalMessageModel _prevMsg;
+        private MalMessageDetailsNavArgs _prevArgs;
 
-        public SmartObservableCollection<MessageEntry> MessageSet { get; } =
-            new SmartObservableCollection<MessageEntry>();
-
-        public async void Init(MalMessageModel args)
+        public async void Init(MalMessageDetailsNavArgs args)
         {
-            if (args == null) //compose new
+            if (args.WorkMode == MessageDetailsWorkMode.Message)
             {
-                _newMessage = true;
-                MessageSet.Clear();
-                NewMessageFieldsVisibility = Visibility.Visible;
-                return;
-            }
-            NewMessageFieldsVisibility = Visibility.Collapsed;
-            _newMessage = false;
+                var arg = args.Arg as MalMessageModel;
+                if (arg == null) //compose new
+                {
+                    _newMessage = true;
+                    MessageSet.Clear();
+                    NewMessageFieldsVisibility = Visibility.Visible;
+                    return;
+                }
+                NewMessageFieldsVisibility = Visibility.Collapsed;
+                _newMessage = false;
 
-            if (_prevMsg?.Id == args.Id)
-                return;
-            _prevMsg = args;
-            MessageSet.Clear();
-            LoadingVisibility = Visibility.Visible;
-            if (_messageThreads.ContainsKey(args.ThreadId))
-            {
-                MessageSet.AddRange(_messageThreads[args.ThreadId].Select(model => new MessageEntry(model)));
+                if (_prevMsg?.Id == arg.Id)
+                    return;
+                _prevMsg = arg;
+                MessageSet.Clear();
+                LoadingVisibility = Visibility.Visible;
+                if (MessageThreads.ContainsKey(arg.ThreadId))
+                {
+                    MessageSet.AddRange(MessageThreads[arg.ThreadId].Select(model => new MessageEntry(model)));
+                }
+                else
+                {
+                    var msgs = await new MalMessageDetailsQuery().GetMessagesInThread(arg);
+                    msgs.Reverse();
+                    MessageSet.AddRange(msgs.Select(model => new MessageEntry(model)));
+                }
+                
             }
             else
             {
-                var msgs = await new MalMessageDetailsQuery().GetMessagesInThread(args);
-                msgs.Reverse();
-                MessageSet.AddRange(msgs.Select(model => new MessageEntry(model)));
+                NewMessageFieldsVisibility = Visibility.Collapsed;
+                var arg = args.Arg as MalComment;
+                if(arg.ComToCom == (_prevArgs?.Arg as MalComment)?.ComToCom)
+                    return;
+                _prevMsg = null;
+                LoadingVisibility = Visibility.Visible;
+                MessageSet.Clear();
+                MessageSet =
+                    new SmartObservableCollection<MessageEntry>(
+                        (await ProfileCommentQueries.GetComToComMessages(arg.ComToCom)).Select(
+                            model => new MessageEntry(model)));
+                RaisePropertyChanged(() => MessageSet);
             }
+            _prevArgs = args;
             LoadingVisibility = Visibility.Collapsed;
         }
 
@@ -129,86 +153,109 @@ namespace MalClient.Shared.ViewModels.Main
         private async void SendMessage()
         {
             IsSendButtonEnabled = false;
-            if (_newMessage)
+            if (_prevArgs.WorkMode == MessageDetailsWorkMode.Message)
             {
-                if (await new SendMessageQuery().SendMessage(MessageSubject, MessageText, MessageTarget))
+                if (_newMessage)
                 {
-                    try
+                    if (await new SendMessageQuery().SendMessage(MessageSubject, MessageText, MessageTarget))
                     {
-                        var message = new MalMessageModel();
-                        var id = await new MalMessagesQuery().GetFirstSentMessageId();
-                        message.Id = id;
-                        message = await new MalMessageDetailsQuery().GetMessageDetails(message);
-                        message.Target = MessageTarget;
-                        message.Sender = Credentials.UserName;
-                        message.IsRead = true;
-                        message.Date = DateTime.Now.ToString("d");
-                        message.Subject = MessageSubject;
-                        _messageThreads[message.ThreadId] = new List<MalMessageModel> { message };
-                        _prevMsg = message;
-                        _newMessage = false;
-                        NewMessageFieldsVisibility = Visibility.Collapsed;
-                        ViewModelLocator.GeneralMain.CurrentStatus = $"{message.Sender} - {message.Subject}";
-                        MessageSet.Clear();
-                        MessageSet.AddRange(new[]
+                        try
                         {
-                        new MessageEntry(message)                       
-                    });
-                        MessageText = "";
-                        MessageSubject = "";
-                        MessageTarget = "";
+                            var message = new MalMessageModel();
+                            var id = await new MalMessagesQuery().GetFirstSentMessageId();
+                            message.Id = id;
+                            message = await new MalMessageDetailsQuery().GetMessageDetails(message);
+                            message.Target = MessageTarget;
+                            message.Sender = Credentials.UserName;
+                            message.IsRead = true;
+                            message.Date = DateTime.Now.ToString("d");
+                            message.Subject = MessageSubject;
+                            MessageThreads[message.ThreadId] = new List<MalMessageModel> {message};
+                            _prevMsg = message;
+                            _newMessage = false;
+                            NewMessageFieldsVisibility = Visibility.Collapsed;
+                            ViewModelLocator.GeneralMain.CurrentOffStatus = $"{message.Sender} - {message.Subject}";
+                            MessageSet.Clear();
+                            MessageSet.AddRange(new[]
+                            {
+                                new MessageEntry(message)
+                            });
+                            MessageText = "";
+                            MessageSubject = "";
+                            MessageTarget = "";
+                        }
+                        catch (Exception)
+                        {
+                            var msg = new MessageDialog("Unable to send this message.", "Error");
+                            await msg.ShowAsync();
+                        }
                     }
-                    catch (Exception)
+                    else
                     {
-                        var msg = new MessageDialog("Unable to send this message.","Error");
+                        var msg = new MessageDialog("Unable to send this message.", "Error");
                         await msg.ShowAsync();
                     }
+                    IsSendButtonEnabled = true;
+                    return;
+                }
+
+                if (
+                    await
+                        new SendMessageQuery().SendMessage(_prevMsg.Subject, MessageText, _prevMsg.Target,
+                            _prevMsg.ThreadId,
+                            _prevMsg.ReplyId))
+                {
+                    var message = new MalMessageModel
+                    {
+                        Subject = _prevMsg.Subject,
+                        Content = MessageText,
+                        Date = DateTime.Now.ToString("d"),
+                        Id = "0",
+                        Sender = Credentials.UserName,
+                        Target = _prevMsg.Target,
+                        ThreadId = _prevMsg.ThreadId,
+                        ReplyId = _prevMsg.ReplyId
+                    };
+                    if (MessageThreads.ContainsKey(_prevMsg.ThreadId))
+                    {
+                        MessageThreads[_prevMsg.ThreadId].Insert(0, message);
+                    }
+                    else
+                    {
+                        MessageThreads[_prevMsg.ThreadId] = new List<MalMessageModel> {_prevMsg, message};
+                    }
+                    MessageSet.AddRange(new[]
+                    {
+                        new MessageEntry(message)
+                    });
+                    MessageText = "";
+                    MessageSubject = "";
+                    MessageTarget = "";
+                    RaisePropertyChanged(() => MessageText);
                 }
                 else
                 {
                     var msg = new MessageDialog("Unable to send this message.", "Error");
                     await msg.ShowAsync();
                 }
-                IsSendButtonEnabled = true;
-                return;
             }
-
-            if (
-                await
-                    new SendMessageQuery().SendMessage(_prevMsg.Subject, MessageText, _prevMsg.Target, _prevMsg.ThreadId,
-                        _prevMsg.ReplyId))
+            else //comment
             {
-                var message = new MalMessageModel
+                var comment = _prevArgs.Arg as MalComment;
+                if (await ProfileCommentQueries.SendCommentReply(comment.ComToCom.Split('=').Last(), MessageText))
                 {
-                    Subject = _prevMsg.Subject,
-                    Content = MessageText,
-                    Date = DateTime.Now.ToString("d"),
-                    Id = "0",
-                    Sender = Credentials.UserName,
-                    Target = _prevMsg.Target,
-                    ThreadId = _prevMsg.ThreadId,
-                    ReplyId = _prevMsg.ReplyId
-                };
-                if (_messageThreads.ContainsKey(_prevMsg.ThreadId))
-                {
-                    _messageThreads[_prevMsg.ThreadId].Insert(0, message);
+                    MessageSet.AddRange(new[]
+                    {
+                        new MessageEntry(new MalMessageModel
+                        {
+                            Content = MessageText,
+                            Sender = Credentials.UserName,
+                            Date = DateTime.Now.ToString("d")
+                        })
+                    });
+                    MessageText = "";
+                    RaisePropertyChanged(() => MessageText);
                 }
-                else
-                {
-                    _messageThreads[_prevMsg.ThreadId] = new List<MalMessageModel> {_prevMsg, message};
-                }
-                MessageSet.AddRange(new[]
-                {
-                    new MessageEntry(message)
-                });
-                MessageText = "";
-                MessageSubject = "";
-                MessageTarget = "";
-            }
-            else
-            {
-                var msg = new MessageDialog("Unable to send this message.", "Error");
-                await msg.ShowAsync();
             }
             IsSendButtonEnabled = true;
         }

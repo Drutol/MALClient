@@ -134,7 +134,7 @@
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQueries.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaSearchQuery.cs" />
@@ -214,6 +214,7 @@
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
     <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
+    <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

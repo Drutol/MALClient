@@ -26,10 +26,10 @@ namespace MalClient.Shared.Comm.Profile
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request =
-                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
-                    Request.ContentType = "application/x-www-form-urlencoded";
-                    Request.Method = "GET";
+                    //Request =
+                    //    WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
+                    //Request.ContentType = "application/x-www-form-urlencoded";
+                    //Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
                     Request =
@@ -434,6 +434,19 @@ namespace MalClient.Shared.Comm.Profile
                         curr.User.Name = header.ChildNodes[1].InnerText;
                         curr.Date = header.ChildNodes[3].InnerText;
                         curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
+                        var postActionNodes = comment.WhereOfDescendantsWithClass("a", "ml8");
+                        var convNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Conversation");
+                        if (convNode != null)
+                        {
+                            curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
+                        }
+                        var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
+                        {
+                            curr.CanDelete = true;
+                            curr.Id =
+                                deleteNode.Attributes["onclick"].Value.Split(new char[] {'(', ')'},
+                                    StringSplitOptions.RemoveEmptyEntries).Last();
+                        }
                         current.Comments.Add(curr);
                     }
                 }
@@ -461,6 +474,48 @@ namespace MalClient.Shared.Comm.Profile
                 DataCache.SaveProfileData(_userName, current);
 
             return current;
+        }
+
+        public async Task<List<MalComment>> GetComments()
+        {
+            var raw = await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
+            var doc = new HtmlDocument();
+            doc.LoadHtml(await raw.Content.ReadAsStringAsync());
+            var output = new List<MalComment>();
+            try
+            {
+                var commentBox = doc.FirstOfDescendantsWithClass("div", "user-comments mt24 pt24");
+                foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
+                {
+                    var curr = new MalComment();
+                    curr.User.ImgUrl = comment.Descendants("img").First().Attributes["src"].Value;
+                    var textBlock = comment.Descendants("div").First();
+                    var header = textBlock.Descendants("div").First();
+                    curr.User.Name = header.ChildNodes[1].InnerText;
+                    curr.Date = header.ChildNodes[3].InnerText;
+                    curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
+                    var postActionNodes = comment.WhereOfDescendantsWithClass("a", "ml8");
+                    var convNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Conversation");
+                    if (convNode != null)
+                    {
+                        curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
+                    }
+                    var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
+                    if(deleteNode != null)
+                    {
+                        curr.CanDelete = true;
+                        curr.Id =
+                            deleteNode.Attributes["onclick"].Value.Split(new char[] { '(', ')' },
+                                StringSplitOptions.RemoveEmptyEntries).Last();
+                    }
+                    output.Add(curr);
+                }
+            }
+            catch (Exception)
+            {
+                //no comments
+            }
+            return output;
         }
 
         public async Task<string> GetHummingBirdAvatarUrl()

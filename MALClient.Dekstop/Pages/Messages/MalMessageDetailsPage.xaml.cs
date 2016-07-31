@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -12,7 +13,7 @@ namespace MALClient.Pages.Messages
     /// </summary>
     public sealed partial class MalMessageDetailsPage : Page
     {
-        private MalMessageModel _lastArgs;
+        private MalMessageDetailsNavArgs _lastArgs;
 
         public MalMessageDetailsPage()
         {
@@ -24,7 +25,7 @@ namespace MALClient.Pages.Messages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            _lastArgs = e.Parameter as MalMessageModel;
+            _lastArgs = e.Parameter as MalMessageDetailsNavArgs;
             base.OnNavigatedTo(e);
         }
     }

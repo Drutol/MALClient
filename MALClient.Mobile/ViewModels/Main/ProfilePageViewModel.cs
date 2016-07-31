@@ -174,9 +174,6 @@ namespace MALClient.ViewModels.Main
                 if (!_othersAbstractions.ContainsKey(CurrentUser ?? ""))
                 {
                     LoadingOhersLibrariesProgressVisiblity = Visibility.Visible;
-                    var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-                    sb.Text = "Fetching user's library.";
-                    sb.ProgressValue = null;
                     var data = new List<ILibraryData>();
                     await
                         Task.Run(
@@ -216,8 +213,6 @@ namespace MALClient.ViewModels.Main
                     {
                         //oddity od duplicate
                     }
-
-                    await sb.HideAsync();
                     LoadingOhersLibrariesProgressVisiblity = Visibility.Collapsed;
                 }
             }
@@ -596,7 +591,7 @@ namespace MALClient.ViewModels.Main
                     new RelayCommand(
                         () =>
                             MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
-                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = CurrentUser})))
+                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = CurrentUser, ResetBackNav = false })))
             ;
 
         public ICommand NavigateMangaListCommand
@@ -606,7 +601,7 @@ namespace MALClient.ViewModels.Main
                     new RelayCommand(
                         () =>
                             MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
-                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = CurrentUser})))
+                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = CurrentUser , ResetBackNav = false})))
             ;
 
         private ICommand _navigateHistoryCommand;

@@ -45,8 +45,6 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if(!(e.Parameter is HistoryNavigationArgs))
-                ViewModelLocator.NavMgr.ResetMainBackNav();
             base.OnNavigatedFrom(e);
         }
 

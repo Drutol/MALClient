@@ -53,6 +53,8 @@ namespace MalClient.Shared.ViewModels.Main
 
         private bool _initializing;
 
+        public bool ResetedNavBack { get; set; } = true;
+
         private AnimeListDisplayModes? _manuallySelectedViewMode;
         private string _prevListSource;
 
@@ -153,6 +155,7 @@ namespace MalClient.Shared.ViewModels.Main
             var gotArgs = false;
             if (args != null) //Save current mode
             {
+                ResetedNavBack = args.ResetBackNav;
                 WorkMode = args.WorkMode;
                 if (WorkMode == AnimeListWorkModes.TopAnime)
                     TopAnimeWorkMode = args.TopWorkMode; //we have to have it

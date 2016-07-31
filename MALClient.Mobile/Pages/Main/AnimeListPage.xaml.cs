@@ -150,26 +150,10 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as AnimeListPageNavigationArgs;
+            if(_lastArgs != null && !_lastArgs.ResetBackNav)
+                return;
             ViewModelLocator.NavMgr.ResetMainBackNav();
         }
-
-        #region UIHelpers
-
-        //internal void ScrollTo(AnimeItem animeItem)
-        //{
-        //    try
-        //    {
-        //        var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-        //        var offset = ViewModel._animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
-        //        scrollViewer.ScrollToVerticalOffset(offset);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // ehh
-        //    }
-        //}
-
-        #endregion
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {

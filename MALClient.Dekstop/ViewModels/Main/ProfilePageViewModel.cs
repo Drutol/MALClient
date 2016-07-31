@@ -533,7 +533,7 @@ namespace MALClient.ViewModels.Main
                                     new ProfilePageNavigationArgs{TargetUser = CurrentData.User.Name});
                             }));
                     DesktopViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
-                        new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = _currUser});
+                        new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = _currUser, ResetBackNav = false });
                 }));
 
         public ICommand NavigateMangaListCommand
@@ -543,7 +543,7 @@ namespace MALClient.ViewModels.Main
                     new RelayCommand(
                         () =>
                             DesktopViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
-                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = _currUser})))
+                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = _currUser, ResetBackNav = false })))
             ;
 
         public Visibility PinProfileVisibility

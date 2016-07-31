@@ -226,7 +226,7 @@ namespace MALClient.ViewModels
                 page.WorkMode,
                 page.ListSource,
                 page.CurrentSeason,
-                page.DisplayMode);
+                page.DisplayMode) {ResetBackNav = page.ResetedNavBack};
         }
 
         #endregion

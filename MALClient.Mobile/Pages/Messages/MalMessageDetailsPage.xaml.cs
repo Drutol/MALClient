@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
@@ -29,13 +30,12 @@ namespace MALClient.Pages.Messages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as MalMessageDetailsNavArgs;
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging,null);
+            if (_lastArgs.WorkMode == MessageDetailsWorkMode.Message)
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging, null);
+            else
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                    new ProfilePageNavigationArgs {TargetUser = MobileViewModelLocator.ProfilePage.CurrentUser});
             base.OnNavigatedTo(e);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
     }
 }

@@ -25,16 +25,6 @@ namespace MALClient.Pages.Messages
             Loaded += (sender, args) => ViewModel.Init();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            ViewModelLocator.NavMgr.DeregisterBackNav();
-        }
-
         private MalMessagingViewModel ViewModel => DataContext as MalMessagingViewModel;
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

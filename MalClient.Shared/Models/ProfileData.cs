@@ -31,7 +31,7 @@ namespace MalClient.Shared.Models
         public string ProfileMemId { get; set; }
         public List<Tuple<string, string>> Details { get; } = new List<Tuple<string, string>>();
         public List<MalUser> Friends { get;} = new List<MalUser>();
-        public List<MalComment> Comments { get; private set; } = new List<MalComment>();
+        public List<MalComment> Comments { get; set; } = new List<MalComment>();
 
 
         //Days

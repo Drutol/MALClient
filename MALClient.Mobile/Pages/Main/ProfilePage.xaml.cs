@@ -1,5 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Models;
 using MalClient.Shared.NavArgs;
@@ -41,7 +43,6 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
 
         private void NavigateProfile(object sender, ItemClickEventArgs e)
@@ -56,5 +57,11 @@ namespace MALClient.Pages.Main
             MobileViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (string)(sender as Button).Tag });
         }
 
+        private void FavCharacter_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var grid = sender as FrameworkElement;
+            var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
+            flyout.ShowAt(grid);
+        }
     }
 }

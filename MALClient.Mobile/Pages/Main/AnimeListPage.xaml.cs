@@ -150,6 +150,7 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as AnimeListPageNavigationArgs;
+            ViewModelLocator.NavMgr.ResetMainBackNav();
         }
 
         #region UIHelpers

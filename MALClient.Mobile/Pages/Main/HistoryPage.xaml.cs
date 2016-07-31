@@ -32,20 +32,25 @@ namespace MALClient.Pages.Main
         public HistoryPage()
         {
             this.InitializeComponent();
-            Loaded += (a1,a2) => ViewModel.Init(_args);
+            Loaded += (a1, a2) => ViewModel.Init(_args);
         }
 
         private void AnimeItemOnClick(object sender, ItemClickEventArgs e)
         {
-            (e.ClickedItem as Tuple<AnimeItemViewModel,List<MalProfileHistoryEntry>>).Item1.NavigateDetails();
+            (e.ClickedItem as Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>).Item1.NavigateDetails(PageIndex.PageHistory, _args);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
             _args = e.Parameter as HistoryNavigationArgs;
+            if (_args == null)
+            {
+                ViewModelLocator.NavMgr.DeregisterBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            }
             base.OnNavigatedTo(e);
         }
-
 
         private void AnimeItemOnRightClick(object sender, RightTappedRoutedEventArgs e)
         {

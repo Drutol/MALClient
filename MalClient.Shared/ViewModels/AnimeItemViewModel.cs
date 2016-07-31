@@ -69,16 +69,17 @@ namespace MalClient.Shared.ViewModels
             {
                 id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
             }
-            ViewModelLocator.GeneralMain
-                .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(id, Title, null, this,
-                        argsOverride ?? ViewModelLocator.GeneralMain.GetCurrentListOrderParams())
-                    {
-                        Source =
-                            sourceOverride ??
-                            (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
-                        AnimeMode = ParentAbstraction.RepresentsAnime
-                    });
+            var navArgs = new AnimeDetailsPageNavigationArgs(id, Title, null, this,
+                argsOverride ?? ViewModelLocator.GeneralMain.GetCurrentListOrderParams())
+            {
+                Source =
+                    sourceOverride ??
+                    (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
+                AnimeMode = ParentAbstraction.RepresentsAnime
+            };
+            if (sourceOverride != null)
+                navArgs.Source = sourceOverride.Value;
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,navArgs);
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)

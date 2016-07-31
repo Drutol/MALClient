@@ -12,6 +12,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using HtmlAgilityPack;
 using MalClient.Shared.Comm;
@@ -434,12 +435,19 @@ namespace MalClient.Shared.Utils
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-                sb.Text = text;
-                sb.ProgressValue = null;
-                await sb.ShowAsync();
-                await Task.Delay(2000);
-                await sb.HideAsync();
+                try
+                {
+                    var sb = StatusBar.GetForCurrentView().ProgressIndicator;
+                    sb.Text = text;
+                    sb.ProgressValue = null;
+                    await sb.ShowAsync();
+                    await Task.Delay(2000);
+                    await sb.HideAsync();
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
         }
 

@@ -5,10 +5,12 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="BrushText" Color="Black" />
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushAppBars" Color="LightGray" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#E6E6E6" />
+            <SolidColorBrush x:Key="BrushHamburgerInnerBackground" Color="White" Opacity=".5" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="WhiteSmoke" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#E5E5E5" />
             <SolidColorBrush x:Key="BrushLoading" Color="#E6E6E6" Opacity=".75" />
@@ -28,11 +30,13 @@
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="#555555" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="BrushText" Color="White" />
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d" />
             <SolidColorBrush x:Key="BrushAppBars" Color="#151515" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1a1a1a" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2a2c2a" />
+            <SolidColorBrush x:Key="BrushHamburgerInnerBackground" Color="Black" Opacity=".3" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#212121" />
             <SolidColorBrush x:Key="BrushLoading" Color="#2a2c2a" Opacity=".75" />
             <SolidColorBrush x:Key="BrushLoadingNonTransparent" Color="#2a2c2a" Opacity=".5" />

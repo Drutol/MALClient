@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Delegates;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
@@ -182,9 +183,20 @@ namespace MALClient.ViewModels
                     NavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
                 case PageIndex.PageMessageDetails:
-                    var msgModel = args as MalMessageModel;
-                    CurrentStatus = msgModel != null ? $"{msgModel.Sender} - {msgModel.Subject}" : "New Message";
+                    var msgModel = args as MalMessageDetailsNavArgs;
+                    CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
+                        ? (msgModel.Arg != null
+                            ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
+                            : "New Message")
+                        : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
                     NavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
+                    break;
+                case PageIndex.PageHistory:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null, true); });
+                    CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
+                    NavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

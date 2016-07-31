@@ -345,7 +345,12 @@ namespace MALClient.ViewModels.Main
         public ICommand DeleteCommentCommand => _deleteCommentCommand ?? (_deleteCommentCommand = new RelayCommand<MalComment>(async comment =>
         {
             if (await ProfileCommentQueries.DeleteComment(comment.Id))
+            {
                 MalComments.Remove(comment);
+                var data = CurrentData;
+                data.Comments = MalComments.ToList();
+                DataCache.SaveProfileData(_currUser, data);
+            }
         }));
 
         private ICommand _navigateConversationCommand;

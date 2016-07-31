@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -10,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.MagicalRawQueries.Profile;
 using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.Favourites;
@@ -21,17 +23,27 @@ using MalClient.Shared.ViewModels;
 
 namespace MALClient.ViewModels.Main
 {
-
-
     public sealed class ProfilePageViewModel : ViewModelBase
     {
-        private List<int> _animeChartValues = new List<int>();
-        private bool _authenticatedUser;
-
         //anime -<>- manga
         private readonly Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>
             _othersAbstractions =
                 new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
+
+        private ObservableCollection<MalComment> _malComments = new ObservableCollection<MalComment>();
+
+        public ObservableCollection<MalComment> MalComments
+        {
+            get { return _malComments; }
+            set
+            {
+                _malComments = value;
+                RaisePropertyChanged(() => MalComments);
+            }
+        }
+
+        private List<int> _animeChartValues = new List<int>();
+        private bool _authenticatedUser;
 
         public string CurrentUser { get; private set; }
 
@@ -56,6 +68,10 @@ namespace MALClient.ViewModels.Main
             FavManga = new List<AnimeItemViewModel>();
             RecentAnime = new List<AnimeItemViewModel>();
             RecentManga = new List<AnimeItemViewModel>();
+            RaisePropertyChanged(() => IsPinned);
+            RaisePropertyChanged(() => PinProfileVisibility);
+            MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            CommentInputBoxVisibility = string.IsNullOrEmpty(CurrentData.ProfileMemId) ? Visibility.Collapsed : Visibility.Visible; //posting restricted
             EmptyFavCharactersNoticeVisibility = CurrentData.FavouriteCharacters.Count == 0
                 ? Visibility.Visible
                 : Visibility.Collapsed;
@@ -118,7 +134,8 @@ namespace MALClient.ViewModels.Main
                     {
                         foreach (var id in CurrentData.FavouriteManga)
                         {
-                            var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                            var data =
+                                await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                             if (data != null)
                             {
                                 mlist.Add(data as AnimeItemViewModel);
@@ -161,7 +178,11 @@ namespace MALClient.ViewModels.Main
                     sb.Text = "Fetching user's library.";
                     sb.ProgressValue = null;
                     var data = new List<ILibraryData>();
-                    await Task.Run(async () => data = await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Anime).GetLibrary(false));
+                    await
+                        Task.Run(
+                            async () =>
+                                data =
+                                    await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Anime).GetLibrary(false));
                     var abstractions = new List<AnimeItemAbstraction>();
                     foreach (
                         var libraryData in
@@ -170,7 +191,13 @@ namespace MALClient.ViewModels.Main
                                     CurrentData.FavouriteAnime.Any(i => i == entry.Id) ||
                                     CurrentData.RecentAnime.Any(i => i == entry.Id)))
                         abstractions.Add(new AnimeItemAbstraction(false, libraryData as AnimeLibraryItemData));
-                    await Task.Run(async () => data = data = await new LibraryListQuery(CurrentUser, AnimeListWorkModes.Manga).GetLibrary(false));
+                    await
+                        Task.Run(
+                            async () =>
+                                data =
+                                    data =
+                                        await
+                                            new LibraryListQuery(CurrentUser, AnimeListWorkModes.Manga).GetLibrary(false));
                     var mangaAbstractions = new List<AnimeItemAbstraction>();
                     foreach (
                         var libraryData in
@@ -245,7 +272,8 @@ namespace MALClient.ViewModels.Main
                         list = new List<AnimeItemViewModel>();
                         foreach (var id in CurrentData.RecentManga)
                         {
-                            var data = await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                            var data =
+                                await MobileViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                             if (data != null)
                             {
                                 list.Add(data as AnimeItemViewModel);
@@ -442,16 +470,25 @@ namespace MALClient.ViewModels.Main
         public int CurrentlySelectedOuterPivotIndex
         {
             get { return 0; }
-            set
-            {
-                RaisePropertyChanged(() => CurrentlySelectedOuterPivotIndex);
-            }
+            set { RaisePropertyChanged(() => CurrentlySelectedOuterPivotIndex); }
         }
 
         public int CurrentlySelectedInnerPivotIndex
         {
             get { return 0; }
             set { RaisePropertyChanged(() => CurrentlySelectedInnerPivotIndex); }
+        }
+
+        private Visibility _commentInputBoxVisibility;
+
+        public Visibility CommentInputBoxVisibility
+        {
+            get { return _commentInputBoxVisibility; }
+            set
+            {
+                _commentInputBoxVisibility = value;
+                RaisePropertyChanged(() => CommentInputBoxVisibility);
+            }
         }
 
         public List<int> AnimeChartValues
@@ -572,6 +609,136 @@ namespace MALClient.ViewModels.Main
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = CurrentUser})))
             ;
 
+        private ICommand _navigateHistoryCommand;
+
+        public ICommand NavigateHistoryCommand
+            =>
+                _navigateHistoryCommand ??
+                (_navigateHistoryCommand =
+                    new RelayCommand(
+                        () =>
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                                            new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageHistory,
+                                new HistoryNavigationArgs { Source = CurrentData.User.Name });
+
+                        }));
+
+        private ICommand _sendCommentCommand;
+
+        public ICommand SendCommentCommand => _sendCommentCommand ?? (_sendCommentCommand = new RelayCommand(async () =>
+        {
+            if (string.IsNullOrEmpty(CommentText))
+                return;
+            IsSendCommentButtonEnabled = false;
+            if (await
+                ProfileCommentQueries.SendComment(CurrentData.User?.Name ?? Credentials.UserName,
+                    CurrentData.ProfileMemId,
+                    CommentText))
+            {
+                CommentText = "";
+                await CurrentData.UpdateComments();
+                MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            }
+            IsSendCommentButtonEnabled = true;
+        }));
+
+
+        private ICommand _deleteCommentCommand;
+
+        public ICommand DeleteCommentCommand => _deleteCommentCommand ?? (_deleteCommentCommand = new RelayCommand<MalComment>(async comment =>
+        {
+            if (await ProfileCommentQueries.DeleteComment(comment.Id))
+            {
+                MalComments.Remove(comment);
+                var data = CurrentData;
+                data.Comments = MalComments.ToList();
+                DataCache.SaveProfileData(CurrentUser, data);
+            }
+
+        }));
+
+        private ICommand _navigateConversationCommand;
+
+        public ICommand NavigateConversationCommand => _navigateConversationCommand ?? (_navigateConversationCommand = new RelayCommand<MalComment>(comment =>
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
+                new MalMessageDetailsNavArgs { WorkMode = MessageDetailsWorkMode.ProfileComments, Arg = comment });
+        }));
+
+        private bool _refreshingComments;
+        private ICommand _refreshCommentsCommand;
+
+        public ICommand RefreshCommentsCommand => _refreshCommentsCommand ?? (_refreshCommentsCommand = new RelayCommand(async () =>
+        {
+            if (_refreshingComments)
+                return;
+            LoadingCommentsVisiblity = Visibility.Visible;
+            _refreshingComments = true;
+            await CurrentData.UpdateComments();
+            MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            _refreshingComments = false;
+            LoadingCommentsVisiblity = Visibility.Collapsed;
+        }));
+
+
+        public bool IsPinned
+        {
+            get { return CurrentData.User.Name != null && Settings.PinnedProfiles.Contains(CurrentData.User.Name); }
+            set
+            {
+                if (value)
+                    Settings.PinnedProfiles += ";" + CurrentData.User.Name;
+                else
+                {
+                    var pinned = Settings.PinnedProfiles.Split(';').ToList();
+                    pinned.Remove(CurrentData.User.Name);
+                    Settings.PinnedProfiles = string.Join(";", pinned);
+                }
+                MobileViewModelLocator.Hamburger.UpdatePinnedProfiles();
+                RaisePropertyChanged(() => IsPinned);
+            }
+        }
+
+        private Visibility _loadingCommentsVisiblity = Visibility.Collapsed;
+
+        public Visibility LoadingCommentsVisiblity
+        {
+            get { return _loadingCommentsVisiblity; }
+            set
+            {
+                _loadingCommentsVisiblity = value;
+                RaisePropertyChanged(() => LoadingCommentsVisiblity);
+            }
+        }
+
+        public Visibility PinProfileVisibility
+            => CurrentData.User.Name == null || Credentials.UserName == CurrentData.User.Name ? Visibility.Collapsed : Visibility.Visible;
+
+        private string _commentText;
+
+        public string CommentText
+        {
+            get { return _commentText; }
+            set
+            {
+                _commentText = value;
+                RaisePropertyChanged(() => CommentText);
+            }
+        }
+
+        private bool _isSendCommentButtonEnabled = true;
+
+        public bool IsSendCommentButtonEnabled
+        {
+            get { return _isSendCommentButtonEnabled; }
+            set
+            {
+                _isSendCommentButtonEnabled = value;
+                RaisePropertyChanged(() => IsSendCommentButtonEnabled);
+            }
+        }
 
         private Visibility _loadingOhersLibrariesProgressVisiblity = Visibility.Collapsed;
 

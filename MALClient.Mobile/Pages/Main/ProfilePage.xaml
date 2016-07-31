@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:items="using:MalClient.Shared.Items"
     xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     DataContext="{Binding Source={StaticResource MobileLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
@@ -24,6 +25,9 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter"/>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -83,10 +87,27 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                                 <Grid Margin="10" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="Anime list" Margin="5,0" Command="{Binding NavigateAnimeListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                        <Button Content="Manga list" Margin="5,0" Command="{Binding NavigateMangaListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                    </StackPanel>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="Anime list" Margin="5,0" Command="{Binding NavigateAnimeListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                            <Button Content="Manga list" Margin="5,0" Command="{Binding NavigateMangaListCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                                            <Button Content="History" Margin="5,0"
+                                            Command="{Binding NavigateHistoryCommand}"
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}" Visibility="{Binding PinProfileVisibility}">
+                                                <SymbolIcon Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}"/>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu"/>
+                                                </ToolTipService.ToolTip>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -114,41 +135,81 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Comments" HorizontalAlignment="Left" FontWeight="SemiLight" FontSize="26"
-                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <ListView Grid.Row="1" Margin="5" ItemsSource="{Binding CurrentData.Comments}">
+                            <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top" Command="{Binding RefreshCommentsCommand}">
+                                <SymbolIcon Symbol="Refresh" Margin="5"/>
+                            </Button>
+                            <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding MalComments}">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                        <Setter Property="Margin" Value="0,5"/>
-                                        <Setter Property="Padding" Value="5"/>
-                                        <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0,5" />
+                                        <Setter Property="Padding" Value="5" />
+                                        <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid HorizontalAlignment="Stretch">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel>
-                                                <Button Padding="0" Margin="0" Width="75" Height="75" HorizontalAlignment="Center" Click="ButtonBase_OnClick" Tag="{Binding User.Name}">
-                                                    <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.RowSpan="2">
+                                                <Button Padding="0" Margin="0" Width="75" Height="75"
+                                                HorizontalAlignment="Center" Click="ButtonBase_OnClick"
+                                                Tag="{Binding User.Name}">
+                                                    <Image Stretch="UniformToFill" HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
                                                         <Image.Source>
-                                                            <BitmapImage UriSource="{Binding User.ImgUrl}" DecodePixelWidth="75" DecodePixelHeight="75" DecodePixelType="Logical"/>
+                                                            <BitmapImage UriSource="{Binding User.ImgUrl}"
+                                                                 DecodePixelWidth="75" DecodePixelHeight="75"
+                                                                 DecodePixelType="Logical" />
                                                         </Image.Source>
                                                     </Image>
                                                 </Button>
-                                                <TextBlock Margin="1,10,1,0" HorizontalAlignment="Center" FontWeight="Medium" Text="{Binding User.Name}"/>
+                                                <TextBlock Margin="1,10,1,0" HorizontalAlignment="Center" FontWeight="Medium"
+                                                   Text="{Binding User.Name}" />
                                             </StackPanel>
-                                            <TextBlock Grid.Column="1"  Text="{Binding Content}" TextWrapping="WrapWholeWords" TextAlignment="Left" Margin="10" HorizontalAlignment="Left"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" Margin="0,-7,2,0"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
+                                               TextAlignment="Left" Margin="10,15,10,10" HorizontalAlignment="Left" />
+                                            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                               FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
+                                            <StackPanel Grid.Row="1" Margin="0,10,0,0" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="Conversation" Margin="1"
+                                                Visibility="{Binding ComToCom,Converter={StaticResource IsThereAnyTextToVisibilityConverter}}"
+                                                Background="{StaticResource SystemControlBackgroundAccentBrush}" Padding="1"
+                                                Command="{Binding Source={StaticResource MobileLocator},Path=ProfilePage.NavigateConversationCommand}"
+                                                CommandParameter="{Binding}"/>
+                                             <Button Content="Delete" Margin="1" Padding="1"
+                                                Visibility="{Binding CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Background="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                Command="{Binding Source={StaticResource MobileLocator},Path=ProfilePage.DeleteCommentCommand}"
+                                                CommandParameter="{Binding}"/>
+                                            </StackPanel>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
+                            <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
+                                <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
+                                <Button Content="Send Comment" Margin="20,0"
+                                Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
+                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            </StackPanel>
+                            <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity}"
+                                          Background="{ThemeResource BrushLoadingNonTransparent}"
+                                          Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
+                          IsActive="True" />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </ScrollViewer>
@@ -244,13 +305,8 @@
                                        Text="No favourite characters added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
-                            <GridView ItemsSource="{Binding CurrentData.FavouriteCharacters}" HorizontalAlignment="Center"
-                                      Margin="0,5,0,0">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
+                            <GridView ItemsSource="{Binding CurrentData.FavouriteCharacters}"
+                                      HorizontalAlignment="Center" Margin="0,12,0,0">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -259,54 +315,47 @@
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Height="350"
-                                            MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource MobileLocator}}">
+                                        <Grid Width="200" Height="325" Tapped="FavCharacter_OnTapped">
+                                            <FlyoutBase.AttachedFlyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem
+                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigateCharPageCommand}"
+                                                                CommandParameter="{Binding}" Text="Open in browser"/>
+                                                    <MenuFlyoutItem
+                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigateDetailsCommand}"
+                                                                CommandParameter="{Binding}" Text="Open show details"/>
+                                                </MenuFlyout>
+                                            </FlyoutBase.AttachedFlyout>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="52" />
                                             </Grid.RowDefinitions>
-                                            <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
+                                            <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch" Background="Transparent"
                                                     BorderBrush="Transparent">
-                                                <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
-                                                        Stretch="Uniform" >
+                                                <Image Stretch="UniformToFill" Width="200" Height="325">
                                                     <Image.Source>
-                                                        <BitmapImage UriSource="{Binding ImgUrl}"/>
+                                                        <BitmapImage UriSource="{Binding ImgUrl}"
+                                                                     DecodePixelHeight="325"
+                                                                     DecodePixelWidth="200" DecodePixelType="Logical" />
                                                     </Image.Source>
                                                 </Image>
-                                                <Button.Flyout>
-                                                    <Flyout>
-                                                        <StackPanel>
-                                                            <Button
-                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigateCharPageCommand}"
-                                                                CommandParameter="{Binding}"
-                                                                Background="{ThemeResource BrushDetailsMoreButton}"
-                                                                Height="40" Margin="0,5" HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <SymbolIcon Symbol="Globe" />
-                                                                    <TextBlock Margin="10,0,0,0"
-                                                                               Text="Open in browser." />
-                                                                </StackPanel>
-                                                            </Button>
-                                                            <Button
-                                                                Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigateDetailsCommand}"
-                                                                CommandParameter="{Binding}"
-                                                                Background="{ThemeResource BrushDetailsMoreButton}"
-                                                                Height="40" Margin="0,5" HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <SymbolIcon Symbol="Go" />
-                                                                    <TextBlock Margin="10,0,0,0"
-                                                                               Text="Open show details." />
-                                                                </StackPanel>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </Button.Flyout>
-                                            </Button>
-                                            <Grid Margin="3,1" Row="1" HorizontalAlignment="Stretch"
+                                            </Grid>
+                                            <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}">
+                                                <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
+                                                <ToggleButton.Background>
+                                                    <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                </ToggleButton.Background>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="Favourite"/>
+                                                </ToolTipService.ToolTip>
+                                            </ToggleButton>
+                                            <Grid Row="1" HorizontalAlignment="Stretch"
                                                   Background="{ThemeResource BrushAnimeItemBackground}"
                                                   BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                  BorderThickness="0,1.5,0,0">
+                                                  BorderThickness="0,1,0,0">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height=".5*" />
                                                     <RowDefinition Height=".5*" />
@@ -334,55 +383,41 @@
                                        Text="No favourite people added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
-                            <GridView ItemsSource="{Binding CurrentData.FavouritePeople}" HorizontalAlignment="Center">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="VerticalAlignment" Value="Stretch" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
+                            <GridView ItemsSource="{Binding CurrentData.FavouritePeople}"
+                                      HorizontalAlignment="Center" Margin="0,7,0,0">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid
-                                            MaxWidth="{Binding Path=ProfilePage.MaxWidth,Source={StaticResource MobileLocator}}"
-                                            Margin="0,5,0,0">
+                                        <Grid Width="200" Height="325" Tapped="FavCharacter_OnTapped">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="52" />
                                             </Grid.RowDefinitions>
-                                            <Button Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch" Background="Transparent"
-                                                    BorderBrush="Transparent">
-                                                <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
-                                                       Stretch="Uniform" >
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="{Binding ImgUrl}"/>
-                                                    </Image.Source>
-                                                </Image>
-                                                <Button.Flyout>
-                                                    <Flyout>
-                                                        <StackPanel>
-                                                            <Button
+                                            <FlyoutBase.AttachedFlyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem
                                                                 Command="{Binding Source={StaticResource MobileLocator} , Path=ProfilePage.NavigatePersonPageCommand}"
-                                                                CommandParameter="{Binding}"
-                                                                Background="{ThemeResource BrushDetailsMoreButton}"
-                                                                Height="40" Margin="0,5" HorizontalAlignment="Stretch">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <SymbolIcon Symbol="Globe" />
-                                                                    <TextBlock Margin="10,0,0,0"
-                                                                               Text="Open in browser." />
-                                                                </StackPanel>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </Button.Flyout>
-                                            </Button>
-                                            <Grid Margin="3,1" Row="1" HorizontalAlignment="Stretch"
+                                                                CommandParameter="{Binding}" Text="Open in browser"/>
+                                                </MenuFlyout>
+                                            </FlyoutBase.AttachedFlyout>
+                                            <Image Stretch="UniformToFill">
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{Binding ImgUrl}"
+                                                                     DecodePixelHeight="325"
+                                                                     DecodePixelWidth="200" DecodePixelType="Logical" />
+                                                </Image.Source>
+                                            </Image>
+                                            <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
+                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
+                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}" >
+                                                <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
+                                                <ToggleButton.Background>
+                                                    <SolidColorBrush Color="Black" Opacity=".75"/>
+                                                </ToggleButton.Background>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="Favourite"/>
+                                                </ToolTipService.ToolTip>
+                                            </ToggleButton>
+                                            <Grid Row="1" HorizontalAlignment="Stretch"
                                                   Background="{ThemeResource BrushAnimeItemBackground}"
                                                   BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                   BorderThickness="0,1.5,0,0">

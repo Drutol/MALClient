@@ -36,7 +36,6 @@ namespace MALClient.Pages.Off
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             DataContext = null;
-            ViewModelLocator.NavMgr.DeregisterBackNav();
             base.OnNavigatingFrom(e);
         }
 

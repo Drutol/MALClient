@@ -524,6 +524,17 @@ namespace MalClient.Shared.Comm.Profile
             {
                 //no comments
             }
+
+            await Task.Run( async () =>
+            {
+                var data = await DataCache.RetrieveProfileData(_userName);
+                if (data != null)
+                {
+                    data.Comments = output;
+                }
+                DataCache.SaveProfileData(_userName, data);
+            });
+
             return output;
         }
 

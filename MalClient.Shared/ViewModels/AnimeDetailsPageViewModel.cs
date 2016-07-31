@@ -281,13 +281,12 @@ namespace MalClient.Shared.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
+                case PageIndex.PageHistory:
                     await FetchData();
                     if (_prevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
@@ -298,7 +297,6 @@ namespace MalClient.Shared.ViewModels
                     if (param.RegisterBackNav) //we are already going back
                     {
                         ViewModelLocator.NavMgr.RegisterBackNav(param.PrevPageSetup as AnimeDetailsPageNavigationArgs);
-                        ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
                     }
                     break;
                 case PageIndex.PageRecomendations:

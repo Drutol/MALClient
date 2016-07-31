@@ -14,7 +14,7 @@
     <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}" VerticalScrollBarVisibility="Hidden">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState>
+                <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="900"/>
                     </VisualState.StateTriggers>
@@ -65,7 +65,7 @@
                         </Setter>
                     </VisualState.Setters>
                 </VisualState>                
-                <VisualState>
+                <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>

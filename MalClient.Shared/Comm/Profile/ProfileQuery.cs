@@ -441,6 +441,7 @@ namespace MalClient.Shared.Comm.Profile
                             curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
                         }
                         var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
+                        if(deleteNode != null)
                         {
                             curr.CanDelete = true;
                             curr.Id =
@@ -450,16 +451,24 @@ namespace MalClient.Shared.Comm.Profile
                         current.Comments.Add(curr);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //no comments
                 }
 
             #endregion
 
-            current.ProfileMemId = doc.DocumentNode.Descendants("input")
-                .First(node => node.Attributes.Contains("name") && node.Attributes["name"].Value == "profileMemId")
-                .Attributes["value"].Value;
+            try
+            {
+                current.ProfileMemId = doc.DocumentNode.Descendants("input")
+                    .First(node => node.Attributes.Contains("name") && node.Attributes["name"].Value == "profileMemId")
+                    .Attributes["value"].Value;
+            }
+            catch (Exception)
+            {
+                //restricted
+            }
+
 
             if (_userName == Credentials.UserName) //umm why do we need someone's favs?
             {

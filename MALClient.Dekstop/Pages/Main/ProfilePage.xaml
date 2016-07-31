@@ -871,7 +871,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <StackPanel Grid.Row="2" HorizontalAlignment="Stretch">
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
                         <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
                         <Button Content="Send Comment" Margin="20,0"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"

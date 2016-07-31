@@ -59,6 +59,7 @@ namespace MALClient.ViewModels.Main
 
             if (args == null)
                 return;
+
             if (_currUser == null || _currUser != args.TargetUser || force)
             {
                 LoadingVisibility = Visibility.Visible;
@@ -79,6 +80,7 @@ namespace MALClient.ViewModels.Main
             RaisePropertyChanged(() => IsPinned);
             RaisePropertyChanged(() => PinProfileVisibility);
             MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            CommentInputBoxVisibility = string.IsNullOrEmpty(CurrentData.ProfileMemId) ? Visibility.Collapsed : Visibility.Visible; //posting restricted
             if (authenticatedUser)
             {
                 _initialized = true;
@@ -361,10 +363,12 @@ namespace MALClient.ViewModels.Main
         {
             if(_refreshingComments)
                 return;
+            LoadingCommentsVisiblity = Visibility.Visible;
             _refreshingComments = true;
             await CurrentData.UpdateComments();
             MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
             _refreshingComments = false;
+            LoadingCommentsVisiblity = Visibility.Collapsed;
         }));
 
         private List<AnimeItemViewModel> _recentAnime;
@@ -443,6 +447,18 @@ namespace MALClient.ViewModels.Main
             {
                 _authenticatedControlsVisibility = value;
                 RaisePropertyChanged(() => AuthenticatedControlsVisibility);
+            }
+        }
+
+        private Visibility _commentInputBoxVisibility;
+
+        public Visibility CommentInputBoxVisibility
+        {
+            get { return _commentInputBoxVisibility; }
+            set
+            {
+                _commentInputBoxVisibility = value;
+                RaisePropertyChanged(() => CommentInputBoxVisibility);
             }
         }
 

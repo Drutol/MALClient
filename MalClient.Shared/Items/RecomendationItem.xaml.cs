@@ -21,13 +21,29 @@ namespace MalClient.Shared.Items
             new ObservableCollection<Tuple<string, string, string, string, string>>();
 
         private bool _dataLoaded;
+        private bool _wide;
 
         public RecomendationItem(RecomendationData data, int index)
         {
             InitializeComponent();
+            SizeChanged += OnSizeChanged;
             Loaded += OnLoaded;
             Index = index;
             _data = data;
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            if (_wide && sizeChangedEventArgs.NewSize.Width < 900)
+            {
+                _wide = false;
+                VisualStateManager.GoToState(this, "Narrow",false);
+            }
+            else if(!_wide && sizeChangedEventArgs.NewSize.Width > 900)
+            {
+                _wide = true;
+                VisualStateManager.GoToState(this, "Wide", false);
+            }
         }
 
         public int Index { get; }
@@ -36,6 +52,7 @@ namespace MalClient.Shared.Items
         {
             try
             {
+                _wide = ActualWidth > 900;
                 var scrollViewer =
                     VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(DetailsListView, 0), 0) as ScrollViewer;
                 scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;

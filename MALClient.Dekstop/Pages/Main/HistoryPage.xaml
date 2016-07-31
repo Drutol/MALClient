@@ -73,6 +73,10 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <TextBlock
+                Visibility="{Binding HistoryEmptyNoticeVisibility}"
+                Text="Epmpty..." HorizontalAlignment="Center" VerticalAlignment="Center"
+                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#B9B9B9" />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingVisibility}"
               Background="{ThemeResource BrushLoading}">

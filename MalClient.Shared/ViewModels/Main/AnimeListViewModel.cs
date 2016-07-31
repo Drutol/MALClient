@@ -1071,6 +1071,8 @@ namespace MalClient.Shared.ViewModels.Main
                         return;
                     var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
+                    if(pool.Count == 0)
+                        return;
                     if(_randomedIds.Count == pool.Count)
                         _randomedIds = new List<int>();
                     _randomedIds.ForEach(id =>

@@ -692,7 +692,29 @@
                                 CommandParameter="5">
                             <FlyoutBase.AttachedFlyout>
                                 <Flyout>
-                                    <ListView SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick"/>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                        <ListView Grid.Row="1" Margin="-20,0" SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                                                    <Setter Property="Height" Value="30"/>
+                                                    <Setter Property="MinHeight" Value="30"/>
+                                                    <Setter Property="Margin" Value="0,2"/>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
                                 </Flyout>
                             </FlyoutBase.AttachedFlyout>
                             <Grid Height="35">

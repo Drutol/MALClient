@@ -51,7 +51,7 @@
 
                 <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
-                    <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent" Margin="0,4,0,0">
                         <Button.Flyout>
                             <Flyout x:Name="GotoFlyout">
                                 <StackPanel Orientation="Horizontal">
@@ -111,12 +111,15 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Width="150" Height="150" Stretch="UniformToFill" Margin="5">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}" DecodePixelType="Logical"
+                        <Grid Width="150" Height="150" Margin="5" Background="{ThemeResource BrushHamburgerInnerBackground}">
+                            <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <Image  Stretch="UniformToFill" >
+                                <Image.Source>
+                                    <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}" DecodePixelType="Logical"
                                              DecodePixelHeight="150" DecodePixelWidth="150" />
-                            </Image.Source>
-                        </Image>
+                                </Image.Source>
+                            </Image>
+                        </Grid>
                         <Grid Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />

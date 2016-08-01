@@ -3,6 +3,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Store;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -79,5 +80,19 @@ namespace MALClient.UserControls
                 new ProfilePageNavigationArgs { TargetUser = e.ClickedItem as string });
         }
 
+        private async void LaunchFeedback(object sender, RoutedEventArgs e)
+        {
+            //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
+            //{
+            //    Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedbackHub);
+            //    await Microsoft.Services.Store.Engagement.Feedback.LaunchFeedbackAsync();
+            //}
+            //else
+            //{
+            //    var msg = new MessageDialog("Feedback hub is not available on your device, update your OS in order to access it or create an issue on github :)", "Feedback hub unavailable");
+            //    await msg.ShowAsync();
+            //    OpenRepo(null, null);
+            //}
+        }
     }
 }

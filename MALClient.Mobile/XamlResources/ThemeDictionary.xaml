@@ -6,6 +6,7 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="BrushText" Color="Black" />
+            <SolidColorBrush x:Key="BrushTextInverted" Color="White" />
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#E6E6E6" />
             <SolidColorBrush x:Key="BrushAppBars" Color="LightGray" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1" />
@@ -31,6 +32,7 @@
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushText" Color="White" />
+            <SolidColorBrush x:Key="BrushTextInverted" Color="Black" />
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0d0d0d" />
             <SolidColorBrush x:Key="BrushAppBars" Color="#151515" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020" />

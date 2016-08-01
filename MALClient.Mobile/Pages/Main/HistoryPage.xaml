@@ -10,60 +10,134 @@
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=History}">
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <Pivot ItemsSource="{Binding History}" VerticalAlignment="Top">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Pivot.ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <ScrollViewer>
+                                        <Grid Margin="5" Padding="10" CornerRadius="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <GridView Grid.Row="1" ItemsSource="{Binding Value}" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
+                                                <GridView.ItemContainerStyle>
+                                                    <Style TargetType="GridViewItem">
+                                                        <Setter Property="Margin" Value="5"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                        <Setter Property="MaxWidth" Value="500"/>
+                                                        <Setter Property="Height" Value="350"/>
+                                                    </Style>
+                                                </GridView.ItemContainerStyle>
+                                                <GridView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Padding="10" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" >
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="200"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <items:AnimeGridItem IsRightTapEnabled="True" Width="200"  RightTapped="AnimeItemOnRightClick" Height="325" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
+                                                            <ScrollViewer Grid.Column="1">
+                                                                <ItemsControl ItemsSource="{Binding Item2}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Margin="5,5">
+                                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                                                    <TextBlock Text="Episode" />
+                                                                                    <TextBlock Text="{Binding WatchedEpisode}" Margin="5,0" FontWeight="Medium"/>
+                                                                                </StackPanel>
+                                                                                <TextBlock Margin="0,5,0,0" Text="{Binding Date}" FontSize="15" HorizontalAlignment="Center"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </GridView.ItemTemplate>
+                                            </GridView>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Pivot.ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <ScrollViewer>
+                                        <Grid Margin="3" Padding="2" CornerRadius="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <ListView Grid.Row="1" ItemsSource="{Binding Value}" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Margin" Value="2"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                        <Setter Property="Height" Value="340"/>
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Padding="2" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" HorizontalAlignment="Stretch">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="190"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <items:AnimeGridItem IsRightTapEnabled="True" Width="190"  RightTapped="AnimeItemOnRightClick" Height="315" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
+                                                            <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch">
+                                                                <ItemsControl ItemsSource="{Binding Item2}" HorizontalAlignment="Stretch">
+                                                                    <ItemsControl.ItemContainerStyle>
+                                                                        <Style TargetType="ContentPresenter">
+                                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                                        </Style>
+                                                                    </ItemsControl.ItemContainerStyle>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Margin="5,5">
+                                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                                                    <TextBlock Text="Episode" />
+                                                                                    <TextBlock Text="{Binding WatchedEpisode}" Margin="5,0" FontWeight="Medium"/>
+                                                                                </StackPanel>
+                                                                                <TextBlock Margin="5,5,5,0" Text="{Binding Date}" FontSize="15" HorizontalAlignment="Center"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Pivot ItemsSource="{Binding History}" VerticalAlignment="Top" x:Name="Pivot">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Key}"/>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ScrollViewer>
-                        <Grid Margin="5" Padding="10" CornerRadius="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <GridView Grid.Row="1" ItemsSource="{Binding Value}" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="Margin" Value="5"/>
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                        <Setter Property="MaxWidth" Value="500"/>
-                                        <Setter Property="Height" Value="350"/>
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Padding="10" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" >
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <items:AnimeGridItem IsRightTapEnabled="True" Width="200"  RightTapped="AnimeItemOnRightClick" Height="325" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
-                                            <ScrollViewer Grid.Column="1">
-                                                <ItemsControl ItemsSource="{Binding Item2}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Margin="5,5">
-                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                                    <TextBlock Text="Episode" />
-                                                                    <TextBlock Text="{Binding WatchedEpisode}" Margin="5,0" FontWeight="Medium"/>
-                                                                </StackPanel>
-                                                                <TextBlock Margin="0,5,0,0" Text="{Binding Date}" FontSize="15" HorizontalAlignment="Center"/>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </ScrollViewer>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </Grid>
-                    </ScrollViewer>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
         </Pivot>
         <TextBlock
                 Visibility="{Binding HistoryEmptyNoticeVisibility}"

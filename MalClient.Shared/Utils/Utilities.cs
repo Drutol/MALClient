@@ -30,7 +30,8 @@ namespace MalClient.Shared.Utils
         LoggedInHummingbird,
         LoggedInMyAnimeList,
         PinnedTile,
-        LaunchedFeedback
+        LaunchedFeedback,
+        LaunchedFeedbackHub
     }     
 
     public static class Utilities

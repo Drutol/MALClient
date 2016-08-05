@@ -207,7 +207,7 @@
                                          Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                       ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
-                                      SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                      IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -241,7 +241,7 @@
                                          Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                       ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
-                                      SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                     IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -429,7 +429,7 @@
                                          Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                             <GridView HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                       ItemsSource="{Binding RecentAnime}"
-                                      SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                     IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <items1:AnimeGridItem DataContext="{Binding}" />
@@ -457,7 +457,7 @@
                                      Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding RecentManga}" HorizontalAlignment="Center"
-                                  SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                     IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <items1:AnimeGridItem DataContext="{Binding}" />

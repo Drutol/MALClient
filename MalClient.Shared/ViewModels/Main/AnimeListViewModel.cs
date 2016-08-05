@@ -146,6 +146,9 @@ namespace MalClient.Shared.ViewModels.Main
             _randomedIds = new List<int>();
             _fetching = _fetchingSeasonal = false;
 
+            if (args == null || args.ResetBackNav)
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+
             //give visual feedback
             Loading = true;
             LoadMoreFooterVisibility = Visibility.Collapsed;
@@ -158,7 +161,10 @@ namespace MalClient.Shared.ViewModels.Main
                 ResetedNavBack = args.ResetBackNav;
                 WorkMode = args.WorkMode;
                 if (WorkMode == AnimeListWorkModes.TopAnime)
-                    TopAnimeWorkMode = args.TopWorkMode; //we have to have it
+                {
+                    TopAnimeWorkMode = args.TopWorkMode;
+                    ViewModelLocator.GeneralHamburger.SetActiveButton(args.TopWorkMode);//we have to have it
+                }
 
                 if (!string.IsNullOrEmpty(args.ListSource))
                     ListSource = args.ListSource;

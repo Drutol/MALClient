@@ -83,7 +83,10 @@ namespace MALClient.ViewModels
                 IsCurrentStatusSelectable = false;
                 currOffPage = index;
                 if (index != PageIndex.PageAnimeDetails)
+                {
+                    ViewModelLocator.AnimeDetails.Id = 0; //reset this because we no longer are there
                     ViewModelLocator.NavMgr.ResetOffBackNav();
+                }
             }
             else
             {

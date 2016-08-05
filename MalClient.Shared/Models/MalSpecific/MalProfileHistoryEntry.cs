@@ -12,5 +12,6 @@ namespace MalClient.Shared.Models.MalSpecific
         public int WatchedEpisode { get; set; }
         public string Date { get; set; }
         public bool IsAnime { get; set; }
+        public string ShowUnit => IsAnime ? "Episode" : "Chapter";
     }
 }

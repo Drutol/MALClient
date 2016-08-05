@@ -78,9 +78,6 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _navArgs = e.Parameter as AnimeListPageNavigationArgs;
-            if (_navArgs != null && !_navArgs.ResetBackNav)
-                return;
-            ViewModelLocator.NavMgr.ResetMainBackNav();
         }
 
         public async Task<ScrollViewer> GetIndefiniteScrollViewer()

@@ -55,7 +55,7 @@
                                                         <DataTemplate>
                                                             <Grid Margin="0,5">
                                                                 <StackPanel Orientation="Horizontal">
-                                                                    <TextBlock Text="Episode" />
+                                                                    <TextBlock Text="{Binding ShowUnit}" />
                                                                     <TextBlock Text="{Binding WatchedEpisode}" Margin="5,0" FontWeight="Medium"/>
                                                                 </StackPanel>
                                                                 <TextBlock Text="{Binding Date}" HorizontalAlignment="Right"/>

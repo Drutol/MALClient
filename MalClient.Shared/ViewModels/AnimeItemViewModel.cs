@@ -457,7 +457,8 @@ namespace MalClient.Shared.ViewModels
             get
             {
                 if (_seasonalState)
-                    return $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} Episodes";
+                    return
+                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : $"{(Settings.MangaFocusVolumes ? "Volumes" : "Chapters")}")}";
 
                 return Auth || MyEpisodes != 0
                     ? $"{(ParentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +
@@ -706,17 +707,20 @@ namespace MalClient.Shared.ViewModels
         {
             get { return _itemManipulationMode; }
             set
-            {             
-                switch (value)
-                {
-                    case ManipulationModes.All:
-                        _itemManipulationMode = ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
-                                                ManipulationModes.System | ManipulationModes.TranslateInertia;
-                        break;
-                    case ManipulationModes.None:
-                        _itemManipulationMode = ManipulationModes.System;
-                        break;
-                }
+            {
+                if (Settings.EnableSwipeToIncDec)
+                    switch (value)
+                    {
+                        case ManipulationModes.All:
+                            _itemManipulationMode = ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
+                                                    ManipulationModes.System | ManipulationModes.TranslateInertia;
+                            break;
+                        case ManipulationModes.None:
+                            _itemManipulationMode = ManipulationModes.System;
+                            break;
+                    }
+                else
+                    _itemManipulationMode = ManipulationModes.System;
                 RaisePropertyChanged(() => ItemManipulationMode);
             }
         }

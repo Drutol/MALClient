@@ -102,5 +102,10 @@ namespace MALClient.Pages.Main
                 e.Handled = true;
             }
         }
+
+        private void OnAnimeItemClick(object sender, ItemClickEventArgs e)
+        {
+            DesktopViewModelLocator.ProfilePage.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
+        }
     }
 }

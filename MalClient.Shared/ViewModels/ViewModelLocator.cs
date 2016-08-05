@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight.Ioc;
+using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.Models.Library;
 using MalClient.Shared.NavArgs;
@@ -60,6 +61,7 @@ namespace MalClient.Shared.ViewModels
         void UpdateAnimeFiltersSelectedIndex();
         void UpdateLogInLabel();
         Visibility MangaSectionVisbility { get; set; }
+        void SetActiveButton(TopAnimeType topType);
     }
 
     public interface INavMgr

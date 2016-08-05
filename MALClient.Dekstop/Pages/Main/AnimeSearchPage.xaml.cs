@@ -1,5 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Items;
+using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -22,6 +24,11 @@ namespace MALClient.Pages.Main
         {
             ViewModel.Init(e.Parameter as SearchPageNavigationArgs);
             base.OnNavigatedTo(e);
+        }
+
+        private void Animes_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.SearchPage.CurrentlySelectedItem = e.ClickedItem as AnimeSearchItem;
         }
     }
 }

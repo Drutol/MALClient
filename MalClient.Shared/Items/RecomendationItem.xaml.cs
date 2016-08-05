@@ -53,6 +53,7 @@ namespace MalClient.Shared.Items
             try
             {
                 _wide = ActualWidth > 900;
+                VisualStateManager.GoToState(this, _wide ? "Wide" : "Narrow", false);
                 var scrollViewer =
                     VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(DetailsListView, 0), 0) as ScrollViewer;
                 scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;

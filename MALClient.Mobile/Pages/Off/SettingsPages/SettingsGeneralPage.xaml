@@ -23,26 +23,6 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <StackPanel>
-            <StackPanel HorizontalAlignment="Stretch">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Color theme :" FontWeight="Medium"
-                                               TextWrapping="WrapWholeWords" HorizontalAlignment="Center"
-                                               VerticalAlignment="Center" />
-                    <ComboBox x:Name="ComboThemes" HorizontalAlignment="Center" Margin="10,0,0,0"
-                                              SelectionChanged="ChangeTheme" VerticalAlignment="Center">
-                        <ComboBox.Items>
-                            <ComboBoxItem Content="Light" />
-                            <ComboBoxItem Content="Dark" />
-                        </ComboBox.Items>
-                    </ComboBox>
-                </StackPanel>
-                <TextBlock x:Name="TxtThemeChangeNotice"
-                                           Text="Changes will be visible on next app launch."
-                                           FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="14"
-                                           Visibility="Collapsed"
-                                           HorizontalAlignment="Center" />
-            </StackPanel>
-            <MenuFlyoutSeparator Margin="0,5" />
             <Grid HorizontalAlignment="Stretch" Margin="5,5">
                 <StackPanel>
                     <TextBlock Text="Start page" FontWeight="Medium" HorizontalAlignment="Center"
@@ -63,6 +43,26 @@
                                                      Click="ChangeDefaultTab"
                                                      Tag="manga" />
                     </Grid>
+                    <MenuFlyoutSeparator Margin="0,5" />
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Color theme :" FontWeight="Medium"
+                                               TextWrapping="WrapWholeWords" HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                            <ComboBox x:Name="ComboThemes" HorizontalAlignment="Center" Margin="10,0,0,0"
+                                              SelectionChanged="ChangeTheme" VerticalAlignment="Center">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Content="Light" />
+                                    <ComboBoxItem Content="Dark" />
+                                </ComboBox.Items>
+                            </ComboBox>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtThemeChangeNotice"
+                                           Text="Changes will be visible on next app launch."
+                                           FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="14"
+                                           Visibility="Collapsed"
+                                           HorizontalAlignment="Center" />
+                    </StackPanel>
                     <MenuFlyoutSeparator/>
                     <TextBlock Text="Make manga volumes more important than chapters."
                                                FontWeight="Medium"

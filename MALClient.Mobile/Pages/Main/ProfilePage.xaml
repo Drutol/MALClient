@@ -60,11 +60,15 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Width="150" Height="150" Stretch="UniformToFill" Margin="5">
-                                <Image.Source>
-                                    <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}"  DecodePixelType="Logical" DecodePixelHeight="150" DecodePixelWidth="150"/>
-                                </Image.Source>
-                            </Image>
+                            <Grid Width="150" Height="150" Margin="5" Background="{ThemeResource BrushHamburgerInnerBackground}">
+                                <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <Image  Stretch="UniformToFill" >
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}" DecodePixelType="Logical"
+                                             DecodePixelHeight="150" DecodePixelWidth="150" />
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
                             <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -111,14 +115,32 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Grid.Row="1"  Padding="10" Margin="0,10" HorizontalAlignment="Left">
+                        <Grid Grid.Row="1"  Padding="10" Margin="0,10" HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Friends" HorizontalAlignment="Left" FontWeight="SemiLight" FontSize="26"
+                            <Grid HorizontalAlignment="Stretch">
+                                <TextBlock Text="Friends" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <GridView Margin="5" IsItemClickEnabled="True" ItemClick="NavigateProfile" Grid.Row="1" ItemsSource="{Binding CurrentData.Friends}">
+                                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Margin="5,0">
+                                    <Button.Flyout>
+                                        <Flyout x:Name="GotoFlyout">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox x:Name="GotoUserName" PlaceholderText="Username..." KeyDown="GotoUserName_OnKeyDown" Margin="5,0,0,0"/>
+                                                <Button Margin="5,0" Click="ButtonGotoProfileOnClick">
+                                                    <SymbolIcon Symbol="Accept"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                    <StackPanel>
+                                        <SymbolIcon Symbol="Go" />
+                                        <TextBlock Text="Goto" FontWeight="SemiLight" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                            <GridView Margin="5" IsItemClickEnabled="True" ItemClick="NavigateProfile"  ScrollViewer.VerticalScrollMode="Disabled" Grid.Row="1" ItemsSource="{Binding CurrentData.Friends}">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Image Width="75" Height="75">
@@ -131,18 +153,31 @@
                                 </GridView.ItemTemplate>
                             </GridView>
                         </Grid>
-                        <Grid Grid.Row="2" Padding="10" Margin="0,10">
+                        <Grid Grid.Row="2" Padding="10,0" Margin="0,10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top" Command="{Binding RefreshCommentsCommand}">
                                 <SymbolIcon Symbol="Refresh" Margin="5"/>
                             </Button>
-                            <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding MalComments}">
+                                <TextBlock
+                                Visibility="{Binding EmptyCommentsNoticeVisibility}"
+                                Text="No comments..."
+                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
+                                <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
+                                <Button Content="Send Comment" Margin="20,0"
+                                Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
+                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                            </StackPanel>
+
+                            <ListView Grid.Row="2" Margin="10" ItemsSource="{Binding MalComments}"  ScrollViewer.VerticalScrollMode="Disabled">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -188,7 +223,7 @@
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" Padding="1"
                                                 Command="{Binding Source={StaticResource MobileLocator},Path=ProfilePage.NavigateConversationCommand}"
                                                 CommandParameter="{Binding}"/>
-                                             <Button Content="Delete" Margin="1" Padding="1"
+                                                <Button Content="Delete" Margin="1" Padding="1"
                                                 Visibility="{Binding CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource MobileLocator},Path=ProfilePage.DeleteCommentCommand}"
@@ -198,13 +233,7 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                            <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
-                                <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
-                                <Button Content="Send Comment" Margin="20,0"
-                                Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
-                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            </StackPanel>
-                            <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity}"
+                            <Grid Grid.Row="2" Visibility="{Binding LoadingCommentsVisiblity}"
                                           Background="{ThemeResource BrushLoadingNonTransparent}"
                                           Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"

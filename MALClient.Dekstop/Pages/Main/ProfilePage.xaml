@@ -273,16 +273,18 @@
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
                         <GridView Grid.Row="1" ItemsSource="{Binding CurrentData.FavouriteCharacters}"
-                                      HorizontalAlignment="Center" Margin="0,12,0,0">
+                                      HorizontalAlignment="Center" Margin="0,7,0,0">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="0,5" />
+                                    <Setter Property="Width" Value="200" />
                                 </Style>
                             </GridView.ItemContainerStyle>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Width="200" Height="325" PointerPressed="FavCharacter_OnClick">
+                                    <Grid Height="325" PointerPressed="FavCharacter_OnClick">
                                         <FlyoutBase.AttachedFlyout>
                                             <MenuFlyout>
                                                 <MenuFlyoutItem

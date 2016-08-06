@@ -38,6 +38,7 @@ namespace MALClient.ViewModels.Main
             set
             {
                 _malComments = value;
+                EmptyCommentsNoticeVisibility = value.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
                 RaisePropertyChanged(() => MalComments);
             }
         }
@@ -46,6 +47,7 @@ namespace MALClient.ViewModels.Main
         private bool _authenticatedUser;
 
         public string CurrentUser { get; private set; }
+        public ProfilePageNavigationArgs PrevArgs { get; set; }
 
         public async void LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
         {
@@ -60,6 +62,7 @@ namespace MALClient.ViewModels.Main
             }
             _authenticatedUser = args == null || args.TargetUser == Credentials.UserName;
             MobileViewModelLocator.Main.CurrentStatus = $"{CurrentUser} - Profile";
+            PrevArgs = args;
             _loadedFavManga = false;
             _loadedFavAnime = false;
             _loadedRecent = false;
@@ -531,6 +534,18 @@ namespace MALClient.ViewModels.Main
             }
         }
 
+        public Visibility _emptyCommentsNoticeVisibility;
+
+        public Visibility EmptyCommentsNoticeVisibility
+        {
+            get { return _emptyCommentsNoticeVisibility; }
+            set
+            {
+                _emptyCommentsNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyCommentsNoticeVisibility);
+            }
+        }
+
         public Visibility EmptyFavCharactersNoticeVisibility
         {
             get { return _emptyFavCharactersNoticeVisibility; }
@@ -746,6 +761,8 @@ namespace MALClient.ViewModels.Main
                 RaisePropertyChanged(() => LoadingOhersLibrariesProgressVisiblity);
             }
         }
+
+
 
         #endregion
     }

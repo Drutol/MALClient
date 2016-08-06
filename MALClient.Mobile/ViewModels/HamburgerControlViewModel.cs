@@ -302,9 +302,10 @@ namespace MALClient.ViewModels
         }
 
         public Visibility MangaSectionVisbility { get; set; }
+
         public void SetActiveButton(TopAnimeType topType)
         {
-            throw new NotImplementedException();
+            //not for mobile
         }
 
         public void UpdateApiDependentButtons()

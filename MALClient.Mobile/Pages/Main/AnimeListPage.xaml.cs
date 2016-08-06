@@ -150,9 +150,6 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as AnimeListPageNavigationArgs;
-            if(_lastArgs != null && !_lastArgs.ResetBackNav)
-                return;
-            ViewModelLocator.NavMgr.ResetMainBackNav();
         }
 
         private void SelectSortMode(object sender, RoutedEventArgs e)

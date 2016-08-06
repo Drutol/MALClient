@@ -98,6 +98,7 @@ namespace MALClient.ViewModels
                         _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
                         return;
                     }
+                    MobileViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
                     ShowSearchStuff();
                     if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
                         (wasOnSearchPage || _wasOnDetailsFromSearch))

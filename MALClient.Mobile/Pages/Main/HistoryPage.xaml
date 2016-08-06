@@ -39,10 +39,10 @@
                                                     <DataTemplate>
                                                         <Grid Padding="10" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" >
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="200"/>
+                                                                <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <items:AnimeGridItem IsRightTapEnabled="True" Width="200"  RightTapped="AnimeItemOnRightClick" Height="325" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
+                                                            <items:AnimeGridItem IsRightTapEnabled="True" MaxWidth="200" RightTapped="AnimeItemOnRightClick" Height="325" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
                                                             <ScrollViewer Grid.Column="1">
                                                                 <ItemsControl ItemsSource="{Binding Item2}">
                                                                     <ItemsControl.ItemTemplate>
@@ -78,27 +78,27 @@
                             <Setter.Value>
                                 <DataTemplate>
                                     <ScrollViewer>
-                                        <Grid Margin="3" Padding="2" CornerRadius="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                        <Grid Margin="1" Padding="1" CornerRadius="5" Background="{ThemeResource BrushAnimeItemInnerBackground}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <ListView Grid.Row="1" ItemsSource="{Binding Value}" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
+                                            <ListView Grid.Row="1" ItemsSource="{Binding Value}" Margin="-5,0" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
-                                                        <Setter Property="Margin" Value="2"/>
+                                                        <Setter Property="Margin" Value="1"/>
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                                         <Setter Property="Height" Value="340"/>
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Padding="2" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" HorizontalAlignment="Stretch">
+                                                        <Grid Padding="1" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" HorizontalAlignment="Stretch">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="190"/>
+                                                                <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <items:AnimeGridItem IsRightTapEnabled="True" Width="190"  RightTapped="AnimeItemOnRightClick" Height="315" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
+                                                            <items:AnimeGridItem IsRightTapEnabled="True" MaxWidth="200" AllowSwipeInGivenContext="False" RightTapped="AnimeItemOnRightClick" Height="315" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
                                                             <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch">
                                                                 <ItemsControl ItemsSource="{Binding Item2}" HorizontalAlignment="Stretch">
                                                                     <ItemsControl.ItemContainerStyle>

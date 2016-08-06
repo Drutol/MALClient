@@ -95,9 +95,9 @@ namespace MalClient.Shared.Items
                 myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{_data.RecommendationData.AllEpisodes}"));
             _detailItems.Add(new Tuple<string, string, string, string, string>("Score:",
                 _data.DependentData.GlobalScore.ToString(),
-                myDepItem?.MyScore == null ? "" : $"{myDepItem.MyScore}/10",
+                myDepItem?.MyScore == null ? "" : ( myDepItem.MyScore == 0 ? "N/A" : $"{myDepItem.MyScore}/10"),
                 _data.RecommendationData.GlobalScore.ToString(),
-                myRecItem?.MyScore == null ? "" : $"{myRecItem.MyScore}/10"));
+                myRecItem?.MyScore == null ? "" : (myRecItem.MyScore == 0 ? "N/A" : $"{myRecItem.MyScore}/10"))) ;
             _detailItems.Add(new Tuple<string, string, string, string, string>("Type:", _data.DependentData.Type, "",
                 _data.RecommendationData.Type, ""));
             _detailItems.Add(new Tuple<string, string, string, string, string>("Status:", _data.DependentData.Status, "",

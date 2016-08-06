@@ -36,6 +36,12 @@ namespace MALClient.Pages.Messages
             }
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+        }
+
         private async void ButtonDisclaimer_OnClick(object sender, RoutedEventArgs e)
         {
             var msg = new MessageDialog("These messages are obatained directly from html, I cannot build sophisticated system on top of this foundation... that's why it's that simplistic.","Disclaimer");

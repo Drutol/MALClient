@@ -36,6 +36,7 @@ namespace MALClient.Utils
                 if (_randomNavigationStackMain.Count == 0)
                     ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
                 e.Handled = true;
+                return;
             }
 
 

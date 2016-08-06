@@ -130,7 +130,7 @@
                                HorizontalAlignment="Center"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
 
-                    <ListView SelectionMode="None" x:Name="ListTodo" Margin="0,20,0,0">
+                    <ListView SelectionMode="None" x:Name="ListTodo" Margin="0,20,0,0"  ScrollViewer.VerticalScrollMode="Disabled">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Margin" Value="5" />

@@ -243,7 +243,9 @@ namespace MalClient.Shared.ViewModels.Main
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
-                    
+
+                    ViewModelLocator.NavMgr.DeregisterBackNav();
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
 
                     if (!gotArgs)
                     {

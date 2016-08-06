@@ -91,7 +91,6 @@ namespace MalClient.Shared.Comm.Forums
                     var titleLink = titleLinks[0].InnerText.Length == 0 ? titleLinks[1] : titleLinks[0];
 
                     current.Title = titleLink.InnerText;
-                    current.Url = "http://myanimelist.net" + titleLink.Attributes["href"].Value;
                     current.Id = titleLink.Attributes["href"].Value.Split('=').Last();
 
                     var spans = tds[1].Descendants("span").ToList();

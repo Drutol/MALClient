@@ -863,7 +863,7 @@
                                                    Text="{Binding User.Name}" />
                                     </StackPanel>
                                     <TextBlock Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
-                                               TextAlignment="Left" Margin="10" HorizontalAlignment="Left" />
+                                               TextAlignment="Left" Margin="10" HorizontalAlignment="Left" IsTextSelectionEnabled="True"/>
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
                                                FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
                                     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">

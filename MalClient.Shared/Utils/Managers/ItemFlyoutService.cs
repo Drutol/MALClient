@@ -14,6 +14,7 @@ namespace MalClient.Shared.Utils.Managers
         private static WatchedEpisodesFlyout _watchedFlyout;
         private static ListItemScoreFlyout _scoreFlyout;
         private static ListItemStatusFlyout _statusFlyout;
+        private static ForumTopicFlyout _topicFlyout;
 
         private static GridItemFlyout GridFlyout => _gridFlyout ?? (_gridFlyout = new GridItemFlyout());
         private static ListItemFlyout ListFlyout => _listFlyout ?? (_listFlyout = new ListItemFlyout());
@@ -25,6 +26,9 @@ namespace MalClient.Shared.Utils.Managers
 
         private static ListItemStatusFlyout StatusFlyout
             => _statusFlyout ?? (_statusFlyout = new ListItemStatusFlyout());
+
+        private static ForumTopicFlyout TopicFlyout
+            => _topicFlyout ?? (_topicFlyout = new ForumTopicFlyout());
 
         public static void ShowAnimeGridItemFlyout(FrameworkElement placement)
         {
@@ -49,6 +53,11 @@ namespace MalClient.Shared.Utils.Managers
         public static void ShowAnimeListItemStatusFlyout(FrameworkElement placement)
         {
             StatusFlyout.ShowAt(placement);
+        }
+
+        public static void ShowForumTopicFlyout(FrameworkElement placement)
+        {
+            TopicFlyout.ShowAt(placement);
         }
     }
 }

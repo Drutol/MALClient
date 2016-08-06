@@ -78,5 +78,10 @@ namespace MALClient.Pages.Forums
         {
             await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues/44"));
         }
+
+        private void PinnedTopicSelectionchanged(object sender, SelectionChangedEventArgs e)
+        {
+            PinnedTopicListView.SelectedIndex = -1;
+        }
     }
 }

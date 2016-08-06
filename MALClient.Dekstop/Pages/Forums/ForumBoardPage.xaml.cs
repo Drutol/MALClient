@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Models.Forums;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Forums;
 using MALClient.ViewModels;
@@ -52,10 +53,16 @@ namespace MALClient.Pages.Forums
 
         private void TopicOnClick(object sender, ItemClickEventArgs e)
         {
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsTopicNavigationArgs((e.ClickedItem as ForumTopicEntryViewModel).Data.Id, _args.TargetBoard));
+            ViewModelLocator.ForumsBoard.LoadTopic(e.ClickedItem as ForumTopicEntryViewModel);
         }
 
+
+        private void TopicOnRightClick(object sender, RightTappedRoutedEventArgs e)
+        {
+            if ((e.OriginalSource as FrameworkElement).DataContext is ForumTopicEntryViewModel)
+                ItemFlyoutService.ShowForumTopicFlyout(e.OriginalSource as FrameworkElement);
+            e.Handled = true;
+        }
 
         private void GotoInputOnKeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -83,5 +90,6 @@ namespace MALClient.Pages.Forums
             if(int.TryParse(GotoPageTextBox.Text,out dummy))
                 GotoPageFlyout.Hide();
         }
+
     }
 }

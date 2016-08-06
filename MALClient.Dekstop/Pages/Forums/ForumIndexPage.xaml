@@ -57,7 +57,7 @@
                                                                 <ColumnDefinition Width="35"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top"  MaxWidth="35" MaxHeight="45">
+                                                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Stretch"  MaxWidth="35" MaxHeight="45">
                                                                 <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                 <Image Stretch="Uniform" VerticalAlignment="Top">
                                                                     <Image.Source>

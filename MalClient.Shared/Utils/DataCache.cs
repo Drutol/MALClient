@@ -856,7 +856,7 @@ namespace MalClient.Shared.Utils
         }
         public static async Task SaveData<T>(T data, string filename, string targetFolder)
         {
-            var folder = targetFolder == "" ? ApplicationData.Current.LocalFolder :
+            var folder = string.IsNullOrEmpty(targetFolder) ? ApplicationData.Current.LocalFolder :
                     await
                         ApplicationData.Current.LocalFolder.CreateFolderAsync(targetFolder,
                             CreationCollisionOption.OpenIfExists);
@@ -865,7 +865,7 @@ namespace MalClient.Shared.Utils
 
         public static async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
         {
-            var folder = originFolder == ""
+            var folder = string.IsNullOrEmpty(originFolder)
                 ? ApplicationData.Current.LocalFolder
                 : await
                     ApplicationData.Current.LocalFolder.CreateFolderAsync(originFolder,

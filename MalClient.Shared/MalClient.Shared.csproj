@@ -158,6 +158,9 @@
     <Compile Include="Flyouts\HamburgerFlyouts\HamburgerTopCategoriesFlyout.xaml.cs">
       <DependentUpon>HamburgerTopCategoriesFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Flyouts\ForumTopicFlyout.xaml.cs">
+      <DependentUpon>ForumTopicFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Flyouts\ListItemFlyout.xaml.cs">
       <DependentUpon>ListItemFlyout.xaml</DependentUpon>
     </Compile>
@@ -308,6 +311,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Flyouts\HamburgerFlyouts\HamburgerTopCategoriesFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Flyouts\ForumTopicFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

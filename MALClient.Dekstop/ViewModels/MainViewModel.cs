@@ -127,7 +127,7 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageMessanging ||
                      index == PageIndex.PageHistory)
             {
-                DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
+                DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
                 currPage = index;
             }
 

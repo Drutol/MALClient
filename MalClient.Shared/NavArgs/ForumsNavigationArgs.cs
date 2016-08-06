@@ -43,12 +43,14 @@ namespace MalClient.Shared.NavArgs
     {
         public string TopicId { get; set; }
         public ForumBoards SourceBoard { get; set; }
+        public bool Lastpost { get; set; }
 
-        public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard)
+        public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard,bool lastpost = false)
         {
             TopicId = topicId;
             Page = ForumsPageIndex.PageTopic;
             SourceBoard = sourceBoard;
+            Lastpost = lastpost;
         }
     }
 }

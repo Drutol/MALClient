@@ -19,7 +19,7 @@ namespace MalClient.Shared.ViewModels.Forums
         public void Init(ForumsTopicNavigationArgs args)
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
-            WebViewNavigationRequested?.Invoke(args.TopicId);
+            WebViewNavigationRequested?.Invoke(args.TopicId,args.Lastpost);
         }
 
         private Visibility _loadingTopic;

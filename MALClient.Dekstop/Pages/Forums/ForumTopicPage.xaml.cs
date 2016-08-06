@@ -29,6 +29,7 @@ namespace MALClient.Pages.Forums
         private ForumsTopicNavigationArgs _args;
         private Uri _baseUri;
         private bool _navigatingRoot;
+        private bool _lastpost;
 
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
 
@@ -47,13 +48,15 @@ namespace MALClient.Pages.Forums
             ViewModel.Init(_args);
         }
 
-        private async void ViewModelOnWebViewNavigationRequested(object content)
+        private async void ViewModelOnWebViewNavigationRequested(string content,bool arg)
         {
             await MalHttpContextProvider.InitializeContextForWebViews();
             //TopicWebView.Navigate(new Uri("http://myanimelist.net/forum/?topicid=1499207"));
-            _baseUri = new Uri($"http://myanimelist.net/forum/?topicid={content as string}");
+            _baseUri = new Uri($"http://myanimelist.net/forum/?topicid={content}{(arg ? "&goto=lastpost" : "")}");
+            _lastpost = arg;
             TopicWebView.Navigate(_baseUri);
             ViewModel.LoadingTopic = Visibility.Visible;
+
         }
 
         
@@ -141,10 +144,11 @@ namespace MALClient.Pages.Forums
         {
             if (_navigatingRoot)
             {
-                _navigatingRoot = false;
                 return;
             }
             if(args.Uri.ToString().Contains(_baseUri.ToString()))
+                return;
+            if(_lastpost && args.Uri.ToString().Contains("&show="))
                 return;
             try
             {
@@ -214,6 +218,11 @@ namespace MALClient.Pages.Forums
         {
             //we don't like iframes
             //args.Cancel = true; or we do?
+        }
+
+        private void TopicWebView_OnContentLoading(WebView sender, WebViewContentLoadingEventArgs args)
+        {
+            _navigatingRoot = false;
         }
     }
 }

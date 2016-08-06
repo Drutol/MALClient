@@ -14,7 +14,12 @@
     
     <Grid Background="{ThemeResource BrushDeepBackground}">
         
-        <WebView x:Name="TopicWebView" Visibility="{Binding LoadingTopic,Converter={StaticResource VisiblityInverterConverter}}" LoadCompleted="TopicWebView_OnLoadCompleted" FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" DOMContentLoaded="TopicWebView_OnDOMContentLoaded" NavigationStarting="TopicWebView_OnNavigationStarting"/>
+        <WebView x:Name="TopicWebView" Visibility="{Binding LoadingTopic,Converter={StaticResource VisiblityInverterConverter}}" 
+                 LoadCompleted="TopicWebView_OnLoadCompleted" 
+                 FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" 
+                 DOMContentLoaded="TopicWebView_OnDOMContentLoaded" 
+                 NavigationStarting="TopicWebView_OnNavigationStarting"
+                 ContentLoading="TopicWebView_OnContentLoading"/>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopic}"
               Background="{ThemeResource BrushLoading}">

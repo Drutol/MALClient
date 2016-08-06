@@ -126,6 +126,7 @@ namespace MALClient
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             RateReminderPopUp.ProcessDonatePopUp();
+            ViewModelLocator.ForumsMain.LoadPinnedTopics();
             var tb = ApplicationView.GetForCurrentView().TitleBar;
             tb.BackgroundColor =
                 tb.ButtonBackgroundColor =
@@ -208,6 +209,7 @@ namespace MALClient
             {
                 //well...
             }
+            await ViewModelLocator.ForumsMain.SavePinnedTopics();
             await FavouritesManager.SaveData();
             deferral.Complete();
         }

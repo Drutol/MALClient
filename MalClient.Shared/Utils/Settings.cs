@@ -291,9 +291,9 @@ namespace MalClient.Shared.Utils
 
         public static string PinnedProfiles
         {
-                get { return (string)(ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] ?? ""); }
-                set { ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] = value; }
-            }
+            get { return (string) (ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] ?? ""); }
+            set { ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] = value; }
+        }
 
         #region Views
 
@@ -506,13 +506,11 @@ namespace MalClient.Shared.Utils
         #endregion
 
         #region Forums
-
         public static string ForumsPinnedBoards
         {
             get { return (string) (ApplicationData.Current.LocalSettings.Values["ForumsPinnedBoards"] ?? ""); }
             set { ApplicationData.Current.LocalSettings.Values["ForumsPinnedBoards"] = value; }
         }
-
         #endregion
 
     }

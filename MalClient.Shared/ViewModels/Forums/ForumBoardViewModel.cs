@@ -75,6 +75,14 @@ namespace MalClient.Shared.ViewModels.Forums
 
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(i => LoadPage(i,true)));
 
+        private ICommand _gotoLastPostCommand;
+
+        public ICommand GotoLastPostCommand => _gotoLastPostCommand ?? (_gotoLastPostCommand = new RelayCommand<ForumTopicEntryViewModel>(
+            topic =>
+            {
+                LoadTopic(topic,true);
+            }));
+
         private ICommand _loadGotoPageCommand;
 
         public ICommand LoadGotoPageCommand => _loadGotoPageCommand ?? (_loadGotoPageCommand = new RelayCommand(() =>
@@ -153,6 +161,12 @@ namespace MalClient.Shared.ViewModels.Forums
                 //no shuch page
             }
             LoadingTopics = Visibility.Collapsed;
+        }
+
+        public void LoadTopic(ForumTopicEntryViewModel topic,bool lastpost = false)
+        {
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard,lastpost));
         }
     }
 }

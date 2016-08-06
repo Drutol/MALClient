@@ -18,6 +18,7 @@
         Articles,
         News,
         Messanging,
+        Forums,
         History,
     }
 }

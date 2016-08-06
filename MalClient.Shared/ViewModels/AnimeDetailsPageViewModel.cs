@@ -869,6 +869,17 @@ namespace MalClient.Shared.ViewModels
         public ICommand ChangeStatusCommand
             => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus));
 
+        private ICommand _navigateForumBoardCommand;
+
+        public ICommand NavigateForumBoardCommand
+            =>
+                _navigateForumBoardCommand ??
+                (_navigateForumBoardCommand =
+                    new RelayCommand(
+                        () =>
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                                new ForumsBoardNavigationArgs(Id))));
+
         private ICommand _toggleFavouriteCommand;
 
         public ICommand ToggleFavouriteCommand

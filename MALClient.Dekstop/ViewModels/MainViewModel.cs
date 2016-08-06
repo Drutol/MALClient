@@ -123,7 +123,7 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageArticles ||
                      index == PageIndex.PageNews ||
                      index == PageIndex.PageMessanging ||
-                     index == PageIndex.PageForumIndex)
+                     index == PageIndex.PageForumIndex ||
                      index == PageIndex.PageMessanging ||
                      index == PageIndex.PageHistory)
             {
@@ -322,10 +322,9 @@ namespace MALClient.ViewModels
             {
                 _view = value;
 
-                Navigate(PageIndex.PageForumIndex);
-                //Navigate(Credentials.Authenticated
-                //    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                //    : PageIndex.PageLogIn); //entry point whatnot
+                Navigate(Credentials.Authenticated
+                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
+                    : PageIndex.PageLogIn); //entry point whatnot
                 if (InitDetails != null)
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
 

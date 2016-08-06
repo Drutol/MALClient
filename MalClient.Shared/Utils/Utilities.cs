@@ -231,7 +231,7 @@ namespace MalClient.Shared.Utils
                 case ForumBoards.ForumsGames:
                     return FontAwesomeIcon.PuzzlePiece;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(board), board, null);
+                    return FontAwesomeIcon.Tv;
             }
         }
 
@@ -463,6 +463,8 @@ namespace MalClient.Shared.Utils
                     return HamburgerButtons.Messanging;
                 case PageIndex.PageHistory:
                     return HamburgerButtons.History;
+                case PageIndex.PageForumIndex:
+                    return HamburgerButtons.Forums;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

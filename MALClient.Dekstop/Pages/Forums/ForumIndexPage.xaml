@@ -52,16 +52,19 @@
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Width="250">
+                                                        <Grid Width="230">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="35"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Image Stretch="Uniform" VerticalAlignment="Top">
-                                                                <Image.Source>
-                                                                    <BitmapImage UriSource="{Binding User.ImgUrl}" DecodePixelWidth="35" DecodePixelHeight="45" DecodePixelType="Logical"/>
-                                                                </Image.Source>
-                                                            </Image>
+                                                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top"  MaxWidth="35" MaxHeight="45">
+                                                                <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                <Image Stretch="Uniform" VerticalAlignment="Top">
+                                                                    <Image.Source>
+                                                                        <BitmapImage UriSource="{Binding User.ImgUrl}" DecodePixelWidth="35" DecodePixelHeight="45" DecodePixelType="Logical"/>
+                                                                    </Image.Source>
+                                                                </Image>
+                                                            </Grid>
                                                             <Grid Grid.Column="1" VerticalAlignment="Top" Margin="3,0">
                                                                 <Grid.RowDefinitions>
                                                                     <RowDefinition Height="Auto"/>

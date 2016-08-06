@@ -332,6 +332,7 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["Calendar"] = new SolidColorBrush(color);
             TxtForegroundBrushes["Articles"] = new SolidColorBrush(color);
             TxtForegroundBrushes["News"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Forums"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -348,6 +349,7 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["Calendar"] = new Thickness(0);
             TxtBorderBrushThicknesses["Articles"] = new Thickness(0);
             TxtBorderBrushThicknesses["News"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Forums"] = new Thickness(0);
         }
 
         private void ResetTopCategoryButtons()
@@ -397,7 +399,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
-        public Visibility _mangaSectionVisbility = Settings.HamburgerHideMangaSection ? Visibility.Collapsed : Visibility.Visible;
+        private Visibility _mangaSectionVisbility = Settings.HamburgerHideMangaSection ? Visibility.Collapsed : Visibility.Visible;
 
         public Visibility MangaSectionVisbility
         {

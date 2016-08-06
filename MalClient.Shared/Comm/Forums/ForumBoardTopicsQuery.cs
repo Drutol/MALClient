@@ -12,10 +12,14 @@ namespace MalClient.Shared.Comm.Forums
 {
     public class ForumBoardTopicsQuery : Query
     {
-        private static Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>> _boardCache =
+        private static readonly Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>> _boardCache =
             new Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>>();
 
+        private static readonly Dictionary<int, Dictionary<int, List<ForumTopicEntry>>> _animeBoardCache =
+            new Dictionary<int, Dictionary<int, List<ForumTopicEntry>>>();
+
         private ForumBoards _board;
+        private int _animeId;
         private int _page;
         
         public ForumBoardTopicsQuery(ForumBoards board,int page)
@@ -28,12 +32,31 @@ namespace MalClient.Shared.Comm.Forums
             _page = page;
         }
 
+        public ForumBoardTopicsQuery(int animeId,int page)
+        {
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/?animeid={animeId}"));
+            Request.ContentType = "application/x-www-form-urlencoded";
+            Request.Method = "GET";
+            _animeId = animeId;
+            _page = page;
+        }
+
         
 
         public async Task<List<ForumTopicEntry>> GetTopicPosts()
         {
-            if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
-                return _boardCache[_board][_page];
+            if (_animeId == 0)
+            {
+                if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
+                    return _boardCache[_board][_page];
+            }
+            else
+            {
+                if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
+                    return _animeBoardCache[_animeId][_page];
+            }
+
 
             var output = new List<ForumTopicEntry>();
             var raw = await GetRequestResponse();
@@ -79,9 +102,19 @@ namespace MalClient.Shared.Comm.Forums
 
             }
 
-            if(!_boardCache.ContainsKey(_board))
-                _boardCache[_board] = new Dictionary<int, List<ForumTopicEntry>>();
-            _boardCache[_board].Add(_page, output);
+            if (_animeId == 0)
+            {
+                if (!_boardCache.ContainsKey(_board))
+                    _boardCache[_board] = new Dictionary<int, List<ForumTopicEntry>>();
+                _boardCache[_board].Add(_page, output);
+            }
+            else
+            {
+                if (!_animeBoardCache.ContainsKey(_animeId))
+                    _animeBoardCache[_animeId] = new Dictionary<int, List<ForumTopicEntry>>();
+                _animeBoardCache[_animeId].Add(_page, output);
+            }
+
 
             return output;
         }

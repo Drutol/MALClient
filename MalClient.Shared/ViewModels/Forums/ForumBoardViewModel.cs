@@ -17,7 +17,7 @@ namespace MalClient.Shared.ViewModels.Forums
 {
     public class ForumBoardViewModel : ViewModelBase
     {
-        private ForumBoards? _currentBoard;
+        private ForumsBoardNavigationArgs _prevArgs;
 
         private ObservableCollection<ForumTopicEntryViewModel> _topics;
 
@@ -34,19 +34,21 @@ namespace MalClient.Shared.ViewModels.Forums
         public async void Init(ForumsBoardNavigationArgs args)
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-            if (_currentBoard != null && _currentBoard == args.TargetBoard)
+            if (_prevArgs != null &&
+                ((args.IsAnimeBoard && _prevArgs.AnimeId == args.AnimeId) || _prevArgs.TargetBoard == args.TargetBoard))
                 return;
             LoadingTopics = Visibility.Visible;
             Topics?.Clear();
             Title = args.TargetBoard.GetDescription();
             Icon = Utilities.BoardToIcon(args.TargetBoard);
-            _currentBoard = args.TargetBoard;
+            _prevArgs = args;
             Topics =
                 new ObservableCollection<ForumTopicEntryViewModel>(
-                    (await new ForumBoardTopicsQuery(args.TargetBoard,0).GetTopicPosts()).Select(
-                        entry => new ForumTopicEntryViewModel(entry)));
+                    (!args.IsAnimeBoard
+                        ? await new ForumBoardTopicsQuery(args.TargetBoard, 0).GetTopicPosts()
+                        : await new ForumBoardTopicsQuery(args.AnimeId, 0).GetTopicPosts()).Select(
+                            entry => new ForumTopicEntryViewModel(entry)));
             LoadingTopics = Visibility.Collapsed;
-
         }
 
         private string _title;

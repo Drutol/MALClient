@@ -20,8 +20,7 @@
         PageNews,
         PageMessanging,
         PageMessageDetails,
-        PageForumIndex
-        PageMessageDetails,
+        PageForumIndex,
         PageHistory
     }
 }

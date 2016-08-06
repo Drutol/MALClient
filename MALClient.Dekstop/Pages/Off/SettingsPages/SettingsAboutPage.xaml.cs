@@ -23,6 +23,7 @@ namespace MALClient.Pages.Off.SettingsPages
                 "Check out github issue with my future plans.",
                 "Want something? Let me know! Scroll just a little bit and go to the issues board :)"
             };
+            Loaded += (sender, args) => ScrollViewer.Focus(FocusState.Pointer);
         }
 
         private async void Donate(object sender, RoutedEventArgs e)
@@ -30,7 +31,7 @@ namespace MALClient.Pages.Off.SettingsPages
             try
             {
                 var btn = sender as MenuFlyoutItem;
-                await CurrentApp.RequestProductPurchaseAsync(btn.Name, false);
+                await CurrentApp.RequestProductPurchaseAsync(btn.Name);
                 Settings.Donated = true;
             }
             catch (Exception)

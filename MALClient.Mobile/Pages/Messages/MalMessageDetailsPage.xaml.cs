@@ -1,6 +1,8 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
@@ -15,7 +17,7 @@ namespace MALClient.Pages.Messages
     /// </summary>
     public sealed partial class MalMessageDetailsPage : Page
     {
-        private MalMessageModel _lastArgs;
+        private MalMessageDetailsNavArgs _lastArgs;
 
         public MalMessageDetailsPage()
         {
@@ -27,14 +29,13 @@ namespace MALClient.Pages.Messages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            _lastArgs = e.Parameter as MalMessageModel;
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging,null);
+            _lastArgs = e.Parameter as MalMessageDetailsNavArgs;
+            if (_lastArgs.WorkMode == MessageDetailsWorkMode.Message)
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging, null);
+            else
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                    new ProfilePageNavigationArgs {TargetUser = MobileViewModelLocator.ProfilePage.CurrentUser});
             base.OnNavigatedTo(e);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            ViewModelLocator.NavMgr.DeregisterBackNav();
         }
     }
 }

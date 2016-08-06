@@ -97,6 +97,8 @@ namespace MALClient.Pages.Main
         }
 
         private bool _loaded;
+        private AnimeListPageNavigationArgs _lastArgs;
+
         public AnimeListPage()
         {
             InitializeComponent();
@@ -106,6 +108,7 @@ namespace MALClient.Pages.Main
                 ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 ViewModel.SortingSettingChanged += InitSortOptions;
+                ViewModel.Init(_lastArgs);
                 _loaded = true;
                 try
                 {
@@ -146,26 +149,8 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Init(e.Parameter as AnimeListPageNavigationArgs);
+            _lastArgs = e.Parameter as AnimeListPageNavigationArgs;
         }
-
-        #region UIHelpers
-
-        //internal void ScrollTo(AnimeItem animeItem)
-        //{
-        //    try
-        //    {
-        //        var scrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(Animes, 0), 0) as ScrollViewer;
-        //        var offset = ViewModel._animeItems.TakeWhile(t => animeItem != t).Sum(t => t.ActualHeight);
-        //        scrollViewer.ScrollToVerticalOffset(offset);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // ehh
-        //    }
-        //}
-
-        #endregion
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
@@ -220,7 +205,7 @@ namespace MALClient.Pages.Main
                 TxtListSource.IsEnabled = false; //reset input
                 TxtListSource.IsEnabled = true;
                 FlyoutListSource.Hide();
-                BottomCommandBar.IsOpen = false;
+                BottomCommandBar.IsOpen = false;              
                 await ViewModel.FetchData();
             }
         }

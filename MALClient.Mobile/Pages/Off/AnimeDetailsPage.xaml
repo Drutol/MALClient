@@ -1024,7 +1024,7 @@
                                                 <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                                                       Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                             </Grid>
-                                            <ListView ItemsSource="{Binding Reviews}" SelectionMode="None">
+                                            <ListView ItemsSource="{Binding Reviews}" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -1107,7 +1107,7 @@
                                                 <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                                                       Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                             </Grid>
-                                            <ListView SelectionMode="None" ItemsSource="{Binding Recommendations}"
+                                            <ListView SelectionMode="None" ItemsSource="{Binding Recommendations}"  ScrollViewer.VerticalScrollMode="Disabled"
                                               SelectedItem="{Binding CurrentRecommendationsSelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">

@@ -17,6 +17,25 @@ namespace MalClient.Shared.UserControls
                 ? Color.FromArgb(255, 11, 11, 11)
                 : Colors.WhiteSmoke);
 
+        public static readonly DependencyProperty FirstBrushProperty = DependencyProperty.Register("FirstBrush",
+            typeof(Brush), typeof(AlternatingListView), new PropertyMetadata(_b1));
+
+        public Brush FirstBrush
+        {
+            get { return (Brush)GetValue(FirstBrushProperty); }
+            set { SetValue(FirstBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty SecondBrushProperty = DependencyProperty.Register("SecondBrush",
+            typeof(Brush), typeof(AlternatingListView), new PropertyMetadata(_b2));
+
+        public Brush SecondBrush
+        {
+            get { return (Brush) GetValue(SecondBrushProperty); }
+            set {  SetValue(SecondBrushProperty, value); }
+        }
+
+
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
@@ -26,11 +45,11 @@ namespace MalClient.Shared.UserControls
                 var index = IndexFromContainer(element);
                 if ((index + 1)%2 == 0)
                 {
-                    listViewItem.Background = _b1;
+                    listViewItem.Background = FirstBrush;
                 }
                 else
                 {
-                    listViewItem.Background = _b2;
+                    listViewItem.Background = SecondBrush;
                 }
             }
         }

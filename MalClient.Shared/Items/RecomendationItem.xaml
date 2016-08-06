@@ -14,7 +14,7 @@
     <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}" VerticalScrollBarVisibility="Hidden">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState>
+                <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="900"/>
                     </VisualState.StateTriggers>
@@ -65,7 +65,7 @@
                         </Setter>
                     </VisualState.Setters>
                 </VisualState>                
-                <VisualState>
+                <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
@@ -169,7 +169,7 @@
             <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
                     <MenuFlyoutSeparator />
-                    <userControls:AlternatingListView x:Name="DetailsListView" SelectionMode="None">
+                    <userControls:AlternatingListView x:Name="DetailsListView" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />

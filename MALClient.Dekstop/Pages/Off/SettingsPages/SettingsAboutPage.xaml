@@ -17,14 +17,14 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+    <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
         <ScrollViewer.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="FontWeight" Value="SemiLight" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
             </Style>
         </ScrollViewer.Resources>
-        <Grid>
+        <Grid Margin="0,0,16,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -105,15 +105,21 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="25.07.2016 -  v4.4.6.0 &amp; v4.4.5.0" />
-                            <TextBlock Text="Added favourites." />
-                            <TextBlock Text="Added messaging." />
-                            <TextBlock Text="Cleaned up project structure and unified codebases." />
-                            <TextBlock Text="You can now export show to Windows calendar from calendar page." />
-                            <TextBlock Text="Added characters &amp; voice actors and staff listings to anime details." />
-                            <TextBlock Text="Mobile version should be now usable with Continuum." />
-                            <TextBlock Text="Fixed TONS of bugs (more on github)." />
-                            <TextBlock Text="Bazillion UI adjustments and minor changes." />
+                            <TextBlock Text="03.08.2016 -  v4.4.16.0 &amp; v4.4.15.0" />
+                            <TextBlock Text="Added profile comments." />
+                            <TextBlock Text="Added profile history." />
+                            <TextBlock Text="Improved organisation of profile page." />
+                            <TextBlock Text="Gave some love to light theme." />
+                            <TextBlock Text="Search will be now more accurate and there will be delay after typing in query." />
+                            <TextBlock Text="Resolved issues with being unable to load more items on mobile." />
+                            <TextBlock Text="Selecting at random will be now smarter." />
+                            <TextBlock Text="Fixed visual bug with start/end dates." />
+                            <TextBlock Text="Fixed bug where refresh button could create duplicates." />
+                            <TextBlock Text="Status bar will now correctly show show titles and other headers." />
+                            <TextBlock Text="You can now select and copy text from header in anime details." />
+                            <TextBlock Text="Navigation mechanisms have been rewritten." />
+                            <TextBlock Text="Profile page will no longer show empty favourites." />
+                            <TextBlock Text="Resolved with adaptation issues in recommendations page." />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

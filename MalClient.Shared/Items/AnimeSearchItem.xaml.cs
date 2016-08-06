@@ -21,18 +21,6 @@ namespace MalClient.Shared.Items
 {
     public sealed partial class AnimeSearchItem : UserControl, IAnimeData
     {
-        private static bool _rowAlternator;
-
-        private static readonly Brush _b2 =
-            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
-                ? Color.FromArgb(170, 44, 44, 44)
-                : Color.FromArgb(170, 230, 230, 230));
-
-        private static readonly Brush _b1 =
-            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
-                ? Color.FromArgb(255, 11, 11, 11)
-                : Colors.WhiteSmoke);
-
         private readonly bool _animeMode;
         private readonly AnimeGeneralDetailsData _item;
         private Point _initialPoint;
@@ -40,10 +28,6 @@ namespace MalClient.Shared.Items
         public AnimeSearchItem()
         {
             InitializeComponent();
-            Root.Background = _rowAlternator
-                ? _b2
-                : _b1;
-            _rowAlternator = !_rowAlternator;
         }
 
         public AnimeSearchItem(AnimeGeneralDetailsData data, bool anime = true) : this()
@@ -112,7 +96,8 @@ namespace MalClient.Shared.Items
         public async void NavigateDetails()
         {
             await Task.Delay(10);
-
+            if(ViewModelLocator.AnimeDetails.Id == Id)
+                return;
             ViewModelLocator.GeneralMain
                     .Navigate(PageIndex.PageAnimeDetails,
                         new AnimeDetailsPageNavigationArgs(Id, Title, _item, this,

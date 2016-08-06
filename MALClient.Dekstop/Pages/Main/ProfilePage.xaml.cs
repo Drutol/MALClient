@@ -1,9 +1,11 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Models;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
@@ -43,7 +45,6 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
             base.OnNavigatedFrom(e);
         }
 
@@ -76,6 +77,35 @@ namespace MALClient.Pages.Main
             var grid = sender as FrameworkElement;
             var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
             flyout.ShowAt(grid);
+        }
+
+        private void ButtonGotoProfileOnClick(object sender, RoutedEventArgs e)
+        {
+            if(string.IsNullOrEmpty(GotoUserName.Text))
+                return;
+            GotoFlyout.Hide();
+            ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = GotoUserName.Text });
+            GotoUserName.Text = "";
+        }
+
+        private void GotoUserName_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                if (string.IsNullOrEmpty(GotoUserName.Text))
+                    return;
+                GotoFlyout.Hide();
+                ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = GotoUserName.Text });
+                GotoUserName.Text = "";
+                e.Handled = true;
+            }
+        }
+
+        private void OnAnimeItemClick(object sender, ItemClickEventArgs e)
+        {
+            DesktopViewModelLocator.ProfilePage.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
         }
     }
 }

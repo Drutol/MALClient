@@ -147,10 +147,5 @@
                          Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}" />
             <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
         </Grid>
-        <Button BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Opacity=".5"
-                PointerEntered="UIElement_OnPointerEntered" PointerExited="UIElement_OnPointerExited"
-                Command="{Binding RefreshCalendarCommand}">
-            <SymbolIcon Symbol="Refresh" />
-        </Button>
     </Grid>
 </Page>

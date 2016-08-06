@@ -80,7 +80,7 @@
                     </Grid>
                 </Grid>
                 <StackPanel Orientation="Horizontal">
-                    <Button Foreground="White" Padding="0" HorizontalAlignment="Center" Background="Transparent"
+                    <Button Foreground="{ThemeResource BrushText}" Padding="0" HorizontalAlignment="Center" Background="Transparent"
                         VerticalAlignment="Center" Margin="2,8,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
                         <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                         <Button.Flyout>

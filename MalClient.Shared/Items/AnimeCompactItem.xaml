@@ -87,7 +87,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
-                       Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="18 A"/>
+                       Foreground="{ThemeResource BrushText}" FontSize="18"/>
                         <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" 
                                Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}" FontWeight="SemiLight" 
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
@@ -95,7 +95,7 @@
                     </Grid>
                 </StackPanel>
                 <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
-                        Padding="0"
+                        Padding="0" Foreground="{ThemeResource BrushText}"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"
                         Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
                     <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Center" />

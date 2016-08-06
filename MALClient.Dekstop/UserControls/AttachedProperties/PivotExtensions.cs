@@ -22,18 +22,25 @@ namespace MALClient.UserControls.AttachedProperties
 
         private static void PropertyChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var pivot = sender as Pivot;
-            var val = (int)args.NewValue;
-            if (val > 0 && !_itemsCahe.ContainsKey(pivot.Tag))
+            try
             {
-                _itemsCahe.Add(pivot.Tag, pivot.Items[val]);
-                pivot.Items.RemoveAt(val);
+                var pivot = sender as Pivot;
+                var val = (int)args.NewValue;
+                if (val > 0 && !_itemsCahe.ContainsKey(pivot.Tag))
+                {
+                    _itemsCahe.Add(pivot.Tag, pivot.Items[val]);
+                    pivot.Items.RemoveAt(val);
+                }
+                else
+                {
+                    pivot.Items.Insert(1, _itemsCahe[pivot.Tag]); //TODO: If i'm ever gonna need this -> replace this "1" with variable
+                    _itemsCahe.Remove(pivot.Tag);
+                }
             }
-            else
+            catch (Exception)
             {
-                pivot.Items.Insert(1, _itemsCahe[pivot.Tag]); //TODO: If i'm ever gonna need this -> replace this "1" with variable
-                _itemsCahe.Remove(pivot.Tag);
-            }            
+               //
+            }        
         }
 
         public static void SetHidePivotItemIndex(UIElement element, int value)

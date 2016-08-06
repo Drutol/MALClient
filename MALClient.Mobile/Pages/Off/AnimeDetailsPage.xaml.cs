@@ -36,7 +36,6 @@ namespace MALClient.Pages.Off
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             DataContext = null;
-            ViewModelLocator.NavMgr.DeregisterBackNav();
             base.OnNavigatingFrom(e);
         }
 
@@ -63,7 +62,7 @@ namespace MALClient.Pages.Off
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            if (!ViewModel._initialized)
+            if (!ViewModel.Initialized)
                 return;
             switch (args.Item.Tag as string)
             {

@@ -22,7 +22,7 @@
         <StackPanel HorizontalAlignment="Stretch">
             <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
             <userControls1:AlternatingListView ItemsSource="{Binding CachedEntries}" Height="Auto"
-                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalAlignment="Stretch"  ScrollViewer.VerticalScrollMode="Disabled"
                                                           SelectionMode="None" Margin="0,10,0,5">
                 <ListView.Header>
                     <TextBlock Visibility="{Binding EmptyCachedListVisiblity}"

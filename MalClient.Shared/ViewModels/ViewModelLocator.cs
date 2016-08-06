@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight.Ioc;
+using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
@@ -47,6 +48,7 @@ namespace MalClient.Shared.ViewModels
         Visibility ScrollToTopButtonVisibility { get; set; }
         string CurrentStatusSub { get; set; }
         IMainViewInteractions View { get; }
+        bool IsCurrentStatusSelectable { get; set; }
     }
 
     public interface IHamburgerViewModel
@@ -58,6 +60,7 @@ namespace MalClient.Shared.ViewModels
         void UpdateAnimeFiltersSelectedIndex();
         void UpdateLogInLabel();
         Visibility MangaSectionVisbility { get; set; }
+        void SetActiveButton(TopAnimeType topType);
     }
 
     public interface INavMgr
@@ -75,6 +78,11 @@ namespace MalClient.Shared.ViewModels
         void RegisterOneTimeMainOverride(ICommand command);
         void ResetOneTimeOverride();
         void ResetOneTimeMainOverride();
+    }
+
+    public interface IProfileViewModel
+    {
+        Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions { get; }
     }
 
     public class ViewModelLocator
@@ -99,6 +107,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<ForumsMainViewModel>();
             SimpleIoc.Default.Register<ForumBoardViewModel>();
             SimpleIoc.Default.Register<ForumTopicViewModel>();
+            SimpleIoc.Default.Register<HistoryViewModel>();
 
         }
 
@@ -108,6 +117,8 @@ namespace MalClient.Shared.ViewModels
         public static IHamburgerViewModel GeneralHamburger => ServiceLocator.Current.GetInstance<IHamburgerViewModel>();
 
         public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
+
+        public static IProfileViewModel GeneralProfile => ServiceLocator.Current.GetInstance<IProfileViewModel>();
 
         public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
 
@@ -132,6 +143,9 @@ namespace MalClient.Shared.ViewModels
 
         public static MalMessageDetailsViewModel MalMessageDetails
             => ServiceLocator.Current.GetInstance<MalMessageDetailsViewModel>();
+
+        public static HistoryViewModel History
+            => ServiceLocator.Current.GetInstance<HistoryViewModel>();
 
         //Forums
 

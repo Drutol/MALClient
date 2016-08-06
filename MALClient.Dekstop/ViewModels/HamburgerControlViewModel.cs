@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -205,6 +206,12 @@ namespace MALClient.ViewModels
             }
         }
 
+        public List<string> PinnedProfiles => Settings.PinnedProfiles.Split(new char[] {';'},StringSplitOptions.RemoveEmptyEntries).ToList();
+
+        public void UpdatePinnedProfiles()
+        {
+            RaisePropertyChanged(() => PinnedProfiles);
+        }
 
         private void ButtonClick(object o)
         {

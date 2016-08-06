@@ -41,6 +41,18 @@ namespace MalClient.Shared.ViewModels
         //crucial fields
         private string _imgUrl;
         public bool _initialized;
+
+        public bool Initialized
+        {
+            get { return _initialized; }
+            private set
+            {
+                _initialized = value;
+                //OnInitialized?.Invoke(null, null);
+            }
+        }
+
+
         //loaded fields
         private bool _loadedDetails;
         private bool _loadedRecomm;
@@ -49,7 +61,7 @@ namespace MalClient.Shared.ViewModels
 
         private bool _loadingAlternate;
 
-        private AnimeDetailsPageNavigationArgs _prevArgs;
+        public AnimeDetailsPageNavigationArgs _prevArgs;
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
 
         public AnimeDetailsPageViewModel()
@@ -125,7 +137,20 @@ namespace MalClient.Shared.ViewModels
 
 
         private string SourceLink { get; set; }
-        public int Id { get; set; }
+
+        private int _id;
+
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                if (value <= 0)
+                    _prevArgs = null;
+            }
+        }
+
         public int MalId { get; set; }
 
         private int AllEpisodes
@@ -142,13 +167,15 @@ namespace MalClient.Shared.ViewModels
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
 
+        //public event EventHandler OnInitialized; 
+
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
-            _initialized = false;
+            Initialized = false;
             LoadingGlobal = Visibility.Visible;
             //wait for UI
             await Task.Delay(5);
-
+            ViewModelLocator.GeneralMain.IsCurrentStatusSelectable = true;
 
             _loadingAlternate = false;
 
@@ -274,6 +301,7 @@ namespace MalClient.Shared.ViewModels
                 case PageIndex.PageAnimeList:
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
+                case PageIndex.PageHistory:
                     await FetchData();
                     if (_prevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
@@ -284,7 +312,6 @@ namespace MalClient.Shared.ViewModels
                     if (param.RegisterBackNav) //we are already going back
                     {
                         ViewModelLocator.NavMgr.RegisterBackNav(param.PrevPageSetup as AnimeDetailsPageNavigationArgs);
-                        ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup, PageIndex.PageAnimeDetails);
                     }
                     break;
                 case PageIndex.PageRecomendations:
@@ -298,7 +325,7 @@ namespace MalClient.Shared.ViewModels
             _prevArgs = param;
             _prevArgs.RegisterBackNav = false;
             _prevArgs.Source = PageIndex.PageAnimeDetails;
-            _initialized = true;
+            Initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
             //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
         }
@@ -564,7 +591,7 @@ namespace MalClient.Shared.ViewModels
             => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
 
 
-        private Visibility _loadingDetails;
+        private Visibility _loadingDetails = Visibility.Collapsed;
 
         public Visibility LoadingDetails
         {
@@ -576,7 +603,7 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        private Visibility _loadingReviews;
+        private Visibility _loadingReviews = Visibility.Collapsed;
 
         public Visibility LoadingReviews
         {
@@ -588,7 +615,7 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        private Visibility _loadingRelated;
+        private Visibility _loadingRelated = Visibility.Collapsed;
 
         public Visibility LoadingRelated
         {
@@ -612,7 +639,7 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        private Visibility _loadingRecommendations;
+        private Visibility _loadingRecommendations = Visibility.Collapsed;
 
         public Visibility LoadingRecommendations
         {
@@ -1259,6 +1286,7 @@ namespace MalClient.Shared.ViewModels
 
         private bool _removeAnimeBtnEnableState = true;
 
+
         public bool RemoveAnimeBtnEnableState
         {
             get { return _removeAnimeBtnEnableState; }
@@ -1664,7 +1692,7 @@ namespace MalClient.Shared.ViewModels
 
         private void ExtractData(AnimeGeneralDetailsData data)
         {
-            Title = data.Title;
+            Title = _animeItemReference?.Title ?? data.Title;
             Type = data.Type;
             Status = data.Status;
             Synopsis = data.Synopsis;
@@ -1716,7 +1744,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadDetails(bool force = false)
         {
-            if (_loadedDetails && !force && _initialized)
+            if (LoadingDetails == Visibility.Visible || (_loadedDetails && !force && Initialized))
                 return;
             _loadedDetails = true;
             LoadingDetails = Visibility.Visible;
@@ -1853,7 +1881,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadReviews(bool force = false)
         {
-            if (_loadedReviews && !force && _initialized)
+            if (LoadingRecommendations == Visibility.Visible || (_loadedReviews && !force && Initialized))
                 return;
             LoadingReviews = Visibility.Visible;
             _loadedReviews = true;
@@ -1874,7 +1902,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadRecommendations(bool force = false)
         {
-            if (_loadedRecomm && !force && _initialized)
+            if (LoadingRecommendations == Visibility.Visible || (_loadedRecomm && !force && Initialized))
                 return;
             LoadingRecommendations = Visibility.Visible;
             _loadedRecomm = true;
@@ -1899,7 +1927,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadRelatedAnime(bool force = false)
         {
-            if (_loadedRelated && !force && _initialized)
+            if (LoadingRelated == Visibility.Visible || (_loadedRelated && !force && Initialized))
                 return;
             LoadingRelated = Visibility.Visible;
             _loadedRelated = true;

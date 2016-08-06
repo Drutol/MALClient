@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.MagicalRawQueries;
+using MalClient.Shared.Comm.Profile;
 
 namespace MalClient.Shared.Utils.Managers
 {

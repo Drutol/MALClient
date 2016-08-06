@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="MALClient.Pages.Main.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:items="using:MalClient.Shared.Items"
+    xmlns:derived="using:MalClient.Shared.UserControls.Derived"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=History}">
+
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding History}" VerticalAlignment="Top">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <derived:TrueVariableWarpGrid/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5" Padding="10" CornerRadius="10" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Key}" FontSize="26" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="Medium" HorizontalAlignment="Center" Margin="0,5"/>
+                            <GridView Grid.Row="1" ItemsSource="{Binding Value}" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
+                                <GridView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsWrapGrid Orientation="Horizontal" ItemHeight="360" ItemWidth="500"/>
+                                    </ItemsPanelTemplate>
+                                </GridView.ItemsPanel>
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="Margin" Value="5"/>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="220"/>
+                                                <ColumnDefinition Width="230"/>
+                                            </Grid.ColumnDefinitions>
+                                            <items:AnimeGridItem IsRightTapEnabled="True" RightTapped="AnimeItemOnRightClick" Width="200" Height="325" HorizontalAlignment="Center" DataContext="{Binding Item1}"/>
+                                            <ScrollViewer Grid.Column="1" Margin="0,0,-16,0" PointerPressed="HistoryScrollViewerOnPointerPressed">
+                                                <ItemsControl ItemsSource="{Binding Item2}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <ItemsStackPanel Margin="0,0,16,0"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Margin="0,5">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding ShowUnit}" />
+                                                                    <TextBlock Text="{Binding WatchedEpisode}" Margin="5,0" FontWeight="Medium"/>
+                                                                </StackPanel>
+                                                                <TextBlock Text="{Binding Date}" HorizontalAlignment="Right"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <TextBlock
+                Visibility="{Binding HistoryEmptyNoticeVisibility}"
+                Text="Empty..." HorizontalAlignment="Center" VerticalAlignment="Center"
+                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#B9B9B9" />
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding LoadingVisibility}"
+              Background="{ThemeResource BrushLoading}">
+            <ProgressRing
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                IsActive="True" />
+        </Grid>
+    </Grid>
+</Page>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -7,7 +8,6 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
-
 namespace MALClient.Utils
 {
     /// <summary>
@@ -15,160 +15,108 @@ namespace MALClient.Utils
     /// </summary>
     public class NavMgr : INavMgr
     {
-        private PageIndex _pageTo;
-        private object _args;
-
-        private readonly Stack<object> DetailsNavStack =
-            new Stack<object>(10);
-
-        private bool _wasOnStack;
-        private bool _handlerRegistered;
-        private bool _oneTimeHandler;
-
         private ICommand _currentOverride;
 
-        public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
-            //about because it is not used anywhere...
-        {
-            //if we are navigating inside details we have to create stack
-            if (source == PageIndex.PageAnimeDetails || source == PageIndex.PageProfile)
-            {
-                _wasOnStack = true;
-                DetailsNavStack.Push(args);
-                //we can only navigate to details from details so...
-            }
-            else //non details navigation
-            {
-                DetailsNavStack.Clear();
-                _wasOnStack = false;
-                _pageTo = page;
-                _args = args;
-            }
+        private readonly Stack<Tuple<PageIndex, object>> _randomNavigationStackMain =
+            new Stack<Tuple<PageIndex, object>>(30);
 
-            if (!_handlerRegistered)
-            {
-                var currentView = SystemNavigationManager.GetForCurrentView();
-                currentView.BackRequested += CurrentViewOnBackRequested;
-                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                _handlerRegistered = true;
-            }
+        public NavMgr()
+        {
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.BackRequested += CurrentViewOnBackRequested;
+            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
-        private void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs args)
+        private void CurrentViewOnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            args.Handled = true;
             if (_currentOverride != null)
             {
                 _currentOverride.Execute(null);
                 _currentOverride = null;
-                if (_oneTimeHandler)
-                {
-                    _oneTimeHandler = false;
-                    var currentView = SystemNavigationManager.GetForCurrentView();
-                    currentView.BackRequested -= CurrentViewOnBackRequested;
-                }
+                if (_randomNavigationStackMain.Count == 0)
+                    ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+                e.Handled = true;
                 return;
             }
-            if (DetailsNavStack.Count == 0) //nothing on the stack = standard
-                MobileViewModelLocator.Main.Navigate(_pageTo, _args);
-            else //take an element from stack otherwise
-            {
-                object arg = DetailsNavStack.Pop();
-                MobileViewModelLocator.Main.Navigate( arg is AnimeDetailsPageNavigationArgs ? PageIndex.PageAnimeDetails : PageIndex.PageProfile ,arg );
-            }
 
-            if (_args is AnimeListPageNavigationArgs)
-            {
-                var param = (AnimeListPageNavigationArgs) _args;
-                if (param.WorkMode == AnimeListWorkModes.TopManga)
-                    _pageTo = PageIndex.PageTopManga;
-                else if (param.WorkMode == AnimeListWorkModes.TopAnime)
-                    _pageTo = PageIndex.PageTopAnime;
-            }
 
-            MobileViewModelLocator.Hamburger.SetActiveButton(Utilities.GetButtonForPage(_pageTo));
-        }
-
-        public void DeregisterBackNav()
-        {
-            if (DetailsNavStack.Count > 0)
-            {
-                return; //we still have stack to go
-            }
-            if (_wasOnStack)
-            {
-                _wasOnStack = false;
+            if (_randomNavigationStackMain.Count == 0) //when we are called from mouse back button
                 return;
-            }
-            var currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.BackRequested -= CurrentViewOnBackRequested;
-            _handlerRegistered = false;
-        }
-
-        public void ResetOffBackNav()
-        {
-            DetailsNavStack.Clear();
-            _wasOnStack = false;
-            _handlerRegistered = false;
-            var currentView = SystemNavigationManager.GetForCurrentView();
-            currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            currentView.BackRequested -= CurrentViewOnBackRequested;
-        }
-
-        public void RegisterBackNav(ProfilePageNavigationArgs args)
-        {
-           // throw new System.NotImplementedException();
-        }
-
-        public void CurrentMainViewOnBackRequested()
-        {
-            //throw new System.NotImplementedException();
-        }
-
-        public void CurrentOffViewOnBackRequested()
-        {
-            //throw new System.NotImplementedException();
-        }
-
-        public void ResetMainBackNav()
-        {
-           // throw new System.NotImplementedException();
+            var data = _randomNavigationStackMain.Pop();
+            ViewModelLocator.GeneralMain.Navigate(data.Item1, data.Item2);
+            if (_randomNavigationStackMain.Count == 0)
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+            e.Handled = true;
         }
 
         public void RegisterBackNav(AnimeDetailsPageNavigationArgs args)
         {
-            //throw new System.NotImplementedException();
+            RegisterBackNav(PageIndex.PageAnimeDetails, args);
         }
 
-        public void RegisterOneTimeMainOverride(ICommand command)
+        public void RegisterBackNav(ProfilePageNavigationArgs args)
         {
-            //throw new System.NotImplementedException();
+            RegisterBackNav(PageIndex.PageProfile, args);
+        }
+
+        public void DeregisterBackNav()
+        {
+            _randomNavigationStackMain.Clear();
+        }
+
+        public void ResetOffBackNav()
+        {
+            _randomNavigationStackMain.Clear();
+        }
+
+        public void CurrentOffViewOnBackRequested()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void ResetMainBackNav()
+        {
+            _randomNavigationStackMain.Clear();
+            _currentOverride = null;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+        }
+
+        public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
+        {
+            _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+        }
+
+        public void RegisterOneTimeOverride(ICommand command)
+        {
+            _currentOverride = command;
+            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
         }
 
         public void ResetOneTimeOverride()
         {
-            throw new System.NotImplementedException();
+            _currentOverride = null;
+            if (_randomNavigationStackMain.Count == 0)
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+        }
+
+        public void RegisterOneTimeMainOverride(ICommand command)
+        {
+            _currentOverride = command;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
         }
 
         public void ResetOneTimeMainOverride()
         {
             _currentOverride = null;
-            if (DetailsNavStack.Count == 0)
+            if (_randomNavigationStackMain.Count == 0)
                 ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
         }
 
-        public void RegisterOneTimeOverride(ICommand command)
+        public void CurrentMainViewOnBackRequested()
         {
-            if (!_handlerRegistered)
-            {
-                _oneTimeHandler = true;
-                var currentView = SystemNavigationManager.GetForCurrentView();
-                currentView.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                currentView.BackRequested += CurrentViewOnBackRequested;
-            }
-
-            _currentOverride = command;
+            CurrentViewOnBackRequested(null,null);
         }
-
     }
+
 }

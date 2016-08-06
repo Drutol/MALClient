@@ -25,7 +25,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<ProfilePageViewModel>();
             SimpleIoc.Default.Register<IMainViewModel>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
-            //SimpleIoc.Default.Register<IAnimeListViewModel>(() => SimpleIoc.Default.GetInstance<AnimeListViewModel>());
+            SimpleIoc.Default.Register<IProfileViewModel>(() => SimpleIoc.Default.GetInstance<ProfilePageViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());
             SimpleIoc.Default.Register<INavMgr, NavMgr>();
         }

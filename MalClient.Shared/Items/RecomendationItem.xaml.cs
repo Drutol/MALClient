@@ -21,13 +21,29 @@ namespace MalClient.Shared.Items
             new ObservableCollection<Tuple<string, string, string, string, string>>();
 
         private bool _dataLoaded;
+        private bool _wide;
 
         public RecomendationItem(RecomendationData data, int index)
         {
             InitializeComponent();
+            SizeChanged += OnSizeChanged;
             Loaded += OnLoaded;
             Index = index;
             _data = data;
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            if (_wide && sizeChangedEventArgs.NewSize.Width < 900)
+            {
+                _wide = false;
+                VisualStateManager.GoToState(this, "Narrow",false);
+            }
+            else if(!_wide && sizeChangedEventArgs.NewSize.Width > 900)
+            {
+                _wide = true;
+                VisualStateManager.GoToState(this, "Wide", false);
+            }
         }
 
         public int Index { get; }
@@ -36,6 +52,8 @@ namespace MalClient.Shared.Items
         {
             try
             {
+                _wide = ActualWidth > 900;
+                VisualStateManager.GoToState(this, _wide ? "Wide" : "Narrow", false);
                 var scrollViewer =
                     VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(DetailsListView, 0), 0) as ScrollViewer;
                 scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
@@ -77,9 +95,9 @@ namespace MalClient.Shared.Items
                 myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{_data.RecommendationData.AllEpisodes}"));
             _detailItems.Add(new Tuple<string, string, string, string, string>("Score:",
                 _data.DependentData.GlobalScore.ToString(),
-                myDepItem?.MyScore == null ? "" : $"{myDepItem.MyScore}/10",
+                myDepItem?.MyScore == null ? "" : ( myDepItem.MyScore == 0 ? "N/A" : $"{myDepItem.MyScore}/10"),
                 _data.RecommendationData.GlobalScore.ToString(),
-                myRecItem?.MyScore == null ? "" : $"{myRecItem.MyScore}/10"));
+                myRecItem?.MyScore == null ? "" : (myRecItem.MyScore == 0 ? "N/A" : $"{myRecItem.MyScore}/10"))) ;
             _detailItems.Add(new Tuple<string, string, string, string, string>("Type:", _data.DependentData.Type, "",
                 _data.RecommendationData.Type, ""));
             _detailItems.Add(new Tuple<string, string, string, string, string>("Status:", _data.DependentData.Status, "",

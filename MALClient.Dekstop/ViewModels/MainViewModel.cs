@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Delegates;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
@@ -82,9 +83,13 @@ namespace MALClient.ViewModels
             {
                 OffRefreshButtonVisibility = Visibility.Collapsed;
                 mainPage = false;
+                IsCurrentStatusSelectable = false;
                 currOffPage = index;
                 if (index != PageIndex.PageAnimeDetails)
+                {
+                    ViewModelLocator.AnimeDetails.Id = 0; //reset this because we no longer are there
                     ViewModelLocator.NavMgr.ResetOffBackNav();
+                }
             }
             else
             {
@@ -119,6 +124,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageNews ||
                      index == PageIndex.PageMessanging ||
                      index == PageIndex.PageForumIndex)
+                     index == PageIndex.PageMessanging ||
+                     index == PageIndex.PageHistory)
             {
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
                 currPage = index;
@@ -177,7 +184,6 @@ namespace MALClient.ViewModels
                         OffNavigationRequested?.Invoke(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
-                    HideSearchStuff();
                     OffContentVisibility = Visibility.Visible;
                     OffNavigationRequested?.Invoke(typeof(SettingsPage));
                     break;
@@ -220,8 +226,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();
-                    //RefreshButtonVisibility = Visibility.Visible;
-                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CalendarPage.Init(true));
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CalendarPage.Init(true));
                     CurrentStatus = "Calendar";
                     MainNavigationRequested?.Invoke(typeof(CalendarPage), args);
                     break;
@@ -240,8 +246,12 @@ namespace MALClient.ViewModels
                     MainNavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
                 case PageIndex.PageMessageDetails:
-                    var msgModel = args as MalMessageModel;
-                    CurrentOffStatus = msgModel != null ? $"{msgModel.Sender} - {msgModel.Subject}" : "New Message";
+                    var msgModel = args as MalMessageDetailsNavArgs;
+                    CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
+                        ? (msgModel.Arg != null
+                            ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
+                            : "New Message")
+                        : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
                     OffContentVisibility = Visibility.Visible;
                     OffNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
@@ -254,6 +264,13 @@ namespace MALClient.ViewModels
                         ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
                     else
                         MainNavigationRequested?.Invoke(typeof(ForumsMainPage), args);
+                    break;
+                case PageIndex.PageHistory:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null,true); });
+                    CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
+                    MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -287,7 +304,7 @@ namespace MALClient.ViewModels
                 page.WorkMode,
                 page.ListSource,
                 page.CurrentSeason,
-                page.DisplayMode);
+                page.DisplayMode) {ResetBackNav = page.ResetedNavBack};
         }
 
         #endregion
@@ -313,6 +330,18 @@ namespace MALClient.ViewModels
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
 
                 MenuPaneState = Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500;
+            }
+        }
+
+        public bool _isCurrentStatusSelectable;
+
+        public bool IsCurrentStatusSelectable
+        {
+            get { return _isCurrentStatusSelectable; }
+            set
+            {
+                _isCurrentStatusSelectable = value;
+                RaisePropertyChanged(() => IsCurrentStatusSelectable);
             }
         }
 
@@ -381,6 +410,8 @@ private bool _menuPaneState;
             get { return _currentStatus; }
             set
             {
+                if(_currentStatus == value)
+                    return;
                 _currentStatus = value;
                 View.CurrentStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatus);
@@ -394,7 +425,9 @@ private bool _menuPaneState;
             get { return _currentStatusSub; }
             set
             {
-                _currentStatusSub = value;
+                if (_currentStatusSub == value)
+                    return;
+                 _currentStatusSub = value;
                 View.CurrentOffSubStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatusSub);
             }
@@ -424,8 +457,11 @@ private bool _menuPaneState;
                 RaisePropertyChanged(() => CurrentSearchQuery);
                 SetSearchHints();
                 if (SearchToggleLock) return;
-
-                ViewModelLocator.AnimeList.RefreshList(true);
+                
+                if(string.IsNullOrEmpty(value))
+                    ViewModelLocator.AnimeList.RefreshList(true);
+                else
+                    SubmitSearchQueryWithDelayCheck();
             }
         }
 
@@ -737,6 +773,14 @@ private bool _menuPaneState;
         }
 
         #endregion
+
+        public async void SubmitSearchQueryWithDelayCheck()
+        {
+            string query = CurrentSearchQuery;
+            await Task.Delay(500);
+            if(query == CurrentSearchQuery)
+                ViewModelLocator.AnimeList.RefreshList(true);
+        }
 
         #region UIHelpers
 

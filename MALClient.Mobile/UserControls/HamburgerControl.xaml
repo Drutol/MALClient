@@ -429,7 +429,7 @@
                                     <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center"
                                                   Grid.Column="0" IsActive="True"
                                                   Visibility="{Binding AdLoadingSpinnerVisibility}" />
-                                    <TextBlock Text="Support me!" HorizontalAlignment="Stretch"
+                                    <TextBlock Text="Support me!" HorizontalAlignment="Left" Margin="10,0,0,0"
                                                TextWrapping="WrapWholeWords" FontSize="15" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
@@ -443,7 +443,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Image x:Name="FeedbackImage" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill" Width="25" Height="25"/>
-                                    <TextBlock Text="Feedback" HorizontalAlignment="Center"                                 
+                                    <TextBlock Text="Feedback" HorizontalAlignment="Left" Margin="10,0,0,0"                            
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </Button>
@@ -463,16 +463,43 @@
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
                                     <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}"
-                                               HorizontalAlignment="Center"
+                                               HorizontalAlignment="Left" Margin="10,0,0,0"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 </Grid>
                             </Button>
                             <Button x:Name="BtnProfile" VerticalContentAlignment="Center" Background="Transparent"
                                     Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                    BorderThickness="0"
+                                    BorderThickness="0" RightTapped="BtnProfile_OnClick" IsRightTapEnabled="True" Holding="BtnProfile_OnClick"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="5">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                            <ListView Grid.Row="1" Margin="-20,0" SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                                                        <Setter Property="Height" Value="30"/>
+                                                        <Setter Property="MinHeight" Value="30"/>
+                                                        <Setter Property="Margin" Value="0,2"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock HorizontalAlignment="Center" Text="{Binding}"></TextBlock>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </Grid>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
                                 <Grid Width="220" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
@@ -487,18 +514,29 @@
                                            Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                     <SymbolIcon Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                                 Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                    <TextBlock Text="Profile" HorizontalAlignment="Center"
+                                    <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="10,0,0,0"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                    <Button Grid.Column="1" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
-                                        CommandParameter="16" Margin="0,0,4,0"
-                                        Width="40" Height="35" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                        <Button.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".25" />
-                                        </Button.Background>
-                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                    <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="1" Orientation="Horizontal" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="18" Background="Transparent"
+                                        Width="40" Height="35">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="History"/>
+                                            </ToolTipService.ToolTip>
+                                            <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,1,0" />
-                                    </Button>
+                                        </Button>
+                                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="16" Background="Transparent"
+                                        Width="40" Height="35" >
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="Messaging"/>
+                                            </ToolTipService.ToolTip>
+                                            <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,1,0" />
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
@@ -516,22 +554,9 @@
                                     <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Center"
+                                    <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Left" Margin="10,0,0,0"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                    <!--<Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
-                                            BorderThickness="0"
-                                            Command="{Binding ButtonNavigationCommand}"
-                                            CommandParameter="6">
-                                        <SymbolIcon Symbol="Help" VerticalAlignment="Center"
-                                                    Foreground="{Binding Path=TxtForegroundBrushes[About]}"
-                                                    HorizontalAlignment="Center" Margin="2,4,0,0"
-                                                    RenderTransformOrigin="0.5,0.5">
-                                            <SymbolIcon.RenderTransform>
-                                                <ScaleTransform ScaleX=".75" ScaleY=".75" />
-                                            </SymbolIcon.RenderTransform>
-                                        </SymbolIcon>
-                                    </Button>-->
                                 </Grid>
                             </Button>
                             <Grid Height="{Binding GridBtmMarginHeight}" />

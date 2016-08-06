@@ -12,10 +12,12 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using FontAwesome.UWP;
 using HtmlAgilityPack;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using Microsoft.HockeyApp;
@@ -29,7 +31,8 @@ namespace MalClient.Shared.Utils
         LoggedInHummingbird,
         LoggedInMyAnimeList,
         PinnedTile,
-        LaunchedFeedback
+        LaunchedFeedback,
+        LaunchedFeedbackHub
     }     
 
     public static class Utilities
@@ -458,6 +461,8 @@ namespace MalClient.Shared.Utils
                     return HamburgerButtons.News;
                 case PageIndex.PageMessanging:
                     return HamburgerButtons.Messanging;
+                case PageIndex.PageHistory:
+                    return HamburgerButtons.History;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
@@ -477,12 +482,19 @@ namespace MalClient.Shared.Utils
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-                sb.Text = text;
-                sb.ProgressValue = null;
-                await sb.ShowAsync();
-                await Task.Delay(2000);
-                await sb.HideAsync();
+                try
+                {
+                    var sb = StatusBar.GetForCurrentView().ProgressIndicator;
+                    sb.Text = text;
+                    sb.ProgressValue = null;
+                    await sb.ShowAsync();
+                    await Task.Delay(2000);
+                    await sb.HideAsync();
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
         }
 
@@ -517,6 +529,11 @@ namespace MalClient.Shared.Utils
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
         {
             return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+        }
+
+        public static HtmlNode FirstOfDescendantsWithId(this HtmlDocument doc, string descendants, string targettedId)
+        {
+            return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == targettedId);
         }
 
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)

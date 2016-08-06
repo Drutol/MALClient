@@ -53,10 +53,13 @@ namespace MalClient.Shared.ViewModels.Main
 
         private bool _initializing;
 
+        public bool ResetedNavBack { get; set; } = true;
+
         private AnimeListDisplayModes? _manuallySelectedViewMode;
         private string _prevListSource;
 
         private string _prevQuery = "";
+        private int _prevAnimeStatus;
 
 
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
@@ -140,6 +143,11 @@ namespace MalClient.Shared.ViewModels.Main
             _animeItemsSet = new List<AnimeItemAbstraction>();
             AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
             RaisePropertyChanged(() => AnimeItems);
+            _randomedIds = new List<int>();
+            _fetching = _fetchingSeasonal = false;
+
+            if (args == null || args.ResetBackNav)
+                ViewModelLocator.NavMgr.ResetMainBackNav();
 
             //give visual feedback
             Loading = true;
@@ -150,9 +158,13 @@ namespace MalClient.Shared.ViewModels.Main
             var gotArgs = false;
             if (args != null) //Save current mode
             {
+                ResetedNavBack = args.ResetBackNav;
                 WorkMode = args.WorkMode;
                 if (WorkMode == AnimeListWorkModes.TopAnime)
-                    TopAnimeWorkMode = args.TopWorkMode; //we have to have it
+                {
+                    TopAnimeWorkMode = args.TopWorkMode;
+                    ViewModelLocator.GeneralHamburger.SetActiveButton(args.TopWorkMode);//we have to have it
+                }
 
                 if (!string.IsNullOrEmpty(args.ListSource))
                     ListSource = args.ListSource;
@@ -231,7 +243,9 @@ namespace MalClient.Shared.ViewModels.Main
                     AppBtnListSourceVisibility = false;
                     AppBtnGoBackToMyListVisibility = Visibility.Collapsed;
                     BtnSetSourceVisibility = false;
-                    
+
+                    ViewModelLocator.NavMgr.DeregisterBackNav();
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
 
                     if (!gotArgs)
                     {
@@ -293,17 +307,22 @@ namespace MalClient.Shared.ViewModels.Main
             if (!queryCondition)
                 _prevQuery = null;
 
+            if(queryCondition && !_wasPreviousQuery)
+                SetDesiredStatus((int)AnimeStatus.AllOrAiring);
+            else if(!queryCondition && _wasPreviousQuery)
+                SetDesiredStatus(_prevAnimeStatus);
+
             _wasPreviousQuery = queryCondition;
 
 
-            var status = queryCondition ? 7 : GetDesiredStatus();
+            var status = GetDesiredStatus();
 
             IEnumerable<AnimeItemAbstraction> items;
             if (queryCondition &&
                 _wasPreviousQuery &&
                 !string.IsNullOrEmpty(_prevQuery) &&
                 query.Length > _prevQuery.Length &&
-                query.Substring(0, _prevQuery.Length) == _prevQuery) //use previous results if query is more detailed
+                query.Substring(0, _prevQuery.Length-1) == _prevQuery) //use previous results if query is more detailed
                 items = _animeItemsSet.Union(AnimeItems.Select(model => model.ParentAbstraction));
             else
                 switch (WorkMode)
@@ -328,7 +347,10 @@ namespace MalClient.Shared.ViewModels.Main
                 _prevQuery = query;
             _animeItemsSet.Clear();
 
-            items = items.Where(item => queryCondition || status == 7 || item.MyStatus == status);
+            items = items.Where(item => status == 7 || item.MyStatus == status);
+
+            if(!queryCondition)
+                _prevAnimeStatus = status;
 
             if (queryCondition)
             {
@@ -467,6 +489,7 @@ namespace MalClient.Shared.ViewModels.Main
             _lastOffset = 0;
             RaisePropertyChanged(() => DisplayMode);
             var minItems = GetGridItemsToLoad();
+            minItems = minItems < 10 ? 10 : minItems;
             var minimumIndex = CurrentIndexPosition == -1
                 ? minItems
                 : CurrentIndexPosition + 1 <= minItems ? minItems : CurrentIndexPosition + 1;
@@ -506,6 +529,7 @@ namespace MalClient.Shared.ViewModels.Main
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             Loading = false;
+            _randomedIds = new List<int>();
         }
 
 
@@ -588,19 +612,24 @@ namespace MalClient.Shared.ViewModels.Main
                 return;
             //Depending on display mode we load more or less items.
             //This is the place where offset thresholds are defined
-            if (offset - _lastOffset > (DisplayMode == AnimeListDisplayModes.IndefiniteList ? 75 : (DisplayMode == AnimeListDisplayModes.IndefiniteCompactList ? 50 : 100)) || (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) || (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
+            if (offset - _lastOffset >
+                (DisplayMode == AnimeListDisplayModes.IndefiniteList
+                    ? 75
+                    : (DisplayMode == AnimeListDisplayModes.IndefiniteCompactList ? 50 : 100)) ||
+                (DisplayMode == AnimeListDisplayModes.IndefiniteList && _animeItemsSet.Count == 1) ||
+                (DisplayMode == AnimeListDisplayModes.IndefiniteGrid && _animeItemsSet.Count <= 2))
             {
                 _lastOffset = offset;
                 int itemsCount;
                 switch (DisplayMode)
                 {
                     case AnimeListDisplayModes.IndefiniteList:
-                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/400;
+                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/200;
                         AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
                     case AnimeListDisplayModes.IndefiniteGrid:
-                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/200;
+                        itemsCount = (int) (sender as FrameworkElement).ActualWidth/160;
                         AnimeItems.AddRange(_animeItemsSet.Take(itemsCount).Select(abstraction => abstraction.ViewModel));
                         _animeItemsSet = _animeItemsSet.Skip(itemsCount).ToList();
                         break;
@@ -653,8 +682,14 @@ namespace MalClient.Shared.ViewModels.Main
         /// </summary>
         /// <param name="force"></param>
         /// <returns></returns>
+        private bool _fetchingSeasonal;
         private async Task FetchSeasonalData(bool force = false, int page = 0)
         {
+            if(_fetchingSeasonal)
+                return;
+            _fetchingSeasonal = true;
+
+
             Loading = true;
             EmptyNoticeVisibility = false;
             var setDefaultSeason = false;
@@ -683,6 +718,7 @@ namespace MalClient.Shared.ViewModels.Main
             //if we don't have any we cannot do anything I guess...
             if (data.Count == 0)
             {
+                _fetchingSeasonal = false;
                 RefreshList();
                 return;
             }
@@ -767,7 +803,7 @@ namespace MalClient.Shared.ViewModels.Main
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
             }
-
+            _fetchingSeasonal = false;
             RefreshList();
         }
 
@@ -796,19 +832,20 @@ namespace MalClient.Shared.ViewModels.Main
         ///     but it wasn't downloaded by the application.
         /// </param>
         /// <returns></returns>
+        private bool _fetching;
         public async Task FetchData(bool force = false, AnimeListWorkModes? modeOverride = null)
         {
-            AnimeListWorkModes requestedMode;
-            requestedMode = modeOverride ?? WorkMode;
+            if(_fetching)
+                return;
+            _fetching = true;
+
+            var requestedMode = modeOverride ?? WorkMode;
 
             if (!force && _prevListSource == ListSource && _prevWorkMode == requestedMode)
             {
-                //foreach (var item in AllLoadedAnimeItemAbstractions.Where(abstraction => abstraction.LoadedAnime))
-                //{
-                //    item.ViewModel.SignalBackToList();
-                //}
                 if (_prevWorkMode != modeOverride)
                     RefreshList();
+                _fetching = false;
                 return;
             }
             if (WorkMode == requestedMode)
@@ -861,6 +898,7 @@ namespace MalClient.Shared.ViewModels.Main
                 {
                     //no data?
                     RefreshList();
+                    _fetching = false;
                     return;
                 }
 
@@ -887,6 +925,7 @@ namespace MalClient.Shared.ViewModels.Main
                 }
             }
 
+            _fetching = false;
             if (WorkMode != requestedMode)
                 return; // manga or anime is loaded top manga can proceed loading something else
 
@@ -935,6 +974,8 @@ namespace MalClient.Shared.ViewModels.Main
             get { return _listSource; }
             set
             {
+                if(_listSource == value)
+                    return;
                 _listSource = value;
                 RaisePropertyChanged(() => ListSource);
             }
@@ -1030,6 +1071,7 @@ namespace MalClient.Shared.ViewModels.Main
 
         private ICommand _selectAtRandomCommand;
         private Random _rangomGenerator;
+        private List<int> _randomedIds = new List<int>();
 
         public ICommand SelectAtRandomCommand
         {
@@ -1041,8 +1083,26 @@ namespace MalClient.Shared.ViewModels.Main
                         return;
                     var random = _rangomGenerator ?? (_rangomGenerator = new Random((int) DateTime.Now.Ticks));
                     var pool = _animeItemsSet.Select(abstraction => abstraction.ViewModel).Union(AnimeItems).ToList();
-                    var winner = pool[random.Next(0, pool.Count - 1)];
+                    if(pool.Count == 0)
+                        return;
+                    if(_randomedIds.Count == pool.Count)
+                        _randomedIds = new List<int>();
+                    _randomedIds.ForEach(id =>
+                    {
+                        var item = pool.FirstOrDefault(model => model.Id == id);
+                        if (item != null)
+                            pool.Remove(item);
+                    });                  
+                    var winner = pool[random.Next(0, pool.Count)];
+                    if (Settings.EnsureRandomizerAlwaysSelectsWinner && !AnimeItems.Contains(winner))
+                    {
+                        var indexesToLoad = _animeItemsSet.IndexOf(winner.ParentAbstraction) + 10;
+                        AnimeItems.AddRange(_animeItemsSet.Take(indexesToLoad).Select(abstraction => abstraction.ViewModel));
+                        _animeItemsSet = _animeItemsSet.Skip(indexesToLoad).ToList();
+                    }
+
                     winner.NavigateDetails();
+                    _randomedIds.Add(winner.Id);
                     ScrollIntoViewRequested?.Invoke(winner,true);
                 }));
             }
@@ -1444,8 +1504,9 @@ namespace MalClient.Shared.ViewModels.Main
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
-
+            Initializing = true;
             StatusSelectorSelectedIndex = (int) value;
+            Initializing = false;
         }
 
         #endregion

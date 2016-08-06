@@ -350,11 +350,21 @@ namespace MalClient.Shared.ViewModels.Main
             }
             else
             {
+                var msg = new MessageDialog("Not enough data to create event.");
+                await msg.ShowAsync();
                 return;
             }
             appointment.Recurrence = recurrence;
             var rect = new Rect(new Point(Window.Current.Bounds.Width/2, Window.Current.Bounds.Height/2), new Size());
-            await AppointmentManager.ShowAddAppointmentAsync(appointment, rect, Placement.Default);
+            try
+            {
+                await AppointmentManager.ShowAddAppointmentAsync(appointment, rect, Placement.Default);
+            }
+            catch (Exception)
+            {
+                //appointpent is already being created
+            }
+
         }
     }
 }

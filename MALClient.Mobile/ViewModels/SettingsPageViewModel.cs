@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Models.Anime;
 using MalClient.Shared.Models.Misc;
 using MalClient.Shared.Utils;
@@ -338,6 +339,12 @@ namespace MALClient.ViewModels
         {
             get { return Settings.SyncFavsFromTimeToTime; }
             set { Settings.SyncFavsFromTimeToTime = value; }
+        }
+
+        public static bool EnsureRandomizerAlwaysSelectsWinner
+        {
+            get { return Settings.EnsureRandomizerAlwaysSelectsWinner; }
+            set { Settings.EnsureRandomizerAlwaysSelectsWinner = value; }
         }
 
         public static bool MangaFocusVolumes

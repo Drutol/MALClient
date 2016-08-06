@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm.MagicalRawQueries;
 using MalClient.Shared.Comm.MagicalRawQueries.Messages;
 using MalClient.Shared.Models.MalSpecific;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 
@@ -46,7 +47,8 @@ namespace MalClient.Shared.ViewModels.Main
                 if (MessageIndex[value].IsMine)
                     return;
                 _selectedMessageIndex = value;
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails, MessageIndex[value]);
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
+                    new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.Message, Arg = MessageIndex[value]});
                 RaisePropertyChanged(() => SelectedMessageIndex);
             }
         }
@@ -153,7 +155,7 @@ namespace MalClient.Shared.ViewModels.Main
 
         private void ComposeNew()
         {
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails, null); // null for new message
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.Message}); // null for new message
         }
     }
 }

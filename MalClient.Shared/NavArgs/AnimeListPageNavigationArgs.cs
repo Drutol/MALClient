@@ -12,7 +12,7 @@ namespace MalClient.Shared.NavArgs
     public class AnimeListPageNavigationArgs
     {
         public int SelectedItemIndex = -1;
-        public readonly int CurrPosition;
+        public bool ResetBackNav = true;
         public readonly bool Descending;
         public readonly bool NavArgs;
         public readonly int Status;
@@ -23,20 +23,6 @@ namespace MalClient.Shared.NavArgs
         public SortOptions SortOption;
         public TopAnimeType TopWorkMode = TopAnimeType.General;
         public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
-
-        public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc, int position,
-            AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
-        {
-            SortOption = sort;
-            Status = status;
-            Descending = desc;
-            CurrPosition = position;
-            WorkMode = seasonal;
-            ListSource = source;
-            NavArgs = true;
-            CurrSeason = season;
-            DisplayMode = dispMode;
-        }
 
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc,
             AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)

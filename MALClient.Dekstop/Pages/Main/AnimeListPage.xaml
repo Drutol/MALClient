@@ -88,38 +88,6 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <!--<AppBarButton Icon="Sort" Label="Order by" Visibility="{Binding AppBtnSortingVisibility}">
-                <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortTitle,Path=IsChecked}"
-                                                            Text="Title" Command="{Binding SetSortModeCommand}"
-                                                            CommandParameter="0" GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortScore,Path=IsChecked}"
-                                                            Text="Score" Command="{Binding SetSortModeCommand}"
-                                                            CommandParameter="1" GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=Sort3,Path=IsChecked}"
-                                                            Text="{Binding Sort3Label}"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="2"
-                                                            GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortAiring,Path=IsChecked}"
-                                                            Text="Soonest airing"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="3"
-                                                            GroupName="SortOptionsPivotUpperItems"
-                                                            Visibility="{Binding SortAirDayVisibility}" />
-                        <controls:RadioToggleMenuFlyoutItem
-                            IsChecked="{Binding ElementName=SortLastWatched,Path=IsChecked}"
-                            Visibility="{Binding HumApiSpecificControlsVisibility}" Text="Last watched"
-                            Command="{Binding SetSortModeCommand}" CommandParameter="4"
-                            GroupName="SortOptionsPivotUpperItems" />
-                        <controls:RadioToggleMenuFlyoutItem IsChecked="{Binding ElementName=SortNone,Path=IsChecked}"
-                                                            Text="None" Command="{Binding SetSortModeCommand}"
-                                                            CommandParameter="5" GroupName="SortOptionsPivotUpperItems" />
-                        <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem IsChecked="{Binding ElementName=BtnOrderDescending,Path=IsChecked}"
-                                              Text="Decsending" Click="ChangeSortOrder" />
-                    </MenuFlyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>-->
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FiltersFlyout">
@@ -154,14 +122,15 @@
                 <Style TargetType="PivotHeaderPanel">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
-                <Style TargetType="ScrollBar">
-                    <Setter Property="Margin" Value="10,0,0,0" />
-                </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <StackPanel Grid.Row="0" Margin="0,0,-16,0" Orientation="Horizontal"
-                    Visibility="{Binding UpperCommandBarVisibility}">
-            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+        <Grid Grid.Row="0" Margin="0,0,-16,0"
+                    Visibility="{Binding UpperCommandBarVisibility}" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding AppBtnSortingVisibility}">
                 <SymbolIcon Symbol="Sort" />
                 <Button.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">
@@ -198,7 +167,7 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <Pivot x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}"
+            <Pivot Grid.Column="1" x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}" HorizontalAlignment="Stretch"
                    Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeAnyOther}}"
                    SelectionChanged="UpperNavBarPivotOnSelectionChanged"
                    SelectedIndex="{x:Bind ViewModel.StatusSelectorSelectedIndex,Mode=OneWay}">
@@ -240,11 +209,10 @@
                     <DataTemplate />
                 </Pivot.ItemTemplate>
             </Pivot>
-        </StackPanel>
+        </Grid>
         <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
-                                      Margin="3,1,-2,1" Padding="3,0,0,0"
+                                      Margin="3,1,0,1" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
-
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
                                       ShowsScrollingPlaceholders="False"

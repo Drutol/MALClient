@@ -79,11 +79,19 @@ namespace MALClient
 
         public void InitSplitter()
         {
-            RootContentGrid.ColumnDefinitions[2].Width =
-                new GridLength(_prevOffContntWidth == 0
-                    ? (_prevOffContntWidth = GetStartingSplitterWidth())
-                    : _prevOffContntWidth);
-            OffContent.UpdateLayout();
+            try
+            {
+                RootContentGrid.ColumnDefinitions[2].Width =
+                    new GridLength(_prevOffContntWidth == 0
+                        ? (_prevOffContntWidth = GetStartingSplitterWidth())
+                        : _prevOffContntWidth);
+                OffContent.UpdateLayout();
+            }
+            catch (Exception)
+            {
+                //magic
+            }
+
         }
 
         public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;

@@ -37,7 +37,7 @@ namespace MalClient.Shared.UserControls.Derived
         private Size ArrangeInternal(Size size, bool callArrange = true)
         {
             // measure max desired item size
-            foreach (var item in Children)
+            foreach (var item in Children.Where(child => child.Visibility == Visibility.Visible))
                 item.Measure(size);
 
             double x = 0.0, y = 0.0;
@@ -45,7 +45,7 @@ namespace MalClient.Shared.UserControls.Derived
             //we will store info about each row here
             var processedRows = new List<RowInfo> { new RowInfo() }; //1st row empty
             // position each child and get total content size
-            foreach (var item in Children)
+            foreach (var item in Children.Where(child => child.Visibility == Visibility.Visible))
             {
                 if (x + item.DesiredSize.Width > size.Width)
                 {
@@ -80,7 +80,7 @@ namespace MalClient.Shared.UserControls.Derived
                     x = 0;
                 }
 
-                // implicitly, item fits in current column
+                // implicitly, item fits in current row
 
                 processedRows[currentRow].MaxHeight = Math.Max(processedRows[currentRow].MaxHeight,
                     item.DesiredSize.Height);
@@ -89,7 +89,8 @@ namespace MalClient.Shared.UserControls.Derived
                 x += item.DesiredSize.Width;
             }
 
-            return new Size(size.Width, processedRows.Sum(info => info.MaxHeight));
+            var osize = new Size(size.Width, processedRows.Sum(info => info.MaxHeight));
+            return osize;
         }
 
         private class RowInfo

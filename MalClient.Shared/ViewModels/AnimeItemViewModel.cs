@@ -69,16 +69,17 @@ namespace MalClient.Shared.ViewModels
             {
                 id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
             }
-            ViewModelLocator.GeneralMain
-                .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(id, Title, null, this,
-                        argsOverride ?? ViewModelLocator.GeneralMain.GetCurrentListOrderParams())
-                    {
-                        Source =
-                            sourceOverride ??
-                            (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
-                        AnimeMode = ParentAbstraction.RepresentsAnime
-                    });
+            var navArgs = new AnimeDetailsPageNavigationArgs(id, Title, null, this,
+                argsOverride ?? ViewModelLocator.GeneralMain.GetCurrentListOrderParams())
+            {
+                Source =
+                    sourceOverride ??
+                    (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
+                AnimeMode = ParentAbstraction.RepresentsAnime
+            };
+            if (sourceOverride != null)
+                navArgs.Source = sourceOverride.Value;
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,navArgs);
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)
@@ -320,7 +321,7 @@ namespace MalClient.Shared.ViewModels
                     var diff = DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now);
                     if (diff.TotalSeconds > 0)
                     {
-                        _airDayBrush = new SolidColorBrush(Colors.Gray);
+                        _airDayBrush = new SolidColorBrush(Settings.SelectedTheme == ApplicationTheme.Dark ? Colors.Gray : Colors.LightGray);
                         _airDayTillBind = diff.TotalDays < 1 ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h" : diff.TotalDays.ToString("N0") + "d";
                         RaisePropertyChanged(() => AirDayTillBind);
                     }
@@ -456,7 +457,8 @@ namespace MalClient.Shared.ViewModels
             get
             {
                 if (_seasonalState)
-                    return $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} Episodes";
+                    return
+                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : $"{(Settings.MangaFocusVolumes ? "Volumes" : "Chapters")}")}";
 
                 return Auth || MyEpisodes != 0
                     ? $"{(ParentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +
@@ -705,17 +707,20 @@ namespace MalClient.Shared.ViewModels
         {
             get { return _itemManipulationMode; }
             set
-            {             
-                switch (value)
-                {
-                    case ManipulationModes.All:
-                        _itemManipulationMode = ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
-                                                ManipulationModes.System | ManipulationModes.TranslateInertia;
-                        break;
-                    case ManipulationModes.None:
-                        _itemManipulationMode = ManipulationModes.System;
-                        break;
-                }
+            {
+                if (Settings.EnableSwipeToIncDec)
+                    switch (value)
+                    {
+                        case ManipulationModes.All:
+                            _itemManipulationMode = ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
+                                                    ManipulationModes.System | ManipulationModes.TranslateInertia;
+                            break;
+                        case ManipulationModes.None:
+                            _itemManipulationMode = ManipulationModes.System;
+                            break;
+                    }
+                else
+                    _itemManipulationMode = ManipulationModes.System;
                 RaisePropertyChanged(() => ItemManipulationMode);
             }
         }

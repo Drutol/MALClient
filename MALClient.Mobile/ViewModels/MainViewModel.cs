@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Delegates;
+using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
@@ -48,6 +49,7 @@ namespace MALClient.ViewModels
             if(View.CurrentDisplayMode == SplitViewDisplayMode.CompactOverlay)
                 MenuPaneState = false;
             CurrentStatusSub = "";
+            IsCurrentStatusSelectable = false;
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
                 var msg = new MessageDialog("Log in first in order to access this page.");
@@ -96,6 +98,7 @@ namespace MALClient.ViewModels
                         _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
                         return;
                     }
+                    MobileViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
                     ShowSearchStuff();
                     if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
                         (wasOnSearchPage || _wasOnDetailsFromSearch))
@@ -181,9 +184,20 @@ namespace MALClient.ViewModels
                     NavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
                 case PageIndex.PageMessageDetails:
-                    var msgModel = args as MalMessageModel;
-                    CurrentStatus = msgModel != null ? $"{msgModel.Sender} - {msgModel.Subject}" : "New Message";
+                    var msgModel = args as MalMessageDetailsNavArgs;
+                    CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
+                        ? (msgModel.Arg != null
+                            ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
+                            : "New Message")
+                        : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
                     NavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
+                    break;
+                case PageIndex.PageHistory:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null, true); });
+                    CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
+                    NavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -213,7 +227,7 @@ namespace MALClient.ViewModels
                 page.WorkMode,
                 page.ListSource,
                 page.CurrentSeason,
-                page.DisplayMode);
+                page.DisplayMode) {ResetBackNav = page.ResetedNavBack};
         }
 
         #endregion
@@ -294,6 +308,18 @@ namespace MALClient.ViewModels
             }
         }
 
+        private bool _isCurrentStatusSelectable;
+
+        public bool IsCurrentStatusSelectable
+        {
+            get { return _isCurrentStatusSelectable; }
+            set
+            {
+                _isCurrentStatusSelectable = value;
+                RaisePropertyChanged(() => IsCurrentStatusSelectable);
+            }
+        }
+
         private string _currentStatus;
 
         public string CurrentStatus
@@ -301,6 +327,8 @@ namespace MALClient.ViewModels
             get { return _currentStatus; }
             set
             {
+                if(_currentStatus == value)
+                    return;
                 _currentStatus = value;
                 View.CurrentStatusStoryboard.Begin();
                 RaisePropertyChanged(() => CurrentStatus);
@@ -314,6 +342,8 @@ namespace MALClient.ViewModels
               get { return _currentStatusSub; }
               set
               {
+                  if(_currentStatusSub == value)
+                    return;
                   _currentStatusSub = value;
                   View.CurrentOffSubStatusStoryboard.Begin();
                   RaisePropertyChanged(() => CurrentStatusSub);
@@ -338,11 +368,22 @@ namespace MALClient.ViewModels
                         .ToList();
                 if (SearchToggleLock) return;
 
-                MobileViewModelLocator.AnimeList.RefreshList(true);
+                if (string.IsNullOrEmpty(value))
+                    ViewModelLocator.AnimeList.RefreshList(true);
+                else
+                    SubmitSearchQueryWithDelayCheck();
             }
         }
 
-        public List<string> SearchHints { get; set; }
+        private async void SubmitSearchQueryWithDelayCheck()
+        {
+             string query = CurrentSearchQuery;
+             await Task.Delay(500);
+             if(query == CurrentSearchQuery)
+                 ViewModelLocator.AnimeList.RefreshList(true);
+        }
+
+    public List<string> SearchHints { get; set; }
  
          private List<string> _currentHintSet;
 
@@ -516,7 +557,13 @@ namespace MALClient.ViewModels
 
         public event OffContentPaneStateChanged OffContentPaneStateChanged;
         public ICommand HideOffContentCommand { get; }
-        public string CurrentOffStatus { get; set; }
+
+        public string CurrentOffStatus
+        {
+            get { return CurrentStatus; }
+            set { CurrentStatus = value; }
+        }
+
         public Visibility NavigateOffBackButtonVisibility { get; set; }
 
         private void NavigateSearch(object args)

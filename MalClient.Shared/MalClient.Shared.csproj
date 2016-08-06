@@ -137,12 +137,14 @@
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQueries.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
     <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
     <Compile Include="Comm\Manga\MangaSearchQuery.cs" />
     <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
     <Compile Include="Comm\NewsQuery.cs" />
-    <Compile Include="Comm\ProfileQuery.cs" />
+    <Compile Include="Comm\Profile\ProfileHistoryQuery.cs" />
+    <Compile Include="Comm\Profile\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
@@ -210,12 +212,15 @@
     <Compile Include="Models\Library\MangaLibraryItemData.cs" />
     <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
     <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
+    <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
     <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
+    <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
+    <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -264,6 +269,7 @@
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\HistoryViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
     <Compile Include="ViewModels\Main\MalMessageDetailsViewModel.cs" />
@@ -281,6 +287,7 @@
     <Compile Include="XamlConverters\MailIconToBrushConverter.cs" />
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
+    <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />

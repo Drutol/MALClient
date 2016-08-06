@@ -13,7 +13,7 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Managers;
 using Newtonsoft.Json;
 
-namespace MalClient.Shared.Comm
+namespace MalClient.Shared.Comm.Profile
 {
     public class ProfileQuery : Query
     {
@@ -26,10 +26,10 @@ namespace MalClient.Shared.Comm
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    Request =
-                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
-                    Request.ContentType = "application/x-www-form-urlencoded";
-                    Request.Method = "GET";
+                    //Request =
+                    //    WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
+                    //Request.ContentType = "application/x-www-form-urlencoded";
+                    //Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
                     Request =
@@ -52,9 +52,9 @@ namespace MalClient.Shared.Comm
                 possibleData = await DataCache.RetrieveProfileData(_userName);
             if (possibleData != null)
                 return possibleData;
-            var raw = await GetRequestResponse();
+            var raw = await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
             var doc = new HtmlDocument();
-            doc.LoadHtml(raw);
+            doc.LoadHtml(await raw.Content.ReadAsStringAsync());
             var current = new ProfileData { User = { Name = _userName } };
 
             #region Recents
@@ -434,15 +434,41 @@ namespace MalClient.Shared.Comm
                         curr.User.Name = header.ChildNodes[1].InnerText;
                         curr.Date = header.ChildNodes[3].InnerText;
                         curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
+                        var postActionNodes = comment.WhereOfDescendantsWithClass("a", "ml8");
+                        var convNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Conversation");
+                        if (convNode != null)
+                        {
+                            curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
+                        }
+                        var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
+                        if(deleteNode != null)
+                        {
+                            curr.CanDelete = true;
+                            curr.Id =
+                                deleteNode.Attributes["onclick"].Value.Split(new char[] {'(', ')'},
+                                    StringSplitOptions.RemoveEmptyEntries).Last();
+                        }
                         current.Comments.Add(curr);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //no comments
                 }
 
             #endregion
+
+            try
+            {
+                current.ProfileMemId = doc.DocumentNode.Descendants("input")
+                    .First(node => node.Attributes.Contains("name") && node.Attributes["name"].Value == "profileMemId")
+                    .Attributes["value"].Value;
+            }
+            catch (Exception)
+            {
+                //restricted
+            }
+
 
             if (_userName == Credentials.UserName) //umm why do we need someone's favs?
             {
@@ -457,6 +483,59 @@ namespace MalClient.Shared.Comm
                 DataCache.SaveProfileData(_userName, current);
 
             return current;
+        }
+
+        public async Task<List<MalComment>> GetComments()
+        {
+            var raw = await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
+            var doc = new HtmlDocument();
+            doc.LoadHtml(await raw.Content.ReadAsStringAsync());
+            var output = new List<MalComment>();
+            try
+            {
+                var commentBox = doc.FirstOfDescendantsWithClass("div", "user-comments mt24 pt24");
+                foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
+                {
+                    var curr = new MalComment();
+                    curr.User.ImgUrl = comment.Descendants("img").First().Attributes["src"].Value;
+                    var textBlock = comment.Descendants("div").First();
+                    var header = textBlock.Descendants("div").First();
+                    curr.User.Name = header.ChildNodes[1].InnerText;
+                    curr.Date = header.ChildNodes[3].InnerText;
+                    curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
+                    var postActionNodes = comment.WhereOfDescendantsWithClass("a", "ml8");
+                    var convNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Conversation");
+                    if (convNode != null)
+                    {
+                        curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
+                    }
+                    var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
+                    if(deleteNode != null)
+                    {
+                        curr.CanDelete = true;
+                        curr.Id =
+                            deleteNode.Attributes["onclick"].Value.Split(new char[] { '(', ')' },
+                                StringSplitOptions.RemoveEmptyEntries).Last();
+                    }
+                    output.Add(curr);
+                }
+            }
+            catch (Exception)
+            {
+                //no comments
+            }
+
+            await Task.Run( async () =>
+            {
+                var data = await DataCache.RetrieveProfileData(_userName);
+                if (data != null)
+                {
+                    data.Comments = output;
+                }
+                DataCache.SaveProfileData(_userName, data);
+            });
+
+            return output;
         }
 
         public async Task<string> GetHummingBirdAvatarUrl()

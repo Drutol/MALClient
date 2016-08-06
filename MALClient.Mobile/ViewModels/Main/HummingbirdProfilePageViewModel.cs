@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using MalClient.Shared.Comm;
+using MalClient.Shared.Comm.Profile;
 using MalClient.Shared.Models.ApiResponses;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;

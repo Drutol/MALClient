@@ -149,8 +149,23 @@ public DateTime LastWatched
             }
         }
 
-        public string MyStartDate { get; set; }
-        public string MyEndDate { get; set; }
+        public string MyStartDate
+        {
+            get { return EntryData?.MyStartDate ?? AnimeItemViewModel.InvalidStartEndDate; }
+            set
+            {
+                if (EntryData != null) EntryData.MyStartDate = value;
+            }
+        }
+
+        public string MyEndDate
+        {
+            get { return EntryData?.MyEndDate ?? AnimeItemViewModel.InvalidStartEndDate; }
+            set
+            {
+                if (EntryData != null) EntryData.MyEndDate = value;
+            }
+        }
 
 
         public AnimeItemViewModel ViewModel

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
@@ -302,6 +303,11 @@ namespace MALClient.ViewModels
 
         public Visibility MangaSectionVisbility { get; set; }
 
+        public void SetActiveButton(TopAnimeType topType)
+        {
+            //not for mobile
+        }
+
         public void UpdateApiDependentButtons()
         {
             RaisePropertyChanged(() => MalApiSpecificButtonsVisibility);
@@ -310,6 +316,13 @@ namespace MALClient.ViewModels
         public void UpdateAnimeFiltersSelectedIndex()
         {
             
+        }
+
+        public List<string> PinnedProfiles => Settings.PinnedProfiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+        public void UpdatePinnedProfiles()
+        {
+            RaisePropertyChanged(() => PinnedProfiles);
         }
     }
 }

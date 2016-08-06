@@ -53,7 +53,7 @@
                                     <MenuFlyoutSeparator Grid.Row="1" />
                                     <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                               ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2"
-                                              ItemsSource="{Binding Item2}">
+                                              ItemsSource="{Binding Item2}" ScrollViewer.VerticalScrollMode="Disabled">
                                         <GridView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapGrid Orientation="Horizontal"

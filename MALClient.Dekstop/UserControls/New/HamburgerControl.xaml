@@ -168,10 +168,7 @@
                                     <SymbolIcon Symbol="Remote" />
                                 </Button>
                                 <Grid x:Name="AnimeFiltersList" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                                      Height="0" Margin="-1,0">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="Black" Opacity=".25" />
-                                    </Grid.Background>
+                                      Height="0" Margin="-1,0" Background="{ThemeResource BrushHamburgerInnerBackground}">
                                     <GridView
                                         ItemsSource="{Binding AnimeListFilters}"
                                         SelectedIndex="{Binding CurrentAnimeFiltersSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
@@ -327,14 +324,11 @@
                                     <SymbolIcon Symbol="Remote" />
                                 </Button>
                                 <Grid x:Name="TopCategoriesList" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                                      Height="0" Margin="-1,0">
+                                      Height="0" Margin="-1,0" Background="{ThemeResource BrushHamburgerInnerBackground}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".5*" />
                                         <ColumnDefinition Width=".5*" />
                                     </Grid.ColumnDefinitions>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="Black" Opacity=".25" />
-                                    </Grid.Background>
                                     <Grid.Resources>
                                         <Style TargetType="Button">
                                             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -466,10 +460,7 @@
                                         <SymbolIcon Symbol="Remote" />
                                     </Button>
                                     <Grid x:Name="MangaFiltersList" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                                      Height="0" Margin="-1,0">
-                                        <Grid.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".25" />
-                                        </Grid.Background>
+                                      Height="0" Margin="-1,0" Background="{ThemeResource BrushHamburgerInnerBackground}">
                                         <GridView
                                         ItemsSource="{Binding MangaListFilters}"
                                         SelectedIndex="{Binding CurrentMangaFiltersSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
@@ -695,15 +686,42 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
-                                PointerExited="Button_PointerExited"
+                                PointerExited="Button_PointerExited" RightTapped="BtnProfile_OnClick" IsRightTapEnabled="True"
                                 Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="5">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                        <ListView Grid.Row="1" Margin="-20,0" SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                                                    <Setter Property="Height" Value="30"/>
+                                                    <Setter Property="MinHeight" Value="30"/>
+                                                    <Setter Property="Margin" Value="0,2"/>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
                             <Grid Height="35">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
@@ -714,18 +732,29 @@
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                 <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                             Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-40,0"
+                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-80,0"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                <Button Grid.Column="2" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
-                                        CommandParameter="16" Margin="0,0,-1,0"
-                                        Width="40" Height="35" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button.Background>
-                                        <SolidColorBrush Color="Black" Opacity=".25" />
-                                    </Button.Background>
-                                    <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="18" Background="Transparent"
+                                        Width="40" Height="35">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="History"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,1,0" />
-                                </Button>
+                                    </Button>
+                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="16" Background="Transparent"
+                                        Width="40" Height="35" >
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Messaging"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,1,0" />
+                                    </Button>                                    
+                                </StackPanel>
                             </Grid>
                         </Button>
                         <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

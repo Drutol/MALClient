@@ -5,13 +5,14 @@
     xmlns:local="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid>
-            <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
-                      SelectedItem="{Binding CurrentlySelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+            <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
+                      IsItemClickEnabled="True" ItemClick="Animes_OnItemClick"
                       Margin="0,5,0,0" SelectionMode="Single"
                       Padding="0">
                 <ListView.ItemContainerStyle>
@@ -23,7 +24,7 @@
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
-            </ListView>
+            </userControls:AlternatingListView>
             <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility}"
                        Text="No data received from MAL, try searching for something more specific. :("
                        TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"

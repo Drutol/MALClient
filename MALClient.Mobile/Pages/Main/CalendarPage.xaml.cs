@@ -23,25 +23,17 @@ namespace MALClient.Pages.Main
             Loaded += (a1, a2) => (DataContext as CalendarPageViewModel).Init();
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            ViewModelLocator.NavMgr.DeregisterBackNav();
-            base.OnNavigatingFrom(e);
-        }
 
         private void ItemsViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             (e.ClickedItem as AnimeItemViewModel).NavigateDetails();
         }
 
-        private void UIElement_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            (sender as FrameworkElement).Opacity = 1;
-        }
-
-        private void UIElement_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            (sender as FrameworkElement).Opacity = .5;
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            base.OnNavigatedTo(e);
         }
 
         private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)

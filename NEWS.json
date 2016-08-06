@@ -1,5 +1,23 @@
 [
   {
+    "Title": "Screw ads!",
+    "Date": "05.08.2016",
+    "Type": "Like, really...",
+    "Content": "I was going to add them but this is pure mess. I'm going to encourage dontations though. Instead of losing my time with them I'll finish up forums :D"
+  },
+  {
+    "Title": "Monetization discussion.",
+    "Date": "02.08.2016",
+    "Type": "Info",
+    "Content": "I want to introduce some form of monetization, if you'd like to make a suggestion feel free to post on github."
+  },
+  {
+    "Title": "Forums!",
+    "Date": "24.07.2016",
+    "Type": "Info",
+    "Content": "Forums are now in development, it's pretty hard and WILL take some time but I have the basics figured out :) Screenshots on github (TODO issue)."
+  },
+  {
     "Title": "Messaging&Favourites Preview",
     "Date": "19.07.2016",
     "Type": "Info",
@@ -10,17 +28,5 @@
     "Date": "14.07.2016",
     "Type": "Updates",
     "Content": "Sooo... I've update with those almost completed but it'll probably go live early next week! Mobile version will get extremely basic Continuum support so it's at least usable."
-  },
-  {
-    "Title": "App stats",
-    "Date": "08.07.2016",
-    "Type": "Info",
-    "Content": "I've uploaded app stats screenshots to github, if you are interested feel free to check them out :)"
-  },
-  {
-    "Title": "v4.3.126(5).0",
-    "Date": "08.07.2016",
-    "Type": "Updates",
-    "Content": "It turned out to be quite big: tags, volumes etc... Hope you like it :) Changelog can be found on github. Next update will feature Messaging (100%) and maybe favourites, we will se how it goes."
   }
 ]

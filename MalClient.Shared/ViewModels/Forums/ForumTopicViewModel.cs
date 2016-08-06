@@ -16,9 +16,9 @@ namespace MalClient.Shared.ViewModels.Forums
     {
         public event WebViewNavigationRequest WebViewNavigationRequested;
 
-        public async void Init(ForumsTopicNavigationArgs args)
+        public void Init(ForumsTopicNavigationArgs args)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(args.SourceBoard));
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
             WebViewNavigationRequested?.Invoke(args.TopicId);
         }
 

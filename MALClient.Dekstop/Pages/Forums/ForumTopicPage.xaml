@@ -5,11 +5,16 @@
     xmlns:local="using:MALClient.Pages.Forums"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsTopic}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         
-        <WebView x:Name="TopicWebView" LoadCompleted="TopicWebView_OnLoadCompleted" FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" DOMContentLoaded="TopicWebView_OnDOMContentLoaded" NavigationStarting="TopicWebView_OnNavigationStarting"/>
+        <WebView x:Name="TopicWebView" Visibility="{Binding LoadingTopic,Converter={StaticResource VisiblityInverterConverter}}" LoadCompleted="TopicWebView_OnLoadCompleted" FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" DOMContentLoaded="TopicWebView_OnDOMContentLoaded" NavigationStarting="TopicWebView_OnNavigationStarting"/>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopic}"
               Background="{ThemeResource BrushLoading}">

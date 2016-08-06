@@ -11,7 +11,13 @@
     <Page.Resources>
         <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumWithDescriptionToStringConverter"/>
     </Page.Resources>
-    
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="LikeDislike" Label="Forums beta thread" Click="BetaForumsFeedback"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

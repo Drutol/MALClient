@@ -816,15 +816,21 @@
                       Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top" Command="{Binding RefreshCommentsCommand}">
                         <SymbolIcon Symbol="Refresh" Margin="5"/>
                     </Button>
                     <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding MalComments}">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
+                        <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
+                        <Button Content="Send Comment" Margin="20,0"
+                                Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
+                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </StackPanel>
+                    <ListView Grid.Row="2" Margin="10" ItemsSource="{Binding MalComments}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -876,12 +882,6 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
-                        <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
-                        <Button Content="Send Comment" Margin="20,0"
-                                Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
-                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    </StackPanel>
                     <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity}"
                                           Background="{ThemeResource BrushLoadingNonTransparent}"
                                           Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

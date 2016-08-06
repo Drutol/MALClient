@@ -22,20 +22,30 @@ namespace MalClient.Shared.Comm.Forums
         private int _animeId;
         private int _page;
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="page">From 0</param>
         public ForumBoardTopicsQuery(ForumBoards board,int page)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/{GetEndpoint(board)}"));
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/{GetEndpoint(board)}&show={page*50}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _board = board;
             _page = page;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="animeId"></param>
+        /// <param name="page">From 0</param>
         public ForumBoardTopicsQuery(int animeId,int page)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/?animeid={animeId}"));
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/?animeid={animeId}&show={page*50}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = animeId;

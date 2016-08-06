@@ -16,18 +16,25 @@ namespace MalClient.Shared.NavArgs
     public class ForumsBoardNavigationArgs : ForumsNavigationArgs
     {
         public ForumBoards TargetBoard { get; }
+        public int PageNumber { get; }
         public int AnimeId { get; }
-        public bool IsAnimeBoard => AnimeId != 0;
+        public string AnimeTitle { get; set; }
+        public bool? IsAnimeBoard { get; }
 
-        public ForumsBoardNavigationArgs(ForumBoards board)
+
+        public ForumsBoardNavigationArgs(ForumBoards board,int page = 0)
         {
             TargetBoard = board;
             Page = ForumsPageIndex.PageBoard;
+            PageNumber = page;
         }
 
-        public ForumsBoardNavigationArgs(int animeId)
+        public ForumsBoardNavigationArgs(int animeId,string title,bool anime,int page = 0)
         {
             AnimeId = animeId;
+            IsAnimeBoard = anime;
+            AnimeTitle = title;
+            PageNumber = page;
             Page = ForumsPageIndex.PageBoard;
         }
     }

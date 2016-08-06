@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -71,6 +72,11 @@ namespace MALClient.Pages.Forums
         {
             var btn = sender as FrameworkElement;
             (FlyoutBase.GetAttachedFlyout(btn)).ShowAt(btn);
+        }
+
+        private async void BetaForumsFeedback(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues/44"));
         }
     }
 }

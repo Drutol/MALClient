@@ -878,7 +878,7 @@ namespace MalClient.Shared.ViewModels
                     new RelayCommand(
                         () =>
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                                new ForumsBoardNavigationArgs(Id))));
+                                new ForumsBoardNavigationArgs(Id,Title,_animeMode))));
 
         private ICommand _toggleFavouriteCommand;
 

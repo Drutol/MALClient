@@ -231,7 +231,7 @@ namespace MalClient.Shared.Utils
                 case ForumBoards.ForumsGames:
                     return FontAwesomeIcon.PuzzlePiece;
                 default:
-                    return FontAwesomeIcon.Tv;
+                    return FontAwesomeIcon.None;
             }
         }
 

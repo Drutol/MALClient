@@ -23,7 +23,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -81,7 +81,7 @@
             </Button>
             <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden"
                 HorizontalScrollMode="Enabled"
-                VerticalScrollMode="Disabled"  Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                VerticalScrollMode="Disabled">
                 <ItemsControl ItemsSource="{Binding PinnedBoards}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

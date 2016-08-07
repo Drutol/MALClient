@@ -41,6 +41,7 @@ namespace MalClient.Shared.NavArgs
 
     public class ForumsTopicNavigationArgs : ForumsNavigationArgs
     {
+        public bool CreateNewTopic { get; set; }
         public string TopicId { get; set; }
         public ForumBoards SourceBoard { get; set; }
         public bool Lastpost { get; set; }
@@ -52,5 +53,12 @@ namespace MalClient.Shared.NavArgs
             SourceBoard = sourceBoard;
             Lastpost = lastpost;
         }
+
+        private ForumsTopicNavigationArgs()
+        {
+            
+        }
+
+        public static ForumsTopicNavigationArgs NewTopic => new ForumsTopicNavigationArgs { CreateNewTopic = true , Page = ForumsPageIndex.PageTopic};
     }
 }

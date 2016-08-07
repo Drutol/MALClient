@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,6 +33,7 @@ namespace MALClient.Pages.Forums
         private bool _navigatingRoot;
         private bool _lastpost;
 
+
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
 
         public ForumTopicPage()
@@ -39,24 +42,29 @@ namespace MALClient.Pages.Forums
             Loaded += OnLoaded;
             SizeChanged += OnSizeChanged;
             _navigatingRoot = true;
+            TopicWebView.DefaultBackgroundColor = Settings.SelectedTheme == ApplicationTheme.Dark ? Color.FromArgb(0xFF, 0x2f, 0x2f, 0x2f) : Color.FromArgb(0xFF,0xe6,0xe6,0xe6);
         }
 
 
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            ViewModel.WebViewNavigationRequested += ViewModelOnWebViewNavigationRequested;
+            await MalHttpContextProvider.InitializeContextForWebViews();
+            ViewModel.WebViewTopicNavigationRequested += ViewTopicModelOnWebViewTopicNavigationRequested;
+            ViewModel.WebViewNewTopicNavigationRequested += ViewModelOnWebViewNewTopicNavigationRequested;
             ViewModel.Init(_args);
         }
 
-        private async void ViewModelOnWebViewNavigationRequested(string content,bool arg)
+        private void ViewModelOnWebViewNewTopicNavigationRequested(string content, bool b)
         {
-            await MalHttpContextProvider.InitializeContextForWebViews();
-            //TopicWebView.Navigate(new Uri("http://myanimelist.net/forum/?topicid=1499207"));
+            _baseUri = new Uri($"http://myanimelist.net/forum/?action=post&boardid={content}");
+            TopicWebView.Navigate(_baseUri);
+        }
+
+        private void ViewTopicModelOnWebViewTopicNavigationRequested(string content,bool arg)
+        {
             _baseUri = new Uri($"http://myanimelist.net/forum/?topicid={content}{(arg ? "&goto=lastpost" : "")}");
             _lastpost = arg;
             TopicWebView.Navigate(_baseUri);
-            ViewModel.LoadingTopic = Visibility.Visible;
-
         }
 
         
@@ -78,35 +86,64 @@ namespace MALClient.Pages.Forums
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             //this chain of commands will remove unnecessary stuff
-            string bodyLight = Settings.SelectedTheme == ApplicationTheme.Dark ? "#3d3d3d" : "#e6e6e6";
+            string bodyLight = Settings.SelectedTheme == ApplicationTheme.Dark ? "#3d3d3d" : "#d0d0d0";
             string bodyLighter = Settings.SelectedTheme == ApplicationTheme.Dark ? "#2f2f2f" : "#e6e6e6";
-            string bodyDarker = Settings.SelectedTheme == ApplicationTheme.Dark ? "#212121" : "#e6e6e6";
+            string bodyDarker = Settings.SelectedTheme == ApplicationTheme.Dark ? "#212121" : "#cacaca";
             string fontColor = Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black";
             string fontColorInverted = Settings.SelectedTheme == ApplicationTheme.Dark ? "black" : "white";
 
             var zoom = 100*ActualWidth/1060;
             _prevSize = new Size(ActualWidth, ActualHeight);
-
-            string[] commands =
+            List<string> commands;
+            if (_args.CreateNewTopic)
             {
-                "document.getElementById(\"headerSmall\").outerHTML=\'\';document.getElementById(\"menu\").outerHTML=\'\';document.getElementsByClassName(\"js-sns-icon-container icon-block-small\")[0].outerHTML=\'\';document.getElementsByTagName(\"footer\")[0].innerHTML=\'\';document.getElementsByClassName(\"mauto clearfix pt24\")[0].outerHTML=\'\';",
-                "$(\"#contentWrapper\").find(\'div:first\').remove();",
-                $"$(\"body\").css(\"font-family\", \"Segoe UI\").css(\"color\", \"{fontColor}\").css(\"background-color\", \"{bodyLighter}\");",
-                $"$(\"td\").css(\"background-color\", \"{bodyDarker}\").css(\"border-color\", \"{bodyDarker}\");",
-                $"$(\".forum_boardrow2\").css(\"background-color\", \"{bodyDarker}\");",
-                $"$(\".forum_boardrow1\").css(\"background-color\", \"{bodyLighter}\").css(\"border-color\",\"{fontColorInverted}\");",
-                $"$(\".forum_category\").css(\"background-color\", \"{bodyLight}\");",
-                $"$(\".forum_boardrowspacer\").css(\"background-color\", \"{bodyLighter}\");",
-                $"$(\".btn-forum\").css(\"background-color\", \"{bodyLight}\").css(\"border-color\",\"{fontColorInverted}\");",
-                $"$(\"html\").css(\"zoom\", \"{Math.Floor(zoom)}%\");",
-                "$(\".wrapper\").find(\".fl-r.ar\").remove()",
-                $"$(\".inputButton\").css(\"border-color\",\"{fontColorInverted}\").css(\"background-color\",\"{bodyLight}\")",
-                $"$(\"a\").css(\"color\", \"#{color.ToString().Substring(3)}\");",
-                $"$(\"#content\").css(\"border-color\", \"{bodyLighter}\").css(\"background-color\",\"{bodyLighter}\");",
-                $"$(\".forum_category,.forum_locheader\").css(\"color\",\"{fontColor}\");",
-                $"$(\".codetext\").css(\"background-color\",\"{bodyDarker}\");",
-                $"$(\".quotetext\").css(\"background-color\",\"{bodyLight}\").css(\"border-color\",\"{bodyLighter}\");",
-            };
+                commands = new List<string>
+                {
+                    @"document.getElementById(""headerSmall"").outerHTML='';document.getElementById(""menu"").outerHTML='';document.getElementsByClassName(""js-sns-icon-container icon-block-small"")[0].outerHTML='';document.getElementsByTagName(""footer"")[0].innerHTML='';document.getElementsByClassName(""mauto clearfix pt24"")[0].outerHTML='';",
+                    @"$(""#contentWrapper"").find('div:first').remove();",
+                    $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"");",
+                    $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
+                    @"$(""footer"").remove()",
+                    $@"$(""textarea"").css(""background-color"",""{bodyDarker}"").css(""color"", ""{fontColor}"")",
+                    $@"$(""td"").css(""color"", ""{fontColor}"")",
+                    $@"$(""a"").css(""color"", ""#{color.ToString().Substring(3)}"");",
+                    $@"$(""#content"").css(""border-color"", ""{bodyLighter}"").css(""background-color"",""{bodyLighter}"");",
+                    $@"$(""html"").css(""zoom"", ""{Math.Floor(zoom)}%"").css(""background-color"", ""{bodyLighter}"");",
+                    @"$(""iframe"").remove()",
+                    $@"$(""#dialog"").css(""border-color"", ""{bodyLight}"")",
+                    $@"$(""td"").css(""border-color"", ""{bodyDarker}"")",
+                    $@"$("".inputtext"").css(""background-color"", ""{bodyDarker}"").css(""color"", ""{fontColor}"")",
+                    $@"$("".normal_header"").css(""color"", ""{fontColor}"")",
+                    $@"$("".inputButton"").css(""background-color"", ""{bodyLight}"").css(""border-color"",""{fontColorInverted}"");",
+                };
+            }
+            else
+            {
+                commands = new List<string>
+                {
+                    @"document.getElementById(""headerSmall"").outerHTML='';document.getElementById(""menu"").outerHTML='';document.getElementsByClassName(""js-sns-icon-container icon-block-small"")[0].outerHTML='';document.getElementsByTagName(""footer"")[0].innerHTML='';document.getElementsByClassName(""mauto clearfix pt24"")[0].outerHTML='';",
+                    @"$(""#contentWrapper"").find('div:first').remove();",
+                    $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"");",
+                    $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
+                    $@"$(""td"").css(""background-color"", ""{bodyDarker}"").css(""border-color"", ""{bodyDarker}"");",
+                    $@"$("".forum_boardrow2"").css(""background-color"", ""{bodyDarker}"");",
+                    $@"$("".forum_boardrow1"").css(""background-color"", ""{bodyLighter}"").css(""border-color"",""{fontColorInverted}"");",
+                    $@"$("".forum_category"").css(""background-color"", ""{bodyLight}"");",
+                    $@"$("".forum_boardrowspacer"").css(""background-color"", ""{bodyLighter}"");",
+                    $@"$("".btn-forum"").css(""background-color"", ""{bodyLight}"").css(""border-color"",""{fontColorInverted}"");",
+                    $@"$(""html"").css(""zoom"", ""{Math.Floor(zoom)}%"");",
+                    @"$("".wrapper"").find("".fl-r.ar"").remove()",
+                    $@"$("".inputButton"").css(""border-color"",""{fontColorInverted}"").css(""background-color"",""{bodyLight}"")",
+                    $@"$(""a"").css(""color"", ""#{color.ToString().Substring(3)}"");",
+                    $@"$(""#content"").css(""border-color"", ""{bodyLighter}"").css(""background-color"",""{bodyLighter}"");",
+                    $@"$("".forum_category,.forum_locheader"").css(""color"",""{fontColor}"");",
+                    $@"$("".codetext"").css(""background-color"",""{bodyDarker}"");",
+                    $@"$("".quotetext"").css(""background-color"",""{bodyLight}"").css(""border-color"",""{bodyLighter}"");",
+                    $@"$("".vote_container"").css(""background-color"",""#{color.ToString().Substring(3)}"")",
+                    $@"$(""textarea"").css(""background-color"",""{bodyDarker}"").css(""color"", ""{fontColor}"")",
+                };
+            }
+            
             foreach (var command in commands)
             {
                 try
@@ -198,7 +235,6 @@ namespace MALClient.Pages.Forums
                     }
                     else if (uri.Contains("/profile/"))
                     {
-                        var vm = ViewModelLocator.MalArticles;
                         ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = uri.Split('/').Last() });
                     }
@@ -217,7 +253,9 @@ namespace MALClient.Pages.Forums
         private void TopicWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             //we don't like iframes
-            //args.Cancel = true; or we do?
+            //args.Cancel = true; or do we?
+            if (_args.CreateNewTopic)
+                args.Cancel = true;
         }
 
         private void TopicWebView_OnContentLoading(WebView sender, WebViewContentLoadingEventArgs args)

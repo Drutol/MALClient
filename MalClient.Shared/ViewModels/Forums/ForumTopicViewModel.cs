@@ -14,12 +14,23 @@ namespace MalClient.Shared.ViewModels.Forums
 {
     public class ForumTopicViewModel : ViewModelBase
     {
-        public event WebViewNavigationRequest WebViewNavigationRequested;
+        public event WebViewNavigationRequest WebViewTopicNavigationRequested;
+        public event WebViewNavigationRequest WebViewNewTopicNavigationRequested;
 
         public void Init(ForumsTopicNavigationArgs args)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
-            WebViewNavigationRequested?.Invoke(args.TopicId,args.Lastpost);
+            LoadingTopic = Visibility.Visible;
+            if (args.CreateNewTopic)
+            {
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
+                WebViewNewTopicNavigationRequested?.Invoke(((int)args.SourceBoard).ToString(),false);
+            }
+            else
+            {
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
+                WebViewTopicNavigationRequested?.Invoke(args.TopicId, args.Lastpost);
+            }
+
         }
 
         private Visibility _loadingTopic;

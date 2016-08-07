@@ -42,10 +42,10 @@ namespace MalClient.Shared.Comm.Forums
         /// </summary>
         /// <param name="animeId"></param>
         /// <param name="page">From 0</param>
-        public ForumBoardTopicsQuery(int animeId,int page)
+        public ForumBoardTopicsQuery(int animeId,int page,bool anime)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/?animeid={animeId}&show={page*50}"));
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/?{(anime ? "anime" : "manga")}id={animeId}&show={page*50}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = animeId;

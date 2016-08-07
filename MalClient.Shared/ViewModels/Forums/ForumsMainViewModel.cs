@@ -62,12 +62,13 @@ namespace MalClient.Shared.ViewModels.Forums
                 _unpinTopicCommand ??
                 (_unpinTopicCommand = new RelayCommand<ForumTopicLightEntry>(topic => PinnedTopics.Remove(topic)));
 
-
-
-
         public void Init(ForumsNavigationArgs args)
         {
-            args = args ?? new ForumsNavigationArgs {Page = ForumsPageIndex.PageIndex};
+            if (args == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                args = new ForumsNavigationArgs { Page = ForumsPageIndex.PageIndex };
+            }          
             NavigationRequested?.Invoke((int)args.Page, args);
         }
 
@@ -105,11 +106,16 @@ namespace MalClient.Shared.ViewModels.Forums
 
         private void GotoFavouriteBoard(ForumBoards board)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsBoardNavigationArgs(board));
         }
 
         private void GotoPinnedTopic(ForumTopicLightEntry topic)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Id,topic.SourceBoard,topic.Lastpost));
         }
     }

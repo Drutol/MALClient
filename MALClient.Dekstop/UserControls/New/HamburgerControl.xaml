@@ -738,7 +738,7 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"></TextBlock>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>

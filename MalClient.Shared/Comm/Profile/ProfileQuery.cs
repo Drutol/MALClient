@@ -26,10 +26,10 @@ namespace MalClient.Shared.Comm.Profile
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    //Request =
-                    //    WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
-                    //Request.ContentType = "application/x-www-form-urlencoded";
-                    //Request.Method = "GET";
+                    Request =
+                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
+                    Request.ContentType = "application/x-www-form-urlencoded";
+                    Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
                     Request =
@@ -52,13 +52,14 @@ namespace MalClient.Shared.Comm.Profile
                 possibleData = await DataCache.RetrieveProfileData(_userName);
             if (possibleData != null)
                 return possibleData;
-            var raw = await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
+            var raw = !updateFavsOnly
+                ? await (await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}")).Content.ReadAsStringAsync()
+                : await GetRequestResponse();
             var doc = new HtmlDocument();
-            doc.LoadHtml(await raw.Content.ReadAsStringAsync());
+            doc.LoadHtml(raw);
             var current = new ProfileData { User = { Name = _userName } };
 
             #region Recents
-
             try
             {
                 var i = 1;

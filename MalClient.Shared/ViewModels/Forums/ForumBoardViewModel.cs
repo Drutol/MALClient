@@ -60,7 +60,8 @@ namespace MalClient.Shared.ViewModels.Forums
             }
         }
 
-        public Visibility _loadingTopics;
+        private Visibility _loadingTopics;
+
         public Visibility LoadingTopics
         {
             get { return _loadingTopics; }
@@ -71,9 +72,32 @@ namespace MalClient.Shared.ViewModels.Forums
             }
         }
 
+        private Visibility _newTopicButtonVisibility;
+
+        public Visibility NewTopicButtonVisibility
+        {
+            get { return _newTopicButtonVisibility; }
+            set
+            {
+                _newTopicButtonVisibility = value;
+                RaisePropertyChanged(() => NewTopicButtonVisibility);
+            }
+        }
+
         private ICommand _loadPageCommand;
 
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(i => LoadPage(i,true)));
+
+        private ICommand _createNewTopicCommand;
+
+        public ICommand CreateNewTopicCommand => _createNewTopicCommand ?? (_createNewTopicCommand = new RelayCommand(
+            () =>
+            {
+               var arg = ForumsTopicNavigationArgs.NewTopic;
+               arg.SourceBoard = PrevArgs.TargetBoard;
+               ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
+               ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,arg); 
+            }));
 
         private ICommand _gotoLastPostCommand;
 
@@ -125,9 +149,8 @@ namespace MalClient.Shared.ViewModels.Forums
 
         public  void Init(ForumsBoardNavigationArgs args)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-            if (PrevArgs != null &&
-                ((args.IsAnimeBoard != null && PrevArgs.AnimeId == args.AnimeId) || PrevArgs.TargetBoard == args.TargetBoard))
+            if (PrevArgs != null && Topics.Count != 0 &&
+                ((args.IsAnimeBoard != null && PrevArgs.AnimeId == args.AnimeId) || (args.IsAnimeBoard == null && PrevArgs.TargetBoard == args.TargetBoard)))
                 return;
             PrevArgs = args;
             LoadPage(args.PageNumber);
@@ -136,9 +159,16 @@ namespace MalClient.Shared.ViewModels.Forums
             if (args.IsAnimeBoard != null)
                 Icon = args.IsAnimeBoard.Value ? FontAwesomeIcon.Tv : FontAwesomeIcon.Book;
             else
-                Icon = Utilities.BoardToIcon(args.TargetBoard);
-            
+                Icon = Utilities.BoardToIcon(args.TargetBoard);          
 
+            if( args.TargetBoard == ForumBoards.NewsDisc||
+                args.TargetBoard == ForumBoards.AnimeDisc||
+                args.TargetBoard == ForumBoards.MangaDisc||
+                args.TargetBoard == ForumBoards.Updates||
+                args.TargetBoard == ForumBoards.Guidelines)
+                NewTopicButtonVisibility = Visibility.Collapsed;
+            else
+                NewTopicButtonVisibility = Visibility.Visible;
         }
 
         public async void LoadPage(int page,bool decrement = false)
@@ -152,7 +182,7 @@ namespace MalClient.Shared.ViewModels.Forums
                     new ObservableCollection<ForumTopicEntryViewModel>(
                         (PrevArgs.IsAnimeBoard == null
                             ? await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts()
-                            : await new ForumBoardTopicsQuery(PrevArgs.AnimeId, page).GetTopicPosts()).Select(
+                            : await new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard.Value).GetTopicPosts()).Select(
                                 entry => new ForumTopicEntryViewModel(entry)));
                 CurrentPage = page;
             }
@@ -165,6 +195,7 @@ namespace MalClient.Shared.ViewModels.Forums
 
         public void LoadTopic(ForumTopicEntryViewModel topic,bool lastpost = false)
         {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                 new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard,lastpost));
         }

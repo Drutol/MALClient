@@ -72,11 +72,14 @@
                 <SymbolIcon Symbol="Go" Height="25" Width="35"/>
             </Button>
         </StackPanel>
+        <Button Grid.Row="1" Content="Create new topic" Command="{Binding CreateNewTopicCommand}"
+                Background="{ThemeResource AppBarBackgroundThemeBrush}" Visibility="{Binding NewTopicButtonVisibility}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width=".8*"/>
                 <ColumnDefinition Width=".2*"/>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Topic" HorizontalAlignment="Stretch"  Margin="0,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
             <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
@@ -100,7 +103,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width=".8*"/>
                             <ColumnDefinition Width=".2*"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="170"/>
                         </Grid.ColumnDefinitions>
                         <uwp:FontAwesome Margin="0,0,3,0" Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left" Grid.Column="0"/>
                         <StackPanel Grid.Column="1">

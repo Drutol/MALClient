@@ -48,6 +48,18 @@ namespace MalClient.Shared.ViewModels.Forums
             }
         }
 
+        private string _searchQuery;
+
+        public string SearchQuery
+        {
+            get { return _searchQuery; }
+            set
+            {
+                _searchQuery = value;
+                RaisePropertyChanged(() => SearchQuery);
+            }
+        }
+
         private FontAwesomeIcon _icon;
 
         public FontAwesomeIcon Icon
@@ -99,6 +111,19 @@ namespace MalClient.Shared.ViewModels.Forums
                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,arg); 
             }));
 
+        private ICommand _searchCommand;
+
+        public ICommand SearchCommand => _searchCommand ?? (_searchCommand = new RelayCommand(
+            () =>
+            {
+                if (SearchQuery.Length <= 2)
+                    return;
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                    new ForumsBoardNavigationArgs(SearchQuery, PrevArgs.Scope));
+                SearchQuery = "";
+            }));
+
         private ICommand _gotoLastPostCommand;
 
         public ICommand GotoLastPostCommand => _gotoLastPostCommand ?? (_gotoLastPostCommand = new RelayCommand<ForumTopicEntryViewModel>(
@@ -148,48 +173,80 @@ namespace MalClient.Shared.ViewModels.Forums
 
         private bool _initizalizing;
 
-        public  void Init(ForumsBoardNavigationArgs args)
+
+        public void Init(ForumsBoardNavigationArgs args)
         {
             if(_initizalizing)
+                return;         
+            if(args.Equals(PrevArgs))
                 return;
             _initizalizing = true;
-            if (PrevArgs != null && Topics?.Count != 0 &&
-                ((args.IsAnimeBoard != null && PrevArgs.AnimeId == args.AnimeId) || (args.IsAnimeBoard == null && PrevArgs.TargetBoard == args.TargetBoard)))
-                return;
             PrevArgs = args;
-            LoadPage(args.PageNumber);
-            
-            Title = args.IsAnimeBoard != null ? args.AnimeTitle : args.TargetBoard.GetDescription();
-            if (args.IsAnimeBoard != null)
-                Icon = args.IsAnimeBoard.Value ? FontAwesomeIcon.Tv : FontAwesomeIcon.Book;
-            else
-                Icon = Utilities.BoardToIcon(args.TargetBoard);          
 
-            if( args.TargetBoard == ForumBoards.NewsDisc||
-                args.TargetBoard == ForumBoards.AnimeDisc||
-                args.TargetBoard == ForumBoards.MangaDisc||
-                args.TargetBoard == ForumBoards.Updates||
-                args.TargetBoard == ForumBoards.Guidelines)
+            LoadPage(args.PageNumber);
+
+            switch (args.WorkMode)
+            {
+                case ForumBoardPageWorkModes.Standard:
+                    Title = args.TargetBoard.GetDescription();
+                    Icon = Utilities.BoardToIcon(args.TargetBoard);
+                    break;
+                case ForumBoardPageWorkModes.AnimeBoard:
+                    Title = args.AnimeTitle;
+                    Icon = FontAwesomeIcon.Tv;
+                    break;
+                case ForumBoardPageWorkModes.MangaBoard:
+                    Title = args.AnimeTitle;
+                    Icon = FontAwesomeIcon.Book;
+                    break;
+                case ForumBoardPageWorkModes.Search:
+                    Title = "Search - " + args.Query;
+                    Icon = args.Scope == null ? FontAwesomeIcon.Search : Utilities.BoardToIcon(args.Scope.Value);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+                
+            if (args.WorkMode == ForumBoardPageWorkModes.Search || args.TargetBoard == ForumBoards.NewsDisc || args.TargetBoard == ForumBoards.AnimeDisc || args.TargetBoard == ForumBoards.MangaDisc || args.TargetBoard == ForumBoards.Updates || args.TargetBoard == ForumBoards.Guidelines)
                 NewTopicButtonVisibility = Visibility.Collapsed;
             else
                 NewTopicButtonVisibility = Visibility.Visible;
         }
 
-        public async void LoadPage(int page,bool decrement = false)
+        public async void LoadPage(int page, bool decrement = false)
         {
             LoadingTopics = Visibility.Visible;
             if (decrement)
                 page--;
             try
             {
-                Topics =
-                    (PrevArgs.IsAnimeBoard == null
-                        ? await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts()
-                        : await
-                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard.Value).GetTopicPosts
-                                ()).Select(
-                                    entry => new ForumTopicEntryViewModel(entry)).ToList();
-                CurrentPage = page;
+                var prevTopics = Topics;
+                Topics = new List<ForumTopicEntryViewModel>();
+                var topics = new List<ForumTopicEntry>();
+                switch (PrevArgs.WorkMode)
+                {
+                    case ForumBoardPageWorkModes.Standard:
+                        topics = await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts();
+                        break;
+                    case ForumBoardPageWorkModes.AnimeBoard:
+                    case ForumBoardPageWorkModes.MangaBoard:
+                        topics = await
+                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard).GetTopicPosts();
+                        break;
+                    case ForumBoardPageWorkModes.Search:
+                        topics = await
+                            ForumSearchQuery.GetSearchResults(PrevArgs.Query, PrevArgs.Scope);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                if (topics.Count == 0)
+                    Topics = prevTopics;
+                else
+                {
+                    Topics = topics.Select(entry => new ForumTopicEntryViewModel(entry)).ToList();
+                    CurrentPage = page;
+                }              
             }
             catch (Exception)
             {
@@ -199,11 +256,10 @@ namespace MalClient.Shared.ViewModels.Forums
             LoadingTopics = Visibility.Collapsed;
         }
 
-        public void LoadTopic(ForumTopicEntryViewModel topic,bool lastpost = false)
+        public void LoadTopic(ForumTopicEntryViewModel topic, bool lastpost = false)
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard,lastpost));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard, lastpost));
         }
     }
 }

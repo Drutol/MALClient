@@ -129,6 +129,7 @@
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
     <Compile Include="Comm\Forums\ForumBoardIndexPeekPostsQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
+    <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />

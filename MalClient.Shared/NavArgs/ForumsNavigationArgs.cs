@@ -8,6 +8,14 @@ using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.NavArgs
 {
+    public enum ForumBoardPageWorkModes
+    {
+        Standard,
+        AnimeBoard,
+        MangaBoard,
+        Search
+    }
+
     public class ForumsNavigationArgs
     {
         public ForumsPageIndex Page { get; set; }
@@ -19,13 +27,17 @@ namespace MalClient.Shared.NavArgs
         public int PageNumber { get; }
         public int AnimeId { get; }
         public string AnimeTitle { get; set; }
-        public bool? IsAnimeBoard { get; }
+        public bool IsAnimeBoard { get; }
+        public ForumBoardPageWorkModes WorkMode { get; set; }
+        public string Query { get; set; }
+        public ForumBoards? Scope { get; set; }
 
 
         public ForumsBoardNavigationArgs(ForumBoards board,int page = 0)
         {
             TargetBoard = board;
             Page = ForumsPageIndex.PageBoard;
+            WorkMode = ForumBoardPageWorkModes.Standard;
             PageNumber = page;
         }
 
@@ -35,7 +47,38 @@ namespace MalClient.Shared.NavArgs
             IsAnimeBoard = anime;
             AnimeTitle = title;
             PageNumber = page;
+            WorkMode = anime ? ForumBoardPageWorkModes.AnimeBoard : ForumBoardPageWorkModes.MangaBoard;
             Page = ForumsPageIndex.PageBoard;
+        }
+
+        public ForumsBoardNavigationArgs(string query,ForumBoards? scope)
+        {
+            Query = query;
+            Scope = scope;
+            WorkMode = ForumBoardPageWorkModes.Search;
+            Page = ForumsPageIndex.PageBoard;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var arg = obj as ForumsBoardNavigationArgs;
+
+            if (arg?.WorkMode == WorkMode)
+            {
+                switch (WorkMode)
+                {
+                    case ForumBoardPageWorkModes.Standard:
+                        return TargetBoard == arg.TargetBoard;
+                    case ForumBoardPageWorkModes.AnimeBoard:
+                    case ForumBoardPageWorkModes.MangaBoard:
+                        return AnimeId == arg.AnimeId;
+                    case ForumBoardPageWorkModes.Search:
+                        return Query == arg.Query && Scope == arg.Scope;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            return false;
         }
     }
 
@@ -46,7 +89,7 @@ namespace MalClient.Shared.NavArgs
         public ForumBoards SourceBoard { get; set; }
         public bool Lastpost { get; set; }
 
-        public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard,bool lastpost = false)
+        public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard, bool lastpost = false)
         {
             TopicId = topicId;
             Page = ForumsPageIndex.PageTopic;
@@ -56,9 +99,8 @@ namespace MalClient.Shared.NavArgs
 
         private ForumsTopicNavigationArgs()
         {
-            
         }
 
-        public static ForumsTopicNavigationArgs NewTopic => new ForumsTopicNavigationArgs { CreateNewTopic = true , Page = ForumsPageIndex.PageTopic};
+        public static ForumsTopicNavigationArgs NewTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic};
     }
 }

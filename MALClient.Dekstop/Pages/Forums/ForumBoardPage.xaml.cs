@@ -91,5 +91,27 @@ namespace MALClient.Pages.Forums
                 GotoPageFlyout.Hide();
         }
 
+        private void SearchQueryOnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                if (string.IsNullOrEmpty(SearchTextBox.Text))
+                    return;
+                if (SearchTextBox.Text.Length <= 2)
+                    return;
+
+                GotoPageFlyout.Hide();
+                ViewModelLocator.ForumsBoard.SearchCommand.Execute(null);
+                e.Handled = true;
+            }
+        }
+
+        private void SearchQueryButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            if (SearchTextBox.Text.Length <= 2)
+                return;
+
+            FlyoutSearch.Hide();
+        }
     }
 }

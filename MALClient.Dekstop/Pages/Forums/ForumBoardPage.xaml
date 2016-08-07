@@ -72,9 +72,29 @@
                 <SymbolIcon Symbol="Go" Height="25" Width="35"/>
             </Button>
         </StackPanel>
-        <Button Grid.Row="1" Content="Create new topic" Command="{Binding CreateNewTopicCommand}"
-                Background="{ThemeResource AppBarBackgroundThemeBrush}" Visibility="{Binding NewTopicButtonVisibility}"
+        <StackPanel  Grid.Row="1" Orientation="Horizontal">
+            <Button Content="Create new topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
+                Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
+            <Button Content="Search"
+                Background="{ThemeResource BrushDeepBackground}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                <Button.Flyout>
+                    <Flyout x:Name="FlyoutSearch">
+                        <StackPanel>
+                            <TextBlock Text="Search query" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <TextBox x:Name="SearchTextBox" Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SearchQueryOnKeyDown" Margin="5,0"/>
+                                <Button Command="{Binding SearchCommand}" Click="SearchQueryButtonOnClick">
+                                    <SymbolIcon Symbol="Accept"/>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width=".8*"/>

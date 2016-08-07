@@ -51,6 +51,7 @@ namespace MALClient.Pages.Forums
             await MalHttpContextProvider.InitializeContextForWebViews(false);
             ViewModel.WebViewTopicNavigationRequested += ViewTopicModelOnWebViewTopicNavigationRequested;
             ViewModel.WebViewNewTopicNavigationRequested += ViewModelOnWebViewNewTopicNavigationRequested;
+            Loaded -= OnLoaded;
             ViewModel.Init(_args);
         }
 
@@ -66,16 +67,14 @@ namespace MALClient.Pages.Forums
             _lastpost = arg;
             TopicWebView.Navigate(_baseUri);
         }
-
-        
-
+      
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _args = e.Parameter as ForumsTopicNavigationArgs;
             base.OnNavigatedTo(e);
         }
 
-        private async void TopicWebView_OnLoadCompleted(object sender, NavigationEventArgs e)
+        private void TopicWebView_OnLoadCompleted(object sender, NavigationEventArgs e)
         {
 
         }

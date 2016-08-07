@@ -79,7 +79,7 @@ namespace MalClient.Shared.Comm.Forums
             var output = new List<ForumTopicEntry>();
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
-                return null;
+                return new List<ForumTopicEntry>();
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
 
@@ -89,28 +89,8 @@ namespace MalClient.Shared.Comm.Forums
             foreach (var topicRow in topicContainer.Descendants("tr").Skip(1)) //skip forum table header
             {
                 try
-                {
-                    var current = new ForumTopicEntry();
-                    var tds = topicRow.Descendants("td").ToList();
-
-                    current.Type = tds[1].ChildNodes[0].InnerText;
-
-                    var titleLinks = tds[1].Descendants("a").ToList();
-                    var titleLink = titleLinks[0].InnerText.Length == 0 ? titleLinks[1] : titleLinks[0];
-
-                    current.Title = titleLink.InnerText;
-                    current.Id = titleLink.Attributes["href"].Value.Split('=').Last();
-
-                    var spans = tds[1].Descendants("span").ToList();
-                    current.Op = spans[0].InnerText;
-                    current.Created = spans[1].InnerText;
-
-                    current.Replies = tds[2].InnerText;
-
-                    current.LastPoster = tds[3].Descendants("a").First().InnerText;
-                    current.LastPostDate = tds[3].ChildNodes.Last().InnerText;
-
-                    output.Add(current);
+                {                  
+                    output.Add(ParseHtmlToTopic(topicRow));
                 }
                 catch (Exception)
                 {
@@ -134,6 +114,39 @@ namespace MalClient.Shared.Comm.Forums
 
 
             return output;
+        }
+
+        public static ForumTopicEntry ParseHtmlToTopic(HtmlNode topicRow)
+        {
+            var current = new ForumTopicEntry();
+            var tds = topicRow.Descendants("td").ToList();
+
+            current.Type = tds[1].ChildNodes[0].InnerText;
+
+            var titleLinks = tds[1].Descendants("a").ToList();
+            var titleLink = titleLinks[0].InnerText.Length == 0 ? titleLinks[1] : titleLinks[0];
+
+            current.Title = titleLink.InnerText;
+            var link = titleLink.Attributes["href"].Value;
+            if (link.Contains("&goto="))
+            {
+                var pos = link.IndexOf("&goto=");
+                link = link.Substring(0, pos);
+            }
+
+            current.Id = link.Split('=').Last();
+            
+
+            var spans = tds[1].Descendants("span").ToList();
+            current.Op = spans[0].InnerText;
+            current.Created = spans[1].InnerText;
+
+            current.Replies = tds[2].InnerText;
+
+            current.LastPoster = tds[3].Descendants("a").First().InnerText;
+            current.LastPostDate = tds[3].ChildNodes.Last().InnerText;
+
+            return current;
         }
 
         private static string GetEndpoint(ForumBoards board)

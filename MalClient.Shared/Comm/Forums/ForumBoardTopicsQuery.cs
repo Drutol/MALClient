@@ -56,16 +56,24 @@ namespace MalClient.Shared.Comm.Forums
 
         public async Task<List<ForumTopicEntry>> GetTopicPosts()
         {
-            if (_animeId == 0)
+            try
             {
-                if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
-                    return _boardCache[_board][_page];
+                if (_animeId == 0)
+                {
+                    if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
+                        return _boardCache[_board][_page];
+                }
+                else
+                {
+                    if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
+                        return _animeBoardCache[_animeId][_page];
+                }
             }
-            else
+            catch (Exception e)
             {
-                if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
-                    return _animeBoardCache[_animeId][_page];
+                //
             }
+
 
 
             var output = new List<ForumTopicEntry>();

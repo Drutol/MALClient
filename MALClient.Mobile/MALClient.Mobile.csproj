@@ -110,6 +110,18 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Forums\ForumBoardPage.xaml.cs">
+      <DependentUpon>ForumBoardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumIndexPage.xaml.cs">
+      <DependentUpon>ForumIndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumsMainPage.xaml.cs">
+      <DependentUpon>ForumsMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
+      <DependentUpon>ForumTopicPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
@@ -188,6 +200,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Forums\ForumBoardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Forums\ForumIndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Forums\ForumsMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Forums\ForumTopicPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -48,7 +48,7 @@ namespace MALClient.Pages.Forums
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await MalHttpContextProvider.InitializeContextForWebViews(false);
+            await MalHttpContextProvider.InitializeContextForWebViews(true);
             ViewModel.WebViewTopicNavigationRequested += ViewTopicModelOnWebViewTopicNavigationRequested;
             ViewModel.WebViewNewTopicNavigationRequested += ViewModelOnWebViewNewTopicNavigationRequested;
             ViewModel.Init(_args);
@@ -92,7 +92,7 @@ namespace MALClient.Pages.Forums
             string fontColor = Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black";
             string fontColorInverted = Settings.SelectedTheme == ApplicationTheme.Dark ? "black" : "white";
 
-            var zoom = 100*ActualWidth/1060;
+            var zoom = 100*ActualWidth/500;
             _prevSize = new Size(ActualWidth, ActualHeight);
             List<string> commands;
             if (_args.CreateNewTopic)
@@ -101,14 +101,14 @@ namespace MALClient.Pages.Forums
                 {
                     @"document.getElementById(""headerSmall"").outerHTML='';document.getElementById(""menu"").outerHTML='';document.getElementsByClassName(""js-sns-icon-container icon-block-small"")[0].outerHTML='';document.getElementsByTagName(""footer"")[0].innerHTML='';document.getElementsByClassName(""mauto clearfix pt24"")[0].outerHTML='';",
                     @"$(""#contentWrapper"").find('div:first').remove();",
-                    $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"");",
-                    $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
+                    $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"").css(""width"", ""700px"");;",
+                    $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"").css(""width"", ""700px"");;",
                     @"$(""footer"").remove()",
                     $@"$(""textarea"").css(""background-color"",""{bodyDarker}"").css(""color"", ""{fontColor}"")",
                     $@"$(""td"").css(""color"", ""{fontColor}"")",
                     $@"$(""a"").css(""color"", ""#{color.ToString().Substring(3)}"");",
                     $@"$(""#content"").css(""border-color"", ""{bodyLighter}"").css(""background-color"",""{bodyLighter}"");",
-                    $@"$(""html"").css(""zoom"", ""{Math.Floor(zoom)}%"").css(""background-color"", ""{bodyLighter}"");",
+                    $@"$(""html"").css(""zoom"", ""{Math.Floor(zoom)}%"").css(""background-color"", ""{bodyLighter}"").css(""width"", ""700px"");",
                     @"$(""iframe"").remove()",
                     $@"$(""#dialog"").css(""border-color"", ""{bodyLight}"")",
                     $@"$(""td"").css(""border-color"", ""{bodyDarker}"")",
@@ -168,7 +168,7 @@ namespace MALClient.Pages.Forums
             _prevSize = e.NewSize;
             try
             {
-                await TopicWebView.InvokeScriptAsync("eval", new string[] { $"$(\"html\").css(\"zoom\", \"{Math.Floor(100 * ActualWidth / 1060)}%\");", });
+                await TopicWebView.InvokeScriptAsync("eval", new string[] { $"$(\"html\").css(\"zoom\", \"{Math.Floor(100 * ActualWidth / 500)}%\");", });
             }
             catch (Exception)
             {

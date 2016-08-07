@@ -20,9 +20,9 @@ namespace MalClient.Shared.ViewModels.Forums
     {
         public event AmbiguousNavigationRequest NavigationRequested;
 
-        public SmartObservableCollection<ForumBoards> PinnedBoards { get; } = new SmartObservableCollection<ForumBoards>();
+        public ObservableCollection<ForumBoards> PinnedBoards { get; } = new ObservableCollection<ForumBoards>();
 
-        public SmartObservableCollection<ForumTopicLightEntry> PinnedTopics { get; } = new SmartObservableCollection<ForumTopicLightEntry>();
+        public ObservableCollection<ForumTopicLightEntry> PinnedTopics { get; } = new ObservableCollection<ForumTopicLightEntry>();
 
         public ForumTopicLightEntry SelectedForumTopicLightEntry
         {
@@ -68,13 +68,20 @@ namespace MalClient.Shared.ViewModels.Forums
             {
                 ViewModelLocator.NavMgr.ResetMainBackNav();
                 args = new ForumsNavigationArgs { Page = ForumsPageIndex.PageIndex };
-            }          
+            }
+            else
+            {
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex,null);
+            }         
             NavigationRequested?.Invoke((int)args.Page, args);
         }
 
         public async void LoadPinnedTopics()
         {
-            PinnedTopics.AddRange((await DataCache.RetrieveData<List<ForumTopicLightEntry>>("pinned_forum_topics.json","",-1)) ?? new List<ForumTopicLightEntry>());
+            foreach (var item in (await DataCache.RetrieveData<List<ForumTopicLightEntry>>("pinned_forum_topics.json", "", -1)) ?? new List<ForumTopicLightEntry>())
+            {
+                PinnedTopics.Add(item);
+            }          
         }
          
         public async Task SavePinnedTopics()
@@ -84,8 +91,13 @@ namespace MalClient.Shared.ViewModels.Forums
 
         public ForumsMainViewModel()
         {
-            if(!string.IsNullOrEmpty(Settings.ForumsPinnedBoards))
-                PinnedBoards.AddRange(Settings.ForumsPinnedBoards.Split(',').Select(int.Parse).Cast<ForumBoards>());
+            if (!string.IsNullOrEmpty(Settings.ForumsPinnedBoards))
+            {
+                foreach (var item in Settings.ForumsPinnedBoards.Split(',').Select(int.Parse).Cast<ForumBoards>())
+                {
+                    PinnedBoards.Add(item);
+                }
+            }
         }
 
 

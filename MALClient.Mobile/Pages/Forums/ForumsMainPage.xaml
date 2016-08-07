@@ -1,0 +1,121 @@
+﻿<Page
+    x:Class="MALClient.Pages.Forums.ForumsMainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Forums"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsMain}">
+
+    <Page.Resources>
+        <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumWithDescriptionToStringConverter"/>
+    </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="LikeDislike" Label="Forums beta thread" Click="BetaForumsFeedback"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button>
+                <Button.Flyout>
+                    <Flyout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Pinned topics" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                            <ListView x:Name="PinnedTopicListView" Grid.Row="1" Margin="-20,0" SelectionMode="Single" SelectionChanged="PinnedTopicSelectionchanged"
+                                      ItemsSource="{Binding PinnedTopics}" SelectedItem="{Binding SelectedForumTopicLightEntry,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                                        <Setter Property="Height" Value="50"/>
+                                        <Setter Property="Margin" Value="0,2"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="250" HorizontalAlignment="Stretch">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+                                            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock HorizontalAlignment="Left" Text="{Binding Op}" FontWeight="SemiLight" Margin="0,2" TextTrimming="CharacterEllipsis"/>
+                                                <Grid HorizontalAlignment="Stretch" Grid.Column="1"/>
+                                                <TextBlock Grid.Column="2"  HorizontalAlignment="Right" Text="{Binding Created}" FontWeight="SemiLight" Margin="0,2" TextTrimming="CharacterEllipsis"/>
+                                                <Button Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Command="{Binding Source={StaticResource Locator},Path=ForumsMain.UnpinTopicCommand}" 
+                                                        CommandParameter="{Binding}">
+                                                    <SymbolIcon Symbol="UnPin"/>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="AllApps"/>
+            </Button>
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden"
+                HorizontalScrollMode="Enabled"
+                VerticalScrollMode="Disabled">
+                <ItemsControl ItemsSource="{Binding PinnedBoards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel  Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Margin" Value="10,2"></Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button IsRightTapEnabled="True" RightTapped="PinnedButtonOnRightClick" Background="{ThemeResource BrushAnimeItemBackground}"
+                                    Command="{Binding Source={StaticResource Locator},Path=ForumsMain.GotoPinnedBoardCommand}" IsHoldingEnabled="True" Holding="PinnedButtonOnRightClick" CommandParameter="{Binding}">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Remove" Command="{Binding Source={StaticResource Locator},Path=ForumsMain.RemovePinnedBoardCommand}" CommandParameter="{Binding}"/>
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                                <TextBlock Text="{Binding Converter={StaticResource EnumWithDescriptionToStringConverter}}" Foreground="{ThemeResource BrushSettingsSubtitle}" FontWeight="Bold"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <EntranceThemeTransition/>
+                            <ReorderThemeTransition/>
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+        <Frame Grid.Row="1" x:Name="MainForumContentFrame"/>
+    </Grid>
+</Page>

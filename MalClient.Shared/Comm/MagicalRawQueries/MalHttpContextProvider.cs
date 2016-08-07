@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.UI.Popups;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using Windows.Web.Http.Headers;
 using HtmlAgilityPack;
 using MalClient.Shared.Utils;
 using HttpClient = System.Net.Http.HttpClient;
@@ -73,7 +75,7 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
         /// <returns>
         ///     Returns valid http client which can interact with website API.
         /// </returns>
-        public static async Task<CsrfHttpClient> GetHttpContextAsync(bool updateToken = false)
+        public static async Task<CsrfHttpClient> GetHttpContextAsync()
         {
             if (_contextExpirationTime == null || DateTime.Now.CompareTo(_contextExpirationTime.Value) > 0)
             {
@@ -105,8 +107,6 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
                 if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.RedirectMethod)
                 {
                     _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
-                    if (updateToken) //we are here just to update this thing
-                        return null;
                     return _httpClient; //else we are returning client that can be used for next queries
                 }
 
@@ -119,23 +119,34 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
         /// Moves needed cookies to globaly used client by WebViews control, web view authentication in other words.
         /// </summary>
         /// <returns></returns>
-        public static async Task InitializeContextForWebViews()
+        public static async Task InitializeContextForWebViews(bool mobile)
         {
-            if(_webViewsInitialized)
+            if (_webViewsInitialized)
                 return;
             _webViewsInitialized = true;
+
             var filter = new HttpBaseProtocolFilter();
             var httpContext = await GetHttpContextAsync();
             var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri(MalBaseUrl));
+            if (mobile)
+                filter.CookieManager.SetCookie(new HttpCookie("view", "myanimelist.net", "/") { Value = "pc" });
             foreach (var cookie in cookies.Cast<Cookie>())
             {
-                var newCookie = new HttpCookie(cookie.Name, cookie.Domain, cookie.Path) {Value = cookie.Value};
-                filter.CookieManager.SetCookie(newCookie);
+                try
+                {
+                    var newCookie = new HttpCookie(cookie.Name, cookie.Domain, cookie.Path) {Value = cookie.Value};
+                    filter.CookieManager.SetCookie(newCookie);
+                }
+                catch (Exception e)
+                {
+                    var msg = new MessageDialog("Something went wrong™","Authorization failed while rewriting cookies, I don't know why this is happenning and after hours of debugging it fixed itself after reinstall. :(");
+                    await msg.ShowAsync();
+                }
+
             }
 
             filter.AllowAutoRedirect = true;
-
-            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(filter); //it is used globally by web views... somehow
+            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(filter); //use globaly by webviews
         }
 
         public static async void ErrorMessage(string what)

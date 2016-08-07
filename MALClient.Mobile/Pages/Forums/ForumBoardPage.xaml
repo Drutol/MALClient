@@ -1,0 +1,139 @@
+﻿<Page
+    x:Class="MALClient.Pages.Forums.ForumBoardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Forums"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uwp="using:FontAwesome.UWP"
+    xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsBoard}">
+
+    <Page.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <ItemsControl  ItemsSource="{Binding AvailablePages}" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Margin="2,0" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.LoadPageCommand}"
+                            CommandParameter="{Binding Item1}" Padding="0">
+                            <Grid Width="20" Height="25">
+                                <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="20" Height="25"
+                                  Visibility="{Binding Item2,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <TextBlock Text="{Binding Item1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Margin="2,0">
+                <Button.Flyout>
+                    <Flyout x:Name="GotoPageFlyout">
+                        <StackPanel>
+                            <TextBlock Text="Go to page:"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBox x:Name="GotoPageTextBox" Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="GotoInputOnKeyDown"/>
+                                <Button Margin="5,0" Click="GotoAcceptButtonOnClick" Command="{Binding LoadGotoPageCommand}">
+                                    <SymbolIcon Symbol="Accept"/>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="Go" Height="25" Width="35"/>
+            </Button>
+        </StackPanel>
+        <Button Grid.Row="1" Content="Create new topic" Command="{Binding CreateNewTopicCommand}"
+                Background="{ThemeResource AppBarBackgroundThemeBrush}" Visibility="{Binding NewTopicButtonVisibility}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <userControls:AlternatingListView Grid.Row="2" ItemsSource="{Binding Topics}" 
+                                          ItemClick="TopicOnClick" IsItemClickEnabled="True"
+                                          IsRightTapEnabled="True" RightTapped="TopicOnRightClick">
+            <ListView.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".2*"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Topic" HorizontalAlignment="Stretch"  Margin="0,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0,3"/>
+                    <Setter Property="BorderThickness" Value="2.5,0,0,0"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Holding="TopicOnRightClick">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width=".8*"/>
+                            <ColumnDefinition Width=".2*"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <uwp:FontAwesome Margin="0,0,3,0" Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Margin="0,4" Text="{Binding Data.Title}" FontSize="18" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
+                            <StackPanel Margin="0,3" Orientation="Horizontal">
+                                <TextBlock Text="{Binding Data.Op}" FontWeight="Medium"/>
+                                <TextBlock Text="{Binding Data.Created}" Margin="5,0" FontWeight="SemiLight"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Grid.Column="2" Text="{Binding Data.Replies}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button Grid.Column="3" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center" 
+                                Style="{StaticResource TextBlockButtonStyle}" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.GotoLastPostCommand}"
+                                CommandParameter="{Binding}" Foreground="{ThemeResource BrushText}">
+                            <StackPanel BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" >
+                                <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium"/>
+                                <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center" FontWeight="SemiLight"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </userControls:AlternatingListView>
+
+        <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding LoadingTopics}"
+              Background="{ThemeResource BrushLoading}">
+            <ProgressRing
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                IsActive="True" />
+        </Grid>
+    </Grid>
+</Page>

@@ -21,9 +21,9 @@ namespace MalClient.Shared.ViewModels.Forums
     {
         public ForumsBoardNavigationArgs PrevArgs;
 
-        private ObservableCollection<ForumTopicEntryViewModel> _topics;
+        private List<ForumTopicEntryViewModel> _topics;
 
-        public ObservableCollection<ForumTopicEntryViewModel> Topics
+        public List<ForumTopicEntryViewModel> Topics
         {
             get { return _topics; }
             set
@@ -146,15 +146,19 @@ namespace MalClient.Shared.ViewModels.Forums
             }
         }
 
+        private bool _initizalizing;
 
         public  void Init(ForumsBoardNavigationArgs args)
         {
-            if (PrevArgs != null && Topics.Count != 0 &&
+            if(_initizalizing)
+                return;
+            _initizalizing = true;
+            if (PrevArgs != null && Topics?.Count != 0 &&
                 ((args.IsAnimeBoard != null && PrevArgs.AnimeId == args.AnimeId) || (args.IsAnimeBoard == null && PrevArgs.TargetBoard == args.TargetBoard)))
                 return;
             PrevArgs = args;
             LoadPage(args.PageNumber);
-            Topics?.Clear();
+            
             Title = args.IsAnimeBoard != null ? args.AnimeTitle : args.TargetBoard.GetDescription();
             if (args.IsAnimeBoard != null)
                 Icon = args.IsAnimeBoard.Value ? FontAwesomeIcon.Tv : FontAwesomeIcon.Book;
@@ -175,21 +179,23 @@ namespace MalClient.Shared.ViewModels.Forums
         {
             LoadingTopics = Visibility.Visible;
             if (decrement)
-                page--;        
+                page--;
             try
             {
                 Topics =
-                    new ObservableCollection<ForumTopicEntryViewModel>(
-                        (PrevArgs.IsAnimeBoard == null
-                            ? await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts()
-                            : await new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard.Value).GetTopicPosts()).Select(
-                                entry => new ForumTopicEntryViewModel(entry)));
+                    (PrevArgs.IsAnimeBoard == null
+                        ? await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts()
+                        : await
+                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard.Value).GetTopicPosts
+                                ()).Select(
+                                    entry => new ForumTopicEntryViewModel(entry)).ToList();
                 CurrentPage = page;
             }
             catch (Exception)
             {
                 //no shuch page
             }
+            _initizalizing = false;
             LoadingTopics = Visibility.Collapsed;
         }
 

@@ -9,24 +9,30 @@
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsIndex}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer >
+        <ScrollViewer>
             <ItemsControl ItemsSource="{Binding Boards}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <TextBlock Text="{Binding Group}" FontSize="28" Margin="0,5" HorizontalAlignment="Center"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
-                            <GridView  ItemsSource="{Binding Items}"  ItemClick="BoardGridOnItemClick" IsItemClickEnabled="True" HorizontalAlignment="Center" SelectionMode="None">
-                                <GridView.ItemContainerTransitions>
+                            <ListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Items}"  ItemClick="BoardGridOnItemClick" IsItemClickEnabled="True" HorizontalAlignment="Center" SelectionMode="None">
+                                <ListView.ItemContainerTransitions>
                                     <TransitionCollection>
                                         <RepositionThemeTransition/>
                                         <EntranceThemeTransition/>
                                         <AddDeleteThemeTransition/>
                                     </TransitionCollection>
-                                </GridView.ItemContainerTransitions>
-                                <GridView.ItemTemplate>
+                                </ListView.ItemContainerTransitions>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Margin" Value="0,5"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Width="500" Padding="15,10" IsRightTapEnabled="True" RightTapped="BoardGridOnRightClick" Height="175" Background="{ThemeResource BrushAnimeItemBackground}">
+                                        <Grid Padding="5,5" IsRightTapEnabled="True" HorizontalAlignment="Stretch" IsHoldingEnabled="True" Holding="BoardGridOnHolding" RightTapped="BoardGridOnRightClick" Background="{ThemeResource BrushAnimeItemBackground}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
@@ -52,7 +58,7 @@
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Width="230">
+                                                        <Grid MaxWidth="190">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="35"/>
                                                                 <ColumnDefinition Width="*"/>
@@ -79,8 +85,8 @@
                                             </ItemsControl>
                                         </Grid>
                                     </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

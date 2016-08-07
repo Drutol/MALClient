@@ -23,6 +23,7 @@ using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Pages;
+using MALClient.Pages.Forums;
 using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
 using MALClient.Pages.Off;
@@ -73,7 +74,7 @@ namespace MALClient.ViewModels
 
             MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
                                                                     index == PageIndex.PageMessanging ||
-                                                                    index == PageIndex.PageCalendar);
+                                                                    index == PageIndex.PageForumIndex);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
@@ -164,6 +165,8 @@ namespace MALClient.ViewModels
                 case PageIndex.PageCalendar:
                     HideSearchStuff();
                     CurrentStatus = "Calendar";
+                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.CalendarPage.Init(true); });
                     NavigationRequested?.Invoke(typeof(CalendarPage), args);
                     break;
                 case PageIndex.PageArticles:
@@ -191,6 +194,16 @@ namespace MALClient.ViewModels
                             : "New Message")
                         : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
                     NavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
+                    break;
+                case PageIndex.PageForumIndex:
+                    HideSearchStuff();
+                    CurrentStatus = "Forums";
+                    //RefreshButtonVisibility = Visibility.Visible;
+                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
+                    if (LastIndex == PageIndex.PageForumIndex)
+                        ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
+                    else
+                        NavigationRequested?.Invoke(typeof(ForumsMainPage), args);
                     break;
                 case PageIndex.PageHistory:
                     HideSearchStuff();

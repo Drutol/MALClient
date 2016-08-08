@@ -26,7 +26,7 @@
                                 </GridView.ItemContainerTransitions>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Width="500" Padding="15,10" IsRightTapEnabled="True" RightTapped="BoardGridOnRightClick" Height="175" Background="{ThemeResource BrushAnimeItemBackground}">
+                                        <Grid Width="500" Padding="15,10" IsRightTapEnabled="True" RightTapped="BoardGridOnRightClick" MaxHeight="175" Background="{ThemeResource BrushAnimeItemBackground}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
@@ -52,7 +52,7 @@
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Width="230">
+                                                        <Grid Width="230" Height="70">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="35"/>
                                                                 <ColumnDefinition Width="*"/>

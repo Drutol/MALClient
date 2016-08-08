@@ -7,6 +7,12 @@ using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.Models.Forums
 {
+    public class ForumBoardContent
+    {
+        public List<ForumTopicEntry> ForumTopicEntries { get; set; } = new List<ForumTopicEntry>();
+        public int Pages { get; set; }
+    }
+
     public class ForumTopicEntry
     {
         public string Title { get; set; }

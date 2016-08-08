@@ -35,7 +35,7 @@
             <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PageNavigationControlsVisibility}">
             <ItemsControl  ItemsSource="{Binding AvailablePages}" >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -46,8 +46,8 @@
                     <DataTemplate>
                         <Button Margin="2,0" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.LoadPageCommand}"
                             CommandParameter="{Binding Item1}" Padding="0">
-                            <Grid Width="20" Height="25">
-                                <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="20" Height="25"
+                            <Grid Width="23" Height="25">
+                                <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="23" Height="25"
                                   Visibility="{Binding Item2,Converter={StaticResource BoolToVisibilityConverter}}"/>
                                 <TextBlock Text="{Binding Item1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
@@ -59,13 +59,21 @@
                 <Button.Flyout>
                     <Flyout x:Name="GotoPageFlyout">
                         <StackPanel>
-                            <TextBlock Text="Go to page:"/>
+                            <TextBlock Text="Go to page" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBox x:Name="GotoPageTextBox" Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="GotoInputOnKeyDown"/>
                                 <Button Margin="5,0" Click="GotoAcceptButtonOnClick" Command="{Binding LoadGotoPageCommand}">
                                     <SymbolIcon Symbol="Accept"/>
                                 </Button>
                             </StackPanel>
+                            <Grid Margin="0,4" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="First" Margin="0,0,5,0" Command="{Binding GotoFirstPageCommand}"/>
+                                <Button Grid.Column="1" Content="Last" Command="{Binding GotoLastPageCommand}"/>
+                            </Grid>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -76,7 +84,7 @@
             <Button Content="Create new topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
                 Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
-            <Button Content="Search"
+            <Button Content="Search" Visibility="{Binding SearchButtonVisibility}"
                 Background="{ThemeResource BrushDeepBackground}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Button.Flyout>

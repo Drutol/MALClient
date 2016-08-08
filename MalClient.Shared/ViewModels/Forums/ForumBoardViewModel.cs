@@ -96,6 +96,30 @@ namespace MalClient.Shared.ViewModels.Forums
             }
         }
 
+        private Visibility _searchButtonVisibility;
+
+        public Visibility SearchButtonVisibility
+        {
+            get { return _searchButtonVisibility; }
+            set
+            {
+                _searchButtonVisibility = value;
+                RaisePropertyChanged(() => SearchButtonVisibility);
+            }
+        }
+
+        private Visibility _pageNavigationControlsVisibility;
+
+        public Visibility PageNavigationControlsVisibility
+        {
+            get { return _pageNavigationControlsVisibility; }
+            set
+            {
+                _pageNavigationControlsVisibility = value;
+                RaisePropertyChanged(() => PageNavigationControlsVisibility);
+            }
+        }
+
         private ICommand _loadPageCommand;
 
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(i => LoadPage(i,true)));
@@ -132,6 +156,22 @@ namespace MalClient.Shared.ViewModels.Forums
                 LoadTopic(topic,true);
             }));
 
+        private ICommand _gotoLastPageCommand;
+
+        public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(
+            () =>
+            {
+                LoadPage(_allPages,false,true);
+            }));
+
+        private ICommand _gotoFirstPageCommand;
+
+        public ICommand GotoFirstPageCommand => _gotoFirstPageCommand ?? (_gotoFirstPageCommand = new RelayCommand(
+            () =>
+            {
+                LoadPage(0);
+            }));
+
         private ICommand _loadGotoPageCommand;
 
         public ICommand LoadGotoPageCommand => _loadGotoPageCommand ?? (_loadGotoPageCommand = new RelayCommand(() =>
@@ -145,6 +185,7 @@ namespace MalClient.Shared.ViewModels.Forums
 
         private int _currentPage;
         private string _gotoPageTextBind;
+        private int _allPages;
 
         public int CurrentPage
         {
@@ -156,7 +197,7 @@ namespace MalClient.Shared.ViewModels.Forums
                 
                 AvailablePages.Clear();
                 var start = value <= 2 ? 1 : value-2;
-                for (int i = start; i <= start+4; i++)
+                for (int i = start; i <= start+4 && i <= _allPages + 1; i++)
                     AvailablePages.Add(new Tuple<int, bool>(i,i == value+1));
             }
         }
@@ -176,9 +217,9 @@ namespace MalClient.Shared.ViewModels.Forums
 
         public void Init(ForumsBoardNavigationArgs args)
         {
-            if(_initizalizing)
-                return;         
-            if(args.Equals(PrevArgs))
+            if (_initizalizing)
+                return;
+            if (args.Equals(PrevArgs))
                 return;
             _initizalizing = true;
             PrevArgs = args;
@@ -188,32 +229,40 @@ namespace MalClient.Shared.ViewModels.Forums
             switch (args.WorkMode)
             {
                 case ForumBoardPageWorkModes.Standard:
+                    PageNavigationControlsVisibility = SearchButtonVisibility = Visibility.Visible;
                     Title = args.TargetBoard.GetDescription();
                     Icon = Utilities.BoardToIcon(args.TargetBoard);
                     break;
                 case ForumBoardPageWorkModes.AnimeBoard:
+                    SearchButtonVisibility = Visibility.Collapsed;
+                    PageNavigationControlsVisibility = Visibility.Visible;
                     Title = args.AnimeTitle;
                     Icon = FontAwesomeIcon.Tv;
                     break;
                 case ForumBoardPageWorkModes.MangaBoard:
+                    SearchButtonVisibility = Visibility.Collapsed;
+                    PageNavigationControlsVisibility = Visibility.Visible;
                     Title = args.AnimeTitle;
                     Icon = FontAwesomeIcon.Book;
                     break;
                 case ForumBoardPageWorkModes.Search:
+                    PageNavigationControlsVisibility = SearchButtonVisibility = Visibility.Collapsed;
                     Title = "Search - " + args.Query;
                     Icon = args.Scope == null ? FontAwesomeIcon.Search : Utilities.BoardToIcon(args.Scope.Value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-                
-            if (args.WorkMode == ForumBoardPageWorkModes.Search || args.TargetBoard == ForumBoards.NewsDisc || args.TargetBoard == ForumBoards.AnimeDisc || args.TargetBoard == ForumBoards.MangaDisc || args.TargetBoard == ForumBoards.Updates || args.TargetBoard == ForumBoards.Guidelines)
+
+            if (args.WorkMode == ForumBoardPageWorkModes.Search || args.TargetBoard == ForumBoards.NewsDisc ||
+                args.TargetBoard == ForumBoards.AnimeDisc || args.TargetBoard == ForumBoards.MangaDisc ||
+                args.TargetBoard == ForumBoards.Updates || args.TargetBoard == ForumBoards.Guidelines)
                 NewTopicButtonVisibility = Visibility.Collapsed;
             else
                 NewTopicButtonVisibility = Visibility.Visible;
         }
 
-        public async void LoadPage(int page, bool decrement = false)
+        public async void LoadPage(int page, bool decrement = false,bool lastPage = false)
         {
             LoadingTopics = Visibility.Visible;
             if (decrement)
@@ -222,16 +271,21 @@ namespace MalClient.Shared.ViewModels.Forums
             {
                 var prevTopics = Topics;
                 Topics = new List<ForumTopicEntryViewModel>();
-                var topics = new List<ForumTopicEntry>();
+                ForumBoardContent topics;
+                int? arg;
+                if (lastPage)
+                    arg = _allPages;
+                else
+                    arg = null;
                 switch (PrevArgs.WorkMode)
                 {
                     case ForumBoardPageWorkModes.Standard:
-                        topics = await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts();
+                        topics = await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts(arg);
                         break;
                     case ForumBoardPageWorkModes.AnimeBoard:
                     case ForumBoardPageWorkModes.MangaBoard:
                         topics = await
-                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard).GetTopicPosts();
+                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard).GetTopicPosts(arg);
                         break;
                     case ForumBoardPageWorkModes.Search:
                         topics = await
@@ -240,11 +294,12 @@ namespace MalClient.Shared.ViewModels.Forums
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                if (topics.Count == 0)
+                if (topics.ForumTopicEntries.Count == 0)
                     Topics = prevTopics;
                 else
                 {
-                    Topics = topics.Select(entry => new ForumTopicEntryViewModel(entry)).ToList();
+                    Topics = topics.ForumTopicEntries.Select(entry => new ForumTopicEntryViewModel(entry)).ToList();
+                    _allPages = topics.Pages;
                     CurrentPage = page;
                 }              
             }

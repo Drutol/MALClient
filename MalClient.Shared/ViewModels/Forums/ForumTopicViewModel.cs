@@ -22,12 +22,10 @@ namespace MalClient.Shared.ViewModels.Forums
             LoadingTopic = Visibility.Visible;
             if (args.CreateNewTopic)
             {
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
                 WebViewNewTopicNavigationRequested?.Invoke(((int)args.SourceBoard).ToString(),false);
             }
             else
             {
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, ViewModelLocator.ForumsBoard.PrevArgs);
                 WebViewTopicNavigationRequested?.Invoke(args.TopicId, args.Lastpost);
             }
 

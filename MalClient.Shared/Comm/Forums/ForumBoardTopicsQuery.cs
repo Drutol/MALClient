@@ -6,17 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MalClient.Shared.Models.Forums;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.Comm.Forums
 {
     public class ForumBoardTopicsQuery : Query
     {
-        private static readonly Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>> _boardCache =
-            new Dictionary<ForumBoards, Dictionary<int, List<ForumTopicEntry>>>();
+        private static readonly Dictionary<ForumBoards, Dictionary<int, ForumBoardContent>> _boardCache =
+            new Dictionary<ForumBoards, Dictionary<int, ForumBoardContent>>();
 
-        private static readonly Dictionary<int, Dictionary<int, List<ForumTopicEntry>>> _animeBoardCache =
-            new Dictionary<int, Dictionary<int, List<ForumTopicEntry>>>();
+        private static readonly Dictionary<int, Dictionary<int, ForumBoardContent>> _animeBoardCache =
+            new Dictionary<int, Dictionary<int, ForumBoardContent>>();
 
         private ForumBoards _board;
         private int _animeId;
@@ -54,7 +55,7 @@ namespace MalClient.Shared.Comm.Forums
 
         
 
-        public async Task<List<ForumTopicEntry>> GetTopicPosts()
+        public async Task<ForumBoardContent> GetTopicPosts(int? lastPage)
         {
             try
             {
@@ -76,39 +77,64 @@ namespace MalClient.Shared.Comm.Forums
 
 
 
-            var output = new List<ForumTopicEntry>();
+            var output = new ForumBoardContent();
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
-                return new List<ForumTopicEntry>();
+                return new ForumBoardContent();
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
 
-            var topicContainer =
-                doc.DocumentNode.Descendants("table")
-                    .First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == "forumTopics");
-            foreach (var topicRow in topicContainer.Descendants("tr").Skip(1)) //skip forum table header
+            try
             {
                 try
-                {                  
-                    output.Add(ParseHtmlToTopic(topicRow));
+                {
+                    output.Pages = lastPage ??
+                                   int.Parse(
+                                       doc.FirstOfDescendantsWithClass("span", "di-ib")
+                                           .Descendants("a")
+                                           .Last()
+                                           .Attributes["href"]
+                                           .Value.Split('=').Last())/50;
                 }
                 catch (Exception)
                 {
-                    //hatml
+                    output.Pages = 0;
                 }
 
+
+                var topicContainer =
+                doc.DocumentNode.Descendants("table")
+                    .First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == "forumTopics");
+
+                foreach (var topicRow in topicContainer.Descendants("tr").Skip(1)) //skip forum table header
+                {
+                    try
+                    {
+                        output.ForumTopicEntries.Add(ParseHtmlToTopic(topicRow));
+                    }
+                    catch (Exception)
+                    {
+                        //hatml
+                    }
+
+                }
             }
+            catch (Exception)
+            {
+                //
+            }
+            
 
             if (_animeId == 0)
             {
                 if (!_boardCache.ContainsKey(_board))
-                    _boardCache[_board] = new Dictionary<int, List<ForumTopicEntry>>();
+                    _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
                 _boardCache[_board].Add(_page, output);
             }
             else
             {
                 if (!_animeBoardCache.ContainsKey(_animeId))
-                    _animeBoardCache[_animeId] = new Dictionary<int, List<ForumTopicEntry>>();
+                    _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
                 _animeBoardCache[_animeId].Add(_page, output);
             }
 

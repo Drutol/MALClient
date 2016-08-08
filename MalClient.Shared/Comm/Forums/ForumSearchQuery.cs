@@ -14,10 +14,10 @@ namespace MalClient.Shared.Comm.Forums
 {
     public static class ForumSearchQuery
     {
-        public static async Task<List<ForumTopicEntry>> GetSearchResults(string query, ForumBoards? searchScope)
+        public static async Task<ForumBoardContent> GetSearchResults(string query, ForumBoards? searchScope)
         {
             var scope = searchScope == null ? -1 : (int) searchScope;
-            var output = new List<ForumTopicEntry>();
+            var output = new ForumBoardContent {Pages = 0};
             if (query.Length > 2)
                 try
                 {
@@ -36,7 +36,7 @@ namespace MalClient.Shared.Comm.Forums
                     {
                         try
                         {
-                            output.Add(ForumBoardTopicsQuery.ParseHtmlToTopic(topicRow));
+                            output.ForumTopicEntries.Add(ForumBoardTopicsQuery.ParseHtmlToTopic(topicRow));
                         }
                         catch (Exception)
                         {

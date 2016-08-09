@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Models.Forums;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
@@ -51,6 +52,13 @@ namespace MALClient.Pages.Forums
             var item = sender as FrameworkElement;
             var flyout = FlyoutBase.GetAttachedFlyout(item);
             flyout.ShowAt(item);
+        }
+
+        private void RecentPostOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, null);
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                new ForumsTopicNavigationArgs((e.ClickedItem as ForumPostEntry).Id,ForumBoards.Creative));
         }
     }
 }

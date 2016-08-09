@@ -84,6 +84,18 @@ namespace MalClient.Shared.ViewModels.Forums
             }
         }
 
+        private Visibility _emptyNoticeVisibility = Visibility.Collapsed;
+
+        public Visibility EmptyNoticeVisibility
+        {
+            get { return _emptyNoticeVisibility; }
+            set
+            {
+                _emptyNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyNoticeVisibility);
+            }
+        }
+
         private Visibility _newTopicButtonVisibility;
 
         public Visibility NewTopicButtonVisibility
@@ -255,7 +267,7 @@ namespace MalClient.Shared.ViewModels.Forums
             }
 
             if (args.WorkMode == ForumBoardPageWorkModes.Search || args.TargetBoard == ForumBoards.NewsDisc ||
-                args.TargetBoard == ForumBoards.AnimeDisc || args.TargetBoard == ForumBoards.MangaDisc ||
+                args.TargetBoard == ForumBoards.AnimeSeriesDisc || args.TargetBoard == ForumBoards.MangaSeriesDisc ||
                 args.TargetBoard == ForumBoards.Updates || args.TargetBoard == ForumBoards.Guidelines)
                 NewTopicButtonVisibility = Visibility.Collapsed;
             else
@@ -301,7 +313,8 @@ namespace MalClient.Shared.ViewModels.Forums
                     Topics = topics.ForumTopicEntries.Select(entry => new ForumTopicEntryViewModel(entry)).ToList();
                     _allPages = topics.Pages;
                     CurrentPage = page;
-                }              
+                }
+                EmptyNoticeVisibility = Topics.Any() ? Visibility.Collapsed : Visibility.Visible;
             }
             catch (Exception)
             {

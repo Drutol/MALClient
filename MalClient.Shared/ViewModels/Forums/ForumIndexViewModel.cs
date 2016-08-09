@@ -3,21 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using FontAwesome.UWP;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Comm.Forums;
+using MalClient.Shared.Models.Forums;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.ViewModels.Forums
 {
     public class ForumIndexViewModel : ViewModelBase
     {
+
+        private ForumIndexContent _forumIndexContent;
+
+        public ForumIndexContent ForumIndexContent
+        {
+            get { return _forumIndexContent; }
+            set
+            {
+                _forumIndexContent = value;
+                RaisePropertyChanged(() => ForumIndexContent);
+            }
+        }
+
         public class ForumBoardEntryGroup
         {
             public string Group { get; set; }
             public List<ForumBoardEntryViewModel> Items { get; set; }
         }
+
+        public ICommand GoToLastPostCommand
+            => new RelayCommand<ForumBoardEntryPeekPost>(post =>
+            {
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                    new ForumsTopicNavigationArgs(post.Id, ForumBoards.Creative, true));
+
+            });
 
         public List<ForumBoardEntryGroup> Boards { get; } = new List<ForumBoardEntryGroup>
         {         
@@ -78,20 +104,26 @@ namespace MalClient.Shared.ViewModels.Forums
         };
 
         private bool _loaded;
+
+
         public async void Init()
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
             if(_loaded)
                 return;
             _loaded = true;
-            var peekPosts = await new ForumBoardIndexPeekPostsQuery().GetPeekPosts();
+            ForumIndexContent peekPosts = null;
+            await Task.Run( async () => peekPosts = await new ForumBoardIndexContentQuery().GetPeekPosts());
+            if(peekPosts == null)
+                return;
             for(int i = 0;i< 5;i++)
-                Boards[0].Items[i].SetPeekPosts(peekPosts[i]);
+                Boards[0].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[i]);
             for (int i = 0;i< 5;i++)
-                Boards[1].Items[i].SetPeekPosts(peekPosts[5+i]);
-            Boards[1].Items[5].SetPeekPosts(peekPosts[9]);
+                Boards[1].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[5+i]);
+            Boards[1].Items[5].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[9]);
             for (int i = 0;i< 7;i++)
-                Boards[2].Items[i].SetPeekPosts(peekPosts[10+i]);
+                Boards[2].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[10+i]);
+            ForumIndexContent = peekPosts;
         }
     }
 }

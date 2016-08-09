@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Delegates;
@@ -72,9 +73,10 @@ namespace MalClient.Shared.ViewModels.Forums
             NavigationRequested?.Invoke((int)args.Page, args);
         }
 
+
         public async void LoadPinnedTopics()
         {
-            foreach (var item in (await DataCache.RetrieveData<List<ForumTopicLightEntry>>("pinned_forum_topics.json", "", -1)) ?? new List<ForumTopicLightEntry>())
+            foreach (var item in (await DataCache.RetrieveData<List<ForumTopicLightEntry>>("pinned_forum_topics.json", ApplicationData.Current.RoamingFolder, -1)) ?? new List<ForumTopicLightEntry>())
             {
                 PinnedTopics.Add(item);
             }          
@@ -82,7 +84,7 @@ namespace MalClient.Shared.ViewModels.Forums
          
         public async Task SavePinnedTopics()
         {
-            await DataCache.SaveData(PinnedTopics.ToList(), "pinned_forum_topics.json", "");     
+            await DataCache.SaveData(PinnedTopics.ToList(), "pinned_forum_topics.json", ApplicationData.Current.RoamingFolder);     
         }
 
         public ForumsMainViewModel()

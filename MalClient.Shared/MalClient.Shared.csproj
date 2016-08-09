@@ -127,7 +127,7 @@
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
-    <Compile Include="Comm\Forums\ForumBoardIndexPeekPostsQuery.cs" />
+    <Compile Include="Comm\Forums\ForumBoardIndexContentQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
     <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />

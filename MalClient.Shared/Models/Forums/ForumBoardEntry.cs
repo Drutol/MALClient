@@ -20,5 +20,17 @@ namespace MalClient.Shared.Models.Forums
         public MalUser User { get; set; } = new MalUser();
         public string Title { get; set; }
         public string PostTime { get; set; }
+        public string Id { get; set; }
+    }
+
+    public class ForumIndexContent
+    {
+        public List<List<ForumBoardEntryPeekPost>> ForumBoardEntryPeekPosts { get; set; } =
+            new List<List<ForumBoardEntryPeekPost>>();
+
+        public List<ForumPostEntry> PopularNewTopics { get; set; }
+        public List<ForumPostEntry> RecentPosts { get; set; } 
+        public List<ForumPostEntry> AnimeSeriesDisc { get; set; } 
+        public List<ForumPostEntry> MangaSeriesDisc { get; set; } 
     }
 }

@@ -25,6 +25,18 @@ namespace MalClient.Shared.Models.Forums
         public string LastPoster { get; set; }
     }
 
+    /// <summary>
+    /// On index page
+    /// </summary>
+    public class ForumPostEntry
+    {
+        public string Title { get; set; }
+        public string Op { get; set; }
+        public string Created { get; set; }
+        public string Id { get; set; }
+        public string ImgUrl { get; set; }
+    }
+
     public class ForumTopicLightEntry
     {
         public string Title { get; set; }

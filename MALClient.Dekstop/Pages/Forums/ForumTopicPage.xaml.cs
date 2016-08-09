@@ -114,6 +114,7 @@ namespace MALClient.Pages.Forums
                     $@"$("".inputtext"").css(""background-color"", ""{bodyDarker}"").css(""color"", ""{fontColor}"")",
                     $@"$("".normal_header"").css(""color"", ""{fontColor}"")",
                     $@"$("".inputButton"").css(""background-color"", ""{bodyLight}"").css(""border-color"",""{fontColorInverted}"");",
+                    $@"$("".bgbdrContainer"").css(""background-color"", ""{bodyDarker}"").css(""border-color"",""{fontColorInverted}"");",
                 };
             }
             else
@@ -140,6 +141,7 @@ namespace MALClient.Pages.Forums
                     $@"$("".quotetext"").css(""background-color"",""{bodyLight}"").css(""border-color"",""{bodyLighter}"");",
                     $@"$("".vote_container"").css(""background-color"",""#{color.ToString().Substring(3)}"")",
                     $@"$(""textarea"").css(""background-color"",""{bodyDarker}"").css(""color"", ""{fontColor}"")",
+                    
                 };
             }
             
@@ -184,7 +186,7 @@ namespace MALClient.Pages.Forums
             }
             if(args.Uri.ToString().Contains(_baseUri.ToString()))
                 return;
-            if(_lastpost && args.Uri.ToString().Contains("&show="))
+            if(args.Uri.ToString().Contains("&show="))
                 return;
             try
             {
@@ -192,20 +194,62 @@ namespace MALClient.Pages.Forums
                 {
                     var uri = args.Uri.AbsoluteUri;
                     args.Cancel = true;
-                    if (uri.Contains("?subboard="))
+                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?subboard=\d+"))
                     {
                         var id = uri.Split('=').Last();
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
                         if (id == "1")
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoards.AnimeSeriesDisc));
                         else if (id == "4")
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoards.MangaSeriesDisc));
                         return;
                     }
-                    if (uri.Contains("?board="))
+                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?board=\d+"))
                     {
                         ForumBoards board;
-                        if (ForumBoards.TryParse(uri.Split('=').Last(), out board)) ;
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(board));
+                        if (ForumBoards.TryParse(uri.Split('=').Last(), out board))
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(board));
+                        }
+                        return;
+                    }
+                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?animeid=\d+"))
+                    {
+                        int id;
+                        if (int.TryParse(uri.Split('=').Last(), out id))
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id,"Anime Series Board",true));
+                        }
+                        return;
+                    }
+                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?mangaid=\d+"))
+                    {
+                        int id;
+                        if (int.TryParse(uri.Split('=').Last(), out id))
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id,"Manga Series Board",false));
+                        }
+                        return;
+                    }
+                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist\.net\/forum\/message\/\d+\?goto=topic"))
+                    {
+                        args.Cancel = false;
+                        return;
+                    }
+                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?topicid=\d+"))
+                    {
+                        var id = uri.Split('=').Last();
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
+                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative));
+                        return;
+                    }
+                    if (uri == "http://myanimelist.net/forum/")
+                    {
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex,_args);
+                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsNavigationArgs());
                         return;
                     }
                     var paramIndex = uri.IndexOf('?');

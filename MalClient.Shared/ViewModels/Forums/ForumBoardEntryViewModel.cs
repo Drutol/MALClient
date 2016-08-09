@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Models.Forums;
 using FontAwesome.UWP;
+using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 
 namespace MalClient.Shared.ViewModels.Forums
@@ -36,6 +37,7 @@ namespace MalClient.Shared.ViewModels.Forums
 
         public ICommand AddToFavouritesCommand
             => new RelayCommand<ForumBoards>(board => ViewModelLocator.ForumsMain.AddFavouriteBoard(board));
+
 
     }
 }

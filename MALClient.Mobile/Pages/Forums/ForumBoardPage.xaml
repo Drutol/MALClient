@@ -28,13 +28,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <Grid HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBlock Grid.Column="1" Text="{Binding Title}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PageNavigationControlsVisibility}">
             <ItemsControl  ItemsSource="{Binding AvailablePages}" >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -58,23 +63,50 @@
                 <Button.Flyout>
                     <Flyout x:Name="GotoPageFlyout">
                         <StackPanel>
-                            <TextBlock Text="Go to page:"/>
+                            <TextBlock Text="Go to page" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBox x:Name="GotoPageTextBox" Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="GotoInputOnKeyDown"/>
                                 <Button Margin="5,0" Click="GotoAcceptButtonOnClick" Command="{Binding LoadGotoPageCommand}">
                                     <SymbolIcon Symbol="Accept"/>
                                 </Button>
                             </StackPanel>
+                            <Grid Margin="0,4" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="First" Margin="0,0,5,0" Command="{Binding GotoFirstPageCommand}"/>
+                                <Button Grid.Column="1" Content="Last" Command="{Binding GotoLastPageCommand}"/>
+                            </Grid>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
                 <SymbolIcon Symbol="Go" Height="25" Width="35"/>
             </Button>
         </StackPanel>
-        <Button Grid.Row="1" Content="Create new topic" Command="{Binding CreateNewTopicCommand}"
-                Background="{ThemeResource AppBarBackgroundThemeBrush}" Visibility="{Binding NewTopicButtonVisibility}"
+        <StackPanel  Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Create new topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
+                Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
-        <userControls:AlternatingListView Grid.Row="2" ItemsSource="{Binding Topics}" 
+            <Button Content="Search" Visibility="{Binding SearchButtonVisibility}"
+                Background="{ThemeResource BrushDeepBackground}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                <Button.Flyout>
+                    <Flyout x:Name="FlyoutSearch">
+                        <StackPanel>
+                            <TextBlock Text="Search query" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <TextBox x:Name="SearchTextBox" Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SearchQueryOnKeyDown" Margin="5,0"/>
+                                <Button Command="{Binding SearchCommand}" Click="SearchQueryButtonOnClick">
+                                    <SymbolIcon Symbol="Accept"/>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+        <userControls:AlternatingListView Grid.Row="3" ItemsSource="{Binding Topics}" 
                                           ItemClick="TopicOnClick" IsItemClickEnabled="True"
                                           IsRightTapEnabled="True" RightTapped="TopicOnRightClick">
             <ListView.Header>
@@ -115,12 +147,12 @@
                             </StackPanel>
                         </StackPanel>
                         <TextBlock Grid.Column="2" Text="{Binding Data.Replies}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Button Grid.Column="3" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center" 
+                        <Button Grid.Column="3" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center" Padding="0"
                                 Style="{StaticResource TextBlockButtonStyle}" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.GotoLastPostCommand}"
                                 CommandParameter="{Binding}" Foreground="{ThemeResource BrushText}">
-                            <StackPanel BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" >
+                            <StackPanel BorderThickness="0,0,-20,1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" >
                                 <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium"/>
-                                <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center" FontWeight="SemiLight"/>
+                                <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center" FontWeight="SemiLight" MaxLines="2" TextWrapping="WrapWholeWords"/>
                             </StackPanel>
                         </Button>
                     </Grid>

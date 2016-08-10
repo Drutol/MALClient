@@ -67,6 +67,7 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
+            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = Visibility.Collapsed;
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();

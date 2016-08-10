@@ -159,7 +159,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </userControls:AlternatingListView>
-
+        <TextBlock Grid.Row="3" Visibility="{Binding EmptyNoticeVisibility}"
+                       Text="No data received from MAL, try searching for something more specific. :("
+                       TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Foreground="#FFB9B9B9" />
         <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopics}"
               Background="{ThemeResource BrushLoading}">

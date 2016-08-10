@@ -68,6 +68,7 @@ namespace MalClient.Shared.ViewModels.Forums
             if (args == null)
             {
                 ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
                 args = new ForumsNavigationArgs { Page = ForumsPageIndex.PageIndex };
             }   
             NavigationRequested?.Invoke((int)args.Page, args);

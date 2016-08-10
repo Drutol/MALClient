@@ -243,6 +243,7 @@ namespace MALClient.Pages.Forums
                         var id = uri.Split('=').Last();
                         ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative));
+                        return;
                     }
                     if (uri == "http://myanimelist.net/forum/")
                     {
@@ -269,9 +270,11 @@ namespace MALClient.Pages.Forums
                         if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
                             id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(id, link[3], null, null)
+                            new AnimeDetailsPageNavigationArgs(id, link[3], null, null,_args)
                             {
-                                AnimeMode = link[1] == "anime"
+                                AnimeMode = link[1] == "anime",
+                                Source = PageIndex.PageForumIndex
+                                
                             });
                     }
                     else if (uri.Contains("/profile/"))

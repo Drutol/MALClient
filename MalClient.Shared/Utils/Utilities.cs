@@ -32,7 +32,8 @@ namespace MalClient.Shared.Utils
         LoggedInMyAnimeList,
         PinnedTile,
         LaunchedFeedback,
-        LaunchedFeedbackHub
+        LaunchedFeedbackHub,
+        Navigated
     }     
 
     public static class Utilities
@@ -557,6 +558,13 @@ namespace MalClient.Shared.Utils
         {
 #if !DEBUG
             HockeyClient.Current.TrackEvent(@event.ToString());
+#endif
+        }
+
+        public static void TelemetryTrackEvent(TelemetryTrackedEvents @event,string arg)
+        {
+#if !DEBUG
+            HockeyClient.Current.TrackEvent(@event.ToString() + " " + arg);
 #endif
         }
 

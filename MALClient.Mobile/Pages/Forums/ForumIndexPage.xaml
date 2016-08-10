@@ -6,91 +6,238 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="using:FontAwesome.UWP"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsIndex}">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+            <DataTemplate x:Key="PostListDataTemplate">
+                <Grid Background="{ThemeResource BrushAnimeItemBackground}" MaxWidth="350" MaxHeight="120" MinHeight="90" Padding="5"
+                  HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5,5" VerticalAlignment="Top">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="50"
+                                     DecodePixelWidth="40" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Title}" Margin="3,0" FontWeight="Medium"
+                           TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
+                    <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock Text="{Binding Created}" FontSize="15" FontWeight="SemiLight"
+                               Foreground="{ThemeResource BrushSettingsSubtitle}" />
+                        <TextBlock Text="{Binding Op}" Margin="5,0" FontSize="15" />
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding Boards}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Group}" FontSize="28" Margin="0,5" HorizontalAlignment="Center"
+        <Pivot Style="{StaticResource PivotStyleInnerProfilePage}" Padding="0">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}"/>
+            </Pivot.Resources>
+            <PivotItem Header="Boards" Padding="0">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding Boards}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Group}" FontSize="28" Margin="0,5" HorizontalAlignment="Center"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
-                            <ListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Items}"  ItemClick="BoardGridOnItemClick" IsItemClickEnabled="True" HorizontalAlignment="Center" SelectionMode="None">
-                                <ListView.ItemContainerTransitions>
-                                    <TransitionCollection>
-                                        <RepositionThemeTransition/>
-                                        <EntranceThemeTransition/>
-                                        <AddDeleteThemeTransition/>
-                                    </TransitionCollection>
-                                </ListView.ItemContainerTransitions>
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                        <Setter Property="Margin" Value="0,5"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Padding="5,5" IsRightTapEnabled="True" HorizontalAlignment="Stretch" IsHoldingEnabled="True" Holding="BoardGridOnHolding" RightTapped="BoardGridOnRightClick" Background="{ThemeResource BrushAnimeItemBackground}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <FlyoutBase.AttachedFlyout>
-                                                <MenuFlyout>
-                                                    <MenuFlyoutItem Text="Add to favourites" Command="{Binding AddToFavouritesCommand}" CommandParameter="{Binding Board}"/>
-                                                </MenuFlyout>
-                                            </FlyoutBase.AttachedFlyout>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="{Binding Icon}" FontSize="21" Margin="10,0"/>
-                                                <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium" FontSize="19"/>
-                                            </StackPanel>
-                                            <TextBlock Grid.Row="1" Text="{Binding Entry.Description}" TextWrapping="WrapWholeWords" FontWeight="SemiLight" Height="40" Foreground="{ThemeResource BrushSettingsSubtitle}"/>
-                                            <MenuFlyoutSeparator Grid.Row="2" Margin="0,2"/>
-                                            <ItemsControl Grid.Row="3" ItemsSource="{Binding Entry.PeekPosts}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <ItemsStackPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid MaxWidth="190">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="35"/>
-                                                                <ColumnDefinition Width="*"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Stretch"  MaxWidth="35" MaxHeight="45">
-                                                                <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                <Image Stretch="Uniform" VerticalAlignment="Top">
-                                                                    <Image.Source>
-                                                                        <BitmapImage UriSource="{Binding User.ImgUrl}" DecodePixelWidth="35" DecodePixelHeight="45" DecodePixelType="Logical"/>
-                                                                    </Image.Source>
-                                                                </Image>
-                                                            </Grid>
-                                                            <Grid Grid.Column="1" VerticalAlignment="Top" Margin="3,0">
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="Auto"/>
-                                                                    <RowDefinition Height="Auto"/>
-                                                                </Grid.RowDefinitions>
-                                                                <TextBlock Text="{Binding Title}" Height="40" TextWrapping="WrapWholeWords" MaxLines="2" TextTrimming="CharacterEllipsis"/>
-                                                                <TextBlock Grid.Row="1" Margin="0,5,0,0" Text="{Binding PostTime}" TextWrapping="WrapWholeWords" FontWeight="SemiLight" Foreground="{ThemeResource BrushSettingsSubtitle}"/>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                                    <ListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Items}"  ItemClick="BoardGridOnItemClick" IsItemClickEnabled="True" HorizontalAlignment="Center" SelectionMode="None">
+                                        <ListView.ItemContainerTransitions>
+                                            <TransitionCollection>
+                                                <RepositionThemeTransition/>
+                                                <EntranceThemeTransition/>
+                                                <AddDeleteThemeTransition/>
+                                            </TransitionCollection>
+                                        </ListView.ItemContainerTransitions>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="Margin" Value="0,5"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Padding="5,5" IsRightTapEnabled="True" HorizontalAlignment="Stretch" IsHoldingEnabled="True" Holding="BoardGridOnHolding" RightTapped="BoardGridOnRightClick" Background="{ThemeResource BrushAnimeItemBackground}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <FlyoutBase.AttachedFlyout>
+                                                        <MenuFlyout>
+                                                            <MenuFlyoutItem Text="Add to favourites" Command="{Binding AddToFavouritesCommand}" CommandParameter="{Binding Board}"/>
+                                                        </MenuFlyout>
+                                                    </FlyoutBase.AttachedFlyout>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <fa:FontAwesome Icon="{Binding Icon}" FontSize="21" Margin="10,0"/>
+                                                        <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium" FontSize="19"/>
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Row="1" Text="{Binding Entry.Description}" TextWrapping="WrapWholeWords" FontWeight="SemiLight" Height="40" Foreground="{ThemeResource BrushSettingsSubtitle}"/>
+                                                    <MenuFlyoutSeparator Grid.Row="2" Margin="0,2"/>
+                                                    <ItemsControl Grid.Row="3" ItemsSource="{Binding Entry.PeekPosts}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <ItemsStackPanel Orientation="Horizontal"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid MaxWidth="190">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="35"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Stretch"  MaxWidth="35" MaxHeight="45">
+                                                                        <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                        <Image Stretch="Uniform" VerticalAlignment="Top">
+                                                                            <Image.Source>
+                                                                                <BitmapImage UriSource="{Binding User.ImgUrl}" DecodePixelWidth="35" DecodePixelHeight="45" DecodePixelType="Logical"/>
+                                                                            </Image.Source>
+                                                                        </Image>
+                                                                    </Grid>
+                                                                    <Grid Grid.Column="1" VerticalAlignment="Top"
+                                                                      Margin="3,0">
+                                                                        <Button
+                                                                        Style="{StaticResource TextBlockButtonStyle}"
+                                                                        Foreground="{ThemeResource BrushText}"
+                                                                        Padding="0"
+                                                                        Command="{Binding Source={StaticResource Locator},Path=ForumsIndex.GoToLastPostCommand}"
+                                                                        CommandParameter="{Binding}">
+                                                                            <Grid>
+                                                                                <Grid.RowDefinitions>
+                                                                                    <RowDefinition Height="Auto" />
+                                                                                    <RowDefinition Height="Auto" />
+                                                                                </Grid.RowDefinitions>
+                                                                                <TextBlock Text="{Binding Title}"
+                                                                                       Height="40"
+                                                                                       TextWrapping="WrapWholeWords"
+                                                                                       MaxLines="2"
+                                                                                       TextTrimming="CharacterEllipsis" />
+                                                                                <TextBlock Grid.Row="1" Margin="0,5,0,0"
+                                                                                       Text="{Binding PostTime}"
+                                                                                       TextWrapping="WrapWholeWords"
+                                                                                       FontWeight="SemiLight"
+                                                                                       Foreground="{ThemeResource BrushSettingsSubtitle}" />
+                                                                            </Grid>
+                                                                        </Button>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Recent" Padding="0">
+                <ScrollViewer HorizontalAlignment="Stretch">
+                    <Grid>
+                        <ItemsControl HorizontalAlignment="Center"
+                              Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                            <ItemsControl.Resources>
+                                <Style TargetType="ListView">
+                                    <Setter Property="ItemContainerStyle">
+                                        <Setter.Value>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="Margin" Value="0,5" />
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ItemsControl.Resources>
+                            <ItemsControl.ItemContainerTransitions>
+                                <TransitionCollection>
+                                    <RepositionThemeTransition />
+                                    <EntranceThemeTransition />
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </ItemsControl.ItemContainerTransitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Popular New Topics" FontSize="22" Margin="0,5" HorizontalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   FontWeight="SemiLight" />
+                                <ListView Grid.Row="1"  IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                  ItemsSource="{Binding ForumIndexContent.RecentPosts}"
+                                  ItemTemplate="{StaticResource PostListDataTemplate}" />
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Recent posts" FontSize="22" Margin="0,5" HorizontalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   FontWeight="SemiLight" />
+                                <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                  ItemsSource="{Binding ForumIndexContent.RecentPosts}"
+                                  ItemTemplate="{StaticResource PostListDataTemplate}" />
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Recent Anime Discussion" FontSize="22" Margin="0,5"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   FontWeight="SemiLight" />
+                                <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                  ItemsSource="{Binding ForumIndexContent.AnimeSeriesDisc}"
+                                  ItemTemplate="{StaticResource PostListDataTemplate}" />
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Recent Manga Discussion" FontSize="22" Margin="0,5"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                                   FontWeight="SemiLight" />
+                                <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                  ItemsSource="{Binding ForumIndexContent.MangaSeriesDisc}"
+                                  ItemTemplate="{StaticResource PostListDataTemplate}" />
+                            </Grid>
+                        </ItemsControl>
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50"
+                      Visibility="{Binding LoadingSideContentVisibility}"
+                      Background="{ThemeResource BrushLoading}">
+                            <ProgressRing
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
+                        IsActive="True" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
+        
     </Grid>
 </Page>

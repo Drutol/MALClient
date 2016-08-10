@@ -173,6 +173,12 @@ namespace MALClient.Pages.Main
                 case "Last watched":
                     ViewModel.SortOption = SortOptions.SortLastWatched;
                     break;
+                case "Start date":
+                    ViewModel.SortOption = SortOptions.SortStartDate;
+                    break;
+                case "End date":
+                    ViewModel.SortOption = SortOptions.SortEndDate;
+                    break;
                 default:
                     ViewModel.SortOption = SortOptions.SortNothing;
                     break;

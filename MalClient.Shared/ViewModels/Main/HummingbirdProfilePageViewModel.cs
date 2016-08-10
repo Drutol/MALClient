@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
@@ -32,27 +33,35 @@ namespace MalClient.Shared.ViewModels.Main
 
         public async void Init(bool force = false)
         {
-            if (!_loaded || force)
+            try
             {
-                FavAnime.Clear();
-                CurrentData = await new ProfileQuery().GetHumProfileData();
-                foreach (var fav in CurrentData.favorites)
+                if (!_loaded || force)
                 {
-                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
-                    if (data != null)
+                    FavAnime.Clear();
+                    CurrentData = await new ProfileQuery().GetHumProfileData();
+                    foreach (var fav in CurrentData.favorites)
                     {
-                        FavAnime.Add(data as AnimeItemViewModel);
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(fav.item_id);
+                        if (data != null)
+                        {
+                            FavAnime.Add(data as AnimeItemViewModel);
+                        }
                     }
-                }
-                RaisePropertyChanged(() => CurrentData);
-                var feed = await new ProfileQuery(true).GetHumFeedData();
-                foreach (var entry in feed)
-                    entry.substories = entry.substories.Take(8).ToList();
-                SocialFeedData = FeedData.Where(o => o.story_type == "comment").ToList();
-                FeedData = FeedData.Where(o => o.story_type == "media_story").ToList();
+                    RaisePropertyChanged(() => CurrentData);
+                    var feed = await new ProfileQuery(true).GetHumFeedData();
+                    foreach (var entry in feed)
+                        entry.substories = entry.substories.Take(8).ToList();
+                    SocialFeedData = FeedData.Where(o => o.story_type == "comment").ToList();
+                    FeedData = FeedData.Where(o => o.story_type == "media_story").ToList();
 
-                RaisePropertyChanged(() => FeedData);
+                    RaisePropertyChanged(() => FeedData);
+                }
             }
+            catch (Exception)
+            {                
+                throw;
+            }
+            
         }
     }
 }

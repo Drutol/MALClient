@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 using FontAwesome.UWP;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -44,6 +45,19 @@ namespace MalClient.Shared.ViewModels.Forums
                     new ForumsTopicNavigationArgs(post.Id, ForumBoards.Creative, true));
 
             });
+
+
+        private Visibility _loadingSideContentVisibility;
+
+        public Visibility LoadingSideContentVisibility
+        {
+            get { return _loadingSideContentVisibility; }
+            set
+            {
+                _loadingSideContentVisibility = value;
+                RaisePropertyChanged(() => LoadingSideContentVisibility);
+            }
+        }
 
         public List<ForumBoardEntryGroup> Boards { get; } = new List<ForumBoardEntryGroup>
         {         
@@ -106,10 +120,11 @@ namespace MalClient.Shared.ViewModels.Forums
         private bool _loaded;
 
 
-        public async void Init()
+
+        public async void Init(bool force = false)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
-            if(_loaded)
+            LoadingSideContentVisibility = Visibility.Visible;
+            if(_loaded && !force)
                 return;
             _loaded = true;
             ForumIndexContent peekPosts = null;
@@ -124,6 +139,7 @@ namespace MalClient.Shared.ViewModels.Forums
             for (int i = 0;i< 7;i++)
                 Boards[2].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[10+i]);
             ForumIndexContent = peekPosts;
+            LoadingSideContentVisibility = Visibility.Collapsed;
         }
     }
 }

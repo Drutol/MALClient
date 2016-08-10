@@ -302,6 +302,8 @@ namespace MalClient.Shared.ViewModels
                 case PageIndex.PageMangaList:
                 case PageIndex.PageProfile:
                 case PageIndex.PageHistory:
+                case PageIndex.PageArticles:
+                case PageIndex.PageForumIndex:
                     await FetchData();
                     if (_prevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);

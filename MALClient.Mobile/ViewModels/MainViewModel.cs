@@ -57,6 +57,7 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
+            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = Visibility.Collapsed;
             RefreshButtonVisibility = Visibility.Collapsed;
 
@@ -198,8 +199,11 @@ namespace MALClient.ViewModels
                 case PageIndex.PageForumIndex:
                     HideSearchStuff();
                     CurrentStatus = "Forums";
-                    //RefreshButtonVisibility = Visibility.Visible;
-                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
+                    if ((args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
+                    {
+                        RefreshButtonVisibility = Visibility.Visible;
+                        RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
+                    }
                     if (LastIndex == PageIndex.PageForumIndex)
                         ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
                     else
@@ -217,6 +221,8 @@ namespace MALClient.ViewModels
             }
             LastIndex = index;
             RaisePropertyChanged(() => SearchToggleLock);
+
+
         }
 
         private bool _subscribed;

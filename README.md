@@ -30,6 +30,12 @@ It's pretty beefy (including dev branches):
 - Tons of settings
 - Mal profile
  - With navigation accross others' profiles
+ - Profile comments (with send)
+ - Profile converstion
+- Forums
+ - With dark theme
+ - Semi hybrid (a bit of html and a bit of native)
+ - Automatic authentication
 - And probably more :)
 
 ### Compilation

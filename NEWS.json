@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Forums are coming this week!",
+    "Date": "10.08.2016",
+    "Type": "Updates",
+    "Content": "Forums Beta are coming later this week, with fair share of fixes accross whole app :) Preview versions are as always available on github."
+  },
+  {
     "Title": "Screw ads!",
     "Date": "05.08.2016",
     "Type": "Like, really...",
@@ -17,16 +23,4 @@
     "Type": "Info",
     "Content": "Forums are now in development, it's pretty hard and WILL take some time but I have the basics figured out :) Screenshots on github (TODO issue)."
   },
-  {
-    "Title": "Messaging&Favourites Preview",
-    "Date": "19.07.2016",
-    "Type": "Info",
-    "Content": "You can download previews from github! (TODO issue) Let me know how it works for you :)"
-  },
-  {
-    "Title": "Messaging&Favourites",
-    "Date": "14.07.2016",
-    "Type": "Updates",
-    "Content": "Sooo... I've update with those almost completed but it'll probably go live early next week! Mobile version will get extremely basic Continuum support so it's at least usable."
-  }
 ]

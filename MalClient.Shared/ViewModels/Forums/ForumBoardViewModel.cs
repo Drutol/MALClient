@@ -173,7 +173,7 @@ namespace MalClient.Shared.ViewModels.Forums
         public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(
             () =>
             {
-                LoadPage(_allPages,false,true);
+                LoadPage(_allPages,false);
             }));
 
         private ICommand _gotoFirstPageCommand;
@@ -274,18 +274,17 @@ namespace MalClient.Shared.ViewModels.Forums
                 NewTopicButtonVisibility = Visibility.Visible;
         }
 
-        public async void LoadPage(int page, bool decrement = false,bool lastPage = false)
+        public async void LoadPage(int page, bool decrement = false)
         {
             LoadingTopics = Visibility.Visible;
             if (decrement)
                 page--;
             try
             {
-                var prevTopics = Topics;
                 Topics = new List<ForumTopicEntryViewModel>();
                 ForumBoardContent topics;
                 int? arg;
-                if (lastPage)
+                if (page != 0)
                     arg = _allPages;
                 else
                     arg = null;
@@ -306,9 +305,7 @@ namespace MalClient.Shared.ViewModels.Forums
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                if (topics.ForumTopicEntries.Count == 0)
-                    Topics = prevTopics;
-                else
+                if (topics.ForumTopicEntries.Count != 0)
                 {
                     Topics = topics.ForumTopicEntries.Select(entry => new ForumTopicEntryViewModel(entry)).ToList();
                     _allPages = topics.Pages;

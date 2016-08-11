@@ -196,7 +196,7 @@
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                    FontWeight="SemiLight" />
                         <ListView Grid.Row="1"  IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
-                                  ItemsSource="{Binding ForumIndexContent.RecentPosts}"
+                                  ItemsSource="{Binding ForumIndexContent.PopularNewTopics}"
                                   ItemTemplate="{StaticResource PostListDataTemplate}" />
                     </Grid>
                     <Grid>

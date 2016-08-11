@@ -118,14 +118,15 @@ namespace MalClient.Shared.ViewModels.Forums
         };
 
         private bool _loaded;
-
+        private bool _loading;
 
 
         public async void Init(bool force = false)
-        {
-            LoadingSideContentVisibility = Visibility.Visible;
-            if(_loaded && !force)
+        {        
+            if(_loading || (_loaded && !force))
                 return;
+            LoadingSideContentVisibility = Visibility.Visible;
+            _loading = true;
             _loaded = true;
             ForumIndexContent peekPosts = null;
             await Task.Run( async () => peekPosts = await new ForumBoardIndexContentQuery().GetPeekPosts());
@@ -140,6 +141,7 @@ namespace MalClient.Shared.ViewModels.Forums
                 Boards[2].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[10+i]);
             ForumIndexContent = peekPosts;
             LoadingSideContentVisibility = Visibility.Collapsed;
+            _loading = false;
         }
     }
 }

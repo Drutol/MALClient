@@ -16,6 +16,7 @@ using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
+using Microsoft.Services.Store.Engagement;
 using Settings = MalClient.Shared.Utils.Settings;
 
 #pragma warning disable 4014
@@ -213,19 +214,9 @@ namespace MALClient.UserControls.New
                 new ProfilePageNavigationArgs {TargetUser = e.ClickedItem as string});
         }
 
-        //private async void LaunchFeedback(object sender, RoutedEventArgs e)
-        //{
-        //    //if (Microsoft.Services.Store.Engagement.Feedback.IsSupported)
-        //    //{
-        //    //    Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedbackHub);
-        //    //    await Microsoft.Services.Store.Engagement.Feedback.LaunchFeedbackAsync();
-        //    //}
-        //    //else
-        //    //{
-        //    //    var msg = new MessageDialog("Feedback hub is not available on your device, update your OS in order to access it or create an issue on github :)", "Feedback hub unavailable");
-        //    //    await msg.ShowAsync();
-        //    //    OpenRepo(null,null);
-        //    //}
-        //}
+        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Feedback.LaunchFeedbackAsync();
+        }
     }
 }

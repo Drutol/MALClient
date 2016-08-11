@@ -48,6 +48,10 @@
         <Pivot Style="{StaticResource PivotStyleInnerProfilePage}" Padding="0">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}"/>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
             </Pivot.Resources>
             <PivotItem Header="Boards" Padding="0">
                 <ScrollViewer>
@@ -159,6 +163,7 @@
                               Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <ItemsControl.Resources>
                                 <Style TargetType="ListView">
+                                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
                                     <Setter Property="ItemContainerStyle">
                                         <Setter.Value>
                                             <Style TargetType="ListViewItem">
@@ -185,7 +190,7 @@
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                    FontWeight="SemiLight" />
                                 <ListView Grid.Row="1"  IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
-                                  ItemsSource="{Binding ForumIndexContent.RecentPosts}"
+                                  ItemsSource="{Binding ForumIndexContent.PopularNewTopics}"
                                   ItemTemplate="{StaticResource PostListDataTemplate}" />
                             </Grid>
                             <Grid>
@@ -229,7 +234,7 @@
                         </ItemsControl>
                         <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50"
                       Visibility="{Binding LoadingSideContentVisibility}"
-                      Background="{ThemeResource BrushLoading}">
+                      Background="Transparent">
                             <ProgressRing
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
                         IsActive="True" />

@@ -20,7 +20,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VisualStudioBuilds\</AppxPackageDir>
     <PackageCertificateThumbprint>87205DEB851A1C5CC6CE7E65C7C282B812C6EE97</PackageCertificateThumbprint>
     <HockeyAppResourceId>b79e78858bdf44c4bfc3a1f37c8fd90c</HockeyAppResourceId>
@@ -374,6 +374,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Store Engagement SDK</Name>
+    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>

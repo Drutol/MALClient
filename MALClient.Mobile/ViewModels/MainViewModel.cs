@@ -199,7 +199,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageForumIndex:
                     HideSearchStuff();
                     CurrentStatus = "Forums";
-                    if ((args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
+                    if (args == null || (args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
                     {
                         RefreshButtonVisibility = Visibility.Visible;
                         RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });

@@ -105,21 +105,14 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="03.08.2016 -  v4.4.16.0 &amp; v4.4.15.0" />
-                            <TextBlock Text="Added profile comments." />
-                            <TextBlock Text="Added profile history." />
-                            <TextBlock Text="Improved organisation of profile page." />
-                            <TextBlock Text="Gave some love to light theme." />
-                            <TextBlock Text="Search will be now more accurate and there will be delay after typing in query." />
-                            <TextBlock Text="Resolved issues with being unable to load more items on mobile." />
-                            <TextBlock Text="Selecting at random will be now smarter." />
-                            <TextBlock Text="Fixed visual bug with start/end dates." />
-                            <TextBlock Text="Fixed bug where refresh button could create duplicates." />
-                            <TextBlock Text="Status bar will now correctly show show titles and other headers." />
-                            <TextBlock Text="You can now select and copy text from header in anime details." />
-                            <TextBlock Text="Navigation mechanisms have been rewritten." />
-                            <TextBlock Text="Profile page will no longer show empty favourites." />
-                            <TextBlock Text="Resolved with adaptation issues in recommendations page." />
+                            <TextBlock Text="13.08.2016 -  v4.4.22.0 &amp; v4.4.21.0" />
+                            <TextBlock Text="Added forums!" />
+                            <TextBlock Text="Fixed mobile sort by start/end date." />
+                            <TextBlock Text="Resolved multiple navigation issues in mobile version." />
+                            <TextBlock Text="Visually tweaked search page." />
+                            <TextBlock Text="Clicking on any anime item should always trigger details navigation." />
+                            <TextBlock Text="Desktop upper navigation bar will behave better now." />
+                            <TextBlock Text="Small tweaks and fixes everywhere :)" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

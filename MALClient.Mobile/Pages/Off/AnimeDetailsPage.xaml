@@ -109,7 +109,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
                             <new:FavButton
-                                Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                Visibility="{Binding MyDetailsVisibility}"
                                 HorizontalAlignment="Right" VerticalAlignment="Bottom" />
                             <Button VerticalAlignment="Bottom" Background="Transparent" RenderTransformOrigin="0.5,0.5">
                                 <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
@@ -139,7 +139,7 @@
                                             </Button>
                                             <Button Height="40" Margin="0,0,0,5" HorizontalAlignment="Stretch"
                                                     Background="{ThemeResource BrushDetailsMoreButton}"
-                                                    Visibility="{Binding MalApiSpecificControlsVisibility}">
+                                                    Visibility="{Binding MyDetailsVisibility}">
                                                 <Button.Flyout>
                                                     <Flyout Placement="Left">
                                                         <Grid MinWidth="230">
@@ -313,7 +313,7 @@
                             </Button>
                         </StackPanel>
                         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                    Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                    Visibility="{Binding MyDetailsVisibility}">
                             <Button HorizontalAlignment="Stretch" Height="40" Width="40"
                                     RenderTransformOrigin="0.5,0.5"
                                     Command="{Binding IncrementEpsCommand}"
@@ -346,7 +346,7 @@
                                       VerticalAlignment="Top" IsActive="True"
                                       Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
                         <Grid Grid.Row="0" Grid.Column="1"
-                              Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                              Visibility="{Binding MyDetailsVisibility}"
                               Margin="5,-10,0,0">
                             <StackPanel Orientation="Vertical" Margin="1,5,1,0" HorizontalAlignment="Left"
                                         VerticalAlignment="Center">
@@ -574,7 +574,7 @@
                                                             BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                         <ListViewItem RightTapped="StartDate_OnRightTapped"
                                                                       Margin="1,1,1,0"
-                                                                      Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                      Visibility="{Binding MyDetailsVisibility}"
                                                                       Style="{StaticResource GeneralDetailsListItemStyle}"
                                                                       BorderThickness="2,0,0,0">
                                                             <Grid>
@@ -646,7 +646,7 @@
                                                             BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                                         <ListViewItem RightTapped="EndDate_OnRightTapped"
                                                                       Margin="1,1,1,0"
-                                                                      Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                      Visibility="{Binding MyDetailsVisibility}"
                                                                       Style="{StaticResource GeneralDetailsListItemStyle}"
                                                                       BorderThickness="0,0,2,0">
                                                             <Grid>

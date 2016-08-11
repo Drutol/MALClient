@@ -77,7 +77,7 @@
                     <SymbolIcon Symbol="Comment" />
                 </Button>
                 <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
-                        Visibility="{Binding MalApiSpecificControlsVisibility}"
+                        Visibility="{Binding MyDetailsVisibility}"
                         Background="Transparent">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Tags" />
@@ -181,7 +181,7 @@
 
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
-                        Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                        Visibility="{Binding MyDetailsVisibility}">
                 <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
                         Command="{Binding IncrementEpsCommand}" Margin="5"
                         IsEnabled="{Binding IsIncrementButtonEnabled}"
@@ -227,7 +227,7 @@
                           VerticalAlignment="Top" IsActive="True"
                           Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Grid.Row="0" Grid.Column="1"
-                  Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                  Visibility="{Binding MyDetailsVisibility}"
                   Margin="5,-10,0,0">
                 <StackPanel Orientation="Vertical" Margin="1,15,1,0" HorizontalAlignment="Left">
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
@@ -452,7 +452,7 @@
                                                 BorderThickness="0,0,1,0"
                                                 BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                             <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0"
-                                                          Visibility="{Binding MyDetailsVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                          Visibility="{Binding MyDetailsVisibility}"
                                                           Style="{StaticResource GeneralDetailsListItemStyle}"
                                                           BorderThickness="2,0,0,0">
                                                 <Grid>
@@ -531,7 +531,7 @@
                                                 BorderThickness="1,0,0,0"
                                                 BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                             <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0"
-                                                          Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                          Visibility="{Binding MyDetailsVisibility}"
                                                           Style="{StaticResource GeneralDetailsListItemStyle}"
                                                           BorderThickness="0,0,2,0">
                                                 <Grid>

@@ -152,7 +152,7 @@ namespace MalClient.Shared.Comm.Forums
             var titleLinks = tds[1].Descendants("a").ToList();
             var titleLink = titleLinks[0].InnerText.Length == 0 ? titleLinks[1] : titleLinks[0];
 
-            current.Title = titleLink.InnerText;
+            current.Title = WebUtility.HtmlDecode(titleLink.InnerText);
             var link = titleLink.Attributes["href"].Value;
             if (link.Contains("&goto="))
             {

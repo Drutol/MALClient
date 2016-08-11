@@ -647,6 +647,7 @@
                                     <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate" />
                                     <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate" />
                                     <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate" />
+                                    <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate" />
                                 </MenuFlyout>
                             </Button.Flyout>
                             <Grid Height="35">
@@ -685,6 +686,9 @@
                                 <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" />
                                 <TextBlock Text="Feedback" HorizontalAlignment="Left"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                                <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                        FontFamily="Segoe MDL2 Assets" FontSize="24" Width="40" Height="35" Background="Transparent" Content="&#xE939;"  Click="FeedbackButton_OnClick"
+                                        Visibility="{Binding FeedbackHubButtonVisibility}"/>
                             </Grid>
                         </Button>
                         <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

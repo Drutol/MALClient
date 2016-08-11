@@ -19,6 +19,7 @@ using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
+using Microsoft.Services.Store.Engagement;
 
 namespace MALClient.ViewModels
 {
@@ -131,8 +132,10 @@ namespace MALClient.ViewModels
 
         public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
 
-        public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible
-            ;
+        public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
+
+
+        public Visibility FeedbackHubButtonVisibility => Feedback.IsSupported ? Visibility.Visible : Visibility.Collapsed;
 
         public BitmapImage UserImage
         {

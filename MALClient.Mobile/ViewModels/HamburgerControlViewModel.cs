@@ -24,6 +24,7 @@ using MalClient.Shared.ViewModels;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.Pages;
 using MALClient.UserControls;
+using Microsoft.Services.Store.Engagement;
 
 namespace MALClient.ViewModels
 {
@@ -69,6 +70,8 @@ namespace MALClient.ViewModels
 
         public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
         public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
+
+        public Visibility FeedbackHubButtonVisibility => Feedback.IsSupported ? Visibility.Visible : Visibility.Collapsed;
 
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 

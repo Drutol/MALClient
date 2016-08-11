@@ -211,7 +211,7 @@ namespace MalClient.Shared.ViewModels
             AnimeStaffData = null;
             MangaCharacterData = null;
             //so there will be no floting start/end dates
-            MyDetailsVisibility = false;
+            MyDetailsVisibility = Visibility.Collapsed;
             StartDateValid = false;
             EndDateValid = false;
             _alternateImgUrl = null;
@@ -243,7 +243,7 @@ namespace MalClient.Shared.ViewModels
                 {
                     //we may only prepare for its creation
                     AddAnimeVisibility = true;
-                    MyDetailsVisibility = false;
+                    MyDetailsVisibility = Visibility.Collapsed;
                 }
                 else
                     _animeItemReference = possibleRef;
@@ -252,7 +252,7 @@ namespace MalClient.Shared.ViewModels
             if ((_animeItemReference as AnimeItemViewModel)?.Auth ?? false)
             {
                 //we have item on the list , so there's valid data here
-                MyDetailsVisibility = true;
+                MyDetailsVisibility = Visibility.Visible;
                 AddAnimeVisibility = false;
                 try
                 {
@@ -805,9 +805,9 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        private bool _myDetailsVisibility;
+        private Visibility _myDetailsVisibility;
 
-        public bool MyDetailsVisibility
+        public Visibility MyDetailsVisibility
         {
             get { return _myDetailsVisibility; }
             set
@@ -1591,7 +1591,7 @@ namespace MalClient.Shared.ViewModels
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
-            MyDetailsVisibility = true;
+            MyDetailsVisibility = Visibility.Visible;
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IncrementEpsCommand);
             RaisePropertyChanged(() => DecrementEpsCommand);
@@ -1600,7 +1600,7 @@ namespace MalClient.Shared.ViewModels
         public void CurrentAnimeHasBeenAddedToList(IAnimeData reference)
         {
             _animeItemReference = reference;
-            MyDetailsVisibility = true;
+            MyDetailsVisibility = Visibility.Visible;
             AddAnimeVisibility = false;
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IncrementEpsCommand);
@@ -1609,6 +1609,8 @@ namespace MalClient.Shared.ViewModels
 
         private async void RemoveAnime()
         {
+            if(_animeItemReference == null)
+                return;
             var uSure = false;
             var msg = new MessageDialog("Are you sure about deleting this entry from your list?");
             msg.Commands.Add(new UICommand("I'm sure", command => uSure = true));
@@ -1633,7 +1635,7 @@ namespace MalClient.Shared.ViewModels
 
             (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
             AddAnimeVisibility = true;
-            MyDetailsVisibility = false;
+            MyDetailsVisibility = Visibility.Collapsed;
         }
 
         #endregion
@@ -1683,8 +1685,6 @@ namespace MalClient.Shared.ViewModels
 
             RaisePropertyChanged(() => LeftDetailsRow);
             RaisePropertyChanged(() => RightDetailsRow);
-
-            Synopsis = Synopsis;
             ViewModelLocator.GeneralMain.CurrentOffStatus = Title;
 
             DetailImage = new BitmapImage(new Uri(_imgUrl));
@@ -1708,7 +1708,7 @@ namespace MalClient.Shared.ViewModels
             Title = _animeItemReference?.Title ?? data.Title;
             Type = data.Type;
             Status = data.Status;
-            Synopsis = data.Synopsis;
+            Synopsis = data.Synopsis.Replace("quot;","\"");
             StartDate = data.StartDate;
             EndDate = data.EndDate;
             GlobalScore = data.GlobalScore;

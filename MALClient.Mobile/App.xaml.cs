@@ -9,6 +9,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,6 +21,7 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
+using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.ViewModels;
 using Microsoft.HockeyApp;
@@ -121,14 +123,24 @@ namespace MALClient
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             RateReminderPopUp.ProcessDonatePopUp();
+            ViewModelLocator.ForumsMain.LoadPinnedTopics();
             ProcessStatusBar();
             ProcessUpdate();
         }
 
         private async void ProcessUpdate()
         {
-            //if (ApplicationData.Current.LocalSettings.Values["AppVersion"] == null
-            //    || (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
+            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
+                && (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
+            {
+                var msg =
+                    new MessageDialog(
+                        "This build was supposed to bring ads... but I decided to add forums (beta) instead, rejoice! I don't want to add ads and I won't add them for now at least :)\n\nI'm also resetting review pop-up in order to get fresher opinions... Keep the feedback flowing!",
+                        "About this update");
+                await msg.ShowAsync();
+                Settings.RatePopUpEnable = true;
+                Settings.RatePopUpStartupCounter = 0;
+            }
 
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
         }
@@ -224,7 +236,8 @@ namespace MALClient
             {
                 //well...
             }
-
+            await ViewModelLocator.ForumsMain.SavePinnedTopics();
+            await FavouritesManager.SaveData();
 
             deferral.Complete();
         }

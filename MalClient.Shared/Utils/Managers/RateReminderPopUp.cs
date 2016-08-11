@@ -9,7 +9,7 @@ namespace MalClient.Shared.Utils.Managers
     public static class RateReminderPopUp
     {
         public const int LaunchThresholdValue = 7;
-        public const int DonateLaunchThresholdValue = 150;
+        public const int DonateLaunchThresholdValue = 80;
 
         public static async void ProcessRatePopUp()
         {
@@ -36,7 +36,7 @@ namespace MalClient.Shared.Utils.Managers
         }
 
         /// <summary>
-        /// This will showup once every 150 app launches.
+        /// This will showup once every 80 app launches.
         /// </summary>
         public static async void ProcessDonatePopUp()
         {
@@ -54,7 +54,7 @@ namespace MalClient.Shared.Utils.Managers
             }
             var msg =
                 new MessageDialog(
-                    "Did you consider making a donation?\nI've devoted hundreds of hours worth of time so I would be grateful for a little tip :)",
+                    "Did you consider making a donation?\nI've devoted hundreds of hours worth of time so I would be grateful for a little tip if you don't mind :)",
                     "You seem to use this app quite a bit!");
             msg.Commands.Add(new UICommand("Okay..."));
             msg.CancelCommandIndex = 1;

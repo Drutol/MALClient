@@ -197,6 +197,8 @@ namespace MALClient.ViewModels
                     return MalArticlesPageNavigationArgs.Articles;
                 case PageIndex.PageNews:
                     return MalArticlesPageNavigationArgs.News;
+                case PageIndex.PageProfile:
+                    return new ProfilePageNavigationArgs {TargetUser = Credentials.UserName};
                 default:
                     return null;
             }

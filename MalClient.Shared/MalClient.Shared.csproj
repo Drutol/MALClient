@@ -293,6 +293,7 @@
     <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
     <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />

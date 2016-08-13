@@ -19,11 +19,10 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
-using MALClient.Utils.Managers;
 
 namespace MALClient.ViewModels.Main
 {
-    public sealed class ProfilePageViewModel : ViewModelBase , IProfileViewModel
+    public sealed class ProfilePageViewModel : ViewModelBase
     {
         //anime -<>- manga
         private readonly Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>
@@ -97,7 +96,7 @@ namespace MALClient.ViewModels.Main
             FavManga = new List<AnimeItemViewModel>();
             RecentManga = new List<AnimeItemViewModel>();
             RecentAnime = new List<AnimeItemViewModel>();
-            DesktopViewModelLocator.Main.CurrentStatus = $"{_currUser} - Profile";
+            ViewModelLocator.GeneralMain.CurrentStatus = $"{_currUser} - Profile";
             var authenticatedUser = args.TargetUser == Credentials.UserName;
             RaisePropertyChanged(() => CurrentData);
             LoadingVisibility = Visibility.Collapsed;
@@ -273,7 +272,7 @@ namespace MALClient.ViewModels.Main
 
         private void NavigateDetails(AnimeCharacter character)
         {
-            DesktopViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                 new AnimeDetailsPageNavigationArgs(int.Parse(character.ShowId), character.Notes, null,
                     null)
                 {
@@ -341,7 +340,7 @@ namespace MALClient.ViewModels.Main
                                 new RelayCommand(
                                     () =>
                                     {
-                                        DesktopViewModelLocator.Main.Navigate(PageIndex.PageProfile,
+                                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                                             new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                                     }));
 
@@ -526,7 +525,7 @@ namespace MALClient.ViewModels.Main
                     pinned.Remove(CurrentData.User.Name);
                     Settings.PinnedProfiles = string.Join(";",pinned);
                 }
-                DesktopViewModelLocator.Hamburger.UpdatePinnedProfiles();
+                ViewModelLocator.GeneralHamburger.UpdatePinnedProfiles();
                 RaisePropertyChanged(() => IsPinned);
             }
         }
@@ -555,10 +554,10 @@ namespace MALClient.ViewModels.Main
                         new RelayCommand(
                             () =>
                             {
-                                DesktopViewModelLocator.Main.Navigate(PageIndex.PageProfile,
+                                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                                     new ProfilePageNavigationArgs{TargetUser = CurrentData.User.Name});
                             }));
-                    DesktopViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
                         new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = _currUser, ResetBackNav = false });
                 }));
 
@@ -568,7 +567,7 @@ namespace MALClient.ViewModels.Main
                 (_navMangaListCommand =
                     new RelayCommand(
                         () =>
-                            DesktopViewModelLocator.Main.Navigate(PageIndex.PageAnimeList,
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = _currUser, ResetBackNav = false })))
             ;
 

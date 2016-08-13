@@ -196,7 +196,6 @@
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Managers\NavMgr.cs" />
-    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Off\SettingsPageViewModel.cs" />

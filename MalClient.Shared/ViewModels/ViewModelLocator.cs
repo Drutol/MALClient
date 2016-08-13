@@ -12,6 +12,7 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels.Forums;
 using MalClient.Shared.ViewModels.Main;
+using MALClient.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MalClient.Shared.ViewModels
@@ -61,6 +62,7 @@ namespace MalClient.Shared.ViewModels
         void UpdateLogInLabel();
         Visibility MangaSectionVisbility { get; set; }
         void SetActiveButton(TopAnimeType topType);
+        void UpdatePinnedProfiles();
     }
 
     public interface INavMgr
@@ -78,13 +80,6 @@ namespace MalClient.Shared.ViewModels
         void RegisterOneTimeMainOverride(ICommand command);
         void ResetOneTimeOverride();
         void ResetOneTimeMainOverride();
-    }
-
-    public interface IProfileViewModel
-    {
-        Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions { get; }
-        ICommand NavigateCharPageCommand { get; }
-        ICommand NavigateDetailsCommand { get; }
     }
 
     public class ViewModelLocator
@@ -120,11 +115,11 @@ namespace MalClient.Shared.ViewModels
 
         public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
 
-        public static IProfileViewModel GeneralProfile => ServiceLocator.Current.GetInstance<IProfileViewModel>();
-
         public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
 
         public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
+
+        public static ProfilePageViewModel ProfilePage => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
 
         public static RecommendationsViewModel Recommendations
             => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();

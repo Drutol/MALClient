@@ -176,7 +176,6 @@
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MobileViewModelLocator.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
   </ItemGroup>

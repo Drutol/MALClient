@@ -187,7 +187,7 @@ namespace MALClient.UserControls.New
             try
             {
                 var btn = sender as MenuFlyoutItem;
-                await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string, false);
+                await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string);
                 Settings.Donated = true;
             }
             catch (Exception)

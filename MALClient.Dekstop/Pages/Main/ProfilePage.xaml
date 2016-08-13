@@ -272,7 +272,7 @@
                                        Text="No favourite characters added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
-                        <GridView Grid.Row="1" ItemsSource="{Binding CurrentData.FavouriteCharacters}"
+                        <GridView Grid.Row="1" ItemsSource="{Binding FavouriteCharacters}"
                                       HorizontalAlignment="Center" Margin="0,7,0,0">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
@@ -284,57 +284,7 @@
                             </GridView.ItemContainerStyle>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Height="325" PointerPressed="FavCharacter_OnClick">
-                                        <FlyoutBase.AttachedFlyout>
-                                            <MenuFlyout>
-                                                <MenuFlyoutItem
-                                                                Command="{Binding Source={StaticResource DesktopLocator} , Path=ProfilePage.NavigateCharPageCommand}"
-                                                                CommandParameter="{Binding}" Text="Open in browser"/>
-                                                <MenuFlyoutItem
-                                                                Command="{Binding Source={StaticResource DesktopLocator} , Path=ProfilePage.NavigateDetailsCommand}"
-                                                                CommandParameter="{Binding}" Text="Open show details"/>
-                                            </MenuFlyout>
-                                        </FlyoutBase.AttachedFlyout>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="52" />
-                                        </Grid.RowDefinitions>
-                                        <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch" Background="Transparent"
-                                                    BorderBrush="Transparent">
-                                            <Image Stretch="UniformToFill" Width="200" Height="325">
-                                                <Image.Source>
-                                                    <BitmapImage UriSource="{Binding ImgUrl}"
-                                                                     DecodePixelHeight="325"
-                                                                     DecodePixelWidth="200" DecodePixelType="Logical" />
-                                                </Image.Source>
-                                            </Image>
-                                        </Grid>
-                                        <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
-                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
-                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}">
-                                            <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
-                                            <ToggleButton.Background>
-                                                <SolidColorBrush Color="Black" Opacity=".75"/>
-                                            </ToggleButton.Background>
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="Favourite"/>
-                                            </ToolTipService.ToolTip>
-                                        </ToggleButton>
-                                        <Grid Row="1" HorizontalAlignment="Stretch"
-                                                  Background="{ThemeResource BrushAnimeItemBackground}"
-                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                  BorderThickness="0,1,0,0">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height=".5*" />
-                                                <RowDefinition Height=".5*" />
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="{Binding Name}" />
-                                            <TextBlock Grid.Row="1" Text="{Binding Notes}"
-                                                           FontWeight="SemiLight" FontStyle="Italic"
-                                                           TextTrimming="CharacterEllipsis" />
-                                        </Grid>
-                                    </Grid>
+                                    <items1:CharacterItem DataContext="{Binding}" PointerPressed="FavCharacter_OnClick"/>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
@@ -351,47 +301,11 @@
                                        Text="No favourite people added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
-                        <GridView Grid.Row="1" ItemsSource="{Binding CurrentData.FavouritePeople}"
+                        <GridView Grid.Row="1" ItemsSource="{Binding FavouriteStaff}"
                                       HorizontalAlignment="Center" Margin="0,7,0,0">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Width="200" Height="325" PointerPressed="FavCharacter_OnClick">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="52" />
-                                        </Grid.RowDefinitions>
-                                        <FlyoutBase.AttachedFlyout>
-                                            <MenuFlyout>
-                                                <MenuFlyoutItem
-                                                                Command="{Binding Source={StaticResource DesktopLocator} , Path=ProfilePage.NavigatePersonPageCommand}"
-                                                                CommandParameter="{Binding}" Text="Open in browser"/>
-                                            </MenuFlyout>
-                                        </FlyoutBase.AttachedFlyout>
-                                        <Image Stretch="UniformToFill">
-                                            <Image.Source>
-                                                <BitmapImage UriSource="{Binding ImgUrl}"
-                                                                     DecodePixelHeight="325"
-                                                                     DecodePixelWidth="200" DecodePixelType="Logical" />
-                                            </Image.Source>
-                                        </Image>
-                                        <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0" Height="35" Width="35"
-                                                                          IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
-                                                                          IsEnabled="{Binding IsFavouriteButtonEnabled}" >
-                                            <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}"/>
-                                            <ToggleButton.Background>
-                                                <SolidColorBrush Color="Black" Opacity=".75"/>
-                                            </ToggleButton.Background>
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="Favourite"/>
-                                            </ToolTipService.ToolTip>
-                                        </ToggleButton>
-                                        <Grid Row="1" HorizontalAlignment="Stretch"
-                                                  Background="{ThemeResource BrushAnimeItemBackground}"
-                                                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                  BorderThickness="0,1.5,0,0">
-                                            <TextBlock Text="{Binding Name}" />
-                                        </Grid>
-                                    </Grid>
+                                    <items1:StaffItem DataContext="{Binding}" PointerPressed="FavCharacter_OnClick"/>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>

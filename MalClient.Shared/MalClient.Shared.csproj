@@ -127,6 +127,8 @@
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
+    <Compile Include="Comm\Details\CharacterDetailsQuery.cs" />
+    <Compile Include="Comm\Details\StaffDetailsQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardIndexContentQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
     <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
@@ -187,8 +189,15 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Items\CharacterItem.xaml.cs">
+      <DependentUpon>CharacterItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Items\IItemWithFlyout.cs" />
     <Compile Include="Items\RecomendationItem.xaml.cs">
       <DependentUpon>RecomendationItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Items\StaffItem.xaml.cs">
+      <DependentUpon>StaffItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
@@ -200,6 +209,7 @@
     <Compile Include="Models\Anime\AnimeDetailsData.cs" />
     <Compile Include="Models\Anime\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\Anime\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\Anime\AnimeLightEntry.cs" />
     <Compile Include="Models\Anime\AnimeSeason.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
@@ -219,6 +229,8 @@
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
+    <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />
+    <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
     <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
@@ -264,6 +276,7 @@
     <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\FavouriteViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />
@@ -351,9 +364,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Items\CharacterItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Items\RecomendationItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Items\StaffItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CachedEntryItem.xaml">
       <Generator>MSBuild:Compile</Generator>

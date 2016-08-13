@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Items;
 using MalClient.Shared.Models;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
@@ -74,9 +75,8 @@ namespace MALClient.Pages.Main
 
         private void FavCharacter_OnClick(object sender, PointerRoutedEventArgs e)
         {
-            var grid = sender as FrameworkElement;
-            var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
-            flyout.ShowAt(grid);
+            var grid = sender as IItemWithFlyout;
+            grid?.ShowFlyout();
         }
 
         private void ButtonGotoProfileOnClick(object sender, RoutedEventArgs e)

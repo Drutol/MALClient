@@ -45,6 +45,30 @@ namespace MALClient.ViewModels.Main
             }
         }
 
+        public List<FavouriteViewModel> _favouriteCharacters;
+
+        public List<FavouriteViewModel> FavouriteCharacters
+        {
+            get { return _favouriteCharacters; }
+            set
+            {
+                _favouriteCharacters = value;
+                RaisePropertyChanged(() => FavouriteCharacters);
+            }
+        }
+
+        public List<FavouriteViewModel> _favouriteStaff;
+
+        public List<FavouriteViewModel> FavouriteStaff
+        {
+            get { return _favouriteStaff; }
+            set
+            {
+                _favouriteStaff = value;
+                RaisePropertyChanged(() => FavouriteStaff);
+            }
+        }
+
         private List<int> _animeChartValues = new List<int>();
 
         private string _currUser;
@@ -80,6 +104,8 @@ namespace MALClient.ViewModels.Main
             RaisePropertyChanged(() => IsPinned);
             RaisePropertyChanged(() => PinProfileVisibility);
             MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+            FavouriteCharacters = new List<FavouriteViewModel>(CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
+            FavouriteStaff = new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
             CommentInputBoxVisibility = string.IsNullOrEmpty(CurrentData.ProfileMemId) ? Visibility.Collapsed : Visibility.Visible; //posting restricted
             if (authenticatedUser)
             {

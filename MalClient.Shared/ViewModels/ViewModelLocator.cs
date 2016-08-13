@@ -83,6 +83,8 @@ namespace MalClient.Shared.ViewModels
     public interface IProfileViewModel
     {
         Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions { get; }
+        ICommand NavigateCharPageCommand { get; }
+        ICommand NavigateDetailsCommand { get; }
     }
 
     public class ViewModelLocator

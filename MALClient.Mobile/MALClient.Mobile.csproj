@@ -150,6 +150,9 @@
     <Compile Include="Pages\Main\RecomendationsPage.xaml.cs">
       <DependentUpon>RecomendationsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Off\CharacterDetailsPage.xaml.cs">
+      <DependentUpon>CharacterDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -162,6 +165,9 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs" />
+    <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
+      <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
@@ -267,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Off\CharacterDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Off\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -306,6 +316,10 @@
     <Page Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\StaffDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\HamburgerControl.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -343,6 +343,7 @@
                                         <items:CharacterItem DataContext="{Binding}" Tapped="FavCharacter_OnTapped"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
+                                
                             </GridView>
                         </Grid>
                     </PivotItem>

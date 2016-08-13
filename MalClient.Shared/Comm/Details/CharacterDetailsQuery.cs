@@ -4,6 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.ScrappedDetails;
+using MalClient.Shared.Utils;
 
 namespace MalClient.Shared.Comm.Details
 {
@@ -19,6 +23,74 @@ namespace MalClient.Shared.Comm.Details
                     Uri.EscapeUriString($"http://myanimelist.net/character/{id}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
+        }
+
+        public async Task<CharacterDetailsData> GetCharacterDetails(bool force = false)
+        {
+            var possibleData = await DataCache.RetrieveData<CharacterDetailsData>(_id.ToString(), "character_detail", 30);
+            if (possibleData != null)
+                return possibleData;
+
+            var output = new CharacterDetailsData();
+            var raw = await GetRequestResponse();
+            if (string.IsNullOrEmpty(raw))
+                return output;
+            var doc = new HtmlDocument();
+            doc.LoadHtml(raw);
+
+            output.Id = _id;
+            var columns = doc.DocumentNode.Descendants("table").First().ChildNodes[1].ChildNodes.Where(node => node.Name == "td").ToList();
+            var leftColumn = columns[0];
+            var tables = leftColumn.Descendants("table");
+            foreach (var table in tables)
+            {
+                foreach (var descendant in table.Descendants("tr"))
+                {
+                    var links = descendant.Descendants("a").ToList();
+                    if (links[0].Attributes["href"].Value.StartsWith("/anime"))
+                    {
+                        var curr = new AnimeLightEntry {IsAnime = true};
+                        curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[2]);
+                        var img = links[0].Descendants("img").First().Attributes["src"].Value;
+                        if (!img.Contains("questionmark"))
+                        {
+                            img = img.Replace("/r/23x32", "");
+                            curr.ImgUrl = img.Substring(0, img.IndexOf('?'));
+                        }
+                        curr.Title = WebUtility.HtmlDecode(links[1].InnerText.Trim());
+                        output.Animeography.Add(curr);
+                    }
+                    else
+                    {
+                        var curr = new AnimeLightEntry { IsAnime = false };
+                        curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[2]);
+                        var img = links[0].Descendants("img").First().Attributes["src"].Value;
+                        if (!img.Contains("questionmark"))
+                        {
+                            img = img.Replace("/r/23x32", "");
+                            curr.ImgUrl = img.Substring(0, img.IndexOf('?'));
+                        }
+                        curr.Title = WebUtility.HtmlDecode(links[1].InnerText.Trim());
+                        output.Mangaography.Add(curr);
+                    }
+                }
+            }
+            var imgage = leftColumn.Descendants("img").First();
+            output.ImgUrl = imgage.Attributes["src"].Value;
+            output.Name = imgage.Attributes["alt"].Value;
+            output.Content = output.SpoilerContent = "";
+            foreach (var node in columns[1].ChildNodes)
+            {
+                if (node.Name == "#text")
+                    output.Content += WebUtility.HtmlDecode(node.InnerText.Trim());
+                else if (node.Name == "br")
+                    output.Content += "\n";
+                else if (node.Name == "div" && node.Attributes.Contains("class") && node.Attributes["class"].Value == "spoiler")
+                    output.SpoilerContent += WebUtility.HtmlDecode(node.InnerText.Trim());
+                else if (node.Name == "table")
+                    break;
+            }
+            return output;
         }
     }
 }

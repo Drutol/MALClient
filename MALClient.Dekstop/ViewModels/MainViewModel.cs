@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Comm.Details;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
@@ -69,6 +70,8 @@ namespace MALClient.ViewModels
             }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = Visibility.Collapsed;
+
+            //await new CharacterDetailsQuery(118763).GetCharacterDetails();
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
 

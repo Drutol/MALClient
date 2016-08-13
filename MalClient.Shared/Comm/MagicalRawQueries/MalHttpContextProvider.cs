@@ -129,7 +129,9 @@ namespace MalClient.Shared.Comm.MagicalRawQueries
             var httpContext = await GetHttpContextAsync();
             var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri(MalBaseUrl));
             if (mobile)
-                filter.CookieManager.SetCookie(new HttpCookie("view", "myanimelist.net", "/") { Value = "pc" });
+            {
+                filter.CookieManager.SetCookie(new HttpCookie("view", "myanimelist.net", "/") { Value = "sp" });            
+            }
             foreach (var cookie in cookies.Cast<Cookie>())
             {
                 try

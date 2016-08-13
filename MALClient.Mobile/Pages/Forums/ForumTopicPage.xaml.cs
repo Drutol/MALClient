@@ -122,26 +122,22 @@ namespace MALClient.Pages.Forums
             {
                 commands = new List<string>
                 {
-                    @"document.getElementById(""headerSmall"").outerHTML='';document.getElementById(""menu"").outerHTML='';document.getElementsByClassName(""js-sns-icon-container icon-block-small"")[0].outerHTML='';document.getElementsByTagName(""footer"")[0].innerHTML='';document.getElementsByClassName(""mauto clearfix pt24"")[0].outerHTML='';",
-                    @"$(""#contentWrapper"").find('div:first').remove();",
-                    $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"");",
-                    $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
-                    $@"$(""td"").css(""background-color"", ""{bodyDarker}"").css(""border-color"", ""{bodyDarker}"");",
-                    $@"$("".forum_boardrow2"").css(""background-color"", ""{bodyDarker}"");",
-                    $@"$("".forum_boardrow1"").css(""background-color"", ""{bodyLighter}"").css(""border-color"",""{fontColorInverted}"");",
-                    $@"$("".forum_category"").css(""background-color"", ""{bodyLight}"");",
-                    $@"$("".forum_boardrowspacer"").css(""background-color"", ""{bodyLighter}"");",
-                    $@"$("".btn-forum"").css(""background-color"", ""{bodyLight}"").css(""border-color"",""{fontColorInverted}"");",
-                    $@"$(""html"").css(""zoom"", ""{Math.Floor(zoom)}%"");",
-                    @"$("".wrapper"").find("".fl-r.ar"").remove()",
-                    $@"$("".inputButton"").css(""border-color"",""{fontColorInverted}"").css(""background-color"",""{bodyLight}"")",
+                    @"$("".header"").remove();
+                      $(""iframe"").remove();
+                      $("".select.filter-sort"").remove();
+                      $("".anchor-ad"").remove();
+                      $(""footer"").remove();
+                      $("".page-title"").remove();
+                      $("".sns-unit"").remove();",
                     $@"$(""a"").css(""color"", ""#{color.ToString().Substring(3)}"");",
-                    $@"$(""#content"").css(""border-color"", ""{bodyLighter}"").css(""background-color"",""{bodyLighter}"");",
-                    $@"$("".forum_category,.forum_locheader"").css(""color"",""{fontColor}"");",
-                    $@"$("".codetext"").css(""background-color"",""{bodyDarker}"");",
-                    $@"$("".quotetext"").css(""background-color"",""{bodyLight}"").css(""border-color"",""{bodyLighter}"");",
-                    $@"$("".vote_container"").css(""background-color"",""#{color.ToString().Substring(3)}"")",
-                    $@"$(""textarea"").css(""background-color"",""{bodyDarker}"").css(""color"", ""{fontColor}"")",
+                    $@"$("".comment-title"").css(""background-color"",""{bodyLighter}"")",
+                    $@"$("".breadcrumb"").css(""background-color"",""{bodyLighter}"")",       
+                    $@"$("".num"").removeClass().css(""font-size"",""30px"").css(""color"", ""{fontColor}"").css(""margin"", ""13px"")",
+                    $@"$("".icon-next"").not(""a.prev"").removeClass().css(""font-size"",""30px"").html(""»"")",
+                    $@"$("".icon-next.prev"").css(""font-size"",""20px"").removeClass().html(""«"")",
+                    $@"$("".db-ib"").removeClass().css(""font-size"",""30px"").css(""color"",""#{color.ToString().Substring(3)}"")",
+                    $@"$("".btn-post-comment"").css(""background-color"",""{bodyLight}"").css(""color"", ""{fontColor}"").css(""border-color"", ""{bodyDarker}"")",
+                    $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
                 };
             }
             
@@ -296,10 +292,8 @@ namespace MALClient.Pages.Forums
 
         private void TopicWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            //we don't like iframes
-            //args.Cancel = true; or do we?
-            if (_args.CreateNewTopic)
-                args.Cancel = true;
+            //no no to iframes on mobile no freaking way
+            args.Cancel = true;
         }
 
         private void TopicWebView_OnContentLoading(WebView sender, WebViewContentLoadingEventArgs args)

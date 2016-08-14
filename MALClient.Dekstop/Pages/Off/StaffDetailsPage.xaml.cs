@@ -29,7 +29,12 @@ namespace MALClient.Pages.Off
         public StaffDetailsPage()
         {
             this.InitializeComponent();
-            Loaded += (a,b) => ViewModelLocator.StaffDetails.Init(_lastArgs);
+            Loaded += (a, b) =>
+            {
+                var vm = ViewModelLocator.StaffDetails;
+                vm.OnPivotItemSelectionRequest += index => Pivot.SelectedIndex = index;
+                vm.Init(_lastArgs);
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

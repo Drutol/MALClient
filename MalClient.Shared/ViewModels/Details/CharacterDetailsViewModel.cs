@@ -83,7 +83,7 @@ namespace MalClient.Shared.ViewModels.Details
             =>
                 _navigateStaffDetailsCommand ??
                 (_navigateStaffDetailsCommand =
-                    new RelayCommand<AnimeStaffPerson>(
+                    new RelayCommand<FavouriteBase>(
                         entry =>
                         {
                             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageCharacterDetails,_prevArgs);

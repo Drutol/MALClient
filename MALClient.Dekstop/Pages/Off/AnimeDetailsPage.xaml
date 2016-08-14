@@ -728,40 +728,44 @@
                                             </ItemsControl.ItemContainerStyle>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Grid HorizontalAlignment="Stretch">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="250" />
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
+                                                    <Button Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                                                Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}" 
+                                                                CommandParameter="{Binding Data}">
+                                                        <Grid HorizontalAlignment="Stretch">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="250" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                     VerticalAlignment="Center" />
-                                                        <Image Grid.Row="0">
-                                                            <Image.Source>
-                                                                <BitmapImage UriSource="{Binding Data.ImgUrl}"
+                                                            <Image Grid.Row="0">
+                                                                <Image.Source>
+                                                                    <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                                                              DecodePixelType="Logical"
                                                                              DecodePixelHeight="250"
                                                                              DecodePixelWidth="175" />
-                                                            </Image.Source>
-                                                        </Image>
-                                                        <new:FavButton HorizontalAlignment="Right"
+                                                                </Image.Source>
+                                                            </Image>
+                                                            <new:FavButton HorizontalAlignment="Right"
                                                                        VerticalAlignment="Bottom" Grid.Row="0"
                                                                        Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
-                                                            <new:FavButton.Background>
-                                                                <SolidColorBrush Color="Black" Opacity=".75" />
-                                                            </new:FavButton.Background>
-                                                        </new:FavButton>
-                                                        <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch"
+                                                                <new:FavButton.Background>
+                                                                    <SolidColorBrush Color="Black" Opacity=".75" />
+                                                                </new:FavButton.Background>
+                                                            </new:FavButton>
+                                                            <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" Width="175"
                                                               VerticalAlignment="Bottom"
                                                               Background="{ThemeResource BrushAnimeItemBackground}"
                                                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                               BorderThickness="0,1,0,0">
-                                                            <StackPanel HorizontalAlignment="Stretch">
-                                                                <TextBlock FontWeight="Medium" Text="{Binding Data.Name}" />
-                                                                <TextBlock FontWeight="SemiLight"
+                                                                <StackPanel HorizontalAlignment="Stretch">
+                                                                    <TextBlock FontWeight="Medium" Text="{Binding Data.Name}" />
+                                                                    <TextBlock FontWeight="SemiLight"
                                                                            Text="{Binding Data.Notes}" />
-                                                            </StackPanel>
+                                                                </StackPanel>
+                                                            </Grid>
                                                         </Grid>
-                                                    </Grid>
+                                                    </Button>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

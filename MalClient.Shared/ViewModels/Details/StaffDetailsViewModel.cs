@@ -7,6 +7,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm.Details;
+using MalClient.Shared.Delegates;
 using MalClient.Shared.Models.Anime;
 using MalClient.Shared.Models.Favourites;
 using MalClient.Shared.Models.ScrappedDetails;
@@ -21,6 +22,8 @@ namespace MalClient.Shared.ViewModels.Details
         private StaffDetailsNaviagtionArgs _prevArgs;
         private ICommand _navigateAnimeDetailsCommand;
         private ICommand _navigateCharacterDetailsCommand;
+
+        public event PivotItemSelectionRequest OnPivotItemSelectionRequest;
 
         public StaffDetailsData Data
         {
@@ -68,6 +71,8 @@ namespace MalClient.Shared.ViewModels.Details
 
             _prevArgs = args;
             Data = await new StaffDetailsQuery(args.Id).GetStaffDetails(force);
+            if(Data.ShowCharacterPairs.Count == 0)
+                OnPivotItemSelectionRequest?.Invoke(1);
             ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
         }
 

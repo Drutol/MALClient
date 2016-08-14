@@ -295,7 +295,7 @@ namespace MALClient.ViewModels
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
                     OffContentVisibility = Visibility.Visible;
 
-                    if (CurrentOffPage == PageIndex.PageCharacterDetails)
+                    if (CurrentOffPage == PageIndex.PageStaffDetails)
                         ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
                     else
                         OffNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);

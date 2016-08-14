@@ -15,15 +15,15 @@
         <DataTemplate x:Key="OGraphyTemplate">
             <Grid Width="170">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="270"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="250"/>
+                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Image>
+                <Image Stretch="Fill">
                     <Image.Source>
-                        <BitmapImage DecodePixelType="Logical" DecodePixelHeight="270" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
+                        <BitmapImage DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
                     </Image.Source>
                 </Image>
-                <Grid Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                <Grid Grid.Row="1" Height="50" Width="170" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                     <TextBlock Text="{Binding Title}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2" FontWeight="Medium"/>
                 </Grid>
             </Grid>
@@ -84,7 +84,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Voiceactors" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="26" Margin="0,5" HorizontalAlignment="Center"/>
                     <GridView Grid.Row="1" ItemsSource="{Binding VoiceActors}" 
-                          IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled">
+                          IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClickStaff" ScrollViewer.VerticalScrollMode="Disabled">
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <items:StaffItem DataContext="{Binding}"/>

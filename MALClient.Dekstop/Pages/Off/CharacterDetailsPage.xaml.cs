@@ -47,5 +47,10 @@ namespace MALClient.Pages.Off
         {
             ViewModelLocator.CharacterDetails.NavigateMangaDetailsCommand.Execute(e.ClickedItem);
         }
+
+        private void ListViewBase_OnItemClickStaff(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.CharacterDetails.NavigateStaffDetailsCommand.Execute((e.ClickedItem as FavouriteViewModel).Data);
+        }
     }
 }

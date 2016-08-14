@@ -614,47 +614,51 @@
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="230" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
+                                                        <Button Padding="0" Margin="0" 
+                                                                Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateCharacterDetailsCommand}" 
+                                                                CommandParameter="{Binding AnimeCharacter.Data}">
+                                                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="230" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                            <Image Grid.Row="0">
-                                                                <Image.Source>
-                                                                    <BitmapImage
-                                                                        UriSource="{Binding AnimeCharacter.ImgUrl}"
+                                                                <Image Grid.Row="0">
+                                                                    <Image.Source>
+                                                                        <BitmapImage
+                                                                        UriSource="{Binding AnimeCharacter.Data.ImgUrl}"
                                                                         DecodePixelType="Logical"
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
-                                                                </Image.Source>
-                                                            </Image>
-                                                            <new:FavButton Grid.Row="0" HorizontalAlignment="Right"
+                                                                    </Image.Source>
+                                                                </Image>
+                                                                <new:FavButton Grid.Row="0" HorizontalAlignment="Right"
                                                                            VerticalAlignment="Bottom"
                                                                            Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}"
                                                                            DataContext="{Binding AnimeCharacter}">
-                                                                <new:FavButton.Background>
-                                                                    <SolidColorBrush Color="Black" Opacity=".75" />
-                                                                </new:FavButton.Background>
-                                                            </new:FavButton>
-                                                            <Grid Grid.Row="1" Padding="4"
+                                                                    <new:FavButton.Background>
+                                                                        <SolidColorBrush Color="Black" Opacity=".75" />
+                                                                    </new:FavButton.Background>
+                                                                </new:FavButton>
+                                                                <Grid Grid.Row="1" Padding="4"
                                                                   HorizontalAlignment="Stretch"
                                                                   VerticalAlignment="Bottom"
                                                                   Background="{ThemeResource BrushAnimeItemBackground}"
                                                                   BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                   BorderThickness="0,1,0,0">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <StackPanel HorizontalAlignment="Center">
-                                                                    <TextBlock FontWeight="Medium"
-                                                                               Text="{Binding AnimeCharacter.Name}" />
-                                                                    <TextBlock FontWeight="SemiLight"
-                                                                               Text="{Binding AnimeCharacter.Notes}" />
-                                                                </StackPanel>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <StackPanel HorizontalAlignment="Center">
+                                                                        <TextBlock FontWeight="Medium"
+                                                                               Text="{Binding AnimeCharacter.Data.Name}" />
+                                                                        <TextBlock FontWeight="SemiLight"
+                                                                               Text="{Binding AnimeCharacter.Data.Notes}" />
+                                                                    </StackPanel>
+                                                                </Grid>
                                                             </Grid>
-                                                        </Grid>
+                                                        </Button>
                                                         <Grid Grid.Column="1" VerticalAlignment="Stretch"
                                                               HorizontalAlignment="Stretch">
                                                             <Grid.RowDefinitions>
@@ -666,7 +670,7 @@
                                                             <Image Grid.Row="0">
                                                                 <Image.Source>
                                                                     <BitmapImage
-                                                                        UriSource="{Binding AnimeStaffPerson.ImgUrl}"
+                                                                        UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
                                                                         DecodePixelType="Logical"
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
                                                                 </Image.Source>
@@ -687,9 +691,9 @@
                                                                   BorderThickness="0,1,0,0">
                                                                 <StackPanel HorizontalAlignment="Center">
                                                                     <TextBlock FontWeight="Medium"
-                                                                               Text="{Binding AnimeStaffPerson.Name}" />
+                                                                               Text="{Binding AnimeStaffPerson.Data.Name}" />
                                                                     <TextBlock FontWeight="SemiLight"
-                                                                               Text="{Binding AnimeStaffPerson.Notes}" />
+                                                                               Text="{Binding AnimeStaffPerson.Data.Notes}" />
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Grid>
@@ -730,7 +734,7 @@
                                                                     VerticalAlignment="Center" />
                                                         <Image Grid.Row="0">
                                                             <Image.Source>
-                                                                <BitmapImage UriSource="{Binding ImgUrl}"
+                                                                <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                                                              DecodePixelType="Logical"
                                                                              DecodePixelHeight="250"
                                                                              DecodePixelWidth="175" />
@@ -749,9 +753,9 @@
                                                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                               BorderThickness="0,1,0,0">
                                                             <StackPanel HorizontalAlignment="Stretch">
-                                                                <TextBlock FontWeight="Medium" Text="{Binding Name}" />
+                                                                <TextBlock FontWeight="Medium" Text="{Binding Data.Name}" />
                                                                 <TextBlock FontWeight="SemiLight"
-                                                                           Text="{Binding Notes}" />
+                                                                           Text="{Binding Data.Notes}" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Grid>

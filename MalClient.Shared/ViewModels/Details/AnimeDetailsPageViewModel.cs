@@ -37,20 +37,14 @@ namespace MalClient.Shared.ViewModels
         private string _alternateImgUrl;
         private IAnimeData _animeItemReference; //our connection with everything
         private bool _animeMode;
+
+        private AnimeStaffDataViewModels _animeStaffData;
         private float _globalScore;
+
+        private int _id;
         //crucial fields
         private string _imgUrl;
         public bool _initialized;
-
-        public bool Initialized
-        {
-            get { return _initialized; }
-            private set
-            {
-                _initialized = value;
-                //OnInitialized?.Invoke(null, null);
-            }
-        }
 
 
         //loaded fields
@@ -61,12 +55,24 @@ namespace MalClient.Shared.ViewModels
 
         private bool _loadingAlternate;
 
+        private List<FavouriteViewModel> _mangaCharacterData;
+
         public AnimeDetailsPageNavigationArgs _prevArgs;
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
 
         public AnimeDetailsPageViewModel()
         {
             UpdateScoreFlyoutChoices();
+        }
+
+        public bool Initialized
+        {
+            get { return _initialized; }
+            private set
+            {
+                _initialized = value;
+                //OnInitialized?.Invoke(null, null);
+            }
         }
 
         public string Title { get; set; }
@@ -86,9 +92,7 @@ namespace MalClient.Shared.ViewModels
             => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.EndDate
             ;
 
-        private AnimeStaffData _animeStaffData;
-
-        public AnimeStaffData AnimeStaffData
+        public AnimeStaffDataViewModels AnimeStaffData
         {
             get { return _animeStaffData; }
             set
@@ -98,9 +102,36 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        private List<AnimeCharacter> _mangaCharacterData;
+        /// <summary>
+        /// A bit of magic... wrapping magic
+        /// </summary>
+        public class AnimeStaffDataViewModels
+        {
+            public List<AnimeCharacterStaffModelViewModel> AnimeCharacterPairs { get; set; } 
+            public List<FavouriteViewModel> AnimeStaff { get; set; }
 
-        public List<AnimeCharacter> MangaCharacterData
+            public class AnimeCharacterStaffModelViewModel
+            {
+                public FavouriteViewModel AnimeCharacter { get; set; } 
+                public FavouriteViewModel AnimeStaffPerson { get; set; }
+
+                public AnimeCharacterStaffModelViewModel(AnimeCharacterStaffModel data)
+                {
+                    AnimeCharacter = new FavouriteViewModel(data.AnimeCharacter);
+                    AnimeStaffPerson = new FavouriteViewModel(data.AnimeStaffPerson);
+                }
+            }
+
+            public AnimeStaffDataViewModels(AnimeStaffData data)
+            {
+                AnimeCharacterPairs =
+                    data.AnimeCharacterPairs.Select(pair => new AnimeCharacterStaffModelViewModel(pair)).ToList();
+                AnimeStaff = data.AnimeStaff.Select(person => new FavouriteViewModel(person)).ToList();
+            }
+
+        }
+
+        public List<FavouriteViewModel> MangaCharacterData
         {
             get { return _mangaCharacterData; }
             set
@@ -137,8 +168,6 @@ namespace MalClient.Shared.ViewModels
 
 
         private string SourceLink { get; set; }
-
-        private int _id;
 
         public int Id
         {
@@ -204,7 +233,8 @@ namespace MalClient.Shared.ViewModels
                 HiddenPivotItemIndex = 1;
             }
             //favs
-            IsFavourite = FavouritesManager.IsFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga, Id.ToString());
+            IsFavourite = FavouritesManager.IsFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,
+                Id.ToString());
             //staff
             CharactersGridVisibility = MangaCharacterGridVisibility = Visibility.Collapsed;
             LoadCharactersButtonVisibility = Visibility.Visible;
@@ -393,7 +423,6 @@ namespace MalClient.Shared.ViewModels
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IsDecrementButtonEnabled);
         }
-
 
 
         public void UpdateScoreFlyoutChoices()
@@ -672,7 +701,6 @@ namespace MalClient.Shared.ViewModels
             get { return _charactersGridVisibility; }
             set
             {
-                
                 _charactersGridVisibility = value;
                 RaisePropertyChanged(() => CharactersGridVisibility);
             }
@@ -685,7 +713,6 @@ namespace MalClient.Shared.ViewModels
             get { return _mangaCharacterGridVisibility; }
             set
             {
-
                 _mangaCharacterGridVisibility = value;
                 RaisePropertyChanged(() => MangaCharacterGridVisibility);
             }
@@ -714,7 +741,6 @@ namespace MalClient.Shared.ViewModels
                 RaisePropertyChanged(() => LoadCharactersButtonVisibility);
             }
         }
-
 
 
         public Visibility ReviewsListViewVisibility
@@ -871,6 +897,17 @@ namespace MalClient.Shared.ViewModels
         public ICommand ChangeStatusCommand
             => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus));
 
+        private ICommand _navigateCharacterDetailsCommand;
+
+        public ICommand NavigateCharacterDetailsCommand
+            => _navigateCharacterDetailsCommand ?? (_navigateCharacterDetailsCommand = new RelayCommand<AnimeCharacter>(
+                character =>
+                {
+                    ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,new CharacterDetailsNavigationArgs {Id = int.Parse(character.Id)});
+                }));
+
+
         private ICommand _navigateForumBoardCommand;
 
         public ICommand NavigateForumBoardCommand
@@ -880,19 +917,23 @@ namespace MalClient.Shared.ViewModels
                     new RelayCommand(
                         () =>
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                                new ForumsBoardNavigationArgs(Id,Title,_animeMode))));
+                                new ForumsBoardNavigationArgs(Id, Title, _animeMode))));
 
         private ICommand _toggleFavouriteCommand;
 
         public ICommand ToggleFavouriteCommand
-            => _toggleFavouriteCommand ?? (_toggleFavouriteCommand = new RelayCommand( async () =>
+            => _toggleFavouriteCommand ?? (_toggleFavouriteCommand = new RelayCommand(async () =>
             {
                 IsFavouriteButtonEnabled = false;
                 IsFavourite = !IsFavourite;
-                if(IsFavourite)
-                    await FavouritesManager.AddFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,Id.ToString());
+                if (IsFavourite)
+                    await
+                        FavouritesManager.AddFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,
+                            Id.ToString());
                 else
-                    await FavouritesManager.RemoveFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga, Id.ToString());
+                    await
+                        FavouritesManager.RemoveFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,
+                            Id.ToString());
                 var reference = _animeItemReference as AnimeItemViewModel;
                 if (reference != null)
                     reference.IsFavouriteVisibility = IsFavourite ? Visibility.Visible : Visibility.Collapsed;
@@ -1003,9 +1044,8 @@ namespace MalClient.Shared.ViewModels
 
         private ICommand _loadCharactersCommand;
 
-        public ICommand LoadCharactersCommand => _loadCharactersCommand ?? (_loadCharactersCommand = new RelayCommand(() => LoadCharacters()));
-
-
+        public ICommand LoadCharactersCommand
+            => _loadCharactersCommand ?? (_loadCharactersCommand = new RelayCommand(() => LoadCharacters()));
 
 
         private ICommand _copyToClipboardCommand;
@@ -1064,7 +1104,8 @@ namespace MalClient.Shared.ViewModels
             {
                 _imageOverlayVisibility = value;
                 if (value == Visibility.Visible)
-                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => ImageOverlayVisibility = Visibility.Collapsed));
+                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(
+                        new RelayCommand(() => ImageOverlayVisibility = Visibility.Collapsed));
                 RaisePropertyChanged(() => ImageOverlayVisibility);
             }
         }
@@ -1080,6 +1121,7 @@ namespace MalClient.Shared.ViewModels
                 RaisePropertyChanged(() => NoEpisodesDataVisibility);
             }
         }
+
         private Visibility _alternateImageUnavailableNoticeVisibility;
 
         public Visibility AlternateImageUnavailableNoticeVisibility
@@ -1300,6 +1342,7 @@ namespace MalClient.Shared.ViewModels
         private bool _removeAnimeBtnEnableState = true;
 
 
+
         public bool RemoveAnimeBtnEnableState
         {
             get { return _removeAnimeBtnEnableState; }
@@ -1337,6 +1380,7 @@ namespace MalClient.Shared.ViewModels
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IsDecrementButtonEnabled);
         });
+
         #endregion
 
         private Query GetAppropriateUpdateQuery()
@@ -1609,7 +1653,7 @@ namespace MalClient.Shared.ViewModels
 
         private async void RemoveAnime()
         {
-            if(_animeItemReference == null)
+            if (_animeItemReference == null)
                 return;
             var uSure = false;
             var msg = new MessageDialog("Are you sure about deleting this entry from your list?");
@@ -1708,7 +1752,7 @@ namespace MalClient.Shared.ViewModels
             Title = _animeItemReference?.Title ?? data.Title;
             Type = data.Type;
             Status = data.Status;
-            Synopsis = data.Synopsis.Replace("quot;","\"");
+            Synopsis = data.Synopsis.Replace("quot;", "\"");
             StartDate = data.StartDate;
             EndDate = data.EndDate;
             GlobalScore = data.GlobalScore;
@@ -2008,16 +2052,15 @@ namespace MalClient.Shared.ViewModels
             LoadCharactersButtonVisibility = Visibility.Collapsed;
             if (_animeMode)
             {
-                AnimeStaffData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetCharStaffData(force);
+                AnimeStaffData = new AnimeStaffDataViewModels(await new AnimeCharactersStaffQuery(Id, _animeMode).GetCharStaffData(force));
                 CharactersGridVisibility = Visibility.Visible;
             }
             else //broken for now -> malformed html
             {
-                MangaCharacterData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetMangaCharacters(force);
+                //MangaCharacterData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetMangaCharacters(force);
                 MangaCharacterGridVisibility = Visibility.Visible;
             }
-            LoadingCharactersVisibility = Visibility.Collapsed;                 
-                   
+            LoadingCharactersVisibility = Visibility.Collapsed;
         }
 
         #endregion

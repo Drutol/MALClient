@@ -21,6 +21,8 @@
         PageMessanging,
         PageMessageDetails,
         PageForumIndex,
-        PageHistory
+        PageHistory,
+        PageCharacterDetails,
+        PageStaffDetails,
     }
 }

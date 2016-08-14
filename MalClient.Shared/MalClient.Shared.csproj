@@ -233,11 +233,13 @@
     <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
+    <Compile Include="NavArgs\CharacterDetailsNavigationArgs.cs" />
     <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
     <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
     <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
+    <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
@@ -273,9 +275,10 @@
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utilities.cs" />
-    <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
+    <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
     <Compile Include="ViewModels\FavouriteViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />

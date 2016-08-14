@@ -10,6 +10,7 @@ using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels.Details;
 using MalClient.Shared.ViewModels.Forums;
 using MalClient.Shared.ViewModels.Main;
 using MALClient.ViewModels.Main;
@@ -105,6 +106,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<ForumBoardViewModel>();
             SimpleIoc.Default.Register<ForumTopicViewModel>();
             SimpleIoc.Default.Register<HistoryViewModel>();
+            SimpleIoc.Default.Register<CharacterDetailsViewModel>();
 
         }
 
@@ -143,6 +145,9 @@ namespace MalClient.Shared.ViewModels
 
         public static HistoryViewModel History
             => ServiceLocator.Current.GetInstance<HistoryViewModel>();
+
+        public static CharacterDetailsViewModel CharacterDetails
+            => ServiceLocator.Current.GetInstance<CharacterDetailsViewModel>();
 
         //Forums
 

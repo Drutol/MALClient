@@ -71,8 +71,6 @@ namespace MALClient.ViewModels
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = Visibility.Collapsed;
 
-            //await new CharacterDetailsQuery(118763).GetCharacterDetails();
-
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
 
             //prepare for some index mess
@@ -83,7 +81,8 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageSettings ||
                 index == PageIndex.PageAbout ||
                 index == PageIndex.PageAnimeDetails ||
-                index == PageIndex.PageMessageDetails)
+                index == PageIndex.PageMessageDetails ||
+                index == PageIndex.PageCharacterDetails)
             {
                 OffRefreshButtonVisibility = Visibility.Collapsed;
                 mainPage = false;
@@ -278,6 +277,16 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null,true); });
                     CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
                     MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
+                    break;
+                case PageIndex.PageCharacterDetails:
+                    OffRefreshButtonVisibility = Visibility.Visible;
+                    RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
+                    OffContentVisibility = Visibility.Visible;
+
+                    if (CurrentOffPage == PageIndex.PageCharacterDetails)
+                        ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
+                    else
+                        OffNavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

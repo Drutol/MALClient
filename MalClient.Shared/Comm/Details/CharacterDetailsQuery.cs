@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.Favourites;
 using MalClient.Shared.Models.ScrappedDetails;
 using MalClient.Shared.Utils;
 
@@ -27,7 +29,7 @@ namespace MalClient.Shared.Comm.Details
 
         public async Task<CharacterDetailsData> GetCharacterDetails(bool force = false)
         {
-            var possibleData = await DataCache.RetrieveData<CharacterDetailsData>(_id.ToString(), "character_detail", 30);
+            var possibleData = await DataCache.RetrieveData<CharacterDetailsData>(_id.ToString(), "character_details", 30);
             if (possibleData != null)
                 return possibleData;
 
@@ -54,7 +56,7 @@ namespace MalClient.Shared.Comm.Details
                         var img = links[0].Descendants("img").First().Attributes["src"].Value;
                         if (!img.Contains("questionmark"))
                         {
-                            img = img.Replace("/r/23x32", "");
+                            img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
                             curr.ImgUrl = img.Substring(0, img.IndexOf('?'));
                         }
                         curr.Title = WebUtility.HtmlDecode(links[1].InnerText.Trim());
@@ -67,7 +69,7 @@ namespace MalClient.Shared.Comm.Details
                         var img = links[0].Descendants("img").First().Attributes["src"].Value;
                         if (!img.Contains("questionmark"))
                         {
-                            img = img.Replace("/r/23x32", "");
+                            img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
                             curr.ImgUrl = img.Substring(0, img.IndexOf('?'));
                         }
                         curr.Title = WebUtility.HtmlDecode(links[1].InnerText.Trim());
@@ -88,8 +90,32 @@ namespace MalClient.Shared.Comm.Details
                 else if (node.Name == "div" && node.Attributes.Contains("class") && node.Attributes["class"].Value == "spoiler")
                     output.SpoilerContent += WebUtility.HtmlDecode(node.InnerText.Trim());
                 else if (node.Name == "table")
+                {
+                    foreach (var descendant in node.Descendants("tr"))
+                    {
+                        var current = new AnimeStaffPerson();
+                        var img = descendant.Descendants("img").First();
+                        var imgUrl = img.Attributes["src"].Value;
+                        if (!imgUrl.Contains("questionmark"))
+                        {
+                            var pos = imgUrl.LastIndexOf("v");
+                            if(pos != -1)
+                                imgUrl = imgUrl.Remove(pos, 1);
+                       
+                        }
+                        current.ImgUrl = imgUrl;
+                        var info = descendant.Descendants("td").Last();
+                        current.Id = info.ChildNodes[0].Attributes["href"].Value.Split('/')[2];
+                        current.Name = WebUtility.HtmlDecode(info.ChildNodes[0].InnerText.Trim());
+                        current.Notes = info.ChildNodes[2].InnerText;
+                    }
+
                     break;
+                }
             }
+
+            DataCache.SaveData(output, _id.ToString(), "character_details");
+
             return output;
         }
     }

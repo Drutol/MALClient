@@ -108,6 +108,7 @@ namespace MalClient.Shared.Comm.Details
                         current.Id = info.ChildNodes[0].Attributes["href"].Value.Split('/')[2];
                         current.Name = WebUtility.HtmlDecode(info.ChildNodes[0].InnerText.Trim());
                         current.Notes = info.ChildNodes[2].InnerText;
+                        output.VoiceActors.Add(current);
                     }
 
                     break;

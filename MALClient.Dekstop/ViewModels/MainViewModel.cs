@@ -91,7 +91,8 @@ namespace MALClient.ViewModels
                 if (index != PageIndex.PageAnimeDetails)
                 {
                     ViewModelLocator.AnimeDetails.Id = 0; //reset this because we no longer are there
-                    ViewModelLocator.NavMgr.ResetOffBackNav();
+                    if(index != PageIndex.PageCharacterDetails && index != PageIndex.PageStaffDetails)
+                        ViewModelLocator.NavMgr.ResetOffBackNav();
                 }
             }
             else

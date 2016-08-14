@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MalClient.Shared.Items"
+    xmlns:new="using:MalClient.Shared.UserControls.New"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CharacterDetails}">
 
     <Page.Resources>
@@ -45,9 +47,11 @@
             </Image>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="300"/>
                 </Grid.RowDefinitions>
-                <TextBlock Margin="5" TextWrapping="WrapWholeWords" Text="{Binding Data.Content}"/>
+                <ScrollViewer>
+                    <TextBlock Margin="5" TextWrapping="WrapWholeWords" Text="{Binding Data.Content}"/>
+                </ScrollViewer>
                 <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Content="Spoiler"
                         Visibility="{Binding SpoilerButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
@@ -59,14 +63,36 @@
                     </Button.Flyout>
                 </Button>
             </Grid>
+            <Grid Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                <new:FavButton DataContext="{Binding FavouriteViewModel}"/>
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".75" />
+                </Grid.Background>
+            </Grid>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalAlignment="Top">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Visibility="{Binding AnimeographyVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Voiceactors" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="26" Margin="0,5" HorizontalAlignment="Center"/>
+                    <GridView Grid.Row="1" ItemsSource="{Binding VoiceActors}" 
+                          IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <items:StaffItem DataContext="{Binding}"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>                
+                    <Grid Grid.Row="1" Visibility="{Binding AnimeographyVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -75,7 +101,7 @@
                     <GridView Grid.Row="1" ItemsSource="{Binding Data.Animeography}" ItemTemplate="{StaticResource OGraphyTemplate}"
                           IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" ScrollViewer.VerticalScrollMode="Disabled"/>
                 </Grid>
-                <Grid Grid.Row="1" Visibility="{Binding MangaographyVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Grid.Row="2" Visibility="{Binding MangaographyVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

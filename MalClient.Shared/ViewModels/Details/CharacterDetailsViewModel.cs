@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm.Details;
 using MalClient.Shared.Models.Anime;
+using MalClient.Shared.Models.Favourites;
 using MalClient.Shared.Models.ScrappedDetails;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
@@ -23,6 +24,7 @@ namespace MalClient.Shared.ViewModels.Details
         private CharacterDetailsNavigationArgs _prevArgs;
         private ICommand _navigateMangaDetailsCommand;
         private bool _mangaographyVisibility;
+        private List<FavouriteViewModel> _voiceActors;
 
         public CharacterDetailsData Data
         {
@@ -31,6 +33,16 @@ namespace MalClient.Shared.ViewModels.Details
             {
                 _data = value;
                 RaisePropertyChanged(() => Data);
+            }
+        }
+
+        public List<FavouriteViewModel> VoiceActors
+        {
+            get { return _voiceActors; }
+            set
+            {
+                _voiceActors = value;
+                RaisePropertyChanged(() => VoiceActors);
             }
         }
 
@@ -84,9 +96,7 @@ namespace MalClient.Shared.ViewModels.Details
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                                 new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null, null) {AnimeMode = false})));
 
-
-
-
+        public FavouriteViewModel FavouriteViewModel => Data == null ? null : new FavouriteViewModel(new AnimeCharacter { Id = Data.Id.ToString()});
 
         public async void Init(CharacterDetailsNavigationArgs args,bool force = false)
         {
@@ -99,6 +109,9 @@ namespace MalClient.Shared.ViewModels.Details
             SpoilerButtonVisibility = !string.IsNullOrEmpty(Data.SpoilerContent);
             AnimeographyVisibility = Data.Animeography.Any();
             MangaographyVisibility = Data.Mangaography.Any();
+            VoiceActors = Data.VoiceActors.Select(actor => new FavouriteViewModel(actor)).ToList();
+            RaisePropertyChanged(() => FavouriteViewModel);
+            ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
         }
 
         public void RefreshData()

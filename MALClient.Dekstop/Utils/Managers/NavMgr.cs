@@ -76,7 +76,7 @@ namespace MALClient.Utils.Managers
 
         public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
         {
-            if (page == PageIndex.PageAnimeDetails)
+            if (page == PageIndex.PageAnimeDetails || page == PageIndex.PageCharacterDetails)
             {
                 _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;

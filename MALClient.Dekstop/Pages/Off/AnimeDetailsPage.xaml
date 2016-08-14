@@ -657,45 +657,50 @@
                                                                 </Grid>
                                                             </Grid>
                                                         </Button>
-                                                        <Grid Grid.Column="1" VerticalAlignment="Stretch"
+                                                        <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent"
+                                                                Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}" 
+                                                                CommandParameter="{Binding AnimeStaffPerson.Data}">
+                                                            <Grid VerticalAlignment="Stretch"
                                                               HorizontalAlignment="Stretch">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="230" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="230" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                            <Image Grid.Row="0">
-                                                                <Image.Source>
-                                                                    <BitmapImage
+                                                                <Image Grid.Row="0">
+                                                                    <Image.Source>
+                                                                        <BitmapImage
                                                                         UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
                                                                         DecodePixelType="Logical"
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
-                                                                </Image.Source>
-                                                            </Image>
-                                                            <new:FavButton HorizontalAlignment="Right"
+                                                                    </Image.Source>
+                                                                </Image>
+                                                                <new:FavButton HorizontalAlignment="Right"
                                                                            VerticalAlignment="Bottom" Grid.Row="0"
                                                                            Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}"
                                                                            DataContext="{Binding AnimeStaffPerson}">
-                                                                <new:FavButton.Background>
-                                                                    <SolidColorBrush Color="Black" Opacity=".75" />
-                                                                </new:FavButton.Background>
-                                                            </new:FavButton>
-                                                            <Grid Grid.Row="1" Padding="4"
+                                                                    <new:FavButton.Background>
+                                                                        <SolidColorBrush Color="Black" Opacity=".75" />
+                                                                    </new:FavButton.Background>
+                                                                </new:FavButton>
+                                                                <Grid Grid.Row="1" Padding="4"
                                                                   HorizontalAlignment="Stretch"
                                                                   VerticalAlignment="Bottom"
                                                                   Background="{ThemeResource BrushAnimeItemBackground}"
                                                                   BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                   BorderThickness="0,1,0,0">
-                                                                <StackPanel HorizontalAlignment="Center">
-                                                                    <TextBlock FontWeight="Medium"
+                                                                    <StackPanel HorizontalAlignment="Center">
+                                                                        <TextBlock FontWeight="Medium"
                                                                                Text="{Binding AnimeStaffPerson.Data.Name}" />
-                                                                    <TextBlock FontWeight="SemiLight"
+                                                                        <TextBlock FontWeight="SemiLight"
                                                                                Text="{Binding AnimeStaffPerson.Data.Notes}" />
-                                                                </StackPanel>
+                                                                    </StackPanel>
+                                                                </Grid>
                                                             </Grid>
-                                                        </Grid>
+                                                        </Button>
                                                     </Grid>
+                                                    
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

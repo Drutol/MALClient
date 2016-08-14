@@ -107,6 +107,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<ForumTopicViewModel>();
             SimpleIoc.Default.Register<HistoryViewModel>();
             SimpleIoc.Default.Register<CharacterDetailsViewModel>();
+            SimpleIoc.Default.Register<StaffDetailsViewModel>();
 
         }
 
@@ -148,6 +149,9 @@ namespace MalClient.Shared.ViewModels
 
         public static CharacterDetailsViewModel CharacterDetails
             => ServiceLocator.Current.GetInstance<CharacterDetailsViewModel>();
+
+        public static StaffDetailsViewModel StaffDetails
+            => ServiceLocator.Current.GetInstance<StaffDetailsViewModel>();
 
         //Forums
 

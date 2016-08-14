@@ -155,6 +155,9 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs">
       <DependentUpon>SettingsArticlesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
+      <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AttachedProperties\PivotExtensions.cs" />
     <Compile Include="UserControls\AttachedProperties\ScrollViewerExtensions.cs" />
     <Compile Include="Utils\Managers\HamburgerFlyoutService.cs" />
@@ -342,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Off\StaffDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

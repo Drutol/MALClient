@@ -77,9 +77,9 @@ namespace MalClient.Shared.Comm.Details
                     }
                 }
             }
-            var imgage = leftColumn.Descendants("img").First();
-            output.ImgUrl = imgage.Attributes["src"].Value;
-            output.Name = imgage.Attributes["alt"].Value;
+            var image = leftColumn.Descendants("img").First();
+            output.ImgUrl = image.Attributes["src"].Value;
+            output.Name = image.Attributes["alt"].Value;
             output.Content = output.SpoilerContent = "";
             foreach (var node in columns[1].ChildNodes)
             {

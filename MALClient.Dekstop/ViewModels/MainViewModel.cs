@@ -82,7 +82,8 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageAbout ||
                 index == PageIndex.PageAnimeDetails ||
                 index == PageIndex.PageMessageDetails ||
-                index == PageIndex.PageCharacterDetails)
+                index == PageIndex.PageCharacterDetails ||
+                index == PageIndex.PageStaffDetails)
             {
                 OffRefreshButtonVisibility = Visibility.Collapsed;
                 mainPage = false;
@@ -288,6 +289,16 @@ namespace MALClient.ViewModels
                         ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
                     else
                         OffNavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
+                    break;
+                case PageIndex.PageStaffDetails:
+                    OffRefreshButtonVisibility = Visibility.Visible;
+                    RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
+                    OffContentVisibility = Visibility.Visible;
+
+                    if (CurrentOffPage == PageIndex.PageCharacterDetails)
+                        ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
+                    else
+                        OffNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

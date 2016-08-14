@@ -25,6 +25,7 @@ namespace MalClient.Shared.ViewModels.Details
         private ICommand _navigateMangaDetailsCommand;
         private bool _mangaographyVisibility;
         private List<FavouriteViewModel> _voiceActors;
+        private ICommand _navigateStaffDetailsCommand;
 
         public CharacterDetailsData Data
         {
@@ -78,14 +79,29 @@ namespace MalClient.Shared.ViewModels.Details
             }
         }
 
+        public ICommand NavigateStaffDetailsCommand
+            =>
+                _navigateStaffDetailsCommand ??
+                (_navigateStaffDetailsCommand =
+                    new RelayCommand<AnimeStaffPerson>(
+                        entry =>
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageCharacterDetails,_prevArgs);
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
+                                new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
+                        }));
+                            
+
         public ICommand NavigateAnimeDetailsCommand
             =>
                 _navigateAnimeDetailsCommand ??
                 (_navigateAnimeDetailsCommand =
                     new RelayCommand<AnimeLightEntry>(
                         entry =>
+                        {
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                                new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null, null))));
+                                new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null, null,_prevArgs) {Source = PageIndex.PageCharacterDetails});
+                        }));
 
         public ICommand NavigateMangaDetailsCommand
             =>
@@ -100,7 +116,9 @@ namespace MalClient.Shared.ViewModels.Details
 
         public async void Init(CharacterDetailsNavigationArgs args,bool force = false)
         {
-            if(_prevArgs?.Equals(args) ?? false)
+            if(Data != null)
+                ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
+            if (_prevArgs?.Equals(args) ?? false)
                 return;
 
             _prevArgs = args;

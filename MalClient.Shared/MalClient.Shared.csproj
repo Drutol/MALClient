@@ -279,6 +279,7 @@
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Details\StaffDetailsViewModel.cs" />
     <Compile Include="ViewModels\FavouriteViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />

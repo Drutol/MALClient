@@ -334,6 +334,8 @@ namespace MalClient.Shared.ViewModels
                 case PageIndex.PageHistory:
                 case PageIndex.PageArticles:
                 case PageIndex.PageForumIndex:
+                case PageIndex.PageStaffDetails:
+                case PageIndex.PageCharacterDetails:
                     await FetchData();
                     if (_prevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
@@ -905,6 +907,16 @@ namespace MalClient.Shared.ViewModels
                 {
                     ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,new CharacterDetailsNavigationArgs {Id = int.Parse(character.Id)});
+                }));
+
+        private ICommand _navigateStaffDetailsCommand;
+
+        public ICommand NavigateStaffDetailsCommand
+            => _navigateStaffDetailsCommand ?? (_navigateStaffDetailsCommand = new RelayCommand<AnimeStaffPerson>(
+                person =>
+                {
+                    ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,new StaffDetailsNaviagtionArgs {Id = int.Parse(person.Id)});
                 }));
 
 

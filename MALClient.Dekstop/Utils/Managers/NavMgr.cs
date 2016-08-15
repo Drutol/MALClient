@@ -98,7 +98,7 @@ namespace MALClient.Utils.Managers
         {
             _currentOverride = null;
             if (_randomNavigationStackOff.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void RegisterOneTimeMainOverride(ICommand command)
@@ -111,7 +111,7 @@ namespace MALClient.Utils.Managers
         {
             _currentOverrideMain = null;
             if(_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void CurrentMainViewOnBackRequested()

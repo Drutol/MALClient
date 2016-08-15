@@ -62,7 +62,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
-            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime)
+            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime || ViewModelLocator.AnimeDetails.Id == Id)
                 return;
             var id = Id;
             if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
@@ -463,7 +463,7 @@ namespace MalClient.Shared.ViewModels
                 return Auth || MyEpisodes != 0
                     ? $"{(ParentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +
                       $"{MyEpisodesFocused}/{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())}"
-                    : $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} Episodes";
+                    : $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : $"{(Settings.MangaFocusVolumes ? "Volumes" : "Chapters")}")}";
             }
         }
 
@@ -1022,21 +1022,28 @@ namespace MalClient.Shared.ViewModels
 
         #endregion
 
-        private async void ChangeStatus(object status)
+        private void ChangeStatus(object status)
+        {
+            ChangeStatus(Utilities.StatusToInt(status as string));
+        }
+
+        private async void ChangeStatus(int status)
         {
             LoadingUpdate = Visibility.Visible;
             var myPrevStatus = MyStatus;
-            MyStatus = Utilities.StatusToInt(status as string);
-
-            if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
+            MyStatus = status;
+            AnimeStatus stat = (AnimeStatus) status;
+            if (Settings.SetStartDateOnWatching && stat == AnimeStatus.Watching&&
                 (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
                 StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&
+            else if (Settings.SetEndDateOnDropped && stat == AnimeStatus.Dropped &&
                      (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
+            else if (Settings.SetEndDateOnCompleted &&  stat == AnimeStatus.Completed &&
                      (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+
+            ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
@@ -1106,11 +1113,7 @@ namespace MalClient.Shared.ViewModels
                 await msg.ShowAsync();
                 if (confirmation)
                 {
-                    var myPrevStatus = MyStatus;
-                    MyStatus = to;
-                    var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                    if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                        MyStatus = myPrevStatus;
+                    ChangeStatus(to);
                 }
             }
             catch (Exception)

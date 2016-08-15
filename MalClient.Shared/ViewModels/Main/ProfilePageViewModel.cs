@@ -86,6 +86,9 @@ namespace MALClient.ViewModels.Main
             if (args == null)
                 return;
 
+            if(args.TargetUser == Credentials.UserName)
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+
             if (_currUser == null || _currUser != args.TargetUser || force)
             {
                 LoadingVisibility = Visibility.Visible;
@@ -572,8 +575,21 @@ namespace MALClient.ViewModels.Main
                 (_navMangaListCommand =
                     new RelayCommand(
                         () =>
+                        {
+                            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
+                                new RelayCommand(
+                                    () =>
+                                    {
+                                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
+                                            new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
+                                    }));
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
-                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = _currUser, ResetBackNav = false })))
+                                new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga)
+                                {
+                                    ListSource = _currUser,
+                                    ResetBackNav = false
+                                });
+                        }))
             ;
 
         public ICommand LoadAboutMeCommand => _loadAboutMeCommand ?? (_loadAboutMeCommand = new RelayCommand(() =>

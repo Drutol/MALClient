@@ -1765,7 +1765,7 @@ namespace MalClient.Shared.ViewModels
             Title = _animeItemReference?.Title ?? data.Title;
             Type = data.Type;
             Status = data.Status;
-            Synopsis = data.Synopsis.Replace("quot;", "\"");
+            Synopsis = data.Synopsis.Replace("quot;", "\"").Replace("ndash;","-");
             StartDate = data.StartDate;
             EndDate = data.EndDate;
             GlobalScore = data.GlobalScore;
@@ -1951,7 +1951,7 @@ namespace MalClient.Shared.ViewModels
 
         public async void LoadReviews(bool force = false)
         {
-            if (LoadingRecommendations == Visibility.Visible || (_loadedReviews && !force && Initialized))
+            if (LoadingReviews == Visibility.Visible || (_loadedReviews && !force && Initialized))
                 return;
             LoadingReviews = Visibility.Visible;
             _loadedReviews = true;

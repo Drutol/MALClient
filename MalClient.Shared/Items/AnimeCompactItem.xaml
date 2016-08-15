@@ -11,6 +11,7 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
     </UserControl.Resources>
@@ -179,29 +180,31 @@
 
             </Grid>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <Grid Height="40" Width="40" Margin="5"
+                <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.Auth,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}">
+                    <Grid Height="40" Width="40" Margin="5"
                       Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
-                <Button VerticalAlignment="Center" Height="40" Margin="5" RenderTransformOrigin="0.5,0.5"
+                    <Button VerticalAlignment="Center" Height="40" Margin="5" RenderTransformOrigin="0.5,0.5"
                         Width="40" Command="{x:Bind ViewModel.DecrementWatchedCommand}"
                         Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Mode=OneWay}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                    <SymbolIcon Symbol="Remove" Foreground="White" />
-                    <Button.RenderTransform>
-                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0"/>
-                    </Button.RenderTransform>
-                </Button>
-                <Grid Height="40" Width="40" Margin="5"
+                        <SymbolIcon Symbol="Remove" Foreground="White" />
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0"/>
+                        </Button.RenderTransform>
+                    </Button>
+                    <Grid Height="40" Width="40" Margin="5"
                       Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
-                <Button Height="40" Width="40" Margin="5" RenderTransformOrigin="0.5,0.5"
+                    <Button Height="40" Width="40" Margin="5" RenderTransformOrigin="0.5,0.5"
                         Command="{x:Bind ViewModel.IncrementWatchedCommand}"
                         Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Mode=OneWay}"
                         VerticalAlignment="Center"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="0">
-                    <SymbolIcon Symbol="Add" Foreground="White" />
-                    <Button.RenderTransform>
-                        <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0"/>
-                    </Button.RenderTransform>
-                </Button>
+                        <SymbolIcon Symbol="Add" Foreground="White" />
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX=".75" ScaleY=".75" CenterX="0"/>
+                        </Button.RenderTransform>
+                    </Button>
+                </StackPanel>
                 <Button Content="{x:Bind ViewModel.MyEpisodesBind,Mode=OneWay}" FontWeight="SemiLight" Height="40"
                         Margin="0,5,5,5" VerticalAlignment="Center" Background="Transparent"
                         BorderThickness="0,0,0,2" Width="120"

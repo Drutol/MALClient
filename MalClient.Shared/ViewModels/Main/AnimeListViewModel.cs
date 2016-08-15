@@ -771,7 +771,8 @@ namespace MalClient.Shared.ViewModels.Main
                         target.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData, WorkMode != AnimeListWorkModes.TopManga));
                     else
                     {
-                        abstraction.AirDay = animeData.AirDay;
+                        if(animeData.AirDay != -1)
+                            abstraction.AirDay = animeData.AirDay;
                         if (updateScore)
                             abstraction.GlobalScore = animeData.Score;
                         abstraction.Index = animeData.Index;

@@ -289,6 +289,10 @@ namespace MALClient.Pages.Main
         }
 
 
-
+        private void ButtonCustomSeasonGo(object sender, RoutedEventArgs e)
+        {
+           if(!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
+                FlyoutSeasonSelection.Hide();
+        }
     }
 }

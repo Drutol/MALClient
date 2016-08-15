@@ -111,6 +111,7 @@ namespace MalClient.Shared.ViewModels
 
         }
 
+        public static bool Mobile { get; set; }
 
         public static IMainViewModel GeneralMain => ServiceLocator.Current.GetInstance<IMainViewModel>();
 

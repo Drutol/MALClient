@@ -126,12 +126,21 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
+        public AnimeListViewModel()
+        {
+            for (int i = 2000; i < 2018; i++)
+            {
+                SeasonYears.Add(i.ToString());
+            }
+        }
+
         public int CurrentIndexPosition { get; set; }
 
         public event AnimeItemListInitialized Initialized;
         public event ScrollIntoViewRequest ScrollIntoViewRequested;
         public event SortingSettingChange SortingSettingChanged;
         public event SelectionResetRequest SelectionResetRequested;
+        public event EmptyEventHander ResetSeasonSelection;
 
         public async void Init(AnimeListPageNavigationArgs args)
         {
@@ -1328,7 +1337,7 @@ namespace MalClient.Shared.ViewModels.Main
         /// </summary>
         public IAnimeListViewInteractions View { get; set; }
 
-        public AnimeListWorkModes _workMode;
+        private AnimeListWorkModes _workMode;
 
         public AnimeListWorkModes WorkMode
         {
@@ -1340,14 +1349,14 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
-        public TopAnimeType TopAnimeWorkMode { get; set; }
+        private TopAnimeType TopAnimeWorkMode { get; set; }
 
         private AnimeListDisplayModes _displayMode;
 
         public AnimeListDisplayModes DisplayMode
         {
             get { return _displayMode; }
-            set
+            private set
             {
                 if (_scrollHandlerAdded && CanAddScrollHandler)
                 {
@@ -1397,6 +1406,8 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
+        private bool _goingCustomSeason;
+
         private int _seasonalUrlsSelectedIndex;
 
         public int SeasonalUrlsSelectedIndex
@@ -1404,8 +1415,10 @@ namespace MalClient.Shared.ViewModels.Main
             get { return _seasonalUrlsSelectedIndex; }
             set
             {
-                if (value == _seasonalUrlsSelectedIndex || value < 0)
+                if (_goingCustomSeason || value == _seasonalUrlsSelectedIndex || value < 0)
                     return;
+                if (SeasonSelection.Count == 5) //additional custom season
+                    SeasonSelection.RemoveAt(4);
                 _seasonalUrlsSelectedIndex = value;
                 CurrentSeason = SeasonSelection[value];
                 RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
@@ -1413,6 +1426,41 @@ namespace MalClient.Shared.ViewModels.Main
                 FetchSeasonalData();
             }
         }
+
+        public List<string> SeasonSeasons { get; } = new List<string>
+        {
+            "Winter","Spring","Summer","Fall"
+        };
+
+        public List<string> SeasonYears { get; set; } = new List<string>();
+
+        public string CurrentlySelectedCustomSeasonSeason { get; set; }
+
+        public string CurrentlySelectedCustomSeasonYear { get; set; }
+
+        private ICommand _goToCustomSeasonCommand;
+
+        public ICommand GoToCustomSeasonCommand
+            => _goToCustomSeasonCommand ?? (_goToCustomSeasonCommand = new RelayCommand(
+                () =>
+                {
+
+                    if (string.IsNullOrEmpty(CurrentlySelectedCustomSeasonSeason) || string.IsNullOrEmpty(CurrentlySelectedCustomSeasonYear))
+                        return;
+                    _goingCustomSeason = true;
+                    if (SeasonSelection.Count == 5) //additional custom season
+                        SeasonSelection.RemoveAt(4);
+                    CurrentSeason = new AnimeSeason
+                    {
+                        Name = $"{CurrentlySelectedCustomSeasonSeason} {CurrentlySelectedCustomSeasonYear}",
+                        Url = $"http://myanimelist.net/anime/season/{CurrentlySelectedCustomSeasonYear}/{CurrentlySelectedCustomSeasonSeason.ToLower()}"
+                    };
+                    SeasonSelection.Add(CurrentSeason);
+                    _seasonalUrlsSelectedIndex = 4;
+                    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                    _goingCustomSeason = false;
+                    FetchSeasonalData();
+                }));
 
         private SortOptions _sortOption = SortOptions.SortNothing;
 

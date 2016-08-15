@@ -470,6 +470,15 @@ namespace MalClient.Shared.Comm.Profile
                 //restricted
             }
 
+            try
+            {
+                current.HtmlContent = doc.FirstOfDescendantsWithClass("div", "word-break").OuterHtml;
+            }
+            catch (Exception)
+            {
+                //
+            }
+
 
             if (_userName == Credentials.UserName) //umm why do we need someone's favs?
             {

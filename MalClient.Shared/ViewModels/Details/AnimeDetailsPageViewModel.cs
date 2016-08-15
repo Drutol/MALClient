@@ -339,7 +339,8 @@ namespace MalClient.Shared.ViewModels
                     await FetchData();
                     if (_prevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
-                    ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    if(ViewModelLocator.Mobile || (!ViewModelLocator.Mobile && param.Source != PageIndex.PageProfile))
+                        ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeDetails:
                     await FetchData();

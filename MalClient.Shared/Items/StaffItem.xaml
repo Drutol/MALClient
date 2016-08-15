@@ -17,7 +17,7 @@
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="MenuFlyout"> 
                 <MenuFlyoutItem
-                    Command="{Binding Source={StaticResource Locator} , Path=GeneralProfile.NavigatePersonPageCommand}"
+                    Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigatePersonPageCommand}"
                     CommandParameter="{Binding Data}" Text="Open in browser" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>

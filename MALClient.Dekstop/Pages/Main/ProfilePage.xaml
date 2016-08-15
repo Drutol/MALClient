@@ -5,8 +5,8 @@
     xmlns:local="using:MALClient"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items="using:MALClient.Items" 
-    xmlns:items1="using:MalClient.Shared.Items" 
+    xmlns:items="using:MALClient.Items"
+    xmlns:items1="using:MalClient.Shared.Items"
     xmlns:userControls="using:MalClient.Shared.UserControls"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:derived="using:MalClient.Shared.UserControls.Derived"
@@ -15,10 +15,10 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter"/>
-            <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
-            <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter"/>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter" />
+            <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+            <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -43,6 +43,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -51,13 +52,15 @@
 
                 <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
-                    <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent" Margin="0,4,0,0">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent"
+                            Margin="0,4,0,0">
                         <Button.Flyout>
                             <Flyout x:Name="GotoFlyout">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="GotoUserName" PlaceholderText="Username..." KeyDown="GotoUserName_OnKeyDown" Margin="5,0,0,0"/>
+                                    <TextBox x:Name="GotoUserName" PlaceholderText="Username..."
+                                             KeyDown="GotoUserName_OnKeyDown" Margin="5,0,0,0" />
                                     <Button Margin="5,0" Click="ButtonGotoProfileOnClick">
-                                        <SymbolIcon Symbol="Accept"/>
+                                        <SymbolIcon Symbol="Accept" />
                                     </Button>
                                 </StackPanel>
                             </Flyout>
@@ -75,11 +78,18 @@
                 <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <SymbolIcon Symbol="Favorite" />
+                        <SymbolIcon Symbol="Help" />
+                        <TextBlock Text="About" FontWeight="SemiLight" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SymbolIcon Symbol="Help" />
                         <TextBlock Text="Favs" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Clock" />
@@ -90,14 +100,14 @@
                         </TextBlock>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="AllApps" />
                         <TextBlock FontWeight="SemiLight" TextAlignment="Center" Text="Stats" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Comment" />
@@ -111,12 +121,14 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Grid Width="150" Height="150" Margin="5" Background="{ThemeResource BrushHamburgerInnerBackground}">
-                            <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                            <Image  Stretch="UniformToFill" >
+                        <Grid Width="150" Height="150" Margin="5"
+                              Background="{ThemeResource BrushHamburgerInnerBackground}">
+                            <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <Image Stretch="UniformToFill">
                                 <Image.Source>
-                                    <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}" DecodePixelType="Logical"
-                                             DecodePixelHeight="150" DecodePixelWidth="150" />
+                                    <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}"
+                                                 DecodePixelType="Logical"
+                                                 DecodePixelHeight="150" DecodePixelWidth="150" />
                                 </Image.Source>
                             </Image>
                         </Grid>
@@ -134,8 +146,9 @@
                                                 <ColumnDefinition Width="20" />
                                                 <ColumnDefinition Width=".5*" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Item1}" FontWeight="SemiLight"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Item2}" FontWeight="Medium" TextAlignment="Right"/>
+                                            <TextBlock Grid.Column="0" Text="{Binding Item1}" FontWeight="SemiLight" />
+                                            <TextBlock Grid.Column="2" Text="{Binding Item2}" FontWeight="Medium"
+                                                       TextAlignment="Right" />
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -148,14 +161,17 @@
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <Button Content="Manga list" Margin="5,0"
                                             Command="{Binding NavigateMangaListCommand}"
-                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />                                    
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <Button Content="History" Margin="5,0"
                                             Command="{Binding NavigateHistoryCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}" Visibility="{Binding PinProfileVisibility}">
-                                        <SymbolIcon Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}"/>
+                                    <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}"
+                                                  Visibility="{Binding PinProfileVisibility}">
+                                        <SymbolIcon
+                                            Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}" />
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu"/>
+                                            <ToolTip
+                                                Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu" />
                                         </ToolTipService.ToolTip>
                                     </ToggleButton>
                                 </StackPanel>
@@ -183,31 +199,45 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <ItemsControl Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+                <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Button Content="Load about me" Margin="5,0" HorizontalAlignment="Center"
+                            Command="{Binding LoadAboutMeCommand}"
+                            Visibility="{Binding LoadAboutMeButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    <ProgressRing Width="50" Height="50" IsActive="True"
+                                  Visibility="{Binding LoadingAboutMeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <ScrollViewer VerticalAlignment="Stretch" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <WebView x:Name="AboutMeWebView" Height="900"
+                             DOMContentLoaded="AboutMeWebView_OnDOMContentLoaded"
+                             NavigationStarting="AboutMeWebView_OnNavigationStarting"/>
+                    </ScrollViewer>
+                </Grid>
+                <ItemsControl Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <derived:TrueVariableWarpGrid SqeezeChildren="True"/> 
+                            <derived:TrueVariableWarpGrid SqeezeChildren="True" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch" Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch"
+                          Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
-                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <TextBlock Grid.Row="1"
-                                       Visibility="Collapsed"
-                                       Text="No favourite anime added yet..."
-                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
-                                       Margin="5" />
+                                   Visibility="Collapsed"
+                                   Text="No favourite anime added yet..."
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                   Margin="5" />
                         <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
-                                         VerticalAlignment="Center"
-                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                                     VerticalAlignment="Center"
+                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
-                                      ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
-                                      IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
+                                  ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
+                                  IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -225,23 +255,24 @@
                         </GridView>
                     </Grid>
                     <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch" Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch"
+                          Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
-                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <TextBlock Grid.Row="1" Visibility="Collapsed"
-                                       Text="No favourite manga added yet..."
-                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
-                                       Margin="5" />
+                                   Text="No favourite manga added yet..."
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                   Margin="5" />
                         <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
-                                         VerticalAlignment="Center"
-                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                                     VerticalAlignment="Center"
+                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
-                                      ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
-                     IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
+                                  ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
+                                  IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -259,21 +290,21 @@
                         </GridView>
                     </Grid>
                     <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              Margin="10"  HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime"
-                              Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Margin="10" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime"
+                          Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
-                                       FontSize="26"
-                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                   FontSize="26"
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <TextBlock Grid.Row="1" Visibility="Collapsed"
-                                       Text="No favourite characters added yet..."
-                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
-                                       Margin="5" />
+                                   Text="No favourite characters added yet..."
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                   Margin="5" />
                         <GridView Grid.Row="1" ItemsSource="{Binding FavouriteCharacters}"
-                                      HorizontalAlignment="Center" Margin="0,7,0,0">
+                                  HorizontalAlignment="Center" Margin="0,7,0,0">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -284,34 +315,35 @@
                             </GridView.ItemContainerStyle>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <items1:CharacterItem DataContext="{Binding}" PointerPressed="FavCharacter_OnClick"/>
+                                    <items1:CharacterItem DataContext="{Binding}" PointerPressed="FavCharacter_OnClick" />
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
                     </Grid>
                     <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                              HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          HorizontalAlignment="Stretch" Margin="10"
+                          Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
-                                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                   Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <TextBlock Grid.Row="1" Visibility="Collapsed"
-                                       Text="No favourite people added yet..."
-                                       TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
-                                       Margin="5" />
+                                   Text="No favourite people added yet..."
+                                   TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
+                                   Margin="5" />
                         <GridView Grid.Row="1" ItemsSource="{Binding FavouriteStaff}"
-                                      HorizontalAlignment="Center" Margin="0,7,0,0">
+                                  HorizontalAlignment="Center" Margin="0,7,0,0">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <items1:StaffItem DataContext="{Binding}" PointerPressed="FavCharacter_OnClick"/>
+                                    <items1:StaffItem DataContext="{Binding}" PointerPressed="FavCharacter_OnClick" />
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
                     </Grid>
                 </ItemsControl>
-                <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
+                <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".5*" />
                         <ColumnDefinition Width=".5*" />
@@ -345,7 +377,7 @@
                                          Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                             <GridView HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                       ItemsSource="{Binding RecentAnime}"
-                     IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
+                                      IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
                                         <items1:AnimeGridItem DataContext="{Binding}" />
@@ -373,7 +405,7 @@
                                      Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding RecentManga}" HorizontalAlignment="Center"
-                     IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
+                                  IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <items1:AnimeGridItem DataContext="{Binding}" />
@@ -382,7 +414,7 @@
                         </GridView>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="3">
+                <Grid Grid.Column="1" Grid.Row="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".5*" />
                         <ColumnDefinition Width=".5*" />
@@ -399,8 +431,8 @@
                                    VerticalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <userControls:StackedBarChartControl Grid.Row="1" VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center" MinWidth="350"
-                                                         DataSource="{Binding AnimeChartValues}" />
+                                                             HorizontalAlignment="Center" MinWidth="350"
+                                                             DataSource="{Binding AnimeChartValues}" />
                         <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
                               HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8,8,8,8">
                             <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -558,8 +590,8 @@
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <userControls:StackedBarChartControl VerticalAlignment="Center" Grid.Row="1"
-                                                         HorizontalAlignment="Center" MinWidth="350"
-                                                         DataSource="{Binding MangaChartValues}" />
+                                                             HorizontalAlignment="Center" MinWidth="350"
+                                                             DataSource="{Binding MangaChartValues}" />
                         <Grid Grid.Row="2" Background="{ThemeResource BrushAnimeItemBackground}"
                               HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8,8,8,8">
                             <StackPanel Margin="5,10" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -726,20 +758,25 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="4" Padding="10"
+                <Grid Grid.Column="1" Grid.Row="5" Padding="10"
                       Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top" Command="{Binding RefreshCommentsCommand}">
-                        <SymbolIcon Symbol="Refresh" Margin="5"/>
+                    <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top"
+                            Command="{Binding RefreshCommentsCommand}">
+                        <SymbolIcon Symbol="Refresh" Margin="5" />
                     </Button>
-                    <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                    <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight"
+                               FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
-                        <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch"
+                                Visibility="{Binding CommentInputBoxVisibility}">
+                        <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch"
+                                 Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50"
+                                 PlaceholderText="Type comment..." />
                         <Button Content="Send Comment" Margin="20,0"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />
@@ -777,30 +814,33 @@
                                                    Text="{Binding User.Name}" />
                                     </StackPanel>
                                     <TextBlock Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
-                                               TextAlignment="Left" Margin="10" HorizontalAlignment="Left" IsTextSelectionEnabled="True"/>
+                                               TextAlignment="Left" Margin="10" HorizontalAlignment="Left"
+                                               IsTextSelectionEnabled="True" />
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
                                                FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
-                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom">
                                         <Button Content="Conversation" Margin="5"
                                                 Visibility="{Binding ComToCom,Converter={StaticResource IsThereAnyTextToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.NavigateConversationCommand}"
-                                                CommandParameter="{Binding}"/>
+                                                CommandParameter="{Binding}" />
                                         <Button Content="Delete" Margin="5"
                                                 Visibility="{Binding CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.DeleteCommentCommand}"
-                                                CommandParameter="{Binding}"/>
+                                                CommandParameter="{Binding}" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity}"
-                                          Background="{ThemeResource BrushLoadingNonTransparent}"
-                                          Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
-                          IsActive="True" />
+                          Background="{ThemeResource BrushLoadingNonTransparent}"
+                          Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50"
+                                      Height="50"
+                                      IsActive="True" />
                     </Grid>
                 </Grid>
             </Grid>

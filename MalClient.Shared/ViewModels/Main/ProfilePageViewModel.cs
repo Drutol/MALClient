@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.MagicalRawQueries.Profile;
 using MalClient.Shared.Comm.Profile;
+using MalClient.Shared.Delegates;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.Favourites;
 using MalClient.Shared.Models.Library;
@@ -24,6 +25,8 @@ namespace MALClient.ViewModels.Main
 {
     public sealed class ProfilePageViewModel : ViewModelBase
     {
+        public event WebViewNavigationRequest OnWebViewNavigationRequest;
+
         //anime -<>- manga
         private readonly Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>
             _othersAbstractions =
@@ -106,6 +109,8 @@ namespace MALClient.ViewModels.Main
             FavouriteCharacters = new List<FavouriteViewModel>(CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
             FavouriteStaff = new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
             CommentInputBoxVisibility = string.IsNullOrEmpty(CurrentData.ProfileMemId) ? Visibility.Collapsed : Visibility.Visible; //posting restricted
+            LoadAboutMeButtonVisibility = true;
+            LoadingAboutMeVisibility = AboutMeWebViewVisibility = false;
             if (authenticatedUser)
             {
                 _initialized = true;
@@ -571,6 +576,18 @@ namespace MALClient.ViewModels.Main
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga) {ListSource = _currUser, ResetBackNav = false })))
             ;
 
+        public ICommand LoadAboutMeCommand => _loadAboutMeCommand ?? (_loadAboutMeCommand = new RelayCommand(() =>
+        {
+            LoadAboutMeButtonVisibility = false;           
+            if (!string.IsNullOrEmpty(CurrentData.HtmlContent))
+            {
+                LoadingAboutMeVisibility = true;
+                OnWebViewNavigationRequest?.Invoke(CurrentData.HtmlContent, false);
+            }
+            
+        }));
+
+
         public Visibility PinProfileVisibility
             => CurrentData.User.Name == null || Credentials.UserName == CurrentData.User.Name ? Visibility.Collapsed : Visibility.Visible;
 
@@ -659,6 +676,42 @@ namespace MALClient.ViewModels.Main
             }
         }
 
+        private bool _loadAboutMeButtonVisibility = true;
+
+        public bool LoadAboutMeButtonVisibility
+        {
+            get { return _loadAboutMeButtonVisibility; }
+            set
+            {
+                _loadAboutMeButtonVisibility = value;
+                RaisePropertyChanged(() => LoadAboutMeButtonVisibility);
+            }
+        }
+
+        private bool _loadingAboutMeVisibility = false;
+
+        public bool LoadingAboutMeVisibility
+        {
+            get { return _loadingAboutMeVisibility; }
+            set
+            {
+                _loadingAboutMeVisibility = value;
+                RaisePropertyChanged(() => LoadingAboutMeVisibility);
+            }
+        }
+
+        private bool _aboutMeWebViewVisibility = false;
+
+        public bool AboutMeWebViewVisibility
+        {
+            get { return _aboutMeWebViewVisibility; }
+            set
+            {
+                _aboutMeWebViewVisibility = value;
+                RaisePropertyChanged(() => AboutMeWebViewVisibility);
+            }
+        }
+
         private string _commentText;
 
         public string CommentText
@@ -672,6 +725,8 @@ namespace MALClient.ViewModels.Main
         }
 
         private bool _isSendCommentButtonEnabled = true;
+
+        private ICommand _loadAboutMeCommand;
 
         public bool IsSendCommentButtonEnabled
         {

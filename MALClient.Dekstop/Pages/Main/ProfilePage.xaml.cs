@@ -1,4 +1,6 @@
-﻿using Windows.System;
+﻿using System;
+using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -7,6 +9,7 @@ using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Items;
 using MalClient.Shared.Models;
 using MalClient.Shared.NavArgs;
+using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
@@ -36,6 +39,26 @@ namespace MALClient.Pages.Main
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             ViewModel.LoadProfileData(_lastArgs);
+            ViewModel.OnWebViewNavigationRequest += ViewModelOnOnWebViewNavigationRequest;
+        }
+
+        private void ViewModelOnOnWebViewNavigationRequest(string content, bool b)
+        {
+            var uiSettings = new UISettings();
+            var color = uiSettings.GetColorValue(UIColorType.Accent);
+            var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
+            var color2 = uiSettings.GetColorValue(UIColorType.AccentLight2);
+            var css = MalArticlesPage.Css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
+                Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
+                Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
+                .Replace("BodyBackgroundThemeColor",
+                    Settings.SelectedTheme == ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                .Replace("BodyForegroundThemeColor",
+                    Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black").Replace(
+                        "HorizontalSeparatorColor",
+                        Settings.SelectedTheme == ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
+            css += "</style>";
+            AboutMeWebView.NavigateToString(css + content);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -106,6 +129,25 @@ namespace MALClient.Pages.Main
         private void OnAnimeItemClick(object sender, ItemClickEventArgs e)
         {
             DesktopViewModelLocator.ProfilePage.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
+        }
+
+        private void AboutMeWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
+        {
+            ViewModel.AboutMeWebViewVisibility = true;
+            ViewModel.LoadingAboutMeVisibility = false;
+        }
+
+        private void AboutMeWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            args.Cancel = true;
+        }
+
+        private async void AboutMeWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            if(args.Uri == null)
+                return;
+            args.Cancel = true;
+            await Launcher.LaunchUriAsync(args.Uri);
         }
     }
 }

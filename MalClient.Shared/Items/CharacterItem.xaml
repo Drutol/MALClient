@@ -13,10 +13,10 @@
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="MenuFlyout">
                 <MenuFlyoutItem
-                    Command="{Binding Source={StaticResource Locator} , Path=GeneralProfile.NavigateCharPageCommand}"
+                    Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateCharPageCommand}"
                     CommandParameter="{Binding Data}" Text="Open in browser" />
                 <MenuFlyoutItem
-                    Command="{Binding Source={StaticResource Locator} , Path=GeneralProfile.NavigateDetailsCommand}"
+                    Command="{Binding Source={StaticResource Locator} , Path=ProfilePage.NavigateDetailsCommand}"
                     CommandParameter="{Binding Data}" Text="Open show details" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>

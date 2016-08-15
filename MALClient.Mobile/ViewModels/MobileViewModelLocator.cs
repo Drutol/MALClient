@@ -26,6 +26,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());          
             SimpleIoc.Default.Register<INavMgr,NavMgr>();
 
+            ViewModelLocator.Mobile = true;
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

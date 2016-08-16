@@ -85,7 +85,7 @@
                 <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <SymbolIcon Symbol="Help" />
+                        <SymbolIcon Symbol="Favorite" />
                         <TextBlock Text="Favs" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
@@ -212,10 +212,10 @@
                              NavigationStarting="AboutMeWebView_OnNavigationStarting"/>
                     </ScrollViewer>
                 </Grid>
-                <ItemsControl Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
+                <ItemsControl x:Name="FavsItemsControl" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <derived:TrueVariableWarpGrid SqeezeChildren="True" />
+                            <derived:TrueVariableWarpGrid SqeezeChildren="True"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"

@@ -64,7 +64,8 @@ namespace MALClient.ViewModels
             var wasOnSearchPage = SearchToggleLock;
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
-                var msg = new MessageDialog("Log in first in order to access this page.");
+                var msg = new MessageDialog("Log in first in order to access this page."
+                    ,"Login required.");
                 await msg.ShowAsync();
                 return;
             }
@@ -83,7 +84,8 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageAnimeDetails ||
                 index == PageIndex.PageMessageDetails ||
                 index == PageIndex.PageCharacterDetails ||
-                index == PageIndex.PageStaffDetails)
+                index == PageIndex.PageStaffDetails ||
+                index == PageIndex.PageLogIn)
             {
                 OffRefreshButtonVisibility = Visibility.Collapsed;
                 mainPage = false;
@@ -122,7 +124,6 @@ namespace MALClient.ViewModels
             else if (index == PageIndex.PageSearch ||
                      index == PageIndex.PageRecomendations ||
                      index == PageIndex.PageProfile ||
-                     index == PageIndex.PageLogIn ||
                      index == PageIndex.PageMangaSearch ||
                      index == PageIndex.PageCalendar ||
                      index == PageIndex.PageArticles ||
@@ -201,7 +202,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    MainNavigationRequested?.Invoke(typeof(LogInPage));
+                    OffContentVisibility = Visibility.Visible;
+                    OffNavigationRequested?.Invoke(typeof(LogInPage));
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
@@ -349,10 +351,13 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-
-                Navigate(Credentials.Authenticated
-                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                    : PageIndex.PageLogIn); //entry point whatnot
+                if (Credentials.Authenticated)
+                    Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList); //entry point whatnot
+                else
+                {
+                    Navigate(PageIndex.PageLogIn);
+                    Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General));
+                }
                 if (InitDetails != null)
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
 

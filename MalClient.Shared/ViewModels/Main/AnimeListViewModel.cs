@@ -121,8 +121,10 @@ namespace MalClient.Shared.ViewModels.Main
             {
                 var width = View?.ActualWidth ?? 1000;
                 var items = (int) width/ItemPrefferedWidth;
+                items = items == 0 ? 1 : items;
                 var widthRest = width - items*ItemPrefferedWidth;
-                return ItemPrefferedWidth + widthRest/items;
+                var sum = ItemPrefferedWidth + widthRest/items;
+                return sum < ItemPrefferedWidth ? ItemPrefferedWidth : sum;
             }
         }
 

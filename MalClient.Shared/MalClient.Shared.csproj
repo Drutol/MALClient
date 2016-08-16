@@ -112,6 +112,7 @@
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeDetailsMalQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -201,6 +202,7 @@
     </Compile>
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />
     <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RecomendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />

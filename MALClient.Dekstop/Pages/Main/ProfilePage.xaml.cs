@@ -1,9 +1,11 @@
 ﻿using System;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Items;
@@ -15,6 +17,8 @@ using MalClient.Shared.Utils.Managers;
 using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
 using MALClient.ViewModels.Main;
+using WinRTXamlToolkit.Controls.Extensions;
+using WinRTXamlToolkit.Tools;
 using ProfilePageNavigationArgs = MalClient.Shared.NavArgs.ProfilePageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -38,8 +42,22 @@ namespace MALClient.Pages.Main
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            ViewModel.OnInitialized += ViewModelOnOnInitialized;
             ViewModel.LoadProfileData(_lastArgs);
             ViewModel.OnWebViewNavigationRequest += ViewModelOnOnWebViewNavigationRequest;
+        }
+
+        private void ViewModelOnOnInitialized()
+        {
+            try
+            {
+                var children = FavsItemsControl.GetChildren();
+                children.ForEach(child => (child as FrameworkElement).InvalidateMeasure());
+            }
+            catch (Exception)
+            {
+                //dangerous stuff is happening up there
+            }
         }
 
         private void ViewModelOnOnWebViewNavigationRequest(string content, bool b)

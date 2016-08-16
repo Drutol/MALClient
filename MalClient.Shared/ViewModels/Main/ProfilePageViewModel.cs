@@ -26,6 +26,7 @@ namespace MALClient.ViewModels.Main
     public sealed class ProfilePageViewModel : ViewModelBase
     {
         public event WebViewNavigationRequest OnWebViewNavigationRequest;
+        public event EmptyEventHander OnInitialized;
 
         //anime -<>- manga
         private readonly Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>
@@ -96,14 +97,14 @@ namespace MALClient.ViewModels.Main
                     Task.Run(
                         async () =>
                             CurrentData = await new ProfileQuery(false, args?.TargetUser ?? "").GetProfileData(force));
-                _currUser = args?.TargetUser ?? Credentials.UserName;
+                _currUser = args.TargetUser ?? Credentials.UserName;
             }
             FavAnime = new List<AnimeItemViewModel>();
             FavManga = new List<AnimeItemViewModel>();
             RecentManga = new List<AnimeItemViewModel>();
             RecentAnime = new List<AnimeItemViewModel>();
             ViewModelLocator.GeneralMain.CurrentStatus = $"{_currUser} - Profile";
-            var authenticatedUser = args.TargetUser == Credentials.UserName;
+            var authenticatedUser = args.TargetUser.Equals(Credentials.UserName,StringComparison.CurrentCultureIgnoreCase);
             RaisePropertyChanged(() => CurrentData);
             LoadingVisibility = Visibility.Collapsed;
             RaisePropertyChanged(() => IsPinned);
@@ -276,6 +277,7 @@ namespace MALClient.ViewModels.Main
             EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+            OnInitialized?.Invoke();
         }
 
         private void NavigateDetails(AnimeCharacter character)
@@ -605,7 +607,7 @@ namespace MALClient.ViewModels.Main
 
 
         public Visibility PinProfileVisibility
-            => CurrentData.User.Name == null || Credentials.UserName == CurrentData.User.Name ? Visibility.Collapsed : Visibility.Visible;
+            => CurrentData.User.Name == null || Credentials.UserName.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase) ? Visibility.Collapsed : Visibility.Visible;
 
 
         public Visibility EmptyFavAnimeNoticeVisibility

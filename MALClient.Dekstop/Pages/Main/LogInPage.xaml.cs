@@ -26,7 +26,7 @@ namespace MALClient.Pages.Main
             InitializeComponent();
 
             ViewModelLocator.GeneralMain
-                .CurrentStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
+                .CurrentOffStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
             switch (Settings.SelectedApiType)
             {
                 case ApiType.Mal:

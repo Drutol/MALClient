@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MalClient.Shared.Models.AnimeScrapped;
@@ -29,7 +30,7 @@ namespace MalClient.Shared.Comm.Anime
 
         public async Task<AnimeScrappedDetails> GetDetails(bool force)
         {
-            var possibleData =
+            var possibleData = force ? null :
                 await DataCache.RetrieveData<AnimeScrappedDetails>(_id.ToString(), "anime_details_scrapped", 14);
             if (possibleData != null)
                 return possibleData;
@@ -66,7 +67,7 @@ namespace MalClient.Shared.Comm.Anime
                 }
                 if (child.Name == "div")
                 {
-                    currentString = WebUtility.HtmlDecode(child.InnerText.Trim());
+                    currentString = Regex.Replace(WebUtility.HtmlDecode(child.InnerText.Replace('\n',' ').Trim()), @"[ ]{2,}", " ");
                     switch (currentStage)
                     {
                         case 1:
@@ -95,7 +96,7 @@ namespace MalClient.Shared.Comm.Anime
                     output.Openings.Add(WebUtility.HtmlDecode(row.InnerText));
                 }
             }
-         
+            DataCache.SaveData(output,_id.ToString(), "anime_details_scrapped");
             return output;
         }
     }

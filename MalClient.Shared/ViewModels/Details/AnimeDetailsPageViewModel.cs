@@ -158,7 +158,10 @@ namespace MalClient.Shared.ViewModels
         public ObservableCollection<string> LeftGenres { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> RightGenres { get; } = new ObservableCollection<string>();
 
-        public ObservableCollection<Tuple<string, string>> Episodes { get; } =
+        public ObservableCollection<Tuple<string, string>> Information { get; } =
+            new ObservableCollection<Tuple<string, string>>();
+
+        public ObservableCollection<Tuple<string, string>> Stats { get; } =
             new ObservableCollection<Tuple<string, string>>();
 
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
@@ -1820,131 +1823,49 @@ namespace MalClient.Shared.ViewModels
             LoadingDetails = Visibility.Visible;
             LeftGenres.Clear();
             RightGenres.Clear();
-            Episodes.Clear();
+            Information.Clear();
+            Stats.Clear();
             OPs.Clear();
             EDs.Clear();
             var currSource = DataSource.Hummingbird;
-            try
+            var data = await new AnimeDetailsMalQuery(Id, _animeMode).GetDetails(force);
+            //Now we can build elements here
+            var i = 1;
+            foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))
             {
-                AnimeDetailsData data;
-                switch (Settings.PrefferedDataSource)
-                {
-                    case DataSource.Ann:
-                        data =
-                            await
-                                new AnimeDetailsAnnQuery(
-                                    _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
-                                    .GetGeneralDetailsData(force);
-                        break;
-                    case DataSource.Hummingbird:
-                        data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
-                        break;
-                    case DataSource.AnnHum:
-                        data = await new AnimeDetailsAnnQuery(
-                            _synonyms.Count == 1 ? Title : string.Join("&title=~", _synonyms), Id, Title)
-                            .GetGeneralDetailsData(force);
-                        if (data == null || data.Genres.Count == 0 || data.Episodes.Count == 0)
-                            data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails(force);
-
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                SourceLink = data.Source == DataSource.Ann
-                    ? SourceLink = $"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={data.SourceId}"
-                    : $"https://hummingbird.me/anime/{data.SourceId}";
-                //Let's try to pull moar Genres data from MAL
-
-                DetailsSource = data.Source == DataSource.Ann ? "Source : AnimeNewsNetwork" : "Source : Hummingbird";
-                currSource = data.Source;
-                if (data.Source == DataSource.Ann)
-                {
-                    VolatileDataCache genresData;
-                    if (DataCache.TryRetrieveDataForId(Id, out genresData) && genresData.Genres != null)
-                    {
-                        foreach (var genreMal in genresData.Genres)
-                        {
-                            if (
-                                data.Genres.All(
-                                    genreAnn =>
-                                        !string.Equals(genreAnn, genreMal, StringComparison.CurrentCultureIgnoreCase)))
-                            {
-                                data.Genres.Add(Utilities.FirstCharToUpper(genreMal));
-                            }
-                        }
-                    }
-                }
-                //Now we can build elements here
-                var i = 1;
-                foreach (var genre in data.Genres)
-                {
-                    if (i%2 == 0)
-                        LeftGenres.Add(Utilities.FirstCharToUpper(genre));
-                    else
-                        RightGenres.Add(Utilities.FirstCharToUpper(genre));
-                    i++;
-                }
-                i = 1;
-                foreach (var episode in data.Episodes.Take(40))
-                    Episodes.Add(new Tuple<string, string>($"{i++}.", episode));
-                if (data.Episodes.Count > 40)
-                    Episodes.Add(new Tuple<string, string>("?.", $"{data.Episodes.Count - 40} More episodes..."));
-
-                if (data.Source == DataSource.Ann)
-                {
-                    DetailsOpsVisibility = Visibility.Visible;
-                    DetailsEdsVisibility = Visibility.Visible;
-
-                    foreach (var op in data.OPs)
-                        OPs.Add(op);
-                    foreach (var ed in data.EDs)
-                        EDs.Add(ed);
-                }
+                if (i%2 == 0)
+                    LeftGenres.Add(Utilities.FirstCharToUpper(genre));
                 else
-                {
-                    DetailsOpsVisibility = Visibility.Collapsed;
-                    DetailsEdsVisibility = Visibility.Collapsed;
-                }
-
-
-                DetailedDataVisibility = Visibility.Visible;
-                AnnSourceButtonVisibility = Visibility.Visible;
+                    RightGenres.Add(Utilities.FirstCharToUpper(genre));
+                i++;
             }
-            catch (Exception)
+
+            foreach (var info in data.Information)
             {
-                if (currSource == DataSource.Ann)
-                {
-                    VolatileDataCache genresData;
-                    // we may fail to pull genres from ann so we have this from MAL season page 
-                    if (DataCache.TryRetrieveDataForId(Id, out genresData))
-                    {
-                        AnnSourceButtonVisibility = Visibility.Collapsed;
-                        DetailedDataVisibility = Visibility.Visible;
-                        var i = 1;
-                        foreach (var genre in genresData.Genres ?? new List<string>())
-                        {
-                            if (i%2 == 0)
-                                LeftGenres.Add(Utilities.FirstCharToUpper(genre));
-                            else
-                                RightGenres.Add(Utilities.FirstCharToUpper(genre));
-                            i++;
-                        }
-                    }
-                }
-                else
-                    DetailedDataVisibility = Visibility.Collapsed;
+                var infoString = info;
+                infoString = infoString.Replace(", add some", "");
+                var parts = infoString.Split(':');
+                Information.Add(new Tuple<string, string>(parts[0],string.Join(":",parts.Skip(1))));
             }
-            NoEpisodesDataVisibility = Episodes.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoGenresDataVisibility = LeftGenres.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            NoEDsDataVisibility = EDs.Count == 0 && currSource == DataSource.Ann
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-            NoOPsDataVisibility = OPs.Count == 0 && currSource == DataSource.Ann
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-            if (Episodes.Count == 0 && LeftGenres.Count == 0 && EDs.Count == 0 && OPs.Count == 0)
-                DetailedDataVisibility = Visibility.Collapsed;
+
+            foreach (var statistic in data.Statistics)
+            {
+                var infoString = statistic;
+                var pos = infoString.IndexOf("1 indicates");
+                if (pos != -1)
+                    infoString = infoString.Substring(0, pos);
+                pos = infoString.IndexOf("2 based");
+                if (pos != -1)
+                    infoString = infoString.Substring(0, pos);
+
+                var parts = infoString.Split(':');
+                Stats.Add(new Tuple<string, string>(parts[0], parts[1]));
+            }
+
+            foreach (var op in data.Openings)
+                OPs.Add(op);
+            foreach (var ed in data.Endings)
+                EDs.Add(ed);
 
             LoadingDetails = Visibility.Collapsed;
         }
@@ -2075,7 +1996,6 @@ namespace MalClient.Shared.ViewModels
             }
             LoadingCharactersVisibility = Visibility.Collapsed;
         }
-
         #endregion
     }
 }

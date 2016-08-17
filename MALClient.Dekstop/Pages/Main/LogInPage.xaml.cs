@@ -61,7 +61,7 @@ namespace MALClient.Pages.Main
 
         private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("http://myanimelist.net/register.php"));
+            await Launcher.LaunchUriAsync(new Uri("https://myanimelist.net/register.php"));
         }
 
         private async void ButtonRegisterHum_OnClick(object sender, RoutedEventArgs e)

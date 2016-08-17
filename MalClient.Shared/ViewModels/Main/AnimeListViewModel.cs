@@ -695,7 +695,7 @@ namespace MalClient.Shared.ViewModels.Main
             var setDefaultSeason = false;
             if (CurrentSeason == null)
             {
-                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
+                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "https://myanimelist.net/anime/season"};
                 setDefaultSeason = true;
             }
             ViewModelLocator.GeneralMain.CurrentStatus = "Downloading data...\nThis may take a while...";

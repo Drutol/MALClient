@@ -817,7 +817,7 @@ namespace MalClient.Shared.ViewModels
                            if (Settings.SelectedApiType == ApiType.Mal)
                            {
                                dp.SetText(
-                                   $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                                   $"https://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            }
                            else
                            {
@@ -843,7 +843,7 @@ namespace MalClient.Shared.ViewModels
                                await
                                    Launcher.LaunchUriAsync(
                                        new Uri(
-                                           $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                                           $"https://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                            }
                            else
                            {

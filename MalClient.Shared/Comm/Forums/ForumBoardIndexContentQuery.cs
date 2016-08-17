@@ -15,7 +15,7 @@ namespace MalClient.Shared.Comm.Forums
         public ForumBoardIndexContentQuery()
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString("http://myanimelist.net/forum/"));
+                WebRequest.Create(Uri.EscapeUriString("https://myanimelist.net/forum/"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

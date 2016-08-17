@@ -1,5 +1,11 @@
 [
   {
+    "Title": "Mal is going https...",
+    "Date": "17.08.2016",
+    "Type": "Info",
+    "Content": "MAL is switching from http to https... You can expect some features to break, I'll do my best to issue an update asap."
+  },
+  {
     "Title": "Forums are coming this week!",
     "Date": "10.08.2016",
     "Type": "Updates",

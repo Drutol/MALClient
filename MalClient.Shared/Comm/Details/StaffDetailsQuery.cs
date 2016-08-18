@@ -30,7 +30,7 @@ namespace MalClient.Shared.Comm.Details
 
         public async Task<StaffDetailsData> GetStaffDetails(bool force)
         {
-            var possibleData = await DataCache.RetrieveData<StaffDetailsData>(_id.ToString(), "staff_details", 30);
+            var possibleData = force ? null : await DataCache.RetrieveData<StaffDetailsData>(_id.ToString(), "staff_details", 30);
             if (possibleData != null)
                 return possibleData;
 

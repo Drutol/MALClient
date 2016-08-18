@@ -26,6 +26,7 @@ namespace MalClient.Shared.ViewModels.Details
         private bool _mangaographyVisibility;
         private List<FavouriteViewModel> _voiceActors;
         private ICommand _navigateStaffDetailsCommand;
+        private bool _loading;
 
         public CharacterDetailsData Data
         {
@@ -114,22 +115,33 @@ namespace MalClient.Shared.ViewModels.Details
 
         public FavouriteViewModel FavouriteViewModel => Data == null ? null : new FavouriteViewModel(new AnimeCharacter { Id = Data.Id.ToString()});
 
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged(() => Loading);
+            }
+        }
+
         public async void Init(CharacterDetailsNavigationArgs args,bool force = false)
         {
             if(Data != null)
                 ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
             if (_prevArgs?.Equals(args) ?? false)
                 return;
-
+            Loading = true;
             _prevArgs = args;
 
-            Data = await new CharacterDetailsQuery(args.Id).GetCharacterDetails();
+            Data = await new CharacterDetailsQuery(args.Id).GetCharacterDetails(force);
             SpoilerButtonVisibility = !string.IsNullOrEmpty(Data.SpoilerContent);
             AnimeographyVisibility = Data.Animeography.Any();
             MangaographyVisibility = Data.Mangaography.Any();
             VoiceActors = Data.VoiceActors.Select(actor => new FavouriteViewModel(actor)).ToList();
             RaisePropertyChanged(() => FavouriteViewModel);
             ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
+            Loading = false;
         }
 
         public void RefreshData()

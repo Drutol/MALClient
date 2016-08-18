@@ -29,7 +29,7 @@ namespace MalClient.Shared.Comm.Details
 
         public async Task<CharacterDetailsData> GetCharacterDetails(bool force = false)
         {
-            var possibleData = await DataCache.RetrieveData<CharacterDetailsData>(_id.ToString(), "character_details", 30);
+            var possibleData = force ? null : await DataCache.RetrieveData<CharacterDetailsData>(_id.ToString(), "character_details", 30);
             if (possibleData != null)
                 return possibleData;
 

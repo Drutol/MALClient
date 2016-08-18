@@ -133,7 +133,9 @@ namespace MALClient
                 if (vm.AreThereItemsWaitingForLoad)
                     ViewModelLocator.AnimeList.RefreshList();
             }
-
+            if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0)
+                DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);
+            
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
         }
 

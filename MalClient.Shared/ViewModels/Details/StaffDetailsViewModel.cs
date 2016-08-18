@@ -22,6 +22,7 @@ namespace MalClient.Shared.ViewModels.Details
         private StaffDetailsNaviagtionArgs _prevArgs;
         private ICommand _navigateAnimeDetailsCommand;
         private ICommand _navigateCharacterDetailsCommand;
+        private bool _loading;
 
         public event PivotItemSelectionRequest OnPivotItemSelectionRequest;
 
@@ -62,18 +63,29 @@ namespace MalClient.Shared.ViewModels.Details
         public FavouriteViewModel FavouriteViewModel
             => Data == null ? null : new FavouriteViewModel(new AnimeStaffPerson {Id = Data.Id.ToString()});
 
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged(() => Loading);
+            }
+        }
+
         public async void Init(StaffDetailsNaviagtionArgs args, bool force = false)
         {
             if (Data != null)
                 ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
             if (_prevArgs?.Equals(args) ?? false)
                 return;
-
+            Loading = true;
             _prevArgs = args;
             Data = await new StaffDetailsQuery(args.Id).GetStaffDetails(force);
             if(Data.ShowCharacterPairs.Count == 0)
                 OnPivotItemSelectionRequest?.Invoke(1);
             ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
+            Loading = false;
         }
 
         public void RefreshData()

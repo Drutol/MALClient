@@ -745,6 +745,8 @@ namespace MALClient.ViewModels.Main
         private bool _isSendCommentButtonEnabled = true;
 
         private ICommand _loadAboutMeCommand;
+        private ICommand _navigateCharacterDetailsCommand;
+        private ICommand _navigateStaffDetailsCommand;
 
         public bool IsSendCommentButtonEnabled
         {
@@ -755,6 +757,30 @@ namespace MALClient.ViewModels.Main
                 RaisePropertyChanged(() => IsSendCommentButtonEnabled);
             }
         }
+
+        public ICommand NavigateCharacterDetailsCommand
+            =>
+                _navigateCharacterDetailsCommand ??
+                (_navigateCharacterDetailsCommand =
+                    new RelayCommand<AnimeCharacter>(
+                        entry =>
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,
+                                new CharacterDetailsNavigationArgs {Id = int.Parse(entry.Id)});
+                        }));
+
+        public ICommand NavigateStaffDetailsCommand
+            =>
+                _navigateStaffDetailsCommand ??
+                (_navigateStaffDetailsCommand =
+                    new RelayCommand<FavouriteBase>(
+                        entry =>
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
+                                new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
+                        }));
 
         #endregion
     }

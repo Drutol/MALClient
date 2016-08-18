@@ -35,18 +35,21 @@
                 </Image.Source>
             </Image>
         </Grid>
-        <ToggleButton Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0"
-                      Height="35" Width="35"
+        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".75" />
+            </Grid.Background>
+            <ToggleButton 
+                      Height="40" Width="40"
                       IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
                       IsEnabled="{Binding IsFavouriteButtonEnabled}">
-            <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}" />
-            <ToggleButton.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </ToggleButton.Background>
-            <ToolTipService.ToolTip>
-                <ToolTip Content="Favourite" />
-            </ToolTipService.ToolTip>
-        </ToggleButton>
+                <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}" />
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="Favourite" />
+                </ToolTipService.ToolTip>
+            </ToggleButton>
+        </Grid>
+
         <Grid Row="1" HorizontalAlignment="Stretch"
               Background="{ThemeResource BrushAnimeItemBackground}"
               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"

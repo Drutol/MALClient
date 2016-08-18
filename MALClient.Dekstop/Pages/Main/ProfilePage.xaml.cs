@@ -114,7 +114,20 @@ namespace MALClient.Pages.Main
             e.Handled = true;
         }
 
-        private void FavCharacter_OnClick(object sender, PointerRoutedEventArgs e)
+        private void FavCharacter_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateCharacterDetailsCommand.Execute(
+                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+        }
+
+        private void FavPerson_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateStaffDetailsCommand.Execute(
+                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+        }
+
+
+        private void FavCharacter_OnRightClick(object sender, RightTappedRoutedEventArgs e)
         {
             var grid = sender as IItemWithFlyout;
             grid?.ShowFlyout();
@@ -167,5 +180,6 @@ namespace MALClient.Pages.Main
             args.Cancel = true;
             await Launcher.LaunchUriAsync(args.Uri);
         }
+
     }
 }

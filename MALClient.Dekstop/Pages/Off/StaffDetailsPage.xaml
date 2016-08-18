@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:new="using:MalClient.Shared.UserControls.New"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=StaffDetails}">
 
     <Page.Resources>
@@ -13,10 +14,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         </ResourceDictionary>
     </Page.Resources>
-    
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+
+    <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="200"/>
             <RowDefinition Height="*"/>
@@ -27,9 +29,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Image Stretch="Uniform" VerticalAlignment="Top" Height="250" Width="125">
+            <Image Stretch="Uniform" VerticalAlignment="Top" Height="250" Width="150">
                 <Image.Source>
-                    <BitmapImage DecodePixelWidth="125" DecodePixelHeight="250" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
+                    <BitmapImage DecodePixelWidth="150" DecodePixelHeight="250" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
                 </Image.Source>
             </Image>
             <Grid Grid.Column="1">
@@ -39,7 +41,7 @@
                 <ItemsControl ItemsSource="{Binding Data.Details}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="5" TextWrapping="WrapWholeWords" Text="{Binding}"/>
+                            <TextBlock IsTextSelectionEnabled="True" Margin="5" TextWrapping="WrapWholeWords" Text="{Binding}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -72,10 +74,10 @@
                             </ItemsControl.ItemContainerStyle>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid Padding="4,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="133"/>
-                                            <ColumnDefinition Width="133"/>
+                                            <ColumnDefinition Width="131"/>
+                                            <ColumnDefinition Width="131"/>
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Column="0" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                         Command="{Binding Source={StaticResource Locator},Path=StaffDetails.NavigateAnimeDetailsCommand}" 
@@ -128,7 +130,8 @@
                         </ItemsControl>
                     </ScrollViewer>
                 </PivotItem.Content>
-            </PivotItem><PivotItem Header="Production Roles" Padding="0" Margin="0">
+            </PivotItem>
+            <PivotItem Header="Production Roles" Padding="0" Margin="0">
                 <PivotItem.Content>
                     <ScrollViewer>
                         <ItemsControl ItemsSource="{Binding  Data.StaffPositions}" VerticalAlignment="Stretch">
@@ -175,5 +178,11 @@
                 </PivotItem.Content>
             </PivotItem>
         </Pivot>
+
+        <Grid Grid.Row="1" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{ThemeResource BrushLoading}">
+            <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
+                          IsActive="True" />
+        </Grid>
     </Grid>
 </Page>

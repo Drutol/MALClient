@@ -113,8 +113,8 @@
             </Grid>
         </ScrollViewer>
 
-        <Grid Grid.Row="1" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
-              Background="{ThemeResource BrushLoading}">
+        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{ThemeResource BrushLoadingNonTransparent}">
             <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>

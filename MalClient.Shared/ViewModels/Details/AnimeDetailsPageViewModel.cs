@@ -36,7 +36,7 @@ namespace MalClient.Shared.ViewModels
         private int _allVolumes;
         private string _alternateImgUrl;
         private IAnimeData _animeItemReference; //our connection with everything
-        private bool _animeMode;
+        public bool AnimeMode { get; set; }
 
         private AnimeStaffDataViewModels _animeStaffData;
         private float _globalScore;
@@ -216,7 +216,7 @@ namespace MalClient.Shared.ViewModels
 
             //basic init assignment
             _animeItemReference = param.AnimeItem;
-            _animeMode = param.AnimeMode;
+            AnimeMode = param.AnimeMode;
             Id = param.Id;
             Title = param.Title;
             if (Settings.SelectedApiType == ApiType.Mal)
@@ -225,7 +225,7 @@ namespace MalClient.Shared.ViewModels
                 MalId = -1; //we will find this thing later
 
             //is manga stuff visibile
-            if (_animeMode)
+            if (AnimeMode)
             {
                 MyVolumesVisibility = Visibility.Collapsed;
                 HiddenPivotItemIndex = -1;
@@ -236,7 +236,7 @@ namespace MalClient.Shared.ViewModels
                 HiddenPivotItemIndex = 1;
             }
             //favs
-            IsFavourite = FavouritesManager.IsFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,
+            IsFavourite = FavouritesManager.IsFavourite(AnimeMode ? FavouriteType.Anime : FavouriteType.Manga,
                 Id.ToString());
             //staff
             CharactersGridVisibility = MangaCharacterGridVisibility = Visibility.Collapsed;
@@ -248,9 +248,9 @@ namespace MalClient.Shared.ViewModels
             StartDateValid = false;
             EndDateValid = false;
             _alternateImgUrl = null;
-            PivotItemDetailsVisibility = _animeMode ? Visibility.Visible : Visibility.Collapsed;
+            PivotItemDetailsVisibility = AnimeMode ? Visibility.Visible : Visibility.Collapsed;
 
-            if (_animeMode)
+            if (AnimeMode)
             {
                 Status1Label = "Watching";
                 Status5Label = "Plan to watch";
@@ -271,7 +271,7 @@ namespace MalClient.Shared.ViewModels
                 //if we are from search or from unauthenticated item let's look for proper abstraction
             {
                 var possibleRef =
-                    await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, _animeMode);
+                    await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(param.Id, AnimeMode);
                 if (possibleRef == null) // else we don't have this item
                 {
                     //we may only prepare for its creation
@@ -373,12 +373,12 @@ namespace MalClient.Shared.ViewModels
             if (Settings.SelectedApiType == ApiType.Mal)
             {
                 await
-                    Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+                    Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
             else
             {
                 await
-                    Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(_animeMode ? "anime" : "manga")}/{Id}"));
+                    Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
         }
 
@@ -401,7 +401,7 @@ namespace MalClient.Shared.ViewModels
                         {
                             Source = PageIndex.PageAnimeDetails,
                             RegisterBackNav = false,
-                            AnimeMode = _animeMode,
+                            AnimeMode = AnimeMode,
                             SourceTabIndex = DetailsPivotSelectedIndex
                         })
                     {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
@@ -476,7 +476,7 @@ namespace MalClient.Shared.ViewModels
             }
         }
 
-        public string MyStatusBind => Utilities.StatusToString(MyStatus, !_animeMode);
+        public string MyStatusBind => Utilities.StatusToString(MyStatus, !AnimeMode);
 
         private int MyStatus
         {
@@ -888,7 +888,7 @@ namespace MalClient.Shared.ViewModels
                            new RelayCommand<string>(
                                async opt =>
                                {
-                                   if (_animeMode || (!_animeMode && opt != "hum"))
+                                   if (AnimeMode || (!AnimeMode && opt != "hum"))
                                        Utilities.DownloadCoverImage(
                                            opt == "hum"
                                                ? (_alternateImgUrl ??
@@ -933,7 +933,7 @@ namespace MalClient.Shared.ViewModels
                     new RelayCommand(
                         () =>
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                                new ForumsBoardNavigationArgs(Id, Title, _animeMode))));
+                                new ForumsBoardNavigationArgs(Id, Title, AnimeMode))));
 
         private ICommand _toggleFavouriteCommand;
 
@@ -944,11 +944,11 @@ namespace MalClient.Shared.ViewModels
                 IsFavourite = !IsFavourite;
                 if (IsFavourite)
                     await
-                        FavouritesManager.AddFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,
+                        FavouritesManager.AddFavourite(AnimeMode ? FavouriteType.Anime : FavouriteType.Manga,
                             Id.ToString());
                 else
                     await
-                        FavouritesManager.RemoveFavourite(_animeMode ? FavouriteType.Anime : FavouriteType.Manga,
+                        FavouritesManager.RemoveFavourite(AnimeMode ? FavouriteType.Anime : FavouriteType.Manga,
                             Id.ToString());
                 var reference = _animeItemReference as AnimeItemViewModel;
                 if (reference != null)
@@ -1075,11 +1075,11 @@ namespace MalClient.Shared.ViewModels
                     var dp = new DataPackage();
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
-                        dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                        dp.SetText($"http://www.myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}");
                     }
                     else
                     {
-                        dp.SetText($"https://hummingbird.me/{(_animeMode ? "anime" : "manga")}/{Id}");
+                        dp.SetText($"https://hummingbird.me/{(AnimeMode ? "anime" : "manga")}/{Id}");
                     }
                     Clipboard.SetContent(dp);
                     Utilities.GiveStatusBarFeedback("Copied to clipboard...");
@@ -1401,7 +1401,7 @@ namespace MalClient.Shared.ViewModels
 
         private Query GetAppropriateUpdateQuery()
         {
-            if (_animeMode)
+            if (AnimeMode)
                 return new AnimeUpdateQuery(_animeItemReference);
             return new MangaUpdateQuery(_animeItemReference);
         }
@@ -1574,12 +1574,12 @@ namespace MalClient.Shared.ViewModels
         {
             LoadingUpdate = true;
             AddAnimeBtnEnableState = false;
-            var response = _animeMode
+            var response = AnimeMode
                 ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                 : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             LoadingUpdate = false;
             AddAnimeBtnEnableState = true;
-            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created") && _animeMode)
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created") && AnimeMode)
                 return;
             AddAnimeVisibility = false;
             AnimeType typeA;
@@ -1587,7 +1587,7 @@ namespace MalClient.Shared.ViewModels
             var type = 0;
             try
             {
-                if (_animeMode)
+                if (AnimeMode)
                 {
                     Enum.TryParse(Type, out typeA);
                     type = (int) typeA;
@@ -1611,7 +1611,7 @@ namespace MalClient.Shared.ViewModels
                 _startDateTimeOffset = DateTimeOffset.Now; //update without mal-update
                 RaisePropertyChanged(() => StartDateTimeOffset);
             }
-            var animeItem = _animeMode
+            var animeItem = AnimeMode
                 ? new AnimeItemAbstraction(true, new AnimeLibraryItemData
                 {
                     Title = Title,
@@ -1681,7 +1681,7 @@ namespace MalClient.Shared.ViewModels
             LoadingUpdate = true;
             RemoveAnimeBtnEnableState = false;
 
-            var response = _animeMode
+            var response = AnimeMode
                 ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
                 : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
 
@@ -1705,7 +1705,7 @@ namespace MalClient.Shared.ViewModels
         private void PopulateData()
         {
             var model = _animeItemReference as AnimeItemViewModel;
-            if (model != null && _animeMode)
+            if (model != null && AnimeMode)
             {
                 var day = -1;
                 try
@@ -1733,7 +1733,7 @@ namespace MalClient.Shared.ViewModels
             LeftDetailsRow = new List<Tuple<string, string>>();
             RightDetailsRow = new List<Tuple<string, string>>();
 
-            LeftDetailsRow.Add(new Tuple<string, string>(_animeMode ? "Episodes" : "Chapters",
+            LeftDetailsRow.Add(new Tuple<string, string>(AnimeMode ? "Episodes" : "Chapters",
                 AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start",
@@ -1782,7 +1782,7 @@ namespace MalClient.Shared.ViewModels
                 _synonyms[i] = Regex.Replace(_synonyms[i], @" ?\(.*?\)", string.Empty);
             //removes string from brackets (sthsth) lol ->  lol
             AllEpisodes = data.AllEpisodes;
-            if (!_animeMode)
+            if (!AnimeMode)
                 AllVolumes = data.AllVolumes;
 
             PopulateData();
@@ -1794,7 +1794,7 @@ namespace MalClient.Shared.ViewModels
 
             try
             {
-                var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, _animeMode);
+                var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, AnimeMode);
                 ExtractData(data);
             }
             catch (Exception)
@@ -1828,7 +1828,7 @@ namespace MalClient.Shared.ViewModels
             OPs.Clear();
             EDs.Clear();
             var currSource = DataSource.Hummingbird;
-            var data = await new AnimeDetailsMalQuery(Id, _animeMode).GetDetails(force);
+            var data = await new AnimeDetailsMalQuery(Id, AnimeMode).GetDetails(force);
             //Now we can build elements here
             var i = 1;
             foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))
@@ -1843,6 +1843,8 @@ namespace MalClient.Shared.ViewModels
             foreach (var info in data.Information)
             {
                 var infoString = info;
+                if(info.StartsWith("Genres:"))
+                    continue;
                 infoString = infoString.Replace(", add some", "");
                 var parts = infoString.Split(':');
                 Information.Add(new Tuple<string, string>(parts[0],string.Join(":",parts.Skip(1))));
@@ -1866,7 +1868,7 @@ namespace MalClient.Shared.ViewModels
                 OPs.Add(op);
             foreach (var ed in data.Endings)
                 EDs.Add(ed);
-
+            RaisePropertyChanged(() => AnimeMode);
             LoadingDetails = Visibility.Collapsed;
         }
 
@@ -1878,7 +1880,7 @@ namespace MalClient.Shared.ViewModels
             _loadedReviews = true;
             Reviews.Clear();
             var revs = new List<AnimeReviewData>();
-            await Task.Run(async () => revs = await new AnimeReviewsQuery(MalId, _animeMode).GetAnimeReviews(force));
+            await Task.Run(async () => revs = await new AnimeReviewsQuery(MalId, AnimeMode).GetAnimeReviews(force));
             if (revs == null)
             {
                 LoadingReviews = Visibility.Collapsed;
@@ -1903,7 +1905,7 @@ namespace MalClient.Shared.ViewModels
                 Task.Run(
                     async () =>
                         recomm =
-                            await new AnimeDirectRecommendationsQuery(MalId, _animeMode).GetDirectRecommendations(force));
+                            await new AnimeDirectRecommendationsQuery(MalId, AnimeMode).GetDirectRecommendations(force));
             if (recomm == null)
             {
                 LoadingRecommendations = Visibility.Collapsed;
@@ -1924,7 +1926,7 @@ namespace MalClient.Shared.ViewModels
             _loadedRelated = true;
             RelatedAnime.Clear();
             var related = new List<RelatedAnimeData>();
-            await Task.Run(async () => related = await new AnimeRelatedQuery(MalId, _animeMode).GetRelatedAnime(force));
+            await Task.Run(async () => related = await new AnimeRelatedQuery(MalId, AnimeMode).GetRelatedAnime(force));
             if (related == null)
             {
                 LoadingRelated = Visibility.Collapsed;
@@ -1939,7 +1941,7 @@ namespace MalClient.Shared.ViewModels
 
         private async void LoadHummingbirdCoverImageMobile()
         {
-            if (!_animeMode)
+            if (!AnimeMode)
             {
                 AlternateImageUnavailableNoticeVisibility = Visibility.Visible;
                 return;
@@ -1964,7 +1966,7 @@ namespace MalClient.Shared.ViewModels
 
         private async Task<string> LoadHummingbirdCoverImage()
         {
-            if (!_animeMode)
+            if (!AnimeMode)
             {
                 return null;
             }
@@ -1984,9 +1986,9 @@ namespace MalClient.Shared.ViewModels
         {
             LoadingCharactersVisibility = Visibility.Visible;
             LoadCharactersButtonVisibility = Visibility.Collapsed;
-            if (_animeMode)
+            if (AnimeMode)
             {
-                AnimeStaffData = new AnimeStaffDataViewModels(await new AnimeCharactersStaffQuery(Id, _animeMode).GetCharStaffData(force));
+                AnimeStaffData = new AnimeStaffDataViewModels(await new AnimeCharactersStaffQuery(Id, AnimeMode).GetCharStaffData(force));
                 CharactersGridVisibility = Visibility.Visible;
             }
             else //broken for now -> malformed html

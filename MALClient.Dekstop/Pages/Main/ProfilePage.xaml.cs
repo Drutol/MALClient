@@ -76,6 +76,12 @@ namespace MALClient.Pages.Main
                         "HorizontalSeparatorColor",
                         Settings.SelectedTheme == ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
             css += "</style>";
+            if (content.Length < 400)
+                AboutMeWebView.Height = 300;
+            else if (content.Length < 800)
+                AboutMeWebView.Height = 500;
+            else
+                AboutMeWebView.Height = 800;
             AboutMeWebView.NavigateToString(css + content);
         }
 

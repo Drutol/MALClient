@@ -19,6 +19,7 @@
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter" />
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
             <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter" />
+            <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -75,12 +76,22 @@
                         <TextBlock Text="General" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Help" />
                         <TextBlock Text="About" FontWeight="SemiLight" />
                     </StackPanel>
+                </Grid>                
+                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding LoadAboutMeButtonVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                    <Button HorizontalAlignment="Stretch" Height="50" Background="Transparent" Padding="0" Command="{Binding ToggleAboutMeWebViewVisibilityCommand}">
+                        <SymbolIcon Symbol="View" RenderTransformOrigin=".5,.5">
+                            <SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
+                    </Button>
                 </Grid>
                 <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
@@ -207,7 +218,7 @@
                     <ProgressRing Width="50" Height="50" IsActive="True"
                                   Visibility="{Binding LoadingAboutMeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                     <ScrollViewer VerticalAlignment="Stretch" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                        <WebView x:Name="AboutMeWebView" Height="900"
+                        <WebView x:Name="AboutMeWebView"
                              DOMContentLoaded="AboutMeWebView_OnDOMContentLoaded"
                              NavigationStarting="AboutMeWebView_OnNavigationStarting"/>
                     </ScrollViewer>

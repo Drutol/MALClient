@@ -47,55 +47,63 @@ namespace MalClient.Shared.Comm.Anime
             bool recording = false;
             string currentString = "";
             int currentStage = 0;
-            foreach (var child in doc.FirstOfDescendantsWithClass("div", "js-scrollfix-bottom").ChildNodes)
+            try
             {
+                foreach (var child in doc.FirstOfDescendantsWithClass("div", "js-scrollfix-bottom").ChildNodes)
+                {
 
-                if (!recording)
-                {
-                    if (child.Attributes.Contains("class") &&
-                        child.Attributes["class"].Value.Contains("js-sns-icon-container"))
-                        recording = true;
-                    continue;
-                }
-                if (child.Name == "div" && child.Attributes.Contains("class") && child.Attributes["class"].Value.Contains("mauto"))
-                    break;
-
-                if (child.Name == "h2")
-                {
-                    currentStage++;
-                    continue;
-                }
-                if (child.Name == "div")
-                {
-                    currentString = Regex.Replace(WebUtility.HtmlDecode(child.InnerText.Replace('\n',' ').Trim()), @"[ ]{2,}", " ");
-                    switch (currentStage)
+                    if (!recording)
                     {
-                        case 1:
-                            output.AlternativeTitles.Add(currentString);
-                            break;
-                        case 2:
-                            output.Information.Add(currentString);
-                            break;
-                        case 3:
-                            output.Statistics.Add(currentString);
-                            break;
+                        if (child.Attributes.Contains("class") &&
+                            child.Attributes["class"].Value.Contains("js-sns-icon-container"))
+                            recording = true;
+                        continue;
+                    }
+                    if (child.Name == "div" && child.Attributes.Contains("class") && child.Attributes["class"].Value.Contains("mauto"))
+                        break;
+
+                    if (child.Name == "h2")
+                    {
+                        currentStage++;
+                        continue;
+                    }
+                    if (child.Name == "div")
+                    {
+                        currentString = Regex.Replace(WebUtility.HtmlDecode(child.InnerText.Replace('\n', ' ').Trim()), @"[ ]{2,}", " ");
+                        switch (currentStage)
+                        {
+                            case 1:
+                                output.AlternativeTitles.Add(currentString);
+                                break;
+                            case 2:
+                                output.Information.Add(currentString);
+                                break;
+                            case 3:
+                                output.Statistics.Add(currentString);
+                                break;
+                        }
+                    }
+
+
+                }
+
+                if (_anime)
+                {
+                    foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs ending").Descendants("span"))
+                    {
+                        output.Endings.Add(WebUtility.HtmlDecode(row.InnerText));
+                    }
+                    foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs opnening").Descendants("span"))
+                    {
+                        output.Openings.Add(WebUtility.HtmlDecode(row.InnerText));
                     }
                 }
-
-
             }
-
-            if (_anime)
+            catch (Exception)
             {
-                foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs ending").Descendants("span"))
-                {
-                    output.Endings.Add(WebUtility.HtmlDecode(row.InnerText));
-                }
-                foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs opnening").Descendants("span"))
-                {
-                    output.Openings.Add(WebUtility.HtmlDecode(row.InnerText));
-                }
+                //hatemeł
             }
+            
             DataCache.SaveData(output,_id.ToString(), "anime_details_scrapped");
             return output;
         }

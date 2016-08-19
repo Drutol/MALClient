@@ -372,8 +372,7 @@
             </Grid>
         </Grid>
         <Pivot x:Name="MainPivot" Grid.Row="1" Grid.ColumnSpan="2" PivotItemLoading="Pivot_OnPivotItemLoading"
-               Tag="PivotMainDetails"
-               extensions:PivotExtensions.HidePivotItemIndex="{x:Bind ViewModel.HiddenPivotItemIndex,Mode=OneWay}"
+               Tag="PivotMainDetails"              
                SelectedIndex="{Binding DetailsPivotSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}">
@@ -668,7 +667,7 @@
                                                                 </Grid.RowDefinitions>
                                                                 <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                                <Image Grid.Row="0">
+                                                                <Image Grid.Row="0" Stretch="Fill">
                                                                     <Image.Source>
                                                                         <BitmapImage
                                                                         UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
@@ -815,7 +814,7 @@
                         Details
                     </PivotItem.Header>
                     <PivotItem.Content>
-                        <ScrollViewer>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
                             <Grid VerticalAlignment="Stretch">
                                 <TextBlock
                                     Visibility="{Binding DetailedDataVisibility,Converter={StaticResource VisiblityInverterConverter}}"
@@ -885,7 +884,7 @@
                                                                 <ColumnDefinition Width="*" />
                                                             </Grid.ColumnDefinitions>
                                                             <TextBlock Grid.Column="0" Text="{Binding Item1}" VerticalAlignment="Center" TextAlignment="Center"
-                                                                   HorizontalAlignment="Center" FontWeight="SemiBold" />
+                                                                   HorizontalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                                                             <TextBlock Grid.Column="1" Text="{Binding Item2}"
                                                                    HorizontalAlignment="Center" FontWeight="SemiLight" VerticalAlignment="Center" TextAlignment="Center"
                                                                    TextTrimming="CharacterEllipsis" />
@@ -916,11 +915,12 @@
                                                 </ListView.ItemTemplate>
                                             </userControls:AlternatingListView>
                                         </StackPanel>
-                                        <MenuFlyoutSeparator Margin="0,5"/>
-                                        <TextBlock Text="Opening themes" FontWeight="Bold"
+                                        <StackPanel Visibility="{Binding AnimeMode,Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <MenuFlyoutSeparator Margin="0,5"/>
+                                            <TextBlock Text="Opening themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
-                                        <userControls:AlternatingListView ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                            <userControls:AlternatingListView ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                 <ListView.Resources>
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -934,10 +934,10 @@
                                                 </ListView.ItemTemplate>
                                             </userControls:AlternatingListView>
                                             <MenuFlyoutSeparator Margin="0,5" />
-                                        <TextBlock Text="Ending themes" FontWeight="Bold"
+                                            <TextBlock Text="Ending themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
-                                        <userControls:AlternatingListView ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                            <userControls:AlternatingListView ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                 <ListView.Resources>
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -952,6 +952,7 @@
 
                                             </userControls:AlternatingListView>
                                         </StackPanel>
+                                    </StackPanel>
                                 </Grid>
                                 <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonOpaque}">

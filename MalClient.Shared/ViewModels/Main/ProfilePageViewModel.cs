@@ -747,6 +747,7 @@ namespace MALClient.ViewModels.Main
         private ICommand _loadAboutMeCommand;
         private ICommand _navigateCharacterDetailsCommand;
         private ICommand _navigateStaffDetailsCommand;
+        private ICommand _toggleAboutMeWebViewVisibilityCommand;
 
         public bool IsSendCommentButtonEnabled
         {
@@ -780,6 +781,16 @@ namespace MALClient.ViewModels.Main
                             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
                                 new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
+                        }));
+
+        public ICommand ToggleAboutMeWebViewVisibilityCommand
+            =>
+                _toggleAboutMeWebViewVisibilityCommand ??
+                (_toggleAboutMeWebViewVisibilityCommand =
+                    new RelayCommand<FavouriteBase>(
+                        entry =>
+                        {
+                            AboutMeWebViewVisibility = !AboutMeWebViewVisibility;
                         }));
 
         #endregion

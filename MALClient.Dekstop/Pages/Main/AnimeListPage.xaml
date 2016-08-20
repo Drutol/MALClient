@@ -322,7 +322,7 @@
                 </Grid>
             </GridView.Footer>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-5,0" ItemsSource="{Binding AnimeGridItems}"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
                   MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"

@@ -136,7 +136,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageMessanging ||
                      index == PageIndex.PageForumIndex ||
                      index == PageIndex.PageMessanging ||
-                     index == PageIndex.PageHistory)
+                     index == PageIndex.PageHistory ||
+                     index == PageIndex.PageCharacterSearch)
             {
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
                 currPage = index;
@@ -312,8 +313,10 @@ namespace MALClient.ViewModels
                     ToggleSearchStuff();
                     
                     SearchToggleLock = true;
-                    View.SearchInputFocus(FocusState.Keyboard);
+                    
                     MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
+                    await Task.Delay(10);
+                    View.SearchInputFocus(FocusState.Keyboard);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
@@ -796,17 +799,18 @@ private bool _menuPaneState;
             }
         }
 
-        private void NavigateSearch(object args)
+        private async void NavigateSearch(object args)
         {
             SearchToggleLock = true;
             ShowSearchStuff();
             ToggleSearchStuff();
-            View.SearchInputFocus(FocusState.Keyboard);
             if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
             {             
                 (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
             }
             MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
+            await Task.Delay(10);
+            View.SearchInputFocus(FocusState.Keyboard);
         }
 
         private void SetSearchHints()

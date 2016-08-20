@@ -110,6 +110,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Off\CharacterDetailsPage.xaml.cs">
+      <DependentUpon>CharacterDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Main\CharacterSearchPage.xaml.cs">
+      <DependentUpon>CharacterSearchPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Forums\ForumBoardPage.xaml.cs">
       <DependentUpon>ForumBoardPage.xaml</DependentUpon>
     </Compile>
@@ -150,9 +156,6 @@
     <Compile Include="Pages\Main\RecomendationsPage.xaml.cs">
       <DependentUpon>RecomendationsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\CharacterDetailsPage.xaml.cs">
-      <DependentUpon>CharacterDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Off\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -189,6 +192,7 @@
     <Content Include="Assets\GitHub-Mark-120px-plus.png" />
     <Content Include="Assets\GitHub-Mark-Light-120px-plus.png" />
     <Content Include="Assets\hummingbird150x150.scale-200.png" />
+    <Content Include="Assets\LogInBG.PNG" />
     <Content Include="Assets\mallonglogo300x150.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -205,6 +209,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\CharacterDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Main\CharacterSearchPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -272,10 +284,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Off\CharacterDetailsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Off\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,8 +325,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Off\StaffDetailsPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\HamburgerControl.xaml">
       <Generator>MSBuild:Compile</Generator>

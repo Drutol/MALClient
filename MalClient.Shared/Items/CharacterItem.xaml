@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MalClient.Shared.Items"
+    xmlns:ext="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -27,7 +28,8 @@
         <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch" Background="Transparent"
               BorderBrush="Transparent">
-            <Image Stretch="UniformToFill" Width="200" Height="325">
+            <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Image Stretch="UniformToFill" Width="200" Height="325" ext:ImageExtensions.FadeInOnLoaded="True">
                 <Image.Source>
                     <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                  DecodePixelHeight="325"

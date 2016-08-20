@@ -52,8 +52,10 @@ namespace MALClient
                 var paneState = (sender as MainViewModel).MenuPaneState;
                 HamburgerControl.Width = paneState ? 250 : 60;
                 LogoImage.Visibility = paneState ? Visibility.Visible : Visibility.Collapsed;
-
-
+            }
+            else if (args.PropertyName == "OffContentVisibility")
+            {
+                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible ? 16 : 0);
             }
 
         }

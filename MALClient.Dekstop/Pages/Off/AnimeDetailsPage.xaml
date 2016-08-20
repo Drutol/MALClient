@@ -693,7 +693,6 @@
                                                             </Grid>
                                                         </Button>
                                                     </Grid>
-                                                    
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

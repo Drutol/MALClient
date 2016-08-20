@@ -123,6 +123,12 @@ namespace MALClient.Pages.Main
             };
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ViewModelLocator.AnimeList.OnNavigatedFrom();
+            base.OnNavigatedFrom(e);
+        }
+
         private void ViewModelOnScrollRequest(AnimeItemViewModel item,bool select = false)
         {
             switch (ViewModel.DisplayMode)

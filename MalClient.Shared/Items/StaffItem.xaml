@@ -5,6 +5,7 @@
     xmlns:local="using:MalClient.Shared.Items"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -21,7 +22,8 @@
                     CommandParameter="{Binding Data}" Text="Open in browser" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
-        <Image Stretch="UniformToFill">
+        <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Image Grid.Row="0" Stretch="UniformToFill" extensions:ImageExtensions.FadeInOnLoaded="True">
             <Image.Source>
                 <BitmapImage UriSource="{Binding Data.ImgUrl}"
                              DecodePixelHeight="325"

@@ -1857,7 +1857,7 @@ namespace MalClient.Shared.ViewModels
                     infoString = infoString.Substring(0, pos-1);
                 pos = infoString.IndexOf("2 based");
                 if (pos != -1)
-                    infoString = infoString.Substring(0, pos-1);
+                    infoString = infoString.Substring(0, pos-2);
 
                 var parts = infoString.Split(':');
                 Stats.Add(new Tuple<string, string>(parts[0], parts[1]));

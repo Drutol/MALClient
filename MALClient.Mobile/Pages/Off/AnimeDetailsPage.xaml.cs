@@ -28,14 +28,12 @@ namespace MALClient.Pages.Off
             var param = e.Parameter as AnimeDetailsPageNavigationArgs;
             if (param == null)
                 throw new Exception("No paramaters for this page");
-            if (!param.AnimeMode)
-                MainPivot.Items.RemoveAt(1);
             ViewModel.Init(param);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            DataContext = null;
+            ViewModelLocator.AnimeDetails.Id = 0;
             base.OnNavigatingFrom(e);
         }
 

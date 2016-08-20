@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.NavArgs;
+using MalClient.Shared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +24,25 @@ namespace MALClient.Pages.Off
     /// </summary>
     public sealed partial class StaffDetailsPage : Page
     {
+        private StaffDetailsNaviagtionArgs _lastArgs;
+
         public StaffDetailsPage()
         {
             this.InitializeComponent();
+            Loaded += (a, b) =>
+            {
+                var vm = ViewModelLocator.StaffDetails;
+                vm.OnPivotItemSelectionRequest += index => Pivot.SelectedIndex = index;
+                vm.Init(_lastArgs);
+            };
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            _lastArgs = e.Parameter as StaffDetailsNaviagtionArgs;
+            base.OnNavigatedTo(e);
         }
     }
+
+   
 }

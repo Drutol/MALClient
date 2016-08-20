@@ -120,7 +120,7 @@
                     Visibility="{Binding RefreshButtonVisibility}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
-            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" />
+            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" Visibility="{Binding OffContentVisibility}"/>
             <Grid Column="5" Visibility="{Binding OffContentVisibility}" Width="{Binding OffContentStatusBarWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -202,7 +202,7 @@
             <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition x:Name="SplitterColumn" MaxWidth="16" Width="0" />
                     <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
 

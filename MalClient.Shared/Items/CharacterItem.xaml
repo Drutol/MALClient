@@ -35,7 +35,7 @@
                 </Image.Source>
             </Image>
         </Grid>
-        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{ThemeResource BrushFavouriteStarBackground}" Padding="0" Margin="0">
+        <Grid x:Name="FavouriteButton" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{ThemeResource BrushFavouriteStarBackground}" Padding="0" Margin="0">
             <ToggleButton 
                       Height="40" Width="40"
                       IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"

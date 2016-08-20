@@ -24,5 +24,6 @@
         PageHistory,
         PageCharacterDetails,
         PageStaffDetails,
+        PageCharacterSearch,
     }
 }

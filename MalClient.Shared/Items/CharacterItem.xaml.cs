@@ -24,6 +24,12 @@ namespace MalClient.Shared.Items
             this.InitializeComponent();
         }
 
+        public Visibility FavouriteButtonVisibility
+        {
+            get { return FavouriteButton.Visibility; }
+            set { FavouriteButton.Visibility = value; }
+        }
+
         public void ShowFlyout()
         {
             MenuFlyout.ShowAt(this);

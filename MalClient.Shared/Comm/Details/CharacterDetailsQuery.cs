@@ -81,8 +81,15 @@ namespace MalClient.Shared.Comm.Details
                     }
                 }               
                 var image = leftColumn.Descendants("img").First();
-                output.ImgUrl = image.Attributes["src"].Value;
-                output.Name = image.Attributes["alt"].Value;
+                if (image.Attributes.Contains("alt"))
+                {
+                    output.ImgUrl = image.Attributes["src"].Value;
+                    output.Name = image.Attributes["alt"].Value;
+                }
+                else
+                {
+                    output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
+                }
                 output.Content = output.SpoilerContent = "";
                 output.Content += WebUtility.HtmlDecode(leftColumn.LastChild.InnerText.Trim()) + "\n\n";
                 foreach (var node in columns[1].ChildNodes)

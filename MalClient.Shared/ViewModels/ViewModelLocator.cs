@@ -53,6 +53,8 @@ namespace MalClient.Shared.ViewModels
         bool IsCurrentStatusSelectable { get; set; }
         PageIndex? CurrentOffPage { get; set; }
         Visibility OffContentVisibility { get; set; }
+        event SearchQuerySubmitted OnSearchQuerySubmitted;
+        event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
     }
 
     public interface IHamburgerViewModel
@@ -110,6 +112,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<HistoryViewModel>();
             SimpleIoc.Default.Register<CharacterDetailsViewModel>();
             SimpleIoc.Default.Register<StaffDetailsViewModel>();
+            SimpleIoc.Default.Register<CharacterSearchViewModel>();
 
         }
 
@@ -155,6 +158,9 @@ namespace MalClient.Shared.ViewModels
 
         public static StaffDetailsViewModel StaffDetails
             => ServiceLocator.Current.GetInstance<StaffDetailsViewModel>();
+
+        public static CharacterSearchViewModel CharacterSearch
+            => ServiceLocator.Current.GetInstance<CharacterSearchViewModel>();
 
         //Forums
 

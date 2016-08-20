@@ -43,8 +43,6 @@ namespace MalClient.Shared.ViewModels.Main
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
-        private int _allPages;
-
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =
             new SmartObservableCollection<AnimeItemViewModel>();
 
@@ -52,6 +50,7 @@ namespace MalClient.Shared.ViewModels.Main
             new List<AnimeItemAbstraction>(); //All for current list        
 
         private bool _initializing;
+        private bool _queryHandler;
 
         public bool ResetedNavBack { get; set; } = true;
 
@@ -142,7 +141,6 @@ namespace MalClient.Shared.ViewModels.Main
         public event ScrollIntoViewRequest ScrollIntoViewRequested;
         public event SortingSettingChange SortingSettingChanged;
         public event SelectionResetRequest SelectionResetRequested;
-        public event EmptyEventHander ResetSeasonSelection;
 
         public async void Init(AnimeListPageNavigationArgs args)
         {
@@ -159,6 +157,13 @@ namespace MalClient.Shared.ViewModels.Main
 
             if (args == null || args.ResetBackNav)
                 ViewModelLocator.NavMgr.ResetMainBackNav();
+
+            if (!_queryHandler)
+            {
+                ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
+                ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
+            }
+            _queryHandler = true;
 
             //give visual feedback
             Loading = true;
@@ -291,6 +296,18 @@ namespace MalClient.Shared.ViewModels.Main
             SortingSettingChanged?.Invoke(SortOption, SortDescending);
             Initializing = false;
             UpdateUpperStatus();
+        }
+
+        public void OnNavigatedFrom()
+        {
+            ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted -= OnOnSearchDelayedQuerySubmitted;
+            ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= OnOnSearchDelayedQuerySubmitted;
+            _queryHandler = false;
+        }
+
+        private void OnOnSearchDelayedQuerySubmitted(string query)
+        {
+            RefreshList(true);
         }
 
         /// <summary>

@@ -55,6 +55,8 @@ namespace MALClient.ViewModels
         public event OffContentPaneStateChanged OffContentPaneStateChanged;
         public event NavigationRequest MainNavigationRequested;
         public event NavigationRequest OffNavigationRequested;
+        public event SearchQuerySubmitted OnSearchQuerySubmitted;
+        public event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
 
         public async void Navigate(PageIndex index, object args = null)
         {
@@ -72,8 +74,6 @@ namespace MALClient.ViewModels
             }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = Visibility.Collapsed;
-
-            await new CharacterSearchQuery("aoyama").GetSearchResults();
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
 
@@ -307,6 +307,14 @@ namespace MALClient.ViewModels
                     else
                         OffNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
                     break;
+                case PageIndex.PageCharacterSearch:
+                    ShowSearchStuff();
+                    ToggleSearchStuff();
+                    
+                    SearchToggleLock = true;
+                    View.SearchInputFocus(FocusState.Keyboard);
+                    MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -496,7 +504,7 @@ private bool _menuPaneState;
                 if (SearchToggleLock) return;
                 
                 if(string.IsNullOrEmpty(value))
-                    ViewModelLocator.AnimeList.RefreshList(true);
+                    OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
                 else
                     SubmitSearchQueryWithDelayCheck();
             }
@@ -771,7 +779,7 @@ private bool _menuPaneState;
             SearchInputVisibility = SearchToggleStatus;
             if (!SearchToggleLock)
             {
-                ViewModelLocator.AnimeList.RefreshList(true);
+                OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
             }
             else
             {
@@ -783,7 +791,9 @@ private bool _menuPaneState;
         public void OnSearchInputSubmit()
         {
             if (SearchToggleLock)
-                ViewModelLocator.SearchPage.SubmitQuery(CurrentSearchQuery);
+            {
+                OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
+            }
         }
 
         private void NavigateSearch(object args)
@@ -791,9 +801,9 @@ private bool _menuPaneState;
             SearchToggleLock = true;
             ShowSearchStuff();
             ToggleSearchStuff();
+            View.SearchInputFocus(FocusState.Keyboard);
             if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
-            {
-                View.SearchInputFocus(FocusState.Keyboard);
+            {             
                 (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
             }
             MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
@@ -816,7 +826,7 @@ private bool _menuPaneState;
             string query = CurrentSearchQuery;
             await Task.Delay(500);
             if(query == CurrentSearchQuery)
-                ViewModelLocator.AnimeList.RefreshList(true);
+                OnSearchDelayedQuerySubmitted?.Invoke(CurrentSearchQuery);
         }
 
         #region UIHelpers

@@ -23,14 +23,16 @@ namespace MalClient.Shared.ViewModels.Main
     public class SearchPageViewModel : ViewModelBase
     {
         private bool _animeSearch; // default to anime
-
+        private bool _queryHandler;
         public string PrevQuery;
 
         public void Init(SearchPageNavigationArgs args)
         {
             if (_animeSearch != args.Anime)
                 PrevQuery = null;
-
+            if(!_queryHandler)
+                ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += SubmitQuery;
+            _queryHandler = true;
             _currrentFilter = null;
             _animeSearch = args.Anime;
             if (!string.IsNullOrWhiteSpace(args.Query))
@@ -44,6 +46,12 @@ namespace MalClient.Shared.ViewModels.Main
                 AnimeSearchItems.Clear();
                 ResetQuery();
             }
+        }
+
+        public void OnNavigatedFrom()
+        {
+            ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= SubmitQuery;
+            _queryHandler = false;
         }
 
         public async void SubmitQuery(string query)

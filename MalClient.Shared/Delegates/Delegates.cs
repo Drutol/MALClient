@@ -27,4 +27,8 @@ namespace MalClient.Shared.Delegates
     public delegate void PivotItemSelectionRequest(int index);
 
     public delegate void EmptyEventHander();
+
+    public delegate void SearchQuerySubmitted(string query);
+
+    public delegate void SearchDelayedQuerySubmitted(string query);
 }

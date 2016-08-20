@@ -42,11 +42,22 @@ namespace MalClient.Shared.Comm.Details
             doc.LoadHtml(raw);
 
             output.Id = _id;
+            try
+            {
+
+
             var columns = doc.DocumentNode.Descendants("table").First().ChildNodes[0].ChildNodes.Where(node => node.Name == "td").ToList();
             var leftColumn = columns[0];
-            var image = leftColumn.Descendants("img").First();
-            output.ImgUrl = image.Attributes["src"].Value;
-            output.Name = image.Attributes["alt"].Value;
+            var image = leftColumn.Descendants("img").FirstOrDefault();
+            if (image != null && image.Attributes.Contains("alt"))
+            {
+                output.ImgUrl = image.Attributes["src"].Value;
+                output.Name = image.Attributes["alt"].Value;
+            }
+            else
+            {
+                output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
+            }
             bool recording = false;
             var currentString = "";
             int i = 0;
@@ -152,6 +163,11 @@ namespace MalClient.Shared.Comm.Details
                 {
                     //htaml
                 }
+            }
+            catch (Exception)
+            {
+                //sorcery 
+            }
 
             DataCache.SaveData(output, _id.ToString(), "staff_details");
 

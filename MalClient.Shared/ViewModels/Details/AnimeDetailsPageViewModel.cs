@@ -1827,7 +1827,6 @@ namespace MalClient.Shared.ViewModels
             Stats.Clear();
             OPs.Clear();
             EDs.Clear();
-            var currSource = DataSource.Hummingbird;
             var data = await new AnimeDetailsMalQuery(Id, AnimeMode).GetDetails(force);
             //Now we can build elements here
             var i = 1;
@@ -1855,10 +1854,10 @@ namespace MalClient.Shared.ViewModels
                 var infoString = statistic;
                 var pos = infoString.IndexOf("1 indicates");
                 if (pos != -1)
-                    infoString = infoString.Substring(0, pos);
+                    infoString = infoString.Substring(0, pos-1);
                 pos = infoString.IndexOf("2 based");
                 if (pos != -1)
-                    infoString = infoString.Substring(0, pos);
+                    infoString = infoString.Substring(0, pos-1);
 
                 var parts = infoString.Split(':');
                 Stats.Add(new Tuple<string, string>(parts[0], parts[1]));

@@ -12,10 +12,10 @@ using MalClient.Shared.Utils;
 
 namespace MalClient.Shared.Comm.Search
 {
-    public class CharacterSearchQuery : Query
+    public class CharactersSearchQuery : Query
     {
 
-        public CharacterSearchQuery(string query)
+        public CharactersSearchQuery(string query)
         {
             Request =
                 WebRequest.Create(

@@ -66,7 +66,7 @@ namespace MALClient.UserControls
         private async void OpenRepo(object sender, RoutedEventArgs e)
         {
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient/issues"));
         }
 
         private void BtnProfile_OnClick(object sender, RoutedEventArgs e)

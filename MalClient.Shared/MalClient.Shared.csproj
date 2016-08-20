@@ -149,7 +149,7 @@
     <Compile Include="Comm\Profile\ProfileHistoryQuery.cs" />
     <Compile Include="Comm\Profile\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
-    <Compile Include="Comm\Search\CharacterSearchQuery.cs" />
+    <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
       <DependentUpon>GridItemFlyout.xaml</DependentUpon>
@@ -293,6 +293,7 @@
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\CharacterSearchViewModel.cs" />
     <Compile Include="ViewModels\Main\HistoryViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />

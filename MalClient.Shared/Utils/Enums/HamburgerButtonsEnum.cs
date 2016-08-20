@@ -20,5 +20,6 @@
         Messanging,
         Forums,
         History,
+        CharacterSearch,
     }
 }

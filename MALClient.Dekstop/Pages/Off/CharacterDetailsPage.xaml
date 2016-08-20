@@ -40,11 +40,14 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image Stretch="Uniform" VerticalAlignment="Top" Height="300" Width="175">
-                <Image.Source>
-                    <BitmapImage DecodePixelWidth="175" DecodePixelHeight="300" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
-                </Image.Source>
-            </Image>
+            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Image Stretch="Uniform" VerticalAlignment="Top" Height="300" Width="175">
+                    <Image.Source>
+                        <BitmapImage DecodePixelWidth="175" DecodePixelHeight="300" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
+                    </Image.Source>
+                </Image>
+            </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="260"/>

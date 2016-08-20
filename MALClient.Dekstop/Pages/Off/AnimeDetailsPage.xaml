@@ -203,7 +203,9 @@
                         <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
                 </Button>
-                <new:FavButton Visibility="{Binding MyDetailsVisibility}" />
+                <Grid Visibility="{Binding MyDetailsVisibility}" Margin="0,0,5,0" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <new:FavButton/>
+                </Grid>
             </StackPanel>
             <StackPanel Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
@@ -631,11 +633,8 @@
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
                                                                     </Image.Source>
                                                                 </Image>
-                                                                <Grid Grid.Row="0" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                <Grid Grid.Row="0" Width="40" Height="40" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
                                                                     <new:FavButton DataContext="{Binding AnimeCharacter}"/>
-                                                                    <Grid.Background>
-                                                                        <SolidColorBrush Color="Black" Opacity=".75" />
-                                                                    </Grid.Background>
                                                                 </Grid>
                                                                 <Grid Grid.Row="1" Padding="4"
                                                                   HorizontalAlignment="Stretch"
@@ -675,14 +674,9 @@
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
                                                                     </Image.Source>
                                                                 </Image>
-                                                                <new:FavButton HorizontalAlignment="Right"
-                                                                           VerticalAlignment="Bottom" Grid.Row="0"
-                                                                           Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}"
-                                                                           DataContext="{Binding AnimeStaffPerson}">
-                                                                    <new:FavButton.Background>
-                                                                        <SolidColorBrush Color="Black" Opacity=".75" />
-                                                                    </new:FavButton.Background>
-                                                                </new:FavButton>
+                                                                <Grid Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Grid.Row="0" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                    <new:FavButton DataContext="{Binding AnimeStaffPerson}"/>
+                                                                </Grid>
                                                                 <Grid Grid.Row="1" Padding="4"
                                                                   HorizontalAlignment="Stretch"
                                                                   VerticalAlignment="Bottom"
@@ -745,13 +739,9 @@
                                                                              DecodePixelWidth="175" />
                                                                 </Image.Source>
                                                             </Image>
-                                                            <new:FavButton HorizontalAlignment="Right"
-                                                                       VerticalAlignment="Bottom" Grid.Row="0"
-                                                                       Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
-                                                                <new:FavButton.Background>
-                                                                    <SolidColorBrush Color="Black" Opacity=".75" />
-                                                                </new:FavButton.Background>
-                                                            </new:FavButton>
+                                                            <Grid VerticalAlignment="Bottom" Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                <new:FavButton/>
+                                                            </Grid>
                                                             <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" Width="175"
                                                               VerticalAlignment="Bottom"
                                                               Background="{ThemeResource BrushAnimeItemBackground}"

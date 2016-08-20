@@ -10,7 +10,7 @@
     <ToggleButton x:Name="Root" Padding="0" Margin="0" Height="40" Width="40" Background="Transparent"
                               IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
                               IsEnabled="{Binding IsFavouriteButtonEnabled}">
-        <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}" />
+        <SymbolIcon Symbol="{Binding FavouriteSymbolIcon,FallbackValue=None}" />
         <ToolTipService.ToolTip>
             <ToolTip Content="Favourite"/>
         </ToolTipService.ToolTip>

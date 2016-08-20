@@ -365,7 +365,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public bool _isCurrentStatusSelectable;
+        private bool _isCurrentStatusSelectable;
 
         public bool IsCurrentStatusSelectable
         {

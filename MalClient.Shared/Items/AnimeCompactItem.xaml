@@ -58,18 +58,15 @@
             </Button>
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="120" />
+                    <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MinWidth="120" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" MinWidth="10" MaxWidth="100" />
                     <ColumnDefinition Width="*" MinWidth="20" MaxWidth="120" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="35,5,0,5" />
-                <TextBlock Grid.Column="0" Text="{x:Bind ViewModel.Title}" Width="Auto" VerticalAlignment="Center"
-                           FontWeight="SemiLight"
-                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2"
-                           Margin="40,0,0,0" />
-                <Grid Grid.Column="0" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Grid Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <StackPanel>
                         <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" />
@@ -78,7 +75,8 @@
                         </TextBlock>
                     </StackPanel>
                 </Grid>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="5" />
+                <StackPanel Grid.Column="2" VerticalAlignment="Center">
                     <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
                     <Grid  MinWidth="40" MaxWidth="70" HorizontalAlignment="Center" VerticalAlignment="Center"
                   Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
@@ -88,14 +86,17 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
-                       Foreground="{ThemeResource BrushText}" FontSize="18"/>
+                       Foreground="{ThemeResource BrushText}" FontSize="17"/>
                         <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" 
                                Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}" FontWeight="SemiLight" 
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        Foreground="LightGray" FontSize="14" FontStyle="Italic" />
                     </Grid>
                 </StackPanel>
-                <Button Grid.Column="2" Background="Transparent" Width="35" Height="35"
+                <TextBlock Grid.Column="3" Text="{x:Bind ViewModel.Title}" Width="Auto" VerticalAlignment="Center"
+                           FontWeight="SemiLight"
+                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2"/>
+                <Button Grid.Column="4" Background="Transparent" Width="35" Height="35"
                         Padding="0" Foreground="{ThemeResource BrushText}"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"
                         Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
@@ -106,7 +107,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button Grid.Column="3" Content="{x:Bind ViewModel.MyScoreBind,Mode=OneWay}" Margin="5"
+                <Button Grid.Column="5" Content="{x:Bind ViewModel.MyScoreBind,Mode=OneWay}" Margin="5"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         Height="Auto"
@@ -147,7 +148,7 @@
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
-                <Button Grid.Column="4" Content="{x:Bind ViewModel.MyStatusBind,Mode=OneWay}" Margin="5"
+                <Button Grid.Column="6" Content="{x:Bind ViewModel.MyStatusBind,Mode=OneWay}" Margin="5"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                         Height="Auto"

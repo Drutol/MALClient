@@ -86,11 +86,7 @@
                 <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding LoadAboutMeButtonVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                     <Button HorizontalAlignment="Stretch" Height="50" Background="Transparent" Padding="0" Command="{Binding ToggleAboutMeWebViewVisibilityCommand}">
-                        <SymbolIcon Symbol="View" RenderTransformOrigin=".5,.5">
-                            <SymbolIcon.RenderTransform>
-                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            </SymbolIcon.RenderTransform>
-                        </SymbolIcon>
+                        <SymbolIcon Symbol="View"/>
                     </Button>
                 </Grid>
                 <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -167,18 +163,18 @@
                             <Grid Margin="10" Grid.Column="0" Grid.Row="1"
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Anime list" Margin="5,0"
+                                    <Button Content="Anime list" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateAnimeListCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    <Button Content="Manga list" Margin="5,0"
+                                    <Button Content="Manga list" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateMangaListCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    <Button Content="History" Margin="5,0"
+                                    <Button Content="History" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateHistoryCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}"
                                                   Visibility="{Binding PinProfileVisibility}">
-                                        <SymbolIcon
+                                        <SymbolIcon Foreground="White"
                                             Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}" />
                                         <ToolTipService.ToolTip>
                                             <ToolTip
@@ -212,7 +208,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Button Content="Load about me" Margin="5,0" HorizontalAlignment="Center"
-                            Command="{Binding LoadAboutMeCommand}"
+                            Command="{Binding LoadAboutMeCommand}" Foreground="White"
                             Visibility="{Binding LoadAboutMeButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                     <ProgressRing Width="50" Height="50" IsActive="True"
@@ -794,7 +790,7 @@
                         <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch"
                                  Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50"
                                  PlaceholderText="Type comment..." />
-                        <Button Content="Send Comment" Margin="20,0"
+                        <Button Content="Send Comment" Margin="20,0" Foreground="White"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                     </StackPanel>
@@ -837,12 +833,12 @@
                                                FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
                                     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right"
                                                 VerticalAlignment="Bottom">
-                                        <Button Content="Conversation" Margin="5"
+                                        <Button Content="Conversation" Margin="5" Foreground="White"
                                                 Visibility="{Binding ComToCom,Converter={StaticResource IsThereAnyTextToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.NavigateConversationCommand}"
                                                 CommandParameter="{Binding}" />
-                                        <Button Content="Delete" Margin="5"
+                                        <Button Content="Delete" Margin="5" Foreground="White"
                                                 Visibility="{Binding CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.DeleteCommentCommand}"
@@ -858,7 +854,7 @@
                         <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50"
                                       Height="50"
                                       IsActive="True" />
-                    </Grid>
+                    </Grid> 
                 </Grid>
             </Grid>
         </ScrollViewer>

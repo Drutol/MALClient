@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid Width="200" Height="325">
+    <Grid Height="325">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="52" />
@@ -28,10 +28,7 @@
                              DecodePixelWidth="200" DecodePixelType="Logical" />
             </Image.Source>
         </Image>
-        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="0" Margin="0">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Grid.Background>
+        <Grid Grid.Row="0" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Padding="0" Margin="0">
             <ToggleButton 
                       Height="40" Width="40"
                       IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"

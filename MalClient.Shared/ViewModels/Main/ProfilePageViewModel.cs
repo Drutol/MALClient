@@ -766,7 +766,15 @@ namespace MALClient.ViewModels.Main
                     new RelayCommand<AnimeCharacter>(
                         entry =>
                         {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            if (ViewModelLocator.Mobile)
+                                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            else if (ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible)
+                            {
+                                if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
+                                    ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
+                                else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
+                                    ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Id));
+                            }
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,
                                 new CharacterDetailsNavigationArgs {Id = int.Parse(entry.Id)});
                         }));
@@ -778,7 +786,15 @@ namespace MALClient.ViewModels.Main
                     new RelayCommand<FavouriteBase>(
                         entry =>
                         {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            if (ViewModelLocator.Mobile)
+                                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            else if (ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible)
+                            {
+                                if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
+                                    ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
+                                else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
+                                    ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Id));
+                            }
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
                                 new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
                         }));

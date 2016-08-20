@@ -51,6 +51,8 @@ namespace MalClient.Shared.ViewModels
         string CurrentStatusSub { get; set; }
         IMainViewInteractions View { get; }
         bool IsCurrentStatusSelectable { get; set; }
+        PageIndex? CurrentOffPage { get; set; }
+        Visibility OffContentVisibility { get; set; }
     }
 
     public interface IHamburgerViewModel

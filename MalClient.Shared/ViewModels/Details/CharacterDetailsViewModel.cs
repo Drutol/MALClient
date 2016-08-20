@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm.Details;
@@ -21,6 +22,7 @@ namespace MalClient.Shared.ViewModels.Details
         private bool _animeographyVisibility;
         private bool _spoilerButtonVisibility;
         private ICommand _navigateAnimeDetailsCommand;
+        private ICommand _openInMalCommand;
         private CharacterDetailsNavigationArgs _prevArgs;
         private ICommand _navigateMangaDetailsCommand;
         private bool _mangaographyVisibility;
@@ -87,7 +89,7 @@ namespace MalClient.Shared.ViewModels.Details
                     new RelayCommand<FavouriteBase>(
                         entry =>
                         {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageCharacterDetails,_prevArgs);
+                            RegisterSelfBackNav();
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
                                 new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
                         }));
@@ -111,7 +113,13 @@ namespace MalClient.Shared.ViewModels.Details
                     new RelayCommand<AnimeLightEntry>(
                         entry =>
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                                new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null, null) {AnimeMode = false})));
+                                new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null,null, _prevArgs) { Source = PageIndex.PageCharacterDetails, AnimeMode = false})));
+
+
+        public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(async () =>
+        {
+            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/character/{Data.Id}"));
+        }));
 
         public FavouriteViewModel FavouriteViewModel => Data == null ? null : new FavouriteViewModel(new AnimeCharacter { Id = Data.Id.ToString()});
 
@@ -125,11 +133,13 @@ namespace MalClient.Shared.ViewModels.Details
             }
         }
 
+
+
         public async void Init(CharacterDetailsNavigationArgs args,bool force = false)
         {
             if(Data != null)
                 ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
-            if (_prevArgs?.Equals(args) ?? false)
+            if (!force && (_prevArgs?.Equals(args) ?? false))
                 return;
             Loading = true;
             _prevArgs = args;
@@ -141,12 +151,24 @@ namespace MalClient.Shared.ViewModels.Details
             VoiceActors = Data.VoiceActors.Select(actor => new FavouriteViewModel(actor)).ToList();
             RaisePropertyChanged(() => FavouriteViewModel);
             ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
+            ViewModelLocator.GeneralMain.IsCurrentStatusSelectable = true;
             Loading = false;
         }
 
         public void RefreshData()
         {
             Init(_prevArgs,true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetId">Don't duplicate nav back</param>
+        public void RegisterSelfBackNav(int targetId = 0)
+        {
+            if (targetId == Data.Id)
+                return;
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageCharacterDetails, _prevArgs);
         }
     }
 }

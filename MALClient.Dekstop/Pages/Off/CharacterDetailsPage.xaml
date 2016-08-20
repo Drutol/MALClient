@@ -47,27 +47,36 @@
             </Image>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="260"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <TextBlock Margin="5" TextWrapping="WrapWholeWords" Text="{Binding Data.Content}"/>
                 </ScrollViewer>
-                <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Content="Spoiler"
+                <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Margin="0,5,0,0" Height="36" HorizontalAlignment="Stretch"
+                        Command="{Binding OpenInMalCommand}"
+                        Background="Transparent">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Open in browser." />
+                        </ToolTipService.ToolTip>
+                        <SymbolIcon Symbol="Globe" />
+                    </Button>
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,4,5,0" Content="Spoiler" VerticalContentAlignment="Center"
                         Visibility="{Binding SpoilerButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                    <Button.Flyout>
-                        <Flyout>
-                            <TextBlock MaxWidth="400" TextWrapping="WrapWholeWords" Text="{Binding Data.SpoilerContent}"/>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                        <Button.Flyout>
+                            <Flyout>
+                                <TextBlock MaxWidth="400" TextWrapping="WrapWholeWords" Text="{Binding Data.SpoilerContent}"/>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+
             </Grid>
-            <Grid Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+            <Grid Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
                 <new:FavButton DataContext="{Binding FavouriteViewModel}"/>
-                <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".75" />
-                </Grid.Background>
             </Grid>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Background="{ThemeResource BrushDetailsBackground}">
@@ -87,7 +96,7 @@
                           IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClickStaff" ScrollViewer.VerticalScrollMode="Disabled">
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <items:StaffItem DataContext="{Binding}"/>
+                                <items:StaffItem Width="200" DataContext="{Binding}"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>

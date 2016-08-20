@@ -194,6 +194,12 @@ namespace MALClient.ViewModels.Off
             set { Settings.LockDisplayMode = value; }
         }
 
+        public bool PullHigherQualityImages
+        {
+            get { return Settings.PullHigherQualityImages; }
+            set { Settings.PullHigherQualityImages = value; }
+        }
+
         public bool HideFilterSelectionFlyout
         {
             get { return Settings.HideFilterSelectionFlyout; }

@@ -149,6 +149,7 @@
     <Compile Include="Comm\Profile\ProfileHistoryQuery.cs" />
     <Compile Include="Comm\Profile\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
+    <Compile Include="Comm\Search\CharacterSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
       <DependentUpon>GridItemFlyout.xaml</DependentUpon>
@@ -244,7 +245,7 @@
     <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
-    <Compile Include="UserControls\AttachedProperties\AnimeImageExtansions.cs" />
+    <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>

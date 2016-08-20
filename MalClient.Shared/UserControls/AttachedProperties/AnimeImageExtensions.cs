@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using MalClient.Shared.Utils;
 
 namespace MalClient.Shared.UserControls.AttachedProperties
 {
@@ -22,14 +23,18 @@ namespace MalClient.Shared.UserControls.AttachedProperties
         {
             var img = d as Image;
             var source = e.NewValue as string;
-            var pos = source.IndexOf(".jpg");
-            if (pos != -1)
+            if (Settings.PullHigherQualityImages)
             {
-                img.ImageFailed += ImgOnImageFailed;
-                img.Source = new BitmapImage(new Uri(source.Insert(pos, "l")));     
-                return;         
+                var pos = source.IndexOf(".jpg");
+                if (pos != -1)
+                {
+                    img.ImageFailed += ImgOnImageFailed;
+                    img.Source = new BitmapImage(new Uri(source.Insert(pos, "l")));
+                }
             }
-            img.Source = new BitmapImage(new Uri(source));
+            else
+                img.Source = new BitmapImage(new Uri(source));
+
         }
 
         private static void ImgOnImageFailed(object sender, ExceptionRoutedEventArgs exceptionRoutedEventArgs)

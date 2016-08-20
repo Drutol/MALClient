@@ -42,22 +42,8 @@ namespace MALClient.Pages.Main
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            ViewModel.OnInitialized += ViewModelOnOnInitialized;
             ViewModel.LoadProfileData(_lastArgs);
             ViewModel.OnWebViewNavigationRequest += ViewModelOnOnWebViewNavigationRequest;
-        }
-
-        private void ViewModelOnOnInitialized()
-        {
-            try
-            {
-                var children = FavsItemsControl.GetChildren();
-                children.ForEach(child => (child as FrameworkElement).InvalidateMeasure());
-            }
-            catch (Exception)
-            {
-                //dangerous stuff is happening up there
-            }
         }
 
         private void ViewModelOnOnWebViewNavigationRequest(string content, bool b)

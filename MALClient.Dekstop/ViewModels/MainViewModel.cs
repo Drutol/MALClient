@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Comm.Details;
+using MalClient.Shared.Comm.Search;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
@@ -72,6 +73,8 @@ namespace MALClient.ViewModels
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = Visibility.Collapsed;
 
+            await new CharacterSearchQuery("aoyama").GetSearchResults();
+
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
 
             //prepare for some index mess
@@ -97,6 +100,8 @@ namespace MALClient.ViewModels
                     if(index != PageIndex.PageCharacterDetails && index != PageIndex.PageStaffDetails)
                         ViewModelLocator.NavMgr.ResetOffBackNav();
                 }
+                if(CurrentOffPage == PageIndex.PageSettings)
+                    ViewModelLocator.NavMgr.ResetOffBackNav();
             }
             else
             {

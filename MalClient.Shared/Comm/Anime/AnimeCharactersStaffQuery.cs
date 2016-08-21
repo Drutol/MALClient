@@ -58,7 +58,7 @@ namespace MalClient.Shared.Comm.Anime
                         var current = new AnimeCharacter();
 
                         var imgs = table.Descendants("img").ToList();
-                        var infos = table.Descendants("td").ToList(); //2nd is character 4th is person
+                        var infos = table.Descendants("td").ToList(); 
 
                         //character
                         var img = imgs[0].Attributes["data-src"].Value;

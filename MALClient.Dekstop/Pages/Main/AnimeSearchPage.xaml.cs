@@ -26,6 +26,12 @@ namespace MALClient.Pages.Main
             base.OnNavigatedTo(e);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ViewModelLocator.SearchPage.OnNavigatedFrom();
+            base.OnNavigatedFrom(e);
+        }
+
         private void Animes_OnItemClick(object sender, ItemClickEventArgs e)
         {
             ViewModelLocator.SearchPage.CurrentlySelectedItem = e.ClickedItem as AnimeSearchItem;

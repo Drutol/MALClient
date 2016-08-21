@@ -369,10 +369,6 @@ namespace MalClient.Shared.Comm.Profile
                 {
                     var sideInfo =
                         doc.FirstOfDescendantsWithClass("ul", "user-status border-top pb8 mb4").Descendants("li").ToList();
-                    current.User.ImgUrl =
-                        doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First().Attributes["src"
-                            ]
-                            .Value;
                     try
                     {
                         foreach (var htmlNode in sideInfo)
@@ -390,6 +386,11 @@ namespace MalClient.Shared.Comm.Profile
                         //current.LastOnline = sideInfo[0].LastChild.InnerText;
                         //current.Joined = sideInfo[1].LastChild.InnerText;
                     }
+                    current.User.ImgUrl =
+                        doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First().Attributes["src"
+                            ]
+                            .Value;
+
                 }
                 catch (Exception)
                 {
@@ -468,6 +469,15 @@ namespace MalClient.Shared.Comm.Profile
             catch (Exception)
             {
                 //restricted
+            }
+
+            try
+            {
+                current.HtmlContent = doc.FirstOfDescendantsWithClass("div", "word-break").OuterHtml;
+            }
+            catch (Exception)
+            {
+                //
             }
 
 

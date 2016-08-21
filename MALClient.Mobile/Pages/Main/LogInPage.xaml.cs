@@ -5,9 +5,11 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
+using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -58,6 +60,20 @@ namespace MALClient.Pages.Main
             MobileViewModelLocator.AnimeList.LogOut();
             MobileViewModelLocator.Main.Navigate(PageIndex.PageLogIn);
             MobileViewModelLocator.Hamburger.UpdateProfileImg();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (Credentials.Authenticated)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            }
+            else
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+            }
+            base.OnNavigatedTo(e);
         }
 
 

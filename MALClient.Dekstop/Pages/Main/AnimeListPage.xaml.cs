@@ -44,8 +44,6 @@ namespace MALClient.Pages.Main
         public Flyout FlyoutFilters => FiltersFlyout;
         public MenuFlyout FlyoutSorting => SortingFlyout;
 
-        private double _prevWidth;
-        private double _prevHeight;
         private bool _loaded;
         private AnimeListPageNavigationArgs _navArgs;
 
@@ -78,6 +76,12 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _navArgs = e.Parameter as AnimeListPageNavigationArgs;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ViewModelLocator.AnimeList.OnNavigatedFrom();
+            base.OnNavigatedFrom(e);
         }
 
         public async Task<ScrollViewer> GetIndefiniteScrollViewer()
@@ -289,6 +293,10 @@ namespace MALClient.Pages.Main
         }
 
 
-
+        private void ButtonCustomSeasonGo(object sender, RoutedEventArgs e)
+        {
+           if(!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
+                FlyoutSeasonSelection.Hide();
+        }
     }
 }

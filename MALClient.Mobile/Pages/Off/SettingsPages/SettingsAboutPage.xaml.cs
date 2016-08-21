@@ -41,12 +41,12 @@ namespace MALClient.Pages.Off.SettingsPages
 
         private async void LaunchIssues(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient/issues"));
         }
 
         private async void LaunchRepo(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient"));
         }
     }
 }

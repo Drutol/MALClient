@@ -43,7 +43,6 @@
                                                      Click="ChangeDefaultTab"
                                                      Tag="manga" />
                     </Grid>
-                    <MenuFlyoutSeparator Margin="0,5" />
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock Text="Color theme :" FontWeight="Medium"
@@ -63,7 +62,16 @@
                                            Visibility="Collapsed"
                                            HorizontalAlignment="Center" />
                     </StackPanel>
-                    <MenuFlyoutSeparator/>
+                    <TextBlock Text="Try to display higher quality images in relevant places."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding PullHigherQualityImages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="High quality" OffContent="Standard" HorizontalAlignment="Center" />
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="0,5"/>
                     <TextBlock Text="Make manga volumes more important than chapters."
                                                FontWeight="Medium"
                                                 HorizontalAlignment="Center" Margin="0,5"

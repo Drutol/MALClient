@@ -23,14 +23,16 @@ namespace MalClient.Shared.ViewModels.Main
     public class SearchPageViewModel : ViewModelBase
     {
         private bool _animeSearch; // default to anime
-
+        private bool _queryHandler;
         public string PrevQuery;
 
         public void Init(SearchPageNavigationArgs args)
         {
             if (_animeSearch != args.Anime)
                 PrevQuery = null;
-
+            if(!_queryHandler)
+                ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += SubmitQuery;
+            _queryHandler = true;
             _currrentFilter = null;
             _animeSearch = args.Anime;
             if (!string.IsNullOrWhiteSpace(args.Query))
@@ -42,14 +44,22 @@ namespace MalClient.Shared.ViewModels.Main
             {
                 _filters.Clear();
                 AnimeSearchItems.Clear();
+                IsFirstVisitGridVisible = true;
                 ResetQuery();
             }
+        }
+
+        public void OnNavigatedFrom()
+        {
+            ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= SubmitQuery;
+            _queryHandler = false;
         }
 
         public async void SubmitQuery(string query)
         {
             if (query == PrevQuery)
                 return;
+            IsFirstVisitGridVisible = false;
             PrevQuery = query;
             Loading = Visibility.Visible;
             EmptyNoticeVisibility = Visibility.Collapsed;
@@ -169,8 +179,19 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
+        public bool IsFirstVisitGridVisible
+        {
+            get { return _isFirstVisitGridVisible; }
+            private set
+            {
+                _isFirstVisitGridVisible = value;
+                RaisePropertyChanged(() => IsFirstVisitGridVisible);
+            }
+        }
+
         private readonly HashSet<string> _filters = new HashSet<string>();
         private string _currrentFilter;
+        private bool _isFirstVisitGridVisible = true;
 
         #endregion
     }

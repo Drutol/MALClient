@@ -187,7 +187,7 @@ namespace MALClient.UserControls.New
             try
             {
                 var btn = sender as MenuFlyoutItem;
-                await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string, false);
+                await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string);
                 Settings.Donated = true;
             }
             catch (Exception)
@@ -199,7 +199,7 @@ namespace MALClient.UserControls.New
         private async void OpenRepo(object sender, RoutedEventArgs e)
         {
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient/issues"));
         }
 
         private void BtnProfile_OnClick(object sender, RoutedEventArgs e)

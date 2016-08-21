@@ -105,14 +105,23 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="13.08.2016 -  v4.4.22.0 &amp; v4.4.21.0" />
-                            <TextBlock Text="Added forums!" />
-                            <TextBlock Text="Fixed mobile sort by start/end date." />
-                            <TextBlock Text="Resolved multiple navigation issues in mobile version." />
-                            <TextBlock Text="Visually tweaked search page." />
-                            <TextBlock Text="Clicking on any anime item should always trigger details navigation." />
-                            <TextBlock Text="Desktop upper navigation bar will behave better now." />
-                            <TextBlock Text="Small tweaks and fixes everywhere :)" />
+                            <TextBlock Text="23.08.2016 v4.4.30.0 &amp; v4.4.29.0" />
+                            <TextBlock Text="Added character details page." />
+                            <TextBlock Text="Added staff details page." />
+                            <TextBlock Text="Added character serach page." />
+                            <TextBlock Text="Added &quot;about me&quot; section in profile page." />
+                            <TextBlock Text="Added custom anime season selection window." />
+                            <TextBlock Text="Added new details tab in anime and manga details pages." />
+                            <TextBlock Text="Added option to pull higher resolution images with setting." />
+                            <TextBlock Text="Revamped log-in page to look a bit more appealing." />
+                            <TextBlock Text="Resolved issues with vanishing airing day labels." />
+                            <TextBlock Text="Fixed issues with start/end dates and status change prompts." />
+                            <TextBlock Text="Small visual upgrade for compact list." />
+                            <TextBlock Text="Resolved theme discrepancies with favourite buttons." />
+                            <TextBlock Text="Fixed missing favourites on certain profile pages." />
+                            <TextBlock Text="Crashfix for detailed grid view." />
+                            <TextBlock Text="Mobile now uses mobile forums site. (wip)" />
+                            <TextBlock Text="Tons of fixes and miscellaneous changes." />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

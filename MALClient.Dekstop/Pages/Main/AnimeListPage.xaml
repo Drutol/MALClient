@@ -77,14 +77,34 @@
                           Visibility="{Binding AppbarBtnPinTileVisibility}">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
-                        <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
+                        <StackPanel>
+                            <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
                                   SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="anime:AnimeSeason">
-                                    <TextBlock Text="{x:Bind Name}" />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="MinHeight" Value="30"/>
+                                        <Setter Property="Margin" Value="0,2"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="anime:AnimeSeason">
+                                        <TextBlock Text="{x:Bind Name}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <TextBlock Text="Custom season" Margin="0,5" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox ItemsSource="{Binding SeasonSeasons}" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox ItemsSource="{Binding SeasonYears}" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
+                                    <SymbolIcon Symbol="Go"></SymbolIcon>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -193,7 +213,7 @@
                     <DataTemplate />
                 </Pivot.ItemTemplate>
             </Pivot>
-            <Pivot Style="{StaticResource PivotHamburgerStyle}"
+            <Pivot x:Name="PivotSeasonSelection" Style="{StaticResource PivotHamburgerStyle}"
                    Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeSeasonal}}"
                    SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                    ItemsSource="{Binding SeasonSelection}">
@@ -302,7 +322,7 @@
                 </Grid>
             </GridView.Footer>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-5,0" ItemsSource="{Binding AnimeGridItems}"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
                   MinWidth="200"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   ItemClick="AnimesGridIndefinite_OnItemClick"

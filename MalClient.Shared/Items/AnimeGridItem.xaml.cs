@@ -24,7 +24,14 @@ namespace MalClient.Shared.Items
 
         public static readonly DependencyProperty DisplayContextProperty =
             DependencyProperty.Register("DisplayContext", typeof(AnimeItemDisplayContext), typeof(AnimeGridItem),
-                new PropertyMetadata(AnimeItemDisplayContext.AirDay));
+                new PropertyMetadata(AnimeItemDisplayContext.AirDay,DisplayContextPropertyChangedCallback));
+
+        private static void DisplayContextPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            var item = dependencyObject as AnimeGridItem;
+            if(item.ViewModel != null)
+                item.ViewModel.AnimeItemDisplayContext = (AnimeItemDisplayContext)e.NewValue;
+        }
 
         public AnimeItemDisplayContext DisplayContext
         {

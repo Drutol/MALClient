@@ -52,8 +52,10 @@ namespace MALClient
                 var paneState = (sender as MainViewModel).MenuPaneState;
                 HamburgerControl.Width = paneState ? 250 : 60;
                 LogoImage.Visibility = paneState ? Visibility.Visible : Visibility.Collapsed;
-
-
+            }
+            else if (args.PropertyName == "OffContentVisibility")
+            {
+                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible ? 16 : 0);
             }
 
         }
@@ -133,7 +135,9 @@ namespace MALClient
                 if (vm.AreThereItemsWaitingForLoad)
                     ViewModelLocator.AnimeList.RefreshList();
             }
-
+            if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0)
+                DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);
+            
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
         }
 

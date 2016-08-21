@@ -112,6 +112,7 @@
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeDetailsMalQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
@@ -127,6 +128,8 @@
     <Compile Include="Comm\AuthQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
     <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
+    <Compile Include="Comm\Details\CharacterDetailsQuery.cs" />
+    <Compile Include="Comm\Details\StaffDetailsQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardIndexContentQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
     <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
@@ -146,6 +149,7 @@
     <Compile Include="Comm\Profile\ProfileHistoryQuery.cs" />
     <Compile Include="Comm\Profile\ProfileQuery.cs" />
     <Compile Include="Comm\Query.cs" />
+    <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
       <DependentUpon>GridItemFlyout.xaml</DependentUpon>
@@ -187,11 +191,19 @@
       <DependentUpon>AnimeSearchItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\AnimeUserCache.cs" />
+    <Compile Include="Items\CharacterItem.xaml.cs">
+      <DependentUpon>CharacterItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Items\IItemWithFlyout.cs" />
     <Compile Include="Items\RecomendationItem.xaml.cs">
       <DependentUpon>RecomendationItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Items\StaffItem.xaml.cs">
+      <DependentUpon>StaffItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />
     <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RecomendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />
@@ -200,6 +212,7 @@
     <Compile Include="Models\Anime\AnimeDetailsData.cs" />
     <Compile Include="Models\Anime\AnimeGeneralDetailsData.cs" />
     <Compile Include="Models\Anime\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\Anime\AnimeLightEntry.cs" />
     <Compile Include="Models\Anime\AnimeSeason.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
@@ -219,15 +232,20 @@
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
     <Compile Include="Models\ProfileData.cs" />
+    <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />
+    <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
+    <Compile Include="NavArgs\CharacterDetailsNavigationArgs.cs" />
     <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
     <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
     <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
+    <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
+    <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>
@@ -261,9 +279,12 @@
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utilities.cs" />
-    <Compile Include="ViewModels\AnimeDetailsPageViewModel.cs" />
+    <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Details\StaffDetailsViewModel.cs" />
+    <Compile Include="ViewModels\FavouriteViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />
@@ -272,6 +293,7 @@
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\CharacterSearchViewModel.cs" />
     <Compile Include="ViewModels\Main\HistoryViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
@@ -280,9 +302,11 @@
     <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
     <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\EnumWithDescriptionToStringConverter.cs" />
@@ -351,9 +375,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Items\CharacterItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Items\RecomendationItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Items\StaffItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CachedEntryItem.xaml">
       <Generator>MSBuild:Compile</Generator>

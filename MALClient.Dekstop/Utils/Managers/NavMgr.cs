@@ -76,7 +76,7 @@ namespace MALClient.Utils.Managers
 
         public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
         {
-            if (page == PageIndex.PageAnimeDetails)
+            if (page == PageIndex.PageAnimeDetails || page == PageIndex.PageCharacterDetails || page == PageIndex.PageStaffDetails)
             {
                 _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
@@ -98,7 +98,7 @@ namespace MALClient.Utils.Managers
         {
             _currentOverride = null;
             if (_randomNavigationStackOff.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void RegisterOneTimeMainOverride(ICommand command)
@@ -111,7 +111,7 @@ namespace MALClient.Utils.Managers
         {
             _currentOverrideMain = null;
             if(_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
         }
 
         public void CurrentMainViewOnBackRequested()

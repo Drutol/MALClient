@@ -466,6 +466,8 @@ namespace MalClient.Shared.Utils
                     return HamburgerButtons.History;
                 case PageIndex.PageForumIndex:
                     return HamburgerButtons.Forums;
+                case PageIndex.PageCharacterSearch:
+                    return HamburgerButtons.CharacterSearch;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

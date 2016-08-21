@@ -15,6 +15,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MalClient.Shared.Comm;
 using MalClient.Shared.Comm.Anime;
+using MalClient.Shared.Comm.Details;
+using MalClient.Shared.Comm.Search;
 using MalClient.Shared.Delegates;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.MalSpecific;
@@ -53,6 +55,8 @@ namespace MALClient.ViewModels
         public event OffContentPaneStateChanged OffContentPaneStateChanged;
         public event NavigationRequest MainNavigationRequested;
         public event NavigationRequest OffNavigationRequested;
+        public event SearchQuerySubmitted OnSearchQuerySubmitted;
+        public event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
 
         public async void Navigate(PageIndex index, object args = null)
         {
@@ -63,7 +67,8 @@ namespace MALClient.ViewModels
             var wasOnSearchPage = SearchToggleLock;
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
-                var msg = new MessageDialog("Log in first in order to access this page.");
+                var msg = new MessageDialog("Log in first in order to access this page."
+                    ,"Login required.");
                 await msg.ShowAsync();
                 return;
             }
@@ -80,7 +85,10 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageSettings ||
                 index == PageIndex.PageAbout ||
                 index == PageIndex.PageAnimeDetails ||
-                index == PageIndex.PageMessageDetails)
+                index == PageIndex.PageMessageDetails ||
+                index == PageIndex.PageCharacterDetails ||
+                index == PageIndex.PageStaffDetails ||
+                index == PageIndex.PageLogIn)
             {
                 OffRefreshButtonVisibility = Visibility.Collapsed;
                 mainPage = false;
@@ -89,8 +97,11 @@ namespace MALClient.ViewModels
                 if (index != PageIndex.PageAnimeDetails)
                 {
                     ViewModelLocator.AnimeDetails.Id = 0; //reset this because we no longer are there
-                    ViewModelLocator.NavMgr.ResetOffBackNav();
+                    if(index != PageIndex.PageCharacterDetails && index != PageIndex.PageStaffDetails)
+                        ViewModelLocator.NavMgr.ResetOffBackNav();
                 }
+                if(CurrentOffPage == PageIndex.PageSettings)
+                    ViewModelLocator.NavMgr.ResetOffBackNav();
             }
             else
             {
@@ -118,7 +129,6 @@ namespace MALClient.ViewModels
             else if (index == PageIndex.PageSearch ||
                      index == PageIndex.PageRecomendations ||
                      index == PageIndex.PageProfile ||
-                     index == PageIndex.PageLogIn ||
                      index == PageIndex.PageMangaSearch ||
                      index == PageIndex.PageCalendar ||
                      index == PageIndex.PageArticles ||
@@ -126,7 +136,8 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageMessanging ||
                      index == PageIndex.PageForumIndex ||
                      index == PageIndex.PageMessanging ||
-                     index == PageIndex.PageHistory)
+                     index == PageIndex.PageHistory ||
+                     index == PageIndex.PageCharacterSearch)
             {
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
                 currPage = index;
@@ -191,13 +202,15 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     if (CurrentMainPage.Value != PageIndex.PageSearch &&
-                        CurrentMainPage.Value != PageIndex.PageMangaSearch)
+                        CurrentMainPage.Value != PageIndex.PageMangaSearch &&
+                        CurrentMainPage.Value != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    MainNavigationRequested?.Invoke(typeof(LogInPage));
+                    OffContentVisibility = Visibility.Visible;
+                    OffNavigationRequested?.Invoke(typeof(LogInPage));
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
@@ -276,6 +289,40 @@ namespace MALClient.ViewModels
                     CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
                     MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
+                case PageIndex.PageCharacterDetails:
+                    OffRefreshButtonVisibility = Visibility.Visible;
+                    RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
+                    OffContentVisibility = Visibility.Visible;
+
+                    if (CurrentOffPage == PageIndex.PageCharacterDetails)
+                        ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
+                    else
+                        OffNavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
+                    break;
+                case PageIndex.PageStaffDetails:
+                    OffRefreshButtonVisibility = Visibility.Visible;
+                    RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
+                    OffContentVisibility = Visibility.Visible;
+
+                    if (CurrentOffPage == PageIndex.PageStaffDetails)
+                        ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
+                    else
+                        OffNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
+                    break;
+                case PageIndex.PageCharacterSearch:
+                    if (CurrentMainPage.Value != PageIndex.PageSearch &&
+                        CurrentMainPage.Value != PageIndex.PageMangaSearch &&
+                        CurrentMainPage.Value != PageIndex.PageCharacterSearch)
+                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+                    ShowSearchStuff();
+                    ToggleSearchStuff();
+                    
+                    SearchToggleLock = true;
+                    if(CurrentMainPage != PageIndex.PageCharacterSearch)
+                        MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
+                    await Task.Delay(10);
+                    View.SearchInputFocus(FocusState.Keyboard);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -325,10 +372,13 @@ namespace MALClient.ViewModels
             set
             {
                 _view = value;
-
-                Navigate(Credentials.Authenticated
-                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                    : PageIndex.PageLogIn); //entry point whatnot
+                if (Credentials.Authenticated)
+                    Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList); //entry point whatnot
+                else
+                {
+                    Navigate(PageIndex.PageLogIn);
+                    Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General));
+                }
                 if (InitDetails != null)
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
 
@@ -336,7 +386,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public bool _isCurrentStatusSelectable;
+        private bool _isCurrentStatusSelectable;
 
         public bool IsCurrentStatusSelectable
         {
@@ -462,7 +512,7 @@ private bool _menuPaneState;
                 if (SearchToggleLock) return;
                 
                 if(string.IsNullOrEmpty(value))
-                    ViewModelLocator.AnimeList.RefreshList(true);
+                    OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
                 else
                     SubmitSearchQueryWithDelayCheck();
             }
@@ -737,7 +787,7 @@ private bool _menuPaneState;
             SearchInputVisibility = SearchToggleStatus;
             if (!SearchToggleLock)
             {
-                ViewModelLocator.AnimeList.RefreshList(true);
+                OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
             }
             else
             {
@@ -749,20 +799,23 @@ private bool _menuPaneState;
         public void OnSearchInputSubmit()
         {
             if (SearchToggleLock)
-                ViewModelLocator.SearchPage.SubmitQuery(CurrentSearchQuery);
+            {
+                OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
+            }
         }
 
-        private void NavigateSearch(object args)
+        private async void NavigateSearch(object args)
         {
             SearchToggleLock = true;
             ShowSearchStuff();
             ToggleSearchStuff();
             if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
-            {
-                View.SearchInputFocus(FocusState.Keyboard);
+            {             
                 (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
             }
             MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
+            await Task.Delay(10);
+            View.SearchInputFocus(FocusState.Keyboard);
         }
 
         private void SetSearchHints()
@@ -782,7 +835,7 @@ private bool _menuPaneState;
             string query = CurrentSearchQuery;
             await Task.Delay(500);
             if(query == CurrentSearchQuery)
-                ViewModelLocator.AnimeList.RefreshList(true);
+                OnSearchDelayedQuerySubmitted?.Invoke(CurrentSearchQuery);
         }
 
         #region UIHelpers
@@ -790,7 +843,7 @@ private bool _menuPaneState;
         public void PopulateSearchFilters(HashSet<string> filters)
         {
             SearchFilterOptions.Clear();
-            if (filters.Count <= 1)
+            if (filters.Count <= 1 || (CurrentMainPage.Value != PageIndex.PageSearch && CurrentMainPage.Value != PageIndex.PageMangaSearch))
             {
                 SearchFilterButtonVisibility = Visibility.Collapsed;
                 return;

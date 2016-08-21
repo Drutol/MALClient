@@ -8,6 +8,7 @@ using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils;
 using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
+using MalClient.Shared.ViewModels.Main;
 using MALClient.ViewModels;
 using MALClient.ViewModels.Main;
 

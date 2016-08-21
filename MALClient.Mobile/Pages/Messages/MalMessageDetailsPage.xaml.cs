@@ -34,7 +34,7 @@ namespace MALClient.Pages.Messages
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging, null);
             else
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
-                    new ProfilePageNavigationArgs {TargetUser = MobileViewModelLocator.ProfilePage.CurrentUser});
+                    new ProfilePageNavigationArgs {TargetUser = MobileViewModelLocator.ProfilePage.CurrentData.User.Name});
             base.OnNavigatedTo(e);
         }
     }

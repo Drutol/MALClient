@@ -6,9 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid>
             <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
@@ -25,6 +30,14 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </userControls:AlternatingListView>
+            <StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
+                <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">
+                    <SymbolIcon.RenderTransform>
+                        <ScaleTransform ScaleX="4" ScaleY="4"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+                <TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,40,0,0"/>
+            </StackPanel>
             <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility}"
                        Text="No data received from MAL, try searching for something more specific. :("
                        TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"

@@ -73,6 +73,8 @@ namespace MalClient.Shared.Models
 
         public string MangaMeanBind => $"Mean: {MangaMean}";
 
+        public string HtmlContent { get; set; }
+
         //Fav Anime
         public List<int> FavouriteAnime { get; } = new List<int>();
         //Fav Manga

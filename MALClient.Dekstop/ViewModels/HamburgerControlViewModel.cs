@@ -336,6 +336,7 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["Articles"] = new SolidColorBrush(color);
             TxtForegroundBrushes["News"] = new SolidColorBrush(color);
             TxtForegroundBrushes["Forums"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["CharacterSearch"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -353,6 +354,7 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["Articles"] = new Thickness(0);
             TxtBorderBrushThicknesses["News"] = new Thickness(0);
             TxtBorderBrushThicknesses["Forums"] = new Thickness(0);
+            TxtBorderBrushThicknesses["CharacterSearch"] = new Thickness(0);
         }
 
         private void ResetTopCategoryButtons()

@@ -289,6 +289,12 @@ namespace MalClient.Shared.Utils
             set { ApplicationData.Current.LocalSettings.Values["EnsureRandomizerAlwaysSelectsWinner"] = value; }
         }
 
+        public static bool PullHigherQualityImages
+        {
+            get { return (bool) (ApplicationData.Current.LocalSettings.Values["PullHigherQualityImages"] ?? true); }
+            set { ApplicationData.Current.LocalSettings.Values["PullHigherQualityImages"] = value; }
+        }
+
         public static string PinnedProfiles
         {
             get { return (string) (ApplicationData.Current.LocalSettings.Values["PinnedProfiles"] ?? ""); }

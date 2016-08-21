@@ -100,7 +100,7 @@ namespace MalClient.Shared.ViewModels.Main
             {
                 try
                 {
-                    var others = ViewModelLocator.GeneralProfile.OthersAbstractions[args.Source];
+                    var others = ViewModelLocator.ProfilePage.OthersAbstractions[args.Source];
                     foreach (var key in history.Keys)
                     {
                         List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> entries = new List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>();

@@ -167,7 +167,7 @@ namespace MALClient.Pages.Main
             margin-bottom: 15px;
         }";
 
-        private const string Css =
+        public const string Css =
             @"<style type=""text/css"">@charset ""UTF-8"";
 	        html, body
 	        {

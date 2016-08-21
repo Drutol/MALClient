@@ -110,6 +110,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Off\CharacterDetailsPage.xaml.cs">
+      <DependentUpon>CharacterDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Main\CharacterSearchPage.xaml.cs">
+      <DependentUpon>CharacterSearchPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Forums\ForumBoardPage.xaml.cs">
       <DependentUpon>ForumBoardPage.xaml</DependentUpon>
     </Compile>
@@ -162,15 +168,16 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs" />
+    <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
+      <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
-    <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MobileViewModelLocator.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
   </ItemGroup>
@@ -184,6 +191,7 @@
     <Content Include="Assets\GitHub-Mark-120px-plus.png" />
     <Content Include="Assets\GitHub-Mark-Light-120px-plus.png" />
     <Content Include="Assets\hummingbird150x150.scale-200.png" />
+    <Content Include="Assets\LogInBG.PNG" />
     <Content Include="Assets\mallonglogo300x150.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -200,6 +208,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\CharacterDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Main\CharacterSearchPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -307,6 +323,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Off\StaffDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\HamburgerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -358,9 +378,7 @@
       <Name>MALClient.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Off\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

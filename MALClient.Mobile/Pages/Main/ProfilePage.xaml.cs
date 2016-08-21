@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Items;
 using MalClient.Shared.Models;
 using MalClient.Shared.NavArgs;
 using MalClient.Shared.Utils.Enums;
@@ -48,21 +49,33 @@ namespace MALClient.Pages.Main
 
         private void NavigateProfile(object sender, ItemClickEventArgs e)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,new ProfilePageNavigationArgs {TargetUser = ViewModel.CurrentUser},PageIndex.PageProfile);
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,new ProfilePageNavigationArgs {TargetUser = ViewModel.CurrentData.User.Name},PageIndex.PageProfile);
             MobileViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (e.ClickedItem as MalUser).Name });
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = ViewModel.CurrentUser },PageIndex.PageProfile);
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = ViewModel.CurrentData.User.Name },PageIndex.PageProfile);
             MobileViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (string)(sender as Button).Tag });
         }
 
-        private void FavCharacter_OnTapped(object sender, TappedRoutedEventArgs e)
+        private void FavCharacter_OnClick(object sender, TappedRoutedEventArgs e)
         {
-            var grid = sender as FrameworkElement;
-            var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
-            flyout.ShowAt(grid);
+            ViewModelLocator.ProfilePage.NavigateCharacterDetailsCommand.Execute(
+                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+        }
+
+        private void FavPerson_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateStaffDetailsCommand.Execute(
+                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+        }
+
+
+        private void FavCharacter_OnRightClick(object sender, RightTappedRoutedEventArgs e)
+        {
+            var grid = sender as IItemWithFlyout;
+            grid?.ShowFlyout();
         }
 
         private void ButtonGotoProfileOnClick(object sender, RoutedEventArgs e)

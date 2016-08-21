@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:attachedProperties="using:MalClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400" ManipulationMode="{Binding ItemManipulationMode}"
@@ -64,11 +65,11 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill"
-                   MaxWidth="{Binding MaxWidth}">
-                <Image.Source>
+                   MaxWidth="{Binding MaxWidth}" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}">
+                <!--<Image.Source>
                     <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="325"
                                  DecodePixelType="Logical" DecodePixelWidth="{Binding MaxWidth}" />
-                </Image.Source>
+                </Image.Source>-->
             </Image>
             <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
                   Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
@@ -90,7 +91,7 @@
                     <TextBlock Text="{x:Bind ViewModel.MyScoreBindShort,Mode=OneWay}" Foreground="White"
                                FontWeight="SemiLight" Margin="0,5,0,0"
                                HorizontalAlignment="Center" />
-                    <SymbolIcon Symbol="Favorite" Margin="0,2" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
+                    <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="White" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" MinWidth="40" MaxWidth="70" HorizontalAlignment="Left" VerticalAlignment="Top"

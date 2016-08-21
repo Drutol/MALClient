@@ -22,7 +22,18 @@ namespace MalClient.Shared.ViewModels
         public readonly bool RepresentsAnime = true;
 
         private AnimeItemViewModel _viewModel;
-        public int AirDay = -1;
+
+        public int AirDay
+        {
+            get { return _airDay; }
+            set
+            {
+                if(value <= 0)
+                    return;
+                _airDay = value;
+            }
+        }
+
         public string AirStartDate;
         public float GlobalScore;
 
@@ -103,6 +114,7 @@ namespace MalClient.Shared.ViewModels
         }
 
         private List<string> _tags;
+        private int _airDay;
 
         public List<string> Tags => _tags ?? (_tags = string.IsNullOrEmpty(Notes)
             ? new List<string>()

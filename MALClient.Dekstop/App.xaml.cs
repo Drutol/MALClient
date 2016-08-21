@@ -141,17 +141,17 @@ namespace MALClient
 
         private async void ProcessUpdate()
         {
-            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
-                && (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
-            {
-                var msg =
-                    new MessageDialog(
-                        "This build was supposed to bring ads... but I decided to add forums (beta) instead, rejoice! I don't want to add ads and I won't add them for now at least :)\n\nI'm also resetting review pop-up in order to get fresher opinions... Keep the feedback flowing!",
-                        "About this update");
-                await msg.ShowAsync();
-                Settings.RatePopUpEnable = true;
-                Settings.RatePopUpStartupCounter = 0;
-            }
+            //if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
+            //    && (string)ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
+            //{
+            //    var msg =
+            //        new MessageDialog(
+            //            "This build was supposed to bring ads... but I decided to add forums (beta) instead, rejoice! I don't want to add ads and I won't add them for now at least :)\n\nI'm also resetting review pop-up in order to get fresher opinions... Keep the feedback flowing!",
+            //            "About this update");
+            //    await msg.ShowAsync();
+            //    Settings.RatePopUpEnable = true;
+            //    Settings.RatePopUpStartupCounter = 0;
+            //}
 
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
         }

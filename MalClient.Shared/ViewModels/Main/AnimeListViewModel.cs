@@ -43,8 +43,6 @@ namespace MalClient.Shared.ViewModels.Main
         private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
         private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
 
-        private int _allPages;
-
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =
             new SmartObservableCollection<AnimeItemViewModel>();
 
@@ -52,6 +50,7 @@ namespace MalClient.Shared.ViewModels.Main
             new List<AnimeItemAbstraction>(); //All for current list        
 
         private bool _initializing;
+        private bool _queryHandler;
 
         public bool ResetedNavBack { get; set; } = true;
 
@@ -121,8 +120,18 @@ namespace MalClient.Shared.ViewModels.Main
             {
                 var width = View?.ActualWidth ?? 1000;
                 var items = (int) width/ItemPrefferedWidth;
+                items = items == 0 ? 1 : items;
                 var widthRest = width - items*ItemPrefferedWidth;
-                return ItemPrefferedWidth + widthRest/items;
+                var sum = ItemPrefferedWidth + widthRest/items;
+                return sum < ItemPrefferedWidth ? ItemPrefferedWidth : sum;
+            }
+        }
+
+        public AnimeListViewModel()
+        {
+            for (int i = 2000; i < 2018; i++)
+            {
+                SeasonYears.Add(i.ToString());
             }
         }
 
@@ -148,6 +157,13 @@ namespace MalClient.Shared.ViewModels.Main
 
             if (args == null || args.ResetBackNav)
                 ViewModelLocator.NavMgr.ResetMainBackNav();
+
+            if (!_queryHandler)
+            {
+                ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
+                ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
+            }
+            _queryHandler = true;
 
             //give visual feedback
             Loading = true;
@@ -280,6 +296,18 @@ namespace MalClient.Shared.ViewModels.Main
             SortingSettingChanged?.Invoke(SortOption, SortDescending);
             Initializing = false;
             UpdateUpperStatus();
+        }
+
+        public void OnNavigatedFrom()
+        {
+            ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted -= OnOnSearchDelayedQuerySubmitted;
+            ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= OnOnSearchDelayedQuerySubmitted;
+            _queryHandler = false;
+        }
+
+        private void OnOnSearchDelayedQuerySubmitted(string query)
+        {
+            RefreshList(true);
         }
 
         /// <summary>
@@ -762,7 +790,8 @@ namespace MalClient.Shared.ViewModels.Main
                         target.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData, WorkMode != AnimeListWorkModes.TopManga));
                     else
                     {
-                        abstraction.AirDay = animeData.AirDay;
+                        if(animeData.AirDay != -1)
+                            abstraction.AirDay = animeData.AirDay;
                         if (updateScore)
                             abstraction.GlobalScore = animeData.Score;
                         abstraction.Index = animeData.Index;
@@ -1328,7 +1357,7 @@ namespace MalClient.Shared.ViewModels.Main
         /// </summary>
         public IAnimeListViewInteractions View { get; set; }
 
-        public AnimeListWorkModes _workMode;
+        private AnimeListWorkModes _workMode;
 
         public AnimeListWorkModes WorkMode
         {
@@ -1340,14 +1369,14 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
-        public TopAnimeType TopAnimeWorkMode { get; set; }
+        private TopAnimeType TopAnimeWorkMode { get; set; }
 
         private AnimeListDisplayModes _displayMode;
 
         public AnimeListDisplayModes DisplayMode
         {
             get { return _displayMode; }
-            set
+            private set
             {
                 if (_scrollHandlerAdded && CanAddScrollHandler)
                 {
@@ -1397,6 +1426,8 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
+        private bool _goingCustomSeason;
+
         private int _seasonalUrlsSelectedIndex;
 
         public int SeasonalUrlsSelectedIndex
@@ -1404,8 +1435,10 @@ namespace MalClient.Shared.ViewModels.Main
             get { return _seasonalUrlsSelectedIndex; }
             set
             {
-                if (value == _seasonalUrlsSelectedIndex || value < 0)
+                if (_goingCustomSeason || value == _seasonalUrlsSelectedIndex || value < 0)
                     return;
+                if (SeasonSelection.Count == 5) //additional custom season
+                    SeasonSelection.RemoveAt(4);
                 _seasonalUrlsSelectedIndex = value;
                 CurrentSeason = SeasonSelection[value];
                 RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
@@ -1413,6 +1446,41 @@ namespace MalClient.Shared.ViewModels.Main
                 FetchSeasonalData();
             }
         }
+
+        public List<string> SeasonSeasons { get; } = new List<string>
+        {
+            "Winter","Spring","Summer","Fall"
+        };
+
+        public List<string> SeasonYears { get; set; } = new List<string>();
+
+        public string CurrentlySelectedCustomSeasonSeason { get; set; }
+
+        public string CurrentlySelectedCustomSeasonYear { get; set; }
+
+        private ICommand _goToCustomSeasonCommand;
+
+        public ICommand GoToCustomSeasonCommand
+            => _goToCustomSeasonCommand ?? (_goToCustomSeasonCommand = new RelayCommand(
+                () =>
+                {
+
+                    if (string.IsNullOrEmpty(CurrentlySelectedCustomSeasonSeason) || string.IsNullOrEmpty(CurrentlySelectedCustomSeasonYear))
+                        return;
+                    _goingCustomSeason = true;
+                    if (SeasonSelection.Count == 5) //additional custom season
+                        SeasonSelection.RemoveAt(4);
+                    CurrentSeason = new AnimeSeason
+                    {
+                        Name = $"{CurrentlySelectedCustomSeasonSeason} {CurrentlySelectedCustomSeasonYear}",
+                        Url = $"http://myanimelist.net/anime/season/{CurrentlySelectedCustomSeasonYear}/{CurrentlySelectedCustomSeasonSeason.ToLower()}"
+                    };
+                    SeasonSelection.Add(CurrentSeason);
+                    _seasonalUrlsSelectedIndex = 4;
+                    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                    _goingCustomSeason = false;
+                    FetchSeasonalData();
+                }));
 
         private SortOptions _sortOption = SortOptions.SortNothing;
 

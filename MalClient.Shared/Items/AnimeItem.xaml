@@ -79,16 +79,7 @@
                        Foreground="LightGray" FontSize="14" FontStyle="Italic" />
                     </Grid>
                 </Grid>
-                <StackPanel Orientation="Horizontal">
-                    <Button Foreground="{ThemeResource BrushText}" Padding="0" HorizontalAlignment="Center" Background="Transparent"
-                        VerticalAlignment="Center" Margin="2,8,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
-                        <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                        <Button.Flyout>
-                            <Flyout>
-                                <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}"/>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
+                <StackPanel Orientation="Vertical">
                     <Grid HorizontalAlignment="Center" Margin="0,0,5,0"
                       Visibility="{x:Bind ViewModel.GlobalScoreBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                         <SymbolIcon Symbol="Favorite" Opacity=".5"
@@ -104,6 +95,15 @@
                                Margin="10,12,0,0" HorizontalAlignment="Center"
                                TextAlignment="Center" />
                     </Grid>
+                    <Button Foreground="{ThemeResource BrushText}" Padding="0" HorizontalAlignment="Center" Background="Transparent"
+                        VerticalAlignment="Center" Margin="2,8,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
+                        <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}"/>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
                 </StackPanel>
             </StackPanel>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="1">

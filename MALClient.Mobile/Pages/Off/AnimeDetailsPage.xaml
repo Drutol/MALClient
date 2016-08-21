@@ -728,7 +728,10 @@
                                                                         <ColumnDefinition Width="*" />
                                                                         <ColumnDefinition Width="*" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <Grid VerticalAlignment="Stretch"
+                                                                    <Button Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                                                Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateCharacterDetailsCommand}" 
+                                                                CommandParameter="{Binding AnimeCharacter.Data}">
+                                                                        <Grid VerticalAlignment="Stretch"
                                                                           HorizontalAlignment="Stretch">
                                                                         <Grid.RowDefinitions>
                                                                             <RowDefinition Height="230" />
@@ -740,22 +743,19 @@
                                                                         <Image Grid.Row="0">
                                                                             <Image.Source>
                                                                                 <BitmapImage
-                                                                                    UriSource="{Binding AnimeCharacter.ImgUrl}"
+                                                                                    UriSource="{Binding AnimeCharacter.Data.ImgUrl}"
                                                                                     DecodePixelType="Logical"
                                                                                     DecodePixelHeight="230"
                                                                                     DecodePixelWidth="150" />
                                                                             </Image.Source>
                                                                         </Image>
-                                                                        <new:FavButton Grid.Row="0"
+                                                                        <Grid Grid.Row="0"
                                                                                        HorizontalAlignment="Right"
-                                                                                       VerticalAlignment="Bottom"
-                                                                                       Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}"
-                                                                                       DataContext="{Binding AnimeCharacter}">
-                                                                            <new:FavButton.Background>
-                                                                                <SolidColorBrush Color="Black"
-                                                                                                 Opacity=".75" />
-                                                                            </new:FavButton.Background>
-                                                                        </new:FavButton>
+                                                                                       VerticalAlignment="Bottom" Background="{ThemeResource BrushFavouriteStarBackground}"
+                                                                              Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                            <new:FavButton DataContext="{Binding AnimeCharacter}"/>
+                                                                        </Grid>
+
                                                                         <Grid Grid.Row="1" Padding="4"
                                                                               HorizontalAlignment="Stretch"
                                                                               VerticalAlignment="Bottom"
@@ -768,56 +768,58 @@
                                                                             </Grid.ColumnDefinitions>
                                                                             <StackPanel HorizontalAlignment="Center">
                                                                                 <TextBlock FontWeight="Medium"
-                                                                                           Text="{Binding AnimeCharacter.Name}" />
+                                                                                           Text="{Binding AnimeCharacter.Data.Name}" />
                                                                                 <TextBlock FontWeight="SemiLight"
-                                                                                           Text="{Binding AnimeCharacter.Notes}" />
+                                                                                           Text="{Binding AnimeCharacter.Data.Notes}" />
                                                                             </StackPanel>
                                                                         </Grid>
                                                                     </Grid>
-                                                                    <Grid Grid.Column="1" VerticalAlignment="Stretch"
+                                                                        </Button>
+                                                                    <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                                                Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}" 
+                                                                CommandParameter="{Binding AnimeStaffPerson.Data}">
+                                                                        <Grid Grid.Column="1" VerticalAlignment="Stretch"
                                                                           HorizontalAlignment="Stretch">
-                                                                        <Grid.RowDefinitions>
-                                                                            <RowDefinition Height="230" />
-                                                                            <RowDefinition Height="Auto" />
-                                                                        </Grid.RowDefinitions>
-                                                                        <SymbolIcon Symbol="Help"
+                                                                            <Grid.RowDefinitions>
+                                                                                <RowDefinition Height="230" />
+                                                                                <RowDefinition Height="Auto" />
+                                                                            </Grid.RowDefinitions>
+                                                                            <SymbolIcon Symbol="Help"
                                                                                     HorizontalAlignment="Center"
                                                                                     VerticalAlignment="Center" />
-                                                                        <Image Grid.Row="0">
-                                                                            <Image.Source>
-                                                                                <BitmapImage
-                                                                                    UriSource="{Binding AnimeStaffPerson.ImgUrl}"
+                                                                            <Image Grid.Row="0">
+                                                                                <Image.Source>
+                                                                                    <BitmapImage
+                                                                                    UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
                                                                                     DecodePixelType="Logical"
                                                                                     DecodePixelHeight="230"
                                                                                     DecodePixelWidth="150" />
-                                                                            </Image.Source>
-                                                                        </Image>
-                                                                        <new:FavButton HorizontalAlignment="Right"
+                                                                                </Image.Source>
+                                                                            </Image>
+                                                                            <Grid HorizontalAlignment="Right"
                                                                                        VerticalAlignment="Bottom"
-                                                                                       Grid.Row="0"
-                                                                                       Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}"
-                                                                                       DataContext="{Binding AnimeStaffPerson}">
-                                                                            <new:FavButton.Background>
-                                                                                <SolidColorBrush Color="Black"
-                                                                                                 Opacity=".75" />
-                                                                            </new:FavButton.Background>
-                                                                        </new:FavButton>
-                                                                        <Grid Grid.Row="1" Padding="4"
+                                                                                       Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}"
+                                                                                       Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                                <new:FavButton DataContext="{Binding AnimeStaffPerson}"/>
+                                                                            </Grid>
+
+                                                                            <Grid Grid.Row="1" Padding="4"
                                                                               HorizontalAlignment="Stretch"
                                                                               VerticalAlignment="Bottom"
                                                                               Background="{ThemeResource BrushAnimeItemBackground}"
                                                                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                               BorderThickness="0,1,0,0">
-                                                                            <StackPanel HorizontalAlignment="Center">
-                                                                                <TextBlock FontWeight="Medium"
-                                                                                           Text="{Binding AnimeStaffPerson.Name}" />
-                                                                                <TextBlock FontWeight="SemiLight"
-                                                                                           Text="{Binding AnimeStaffPerson.Notes}" />
-                                                                            </StackPanel>
+                                                                                <StackPanel HorizontalAlignment="Center">
+                                                                                    <TextBlock FontWeight="Medium"
+                                                                                           Text="{Binding AnimeStaffPerson.Data.Name}" />
+                                                                                    <TextBlock FontWeight="SemiLight"
+                                                                                           Text="{Binding AnimeStaffPerson.Data.Notes}" />
+                                                                                </StackPanel>
+                                                                            </Grid>
                                                                         </Grid>
-                                                                    </Grid>
+                                                                    </Button>
                                                                 </Grid>
-                                                            </DataTemplate>
+                                                                                                                                </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
                                                     <MenuFlyoutSeparator />
@@ -844,45 +846,47 @@
                                                         </ItemsControl.ItemContainerStyle>
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Grid HorizontalAlignment="Stretch">
-                                                                    <Grid.RowDefinitions>
-                                                                        <RowDefinition Height="250" />
-                                                                        <RowDefinition Height="Auto" />
-                                                                    </Grid.RowDefinitions>
-                                                                    <SymbolIcon Symbol="Help"
+                                                                <Button Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                                                Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}" 
+                                                                CommandParameter="{Binding Data}">
+                                                                    <Grid HorizontalAlignment="Stretch">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="250" />
+                                                                            <RowDefinition Height="Auto" />
+                                                                        </Grid.RowDefinitions>
+                                                                        <SymbolIcon Symbol="Help"
                                                                                 HorizontalAlignment="Center"
                                                                                 VerticalAlignment="Center" />
-                                                                    <Image Grid.Row="0">
-                                                                        <Image.Source>
-                                                                            <BitmapImage UriSource="{Binding ImgUrl}"
+                                                                        <Image Grid.Row="0">
+                                                                            <Image.Source>
+                                                                                <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                                                                          DecodePixelType="Logical"
                                                                                          DecodePixelHeight="250"
                                                                                          DecodePixelWidth="175" />
-                                                                        </Image.Source>
-                                                                    </Image>
-                                                                    <new:FavButton Grid.Row="0"
+                                                                            </Image.Source>
+                                                                        </Image>
+                                                                        <Grid Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}"
                                                                                    HorizontalAlignment="Right"
-                                                                                   VerticalAlignment="Bottom"
-                                                                                   Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
-                                                                        <new:FavButton.Background>
-                                                                            <SolidColorBrush Color="Black"
-                                                                                             Opacity=".75" />
-                                                                        </new:FavButton.Background>
-                                                                    </new:FavButton>
-                                                                    <Grid Grid.Row="1" Padding="4"
+                                                                                   VerticalAlignment="Bottom" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                            <new:FavButton/>
+                                                                        </Grid>
+
+                                                                        <Grid Grid.Row="1" Padding="4"
                                                                           HorizontalAlignment="Stretch"
                                                                           VerticalAlignment="Bottom"
                                                                           Background="{ThemeResource BrushAnimeItemBackground}"
                                                                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                           BorderThickness="0,1,0,0">
-                                                                        <StackPanel HorizontalAlignment="Stretch">
-                                                                            <TextBlock FontWeight="Medium"
-                                                                                       Text="{Binding Name}" />
-                                                                            <TextBlock FontWeight="SemiLight"
-                                                                                       Text="{Binding Notes}" />
-                                                                        </StackPanel>
+                                                                            <StackPanel HorizontalAlignment="Stretch">
+                                                                                <TextBlock FontWeight="Medium"
+                                                                                       Text="{Binding Data.Name}" />
+                                                                                <TextBlock FontWeight="SemiLight"
+                                                                                       Text="{Binding Data.Notes}" />
+                                                                            </StackPanel>
+                                                                        </Grid>
+
                                                                     </Grid>
-                                                                </Grid>
+                                                                </Button>
                                                             </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
@@ -935,228 +939,147 @@
                                     <ScrollViewer>
                                         <Grid VerticalAlignment="Stretch">
                                             <TextBlock
-                                                Visibility="{Binding DetailedDataVisibility,Converter={StaticResource VisiblityInverterConverter}}"
-                                                Text="Data unavailable :("
-                                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                FontSize="30" FontWeight="SemiLight"
-                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                    Visibility="{Binding DetailedDataVisibility,Converter={StaticResource VisiblityInverterConverter}}"
+                                    Text="Data unavailable :("
+                                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    FontSize="30" FontWeight="SemiLight"
+                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+
+
                                             <Grid Visibility="{Binding DetailedDataVisibility}" Margin="0,0,0,10">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
                                                 <Grid.Resources>
                                                     <Style TargetType="userControls:AlternatingListView">
                                                         <Setter Property="SelectionMode" Value="None" />
                                                     </Style>
+                                                    <Style TargetType="ListViewItem" x:Key="DetailsItemStyle">
+                                                        <Setter Property="BorderBrush"
+                                                                Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                                        <Setter Property="BorderThickness" Value="2,0,2,0" />
+                                                        <Setter Property="Margin" Value="1,1" />
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
                                                 </Grid.Resources>
-                                                <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
-                                                           HorizontalAlignment="Center" FontSize="17"
-                                                           Grid.ColumnSpan="2"
-                                                           Margin="0,5,0,5" />
-                                                <StackPanel Grid.Row="1">
-                                                    <TextBlock Visibility="{Binding NoGenresDataVisibility}"
-                                                               Text="No data available"
-                                                               TextWrapping="WrapWholeWords" TextAlignment="Center"
-                                                               Foreground="#FFB9B9B9" />
+                                                <StackPanel>
+                                                    <TextBlock Text="Genres" FontWeight="Bold" VerticalAlignment="Top"
+                                               HorizontalAlignment="Center" FontSize="17"
+                                               Margin="0,5,0,5" />
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width=".5*" />
                                                             <ColumnDefinition Width=".5*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="10" />
-                                                            <RowDefinition Height="*" />
-                                                        </Grid.RowDefinitions>
-                                                        <userControls:AlternatingListView Grid.Column="0" Grid.Row="1"
-                                                                                          ScrollViewer.VerticalScrollMode="Disabled"
-                                                                                          ItemsSource="{Binding RightGenres}"
-                                                                                          BorderThickness="0,0,1,0"
-                                                                                          BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
-                                                            <ListView.ItemContainerStyle>
-                                                                <Style TargetType="ListViewItem">
-                                                                    <Setter Property="BorderBrush"
-                                                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                                    <Setter Property="BorderThickness" Value="2,0,0,0" />
-                                                                    <Setter Property="Margin" Value="1,1" />
-                                                                    <Setter Property="HorizontalContentAlignment"
-                                                                            Value="Stretch" />
-                                                                </Style>
-                                                            </ListView.ItemContainerStyle>
+                                                        <userControls:AlternatingListView Grid.Column="0"
+                                                                              ItemsSource="{Binding RightGenres}"
+                                                                              BorderThickness="0,0,1,0"
+                                                                              BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                              ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding}" TextAlignment="Center"
-                                                                               HorizontalAlignment="Stretch"
-                                                                               FontWeight="SemiLight" />
+                                                                    <TextBlock Text="{Binding}" TextAlignment="Center" VerticalAlignment="Center"
+                                                                   HorizontalAlignment="Stretch" FontWeight="SemiLight" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </userControls:AlternatingListView>
-                                                        <userControls:AlternatingListView Grid.Column="1" Grid.Row="1"
-                                                                                          ScrollViewer.VerticalScrollMode="Disabled"
-                                                                                          ItemsSource="{Binding LeftGenres}"
-                                                                                          BorderThickness="1,0,0,0"
-                                                                                          BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
-                                                            <ListView.ItemContainerStyle>
-                                                                <Style TargetType="ListViewItem">
-                                                                    <Setter Property="BorderBrush"
-                                                                            Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                                    <Setter Property="BorderThickness" Value="0,0,2,0" />
-                                                                    <Setter Property="Margin" Value="1,1" />
-                                                                    <Setter Property="HorizontalContentAlignment"
-                                                                            Value="Stretch" />
-                                                                </Style>
-                                                            </ListView.ItemContainerStyle>
+                                                        <userControls:AlternatingListView Grid.Column="1"
+                                                                              ItemsSource="{Binding LeftGenres}"
+                                                                              BorderThickness="1,0,0,0"
+                                                                              BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
+                                                                              ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding}" TextAlignment="Center"
-                                                                               HorizontalAlignment="Stretch"
-                                                                               FontWeight="SemiLight" />
+                                                                    <TextBlock Text="{Binding}" TextAlignment="Center" VerticalAlignment="Center"
+                                                                   HorizontalAlignment="Stretch" FontWeight="SemiLight" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </userControls:AlternatingListView>
                                                     </Grid>
-                                                    <MenuFlyoutSeparator />
-                                                </StackPanel>
-                                                <StackPanel Grid.ColumnSpan="2" Grid.Row="3">
-                                                    <TextBlock Text="Episodes" FontWeight="Bold"
-                                                               VerticalAlignment="Top"
-                                                               HorizontalAlignment="Center" FontSize="17"
-                                                               Margin="0,5,0,5" />
-                                                    <TextBlock Visibility="{Binding NoEpisodesDataVisibility}"
-                                                               Text="No data available"
-                                                               TextWrapping="WrapWholeWords" TextAlignment="Center"
-                                                               Foreground="#FFB9B9B9" />
-                                                    <userControls:AlternatingListView ItemsSource="{Binding Episodes}"
-                                                                                      ScrollViewer.VerticalScrollMode="Disabled">
-                                                        <ListView.ItemContainerStyle>
-                                                            <Style TargetType="ListViewItem">
-                                                                <Setter Property="BorderBrush"
-                                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                                <Setter Property="BorderThickness" Value="2,0,2,0" />
-                                                                <Setter Property="Margin" Value="1,1" />
-                                                                <Setter Property="HorizontalContentAlignment"
-                                                                        Value="Stretch" />
-                                                            </Style>
-                                                        </ListView.ItemContainerStyle>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Grid HorizontalAlignment="Stretch">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="Auto" />
-                                                                        <ColumnDefinition Width="*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Grid.Column="0" Text="{Binding Item1}"
-                                                                               HorizontalAlignment="Center"
-                                                                               FontWeight="SemiBold" />
-                                                                    <TextBlock Grid.Column="1" Text="{Binding Item2}"
-                                                                               HorizontalAlignment="Center"
-                                                                               FontWeight="SemiLight"
-                                                                               TextTrimming="CharacterEllipsis" />
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </userControls:AlternatingListView>
-                                                </StackPanel>
-                                                <MenuFlyoutSeparator Grid.Row="4"
-                                                                     Visibility="{Binding DetailsOpsVisibility}" />
-                                                <TextBlock Grid.Row="5" Text="Opening themes" FontWeight="Bold"
-                                                           VerticalAlignment="Top" HorizontalAlignment="Center"
-                                                           FontSize="17"
-                                                           Grid.ColumnSpan="2" Margin="0,5,0,5"
-                                                           Visibility="{Binding DetailsOpsVisibility}" />
-                                                <StackPanel Grid.Row="6" Visibility="{Binding DetailsOpsVisibility}">
-                                                    <TextBlock Visibility="{Binding NoOPsDataVisibility}"
-                                                               Text="No data available"
-                                                               TextWrapping="WrapWholeWords" TextAlignment="Center"
-                                                               Foreground="#FFB9B9B9" />
-                                                    <userControls:AlternatingListView ItemsSource="{Binding OPs}"
-                                                                                      ScrollViewer.VerticalScrollMode="Disabled">
-                                                        <ListView.ItemContainerStyle>
-                                                            <Style TargetType="ListViewItem">
-                                                                <Setter Property="BorderBrush"
-                                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                                <Setter Property="BorderThickness" Value="2,0,2,0" />
-                                                                <Setter Property="Margin" Value="1,1" />
-                                                                <Setter Property="HorizontalContentAlignment"
-                                                                        Value="Stretch" />
-                                                            </Style>
-                                                        </ListView.ItemContainerStyle>
-                                                        <ListView.Resources>
-                                                            <Style TargetType="TextBlock">
-                                                                <Setter Property="IsTextSelectionEnabled" Value="True" />
-                                                            </Style>
-                                                        </ListView.Resources>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding}"
-                                                                           HorizontalAlignment="Center"
-                                                                           FontWeight="SemiLight"
-                                                                           TextTrimming="CharacterEllipsis" />
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </userControls:AlternatingListView>
-                                                </StackPanel>
-                                                <MenuFlyoutSeparator Grid.Row="7"
-                                                                     Visibility="{Binding DetailsEdsVisibility}" />
-                                                <TextBlock Grid.Row="8" Text="Ending themes" FontWeight="Bold"
-                                                           Visibility="{Binding DetailsEdsVisibility}"
-                                                           VerticalAlignment="Top" HorizontalAlignment="Center"
-                                                           FontSize="17"
-                                                           Grid.ColumnSpan="2" Margin="0,5,0,5" />
-                                                <StackPanel Grid.Row="9" Visibility="{Binding DetailsEdsVisibility}">
-                                                    <TextBlock Text="No data available"
-                                                               Visibility="{Binding NoEDsDataVisibility}"
-                                                               TextWrapping="WrapWholeWords" TextAlignment="Center"
-                                                               Foreground="#FFB9B9B9" />
-                                                    <userControls:AlternatingListView ItemsSource="{Binding EDs}"
-                                                                                      ScrollViewer.VerticalScrollMode="Disabled">
-                                                        <ListView.ItemContainerStyle>
-                                                            <Style TargetType="ListViewItem">
-                                                                <Setter Property="BorderBrush"
-                                                                        Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                                                <Setter Property="BorderThickness" Value="2,0,2,0" />
-                                                                <Setter Property="Margin" Value="1,1" />
-                                                                <Setter Property="HorizontalContentAlignment"
-                                                                        Value="Stretch" />
-                                                            </Style>
-                                                        </ListView.ItemContainerStyle>
-                                                        <ListView.Resources>
-                                                            <Style TargetType="TextBlock">
-                                                                <Setter Property="IsTextSelectionEnabled" Value="True" />
-                                                            </Style>
-                                                        </ListView.Resources>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding}"
-                                                                           HorizontalAlignment="Center"
-                                                                           FontWeight="SemiLight"
-                                                                           TextTrimming="CharacterEllipsis" />
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
+                                                    <MenuFlyoutSeparator Margin="0,5"/>
+                                                    <StackPanel>
+                                                        <TextBlock Text="Information" FontWeight="Bold" VerticalAlignment="Top"
+                                                   HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
+                                                        <userControls:AlternatingListView ItemsSource="{Binding Information}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid HorizontalAlignment="Stretch">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="70" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0" Text="{Binding Item1}" VerticalAlignment="Center" TextAlignment="Center"
+                                                                   HorizontalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                                   HorizontalAlignment="Center" FontWeight="SemiLight" VerticalAlignment="Center" TextAlignment="Center"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+                                                        </userControls:AlternatingListView>
+                                                    </StackPanel>
+                                                    <MenuFlyoutSeparator Margin="0,5"/>
+                                                    <StackPanel>
+                                                        <TextBlock Text="Statisctics" FontWeight="Bold" VerticalAlignment="Top"
+                                                   HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
+                                                        <userControls:AlternatingListView ItemsSource="{Binding Stats}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid HorizontalAlignment="Stretch">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="70" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0" Text="{Binding Item1}" VerticalAlignment="Center" TextAlignment="Center"
+                                                                   HorizontalAlignment="Center" FontWeight="SemiBold" />
+                                                                        <TextBlock Grid.Column="1" Text="{Binding Item2}"
+                                                                   HorizontalAlignment="Center" FontWeight="SemiLight" VerticalAlignment="Center" TextAlignment="Center"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+                                                        </userControls:AlternatingListView>
+                                                    </StackPanel>
+                                                    <StackPanel Visibility="{Binding AnimeMode,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <MenuFlyoutSeparator Margin="0,5"/>
+                                                        <TextBlock Text="Opening themes" FontWeight="Bold"
+                                               VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
+                                                Margin="0,5,0,5" />
+                                                        <userControls:AlternatingListView ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                            <ListView.Resources>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="IsTextSelectionEnabled" Value="True" />
+                                                                </Style>
+                                                            </ListView.Resources>
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                                               FontWeight="SemiLight" TextTrimming="CharacterEllipsis" />
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+                                                        </userControls:AlternatingListView>
+                                                        <MenuFlyoutSeparator Margin="0,5" />
+                                                        <TextBlock Text="Ending themes" FontWeight="Bold"
+                                               VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
+                                                Margin="0,5,0,5" />
+                                                        <userControls:AlternatingListView ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                            <ListView.Resources>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="IsTextSelectionEnabled" Value="True" />
+                                                                </Style>
+                                                            </ListView.Resources>
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                                               FontWeight="SemiLight" TextTrimming="CharacterEllipsis" />
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
 
-                                                    </userControls:AlternatingListView>
+                                                        </userControls:AlternatingListView>
+                                                    </StackPanel>
                                                 </StackPanel>
-                                                <Button VerticalAlignment="Bottom" Grid.Row="10"
-                                                        Margin="0,15,0,0" HorizontalAlignment="Left"
-                                                        Content="{Binding DetailsSource}"
-                                                        Command="{Binding OpenInAnnCommand}"
-                                                        Visibility="{Binding AnnSourceButtonVisibility}"
-                                                        Style="{StaticResource TextBlockButtonStyle}" />
                                             </Grid>
                                             <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
-                                                  HorizontalAlignment="Stretch"
-                                                  Background="{ThemeResource BrushLoadingNonOpaque}">
-                                                <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
-                                                              Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
+                                      HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonOpaque}">
+                                                <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
+                                                  Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                             </Grid>
                                         </Grid>
                                     </ScrollViewer>

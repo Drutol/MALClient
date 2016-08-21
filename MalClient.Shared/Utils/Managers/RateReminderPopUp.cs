@@ -32,7 +32,15 @@ namespace MalClient.Shared.Utils.Managers
             }));
             msg.Commands.Add(new UICommand("Not now...", command => Settings.RatePopUpStartupCounter = 0));
             msg.CancelCommandIndex = 1;
-            await msg.ShowAsync();
+            try
+            {
+                await msg.ShowAsync();
+            }
+            catch (Exception)
+            {
+                //
+            }
+
         }
 
         /// <summary>
@@ -58,7 +66,14 @@ namespace MalClient.Shared.Utils.Managers
                     "You seem to use this app quite a bit!");
             msg.Commands.Add(new UICommand("Okay..."));
             msg.CancelCommandIndex = 1;
-            await msg.ShowAsync();
+            try
+            {
+                await msg.ShowAsync();
+            }
+            catch (Exception)
+            {
+                //
+            }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.DonatePopUpAppeared);
         }
     }

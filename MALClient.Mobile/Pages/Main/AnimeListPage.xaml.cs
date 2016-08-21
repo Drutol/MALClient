@@ -274,5 +274,10 @@ namespace MALClient.Pages.Main
             BtnOrderDescending.IsChecked = descending;
         }
 
+        private void ButtonCustomSeasonGo(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
+                FlyoutSeasonSelection.Hide();
+        }
     }
 }

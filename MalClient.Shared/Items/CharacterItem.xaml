@@ -28,7 +28,7 @@
         <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch" Background="Transparent"
               BorderBrush="Transparent">
-            <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoImgSymbol"/>
             <Image Stretch="UniformToFill" Width="200" Height="325" ext:ImageExtensions.FadeInOnLoaded="True">
                 <Image.Source>
                     <BitmapImage UriSource="{Binding Data.ImgUrl}"

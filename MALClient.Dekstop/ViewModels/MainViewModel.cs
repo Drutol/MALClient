@@ -843,7 +843,7 @@ private bool _menuPaneState;
         public void PopulateSearchFilters(HashSet<string> filters)
         {
             SearchFilterOptions.Clear();
-            if (filters.Count <= 1)
+            if (filters.Count <= 1 || (CurrentMainPage.Value != PageIndex.PageSearch && CurrentMainPage.Value != PageIndex.PageMangaSearch))
             {
                 SearchFilterButtonVisibility = Visibility.Collapsed;
                 return;

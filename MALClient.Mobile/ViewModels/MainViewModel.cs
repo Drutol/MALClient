@@ -644,7 +644,7 @@ namespace MALClient.ViewModels
         public void PopulateSearchFilters(HashSet<string> filters)
         {
             SearchFilterOptions.Clear();
-            if (filters.Count <= 1)
+            if (filters.Count <= 1 || (LastIndex != PageIndex.PageSearch && LastIndex != PageIndex.PageMangaSearch))
             {
                 SearchFilterButtonVisibility = Visibility.Collapsed;
                 return;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,6 +23,11 @@ namespace MalClient.Shared.Items
         public CharacterItem()
         {
             this.InitializeComponent();
+            Loaded += async (sender, args) =>
+            {
+                await Task.Delay(2000);
+                NoImgSymbol.Visibility = Visibility.Visible;
+            };
         }
 
         public Visibility FavouriteButtonVisibility
@@ -34,5 +40,6 @@ namespace MalClient.Shared.Items
         {
             MenuFlyout.ShowAt(this);
         }
+
     }
 }

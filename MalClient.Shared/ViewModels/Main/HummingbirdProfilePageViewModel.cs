@@ -59,7 +59,7 @@ namespace MalClient.Shared.ViewModels.Main
             }
             catch (Exception)
             {                
-                throw;
+                //#justhummingbirdthings
             }
             
         }

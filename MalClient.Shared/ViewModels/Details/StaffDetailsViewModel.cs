@@ -85,7 +85,10 @@ namespace MalClient.Shared.ViewModels.Details
         public async void Init(StaffDetailsNaviagtionArgs args, bool force = false)
         {
             if (Data != null)
+            {
                 ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
+                ViewModelLocator.GeneralMain.IsCurrentStatusSelectable = true;
+            }
             if (!force && (_prevArgs?.Equals(args) ?? false))
                 return;
             Loading = true;

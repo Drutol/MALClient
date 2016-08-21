@@ -177,7 +177,6 @@
     </Compile>
     <Compile Include="Utils\NavMgr.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
-    <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MobileViewModelLocator.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
@@ -379,9 +378,7 @@
       <Name>MALClient.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Off\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

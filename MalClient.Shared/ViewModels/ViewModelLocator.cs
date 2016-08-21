@@ -113,6 +113,7 @@ namespace MalClient.Shared.ViewModels
             SimpleIoc.Default.Register<CharacterDetailsViewModel>();
             SimpleIoc.Default.Register<StaffDetailsViewModel>();
             SimpleIoc.Default.Register<CharacterSearchViewModel>();
+            SimpleIoc.Default.Register<ProfilePageViewModel>();
 
         }
 

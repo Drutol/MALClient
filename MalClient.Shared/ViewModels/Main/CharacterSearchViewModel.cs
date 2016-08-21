@@ -98,13 +98,15 @@ namespace MalClient.Shared.ViewModels.Main
             if (!_queryHandler)
                 ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += OnOnSearchQuerySubmitted;
             _queryHandler = true;        
+
+            OnOnSearchQuerySubmitted(ViewModelLocator.GeneralMain.CurrentSearchQuery);
         }
 
         private async void OnOnSearchQuerySubmitted(string query)
-        {
-            IsFirstVisitGridVisible = false;
-            if (Loading || (query?.Equals(_prevQuery, StringComparison.CurrentCultureIgnoreCase) ?? true))
+        {         
+            if (Loading || (query?.Equals(_prevQuery, StringComparison.CurrentCultureIgnoreCase) ?? true) || string.IsNullOrEmpty(query))
                 return;
+            IsFirstVisitGridVisible = false;
             if (query.Length <= 2)
             {
                 FoundCharacters?.Clear();
@@ -138,8 +140,11 @@ namespace MalClient.Shared.ViewModels.Main
 
         public void OnNavigatedFrom()
         {
-            FoundCharacters?.Clear();
-            _prevQuery = "";
+            if (!ViewModelLocator.Mobile)
+            {
+                FoundCharacters?.Clear();
+                _prevQuery = "";
+            }
             ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= OnOnSearchQuerySubmitted;
             _queryHandler = false;
         }

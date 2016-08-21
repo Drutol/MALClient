@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="HamburgerAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="HamburgerAnimeList.Text" xml:space="preserve">
+    <value>Anime List</value>
+  </data>
+  <data name="HamburgerAnimeListFiltersAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="HamburgerAnimeListFiltersCompleted" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="HamburgerAnimeListFiltersDropped" xml:space="preserve">
+    <value>Dropped</value>
+  </data>
+  <data name="HamburgerAnimeListFiltersOnHold" xml:space="preserve">
+    <value>On Hold</value>
+  </data>
+  <data name="HamburgerAnimeListFiltersPtw" xml:space="preserve">
+    <value>Plan to Watch</value>
+  </data>
+  <data name="HamburgerAnimeListFiltersWatching" xml:space="preserve">
+    <value>Watching</value>
+  </data>
+  <data name="HamburgerAnimeSearch.Text" xml:space="preserve">
+    <value>Anime Search</value>
+  </data>
+  <data name="HamburgerArticles.Text" xml:space="preserve">
+    <value>Articles</value>
+  </data>
+  <data name="HamburgerCalendar.Text" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="HamburgerDonate1.Text" xml:space="preserve">
+    <value>Donate $0.99</value>
+  </data>
+  <data name="HamburgerDonate2.Text" xml:space="preserve">
+    <value>Donate $1.99</value>
+  </data>
+  <data name="HamburgerDonate3.Text" xml:space="preserve">
+    <value>Donate $2.99</value>
+  </data>
+  <data name="HamburgerDonate4.Text" xml:space="preserve">
+    <value>Donate $3.99</value>
+  </data>
+  <data name="HamburgerFeedback.Text" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="HamburgerForums.Text" xml:space="preserve">
+    <value>Forums Beta</value>
+  </data>
+  <data name="HamburgerHistory.Content" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="HamburgerLogIn" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="HamburgerMangaList.Text" xml:space="preserve">
+    <value>Manga List</value>
+  </data>
+  <data name="HamburgerMangaListFiltersPtr" xml:space="preserve">
+    <value>Plan to read</value>
+  </data>
+  <data name="HamburgerMangaListFiltersReading" xml:space="preserve">
+    <value>Reading</value>
+  </data>
+  <data name="HamburgerMangaSearch.Text" xml:space="preserve">
+    <value>Manga Search</value>
+  </data>
+  <data name="HamburgerMessaging.Content" xml:space="preserve">
+    <value>Messaging</value>
+  </data>
+  <data name="HamburgerNews.Text" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="HamburgerPinnedProfiles.Text" xml:space="preserve">
+    <value>Pinned profiles</value>
+  </data>
+  <data name="HamburgerProfile.Text" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="HamburgerRecommendations.Text" xml:space="preserve">
+    <value>Recommendations</value>
+  </data>
+  <data name="HamburgerSeasonalAnime.Text" xml:space="preserve">
+    <value>Seasonal Anime</value>
+  </data>
+  <data name="HamburgerSettings.Text" xml:space="preserve">
+    <value>Settings &amp; More</value>
+  </data>
+  <data name="HamburgerSupportMe.Text" xml:space="preserve">
+    <value>Support me!</value>
+  </data>
+  <data name="HamburgerTopAnime.Text" xml:space="preserve">
+    <value>Top Anime</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesAiring.Text" xml:space="preserve">
+    <value>Airing</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesFavs.Text" xml:space="preserve">
+    <value>Favourites</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesGeneral.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesMovies.Text" xml:space="preserve">
+    <value>Movies</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesOva.Text" xml:space="preserve">
+    <value>OVAs</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesPopular.Text" xml:space="preserve">
+    <value>Popular</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesTv.Text" xml:space="preserve">
+    <value>TV Series</value>
+  </data>
+  <data name="HamburgerTopAnimeCategoriesUpcoming.Text" xml:space="preserve">
+    <value>Upcoming</value>
+  </data>
+  <data name="HamburgerTopManga.Text" xml:space="preserve">
+    <value>Top Manga</value>
+  </data>
+  <data name="SettingsArticlesLinks.Header" xml:space="preserve">
+    <value>Open unsupported links in external browser.</value>
+  </data>
+  <data name="SettingsArticlesScrollBar.Header" xml:space="preserve">
+    <value>Display scroll bar.</value>
+  </data>
+  <data name="SettingsCacheCurrCached.Text" xml:space="preserve">
+    <value>Currently cached data:</value>
+  </data>
+  <data name="SettingsCacheEnable.Text" xml:space="preserve">
+    <value>Enable list data caching.</value>
+  </data>
+  <data name="SettingsCacheHowLong.Text" xml:space="preserve">
+    <value>For how long cached data stays valid?</value>
+  </data>
+  <data name="SettingsCacheNoEntries.Text" xml:space="preserve">
+    <value>No cached entries.</value>
+  </data>
+  <data name="SettingsCachePers10h.Content" xml:space="preserve">
+    <value>10 hours</value>
+  </data>
+  <data name="SettingsCachePers10Min.Content" xml:space="preserve">
+    <value>10 minutes</value>
+  </data>
+  <data name="SettingsCachePers1d.Content" xml:space="preserve">
+    <value>1 day</value>
+  </data>
+  <data name="SettingsCachePers1h.Content" xml:space="preserve">
+    <value>1 hour</value>
+  </data>
+  <data name="SettingsCachePers2h.Content" xml:space="preserve">
+    <value>2 hours</value>
+  </data>
+  <data name="SettingsCachePers3h.Content" xml:space="preserve">
+    <value>3 hours</value>
+  </data>
+  <data name="SettingsCachePers5h.Content" xml:space="preserve">
+    <value>5 hours</value>
+  </data>
+  <data name="SettingsCacheRemove" xml:space="preserve">
+    <value>Remove all anime details data</value>
+  </data>
+  <data name="SettingsCalendarBuildOpts.Text" xml:space="preserve">
+    <value>Build options</value>
+  </data>
+  <data name="SettingsCalendarBuildOptsIncludePtw.Content" xml:space="preserve">
+    <value>Include plan to watch</value>
+  </data>
+  <data name="SettingsCalendarBuildOptsIncludeW.Content" xml:space="preserve">
+    <value>Include watching</value>
+  </data>
+  <data name="SettingsCalendarMisc.Text" xml:space="preserve">
+    <value>Misc</value>
+  </data>
+  <data name="SettingsCalendarMiscRemEmpty.Header" xml:space="preserve">
+    <value>Remove empty days</value>
+  </data>
+  <data name="SettingsCalendarMiscSunFirst.Header" xml:space="preserve">
+    <value>Make sunday 1st day of week</value>
+  </data>
+  <data name="SettingsCalendarStartPage.Text" xml:space="preserve">
+    <value>Start page</value>
+  </data>
+  <data name="SettingsCalendarStartSumm.Content" xml:space="preserve">
+    <value>Start on summary</value>
+  </data>
+  <data name="SettingsCalendarStartToday.Content" xml:space="preserve">
+    <value>Start on today</value>
+  </data>
+  <data name="SettingsGeneralCollapsed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralColorTheme" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralColorThemeChangesVisbile" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralColorThemeDark" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralColorThemeLight" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralDefAnimeFilter" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralDefAnimeSortVals" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralDefHamburgerState" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralDefMangaFilter" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralDisabled" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralDoNothing" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralEnabled" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralEnableSwipe" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralEnsureCurrItemSelAfterDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralEnsureSelected" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralEnsureVis" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralExpanded" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralFocusChapt" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralFocusVols" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralLockViewMode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralMangaVisibility" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralMangaVolsOverChapters" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralModeRecoms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralModeReviews" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralModesForRevAndRecoms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralModesList" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralModesPivot" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortDefMangaVals" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortDescending" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortLastWatch" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortNone" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortRead" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortScore" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortSoonestAir" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralSortWatched" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralStartPage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralStartPAgeAnimeList" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralStartPageMangaList" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesAll" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesCompleted" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesDropped" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesForStatus" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesModeDetailedGrid" xml:space="preserve">
+    <value>Detailed Grid</value>
+  </data>
+  <data name="SettingsGeneralViewModesModeGrid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="SettingsGeneralViewModesModeList" xml:space="preserve">
+    <value>Compact List</value>
+  </data>
+  <data name="SettingsGeneralViewModesOnHold" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesPtwRead" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralViewModesWatchRead" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralVisible" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SettingsGeneralWhenRandomEnsureSelect" xml:space="preserve">
+    <value />
+  </data>
+</root>

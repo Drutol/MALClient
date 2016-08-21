@@ -87,9 +87,9 @@ namespace MALClient.ViewModels.Off
         public ObservableCollection<Tuple<AnimeListDisplayModes, string>> DisplayModes { get; } = new ObservableCollection
             <Tuple<AnimeListDisplayModes, string>>
         {
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "Detailed Grid"),
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "Grid"),
-            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteCompactList, "Compact List")
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteList, "SettingsGeneralViewModesModeDetailedGrid".Localize()),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteGrid, "SettingsGeneralViewModesModeGrid".Localize()),
+            new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteCompactList, "SettingsGeneralViewModesModeList".Localize())
         };
 
         public List<SettingsPageEntry> SettingsPages { get; } = new List<SettingsPageEntry>
@@ -506,7 +506,7 @@ namespace MALClient.ViewModels.Off
             {
                 var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
                 var data = await folder.GetFilesAsync();
-                TotalFilesCached = $"Remove all anime details data({data.Count}files)";
+                TotalFilesCached = $"{"SettingsCacheRemove".Localize()}({data.Count})";
                 RemoveAllCachedDataButtonVisibility = Visibility.Visible;
             }
             catch (Exception)

@@ -22,9 +22,9 @@
                 <TextBlock Text="General" FontWeight="Medium"
                            HorizontalAlignment="Center"
                            TextWrapping="WrapWholeWords" />
-                <ToggleSwitch Margin="0,5" Header="Open unsupported links in external browser."
+                <ToggleSwitch Margin="0,5" x:Uid="SettingsArticlesLinks"
                               IsOn="{Binding ArticlesLaunchExternalLinks,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <ToggleSwitch Margin="0,5" Header="Display scroll bar."
+                <ToggleSwitch Margin="0,5" x:Uid="SettingsArticlesScrollBar"
                               IsOn="{Binding ArticlesDisplayScrollBar,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </StackPanel>

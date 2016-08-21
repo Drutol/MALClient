@@ -20,13 +20,13 @@
 
     <ScrollViewer>
         <StackPanel HorizontalAlignment="Stretch">
-            <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
+            <TextBlock x:Uid="SettingsCacheCurrCached" FontWeight="Medium" HorizontalAlignment="Center" />
             <userControls1:AlternatingListView ItemsSource="{Binding CachedEntries}" Height="Auto"
                                               HorizontalAlignment="Stretch"
                                               SelectionMode="None" Margin="0,10,0,5">
                 <ListView.Header>
                     <TextBlock Visibility="{Binding EmptyCachedListVisiblity}"
-                               Text="No cached entries."
+                               x:Uid="SettingsCacheNoEntries"
                                VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </ListView.Header>
                 <ListView.ItemContainerStyle>
@@ -83,22 +83,22 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <ToggleSwitch VerticalAlignment="Center"
                               IsOn="{Binding IsCachingEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Text="Enable list data caching." VerticalAlignment="Center"
+                <TextBlock x:Uid="SettingsCacheEnable" VerticalAlignment="Center"
                            TextAlignment="Center" />
             </StackPanel>
             <StackPanel>
-                <TextBlock Text="For how long cached data stays valid?" FontWeight="Medium"
+                <TextBlock x:Uid="SettingsCacheHowLong.Text" FontWeight="Medium"
                            TextWrapping="WrapWholeWords" HorizontalAlignment="Center" />
                 <ComboBox x:Name="ComboCachePersistency" HorizontalAlignment="Center" Margin="0,10,0,5"
                           SelectionChanged="ChangeCachePersistency">
                     <ComboBox.Items>
-                        <ComboBoxItem Content="10 minutes" />
-                        <ComboBoxItem Content="1 hour" />
-                        <ComboBoxItem Content="2 hours" />
-                        <ComboBoxItem Content="3 hours" />
-                        <ComboBoxItem Content="5 hours" />
-                        <ComboBoxItem Content="10 hours" />
-                        <ComboBoxItem Content="1 day" />
+                        <ComboBoxItem x:Uid="SettingsCachePers10Min" />
+                        <ComboBoxItem x:Uid="SettingsCachePers1h" />
+                        <ComboBoxItem x:Uid="SettingsCachePers2h" />
+                        <ComboBoxItem x:Uid="SettingsCachePers3h" />
+                        <ComboBoxItem x:Uid="SettingsCachePers5h" />
+                        <ComboBoxItem x:Uid="SettingsCachePers10h" />
+                        <ComboBoxItem x:Uid="SettingsCachePers1d" />
                     </ComboBox.Items>
                 </ComboBox>
             </StackPanel>

@@ -68,23 +68,23 @@ namespace MALClient.ViewModels
         public ObservableCollection<Tuple<AnimeStatus, string>> AnimeListFilters { get; set; } =
             new ObservableCollection<Tuple<AnimeStatus, string>>
             {
-                new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Watching"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to watch"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+                new Tuple<AnimeStatus, string>(AnimeStatus.Watching,    "HamburgerAnimeListFiltersWatching".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.Completed,   "HamburgerAnimeListFiltersCompleted".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.OnHold,      "HamburgerAnimeListFiltersOnHold".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.Dropped,     "HamburgerAnimeListFiltersDropped".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "HamburgerAnimeListFiltersPtw".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "HamburgerAnimeListFiltersAll".Localize())
             };
 
         public ObservableCollection<Tuple<AnimeStatus, string>> MangaListFilters { get; set; }
             = new ObservableCollection<Tuple<AnimeStatus, string>>
             {
-                new Tuple<AnimeStatus, string>(AnimeStatus.Watching, "Reading"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.Completed, "Completed"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.OnHold, "On Hold"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.Dropped, "Dropped"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "Plan to read"),
-                new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "All")
+                new Tuple<AnimeStatus, string>(AnimeStatus.Watching,    "HamburgerMangaListFiltersReading".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.Completed,   "HamburgerAnimeListFiltersCompleted".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.OnHold,      "HamburgerAnimeListFiltersOnHold".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.Dropped,     "HamburgerAnimeListFiltersDropped".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.PlanToWatch, "HamburgerMangaListFiltersPtr".Localize()),
+                new Tuple<AnimeStatus, string>(AnimeStatus.AllOrAiring, "HamburgerAnimeListFiltersAll".Localize())
             };
 
         public int CurrentAnimeFiltersSelectedIndex
@@ -130,7 +130,7 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
+        public string LogInLabel => Credentials.Authenticated ? "HamburgerAccount".Localize() : "HamburgerLogIn".Localize();
 
         public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
 

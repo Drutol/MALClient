@@ -153,7 +153,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
-                                <TextBlock Grid.Row="0" x:Name="TxtList" Text="Anime List" FontWeight="Medium"
+                                <TextBlock Grid.Row="0" x:Name="TxtList" x:Uid="HamburgerAnimeList" FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
                                            VerticalAlignment="Center"
@@ -217,7 +217,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                <TextBlock x:Name="TxtSearch" Text="Anime Search"
+                                <TextBlock x:Name="TxtSearch" x:Uid="HamburgerAnimeSearch"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -245,7 +245,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
-                                <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
+                                <TextBlock x:Name="TxtSeasonal" x:Uid="HamburgerSeasonalAnime"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Seasonal]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -274,7 +274,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtRecom , Path=Foreground}" />
-                                <TextBlock x:Name="TxtRecom" Text="Recommendations"
+                                <TextBlock x:Name="TxtRecom" x:Uid="HamburgerRecommendations"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Recommendations]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -307,7 +307,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtTopAnime , Path=Foreground}" />
-                                <TextBlock Grid.Row="0" x:Name="TxtTopAnime" Text="Top Anime"
+                                <TextBlock Grid.Row="0" x:Name="TxtTopAnime" x:Uid="HamburgerTopAnime"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -343,45 +343,45 @@
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="0">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[General]}"
-                                                       Text="General" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesGeneral" />
                                         </Button>
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="2">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[Upcoming]}"
-                                                       Text="Upcoming" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesUpcoming" />
                                         </Button>
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="4">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[Movies]}"
-                                                       Text="Movies" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesMovies" />
                                         </Button>
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="6">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[Popular]}"
-                                                       Text="Popular" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesPopular" />
                                         </Button>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Margin="1,0">
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="1">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[Airing]}"
-                                                       Text="Airing" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesAiring" />
                                         </Button>
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="3">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[Tv]}"
-                                                       Text="TV Series" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesTv" />
                                         </Button>
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="5">
                                             <TextBlock Foreground="{Binding TopCategoriesForegorundBrushes[Ovas]}"
-                                                       Text="OVAs" />
+                                                       x:Uid="HamburgerTopAnimeCategoriesOva" />
                                         </Button>
                                         <Button Command="{Binding ButtonNavigationTopAnimeCommand}"
                                                 CommandParameter="7">
                                             <TextBlock
                                                 Foreground="{Binding TopCategoriesForegorundBrushes[Favourited]}"
-                                                Text="Favourites" />
+                                                x:Uid="HamburgerTopAnimeCategoriesFavs" />
                                         </Button>
                                     </StackPanel>
                                 </Grid>
@@ -408,7 +408,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtCalendar , Path=Foreground}" />
-                                <TextBlock x:Name="TxtCalendar" Text="Calendar"
+                                <TextBlock x:Name="TxtCalendar" x:Uid="HamburgerCalendar"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Calendar]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -444,7 +444,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
-                                    <TextBlock Grid.Row="0" x:Name="TxtMangaList" Text="Manga List"
+                                    <TextBlock Grid.Row="0" x:Name="TxtMangaList" x:Uid="HamburgerMangaList"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -510,7 +510,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
+                                    <TextBlock x:Name="TxtMangaSearch" x:Uid="HamburgerMangaSearch"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -538,7 +538,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtTopManga" Text="Top Manga"
+                                    <TextBlock x:Name="TxtTopManga" x:Uid="HamburgerTopManga"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -569,7 +569,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtArticles , Path=Foreground}" />
-                                <TextBlock x:Name="TxtArticles" Text="Articles"
+                                <TextBlock x:Name="TxtArticles" x:Uid="HamburgerArticles"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Articles]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -597,7 +597,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtNews , Path=Foreground}" />
-                                <TextBlock x:Name="TxtNews" Text="News"
+                                <TextBlock x:Name="TxtNews" x:Uid="HamburgerNews"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[News]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -625,7 +625,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtForums , Path=Foreground}" />
-                                <TextBlock x:Name="TxtForums" Text="Forums Beta"
+                                <TextBlock x:Name="TxtForums" x:Uid="HamburgerForums"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Forums]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -644,10 +644,10 @@
                                 PointerExited="Button_PointerExited" Visibility="Visible">
                             <Button.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate" />
-                                    <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate" />
-                                    <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate" />
-                                    <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate" />
+                                    <MenuFlyoutItem  Tag="Donate1" x:Uid="HamburgerDonate1" Click="Donate" />
+                                    <MenuFlyoutItem  Tag="Donate2" x:Uid="HamburgerDonate2" Click="Donate" />
+                                    <MenuFlyoutItem  Tag="Donate3" x:Uid="HamburgerDonate3" Click="Donate" />
+                                    <MenuFlyoutItem  Tag="Donate4" x:Uid="HamburgerDonate4" Click="Donate" />
                                 </MenuFlyout>
                             </Button.Flyout>
                             <Grid Height="35">
@@ -667,7 +667,7 @@
                                                          Color="{StaticResource SystemAccentColor}" />
                                     </TextBlock.Foreground>
                                 </TextBlock>
-                                <TextBlock Text="Support me!" FontSize="15" FontWeight="SemiLight"
+                                <TextBlock x:Uid="HamburgerSupportMe" FontSize="15" FontWeight="SemiLight"
                                            HorizontalAlignment="Left"
                                            TextWrapping="WrapWholeWords"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
@@ -684,7 +684,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" />
-                                <TextBlock Text="Feedback" HorizontalAlignment="Left"
+                                <TextBlock x:Uid="HamburgerFeedback" HorizontalAlignment="Left"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
                                         FontFamily="Segoe MDL2 Assets" FontSize="24" Width="40" Height="35" Background="Transparent" Content="&#xE939;"  Click="FeedbackButton_OnClick"
@@ -729,7 +729,7 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Uid="HamburgerPinnedProfiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
                                         <ListView Grid.Row="1" Margin="-20,0" SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
@@ -764,7 +764,7 @@
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                 <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                             Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-80,0"
+                                <TextBlock x:Uid="HamburgerProfile" HorizontalAlignment="Left" Margin="0,0,-80,0"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -772,7 +772,7 @@
                                         CommandParameter="19" Background="Transparent"
                                         Width="40" Height="35">
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="History"/>
+                                            <ToolTip x:Uid="HamburgerHistory"/>
                                         </ToolTipService.ToolTip>
                                         <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,1,0" />
@@ -781,7 +781,7 @@
                                         CommandParameter="16" Background="Transparent"
                                         Width="40" Height="35" >
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="Messaging"/>
+                                            <ToolTip x:Uid="HamburgerMessaging"/>
                                         </ToolTipService.ToolTip>
                                         <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
                                                 Margin="0,0,1,0" />
@@ -809,7 +809,7 @@
                                             Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Left"
+                                <TextBlock x:Name="TxtSettings" x:Uid="HamburgerSettings" HorizontalAlignment="Left"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                             </Grid>

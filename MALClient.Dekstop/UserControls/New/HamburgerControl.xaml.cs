@@ -42,6 +42,7 @@ namespace MALClient.UserControls.New
             Loaded += OnLoaded;
             if (Settings.EnableHearthAnimation)
                 SupportMeStoryboard.Begin();
+
         }
 
         private HamburgerControlViewModel ViewModel => (HamburgerControlViewModel) DataContext;

@@ -18,32 +18,32 @@
 
     <StackPanel HorizontalAlignment="Stretch">
         <StackPanel Margin="5" HorizontalAlignment="Center">
-            <TextBlock Text="Build options" FontWeight="Medium"
+            <TextBlock x:Uid="SettingsCalendarBuildOpts" FontWeight="Medium"
                        HorizontalAlignment="Center"
                        TextWrapping="WrapWholeWords" />
-            <CheckBox Content="Include watching"
+            <CheckBox x:Uid="SettingsCalendarBuildOptsIncludeW"
                       IsChecked="{Binding CalendarIncludeWatching,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-            <CheckBox Content="Include plan to watch"
+            <CheckBox x:Uid="SettingsCalendarBuildOptsIncludePtw"
                       IsChecked="{Binding CalendarIncludePlanned,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <MenuFlyoutSeparator Margin="0,5" />
         <StackPanel Margin="5" HorizontalAlignment="Center">
-            <TextBlock Text="Start page" FontWeight="Medium"
+            <TextBlock x:Uid="SettingsCalendarStartPage" FontWeight="Medium"
                        HorizontalAlignment="Center"
                        TextWrapping="WrapWholeWords" />
-            <RadioButton Content="Start on summary" GroupName="CalendarStartTab"
+            <RadioButton x:Uid="SettingsCalendarStartSumm" GroupName="CalendarStartTab"
                          IsChecked="{Binding CalendarStartOnSummary}" />
-            <RadioButton Content="Start on today" GroupName="CalendarStartTab"
+            <RadioButton x:Uid="SettingsCalendarStartToday" GroupName="CalendarStartTab"
                          IsChecked="{Binding CalendarStartOnToday,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <MenuFlyoutSeparator Margin="0,5" />
         <StackPanel Margin="5" HorizontalAlignment="Center">
-            <TextBlock Text="Misc" FontWeight="Medium"
+            <TextBlock x:Uid="SettingsCalendarMisc" FontWeight="Medium"
                        HorizontalAlignment="Center"
                        TextWrapping="WrapWholeWords" />
-            <ToggleSwitch Header="Make sunday 1st day of week"
+            <ToggleSwitch x:Uid="SettingsCalendarMiscSunFirst"
                           IsOn="{Binding CalendarSwitchMonSun,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-            <ToggleSwitch Header="Remove empty days"
+            <ToggleSwitch x:Uid="SettingsCalendarMiscRemEmpty"
                           IsOn="{Binding CalendarRemoveEmptyDays,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
     </StackPanel>

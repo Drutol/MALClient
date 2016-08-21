@@ -105,6 +105,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="MALClient_StoreKey.pfx" />
     <None Include="project.json" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="MalClientResources.resw" />
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Appointments;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -595,5 +596,14 @@ namespace MalClient.Shared.Utils
         }
 
         #endregion
+
+        private static ResourceLoader _resourceLoader = new ResourceLoader();
+
+        public static string GetLocalizedString(string key)
+        {
+            return _resourceLoader.GetString(key);
+        }
+
+        public static string Localize(this string key) => GetLocalizedString(key);
     }
 }

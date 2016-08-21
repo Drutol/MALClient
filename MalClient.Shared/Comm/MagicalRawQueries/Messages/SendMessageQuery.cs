@@ -28,7 +28,7 @@ namespace MalClient.Shared.Comm.MagicalRawQueries.Messages
                 var content = new FormUrlEncodedContent(contentPairs);
 
                 var response =
-                    await client.PostAsync($"https://myanimelist.net/mymessages.php?go=send&toname={targetUser}", content);
+                    await client.PostAsync($"http://myanimelist.net/mymessages.php?go=send&toname={targetUser}", content);
 
                 return response.IsSuccessStatusCode;
             }

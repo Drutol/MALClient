@@ -18,7 +18,7 @@ namespace MalClient.Shared.Comm.Anime
             title = title.Replace('+', ' ');
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"https://cdn.animenewsnetwork.com/encyclopedia/api.xml?title=~{title}"));
+                    Uri.EscapeUriString($"http://cdn.animenewsnetwork.com/encyclopedia/api.xml?title=~{title}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _id = id;

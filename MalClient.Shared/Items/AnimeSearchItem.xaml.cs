@@ -116,7 +116,7 @@ namespace MalClient.Shared.Items
         {
             FlyoutMore.Hide();
             var dp = new DataPackage();
-            dp.SetText($"https://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+            dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
             Clipboard.SetContent(dp);
             FlyoutMore.Hide();
             Utilities.GiveStatusBarFeedback("Copied to clipboard...");
@@ -128,7 +128,7 @@ namespace MalClient.Shared.Items
             await
                 Launcher.LaunchUriAsync(
                     new Uri(
-                        $"https://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+                        $"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
         }
     }
 }

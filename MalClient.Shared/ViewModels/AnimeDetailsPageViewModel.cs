@@ -337,7 +337,7 @@ namespace MalClient.Shared.ViewModels
             if (Settings.SelectedApiType == ApiType.Mal)
             {
                 await
-                    Launcher.LaunchUriAsync(new Uri($"https://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
+                    Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}"));
             }
             else
             {
@@ -1019,7 +1019,7 @@ namespace MalClient.Shared.ViewModels
                     var dp = new DataPackage();
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
-                        dp.SetText($"https://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
+                        dp.SetText($"http://www.myanimelist.net/{(_animeMode ? "anime" : "manga")}/{Id}");
                     }
                     else
                     {
@@ -1795,7 +1795,7 @@ namespace MalClient.Shared.ViewModels
                 }
 
                 SourceLink = data.Source == DataSource.Ann
-                    ? SourceLink = $"https://www.animenewsnetwork.com/encyclopedia/anime.php?id={data.SourceId}"
+                    ? SourceLink = $"http://www.animenewsnetwork.com/encyclopedia/anime.php?id={data.SourceId}"
                     : $"https://hummingbird.me/anime/{data.SourceId}";
                 //Let's try to pull moar Genres data from MAL
 

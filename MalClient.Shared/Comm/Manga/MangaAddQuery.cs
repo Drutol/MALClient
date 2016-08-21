@@ -35,7 +35,7 @@ namespace MalClient.Shared.Comm.Manga
 
 
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/mangalist/add/{id}.xml?data={xml}"));
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/mangalist/add/{id}.xml?data={xml}"));
             Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

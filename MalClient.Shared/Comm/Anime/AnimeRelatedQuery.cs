@@ -25,7 +25,7 @@ namespace MalClient.Shared.Comm.Anime
         public AnimeRelatedQuery(int id, bool anime = true)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/"));
+                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;

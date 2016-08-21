@@ -412,7 +412,7 @@ namespace MalClient.Shared.ViewModels
                     case 1:
                         action.Action = TileActions.OpenUrl;
                         action.Param = Settings.SelectedApiType == ApiType.Mal
-                            ? $"https://myanimelist.net/{(EntryData.ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{EntryData.Id}"
+                            ? $"http://myanimelist.net/{(EntryData.ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{EntryData.Id}"
                             : $"https://hummingbird.me/{(EntryData.ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{EntryData.Id}";
                         break;
                     default:

@@ -17,14 +17,14 @@ namespace MalClient.Shared.Comm.Anime
             {
                 case ApiType.Mal:
                     Request =
-                        WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/anime/search.xml?q={query}"));
+                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/anime/search.xml?q={query}"));
                     Request.Credentials = Credentials.GetHttpCreditentials();
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;
                 case ApiType.Hummingbird:
                     Request =
-                        WebRequest.Create(Uri.EscapeUriString($"https://hummingbird.me/api/v1/search/anime?query={query}"));
+                        WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/search/anime?query={query}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;

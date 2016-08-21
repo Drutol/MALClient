@@ -19,7 +19,7 @@ namespace MalClient.Shared.Comm.Anime
         public AnimeSeasonalQuery(AnimeSeason season)
         {
             _season = season;
-            _overriden = _season.Url != "https://myanimelist.net/anime/season";
+            _overriden = _season.Url != "http://myanimelist.net/anime/season";
             Request = WebRequest.Create(Uri.EscapeUriString(_season.Url));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

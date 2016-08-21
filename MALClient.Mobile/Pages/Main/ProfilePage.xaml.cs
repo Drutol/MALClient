@@ -59,10 +59,23 @@ namespace MALClient.Pages.Main
             MobileViewModelLocator.Main.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = (string)(sender as Button).Tag });
         }
 
-        private void FavCharacter_OnTapped(object sender, TappedRoutedEventArgs e)
+        private void FavCharacter_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateCharacterDetailsCommand.Execute(
+                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+        }
+
+        private void FavPerson_OnClick(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateStaffDetailsCommand.Execute(
+                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+        }
+
+
+        private void FavCharacter_OnRightClick(object sender, RightTappedRoutedEventArgs e)
         {
             var grid = sender as IItemWithFlyout;
-            grid.ShowFlyout();
+            grid?.ShowFlyout();
         }
 
         private void ButtonGotoProfileOnClick(object sender, RoutedEventArgs e)

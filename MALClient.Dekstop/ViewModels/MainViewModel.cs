@@ -202,7 +202,8 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     if (CurrentMainPage.Value != PageIndex.PageSearch &&
-                        CurrentMainPage.Value != PageIndex.PageMangaSearch)
+                        CurrentMainPage.Value != PageIndex.PageMangaSearch &&
+                        CurrentMainPage.Value != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
@@ -309,12 +310,16 @@ namespace MALClient.ViewModels
                         OffNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
                     break;
                 case PageIndex.PageCharacterSearch:
+                    if (CurrentMainPage.Value != PageIndex.PageSearch &&
+                        CurrentMainPage.Value != PageIndex.PageMangaSearch &&
+                        CurrentMainPage.Value != PageIndex.PageCharacterSearch)
+                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     ShowSearchStuff();
                     ToggleSearchStuff();
                     
                     SearchToggleLock = true;
-                    
-                    MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
+                    if(CurrentMainPage != PageIndex.PageCharacterSearch)
+                        MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
                     await Task.Delay(10);
                     View.SearchInputFocus(FocusState.Keyboard);
                     break;

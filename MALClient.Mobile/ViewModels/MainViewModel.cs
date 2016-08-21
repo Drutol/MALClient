@@ -135,7 +135,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    if(LastIndex != PageIndex.PageSearch && LastIndex != PageIndex.PageMangaSearch)
+                    if(LastIndex != PageIndex.PageSearch && LastIndex != PageIndex.PageMangaSearch && LastIndex != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     NavigateSearch(args);
                     break;
@@ -217,6 +217,7 @@ namespace MALClient.ViewModels
                     NavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 case PageIndex.PageCharacterDetails:
+                    HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
                     OffContentVisibility = Visibility.Visible;
@@ -227,6 +228,7 @@ namespace MALClient.ViewModels
                         NavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
                     break;
                 case PageIndex.PageStaffDetails:
+                    HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
                     OffContentVisibility = Visibility.Visible;
@@ -237,6 +239,8 @@ namespace MALClient.ViewModels
                         NavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
                     break;
                 case PageIndex.PageCharacterSearch:
+                    if (LastIndex != PageIndex.PageSearch && LastIndex != PageIndex.PageMangaSearch && LastIndex != PageIndex.PageCharacterSearch)
+                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     ShowSearchStuff();
                     ToggleSearchStuff();
 

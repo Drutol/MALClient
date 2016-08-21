@@ -23,6 +23,7 @@ namespace MalClient.Shared.ViewModels.Main
         private bool _isEmptyNoticeVisible;
         private ICommand _navigateCharacterDetailsCommand;
         private bool _isFirstVisitGridVisible = true;
+        private string _prevQuery;
 
         public ObservableCollection<FavouriteViewModel> FoundCharacters
         {
@@ -83,19 +84,36 @@ namespace MalClient.Shared.ViewModels.Main
 
         public void Init()
         {
-            if(!_queryHandler)
+            if (!Loading && (FoundCharacters == null || !FoundCharacters.Any()))
+            {
+                IsFirstVisitGridVisible = true;
+                IsEmptyNoticeVisible = false;
+            }
+            else
+            {
+                IsEmptyNoticeVisible = false;
+                IsFirstVisitGridVisible = false;
+            }
+
+            if (!_queryHandler)
                 ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += OnOnSearchQuerySubmitted;
-            _queryHandler = true;
+            _queryHandler = true;        
         }
 
         private async void OnOnSearchQuerySubmitted(string query)
         {
             IsFirstVisitGridVisible = false;
-            if (Loading || query.Length <= 2)
+            if (Loading || (query?.Equals(_prevQuery, StringComparison.CurrentCultureIgnoreCase) ?? true))
+                return;
+            if (query.Length <= 2)
             {
-                IsEmptyNoticeVisible = true;
+                FoundCharacters?.Clear();
+                IsEmptyNoticeVisible = false;
+                IsFirstVisitGridVisible = true;
                 return;
             }
+
+            _prevQuery = query;
 
             FoundCharacters?.Clear();
             Loading = true;
@@ -120,6 +138,8 @@ namespace MalClient.Shared.ViewModels.Main
 
         public void OnNavigatedFrom()
         {
+            FoundCharacters?.Clear();
+            _prevQuery = "";
             ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= OnOnSearchQuerySubmitted;
             _queryHandler = false;
         }

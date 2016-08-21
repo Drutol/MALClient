@@ -44,6 +44,7 @@ namespace MalClient.Shared.ViewModels.Main
             {
                 _filters.Clear();
                 AnimeSearchItems.Clear();
+                IsFirstVisitGridVisible = true;
                 ResetQuery();
             }
         }
@@ -58,6 +59,7 @@ namespace MalClient.Shared.ViewModels.Main
         {
             if (query == PrevQuery)
                 return;
+            IsFirstVisitGridVisible = false;
             PrevQuery = query;
             Loading = Visibility.Visible;
             EmptyNoticeVisibility = Visibility.Collapsed;
@@ -177,8 +179,19 @@ namespace MalClient.Shared.ViewModels.Main
             }
         }
 
+        public bool IsFirstVisitGridVisible
+        {
+            get { return _isFirstVisitGridVisible; }
+            private set
+            {
+                _isFirstVisitGridVisible = value;
+                RaisePropertyChanged(() => IsFirstVisitGridVisible);
+            }
+        }
+
         private readonly HashSet<string> _filters = new HashSet<string>();
         private string _currrentFilter;
+        private bool _isFirstVisitGridVisible = true;
 
         #endregion
     }

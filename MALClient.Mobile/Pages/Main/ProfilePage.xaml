@@ -340,10 +340,9 @@
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items:CharacterItem DataContext="{Binding}" Tapped="FavCharacter_OnTapped"/>
+                                        <items:CharacterItem DataContext="{Binding}" Tapped="FavCharacter_OnClick" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
-                                
                             </GridView>
                         </Grid>
                     </PivotItem>
@@ -363,7 +362,7 @@
                                       HorizontalAlignment="Center" Margin="0,7,0,0">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items:StaffItem DataContext="{Binding}" Tapped="FavCharacter_OnTapped"/>
+                                        <items:StaffItem DataContext="{Binding}" Width="200" Tapped="FavPerson_OnClick" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -407,7 +406,7 @@
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
                         <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
-                        <ListView ItemsSource="{Binding RecentAnime}"
+                        <ListView ItemsSource="{Binding RecentAnime}" ScrollViewer.VerticalScrollMode="Disabled"
                                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -425,7 +424,7 @@
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
                         <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
-                        <ListView ItemsSource="{Binding RecentManga}"
+                        <ListView ItemsSource="{Binding RecentManga}" ScrollViewer.VerticalScrollMode="Disabled"
                                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>

@@ -87,8 +87,12 @@ namespace MALClient.ViewModels.Main
             if (args == null)
                 return;
 
-            if(args.TargetUser == Credentials.UserName)
+            if (args.TargetUser == Credentials.UserName)
+            {
                 ViewModelLocator.NavMgr.ResetMainBackNav();
+                if(ViewModelLocator.Mobile)
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            }
 
             if (_currUser == null || _currUser != args.TargetUser || force)
             {

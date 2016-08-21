@@ -13,7 +13,7 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <GridView ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">

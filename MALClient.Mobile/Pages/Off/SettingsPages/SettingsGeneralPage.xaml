@@ -63,7 +63,17 @@
                                            Visibility="Collapsed"
                                            HorizontalAlignment="Center" />
                     </StackPanel>
-                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutSeparator Margin="0,5"/>
+                    <TextBlock Text="Try to display higher quality images in relevant places."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding PullHigherQualityImages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="High quality" OffContent="Standard" HorizontalAlignment="Center" />
+                    </Grid>
+                    <MenuFlyoutSeparator Margin="0,5"/>
                     <TextBlock Text="Make manga volumes more important than chapters."
                                                FontWeight="Medium"
                                                 HorizontalAlignment="Center" Margin="0,5"
@@ -73,6 +83,7 @@
                                             IsOn="{Binding MangaFocusVolumes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              OnContent="Focus volumes" OffContent="Focus chapters" HorizontalAlignment="Center" />
                     </Grid>
+                    <MenuFlyoutSeparator Margin="0,5"/>
                     <TextBlock Text="When choosing at random ensure winner to be selected."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"

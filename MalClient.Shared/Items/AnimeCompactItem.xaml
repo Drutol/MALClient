@@ -60,14 +60,19 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" MinWidth="120" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" MinWidth="10" MaxWidth="100" />
                     <ColumnDefinition Width="*" MinWidth="20" MaxWidth="120" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Grid Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <StackPanel>
+                        <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1,1,1,0" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}" RenderTransformOrigin=".5,.5">
+                            <SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX=".6" ScaleY=".6"></ScaleTransform>
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
                         <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" />
                         <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
@@ -76,9 +81,13 @@
                     </StackPanel>
                 </Grid>
                 <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="5" />
-                <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                    <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
-                    <Grid  MinWidth="40" MaxWidth="70" HorizontalAlignment="Center" VerticalAlignment="Center"
+
+                <TextBlock Grid.Column="2" Text="{x:Bind ViewModel.Title}" Width="Auto" VerticalAlignment="Center"
+                           FontWeight="SemiLight"
+                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2"/>
+
+                <StackPanel Grid.Column="3" VerticalAlignment="Center" Orientation="Vertical">
+                    <Grid  MinWidth="40" MaxWidth="70"  VerticalAlignment="Center"
                   Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -86,16 +95,13 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
-                       Foreground="{ThemeResource BrushText}" FontSize="17"/>
+                       Foreground="{ThemeResource BrushText}" FontSize="16"/>
                         <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" 
                                Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}" FontWeight="SemiLight" 
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        Foreground="LightGray" FontSize="14" FontStyle="Italic" />
                     </Grid>
                 </StackPanel>
-                <TextBlock Grid.Column="3" Text="{x:Bind ViewModel.Title}" Width="Auto" VerticalAlignment="Center"
-                           FontWeight="SemiLight"
-                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2"/>
                 <Button Grid.Column="4" Background="Transparent" Width="35" Height="35"
                         Padding="0" Foreground="{ThemeResource BrushText}"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"

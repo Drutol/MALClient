@@ -1,4 +1,4 @@
-﻿namespace MalClient.Shared.Models.Library
+﻿namespace MALClient.Models.Models.Library
 {
     public class MangaLibraryItemData : AnimeLibraryItemData
     {

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
+﻿using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Utils.Managers;
+using MALClient.Models.Models.Favourites;
+using MALClient.XShared.Utils.Managers;
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.XShared.ViewModels
 {
     public class FavouriteViewModel : ViewModelBase
     {

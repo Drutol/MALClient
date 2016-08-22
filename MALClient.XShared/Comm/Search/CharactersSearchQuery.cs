@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Items;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Favourites;
 
-namespace MalClient.Shared.Comm.Search
+namespace MALClient.XShared.Comm.Search
 {
     public class CharactersSearchQuery : Query
     {

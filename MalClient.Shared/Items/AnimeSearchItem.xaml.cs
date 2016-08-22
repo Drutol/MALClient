@@ -9,13 +9,13 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MalClient.Shared.Items
 {

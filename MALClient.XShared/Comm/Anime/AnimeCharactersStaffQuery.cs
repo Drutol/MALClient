@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.Models.Models.Favourites;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Anime
+namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeStaffData
     {

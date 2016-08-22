@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Models.Forums;
-using FontAwesome.UWP;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.Forums;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.ViewModels.Forums
+namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumBoardEntryViewModel : ViewModelBase
     {

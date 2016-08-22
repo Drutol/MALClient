@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MalClient.Shared.Models.Anime
+﻿namespace MALClient.Models.Models.Anime
 {
     public class AnimeSeason
     {

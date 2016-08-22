@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using MalClient.Shared.Models.ApiResponses;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.ApiResponses;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 using Newtonsoft.Json;
 
-namespace MalClient.Shared.Comm
+namespace MALClient.XShared.Comm
 {
     public class LibraryListQuery : Query
     {

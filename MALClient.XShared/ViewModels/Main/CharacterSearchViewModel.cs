@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm.Search;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
+using MALClient.XShared.Comm.Search;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.ViewModels.Main
+namespace MALClient.XShared.ViewModels.Main
 {
     public class CharacterSearchViewModel : ViewModelBase
     {

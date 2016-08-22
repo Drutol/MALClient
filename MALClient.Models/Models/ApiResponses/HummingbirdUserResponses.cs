@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MalClient.Shared.Comm;
 
 // ReSharper disable InconsistentNaming
 
-namespace MalClient.Shared.Models.ApiResponses
+namespace MALClient.Models.Models.ApiResponses
 {
     //Genreated online from hummingbird json responses
     //Basic profile

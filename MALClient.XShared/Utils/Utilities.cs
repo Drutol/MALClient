@@ -1,28 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Appointments;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using FontAwesome.UWP;
 using HtmlAgilityPack;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Profile;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using Microsoft.HockeyApp;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.Profile;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
-namespace MalClient.Shared.Utils
+namespace MALClient.XShared.Utils
 {
     public enum TelemetryTrackedEvents
     {

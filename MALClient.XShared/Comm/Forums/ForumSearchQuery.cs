@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Comm.MagicalRawQueries;
-using MalClient.Shared.Models.Forums;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.Forums;
+using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.Comm.Forums
+namespace MALClient.XShared.Comm.Forums
 {
     public static class ForumSearchQuery
     {

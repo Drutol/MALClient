@@ -3,9 +3,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm
+namespace MALClient.XShared.Comm
 {
     public enum ApiType
     {

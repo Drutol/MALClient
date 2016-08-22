@@ -9,15 +9,14 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.MagicalRawQueries;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Forums;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Forums;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

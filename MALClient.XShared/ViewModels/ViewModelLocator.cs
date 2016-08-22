@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight.Ioc;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels.Details;
-using MalClient.Shared.ViewModels.Forums;
-using MalClient.Shared.ViewModels.Main;
-using MALClient.ViewModels.Main;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels.Details;
+using MALClient.XShared.ViewModels.Forums;
+using MALClient.XShared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.XShared.ViewModels
 {
 
     public interface IMainViewInteractions

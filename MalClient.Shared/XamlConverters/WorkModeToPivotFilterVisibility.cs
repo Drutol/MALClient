@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
-using MalClient.Shared.Utils.Enums;
+using MALClient.XShared.Utils.Enums;
 
 namespace MalClient.Shared.XamlConverters
 {

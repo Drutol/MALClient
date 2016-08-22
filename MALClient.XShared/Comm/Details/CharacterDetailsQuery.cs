@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Models.ScrappedDetails;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.Favourites;
+using MALClient.Models.Models.ScrappedDetails;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Details
+namespace MALClient.XShared.Comm.Details
 {
     public class CharacterDetailsQuery : Query
     {

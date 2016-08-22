@@ -12,19 +12,19 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.CommUtils;
-using MalClient.Shared.Comm.Manga;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
-using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.CommUtils;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
-using Settings = MalClient.Shared.Utils.Settings;
+using Settings = MALClient.XShared.Utils.Settings;
 
 namespace MALClient
 {

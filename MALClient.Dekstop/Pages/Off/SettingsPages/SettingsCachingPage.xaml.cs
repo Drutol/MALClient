@@ -2,9 +2,9 @@
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MalClient.Shared.Models.Misc;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Misc;
 using MALClient.ViewModels.Off;
+using MALClient.XShared.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

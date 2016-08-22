@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.Shared", "MalClient.Shared\MALClient.Shared.csproj", "{FBD14EC9-E60E-4155-BD43-210F3096CA5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.Shared", "MalClient.Shared\MALClient.UWP.Shared.csproj", "{FBD14EC9-E60E-4155-BD43-210F3096CA5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.Dekstop", "MALClient.Dekstop\MALClient.Dekstop.csproj", "{C8C93EE9-5473-49AC-94CE-8BD964F2CB29}"
 EndProject

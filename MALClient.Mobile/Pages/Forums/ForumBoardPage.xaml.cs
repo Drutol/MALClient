@@ -13,13 +13,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Models.Forums;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Forums;
 using MALClient.ViewModels;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Forums;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

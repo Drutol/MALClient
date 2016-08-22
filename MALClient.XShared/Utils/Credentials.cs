@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Xml.Linq;
-using MalClient.Shared.Comm;
-using MalClient.Shared.ViewModels;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
 using MALClient.Models.AdapterModels;
+using MALClient.XShared.Comm;
 using MALClient.XShared.ViewModels;
 
-namespace MalClient.Shared.Utils
+namespace MALClient.XShared.Utils
 {
     public static class Credentials
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Manga
+namespace MALClient.XShared.Comm.Manga
 {
     public class MangaAddQuery : Query
     {

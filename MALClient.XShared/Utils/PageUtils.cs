@@ -1,7 +1,7 @@
 ﻿
-using MalClient.Shared.Utils.Enums;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.Utils
+namespace MALClient.XShared.Utils
 {
     public static class PageUtils
     {

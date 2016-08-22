@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+
 namespace MALClient.Utils
 {
     /// <summary>

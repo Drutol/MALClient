@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using MalClient.Shared.Comm.Manga;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Anime;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.Utils;
 using Newtonsoft.Json;
 
-namespace MalClient.Shared.Comm.Anime
+namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeGeneralDetailsQuery : Query
     {

@@ -4,7 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
 namespace MalClient.Shared.XamlConverters
 {

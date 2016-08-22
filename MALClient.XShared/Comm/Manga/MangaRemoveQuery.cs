@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Manga
+namespace MALClient.XShared.Comm.Manga
 {
     public class MangaRemoveQuery : Query
     {

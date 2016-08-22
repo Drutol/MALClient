@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using GalaSoft.MvvmLight;
-using MalClient.Shared.Comm.Forums;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
+﻿using GalaSoft.MvvmLight;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
 
-namespace MalClient.Shared.ViewModels.Forums
+namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumTopicViewModel : ViewModelBase
     {

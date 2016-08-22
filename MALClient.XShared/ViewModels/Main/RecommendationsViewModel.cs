@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Items;
-using MalClient.Shared.Models.AnimeScrapped;
-using MALClient.Items;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.Comm.Anime;
 using RecomendationItem = MalClient.Shared.Items.RecomendationItem;
 
-namespace MalClient.Shared.ViewModels.Main
+namespace MALClient.XShared.ViewModels.Main
 {
     public class RecommendationsViewModel : ViewModelBase
     {

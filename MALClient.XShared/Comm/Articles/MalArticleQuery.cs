@@ -2,10 +2,10 @@
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Articles
+namespace MALClient.XShared.Comm.Articles
 {
     public class MalArticleQuery : Query
     {

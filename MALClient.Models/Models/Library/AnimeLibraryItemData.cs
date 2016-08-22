@@ -1,7 +1,6 @@
 ﻿using System;
-using MalClient.Shared.Utils.Enums;
 
-namespace MalClient.Shared.Models.Library
+namespace MALClient.Models.Models.Library
 {
     public class AnimeLibraryItemData : ILibraryData
     {

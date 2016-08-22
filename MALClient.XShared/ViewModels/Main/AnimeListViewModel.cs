@@ -4,22 +4,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.Models;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.ViewModels.Main
+namespace MALClient.XShared.ViewModels.Main
 {
     public interface IAnimeListViewInteractions
     {

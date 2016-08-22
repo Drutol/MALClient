@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.Models.Forums;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.Forums;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.ViewModels.Forums
+namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumsMainViewModel : ViewModelBase
     {

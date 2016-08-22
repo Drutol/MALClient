@@ -1,6 +1,6 @@
-﻿using MalClient.Shared.Comm.Anime;
+﻿using MALClient.XShared.Comm.Anime;
 
-namespace MalClient.Shared.Utils
+namespace MALClient.XShared.Utils
 {
     public interface IDetailsPageArgs
     {

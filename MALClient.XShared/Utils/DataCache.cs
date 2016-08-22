@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Models;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.Utils.Enums;
 using MALClient.Adapters;
+using MALClient.Models.Models;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.Models.Models.Library;
+using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 //Okay it's big copy paste... feel free to laugh
 
-namespace MalClient.Shared.Utils
+namespace MALClient.XShared.Utils
 {
     /// <summary>
     ///     Contains stuff like GlobalScore and air date

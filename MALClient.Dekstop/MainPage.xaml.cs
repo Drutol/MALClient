@@ -10,9 +10,9 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.UserControls;
-using MalClient.Shared.Utils;
-using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using HamburgerControl = MALClient.UserControls.New.HamburgerControl;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409

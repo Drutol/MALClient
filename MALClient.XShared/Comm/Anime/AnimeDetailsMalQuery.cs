@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.Models.ScrappedDetails;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Anime
+namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeDetailsMalQuery : Query
     {

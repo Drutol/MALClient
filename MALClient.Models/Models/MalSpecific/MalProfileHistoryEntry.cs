@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MalClient.Shared.Models.MalSpecific
+﻿namespace MALClient.Models.Models.MalSpecific
 {
     public class MalProfileHistoryEntry
     {     

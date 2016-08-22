@@ -4,24 +4,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.System;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.MagicalRawQueries.Profile;
-using MalClient.Shared.Comm.Profile;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.Models;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
+using MALClient.Models.Models;
+using MALClient.Models.Models.Favourites;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.MagicalRawQueries.Profile;
+using MALClient.XShared.Comm.Profile;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
-namespace MALClient.ViewModels.Main
+namespace MALClient.XShared.ViewModels.Main
 {
     public sealed class ProfilePageViewModel : ViewModelBase
     {

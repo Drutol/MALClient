@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.MagicalRawQueries;
-using MalClient.Shared.Comm.Profile;
+using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.Comm.Profile;
 
-namespace MalClient.Shared.Utils.Managers
+namespace MALClient.XShared.Utils.Managers
 {
     public static class FavouritesManager
     {

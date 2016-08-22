@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.Favourites;
+﻿using System.Collections.Generic;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.Favourites;
 
-namespace MalClient.Shared.Models.ScrappedDetails
+namespace MALClient.Models.Models.ScrappedDetails
 {
     public class CharacterDetailsData
     {

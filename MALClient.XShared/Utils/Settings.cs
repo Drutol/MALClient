@@ -1,12 +1,11 @@
 ﻿using System;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
 using MALClient.Adapters;
+using MALClient.Models.Models.Anime;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MalClient.Shared.Utils
+namespace MALClient.XShared.Utils
 {
     public static class Settings
     {

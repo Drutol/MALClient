@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.Comm.Manga
+namespace MALClient.XShared.Comm.Manga
 {
     public class MangaUpdateQuery : Query
     {

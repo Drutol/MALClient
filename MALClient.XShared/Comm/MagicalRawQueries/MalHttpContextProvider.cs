@@ -4,17 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.Data.Json;
-using Windows.UI.Popups;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
-using Windows.Web.Http.Headers;
 using HtmlAgilityPack;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 using HttpClient = System.Net.Http.HttpClient;
 using HttpStatusCode = System.Net.HttpStatusCode;
 
-namespace MalClient.Shared.Comm.MagicalRawQueries
+namespace MALClient.XShared.Comm.MagicalRawQueries
 {
     /// <summary>
     ///     Client wrapped with token.

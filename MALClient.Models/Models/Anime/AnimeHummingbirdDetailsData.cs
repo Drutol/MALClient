@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MalClient.Shared.Models.Anime
+namespace MALClient.Models.Models.Anime
 {
     public class AnimeHummingbirdDetailsData
     {

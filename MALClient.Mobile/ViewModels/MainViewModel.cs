@@ -13,20 +13,20 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.Models;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.Models.Models;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.Pages;
 using MALClient.Pages.Forums;
 using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
 using MALClient.Pages.Off;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.ViewModels
 {

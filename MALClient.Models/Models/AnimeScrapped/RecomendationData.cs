@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Models.Anime;
+using MALClient.Models.Models.Anime;
 
-namespace MalClient.Shared.Models.AnimeScrapped
+namespace MALClient.Models.Models.AnimeScrapped
 {
     public class RecomendationData
     {

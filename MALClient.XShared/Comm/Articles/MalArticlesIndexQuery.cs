@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.Comm.Articles
+namespace MALClient.XShared.Comm.Articles
 {
     public class MalArticlesIndexQuery : Query
     {

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace MalClient.Shared.Utils.Enums
+namespace MALClient.XShared.Utils.Enums
 {
     public enum AnimeType
     {

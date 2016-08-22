@@ -1,6 +1,6 @@
-﻿using MalClient.Shared.Models.Favourites;
+﻿using MALClient.Models.Models.Favourites;
 
-namespace MalClient.Shared.Models.AnimeScrapped
+namespace MALClient.Models.Models.AnimeScrapped
 {
     public class AnimeCharacterStaffModel
     {

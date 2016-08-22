@@ -1,10 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
 using MALClient.Utils;
 using MALClient.Utils.Managers;
-using MALClient.ViewModels.Main;
 using MALClient.ViewModels.Off;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.ViewModels

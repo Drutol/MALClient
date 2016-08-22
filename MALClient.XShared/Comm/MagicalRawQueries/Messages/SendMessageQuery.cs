@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MalClient.Shared.Comm.MagicalRawQueries.Messages
+namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 {
     public class SendMessageQuery
     {

@@ -1,6 +1,4 @@
-﻿using MalClient.Shared.Comm.MagicalRawQueries;
-
-namespace MalClient.Shared.Models.Favourites
+﻿namespace MALClient.Models.Models.Favourites
 {
     public class AnimeStaffPerson : FavouriteBase
     {

@@ -4,15 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.Manga;
-using MalClient.Shared.Items;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Anime;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.ViewModels.Main
+namespace MALClient.XShared.ViewModels.Main
 {
     public class SearchPageNavigationArgs
     {

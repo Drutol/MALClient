@@ -9,17 +9,16 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Items;
-using MalClient.Shared.Models;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
-using MalClient.Shared.ViewModels;
+using MALClient.Models.Models;
 using MALClient.ViewModels;
-using MALClient.ViewModels.Main;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 using WinRTXamlToolkit.Controls.Extensions;
 using WinRTXamlToolkit.Tools;
-using ProfilePageNavigationArgs = MalClient.Shared.NavArgs.ProfilePageNavigationArgs;
+using ProfilePageNavigationArgs = MALClient.XShared.NavArgs.ProfilePageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

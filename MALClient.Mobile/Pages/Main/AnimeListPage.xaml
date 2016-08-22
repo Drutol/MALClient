@@ -7,8 +7,7 @@
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:items="using:MalClient.Shared.Items"
     xmlns:userControls="using:MalClient.Shared.UserControls"
-    xmlns:items1="using:MALClient.Items"
-    xmlns:anime="using:MalClient.Shared.Models.Anime"
+    xmlns:anime="using:MALClient.Models.Models.Anime"
     DataContext="{Binding AnimeList , Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -198,7 +197,7 @@
             </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <items1:AnimeCompactItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
+                    <items:AnimeCompactItem DataContext="{Binding}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>

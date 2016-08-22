@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
 namespace MalClient.Shared.UserControls.AttachedProperties
 {

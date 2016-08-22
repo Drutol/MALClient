@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MalClient.Shared.Models.MalSpecific;
+using MALClient.Models.Models.MalSpecific;
 
-namespace MalClient.Shared.Comm.MagicalRawQueries.Messages
+namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 {
     public static class AccountMessagesManager
     {

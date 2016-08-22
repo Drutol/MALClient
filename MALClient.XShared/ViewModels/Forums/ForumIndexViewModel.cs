@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
-using FontAwesome.UWP;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.Forums;
-using MalClient.Shared.Models.Forums;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.Forums;
+using MALClient.XShared.Comm.Forums;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.ViewModels.Forums
+namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumIndexViewModel : ViewModelBase
     {

@@ -1,4 +1,4 @@
-﻿namespace MalClient.Shared.Utils.Enums
+﻿namespace MALClient.XShared.Utils.Enums
 {
     public enum PageIndex
     {

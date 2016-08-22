@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace MalClient.Shared.Comm.CommUtils
+namespace MALClient.XShared.Comm.CommUtils
 {
     internal class HtmlClassDefinitionsQuery : Query
     {

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
-namespace MalClient.Shared.Delegates
+namespace MALClient.XShared.Delegates
 {
     public delegate void OffContentPaneStateChanged();
 

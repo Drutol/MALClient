@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MalClient.Shared.Models.AnimeScrapped
+namespace MALClient.Models.Models.AnimeScrapped
 {
     public class ReviewScore
     {

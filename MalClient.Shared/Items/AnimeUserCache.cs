@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MalClient.Shared.ViewModels;
+using MALClient.XShared.ViewModels;
 
 namespace MalClient.Shared.Items
 {

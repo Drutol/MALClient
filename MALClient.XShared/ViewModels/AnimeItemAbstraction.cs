@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
 // ReSharper disable InconsistentNaming
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.XShared.ViewModels
 {
     /// <summary>
     ///     This class serves as a container for actual UI AnimeItem element.

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MalClient.Shared.Comm.Profile;
-using MalClient.Shared.Models.Favourites;
+using MALClient.Models.Models.Favourites;
 
-namespace MalClient.Shared.Models
+namespace MALClient.Models.Models
 {
     public class MalUser
     {

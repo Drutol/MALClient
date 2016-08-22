@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Utils.Enums;
+﻿using MALClient.Models.Models.Anime;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.NavArgs
+namespace MALClient.XShared.NavArgs
 {
     public class AnimeListPageNavigationArgs
     {

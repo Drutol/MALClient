@@ -1,4 +1,4 @@
-﻿namespace MalClient.Shared.Models.MalSpecific
+﻿namespace MALClient.Models.Models.MalSpecific
 {
     public enum MalNewsType
     {

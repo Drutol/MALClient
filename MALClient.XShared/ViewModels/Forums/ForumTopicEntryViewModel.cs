@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using FontAwesome.UWP;
+﻿using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Models.Forums;
+using MALClient.Models.Models.Forums;
 
-namespace MalClient.Shared.ViewModels.Forums
+namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumTopicEntryViewModel : ViewModelBase
     {

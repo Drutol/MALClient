@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Comm.Profile;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.ViewModels.Main
+namespace MALClient.XShared.ViewModels.Main
 {
     public class HistoryViewModel : ViewModelBase
     {

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm.Details;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Models.ScrappedDetails;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.Favourites;
+using MALClient.Models.Models.ScrappedDetails;
+using MALClient.XShared.Comm.Details;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.ViewModels.Details
+namespace MALClient.XShared.ViewModels.Details
 {
     public class CharacterDetailsViewModel : ViewModelBase
     {

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FontAwesome.UWP;
-using MalClient.Shared.Utils.Enums;
+using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.NavArgs
+namespace MALClient.XShared.NavArgs
 {
     public enum ForumBoardPageWorkModes
     {

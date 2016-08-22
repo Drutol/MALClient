@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace MalClient.Shared.Models.AnimeScrapped
+namespace MALClient.Models.Models.AnimeScrapped
 {
     public class AnimeScrappedDetails
     {

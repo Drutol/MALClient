@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Anime;
+using MALClient.XShared.Utils;
 using Newtonsoft.Json;
 
-namespace MalClient.Shared.Comm.Anime
+namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeSearchQuery : Query
     {

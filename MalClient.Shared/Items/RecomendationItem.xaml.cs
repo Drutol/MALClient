@@ -4,10 +4,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

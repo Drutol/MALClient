@@ -5,29 +5,22 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.System;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.MagicalRawQueries;
-using MalClient.Shared.Comm.Manga;
-using MalClient.Shared.Items;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.AnimeScrapped;
-using MalClient.Shared.Models.Favourites;
-using MalClient.Shared.Models.Library;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.Models.Models.Favourites;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.XShared.ViewModels.Details
 {
     public class AnimeDetailsPageViewModel : ViewModelBase
     {

@@ -1,12 +1,4 @@
-﻿using System.Runtime.Serialization;
-using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm.MagicalRawQueries;
-using MalClient.Shared.Utils.Managers;
-
-namespace MalClient.Shared.Models.Favourites
+﻿namespace MALClient.Models.Models.Favourites
 {
     public abstract class FavouriteBase
     {

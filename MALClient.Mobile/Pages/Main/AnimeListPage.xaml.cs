@@ -7,12 +7,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
 using MALClient.ViewModels;
-using MALClient.ViewModels.Main;
-using AnimeListPageNavigationArgs = MalClient.Shared.NavArgs.AnimeListPageNavigationArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
+using AnimeListPageNavigationArgs = MALClient.XShared.NavArgs.AnimeListPageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

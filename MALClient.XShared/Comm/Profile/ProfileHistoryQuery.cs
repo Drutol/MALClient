@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.MalSpecific;
 
-namespace MalClient.Shared.Comm
+namespace MALClient.XShared.Comm.Profile
 {
     public class ProfileHistoryQuery : Query
     {

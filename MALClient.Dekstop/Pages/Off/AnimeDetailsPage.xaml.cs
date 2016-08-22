@@ -4,8 +4,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.ViewModels;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.ViewModels.Details;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

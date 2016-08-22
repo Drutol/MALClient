@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MalClient.Shared.Models
+namespace MALClient.Models.Models
 {
     public interface ISeasonalAnimeBaseData
     {

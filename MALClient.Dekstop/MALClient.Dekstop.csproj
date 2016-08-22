@@ -11,7 +11,7 @@
     <AssemblyName>MALClient</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -401,7 +401,7 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.14393.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
@@ -409,6 +409,10 @@
     <ProjectReference Include="..\MalClient.Shared\MALClient.Shared.csproj">
       <Project>{fbd14ec9-e60e-4155-bd43-210f3096ca5a}</Project>
       <Name>MALClient.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
+      <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
+      <Name>MALClient.XShared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

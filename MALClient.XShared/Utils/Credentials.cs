@@ -2,24 +2,34 @@
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
-using Windows.Security.Credentials;
-using Windows.Storage;
 using MalClient.Shared.Comm;
 using MalClient.Shared.ViewModels;
+using MALClient.Adapters;
+using MALClient.Adapters.Credentails;
+using MALClient.Models.AdapterModels;
+using MALClient.XShared.ViewModels;
 
 namespace MalClient.Shared.Utils
 {
     public static class Credentials
     {
+        public static readonly IApplicationDataService ApplicationDataService;
+        public static readonly IPasswordVault PasswordVault;
+
+        static Credentials()
+        {
+            ApplicationDataService = ResourceLocator.ApplicationDataService;
+        }
+
         public static string HummingbirdToken { get; private set; } =
-            (string) (ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] ?? "");
+            (string) (ApplicationDataService["HummingbirdToken"] ?? "");
 
         public static string UserName { get; private set; }
 
         public static string Password { get; set; }
 
         public static int Id { get; private set; } =
-            (int) (ApplicationData.Current.LocalSettings.Values["UserId"] ?? 0);
+            (int) (ApplicationDataService["UserId"] ?? 0);
 
         public static bool Authenticated { get; private set; }
 
@@ -35,87 +45,67 @@ namespace MalClient.Shared.Utils
 
         public static void Update(string name, string passwd, ApiType type)
         {
-            var vault = new PasswordVault();
-
-            foreach (var passwordCredential in vault.RetrieveAll())
-                vault.Remove(passwordCredential);
+            PasswordVault.Reset();
 
             UserName = name;
             Password = passwd;
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(passwd))
-                vault.Add(new PasswordCredential(type == ApiType.Mal ? "MALClient" : "MALClientHum", UserName, Password));
+                PasswordVault.Add(new VaultCredential((type == ApiType.Mal ? "MALClient" : "MALClientHum"), UserName, Password));
         }
 
         public static void Reset()
         {
-            var vault = new PasswordVault();
+            PasswordVault.Reset();
 
             UserName = Password = string.Empty;
-
-            foreach (var passwordCredential in vault.RetrieveAll())
-                vault.Remove(passwordCredential);
         }
 
         public static void SetAuthStatus(bool status)
         {
             Authenticated = status;
-            ApplicationData.Current.LocalSettings.Values["Auth"] = status.ToString();
+            ApplicationDataService["Auth"] = status.ToString();
             ViewModelLocator.GeneralHamburger.UpdateLogInLabel();
         }
 
         public static void SetId(int id)
         {
-            ApplicationData.Current.LocalSettings.Values["UserId"] = id;
+            ApplicationDataService["UserId"] = id;
             Id = id;
         }
 
         public static void SetAuthToken(string token)
         {
             var trimmedToken = token == "" ? "" : token.Substring(1, token.Length - 2);
-            ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] = trimmedToken;
+            ApplicationDataService["HummingbirdToken"] = trimmedToken;
             HummingbirdToken = trimmedToken;
         }
 
         public static void Init()
         {
-            var vault = new PasswordVault();
-            // It has been quite a while since this format - safe to remove
-            //if (bool.Parse((string) ApplicationData.Current.LocalSettings.Values["Auth"] ?? "False") &&
-            //    ApplicationData.Current.LocalSettings.Values["Username"] != null) //check for old auth way
-            //{
-            //    vault.Add(new PasswordCredential("MALClient",
-            //        ApplicationData.Current.LocalSettings.Values["Username"] as string, //they are not null
-            //        ApplicationData.Current.LocalSettings.Values["password"] as string));
-
-            //    //clean old resources
-            //    ApplicationData.Current.LocalSettings.Values["Username"] = null;
-            //    ApplicationData.Current.LocalSettings.Values["password"] = null;
-            //}
             try
             {
                 var deductedApiType = ApiType.Mal;
-                PasswordCredential credential = null;
+                VaultCredential credential = null;
                 try
                 {
-                    credential = vault.FindAllByResource("MALClient").FirstOrDefault();
+                    credential = PasswordVault.Get("MALClient");
                 }
                 catch (Exception)
                 {
-                    credential = vault.FindAllByResource("MALClientHum").FirstOrDefault();
+                    credential = PasswordVault.Get("MALClientHum");
                     deductedApiType = ApiType.Hummingbird;
                 }
                 if (credential != null)
                 {
                     Settings.SelectedApiType = deductedApiType;
                     UserName = credential.UserName;
-                    credential.RetrievePassword();
                     Password = credential.Password;
                     Authenticated = true;
                     if ((Settings.SelectedApiType == ApiType.Mal &&
-                        ApplicationData.Current.LocalSettings.Values["UserId"] == null) ||
+                        ApplicationDataService["UserId"] == null) ||
                         (Settings.SelectedApiType == ApiType.Hummingbird &&
-                        string.IsNullOrEmpty(ApplicationData.Current.LocalSettings.Values["HummingbirdToken"] as string)))
+                        string.IsNullOrEmpty(ApplicationDataService["HummingbirdToken"] as string)))
                         //we have credentials without Id
                         FillInMissingIdData();
                 }

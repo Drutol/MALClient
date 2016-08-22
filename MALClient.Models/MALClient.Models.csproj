@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9948A48D-1CFC-40E5-9BFA-6F93FE4C44A0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MALClient.Models</RootNamespace>
+    <AssemblyName>MALClient.Models</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdapterModels\VaultCredential.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />
+    <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
+    <Compile Include="Models\AnimeScrapped\RecomendationData.cs" />
+    <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />
+    <Compile Include="Models\AnimeScrapped\SeasonalAnimeData.cs" />
+    <Compile Include="Models\AnimeScrapped\TopAnimeData.cs" />
+    <Compile Include="Models\Anime\AnimeDetailsData.cs" />
+    <Compile Include="Models\Anime\AnimeGeneralDetailsData.cs" />
+    <Compile Include="Models\Anime\AnimeHummingbirdDetailsData.cs" />
+    <Compile Include="Models\Anime\AnimeLightEntry.cs" />
+    <Compile Include="Models\Anime\AnimeSeason.cs" />
+    <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
+    <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
+    <Compile Include="Models\Favourites\AnimeCharacter.cs" />
+    <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
+    <Compile Include="Models\Favourites\FavouriteBase.cs" />
+    <Compile Include="Models\Forums\ForumBoardEntry.cs" />
+    <Compile Include="Models\Forums\ForumTopicEntry.cs" />
+    <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
+    <Compile Include="Models\Library\AnimeLibraryItemData.cs" />
+    <Compile Include="Models\Library\IAnimeData.cs" />
+    <Compile Include="Models\Library\ILibraryData.cs" />
+    <Compile Include="Models\Library\MangaLibraryItemData.cs" />
+    <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
+    <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
+    <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
+    <Compile Include="Models\Misc\CachedEntryModel.cs" />
+    <Compile Include="Models\Misc\NewsData.cs" />
+    <Compile Include="Models\ProfileData.cs" />
+    <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />
+    <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

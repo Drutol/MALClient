@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Search;
 using MalClient.Shared.Comm.Anime;
 using MalClient.Shared.Models;
 using MalClient.Shared.Models.Anime;
@@ -11,6 +9,8 @@ using MalClient.Shared.Models.AnimeScrapped;
 using MalClient.Shared.Models.Library;
 using MalClient.Shared.Models.MalSpecific;
 using MalClient.Shared.Utils.Enums;
+using MALClient.Adapters;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 //Okay it's big copy paste... feel free to laugh
@@ -30,66 +30,61 @@ namespace MalClient.Shared.Utils
 
     public static class DataCache
     {
+        private static readonly IDataCache DataCacheService;
+
         static DataCache()
         {
             LoadVolatileData();
             LoadSeasonalurls();
             RetrieveHumMalIdDictionary();
+            DataCacheService = ResourceLocator.DataCacheService;
         }
 
         public static async Task ClearApiRelatedCache()
         {
-            StorageFile file;
-            try
-            {
-                file = await ApplicationData.Current.LocalFolder.GetFileAsync("mal_to_hum.json");
-                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //
-            }
-            try
-            {
-                file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
-                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //
-            }
-            try
-            {
-                var files = await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery);
-                foreach (var listFile in files.Where(storageFile => storageFile.Name.Contains("_data_")))
-                {
-                    await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                }
-            }
-            catch (Exception)
-            {
-                //
-            }
-            try
-            {
-                await (await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails")).DeleteAsync(
-                    StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //
-            }
+            await DataCacheService.ClearApiRelatedCache();
             _volatileDataCache.Clear();
             AnimeDetailsHummingbirdQuery.MalToHumId.Clear();
         }
 
         public static async Task ClearAnimeListData()
         {
-            var files = await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery);
-            foreach (var listFile in files.Where(storageFile => storageFile.Name.Contains("_data_")))
+            await DataCacheService.ClearAnimeListData();
+        }
+
+        public static async Task SaveDataRoaming<T>(T data, string filename)
+        {
+            try
             {
-                await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                await DataCacheService.SaveDataRoaming(data, filename);
             }
+            catch (Exception e)
+            {
+                //magic
+            }
+        }
+
+        public static async Task SaveData<T>(T data, string filename, string targetFolder)
+        {
+            await DataCacheService.SaveData(data, filename,targetFolder);
+        }
+
+        public static async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
+        {
+            return await DataCacheService.RetrieveData<T>(filename, originFolder, expiration);
+        }
+
+        public static async Task<T> RetrieveDataRoaming<T>(string filename,int expiration)
+        {
+            try
+            {
+                return await DataCacheService.RetrieveDataRoaming<T>(filename, expiration);
+            }
+            catch (Exception)
+            {
+                //No file
+            }
+            return default(T);
         }
 
         #region UserData
@@ -100,20 +95,20 @@ namespace MalClient.Shared.Utils
                 return;
             try
             {
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync(
-                            $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await
-                    FileIO.WriteTextAsync(file,
-                        mode == AnimeListWorkModes.Anime
-                            ? JsonConvert.SerializeObject(
-                                new Tuple<DateTime, IEnumerable<AnimeLibraryItemData>>(DateTime.Now,
-                                    data.Select(item => item as AnimeLibraryItemData)))
-                            : JsonConvert.SerializeObject(
-                                new Tuple<DateTime, IEnumerable<MangaLibraryItemData>>(DateTime.Now,
-                                    data.Select(item => item as MangaLibraryItemData))));
+                if (mode == AnimeListWorkModes.Anime)
+                {
+                    await DataCacheService.SaveData(
+                        new Tuple<DateTime, IEnumerable<AnimeLibraryItemData>>(DateTime.Now,
+                            data.Select(item => item as AnimeLibraryItemData)),
+                        $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json", "");
+                }
+                else
+                {
+                    await DataCacheService.SaveData(
+                        new Tuple<DateTime, IEnumerable<MangaLibraryItemData>>(DateTime.Now,
+                            data.Select(item => item as MangaLibraryItemData)),
+                        $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json", "");
+                }
             }
             catch (Exception)
             {
@@ -127,28 +122,29 @@ namespace MalClient.Shared.Utils
                 return null;
             try
             {
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.GetFileAsync(
-                            $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json");
-                var data = await FileIO.ReadTextAsync(file);
                 var decoded = new List<ILibraryData>();
                 if (mode == AnimeListWorkModes.Anime)
                 {
-                    var jsonObj = JsonConvert.DeserializeObject<Tuple<DateTime, List<AnimeLibraryItemData>>>(data);
+                    var jsonObj =
+                        await
+                            DataCacheService.RetrieveData<Tuple<DateTime, List<AnimeLibraryItemData>>>(
+                                $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json",
+                                "", 0);
                     if (!CheckForOldData(jsonObj.Item1))
                     {
-                        await file.DeleteAsync();
                         return null;
                     }
                     decoded.AddRange(jsonObj.Item2.Select(item => item as ILibraryData));
                 }
                 else
                 {
-                    var jsonObj = JsonConvert.DeserializeObject<Tuple<DateTime, List<MangaLibraryItemData>>>(data);
+                    var jsonObj =
+                        await
+                            DataCacheService.RetrieveData<Tuple<DateTime, List<MangaLibraryItemData>>>(
+                                $"{(mode == AnimeListWorkModes.Anime ? "anime" : "manga")}_data_{user.ToLower()}.json",
+                                "", 0);
                     if (!CheckForOldData(jsonObj.Item1))
                     {
-                        await file.DeleteAsync();
                         return null;
                     }
                     decoded.AddRange(jsonObj.Item2.Select(item => item as ILibraryData));
@@ -188,13 +184,9 @@ namespace MalClient.Shared.Utils
             {
                 await Task.Run(async () =>
                 {
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<SeasonalAnimeData>>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            ApplicationData.Current.LocalFolder.CreateFileAsync($"seasonal_data{tag}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await
+                        DataCacheService.SaveData(new Tuple<DateTime, List<SeasonalAnimeData>>(DateTime.UtcNow, data),
+                            $"seasonal_data{tag}.json", "");
                 });
             }
             catch (Exception)
@@ -207,11 +199,10 @@ namespace MalClient.Shared.Utils
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync($"seasonal_data{tag}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, List<SeasonalAnimeData>>>(data);
-                return CheckForOldDataSeason(tuple.Item1) ? tuple.Item2 : null;
+                return
+                    await
+                        DataCacheService.RetrieveData<List<SeasonalAnimeData>>(
+                            $"seasonal_data{tag}.json", "", 7);
             }
             catch (Exception)
             {
@@ -231,9 +222,7 @@ namespace MalClient.Shared.Utils
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("volatile_data.json");
-                var data = await FileIO.ReadTextAsync(file);
-                _volatileDataCache = JsonConvert.DeserializeObject<Dictionary<int, VolatileDataCache>>(data) ??
+                _volatileDataCache = (await DataCacheService.RetrieveData<Dictionary<int, VolatileDataCache>>("volatile_data.json","",0)) ??
                                      new Dictionary<int, VolatileDataCache>();
             }
             catch (Exception)
@@ -246,12 +235,7 @@ namespace MalClient.Shared.Utils
         {
             try
             {
-                var json = JsonConvert.SerializeObject(_volatileDataCache);
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync("volatile_data.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
+                await DataCacheService.SaveData(_volatileDataCache, "volatile_data.json", "");
             }
             catch (Exception)
             {
@@ -831,66 +815,5 @@ namespace MalClient.Shared.Utils
         }
 
         #endregion
-
-        public static async Task SaveData<T>(T data, string filename, StorageFolder targetFolder)
-        {
-            try
-            {
-                await Task.Run(async () =>
-                {
-                    var folder = targetFolder ?? ApplicationData.Current.LocalFolder;
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, T>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync(
-                                $"{filename}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
-                });
-            }
-            catch (Exception e)
-            {
-                //magic
-            }
-        }
-        public static async Task SaveData<T>(T data, string filename, string targetFolder)
-        {
-            var folder = string.IsNullOrEmpty(targetFolder) ? ApplicationData.Current.LocalFolder :
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(targetFolder,
-                            CreationCollisionOption.OpenIfExists);
-            await SaveData(data, filename, folder);
-        }
-
-        public static async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
-        {
-            var folder = string.IsNullOrEmpty(originFolder)
-                ? ApplicationData.Current.LocalFolder
-                : await
-                    ApplicationData.Current.LocalFolder.CreateFolderAsync(originFolder,
-                        CreationCollisionOption.OpenIfExists);
-            return await RetrieveData<T>(filename, folder, expiration);
-        }
-        public static async Task<T> RetrieveData<T>(string filename, StorageFolder originFolder, int expiration)
-        {
-            try
-            {
-                var folder = originFolder ?? ApplicationData.Current.LocalFolder;
-                var file =
-                    await
-                        folder.GetFileAsync(
-                            $"{filename}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, T>>(data);
-                return expiration > 1 ? CheckForOldDataDetails(tuple.Item1, expiration) ? tuple.Item2 : default(T) : tuple.Item2;
-            }
-            catch (Exception)
-            {
-                //No file
-            }
-            return default(T);
-        }
     }
 }

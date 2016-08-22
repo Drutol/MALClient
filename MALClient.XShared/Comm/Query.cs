@@ -3,9 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Windows.UI.Popups;
 using MalClient.Shared.Utils;
 
 namespace MalClient.Shared.Comm
@@ -43,11 +40,11 @@ namespace MalClient.Shared.Comm
                 {
                     try
                     {
-                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                        {
-                            var msg = new MessageDialog(e.Message, "An error occured");
-                            await msg.ShowAsync();
-                        });
+                        //await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        //{
+                        //    var msg = new MessageDialog(e.Message, "An error occured");
+                        //    await msg.ShowAsync();
+                        //});
                     }
                     catch (Exception)
                     {
@@ -56,7 +53,7 @@ namespace MalClient.Shared.Comm
                 }
                 if (statusBarMsg != null)
                 {
-                    Utilities.GiveStatusBarFeedback(statusBarMsg);
+                    //Utilities.GiveStatusBarFeedback(statusBarMsg);
                 }
             }
             return responseString;

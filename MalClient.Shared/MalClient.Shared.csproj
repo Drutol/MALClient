@@ -11,7 +11,7 @@
     <AssemblyName>MalClient.Shared</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -104,53 +104,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="Comm\HtmlClassesDefinitions.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeDetailsMalQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeRemoveQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeReviewsQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeSearchQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeSeasonalQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
-    <Compile Include="Comm\Anime\AnimeUpdateQuery.cs" />
-    <Compile Include="Comm\Articles\MalArticleQuery.cs" />
-    <Compile Include="Comm\Articles\MalArticlesIndexQuery.cs" />
-    <Compile Include="Comm\AuthQuery.cs" />
-    <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
-    <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
-    <Compile Include="Comm\Details\CharacterDetailsQuery.cs" />
-    <Compile Include="Comm\Details\StaffDetailsQuery.cs" />
-    <Compile Include="Comm\Forums\ForumBoardIndexContentQuery.cs" />
-    <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
-    <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
-    <Compile Include="Comm\LibraryListQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />
-    <Compile Include="Comm\MagicalRawQueries\Messages\AccountMessagesMangaer.cs" />
-    <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQueries.cs" />
-    <Compile Include="Comm\Manga\MangaAddQuery.cs" />
-    <Compile Include="Comm\Manga\MangaRemoveQuery.cs" />
-    <Compile Include="Comm\Manga\MangaSearchQuery.cs" />
-    <Compile Include="Comm\Manga\MangaUpdateQuery.cs" />
-    <Compile Include="Comm\NewsQuery.cs" />
-    <Compile Include="Comm\Profile\ProfileHistoryQuery.cs" />
-    <Compile Include="Comm\Profile\ProfileQuery.cs" />
-    <Compile Include="Comm\Query.cs" />
-    <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
-    <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Flyouts\GridItemFlyout.xaml.cs">
       <DependentUpon>GridItemFlyout.xaml</DependentUpon>
     </Compile>
@@ -201,48 +157,6 @@
     <Compile Include="Items\StaffItem.xaml.cs">
       <DependentUpon>StaffItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
-    <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
-    <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />
-    <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
-    <Compile Include="Models\AnimeScrapped\RecomendationData.cs" />
-    <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />
-    <Compile Include="Models\AnimeScrapped\SeasonalAnimeData.cs" />
-    <Compile Include="Models\AnimeScrapped\TopAnimeData.cs" />
-    <Compile Include="Models\Anime\AnimeDetailsData.cs" />
-    <Compile Include="Models\Anime\AnimeGeneralDetailsData.cs" />
-    <Compile Include="Models\Anime\AnimeHummingbirdDetailsData.cs" />
-    <Compile Include="Models\Anime\AnimeLightEntry.cs" />
-    <Compile Include="Models\Anime\AnimeSeason.cs" />
-    <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
-    <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
-    <Compile Include="Models\Favourites\AnimeCharacter.cs" />
-    <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
-    <Compile Include="Models\Favourites\FavouriteBase.cs" />
-    <Compile Include="Models\Forums\ForumBoardEntry.cs" />
-    <Compile Include="Models\Forums\ForumTopicEntry.cs" />
-    <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
-    <Compile Include="Models\Library\AnimeLibraryItemData.cs" />
-    <Compile Include="Models\Library\IAnimeData.cs" />
-    <Compile Include="Models\Library\ILibraryData.cs" />
-    <Compile Include="Models\Library\MangaLibraryItemData.cs" />
-    <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
-    <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
-    <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
-    <Compile Include="Models\Misc\CachedEntryModel.cs" />
-    <Compile Include="Models\Misc\NewsData.cs" />
-    <Compile Include="Models\ProfileData.cs" />
-    <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />
-    <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />
-    <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
-    <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
-    <Compile Include="NavArgs\CharacterDetailsNavigationArgs.cs" />
-    <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
-    <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
-    <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
-    <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
-    <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
-    <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
@@ -260,50 +174,6 @@
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TemplateSelector.cs" />
-    <Compile Include="Utils\Credentials.cs" />
-    <Compile Include="Utils\DataCache.cs" />
-    <Compile Include="Utils\Enums\AnimeListModesEnum.cs" />
-    <Compile Include="Utils\Enums\AnimeStatusEnum.cs" />
-    <Compile Include="Utils\Enums\AnimeTypeEnum.cs" />
-    <Compile Include="Utils\Enums\ArticlePageEnums.cs" />
-    <Compile Include="Utils\Enums\ForumBoards.cs" />
-    <Compile Include="Utils\Enums\ForumsPageIndex.cs" />
-    <Compile Include="Utils\Enums\HamburgerButtonsEnum.cs" />
-    <Compile Include="Utils\Enums\PageIndex.cs" />
-    <Compile Include="Utils\IDetailsPageArgs.cs" />
-    <Compile Include="Utils\Managers\FavouritesManager.cs" />
-    <Compile Include="Utils\Managers\ItemFlyoutService.cs" />
-    <Compile Include="Utils\Managers\LiveTilesManager.cs" />
-    <Compile Include="Utils\Managers\RateReminderPopUp.cs" />
-    <Compile Include="Utils\PageUtils.cs" />
-    <Compile Include="Utils\Settings.cs" />
-    <Compile Include="Utils\SmartObservableCollection.cs" />
-    <Compile Include="Utils\Utilities.cs" />
-    <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
-    <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
-    <Compile Include="ViewModels\AnimeItemViewModel.cs" />
-    <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Details\StaffDetailsViewModel.cs" />
-    <Compile Include="ViewModels\FavouriteViewModel.cs" />
-    <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
-    <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />
-    <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />
-    <Compile Include="ViewModels\Forums\ForumsMainViewModel.cs" />
-    <Compile Include="ViewModels\Forums\ForumTopicEntryViewModel.cs" />
-    <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
-    <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
-    <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
-    <Compile Include="ViewModels\Main\CharacterSearchViewModel.cs" />
-    <Compile Include="ViewModels\Main\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
-    <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
-    <Compile Include="ViewModels\Main\MalMessageDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Main\MalMessagingViewModel.cs" />
-    <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
-    <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
-    <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
-    <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
@@ -401,7 +271,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+    <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
+      <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
+      <Name>MALClient.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
+      <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
+      <Name>MALClient.XShared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>

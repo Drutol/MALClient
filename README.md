@@ -1,4 +1,4 @@
-# MALClient - Xamarain flavoured
+# MALClient - Xamarin flavoured
 Currently I'm rewriting things into PCL's and then onwards with Android development!
 Small client application for MAL and hummingbird for Windows 10 on ARM/x86/x64 platforms.
 ### Features

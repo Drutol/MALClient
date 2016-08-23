@@ -223,7 +223,7 @@
                        Margin="{Binding Source={StaticResource DesktopLocator} ,Path=Hamburger.BottomStackPanelMargin}" />
             </Grid>
         </Grid>
-        <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding PinDialogViewModel}"
+        <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
               Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">

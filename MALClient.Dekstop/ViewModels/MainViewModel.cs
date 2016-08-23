@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.ViewModels;
+using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.Pages;
@@ -70,7 +72,7 @@ namespace MALClient.ViewModels
                 return;
             }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
-            ScrollToTopButtonVisibility = Visibility.Collapsed;
+            ScrollToTopButtonVisibility = false;
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
 
@@ -185,7 +187,7 @@ namespace MALClient.ViewModels
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageAnimeDetails)
                         ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
@@ -193,7 +195,7 @@ namespace MALClient.ViewModels
                         OffNavigationRequested?.Invoke(typeof(AnimeDetailsPage), args);
                     break;
                 case PageIndex.PageSettings:
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
                     OffNavigationRequested?.Invoke(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
@@ -206,7 +208,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
                     OffNavigationRequested?.Invoke(typeof(LogInPage));
                     break;
                 case PageIndex.PageProfile:
@@ -263,7 +265,7 @@ namespace MALClient.ViewModels
                             ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
                             : "New Message")
                         : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
                     OffNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
                 case PageIndex.PageForumIndex:
@@ -289,7 +291,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageCharacterDetails:
                     OffRefreshButtonVisibility = Visibility.Visible;
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageCharacterDetails)
                         ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
@@ -299,7 +301,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageStaffDetails:
                     OffRefreshButtonVisibility = Visibility.Visible;
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageStaffDetails)
                         ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
@@ -600,7 +602,7 @@ private bool _menuPaneState;
                        (_hideOffContentCommand = new RelayCommand(() =>
                        {
                            ViewModelLocator.AnimeDetails.Id = -1;
-                           OffContentVisibility = Visibility.Collapsed;
+                           OffContentVisibility = false;
                            ViewModelLocator.NavMgr.ResetOffBackNav();
                        }));
             }
@@ -631,9 +633,9 @@ private bool _menuPaneState;
         }
 
 
-        private Visibility _navigateOffBackButtonVisibility = Visibility.Collapsed;
+        private bool _navigateOffBackButtonVisibility = false;
 
-        public Visibility NavigateOffBackButtonVisibility
+        public bool NavigateOffBackButtonVisibility
         {
             get { return _navigateOffBackButtonVisibility; }
             set
@@ -643,9 +645,9 @@ private bool _menuPaneState;
             }
         }
 
-        private Visibility _navigateMainBackButtonVisibility = Visibility.Collapsed;
+        private bool _navigateMainBackButtonVisibility;
 
-        public Visibility NavigateMainBackButtonVisibility
+        public bool NavigateMainBackButtonVisibility
         {
             get { return _navigateMainBackButtonVisibility; }
             set
@@ -655,9 +657,9 @@ private bool _menuPaneState;
             }
         }
 
-        private Visibility _scrollToTopButtonVisibility = Visibility.Collapsed;
+        private bool _scrollToTopButtonVisibility;
 
-        public Visibility ScrollToTopButtonVisibility
+        public bool ScrollToTopButtonVisibility
         {
             get { return _scrollToTopButtonVisibility; }
             set
@@ -681,16 +683,16 @@ private bool _menuPaneState;
             }
         }
 
-        private Visibility _offContentVisibility = Visibility.Collapsed;
+        private bool _offContentVisibility;
 
-        public Visibility OffContentVisibility
+        public bool OffContentVisibility
         {
             get { return _offContentVisibility; }
             set
             {
                 _offContentVisibility = value;
                 RaisePropertyChanged(() => OffContentVisibility);
-                if (value == Visibility.Visible)
+                if (value)
                 {
                     MainContentColumnSpan = 1;
                     View.InitSplitter();

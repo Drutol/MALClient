@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Credentails\IPasswordVault.cs" />
     <Compile Include="IApplicationDataService.cs" />
+    <Compile Include="IClipboardProvider.cs" />
     <Compile Include="IDataCache.cs" />
+    <Compile Include="ISyetemControlLuancherService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

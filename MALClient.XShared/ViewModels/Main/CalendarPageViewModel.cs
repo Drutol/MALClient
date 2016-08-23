@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;

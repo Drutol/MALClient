@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MALClient.XShared.Utils.Enums;
 
 // ReSharper disable InconsistentNaming
 
@@ -95,12 +96,31 @@ namespace MALClient.Models.Models.ApiResponses
                     case "watched_episode":
                         return episode_number;
                     case "watchlist_status_update":
-                        return LibraryListQuery.HummingbirdStatusToMal(new_status.Replace('_', '-')).ToString();
+                        return HummingbirdStatusToMal(new_status.Replace('_', '-')).ToString();
                     case "comment":
                         return comment.Replace("<br>", "\n");
                     default:
                         return "";
                 }
+            }
+        }
+
+        public static AnimeStatus HummingbirdStatusToMal(string humStatus)
+        {
+            switch (humStatus)
+            {
+                case "currently-watching":
+                    return AnimeStatus.Watching;
+                case "plan-to-watch":
+                    return AnimeStatus.PlanToWatch;
+                case "completed":
+                    return AnimeStatus.Completed;
+                case "on-hold":
+                    return AnimeStatus.OnHold;
+                case "dropped":
+                    return AnimeStatus.Dropped;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(humStatus), "Hummingbird has gone crazy");
             }
         }
 

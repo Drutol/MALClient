@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using MALClient.Adapters;
+using MALClient.Adapters.Credentails;
 using MALClient.Utils;
 using MALClient.Utils.Managers;
+using MALClient.UWP.Adapters;
 using MALClient.ViewModels.Off;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -23,6 +26,12 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IMainViewModel>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());
             SimpleIoc.Default.Register<INavMgr, NavMgr>();
+
+            SimpleIoc.Default.Register<IDataCache, DataCache>();
+            SimpleIoc.Default.Register<IPasswordVault, PasswordVaultProvider>();
+            SimpleIoc.Default.Register<IApplicationDataService, ApplicationDataServiceService>();
+            SimpleIoc.Default.Register<IClipboardProvider, ClipboardProvider>();
+            SimpleIoc.Default.Register<ISystemControlsLauncherService, SystemControlLauncherService>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

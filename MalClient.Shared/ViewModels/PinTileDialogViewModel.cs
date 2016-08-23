@@ -1,12 +1,21 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
+using WinRTXamlToolkit.Imaging;
 
 namespace MALClient.XShared.ViewModels
 {
@@ -23,7 +32,7 @@ namespace MALClient.XShared.ViewModels
                 if (value == Visibility.Visible)
                 {
                     ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => GeneralVisibility = Visibility.Collapsed));
-                    ViewModelLocator.GeneralMain.View.PinDialogStoryboard.Begin();
+                    //ViewModelLocator.GeneralMain.View.PinDialogStoryboard.Begin(); //TODO Xamarin
                     RaisePropertyChanged(() => GeneralVisibility);
                 }
                 else
@@ -35,9 +44,9 @@ namespace MALClient.XShared.ViewModels
 
         public async void HidePinDialog()
         {
-            var sb = ViewModelLocator.GeneralMain.View.HidePinDialogStoryboard;
-            sb.Completed += SbOnCompleted;
-            sb.Begin();
+            //var sb = ViewModelLocator.GeneralMain.View.HidePinDialogStoryboard; //TODO Xamarin
+            //sb.Completed += SbOnCompleted;
+            //sb.Begin();
         }
 
 

@@ -5,6 +5,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.ViewModels;
 using MALClient.XShared.Comm;
@@ -185,10 +186,10 @@ namespace MALClient.Pages.Main
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black").Replace(
-                "HorizontalSeparatorColor", Settings.SelectedTheme == ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
+                "HorizontalSeparatorColor", Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
             ArticleWebView.NavigateToString(css + Begin + html + "</div></body></html>");
         }
 
@@ -273,8 +274,8 @@ namespace MALClient.Pages.Main
 
         private void ArticleWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
-            ViewModel.LoadingVisibility = Visibility.Collapsed;
-            ViewModel.WebViewVisibility = Visibility.Visible;
+            ViewModel.LoadingVisibility = false;
+            ViewModel.WebViewVisibility = true;
         }
     }
 }

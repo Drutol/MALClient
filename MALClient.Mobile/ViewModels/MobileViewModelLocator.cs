@@ -1,5 +1,9 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using Windows.Storage.Streams;
+using GalaSoft.MvvmLight.Ioc;
+using MALClient.Adapters;
+using MALClient.Adapters.Credentails;
 using MALClient.Utils;
+using MALClient.UWP.Adapters;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
@@ -21,6 +25,10 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IMainViewModel>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());          
             SimpleIoc.Default.Register<INavMgr,NavMgr>();
+
+            SimpleIoc.Default.Register<IDataCache, DataCache>();
+            SimpleIoc.Default.Register<IPasswordVault, PasswordVaultProvider>();
+            SimpleIoc.Default.Register<IApplicationDataService, ApplicationDataServiceService>();
 
             ViewModelLocator.Mobile = true;
         }

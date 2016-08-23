@@ -14,7 +14,7 @@ namespace MalClient.Shared.XamlConverters
         {
             if ((Symbol) value == Symbol.Mail)
                 return Application.Current.Resources["SystemControlBackgroundAccentBrush"];
-            return Settings.SelectedTheme == ApplicationTheme.Dark
+            return Settings.SelectedTheme == (int)ApplicationTheme.Dark
                 ? new SolidColorBrush(Colors.White)
                 : new SolidColorBrush(Colors.Black);
         }

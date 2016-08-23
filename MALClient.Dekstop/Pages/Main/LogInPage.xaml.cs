@@ -5,6 +5,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;

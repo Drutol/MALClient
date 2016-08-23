@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;

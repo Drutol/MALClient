@@ -11,15 +11,9 @@ namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeDetailsHummingbirdQuery : Query
     {
-        private static readonly string _apiKey;
+        private static readonly string _passPhrase = "72618e585c0d89f4db49"; //not really all that secret
         public static Dictionary<int, int> MalToHumId = new Dictionary<int, int>();
         private readonly int _id;
-
-        static AnimeDetailsHummingbirdQuery()
-        {
-            var resources = new ResourceLoader("MalClientResources");
-            _apiKey = resources.GetString("secret");
-        }
 
         public AnimeDetailsHummingbirdQuery(int id)
         {
@@ -38,7 +32,7 @@ namespace MALClient.XShared.Comm.Anime
                 : await DataCache.RetrieveAnimeGeneralDetailsData(_id, DataSource.Hummingbird);
             if (possibleData != null)
                 return possibleData;
-            Request.Headers["X-Client-Id"] = _apiKey;
+            Request.Headers["X-Client-Id"] = _passPhrase;
             var raw = await GetRequestResponse(false);
 
             try
@@ -74,7 +68,7 @@ namespace MALClient.XShared.Comm.Anime
 
         public async Task<int> GetHummingbirdId(bool force = false)
         {
-            Request.Headers["X-Client-Id"] = _apiKey;
+            Request.Headers["X-Client-Id"] = _passPhrase;
             var raw = await GetRequestResponse(false);
 
             try

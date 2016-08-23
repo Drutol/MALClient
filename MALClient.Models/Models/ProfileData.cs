@@ -89,7 +89,8 @@ namespace MALClient.Models.Models
 
         public async Task UpdateComments()
         {
-            Comments = await new ProfileQuery(false, User.Name).GetComments();
+            //TODO Xamarin
+            //Comments = await new ProfileQuery(false, User.Name).GetComments();
         }
     }
 }

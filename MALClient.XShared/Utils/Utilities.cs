@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Profile;
 using MALClient.XShared.Utils.Enums;

@@ -14,6 +14,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.ViewModels;
 using MALClient.XShared.Comm.Anime;
@@ -46,7 +47,8 @@ namespace MALClient
             });
 #endif
             MobileViewModelLocator.RegisterDependencies();
-            Current.RequestedTheme = Settings.SelectedTheme;
+            UWPViewModelLocator.RegisterDependencies();
+            Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;
         }

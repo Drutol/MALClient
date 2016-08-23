@@ -38,6 +38,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdapterModels\VaultCredential.cs" />
+    <Compile Include="Enums\AnimeListModesEnum.cs" />
+    <Compile Include="Enums\AnimeStatusEnum.cs" />
+    <Compile Include="Enums\AnimeTypeEnum.cs" />
+    <Compile Include="Enums\ApiTypeEnum.cs" />
+    <Compile Include="Enums\ArticlePageEnums.cs" />
+    <Compile Include="Enums\EnumUtilities.cs" />
+    <Compile Include="Enums\FavouriteType.cs" />
+    <Compile Include="Enums\ForumBoards.cs" />
+    <Compile Include="Enums\ForumsPageIndex.cs" />
+    <Compile Include="Enums\HamburgerButtonsEnum.cs" />
+    <Compile Include="Enums\MessageSymbolsEnum.cs" />
+    <Compile Include="Enums\PageIndex.cs" />
+    <Compile Include="Enums\RelatedItemType.cs" />
+    <Compile Include="Interfaces\IDetailsPageArgs.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />

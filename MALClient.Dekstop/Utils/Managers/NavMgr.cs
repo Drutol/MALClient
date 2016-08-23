@@ -43,7 +43,7 @@ namespace MALClient.Utils.Managers
                 _currentOverride.Execute(null);
                 _currentOverride = null;
                 if (_randomNavigationStackOff.Count == 0)
-                    ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
+                    ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = false;
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace MALClient.Utils.Managers
             var data = _randomNavigationStackOff.Pop();
             ViewModelLocator.GeneralMain.Navigate(data.Item1, data.Item2);
             if (_randomNavigationStackOff.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = false;
         }
 
         public void DeregisterBackNav()
@@ -64,14 +64,14 @@ namespace MALClient.Utils.Managers
         {
             _randomNavigationStackOff.Clear();
             _currentOverride = null;
-            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
+            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = false;
         }
 
         public void ResetMainBackNav()
         {
             _randomNavigationStackMain.Clear();
             _currentOverrideMain = null;
-            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
         }
 
         public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
@@ -79,39 +79,39 @@ namespace MALClient.Utils.Managers
             if (page == PageIndex.PageAnimeDetails || page == PageIndex.PageCharacterDetails || page == PageIndex.PageStaffDetails)
             {
                 _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;
             }
             else if(page == PageIndex.PageProfile || page == PageIndex.PageArticles || page == PageIndex.PageForumIndex)
             {
                 _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
             }
         }
 
         public void RegisterOneTimeOverride(ICommand command)
         {
             _currentOverride = command;
-            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;
         }
 
         public void ResetOneTimeOverride()
         {
             _currentOverride = null;
             if (_randomNavigationStackOff.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Collapsed;
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = false;
         }
 
         public void RegisterOneTimeMainOverride(ICommand command)
         {
             _currentOverrideMain = command;
-            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
         }
 
         public void ResetOneTimeMainOverride()
         {
             _currentOverrideMain = null;
             if(_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
         }
 
         public void CurrentMainViewOnBackRequested()
@@ -121,7 +121,7 @@ namespace MALClient.Utils.Managers
                 _currentOverrideMain.Execute(null);
                 _currentOverrideMain = null;
                 if (_randomNavigationStackMain.Count == 0)
-                    ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+                    ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
                 return;
             }
 
@@ -131,7 +131,7 @@ namespace MALClient.Utils.Managers
             var data = _randomNavigationStackMain.Pop();
             ViewModelLocator.GeneralMain.Navigate(data.Item1, data.Item2);
             if (_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
         }
     }
 }

@@ -10,10 +10,10 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.UserControls;
+using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using HamburgerControl = MALClient.UserControls.New.HamburgerControl;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -34,7 +34,7 @@ namespace MALClient
             {
                 LogoImage.Source =
                     new BitmapImage(
-                        new Uri(Settings.SelectedTheme == ApplicationTheme.Dark
+                        new Uri(Settings.SelectedTheme == (int)ApplicationTheme.Dark
                             ? "ms-appx:///Assets/upperappbarlogowhite.png"
                             : "ms-appx:///Assets/upperappbarlogoblue.png"));
                 var vm = DesktopViewModelLocator.Main;
@@ -55,7 +55,7 @@ namespace MALClient
             }
             else if (args.PropertyName == "OffContentVisibility")
             {
-                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible ? 16 : 0);
+                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
             }
 
         }
@@ -181,7 +181,7 @@ namespace MALClient
         private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
-                ViewModelLocator.GeneralMain.PinDialogViewModel.CloseDialogCommand.Execute(null);
+                UWPViewModelLocator.PinTileDialog.CloseDialogCommand.Execute(null);
         }
 
         private async void ToggleButton_OnClick(object sender, RoutedEventArgs e)

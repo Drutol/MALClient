@@ -1,4 +1,6 @@
-﻿namespace MALClient.Models.Models.Favourites
+﻿using MALClient.Models.Enums;
+
+namespace MALClient.Models.Models.Favourites
 {
     public class AnimeStaffPerson : FavouriteBase
     {

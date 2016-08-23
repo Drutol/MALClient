@@ -1,4 +1,8 @@
 ﻿using System;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Store;
+using Windows.System;
+using Windows.UI.Popups;
 
 namespace MALClient.XShared.Utils.Managers
 {

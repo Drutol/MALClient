@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;

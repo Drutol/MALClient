@@ -1,4 +1,6 @@
-﻿namespace MALClient.XShared.Utils.Enums
+﻿using MALClient.Models.Enums.Enums;
+
+namespace MALClient.XShared.Utils.Enums
 {
     public enum AnimeListWorkModes
     {
@@ -18,21 +20,21 @@
 
     public enum SortOptions
     {
-        [Utilities.Description("Title")]
+        [EnumUtilities.Description("Title")]
         SortTitle,
-        [Utilities.Description("Score")]
+        [EnumUtilities.Description("Score")]
         SortScore,
-        [Utilities.Description("Watched")]
+        [EnumUtilities.Description("Watched")]
         SortWatched,
-        [Utilities.Description("Air day")]
+        [EnumUtilities.Description("Air day")]
         SortAirDay,
-        [Utilities.Description("Last watched")]
+        [EnumUtilities.Description("Last watched")]
         SortLastWatched,
-        [Utilities.Description("Start date")]
+        [EnumUtilities.Description("Start date")]
         SortStartDate,
-        [Utilities.Description("End Date")]
+        [EnumUtilities.Description("End Date")]
         SortEndDate,
-        [Utilities.Description("")]
+        [EnumUtilities.Description("")]
         SortNothing
     }
 }

@@ -1374,16 +1374,14 @@
                         <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
                     <FlipView
-                        SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                        SelectionChanged="ImagePivot_OnSelectionChanged" RequestedTheme="Dark">
+                        SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" RequestedTheme="Dark">
                         <Grid>
                             <ScrollViewer x:Name="StockImgScrollViewer" VerticalAlignment="Stretch"
                                           HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped"
                                           VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3"
                                           HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
                                 <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="MalImage"
-                                       Source="{Binding DetailImage}" Stretch="None"
-                                       ImageOpened="MalImage_OnImageOpened" />
+                                       Source="{Binding DetailImage}" Stretch="None"/>
                             </ScrollViewer>
                         </Grid>
                         <Grid Visibility="{Binding MalApiSpecificControlsVisibility}">
@@ -1401,8 +1399,7 @@
                                           VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3"
                                           HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
                                 <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="AlternateImage"
-                                       Source="{Binding HummingbirdImage}" Stretch="Uniform"
-                                       ImageOpened="AlternateImage_OnImageOpened" />
+                                       Source="{Binding HummingbirdImage}" Stretch="Uniform"/>
                             </ScrollViewer>
                         </Grid>
                     </FlipView>

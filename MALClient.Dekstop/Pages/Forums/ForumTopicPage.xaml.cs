@@ -9,6 +9,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.MagicalRawQueries;
@@ -41,7 +42,7 @@ namespace MALClient.Pages.Forums
             Loaded += OnLoaded;
             SizeChanged += OnSizeChanged;
             _navigatingRoot = true;
-            TopicWebView.DefaultBackgroundColor = Settings.SelectedTheme == ApplicationTheme.Dark ? Color.FromArgb(0xFF, 0x2f, 0x2f, 0x2f) : Color.FromArgb(0xFF,0xe6,0xe6,0xe6);
+            TopicWebView.DefaultBackgroundColor = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? Color.FromArgb(0xFF, 0x2f, 0x2f, 0x2f) : Color.FromArgb(0xFF,0xe6,0xe6,0xe6);
         }
 
 
@@ -84,11 +85,11 @@ namespace MALClient.Pages.Forums
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             //this chain of commands will remove unnecessary stuff
-            string bodyLight = Settings.SelectedTheme == ApplicationTheme.Dark ? "#3d3d3d" : "#d0d0d0";
-            string bodyLighter = Settings.SelectedTheme == ApplicationTheme.Dark ? "#2f2f2f" : "#e6e6e6";
-            string bodyDarker = Settings.SelectedTheme == ApplicationTheme.Dark ? "#212121" : "#cacaca";
-            string fontColor = Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black";
-            string fontColorInverted = Settings.SelectedTheme == ApplicationTheme.Dark ? "black" : "white";
+            string bodyLight = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#3d3d3d" : "#d0d0d0";
+            string bodyLighter = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2f2f2f" : "#e6e6e6";
+            string bodyDarker = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#212121" : "#cacaca";
+            string fontColor = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black";
+            string fontColorInverted = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "black" : "white";
 
             var zoom = 100*ActualWidth/1060;
             _prevSize = new Size(ActualWidth, ActualHeight);
@@ -156,7 +157,7 @@ namespace MALClient.Pages.Forums
                 }
 
             }
-            ViewModel.LoadingTopic = Visibility.Collapsed;
+            ViewModel.LoadingTopic = false;
         }
 
         private Size _prevSize;

@@ -4,19 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.Anime
 {
-    public enum RelatedItemType
-    {
-        Anime,
-        Manga,
-        Unknown
-    }
-
     public class AnimeRelatedQuery : Query
     {
         private readonly int _animeId;

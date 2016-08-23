@@ -1,4 +1,5 @@
-﻿using MALClient.XShared.Comm.Anime;
+﻿using MALClient.Models.Enums;
+using MALClient.XShared.Comm.Anime;
 
 namespace MALClient.XShared.Utils
 {

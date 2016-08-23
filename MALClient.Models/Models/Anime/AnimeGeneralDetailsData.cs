@@ -38,7 +38,7 @@ namespace MALClient.Models.Models.Anime
             GlobalScore = score;
             Type = xmlObj.Element("type").Value;
             Status = xmlObj.Element("status").Value;
-            Synopsis = Utilities.DecodeXmlSynopsisDetail(xmlObj.Element("synopsis").Value);
+            Synopsis = xmlObj.Element("synopsis").Value;
             StartDate = xmlObj.Element("start_date").Value;
             EndDate = xmlObj.Element("end_date").Value;
             ImgUrl = xmlObj.Element("image").Value;

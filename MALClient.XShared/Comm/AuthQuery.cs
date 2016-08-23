@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm

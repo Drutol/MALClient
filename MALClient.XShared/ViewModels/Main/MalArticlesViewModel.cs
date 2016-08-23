@@ -46,9 +46,9 @@ namespace MALClient.XShared.ViewModels.Main
         public ICommand LoadArticleCommand
             => _loadArticleCommand ?? (_loadArticleCommand = new RelayCommand<MalNewsUnitModel>(LoadArticle));
 
-        private Visibility _webViewVisibility = Visibility.Collapsed;
+        private bool _webViewVisibility = false;
 
-        public Visibility WebViewVisibility
+        public bool WebViewVisibility
         {
             get { return _webViewVisibility; }
             set
@@ -58,9 +58,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _articleIndexVisibility = Visibility.Visible;
+        private bool _articleIndexVisibility = true;
 
-        public Visibility ArticleIndexVisibility
+        public bool ArticleIndexVisibility
         {
             get { return _articleIndexVisibility; }
             set
@@ -70,9 +70,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _loadingVisibility = Visibility.Collapsed;
+        private bool _loadingVisibility = false;
 
-        public Visibility LoadingVisibility
+        public bool LoadingVisibility
         {
             get { return _loadingVisibility; }
             set
@@ -120,8 +120,8 @@ namespace MALClient.XShared.ViewModels.Main
                 force = true;
             }
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-            ArticleIndexVisibility = Visibility.Visible;
-            WebViewVisibility = Visibility.Collapsed;
+            ArticleIndexVisibility = true;
+            WebViewVisibility = false;
             ViewModelLocator.GeneralMain.CurrentStatus = args.WorkMode == ArticlePageWorkMode.Articles ? "Articles" : "News";
 
             if (PrevWorkMode == args.WorkMode && !force)
@@ -137,7 +137,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 return;
             }          
-            LoadingVisibility = Visibility.Visible;
+            LoadingVisibility = true;
             _loadingData = true;
 
             switch (args.WorkMode)
@@ -163,15 +163,15 @@ namespace MALClient.XShared.ViewModels.Main
             });
             Articles = data;
             _loadingData = false;
-            LoadingVisibility = Visibility.Collapsed;
+            LoadingVisibility = false;
 
 
         }
         
         private async void LoadArticle(MalNewsUnitModel data)
         {
-            LoadingVisibility = Visibility.Visible;
-            ArticleIndexVisibility = Visibility.Collapsed;
+            LoadingVisibility = true;
+            ArticleIndexVisibility = false;
             ViewModelLocator.GeneralMain.CurrentStatus = data.Title;
             CurrentNews = Articles.IndexOf(data);
             OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml(), Articles.IndexOf(data));

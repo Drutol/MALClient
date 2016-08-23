@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MALClient.Models.Enums;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries
 {
-    public enum FavouriteType
-    {
-        Anime,
-        Manga,
-        Character,
-        Person
-    }
-
     public static class MalFavouriteQuery
     {
         public static async Task ModifyFavourite(int id, FavouriteType type, bool add)

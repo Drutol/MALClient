@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.Pages;
 using MALClient.UserControls;
 using MALClient.XShared.Comm;
@@ -310,7 +311,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
-        public Visibility MangaSectionVisbility { get; set; }
+        public bool MangaSectionVisbility { get; set; }
 
         public void SetActiveButton(TopAnimeType topType)
         {

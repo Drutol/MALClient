@@ -3,16 +3,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm
 {
-    public enum ApiType
-    {
-        Mal,
-        Hummingbird
-    }
-
     public abstract class Query
     {
         protected WebRequest Request;

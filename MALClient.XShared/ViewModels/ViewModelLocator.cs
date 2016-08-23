@@ -13,41 +13,26 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.XShared.ViewModels
 {
-
-    public interface IMainViewInteractions
-    {
-        Storyboard CurrentStatusStoryboard { get; }
-        Storyboard CurrentOffStatusStoryboard { get; }
-        Storyboard CurrentOffSubStatusStoryboard { get; }
-        Storyboard PinDialogStoryboard { get; }
-        Storyboard HidePinDialogStoryboard { get;}
-        SplitViewDisplayMode CurrentDisplayMode { get; }
-        void SearchInputFocus(FocusState state);
-        void InitSplitter();
-    }
-
     public interface IMainViewModel
     {
         void Navigate(PageIndex page, object args = null);
         string CurrentStatus { get; set; }
         AnimeListPageNavigationArgs GetCurrentListOrderParams();
-        PinTileDialogViewModel PinDialogViewModel { get; }
         void PopulateSearchFilters(HashSet<string> filters);
         //Desktop
         void OnSearchInputSubmit();
         event OffContentPaneStateChanged OffContentPaneStateChanged ;
         ICommand HideOffContentCommand { get; }
         string CurrentOffStatus { get; set; }
-        Visibility NavigateOffBackButtonVisibility { get; set; }
-        Visibility NavigateMainBackButtonVisibility { get; set; }
+        bool NavigateOffBackButtonVisibility { get; set; }
+        bool NavigateMainBackButtonVisibility { get; set; }
         string CurrentSearchQuery { get; set; }
         List<string> SearchHints { get; set; }
-        Visibility ScrollToTopButtonVisibility { get; set; }
+        bool ScrollToTopButtonVisibility { get; set; }
         string CurrentStatusSub { get; set; }
-        IMainViewInteractions View { get; }
         bool IsCurrentStatusSelectable { get; set; }
         PageIndex? CurrentOffPage { get; set; }
-        Visibility OffContentVisibility { get; set; }
+        bool OffContentVisibility { get; set; }
         event SearchQuerySubmitted OnSearchQuerySubmitted;
         event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
     }
@@ -60,7 +45,7 @@ namespace MALClient.XShared.ViewModels
         void UpdateApiDependentButtons();
         void UpdateAnimeFiltersSelectedIndex();
         void UpdateLogInLabel();
-        Visibility MangaSectionVisbility { get; set; }
+        bool MangaSectionVisbility { get; set; }
         void SetActiveButton(TopAnimeType topType);
         void UpdatePinnedProfiles();
     }

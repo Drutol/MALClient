@@ -157,6 +157,9 @@
     <Compile Include="Items\StaffItem.xaml.cs">
       <DependentUpon>StaffItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Managers\ItemFlyoutService.cs" />
+    <Compile Include="Managers\LiveTilesManager.cs" />
+    <Compile Include="Managers\RateReminderPopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
@@ -174,6 +177,10 @@
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TemplateSelector.cs" />
+    <Compile Include="ViewModels\Interfaces\IAnimeListPageInteractions.cs" />
+    <Compile Include="ViewModels\Interfaces\IMainViewInteractions.cs" />
+    <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
+    <Compile Include="ViewModels\UWPViewModelLocator.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
@@ -271,6 +278,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
+      <Project>{9f8e953e-47a6-4f72-a2fe-bef7a2dae850}</Project>
+      <Name>MALClient.Adapters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
       <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
       <Name>MALClient.Models</Name>
@@ -285,6 +296,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

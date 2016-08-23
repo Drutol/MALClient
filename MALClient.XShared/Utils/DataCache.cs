@@ -279,19 +279,12 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
+
                 await Task.Run(async () =>
                 {
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, AnimeDetailsData>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync($"{data.Source}_{id}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await
+                        DataCacheService.SaveData(data, $"{data.Source}_{id}.json",
+                            anime ? "AnimeDetails" : "MangaDetails");
                 });
             }
             catch (Exception)
@@ -305,15 +298,8 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"{source}_{id}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, AnimeDetailsData>>(data);
-                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+                return await DataCacheService.RetrieveData<AnimeDetailsData>($"{source}_{id}.json",
+                    anime ? "AnimeDetails" : "MangaDetails", 1);
             }
             catch (Exception)
             {
@@ -339,12 +325,7 @@ namespace MALClient.XShared.Utils
             try
             {
                 SeasonalUrls = seasonData;
-                var json = JsonConvert.SerializeObject(seasonData);
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync("seasonal_urls.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
+                await DataCacheService.SaveData(seasonData, "seasonal_urls.json", "");
             }
             catch (Exception)
             {
@@ -356,10 +337,7 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("seasonal_urls.json");
-                var data = await FileIO.ReadTextAsync(file);
-                SeasonalUrls = JsonConvert.DeserializeObject<Dictionary<string, string>>(data) ??
-                               new Dictionary<string, string>();
+                SeasonalUrls = await RetrieveData<Dictionary<string, string>>("seasonal_urls.json", "", 0);
             }
             catch (Exception)
             {
@@ -375,19 +353,9 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<AnimeReviewData>>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync($"reviews_{id}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await DataCacheService.SaveData(data, $"reviews_{id}.json", anime ? "AnimeDetails" : "MangaDetails");
                 });
             }
             catch (Exception)
@@ -400,15 +368,10 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
+                return
                     await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"reviews_{animeId}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, List<AnimeReviewData>>>(data);
-                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+                        DataCacheService.RetrieveData<List<AnimeReviewData>>($"reviews_{animeId}.json",
+                            anime ? "AnimeDetails" : "MangaDetails", 14);
             }
             catch (Exception)
             {
@@ -426,20 +389,10 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<DirectRecommendationData>>(
-                            DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync($"direct_recommendations_{id}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                        await DataCacheService.SaveData(data, $"direct_recommendations_{id}.json",
+                            anime ? "AnimeDetails" : "MangaDetails");
                 });
             }
             catch (Exception)
@@ -453,15 +406,8 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"direct_recommendations_{id}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, List<DirectRecommendationData>>>(data);
-                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+                return await DataCacheService.RetrieveData<List<DirectRecommendationData>>(
+                    $"direct_recommendations_{id}.json", anime ? "AnimeDetails" : "MangaDetails", 14);
             }
             catch (Exception)
             {
@@ -478,19 +424,12 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
                 await Task.Run(async () =>
                 {
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<RelatedAnimeData>>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync($"related_anime_{id}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+
+                    await
+                        DataCacheService.SaveData(data, $"related_anime_{id}.json",
+                            anime ? "AnimeDetails" : "MangaDetails");
                 });
             }
             catch (Exception)
@@ -503,15 +442,10 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
+                return
                     await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"related_anime_{animeId}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, List<RelatedAnimeData>>>(data);
-                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+                        DataCacheService.RetrieveData<List<RelatedAnimeData>>($"related_anime_{animeId}.json",
+                            anime ? "AnimeDetails" : "MangaDetails", 14);
             }
             catch (Exception)
             {
@@ -530,18 +464,9 @@ namespace MALClient.XShared.Utils
             {
                 await Task.Run(async () =>
                 {
-                    var folder =
-                        await
-                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
-                                anime ? "AnimeDetails" : "MangaDetails",
-                                CreationCollisionOption.OpenIfExists);
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, AnimeGeneralDetailsData>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync($"mal_details_{id}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await
+                        DataCacheService.SaveData(data, $"mal_details_{id}.json",
+                            anime ? "AnimeDetails" : "MangaDetails");
                 });
             }
             catch (Exception)
@@ -554,15 +479,10 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
+                return
                     await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync(anime ? "AnimeDetails" : "MangaDetails",
-                            CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"mal_details_{animeId}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, AnimeGeneralDetailsData>>(data);
-                return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
+                        DataCacheService.RetrieveData<AnimeGeneralDetailsData>($"mal_details_{animeId}.json",
+                            anime ? "AnimeDetails" : "MangaDetails", 14);
             }
             catch (Exception)
             {
@@ -581,13 +501,7 @@ namespace MALClient.XShared.Utils
             {
                 await Task.Run(async () =>
                 {
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<TopAnimeData>>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            ApplicationData.Current.LocalFolder.CreateFileAsync(
-                                $"top_{type}_data.json", CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await DataCacheService.SaveData(data, $"top_{type}_data.json", "");
                 });
             }
             catch (Exception)
@@ -600,12 +514,7 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var file =
-                    await ApplicationData.Current.LocalFolder.GetFileAsync($"top_{type}_data.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, List<TopAnimeData>>>(data);
-                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null;
+                return await DataCacheService.RetrieveData<List<TopAnimeData>>($"top_{type}_data.json", "", 14);
             }
             catch (Exception)
             {
@@ -622,12 +531,7 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var json = JsonConvert.SerializeObject(AnimeDetailsHummingbirdQuery.MalToHumId);
-                var file =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFileAsync("mal_to_hum.json",
-                            CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
+                await DataCacheService.SaveData(AnimeDetailsHummingbirdQuery.MalToHumId, "mal_to_hum.json", "");
             }
             catch (Exception)
             {
@@ -640,10 +544,7 @@ namespace MALClient.XShared.Utils
             var result = new Dictionary<int, int>();
             try
             {
-                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("mal_to_hum.json");
-                var data = await FileIO.ReadTextAsync(file);
-                result = JsonConvert.DeserializeObject<Dictionary<int, int>>(data) ??
-                         new Dictionary<int, int>();
+                result = await DataCacheService.RetrieveData<Dictionary<int, int>>("mal_to_hum.json", "", 0);
             }
             catch (Exception)
             {
@@ -662,18 +563,7 @@ namespace MALClient.XShared.Utils
             {
                 await Task.Run(async () =>
                 {
-                    var folder =
-                        await
-                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
-                                "ProfileData",
-                                CreationCollisionOption.OpenIfExists);
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, ProfileData>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync($"mal_profile_details_{user}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await DataCacheService.SaveData(data, $"mal_profile_details_{user}.json", "ProfileData");
                 });
             }
             catch (Exception)
@@ -686,15 +576,9 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
+                return
                     await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfileData",
-                            CreationCollisionOption.OpenIfExists);
-                var file = await folder.GetFileAsync($"mal_profile_details_{user}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, ProfileData>>(data);
-                return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
+                        DataCacheService.RetrieveData<ProfileData>($"mal_profile_details_{user}.json", "ProfileData", 7);
             }
             catch (Exception)
             {
@@ -713,19 +597,10 @@ namespace MALClient.XShared.Utils
             {
                 await Task.Run(async () =>
                 {
-                    var folder =
-                        await
-                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
-                                "Articles",
-                                CreationCollisionOption.OpenIfExists);
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, List<MalNewsUnitModel>>(DateTime.UtcNow, data));
-                    var file =
-                        await
-                            folder.CreateFileAsync(
-                                mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await
+                        DataCacheService.SaveData(data,
+                            mode == ArticlePageWorkMode.Articles ? "mal_article_index.json" : "mal_news_index.json",
+                            "Articles");
                 });
             }
             catch (Exception)
@@ -738,19 +613,9 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
-                    await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync("Articles",
-                            CreationCollisionOption.OpenIfExists);
-                var file =
-                    await
-                        folder.GetFileAsync(mode == ArticlePageWorkMode.Articles
-                            ? "mal_article_index.json"
-                            : "mal_news_index.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, List<MalNewsUnitModel>>>(data);
-                return CheckForOldDataDetails(tuple.Item1, 1) ? tuple.Item2 : null;
+                return await DataCacheService.RetrieveData<List<MalNewsUnitModel>>(mode == ArticlePageWorkMode.Articles
+                    ? "mal_article_index.json"
+                    : "mal_news_index.json", "Articles", 4);
             }
             catch (Exception)
             {
@@ -769,19 +634,9 @@ namespace MALClient.XShared.Utils
             {
                 await Task.Run(async () =>
                 {
-                    var folder =
-                        await
-                            ApplicationData.Current.LocalFolder.CreateFolderAsync(
-                                "Articles",
-                                CreationCollisionOption.OpenIfExists);
-                    var json =
-                        JsonConvert.SerializeObject(new Tuple<DateTime, string>(DateTime.UtcNow, htmlData));
-                    var file =
-                        await
-                            folder.CreateFileAsync(
-                                $"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json",
-                                CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteTextAsync(file, json);
+                    await
+                        DataCacheService.SaveData(htmlData,
+                            $"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json", "Articles");
                 });
             }
             catch (Exception e)
@@ -794,18 +649,10 @@ namespace MALClient.XShared.Utils
         {
             try
             {
-                var folder =
+                return
                     await
-                        ApplicationData.Current.LocalFolder.CreateFolderAsync("Articles",
-                            CreationCollisionOption.OpenIfExists);
-                var file =
-                    await
-                        folder.GetFileAsync(
-                            $"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json");
-                var data = await FileIO.ReadTextAsync(file);
-                var tuple =
-                    JsonConvert.DeserializeObject<Tuple<DateTime, string>>(data);
-                return CheckForOldDataDetails(tuple.Item1) ? tuple.Item2 : null; //7 days of validnessssss
+                        DataCacheService.RetrieveData<string>(
+                            $"mal_{(type == MalNewsType.Article ? "article" : "news")}_html_{title}.json", "Articles", 0);
             }
             catch (Exception)
             {

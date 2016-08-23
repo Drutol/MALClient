@@ -11,7 +11,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public void Init(ForumsTopicNavigationArgs args)
         {
-            LoadingTopic = Visibility.Visible;
+            LoadingTopic = true;
             if (args.CreateNewTopic)
             {
                 WebViewNewTopicNavigationRequested?.Invoke(((int)args.SourceBoard).ToString(),false);
@@ -23,9 +23,9 @@ namespace MALClient.XShared.ViewModels.Forums
 
         }
 
-        private Visibility _loadingTopic;
+        private bool _loadingTopic;
 
-        public Visibility LoadingTopic
+        public bool LoadingTopic
         {
             get { return _loadingTopic; }
             set

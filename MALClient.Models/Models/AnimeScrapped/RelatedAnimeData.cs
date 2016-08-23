@@ -1,4 +1,7 @@
-﻿namespace MALClient.Models.Models.AnimeScrapped
+﻿using MALClient.Models.Enums;
+using MALClient.Models.Interfaces;
+
+namespace MALClient.Models.Models.AnimeScrapped
 {
     public class RelatedAnimeData : IDetailsPageArgs
     {

@@ -34,7 +34,7 @@ namespace MALClient.Pages.Main
 
         private void Animes_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModelLocator.SearchPage.CurrentlySelectedItem = e.ClickedItem as AnimeSearchItem;
+            ViewModelLocator.SearchPage.CurrentlySelectedItem = e.ClickedItem as AnimeSearchItemViewModel;
         }
     }
 }

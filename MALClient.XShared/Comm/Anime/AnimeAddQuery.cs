@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.Anime

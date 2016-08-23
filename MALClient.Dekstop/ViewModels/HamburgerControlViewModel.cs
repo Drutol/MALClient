@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
@@ -404,9 +405,9 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
-        private Visibility _mangaSectionVisbility = Settings.HamburgerHideMangaSection ? Visibility.Collapsed : Visibility.Visible;
+        private bool _mangaSectionVisbility = !Settings.HamburgerHideMangaSection;
 
-        public Visibility MangaSectionVisbility
+        public bool MangaSectionVisbility
         {
             get { return _mangaSectionVisbility; }
             set

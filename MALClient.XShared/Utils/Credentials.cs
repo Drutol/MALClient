@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
 using MALClient.Models.AdapterModels;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.ViewModels;
 

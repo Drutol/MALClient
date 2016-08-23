@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Utils;
 using Newtonsoft.Json;

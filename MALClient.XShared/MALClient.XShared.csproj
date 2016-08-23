@@ -89,25 +89,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
-    <Compile Include="Utils\Enums\AnimeListModesEnum.cs" />
-    <Compile Include="Utils\Enums\AnimeStatusEnum.cs" />
-    <Compile Include="Utils\Enums\AnimeTypeEnum.cs" />
-    <Compile Include="Utils\Enums\ArticlePageEnums.cs" />
-    <Compile Include="Utils\Enums\ForumBoards.cs" />
-    <Compile Include="Utils\Enums\ForumsPageIndex.cs" />
-    <Compile Include="Utils\Enums\HamburgerButtonsEnum.cs" />
-    <Compile Include="Utils\Enums\PageIndex.cs" />
     <Compile Include="Utils\IDetailsPageArgs.cs" />
     <Compile Include="Utils\Managers\FavouritesManager.cs" />
-    <Compile Include="Utils\Managers\ItemFlyoutService.cs" />
-    <Compile Include="Utils\Managers\LiveTilesManager.cs" />
-    <Compile Include="Utils\Managers\RateReminderPopUp.cs" />
     <Compile Include="Utils\PageUtils.cs" />
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utilities.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\AnimeSearchItemViewModel.cs" />
     <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
     <Compile Include="ViewModels\Details\StaffDetailsViewModel.cs" />
@@ -118,6 +108,7 @@
     <Compile Include="ViewModels\Forums\ForumsMainViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumTopicEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IDimensionsProvider.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />
     <Compile Include="ViewModels\Main\CharacterSearchViewModel.cs" />
@@ -129,7 +120,7 @@
     <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
-    <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
+    <Compile Include="ViewModels\MalMessageViewModel.cs" />
     <Compile Include="ViewModels\ResourceLocator.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>

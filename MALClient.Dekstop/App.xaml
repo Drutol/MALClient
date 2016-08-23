@@ -4,10 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient"
     xmlns:viewModels="using:MALClient.ViewModels"
-    xmlns:viewModels1="using:MALClient.XShared.ViewModels">
+    xmlns:viewModels1="using:MALClient.XShared.ViewModels"
+    xmlns:viewModels2="using:MalClient.Shared.ViewModels">
 
     <Application.Resources>
         <ResourceDictionary>
+            <viewModels2:UWPViewModelLocator x:Key="UwpLocator"/>
             <viewModels:DesktopViewModelLocator x:Key="DesktopLocator"/>
             <viewModels1:ViewModelLocator x:Key="Locator" />
             <ResourceDictionary.MergedDictionaries>

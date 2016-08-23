@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.ViewModels;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.NavArgs;
@@ -13,6 +14,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Interfaces;
 using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -22,7 +24,7 @@ namespace MALClient.Pages.Main
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page , IAnimeListViewInteractions
+    public sealed partial class AnimeListPage : Page , IAnimeListViewInteractions , IDimensionsProvider
     {
         private ScrollViewer _indefiniteScrollViewer;
         public AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
@@ -47,23 +49,85 @@ namespace MALClient.Pages.Main
         private bool _loaded;
         private AnimeListPageNavigationArgs _navArgs;
 
+
         public AnimeListPage()
         {
             InitializeComponent();
             Loaded += (sender, args) =>
             {
-                ViewModel.View = this;
+                ViewModel.DimensionsProvider = this;
                 _loaded = true;
                 ViewModel.CanAddScrollHandler = true;
                 ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
                 ViewModel.SortingSettingChanged += OnSortingSettingChanged;
                 ViewModel.SelectionResetRequested += ResetSelectionForMode;
+                ViewModel.HideFiltersFlyout += ViewModelOnHideFiltersFlyout;
+                ViewModel.HideSortingFlyout += ViewModelOnHideSortingFlyout;
+                ViewModel.HideViewsFlyout += ViewModelOnHideViewsFlyout;
+                ViewModel.ScrollToTopRequest += ViewModelOnScrollToTopRequest;
+                ViewModel.AddScrollHandlerRequest += ViewModelOnAddScrollHandlerRequest;
+                ViewModel.RemoveScrollHandlerRequest += ViewModelOnRemoveScrollHandlerRequest;
+                ViewModel.RemoveScrollingConatinerReferenceRequest += ViewModelOnRemoveScrollingConatinerReferenceRequest;
+                ViewModel.HideSeasonSelectionFlyout += ViewModelOnHideSeasonSelectionFlyout;
                 ViewModel.Init(_navArgs);
-                SizeChanged += (s, a) => { ViewModel.UpdateGridItemWidth(a); };
+                SizeChanged += (s, a) =>
+                {
+                    ViewModel.UpdateGridItemWidth(
+                        new Tuple<Tuple<double, double>, Tuple<double, double>>(
+                            new Tuple<double, double>(a.PreviousSize.Width, a.NewSize.Width),
+                            new Tuple<double, double>(a.PreviousSize.Height, a.NewSize.Height)));
+                };
             };
 
             
             ViewModelLocator.GeneralMain.OffContentPaneStateChanged += MainOnOffContentPaneStateChanged;
+        }
+
+        private void ViewModelOnHideSeasonSelectionFlyout()
+        {
+            FlyoutSeasonSelection.Hide();
+        }
+
+        private void ViewModelOnHideViewsFlyout()
+        {
+            FlyoutViews.Hide();
+        }
+
+        private void ViewModelOnRemoveScrollingConatinerReferenceRequest()
+        {
+            IndefiniteScrollViewer = null;
+        }
+
+        private async void ViewModelOnRemoveScrollHandlerRequest()
+        {
+            (await GetIndefiniteScrollViewer()).ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+        }
+
+        private async void ViewModelOnAddScrollHandlerRequest()
+        {
+            (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            
+        }
+
+        private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
+        {
+            ViewModel.IndefiniteScrollViewerOnViewChanging(e.FinalView.VerticalOffset);
+        }
+
+        private async void ViewModelOnScrollToTopRequest()
+        {
+            (await GetIndefiniteScrollViewer()).ChangeView(null, 0, null);
+            ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = false;
+        }
+
+        private void ViewModelOnHideSortingFlyout()
+        {
+            SortingFlyout.Hide();
+        }
+
+        private void ViewModelOnHideFiltersFlyout()
+        {
+            FiltersFlyout.Hide();
         }
 
         private void MainOnOffContentPaneStateChanged()

@@ -55,11 +55,11 @@ namespace MALClient.Pages.Main
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black").Replace(
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
                         "HorizontalSeparatorColor",
-                        Settings.SelectedTheme == ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
+                        Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
             css += "</style>";
             if (content.Length < 400)
                 AboutMeWebView.Height = 300;

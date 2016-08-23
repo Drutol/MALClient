@@ -44,7 +44,7 @@ namespace MALClient.UserControls
                 ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList)
                 : HamburgerButtons.LogIn);
 
-            FeedbackImage.Source = Settings.SelectedTheme == ApplicationTheme.Dark
+            FeedbackImage.Source = Settings.SelectedTheme == (int)ApplicationTheme.Dark
                 ? new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-Light-120px-plus.png"))
                 : new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-120px-plus.png"));
         }

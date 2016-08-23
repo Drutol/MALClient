@@ -9,7 +9,6 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
     ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia" IsTabStop="False">
 
     <UserControl.Resources>

@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;

@@ -41,7 +41,7 @@ namespace MALClient.XShared.ViewModels.Main
             else
             {
                 _filters.Clear();
-                AnimeSearchItems.Clear();
+                AnimeSearchItemViewModels.Clear();
                 IsFirstVisitGridVisible = true;
                 ResetQuery();
             }
@@ -59,12 +59,12 @@ namespace MALClient.XShared.ViewModels.Main
                 return;
             IsFirstVisitGridVisible = false;
             PrevQuery = query;
-            Loading = Visibility.Visible;
-            EmptyNoticeVisibility = Visibility.Collapsed;
-            AnimeSearchItems.Clear();
+            Loading = true;
+            EmptyNoticeVisibility = false;
+            AnimeSearchItemViewModels.Clear();
             var data = new List<AnimeGeneralDetailsData>();
             _filters.Clear();
-            _allAnimeSearchItems = new List<AnimeSearchItem>();
+            _allAnimeSearchItemViewModels = new List<AnimeSearchItemViewModel>();
             if (_animeSearch)
             {
                 await
@@ -76,7 +76,7 @@ namespace MALClient.XShared.ViewModels.Main
                     foreach (var item in data)
                     {
                         var type = item.Type;
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(item));
+                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(item));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }
@@ -101,7 +101,7 @@ namespace MALClient.XShared.ViewModels.Main
                         var type = item.Element("type").Value;
                         var mangaData = new AnimeGeneralDetailsData();
                         mangaData.ParseXElement(item, false);
-                        _allAnimeSearchItems.Add(new AnimeSearchItem(mangaData, false));
+                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(mangaData, false));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }
@@ -113,20 +113,20 @@ namespace MALClient.XShared.ViewModels.Main
             }
             ViewModelLocator.GeneralMain.PopulateSearchFilters(_filters);
             PopulateItems();
-            Loading = Visibility.Collapsed;
+            Loading = false;
         }
 
         private void PopulateItems()
         {
-            AnimeSearchItems.Clear();
+            AnimeSearchItemViewModels.Clear();
             foreach (
                 var item in
-                    _allAnimeSearchItems.Where(
+                    _allAnimeSearchItemViewModels.Where(
                         item =>
                             string.IsNullOrWhiteSpace(_currrentFilter) ||
                             string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
-                AnimeSearchItems.Add(item);
-            EmptyNoticeVisibility = AnimeSearchItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                AnimeSearchItemViewModels.Add(item);
+            EmptyNoticeVisibility = AnimeSearchItemViewModels.Count == 0 ? true : false;
         }
 
         private void ResetQuery()
@@ -142,20 +142,20 @@ namespace MALClient.XShared.ViewModels.Main
 
         #region Properties
 
-        private List<AnimeSearchItem> _allAnimeSearchItems;
+        private List<AnimeSearchItemViewModel> _allAnimeSearchItemViewModels;
 
-        public ObservableCollection<AnimeSearchItem> AnimeSearchItems { get; } =
-            new ObservableCollection<AnimeSearchItem>();
+        public ObservableCollection<AnimeSearchItemViewModel> AnimeSearchItemViewModels { get; } =
+            new ObservableCollection<AnimeSearchItemViewModel>();
 
-        public AnimeSearchItem CurrentlySelectedItem
+        public AnimeSearchItemViewModel CurrentlySelectedItem
         {
             get { return null; } //One way to VM
             set { value?.NavigateDetails(); }
         }
 
-        private Visibility _loading = Visibility.Collapsed;
+        private bool _loading = false;
 
-        public Visibility Loading
+        public bool Loading
         {
             get { return _loading; }
             set
@@ -165,9 +165,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _emptyNoticeVisibility = Visibility.Collapsed;
+        private bool _emptyNoticeVisibility = false;
 
-        public Visibility EmptyNoticeVisibility
+        public bool EmptyNoticeVisibility
         {
             get { return _emptyNoticeVisibility; }
             set

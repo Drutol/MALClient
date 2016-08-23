@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm;

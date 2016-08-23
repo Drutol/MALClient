@@ -12,6 +12,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
@@ -39,6 +40,7 @@ namespace MALClient
         /// </summary>
         public App()
         {
+            UWPViewModelLocator.RegisterDependencies();
             DesktopViewModelLocator.RegisterDependencies();
 #if !DEBUG
             HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
@@ -46,7 +48,7 @@ namespace MALClient
                 Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
             });
 #endif
-            Current.RequestedTheme = Settings.SelectedTheme;
+            Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
             InitializeComponent();
 
 
@@ -133,7 +135,7 @@ namespace MALClient
                 tb.ButtonBackgroundColor =
                     tb.InactiveBackgroundColor =
                         tb.ButtonInactiveBackgroundColor =
-                            Settings.SelectedTheme == ApplicationTheme.Dark
+                            Settings.SelectedTheme == (int)ApplicationTheme.Dark
                                 ? Color.FromArgb(255, 41, 41, 41)
                                 : Colors.White;
             ProcessUpdate();

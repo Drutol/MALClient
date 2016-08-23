@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared.ViewModels;
+using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.Pages;
@@ -58,7 +60,7 @@ namespace MALClient.ViewModels
                 return;
             }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
-            ScrollToTopButtonVisibility = Visibility.Collapsed;
+            ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = Visibility.Collapsed;
 
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
@@ -220,7 +222,7 @@ namespace MALClient.ViewModels
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageCharacterDetails)
                         ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
@@ -231,7 +233,7 @@ namespace MALClient.ViewModels
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageStaffDetails)
                         ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
@@ -374,7 +376,7 @@ namespace MALClient.ViewModels
         }
 
         public PageIndex? CurrentOffPage { get; set; }
-        public Visibility OffContentVisibility { get; set; }
+        public bool OffContentVisibility { get; set; }
         public event SearchQuerySubmitted OnSearchQuerySubmitted;
         public event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
 
@@ -410,7 +412,7 @@ namespace MALClient.ViewModels
 
         private string _currentSearchQuery;
 
-        public Visibility NavigateMainBackButtonVisibility { get; set; }
+        public bool NavigateMainBackButtonVisibility { get; set; }
 
         public string CurrentSearchQuery
         {
@@ -530,9 +532,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _scrollToTopButtonVisibility = Visibility.Collapsed;
+        private bool _scrollToTopButtonVisibility;
 
-        public Visibility ScrollToTopButtonVisibility
+        public bool ScrollToTopButtonVisibility
         {
             get { return _scrollToTopButtonVisibility; }
             set
@@ -622,7 +624,7 @@ namespace MALClient.ViewModels
             set { CurrentStatus = value; }
         }
 
-        public Visibility NavigateOffBackButtonVisibility { get; set; }
+        public bool NavigateOffBackButtonVisibility { get; set; }
 
         private void NavigateSearch(object args)
         {

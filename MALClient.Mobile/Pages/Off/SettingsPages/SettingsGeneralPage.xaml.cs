@@ -29,7 +29,7 @@ namespace MALClient.Pages.Off.SettingsPages
             SetDesiredStatus();
             ToggleSwitchSetup();
             ComboThemes.SelectedIndex = (int)Settings.SelectedTheme;
-            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != (int)Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (Settings.DefaultMenuTab == "anime")
@@ -121,8 +121,8 @@ namespace MALClient.Pages.Off.SettingsPages
 
         private void ChangeTheme(object sender, SelectionChangedEventArgs e)
         {
-            Settings.SelectedTheme = (ApplicationTheme)ComboThemes.SelectedIndex;
-            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+            Settings.SelectedTheme = ComboThemes.SelectedIndex;
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != (int)Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.Anime
 {
@@ -12,10 +14,9 @@ namespace MALClient.XShared.Comm.Anime
     {
         public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
 
-        public AnimeUpdateQuery(IAnimeData item)
-: this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
+        public AnimeUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
         {
-            LiveTilesManager.UpdateTile(item);
+            //ResourceLocator.LiveTilesManager.UpdateTile(item); //TODO Xamarin
         }
 
 

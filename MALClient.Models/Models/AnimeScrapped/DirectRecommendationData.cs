@@ -1,4 +1,7 @@
-﻿namespace MALClient.Models.Models.AnimeScrapped
+﻿using MALClient.Models.Enums;
+using MALClient.Models.Interfaces;
+
+namespace MALClient.Models.Models.AnimeScrapped
 {
     /// <summary>
     ///     Direct as in recommendation from details page

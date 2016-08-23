@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Notifications;
+using Windows.UI.StartScreen;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Utils.Enums;

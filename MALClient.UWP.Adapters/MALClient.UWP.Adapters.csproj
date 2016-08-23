@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="ApplicationDataServiceService.cs" />
     <Compile Include="DataCache.cs" />
+    <Compile Include="ClipboardProvider.cs" />
+    <Compile Include="ISystemControlsLauncherService.cs" />
     <Compile Include="PasswordVaultProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\MALClient.UWP.Adapters.rd.xml" />

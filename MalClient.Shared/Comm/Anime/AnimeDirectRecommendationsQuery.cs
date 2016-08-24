@@ -19,7 +19,7 @@ namespace MalClient.Shared.Comm.Anime
         {
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/userrecs"));
+                    Uri.EscapeUriString($"https://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/userrecs"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
@@ -62,7 +62,7 @@ namespace MalClient.Shared.Comm.Anime
                         var pos = imgurl.IndexOf('?');
                         if (pos != -1)
                             imgurl = imgurl.Substring(0, pos);
-                        current.ImageUrl = "http://cdn.myanimelist.net/images/anime/" + imgurl;
+                        current.ImageUrl = "https://myanimelist.cdn-dena.com/images/anime/" + imgurl;
                         current.Description = WebUtility.HtmlDecode(tds[1].Descendants("div").First(
                             node =>
                                 node.Attributes.Contains("class") &&

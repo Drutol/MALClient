@@ -19,7 +19,7 @@ namespace MalClient.Shared.Comm.Search
         {
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/character.php?q={query}"));
+                    Uri.EscapeUriString($"https://myanimelist.net/character.php?q={query}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

@@ -843,7 +843,7 @@ namespace MalClient.Shared.ViewModels
                                await
                                    Launcher.LaunchUriAsync(
                                        new Uri(
-                                           $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                                           $"https://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                            }
                            else
                            {

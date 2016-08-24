@@ -16,7 +16,7 @@ namespace MalClient.Shared.Comm
         {
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/history/{source}"));
+                    Uri.EscapeUriString($"https://myanimelist.net/history/{source}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

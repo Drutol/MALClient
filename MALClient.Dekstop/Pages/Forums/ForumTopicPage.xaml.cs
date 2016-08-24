@@ -57,13 +57,13 @@ namespace MALClient.Pages.Forums
 
         private void ViewModelOnWebViewNewTopicNavigationRequested(string content, bool b)
         {
-            _baseUri = new Uri($"http://myanimelist.net/forum/?action=post&boardid={content}");
+            _baseUri = new Uri($"https://myanimelist.net/forum/?action=post&boardid={content}");
             TopicWebView.Navigate(_baseUri);
         }
 
         private void ViewTopicModelOnWebViewTopicNavigationRequested(string content,bool arg)
         {
-            _baseUri = new Uri($"http://myanimelist.net/forum/?topicid={content}{(arg ? "&goto=lastpost" : "")}");
+            _baseUri = new Uri($"https://myanimelist.net/forum/?topicid={content}{(arg ? "&goto=lastpost" : "")}");
             _lastpost = arg;
             TopicWebView.Navigate(_baseUri);
         }
@@ -246,7 +246,7 @@ namespace MALClient.Pages.Forums
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative));
                         return;
                     }
-                    if (uri == "http://myanimelist.net/forum/")
+                    if (uri == "https://myanimelist.net/forum/")
                     {
                         ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex,_args);
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsNavigationArgs());
@@ -258,7 +258,7 @@ namespace MALClient.Pages.Forums
                     if (Regex.IsMatch(uri, "anime\\/\\d") ||
                         (Settings.SelectedApiType != ApiType.Hummingbird && Regex.IsMatch(uri, "manga\\/\\d")))
                     {
-                        var link = uri.Substring(7).Split('/');
+                        var link = uri.Substring(8).Split('/');
                         if (link[3] == "")
                         {
                             if (Settings.ArticlesLaunchExternalLinks)

@@ -19,7 +19,7 @@ namespace MalClient.Shared.Comm.Anime
         public AnimeSeasonalQuery(AnimeSeason season)
         {
             _season = season;
-            _overriden = _season.Url != "http://myanimelist.net/anime/season";
+            _overriden = _season.Url != "https://myanimelist.net/anime/season";
             Request = WebRequest.Create(Uri.EscapeUriString(_season.Url));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
@@ -129,7 +129,7 @@ namespace MalClient.Shared.Comm.Anime
                         {
                             Title = WebUtility.HtmlDecode(imageNode.InnerText.Trim()),
                             //there are some \n that we need to get rid of
-                            Id = int.Parse(link.Substring(7).Split('/')[2]), //extracted from anime link
+                            Id = int.Parse(link.Substring(8).Split('/')[2]), //extracted from anime link
                             ImgUrl = img, // from image style attr it's between ( )
                             Score = score, //0 for N/A
                             Episodes =

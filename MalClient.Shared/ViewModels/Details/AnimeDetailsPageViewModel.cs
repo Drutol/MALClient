@@ -373,7 +373,7 @@ namespace MalClient.Shared.ViewModels
             if (Settings.SelectedApiType == ApiType.Mal)
             {
                 await
-                    Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
+                    Launcher.LaunchUriAsync(new Uri($"https://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
             else
             {

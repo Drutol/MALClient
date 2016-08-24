@@ -723,7 +723,7 @@ namespace MalClient.Shared.ViewModels.Main
             var setDefaultSeason = false;
             if (CurrentSeason == null)
             {
-                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "http://myanimelist.net/anime/season"};
+                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "https://myanimelist.net/anime/season"};
                 setDefaultSeason = true;
             }
             ViewModelLocator.GeneralMain.CurrentStatus = "Downloading data...\nThis may take a while...";
@@ -1473,7 +1473,7 @@ namespace MalClient.Shared.ViewModels.Main
                     CurrentSeason = new AnimeSeason
                     {
                         Name = $"{CurrentlySelectedCustomSeasonSeason} {CurrentlySelectedCustomSeasonYear}",
-                        Url = $"http://myanimelist.net/anime/season/{CurrentlySelectedCustomSeasonYear}/{CurrentlySelectedCustomSeasonSeason.ToLower()}"
+                        Url = $"https://myanimelist.net/anime/season/{CurrentlySelectedCustomSeasonYear}/{CurrentlySelectedCustomSeasonSeason.ToLower()}"
                     };
                     SeasonSelection.Add(CurrentSeason);
                     _seasonalUrlsSelectedIndex = 4;

@@ -224,7 +224,7 @@ namespace MALClient.Pages.Main
                     args.Cancel = true;
                     if (Regex.IsMatch(uri, "anime\\/\\d") || (Settings.SelectedApiType != ApiType.Hummingbird && Regex.IsMatch(uri, "manga\\/\\d")))
                     {
-                        var link = uri.Substring(7).Split('/');
+                        var link = uri.Substring(8).Split('/');
                         if (link[3] == "")
                         {
                             if (Settings.ArticlesLaunchExternalLinks)

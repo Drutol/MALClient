@@ -70,7 +70,7 @@ namespace MalClient.Shared.Comm.Anime
 
 
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/animelist/update/{id}.xml?data={xml}"));
             Request.Credentials = Credentials.GetHttpCreditentials();
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";

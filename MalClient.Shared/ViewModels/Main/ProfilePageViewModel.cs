@@ -297,12 +297,12 @@ namespace MALClient.ViewModels.Main
 
         private async void NavigateCharacterWebPage(AnimeCharacter character)
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/character/{character.Id}"));
+            await Launcher.LaunchUriAsync(new Uri($"https://myanimelist.net/character/{character.Id}"));
         }
 
         private async void NavigatePersonWebPage(AnimeStaffPerson person)
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/people/{person.Id}"));
+            await Launcher.LaunchUriAsync(new Uri($"https://myanimelist.net/people/{person.Id}"));
         }
 
         #region Props

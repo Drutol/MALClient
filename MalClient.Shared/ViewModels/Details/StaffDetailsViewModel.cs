@@ -64,7 +64,7 @@ namespace MalClient.Shared.ViewModels.Details
 
         public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(async () =>
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/people/{Data.Id}"));
+            await Launcher.LaunchUriAsync(new Uri($"https://myanimelist.net/people/{Data.Id}"));
         }));
 
         public FavouriteViewModel FavouriteViewModel

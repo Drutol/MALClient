@@ -15,14 +15,12 @@ namespace MALClient.XShared.ViewModels
 
         public MalMessageSymbols Icon => Data.IsMine ? MalMessageSymbols.Mine : IsRead ? MalMessageSymbols.Read : MalMessageSymbols.Unread;
 
-        private bool _isRead { get; set; }
-
         public bool IsRead
         {
-            get { return _isRead; }
+            get { return Data.IsRead; }
             set
             {
-                _isRead = value;
+                Data.IsRead = value;
                 RaisePropertyChanged(() => Icon);
             }
         }

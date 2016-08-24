@@ -9,6 +9,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared.Managers;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
@@ -48,7 +49,7 @@ namespace MALClient.Pages.Forums
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await MalHttpContextProvider.InitializeContextForWebViews(false);
+            await MalWebViewHttpContextInitializer.InitializeContextForWebViews(false);
             ViewModel.WebViewTopicNavigationRequested += ViewTopicModelOnWebViewTopicNavigationRequested;
             ViewModel.WebViewNewTopicNavigationRequested += ViewModelOnWebViewNewTopicNavigationRequested;
             Loaded -= OnLoaded;

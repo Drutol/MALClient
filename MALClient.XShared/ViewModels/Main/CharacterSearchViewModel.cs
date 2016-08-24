@@ -66,7 +66,7 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             if (ViewModelLocator.Mobile)
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageCharacterSearch,null);
-                            else if (ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible)
+                            else if (ViewModelLocator.GeneralMain.OffContentVisibility)
                             {
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Data.Id));

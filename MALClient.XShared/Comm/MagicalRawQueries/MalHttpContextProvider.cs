@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using HttpClient = System.Net.Http.HttpClient;
 using HttpStatusCode = System.Net.HttpStatusCode;
 
@@ -53,7 +54,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
     public static class MalHttpContextProvider
     {
-        private const string MalBaseUrl = "http://myanimelist.net";
+        public const string MalBaseUrl = "http://myanimelist.net";
         private static CsrfHttpClient _httpClient;
         private static DateTime? _contextExpirationTime;
         private static bool _webViewsInitialized;
@@ -82,7 +83,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     UseCookies = true,
                     AllowAutoRedirect = false,
                 };
-                Utilities.GiveStatusBarFeedback("Performing http authentication...");
+                //Utilities.GiveStatusBarFeedback("Performing http authentication...");
                 _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
                 await _httpClient.GetToken(); //gets token and sets cookies            
                 var loginPostInfo = new List<KeyValuePair<string, string>>
@@ -110,46 +111,11 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             return _httpClient;
         }
 
-        /// <summary>
-        /// Moves needed cookies to globaly used client by WebViews control, web view authentication in other words.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task InitializeContextForWebViews(bool mobile)
+
+
+        public static void ErrorMessage(string what)
         {
-            if (_webViewsInitialized)
-                return;
-            _webViewsInitialized = true;
-
-            var filter = new HttpBaseProtocolFilter();
-            var httpContext = await GetHttpContextAsync();
-            var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri(MalBaseUrl));
-            if (mobile)
-            {
-                filter.CookieManager.SetCookie(new HttpCookie("view", "myanimelist.net", "/") { Value = "sp" });            
-            }
-            foreach (var cookie in cookies.Cast<Cookie>())
-            {
-                try
-                {
-                    var newCookie = new HttpCookie(cookie.Name, cookie.Domain, cookie.Path) {Value = cookie.Value};
-                    filter.CookieManager.SetCookie(newCookie);
-                }
-                catch (Exception e)
-                {
-                    var msg = new MessageDialog("Something went wrong™","Authorization failed while rewriting cookies, I don't know why this is happenning and after hours of debugging it fixed itself after reinstall. :(");
-                    await msg.ShowAsync();
-                }
-
-            }
-
-            filter.AllowAutoRedirect = true;
-            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(filter); //use globaly by webviews
-        }
-
-        public static async void ErrorMessage(string what)
-        {
-            var msg = new MessageDialog($"Something went wrong... {what} implementation is pretty hacky so this stuff can happen from time to time, try again later or wait for next update. Sorry!", "Error");
-            await msg.ShowAsync();
+             ResourceLocator.MessageDialogProvider.ShowMessageDialog($"Something went wrong... {what} implementation is pretty hacky so this stuff can happen from time to time, try again later or wait for next update. Sorry!", "Error");
         }
     }
 }

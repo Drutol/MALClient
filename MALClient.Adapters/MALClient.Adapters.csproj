@@ -43,8 +43,11 @@
   <ItemGroup>
     <Compile Include="Credentails\IPasswordVault.cs" />
     <Compile Include="IApplicationDataService.cs" />
+    <Compile Include="ICalendarExportProvider.cs" />
     <Compile Include="IClipboardProvider.cs" />
     <Compile Include="IDataCache.cs" />
+    <Compile Include="IMessageDialogProvider.cs" />
+    <Compile Include="IPinTileService.cs" />
     <Compile Include="ISyetemControlLuancherService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

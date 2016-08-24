@@ -23,13 +23,14 @@ namespace MalClient.Shared.Items
         private bool _dataLoaded;
         private bool _wide;
 
-        public RecomendationItem(RecomendationData data, int index)
+        public RecomendationItem()
         {
             InitializeComponent();
             SizeChanged += OnSizeChanged;
             Loaded += OnLoaded;
-            Index = index;
-            _data = data;
+            var vm = DataContext as RecommendationItemViewModel;
+            Index = vm.Index;
+            _data = vm.Data;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)

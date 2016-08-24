@@ -32,6 +32,8 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IApplicationDataService, ApplicationDataServiceService>();
             SimpleIoc.Default.Register<IClipboardProvider, ClipboardProvider>();
             SimpleIoc.Default.Register<ISystemControlsLauncherService, SystemControlLauncherService>();
+            SimpleIoc.Default.Register<IMessageDialogProvider, MessageDialogProvider>();
+            SimpleIoc.Default.Register<ICalendarExportProvider, CalendarExportProvider>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

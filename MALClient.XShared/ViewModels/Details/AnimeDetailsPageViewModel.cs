@@ -873,26 +873,27 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        private ICommand _saveImageCommand;
+        //TODO Xamarin
+        //private ICommand _saveImageCommand;
 
-        public ICommand SaveImageCommand
-        {
-            get
-            {
-                return _saveImageCommand ??
-                       (_saveImageCommand =
-                           new RelayCommand<string>(
-                               async opt =>
-                               {
-                                   if (AnimeMode || (!AnimeMode && opt != "hum"))
-                                       Utilities.DownloadCoverImage(
-                                           opt == "hum"
-                                               ? (_alternateImgUrl ??
-                                                  (_alternateImgUrl = await LoadHummingbirdCoverImage()))
-                                               : _imgUrl, Title);
-                               }));
-            }
-        }
+        //public ICommand SaveImageCommand
+        //{
+        //    get
+        //    {
+        //        return _saveImageCommand ??
+        //               (_saveImageCommand =
+        //                   new RelayCommand<string>(
+        //                       async opt =>
+        //                       {
+        //                           if (AnimeMode || (!AnimeMode && opt != "hum"))
+        //                               Utilities.DownloadCoverImage(
+        //                                   opt == "hum"
+        //                                       ? (_alternateImgUrl ??
+        //                                          (_alternateImgUrl = await LoadHummingbirdCoverImage()))
+        //                                       : _imgUrl, Title);
+        //                       }));
+        //    }
+        //}
 
         private ICommand _changeStatusCommand;
 
@@ -1075,8 +1076,7 @@ namespace MALClient.XShared.ViewModels.Details
                     else
                     {
                         _clipboardProvider.SetText($"https://hummingbird.me/{(AnimeMode ? "anime" : "manga")}/{Id}");
-                    }
-                    Utilities.GiveStatusBarFeedback("Copied to clipboard...");
+                    }                  
                 }));
             }
         }
@@ -1506,15 +1506,14 @@ namespace MALClient.XShared.ViewModels.Details
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
-                    {
-                        await
-                            reference.PromptForStatusChange((int) AnimeStatus.Watching);
+                    {                        
+                        reference.PromptForStatusChange((int) AnimeStatus.Watching);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     else if (MyEpisodes == AllEpisodes && AllEpisodes != 0)
                     {
-                        await
-                            reference.PromptForStatusChange((int) AnimeStatus.Completed);
+                        
+                        reference.PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     if (Settings.SelectedApiType == ApiType.Hummingbird)
@@ -1663,30 +1662,28 @@ namespace MALClient.XShared.ViewModels.Details
             if (_animeItemReference == null)
                 return;
             var uSure = false;
-            var msg = new MessageDialog("Are you sure about deleting this entry from your list?");
-            msg.Commands.Add(new UICommand("I'm sure", command => uSure = true));
-            msg.Commands.Add(new UICommand("Cancel", command => uSure = false));
-            await msg.ShowAsync();
-            if (!uSure)
-                return;
-            LoadingUpdate = true;
-            RemoveAnimeBtnEnableState = false;
+            ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
+                "Are you sure about deleting this entry from your list?", "You are about to remove this entry!",
+                "I'm sure", "Cancel",
+                async () =>
+                {
+                    LoadingUpdate = true;
+                    RemoveAnimeBtnEnableState = false;
 
-            var response = AnimeMode
-                ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
-                : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
+                    var response = AnimeMode
+                        ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
+                        : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
 
-            LoadingUpdate = false;
-            RemoveAnimeBtnEnableState = true;
+                    LoadingUpdate = false;
+                    RemoveAnimeBtnEnableState = true;
 
-            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Deleted"))
-                return;
+                    ViewModelLocator.AnimeList.RemoveAnimeEntry(
+                        (_animeItemReference as AnimeItemViewModel).ParentAbstraction);
 
-            ViewModelLocator.AnimeList.RemoveAnimeEntry((_animeItemReference as AnimeItemViewModel).ParentAbstraction);
-
-            (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
-            AddAnimeVisibility = true;
-            MyDetailsVisibility = false;
+                    (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
+                    AddAnimeVisibility = true;
+                    MyDetailsVisibility = false;
+                });
         }
 
         #endregion
@@ -1738,7 +1735,7 @@ namespace MALClient.XShared.ViewModels.Details
             RaisePropertyChanged(() => RightDetailsRow);
             ViewModelLocator.GeneralMain.CurrentOffStatus = Title;
 
-            DetailImage = new BitmapImage(new Uri(_imgUrl));
+            DetailImage = _imgUrl;
             LoadingGlobal = false;
 
             if (Settings.DetailsAutoLoadDetails)
@@ -1946,10 +1943,8 @@ namespace MALClient.XShared.ViewModels.Details
             if (data?.AlternateCoverImgUrl != null)
             {
                 _alternateImgUrl = data.AlternateCoverImgUrl;
-                HummingbirdImage = new BitmapImage(new Uri(data.AlternateCoverImgUrl));
+                HummingbirdImage = data.AlternateCoverImgUrl;
             }
-            else
-                Utilities.GiveStatusBarFeedback("Picture unavailable");
             LoadingHummingbirdImage = false;
             _loadingAlternate = false;
         }

@@ -18,17 +18,21 @@ namespace MALClient.XShared.Utils
         static Credentials()
         {
             ApplicationDataService = ResourceLocator.ApplicationDataService;
+            PasswordVault = ResourceLocator.PasswordVaultProvider;
+
+            HummingbirdToken = (string)(ApplicationDataService["HummingbirdToken"] ?? "");
+            Id = (int)(ApplicationDataService["UserId"] ?? 0);
         }
 
-        public static string HummingbirdToken { get; private set; } =
-            (string) (ApplicationDataService["HummingbirdToken"] ?? "");
+        public static string HummingbirdToken { get; private set; } 
+            
 
         public static string UserName { get; private set; }
 
         public static string Password { get; set; }
 
-        public static int Id { get; private set; } =
-            (int) (ApplicationDataService["UserId"] ?? 0);
+        public static int Id { get; private set; }
+
 
         public static bool Authenticated { get; private set; }
 

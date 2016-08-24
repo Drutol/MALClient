@@ -121,10 +121,14 @@
     <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\MalMessageViewModel.cs" />
+    <Compile Include="ViewModels\RecommendationItemViewModel.cs" />
     <Compile Include="ViewModels\ResourceLocator.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.UWP">
+      <HintPath>..\..\..\..\..\.nuget\packages\FontAwesome.UWP\4.5.0.8\lib\uap10.0\FontAwesome.UWP.dll</HintPath>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>

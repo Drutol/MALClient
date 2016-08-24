@@ -57,9 +57,9 @@ namespace MALClient.XShared.ViewModels.Details
                                 new CharacterDetailsNavigationArgs { Id = int.Parse(entry.Id) });
                         }));
 
-        public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(async () =>
+        public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(() =>
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/people/{Data.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"http://myanimelist.net/people/{Data.Id}"));
         }));
 
         public FavouriteViewModel FavouriteViewModel

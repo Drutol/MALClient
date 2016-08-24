@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.ViewManagement;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
@@ -16,6 +17,7 @@ namespace MalClient.Shared.ViewModels
         public static void RegisterDependencies()
         {
             SimpleIoc.Default.Register<PinTileDialogViewModel>();
+            SimpleIoc.Default.Register<IPinTileService>(() => PinTileDialog);
         }
 
         public static PinTileDialogViewModel PinTileDialog => SimpleIoc.Default.GetInstance<PinTileDialogViewModel>();

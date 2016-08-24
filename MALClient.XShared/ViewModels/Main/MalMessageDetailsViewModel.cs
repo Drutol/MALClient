@@ -18,12 +18,12 @@ namespace MALClient.XShared.ViewModels.Main
         private static readonly Dictionary<string, List<MalMessageModel>> MessageThreads =
             new Dictionary<string, List<MalMessageModel>>();
 
-        public SmartObservableCollection<MessageEntry> MessageSet { get; set; } =
-            new SmartObservableCollection<MessageEntry>();
+        public SmartObservableCollection<MalMessageModel> MessageSet { get; set; } =
+            new SmartObservableCollection<MalMessageModel>();
 
-        private Visibility _loadingVisibility = Visibility.Collapsed;
+        private bool _loadingVisibility = false;
 
-        public Visibility LoadingVisibility
+        public bool LoadingVisibility
         {
             get { return _loadingVisibility; }
             set
@@ -33,9 +33,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _newMessageFieldsVisibility;
+        private bool _newMessageFieldsVisibility;
 
-        public Visibility NewMessageFieldsVisibility
+        public bool NewMessageFieldsVisibility
         {
             get { return _newMessageFieldsVisibility; }
             set
@@ -45,9 +45,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _sendingMessageSpinnerVisibility = Visibility.Collapsed;
+        private bool _sendingMessageSpinnerVisibility = false;
 
-        public Visibility SendingMessageSpinnerVisibility
+        public bool SendingMessageSpinnerVisibility
         {
             get { return _sendingMessageSpinnerVisibility; }
             set
@@ -65,7 +65,7 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 _isSendButtonEnabled = value;
-                SendingMessageSpinnerVisibility = value ? Visibility.Collapsed : Visibility.Visible;
+                SendingMessageSpinnerVisibility = value ? false : true;
                 RaisePropertyChanged(() => IsSendButtonEnabled);
             }
         }
@@ -93,58 +93,57 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     _newMessage = true;
                     MessageSet.Clear();
-                    NewMessageFieldsVisibility = Visibility.Visible;
+                    NewMessageFieldsVisibility = true;
                     return;
                 }
-                NewMessageFieldsVisibility = Visibility.Collapsed;
+                NewMessageFieldsVisibility = false;
                 _newMessage = false;
 
                 if (_prevMsg?.Id == arg.Id)
                     return;
                 _prevMsg = arg;
                 MessageSet.Clear();
-                LoadingVisibility = Visibility.Visible;
+                LoadingVisibility = true;
                 if (MessageThreads.ContainsKey(arg.ThreadId))
                 {
-                    MessageSet.AddRange(MessageThreads[arg.ThreadId].Select(model => new MessageEntry(model)));
+                    MessageSet.AddRange(MessageThreads[arg.ThreadId]);
                 }
                 else
                 {
                     var msgs = await new MalMessageDetailsQuery().GetMessagesInThread(arg);
                     msgs.Reverse();
-                    MessageSet.AddRange(msgs.Select(model => new MessageEntry(model)));
+                    MessageSet.AddRange(msgs);
                 }
                 
             }
             else
             {
-                NewMessageFieldsVisibility = Visibility.Collapsed;
+                NewMessageFieldsVisibility = false;
                 var arg = args.Arg as MalComment;
                 if(arg.ComToCom == (_prevArgs?.Arg as MalComment)?.ComToCom)
                     return;
                 _prevMsg = null;
-                LoadingVisibility = Visibility.Visible;
+                LoadingVisibility = true;
                 MessageSet.Clear();
                 MessageSet =
-                    new SmartObservableCollection<MessageEntry>(
-                        (await ProfileCommentQueries.GetComToComMessages(arg.ComToCom)).Select(
-                            model => new MessageEntry(model)));
+                    new SmartObservableCollection<MalMessageModel>(
+                        (await ProfileCommentQueries.GetComToComMessages(arg.ComToCom)));
                 RaisePropertyChanged(() => MessageSet);
             }
             _prevArgs = args;
-            LoadingVisibility = Visibility.Collapsed;
+            LoadingVisibility = false;
         }
 
         //private async void FetchHistory()
         //{
-        //    LoadingVisibility = Visibility.Visible;
-        //    FetchHistoryVisibility = Visibility.Collapsed;
+        //    LoadingVisibility = true;
+        //    FetchHistoryVisibility = false;
         //    MessageSet.Clear();
         //    var result = await new MalMessageDetailsQuery().GetMessagesInThread(_prevMsg);
         //    result.Reverse(); //newest first
         //    _messageThreads[_prevMsg.ThreadId] = result;
         //    MessageSet.AddRange(result.Select(model => new MessageEntry(model)));
-        //    LoadingVisibility = Visibility.Collapsed;
+        //    LoadingVisibility = false;
         //}
 
         private async void SendMessage()
@@ -170,12 +169,12 @@ namespace MALClient.XShared.ViewModels.Main
                             MessageThreads[message.ThreadId] = new List<MalMessageModel> {message};
                             _prevMsg = message;
                             _newMessage = false;
-                            NewMessageFieldsVisibility = Visibility.Collapsed;
+                            NewMessageFieldsVisibility = false;
                             ViewModelLocator.GeneralMain.CurrentOffStatus = $"{message.Sender} - {message.Subject}";
                             MessageSet.Clear();
                             MessageSet.AddRange(new[]
                             {
-                                new MessageEntry(message)
+                                message
                             });
                             MessageText = "";
                             MessageSubject = "";
@@ -183,14 +182,13 @@ namespace MALClient.XShared.ViewModels.Main
                         }
                         catch (Exception)
                         {
-                            var msg = new MessageDialog("Unable to send this message.", "Error");
-                            await msg.ShowAsync();
+                            ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.", "Error");
+
                         }
                     }
                     else
                     {
-                        var msg = new MessageDialog("Unable to send this message.", "Error");
-                        await msg.ShowAsync();
+                        ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.", "Error");
                     }
                     IsSendButtonEnabled = true;
                     return;
@@ -223,7 +221,7 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                     MessageSet.AddRange(new[]
                     {
-                        new MessageEntry(message)
+                        message
                     });
                     MessageText = "";
                     MessageSubject = "";
@@ -232,8 +230,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 else
                 {
-                    var msg = new MessageDialog("Unable to send this message.", "Error");
-                    await msg.ShowAsync();
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.", "Error");
                 }
             }
             else //comment
@@ -243,12 +240,12 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     MessageSet.AddRange(new[]
                     {
-                        new MessageEntry(new MalMessageModel
+                        new MalMessageModel
                         {
                             Content = MessageText,
                             Sender = Credentials.UserName,
                             Date = DateTime.Now.ToString("d")
-                        })
+                        }
                     });
                     MessageText = "";
                     RaisePropertyChanged(() => MessageText);
@@ -257,33 +254,6 @@ namespace MALClient.XShared.ViewModels.Main
             IsSendButtonEnabled = true;
         }
 
-        public class MessageEntry
-        {
-            public MessageEntry(MalMessageModel msg)
-            {
-                Msg = msg;
-                if (Msg.Sender.Equals(Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    HorizontalAlignment = HorizontalAlignment.Right;
-                    Margin = new Thickness(20, 0, 0, 0);
-                    CornerRadius = new CornerRadius(10, 10, 0, 10);
-                    Background = Application.Current.Resources["SystemControlHighlightAltListAccentLowBrush"] as Brush;
-                }
-                else
-                {
-                    HorizontalAlignment = HorizontalAlignment.Left;
-                    Margin = new Thickness(0, 0, 20, 0);
-                    CornerRadius = new CornerRadius(10, 10, 10, 0);
-                    Background = Application.Current.Resources["SystemControlHighlightListAccentLowBrush"] as Brush;
-                    Background.Opacity = .5;
-                }
-            }
-
-            public MalMessageModel Msg { get; }
-            public HorizontalAlignment HorizontalAlignment { get; }
-            public Thickness Margin { get; }
-            public CornerRadius CornerRadius { get; }
-            public Brush Background { get; }
-        }
+        
     }
 }

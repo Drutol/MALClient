@@ -20,11 +20,11 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _displaySentMessages;
         private int _loadedPages = 1;
 
-        private Visibility _loadingVisibility;
+        private bool _loadingVisibility;
 
         private ICommand _loadMoreCommand;
 
-        private Visibility _loadMorePagesVisibility = Visibility.Collapsed;
+        private bool _loadMorePagesVisibility = false;
         private int _selectedMessageIndex = -1;
 
         private bool _skipLoading;
@@ -64,7 +64,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public Visibility LoadingVisibility
+        public bool LoadingVisibility
         {
             get { return _loadingVisibility; }
             set
@@ -74,7 +74,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public Visibility LoadMorePagesVisibility
+        public bool LoadMorePagesVisibility
         {
             get { return _loadMorePagesVisibility; }
             set
@@ -98,7 +98,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private async void LoadMore(bool force = false)
         {
-            LoadingVisibility = Visibility.Visible;
+            LoadingVisibility = true;
             if (force)
             {
                 if (DisplaySentMessages)
@@ -129,11 +129,11 @@ namespace MALClient.XShared.ViewModels.Main
                     _skipLoading = false;
                     MessageIndex.Clear();
                     MessageIndex.AddRange(Inbox);
-                    LoadMorePagesVisibility = Visibility.Visible;
+                    LoadMorePagesVisibility = true;
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    LoadMorePagesVisibility = Visibility.Collapsed;
+                    LoadMorePagesVisibility = false;
                 }
             else
                 try
@@ -142,14 +142,14 @@ namespace MALClient.XShared.ViewModels.Main
                         Outbox = await AccountMessagesManager.GetSentMessagesAsync();
                     MessageIndex.Clear();
                     MessageIndex.AddRange(Outbox);
-                    LoadMorePagesVisibility = Visibility.Collapsed;
+                    LoadMorePagesVisibility = false;
                 }
                 catch (Exception)
                 {
                     MalHttpContextProvider.ErrorMessage("Messages");
                 }
 
-            LoadingVisibility = Visibility.Collapsed;
+            LoadingVisibility = false;
         }
 
         private void ComposeNew()

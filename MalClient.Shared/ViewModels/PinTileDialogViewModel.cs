@@ -11,6 +11,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared;
+using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Utils;
@@ -19,7 +21,7 @@ using WinRTXamlToolkit.Imaging;
 
 namespace MALClient.XShared.ViewModels
 {
-    public class PinTileDialogViewModel : ViewModelBase
+    public class PinTileDialogViewModel : ViewModelBase , IPinTileService
     {
         private Visibility _generalVisibility = Visibility.Collapsed;
 
@@ -316,7 +318,7 @@ namespace MALClient.XShared.ViewModels
             }
             catch (Exception)
             {
-                Utilities.GiveStatusBarFeedback("An error occured...");
+                UWPUtilities.GiveStatusBarFeedback("An error occured...");
             }
             IsCropEnabled = true;
         }
@@ -360,7 +362,7 @@ namespace MALClient.XShared.ViewModels
             }
             catch (Exception)
             {
-                Utilities.GiveStatusBarFeedback("An error occured...");
+                UWPUtilities.GiveStatusBarFeedback("An error occured...");
                 return null;
             }
 
@@ -426,9 +428,14 @@ namespace MALClient.XShared.ViewModels
             }
             catch (Exception)
             {
-                Utilities.GiveStatusBarFeedback("An error occured...");
+                UWPUtilities.GiveStatusBarFeedback("An error occured...");
             }           
             IsPinEnabled = true;
+        }
+
+        public void Load(object data)
+        {
+            Load(data as AnimeItemViewModel);
         }
     }
 }

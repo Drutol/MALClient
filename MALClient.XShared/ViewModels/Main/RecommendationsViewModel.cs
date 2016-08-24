@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.Anime;
-using RecomendationItem = MalClient.Shared.Items.RecomendationItem;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -19,7 +18,13 @@ namespace MALClient.XShared.ViewModels.Main
             PopulateData();
         }
 
-        public ObservableCollection<PivotItem> RecommendationItems { get; } = new ObservableCollection<PivotItem>();
+        public class XPivotItem
+        {
+            public object Header { get; set; }
+            public object Content { get; set; }
+        }
+
+        public ObservableCollection<XPivotItem> RecommendationItems { get; } = new ObservableCollection<XPivotItem>();
 
         public bool Loading
         {
@@ -56,10 +61,10 @@ namespace MALClient.XShared.ViewModels.Main
             var i = 0;
             foreach (var item in data)
             {
-                var pivot = new PivotItem
+                var pivot = new XPivotItem
                 {
                     Header = item.DependentTitle + "\n" + item.RecommendationTitle,
-                    Content = new RecomendationItem(item, i++)
+                    Content = new RecommendationItemViewModel(item, i++)
                 };
                 RecommendationItems.Add(pivot);
             }

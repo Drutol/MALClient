@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared;
 using MALClient.Pages.Off.SettingsPages;
 using MALClient.ViewModels.Off;
 using MALClient.XShared.Utils;
@@ -25,7 +26,7 @@ namespace MALClient.Pages.Off
             InitializeComponent();
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             SettingsNavFrame.Navigate(typeof(SettingsHomePage), null);
-            ViewModelLocator.GeneralMain.CurrentOffStatus = $"Settings - {Utilities.GetAppVersion()}";
+            ViewModelLocator.GeneralMain.CurrentOffStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
             _initialized = true;
         }
 

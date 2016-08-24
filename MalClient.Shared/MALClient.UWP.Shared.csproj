@@ -159,6 +159,7 @@
     </Compile>
     <Compile Include="Managers\ItemFlyoutService.cs" />
     <Compile Include="Managers\LiveTilesManager.cs" />
+    <Compile Include="Managers\MalWebViewHttpContextInitializer.cs" />
     <Compile Include="Managers\RateReminderPopUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
@@ -177,18 +178,24 @@
       <DependentUpon>StackedBarChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TemplateSelector.cs" />
+    <Compile Include="UWPUtilities.cs" />
     <Compile Include="ViewModels\Interfaces\IAnimeListPageInteractions.cs" />
     <Compile Include="ViewModels\Interfaces\IMainViewInteractions.cs" />
     <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
     <Compile Include="ViewModels\UWPViewModelLocator.cs" />
+    <Compile Include="XamlConverters\AnimeItemAirDayBoolToBrushConverter.cs" />
+    <Compile Include="XamlConverters\AnimeItemIsThereAnyTextTopLeftToTitleMarginConverter.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
+    <Compile Include="XamlConverters\BoolToAnimeItemManipulationModesConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\EnumWithDescriptionToStringConverter.cs" />
+    <Compile Include="XamlConverters\IsFavouriteToSymbolConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\MailIconToBrushConverter.cs" />
+    <Compile Include="XamlConverters\MessageEntryToVIewModelConverter.cs" />
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />

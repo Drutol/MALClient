@@ -17,5 +17,11 @@ namespace MALClient.XShared.ViewModels
         public static IPasswordVault PasswordVaultProvider => SimpleIoc.Default.GetInstance<IPasswordVault>();
 
         public static IDataCache DataCacheService => SimpleIoc.Default.GetInstance<IDataCache>();
+
+        public static IMessageDialogProvider MessageDialogProvider => SimpleIoc.Default.GetInstance<IMessageDialogProvider>();
+
+        public static IClipboardProvider ClipboardProvider => SimpleIoc.Default.GetInstance<IClipboardProvider>();
+
+        public static ISystemControlsLauncherService SystemControlsLauncherService  => SimpleIoc.Default.GetInstance<ISystemControlsLauncherService>();
     }
 }

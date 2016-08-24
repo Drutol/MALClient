@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -15,6 +16,15 @@ namespace MalClient.Shared.Items
     public sealed partial class AnimeGridItem : UserControl
     {
         private Point _initialPoint;
+
+        static AnimeGridItem()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            AnimeItemViewModel.MaxWidth = bounds.Width / 2.05;
+            if (AnimeItemViewModel.MaxWidth > 200)
+                AnimeItemViewModel.MaxWidth = 200;
+        }
 
         public AnimeGridItem()
         {

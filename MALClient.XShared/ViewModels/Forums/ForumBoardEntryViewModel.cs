@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
+using FontAwesome.UWP;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Models.Forums;

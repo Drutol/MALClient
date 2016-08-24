@@ -12,6 +12,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared;
 using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Utils.Managers;
@@ -155,7 +156,7 @@ namespace MALClient
             //    Settings.RatePopUpStartupCounter = 0;
             //}
 
-            ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
+            ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }
 
         private async void LaunchUri(string url)
@@ -167,7 +168,7 @@ namespace MALClient
             catch (Exception)
             {
                 //wrong url provided
-                Utilities.GiveStatusBarFeedback("Invalid target url...");
+                UWPUtilities.GiveStatusBarFeedback("Invalid target url...");
             }
         }
 

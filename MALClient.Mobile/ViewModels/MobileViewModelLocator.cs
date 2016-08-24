@@ -29,6 +29,10 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IDataCache, DataCache>();
             SimpleIoc.Default.Register<IPasswordVault, PasswordVaultProvider>();
             SimpleIoc.Default.Register<IApplicationDataService, ApplicationDataServiceService>();
+            SimpleIoc.Default.Register<IClipboardProvider, ClipboardProvider>();
+            SimpleIoc.Default.Register<ISystemControlsLauncherService, SystemControlLauncherService>();
+            SimpleIoc.Default.Register<IMessageDialogProvider, MessageDialogProvider>();
+            SimpleIoc.Default.Register<ICalendarExportProvider, CalendarExportProvider>();
 
             ViewModelLocator.Mobile = true;
         }

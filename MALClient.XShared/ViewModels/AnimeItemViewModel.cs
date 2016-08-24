@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
@@ -33,11 +35,6 @@ namespace MALClient.XShared.ViewModels
 
         static AnimeItemViewModel()
         {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            MaxWidth = bounds.Width/2.05;
-            if (MaxWidth > 200)
-                MaxWidth = 200;
             UpdateScoreFlyoutChoices();
         }
 
@@ -82,7 +79,7 @@ namespace MALClient.XShared.ViewModels
             Airing = data.AirDay >= 0;
             if (!Auth)
             {
-                UpdateButtonsVisibility = Visibility.Collapsed;
+                UpdateButtonsVisibility = false;
                 _seasonalState = true;
             }
             RaisePropertyChanged(() => MyEpisodesBind);
@@ -97,12 +94,12 @@ namespace MALClient.XShared.ViewModels
 
         private async void AddThisToMyList()
         {
-            LoadingUpdate = Visibility.Visible;
+            LoadingUpdate = true;
             var response =
                 ParentAbstraction.RepresentsAnime
                     ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                     : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
-            LoadingUpdate = Visibility.Collapsed;
+            LoadingUpdate = false;
             if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
                 return;
             var startDate = "0000-00-00";
@@ -150,8 +147,8 @@ namespace MALClient.XShared.ViewModels
             if (ParentAbstraction.RepresentsAnime)
                 MyVolumes = 0;
 
-            ItemManipulationMode = ManipulationModes.All;
-            AddToListVisibility = Visibility.Collapsed;
+            AllowItemManipulation = true;
+            AddToListVisibility = false;
             ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
             await Task.Delay(10);
             RaisePropertyChanged(() => MyStatusBindShort);
@@ -213,12 +210,12 @@ namespace MALClient.XShared.ViewModels
             Id = id;
             _allEpisodes = allEps;
             Auth = auth;
-            ItemManipulationMode = auth ? ManipulationModes.All : ManipulationModes.None;
+            AllowItemManipulation = auth;
             //Assign properties
             Title = name;
-            ShowMoreVisibility = Visibility.Collapsed;
+            ShowMoreVisibility = false;
             //We are not seasonal so it's already on list            
-            AddToListVisibility = Visibility.Collapsed;
+            AddToListVisibility = false;
             SetAuthStatus(auth, setEpsAuth);
             AdjustIncrementButtonsVisibility();
             //There may be additional data available
@@ -247,7 +244,7 @@ namespace MALClient.XShared.ViewModels
             //We are loading an item that is NOT on the list and is seasonal
         {
             _seasonalState = true;
-            ItemManipulationMode = ManipulationModes.None;
+            AllowItemManipulation = false;
             Title = data.Title;
             MyScore = 0;
             MyStatus = (int) AnimeStatus.AllOrAiring;
@@ -256,7 +253,7 @@ namespace MALClient.XShared.ViewModels
             Airing = ParentAbstraction.AirDay >= 0;
             SetAuthStatus(false, true);
             AdjustIncrementButtonsVisibility();
-            ShowMoreVisibility = Visibility.Collapsed;
+            ShowMoreVisibility = false;
         }
 
         #endregion
@@ -302,27 +299,30 @@ namespace MALClient.XShared.ViewModels
 
         private bool _airing;
 
-        private Brush _airDayBrush;
-        public Brush AirDayBrush
+        private bool? _airDayBrush;
+        public bool? AirDayBrush
         {
             get
             {
                 if (_airDayBrush != null)
-                    return _airDayBrush;
+                    return _airDayBrush.Value;
+
                 if (ParentAbstraction.AirStartDate != null)
                 {
                     var diff = DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now);
                     if (diff.TotalSeconds > 0)
                     {
-                        _airDayBrush = new SolidColorBrush(Settings.SelectedTheme == ApplicationTheme.Dark ? Colors.Gray : Colors.LightGray);
-                        _airDayTillBind = diff.TotalDays < 1 ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h" : diff.TotalDays.ToString("N0") + "d";
+                        _airDayBrush = true;
+                        _airDayTillBind = diff.TotalDays < 1
+                            ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h"
+                            : diff.TotalDays.ToString("N0") + "d";
                         RaisePropertyChanged(() => AirDayTillBind);
                     }
                     else
-                        _airDayBrush = new SolidColorBrush(Colors.White);
+                        _airDayBrush = false;
                 }
                 else
-                    _airDayBrush = new SolidColorBrush(Colors.White);
+                    _airDayBrush = false;
 
                 return _airDayBrush;
             }
@@ -359,19 +359,17 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private Visibility? _isFavouriteVisibility;
+        private bool? _isFavouriteVisibility;
 
-        public Visibility IsFavouriteVisibility
+        public bool IsFavouriteVisibility
         {
             get
             {
-                return Settings.SelectedApiType == ApiType.Hummingbird ? Visibility.Collapsed : (Visibility)(_isFavouriteVisibility ??
-                       (_isFavouriteVisibility =
-                           FavouritesManager.IsFavourite(
-                               ParentAbstraction.RepresentsAnime ? FavouriteType.Anime : FavouriteType.Manga,
-                               Id.ToString())
-                               ? Visibility.Visible
-                               : Visibility.Collapsed));
+                return Settings.SelectedApiType != ApiType.Hummingbird && (bool)(_isFavouriteVisibility ??
+                                                                                 (_isFavouriteVisibility =
+                                                                                     FavouritesManager.IsFavourite(
+                                                                                         ParentAbstraction.RepresentsAnime ? FavouriteType.Anime : FavouriteType.Manga,
+                                                                                         Id.ToString())));
             }
             set
             {
@@ -381,8 +379,8 @@ namespace MALClient.XShared.ViewModels
         }
 
 
-        public Thickness TitleMargin
-            => string.IsNullOrEmpty(TopLeftInfoBind) ? new Thickness(5, 3, 25, 3) : new Thickness(5, 3, 70, 3);
+        public bool TitleMargin
+            => string.IsNullOrEmpty(TopLeftInfoBind);
 
 
         private bool _auth;
@@ -607,14 +605,14 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public Visibility TagsControlVisibility
-             => string.IsNullOrEmpty(Notes) ? Visibility.Collapsed : Visibility.Visible;
+        public bool TagsControlVisibility
+             => string.IsNullOrEmpty(Notes) ? false : true;
 
-        private Visibility _addToListVisibility;
+        private bool _addToListVisibility;
 
-        public Visibility AddToListVisibility
+        public bool AddToListVisibility
         {
-            get { return Settings.SelectedApiType == ApiType.Mal ? _addToListVisibility : Visibility.Collapsed; }
+            get { return Settings.SelectedApiType == ApiType.Mal ? _addToListVisibility : false; }
             set
             {
                 _addToListVisibility = value;
@@ -622,9 +620,9 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private Visibility _incrementEpsVisibility;
+        private bool _incrementEpsVisibility;
 
-        public Visibility IncrementEpsVisibility
+        public bool IncrementEpsVisibility
         {
             get { return _incrementEpsVisibility; }
             set
@@ -634,9 +632,9 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private Visibility _decrementEpsVisibility;
+        private bool _decrementEpsVisibility;
 
-        public Visibility DecrementEpsVisibility
+        public bool DecrementEpsVisibility
         {
             get { return _decrementEpsVisibility; }
             set
@@ -646,9 +644,9 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private Visibility _showMoreVisiblity;
+        private bool _showMoreVisiblity;
 
-        public Visibility ShowMoreVisibility
+        public bool ShowMoreVisibility
         {
             get { return _showMoreVisiblity; }
             set
@@ -658,9 +656,9 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private Visibility _updateButtonsVisibility;
+        private bool _updateButtonsVisibility;
 
-        public Visibility UpdateButtonsVisibility
+        public bool UpdateButtonsVisibility
         {
             get { return _updateButtonsVisibility; }
             set
@@ -682,9 +680,9 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private Visibility _watchedEpsInputNoticeVisibility = Visibility.Collapsed;
+        private bool _watchedEpsInputNoticeVisibility = false;
 
-        public Visibility WatchedEpsInputNoticeVisibility
+        public bool WatchedEpsInputNoticeVisibility
         {
             get { return _watchedEpsInputNoticeVisibility; }
             set
@@ -694,33 +692,21 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private ManipulationModes _itemManipulationMode;
+        private bool _allowItemManipulation;
 
-        public ManipulationModes ItemManipulationMode
+        public bool AllowItemManipulation
         {
-            get { return _itemManipulationMode; }
+            get { return _allowItemManipulation; }
             set
             {
-                if (Settings.EnableSwipeToIncDec)
-                    switch (value)
-                    {
-                        case ManipulationModes.All:
-                            _itemManipulationMode = ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
-                                                    ManipulationModes.System | ManipulationModes.TranslateInertia;
-                            break;
-                        case ManipulationModes.None:
-                            _itemManipulationMode = ManipulationModes.System;
-                            break;
-                    }
-                else
-                    _itemManipulationMode = ManipulationModes.System;
-                RaisePropertyChanged(() => ItemManipulationMode);
+                _allowItemManipulation = value;
+                RaisePropertyChanged(() => AllowItemManipulation);
             }
         }
 
-        private Visibility _loadingUpdate = Visibility.Collapsed;
+        private bool _loadingUpdate = false;
 
-        public Visibility LoadingUpdate
+        public bool LoadingUpdate
         {
             get { return _loadingUpdate; }
             set
@@ -793,7 +779,17 @@ namespace MALClient.XShared.ViewModels
             {
                 return _pinTileCustomCommand ??
                        (_pinTileCustomCommand =
-                           new RelayCommand(() => { ViewModelLocator.GeneralMain.PinDialogViewModel.Load(this); }));
+                           new RelayCommand(() =>
+                           {
+                               try
+                               {
+                                   SimpleIoc.Default.GetInstance<IPinTileService>().Load(this);
+                               }
+                               catch (Exception)
+                               {
+                                   //not windows
+                               }
+                           }));
             }
         }
 
@@ -806,18 +802,16 @@ namespace MALClient.XShared.ViewModels
                 return _copyLinkToClipboardCommand ??
                        (_copyLinkToClipboardCommand = new RelayCommand(() =>
                        {
-                           var dp = new DataPackage();
                            if (Settings.SelectedApiType == ApiType.Mal)
                            {
-                               dp.SetText(
+                               ResourceLocator.ClipboardProvider.SetText(
                                    $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            }
                            else
                            {
-                               dp.SetText($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
-                           }
-                           Clipboard.SetContent(dp);
-                           Utilities.GiveStatusBarFeedback("Copied to clipboard...");
+                               ResourceLocator.ClipboardProvider.SetText(
+                                   $"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                           }                          
                        }));
             }
         }
@@ -829,18 +823,19 @@ namespace MALClient.XShared.ViewModels
             get
             {
                 return _openInMALCommand ??
-                       (_openInMALCommand = new RelayCommand(async () =>
+                       (_openInMALCommand = new RelayCommand(() =>
                        {
                            if (Settings.SelectedApiType == ApiType.Mal)
                            {
-                               await
-                                   Launcher.LaunchUriAsync(
+                               ResourceLocator.SystemControlsLauncherService.LaunchUri(
                                        new Uri(
                                            $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                            }
                            else
                            {
-                               await Launcher.LaunchUriAsync(new Uri($"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                               ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                                   new Uri(
+                                       $"https://hummingbird.me/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                            }
                        }));
             }
@@ -867,21 +862,21 @@ namespace MALClient.XShared.ViewModels
             Auth = auth;
             if (auth)
             {
-                AddToListVisibility = Visibility.Collapsed;
-                UpdateButtonsVisibility = Visibility.Visible;
+                AddToListVisibility = false;
+                UpdateButtonsVisibility = true;
                 UpdateButtonsEnableState = true;
             }
             else
             {
                 AddToListVisibility = _seasonalState && Credentials.Authenticated
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
+                    ? true
+                    : false;
                 UpdateButtonsEnableState = false;
 
                 if (eps)
                 {
                     RaisePropertyChanged(() => MyEpisodesBind);
-                    UpdateButtonsVisibility = Visibility.Collapsed;
+                    UpdateButtonsVisibility = false;
                 }
             }
             AdjustIncrementButtonsVisibility();
@@ -891,25 +886,25 @@ namespace MALClient.XShared.ViewModels
         {
             if (!Auth || !Credentials.Authenticated)
             {
-                IncrementEpsVisibility = Visibility.Collapsed;
-                DecrementEpsVisibility = Visibility.Collapsed;
+                IncrementEpsVisibility = false;
+                DecrementEpsVisibility = false;
                 return;
             }
 
             if (MyEpisodes == _allEpisodes && _allEpisodes != 0)
             {
-                IncrementEpsVisibility = Visibility.Collapsed;
-                DecrementEpsVisibility = Visibility.Visible;
+                IncrementEpsVisibility = false;
+                DecrementEpsVisibility = true;
             }
             else if (MyEpisodes == 0)
             {
-                IncrementEpsVisibility = Visibility.Visible;
-                DecrementEpsVisibility = Visibility.Collapsed;
+                IncrementEpsVisibility = true;
+                DecrementEpsVisibility = false;
             }
             else
             {
-                IncrementEpsVisibility = Visibility.Visible;
-                DecrementEpsVisibility = Visibility.Visible;
+                IncrementEpsVisibility = true;
+                DecrementEpsVisibility = true;
             }
         }
 
@@ -934,15 +929,15 @@ namespace MALClient.XShared.ViewModels
 
         private async void IncrementWatchedEp()
         {
-            if(IncrementEpsVisibility == Visibility.Collapsed || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
+            if(IncrementEpsVisibility == false || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
                 return;
-            LoadingUpdate = Visibility.Visible;
+            LoadingUpdate = true;
             var trigCompleted = true;
             if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                 MyStatus == (int) AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                await PromptForStatusChange(AllEpisodes == 1 ? (int) AnimeStatus.Completed : (int) AnimeStatus.Watching);
+                PromptForStatusChange(AllEpisodes == 1 ? (int) AnimeStatus.Completed : (int) AnimeStatus.Watching);
             }
 
             MyEpisodesFocused++;
@@ -957,16 +952,16 @@ namespace MALClient.XShared.ViewModels
             ParentAbstraction.LastWatched = DateTime.Now;
 
             if (trigCompleted && MyEpisodes == AllEpisodesFocused && AllEpisodesFocused != 0)
-                await PromptForStatusChange((int) AnimeStatus.Completed);
+                PromptForStatusChange((int) AnimeStatus.Completed);
 
-            LoadingUpdate = Visibility.Collapsed;
+            LoadingUpdate = false;
         }
 
         private async void DecrementWatchedEp()
         {
-            if (DecrementEpsVisibility == Visibility.Collapsed || MyEpisodesFocused == 0)
+            if (DecrementEpsVisibility == false || MyEpisodesFocused == 0)
                 return;
-            LoadingUpdate = Visibility.Visible;
+            LoadingUpdate = true;
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
@@ -977,7 +972,7 @@ namespace MALClient.XShared.ViewModels
             }
 
 
-            LoadingUpdate = Visibility.Collapsed;
+            LoadingUpdate = false;
         }
 
         public async void ChangeWatchedEps()
@@ -985,13 +980,13 @@ namespace MALClient.XShared.ViewModels
             int watched;
             if (!int.TryParse(WatchedEpsInput, out watched))
             {
-                WatchedEpsInputNoticeVisibility = Visibility.Visible;
+                WatchedEpsInputNoticeVisibility = true;
                 return;
             }
             if (watched >= 0 && (_allEpisodes == 0 || watched <= _allEpisodes))
             {
-                LoadingUpdate = Visibility.Visible;
-                WatchedEpsInputNoticeVisibility = Visibility.Collapsed;
+                LoadingUpdate = true;
+                WatchedEpsInputNoticeVisibility = false;
                 var prevWatched = MyEpisodesFocused;
                 MyEpisodesFocused = watched;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
@@ -999,17 +994,17 @@ namespace MALClient.XShared.ViewModels
                     MyEpisodesFocused = prevWatched;
 
                 if (MyEpisodesFocused == _allEpisodes && _allEpisodes != 0)
-                    await PromptForStatusChange((int) AnimeStatus.Completed);
+                    PromptForStatusChange((int) AnimeStatus.Completed);
 
                 AdjustIncrementButtonsVisibility();
                 ParentAbstraction.LastWatched = DateTime.Now;
 
-                LoadingUpdate = Visibility.Collapsed;
+                LoadingUpdate = false;
                 WatchedEpsInput = "";
             }
             else
             {
-                WatchedEpsInputNoticeVisibility = Visibility.Visible;
+                WatchedEpsInputNoticeVisibility = true;
             }
         }
 
@@ -1022,7 +1017,7 @@ namespace MALClient.XShared.ViewModels
 
         private async void ChangeStatus(int status)
         {
-            LoadingUpdate = Visibility.Visible;
+            LoadingUpdate = true;
             var myPrevStatus = MyStatus;
             MyStatus = status;
             AnimeStatus stat = (AnimeStatus) status;
@@ -1045,12 +1040,12 @@ namespace MALClient.XShared.ViewModels
             if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
                 await PromptForWatchedEpsChange(_allEpisodes);
 
-            LoadingUpdate = Visibility.Collapsed;
+            LoadingUpdate = false;
         }
 
         private async void ChangeScore(object score)
         {
-            LoadingUpdate = Visibility.Visible;
+            LoadingUpdate = true;
             var myPrevScore = MyScore;
             if (Settings.SelectedApiType == ApiType.Hummingbird)
             {
@@ -1066,7 +1061,7 @@ namespace MALClient.XShared.ViewModels
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = myPrevScore;
 
-            LoadingUpdate = Visibility.Collapsed;
+            LoadingUpdate = false;
         }
 
         #endregion
@@ -1090,24 +1085,15 @@ namespace MALClient.XShared.ViewModels
 
         #region Prompts
 
-        public async Task PromptForStatusChange(int to)
+        public void PromptForStatusChange(int to)
         {
             try
             {
                 if (MyStatus == to)
                     return;
-                var msg =
-                    new MessageDialog(
+                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
                         $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to)}",
-                        "Would you like to change current status?");
-                var confirmation = false;
-                msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
-                msg.Commands.Add(new UICommand("No"));
-                await msg.ShowAsync();
-                if (confirmation)
-                {
-                    ChangeStatus(to);
-                }
+                        "Would you like to change current status?","Yes","No",() => ChangeStatus(to));
             }
             catch (Exception)
             {
@@ -1122,22 +1108,17 @@ namespace MALClient.XShared.ViewModels
             {
                 if (MyEpisodes == to)
                     return;
-                var msg = new MessageDialog($"From : {MyEpisodes}\nTo : {to}",
-                    "Would you like to change watched episodes value?");
-                var confirmation = false;
-                msg.Commands.Add(new UICommand("Yes", command => confirmation = true));
-                msg.Commands.Add(new UICommand("No"));
-                await msg.ShowAsync();
-                if (confirmation)
-                {
-                    var myPrevEps = MyEpisodes;
-                    MyEpisodes = to;
-                    var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                    if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                        MyStatus = myPrevEps;
+                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput($"From : {MyEpisodes}\nTo : {to}",
+                    "Would you like to change watched episodes value?", "Yes", "No", async () =>
+                    {
+                        var myPrevEps = MyEpisodes;
+                        MyEpisodes = to;
+                        var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+                        if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
+                            MyStatus = myPrevEps;
 
-                    AdjustIncrementButtonsVisibility();
-                }
+                        AdjustIncrementButtonsVisibility();
+                    });
             }
             catch (Exception)
             {

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
@@ -51,9 +53,9 @@ namespace MALClient.XShared.ViewModels.Main
 
         public CalendarPivotPage CurrentPivotPage { get; set; }
 
-        private Visibility _calendarBuildingVisibility = Visibility.Collapsed;
+        private bool _calendarBuildingVisibility = false;
 
-        public Visibility CalendarBuildingVisibility
+        public bool CalendarBuildingVisibility
         {
             get { return _calendarBuildingVisibility; }
             set
@@ -63,9 +65,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _calendarVisibility = Visibility.Collapsed;
+        private bool _calendarVisibility = false;
 
-        public Visibility CalendarVisibility
+        public bool CalendarVisibility
         {
             get { return _calendarVisibility; }
             set
@@ -108,7 +110,17 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _exportToCalendarCommand;
 
         public ICommand ExportToCalendarCommand
-            => _exportToCalendarCommand ?? (_exportToCalendarCommand = new RelayCommand<AnimeItemViewModel>(ExportToCalendar));
+            => _exportToCalendarCommand ?? (_exportToCalendarCommand = new RelayCommand<AnimeItemViewModel>(entry =>
+            {
+                try
+                {
+                    SimpleIoc.Default.GetInstance<ICalendarExportProvider>().ExportToCalendar(entry);
+                }
+                catch (Exception)
+                {
+                    //no calendar on platofirm
+                }
+            }));
 
 
         private void InitPages()
@@ -137,7 +149,7 @@ namespace MALClient.XShared.ViewModels.Main
         {
             if (_initialized && !force)
             {
-                CalendarVisibility = Visibility.Visible;
+                CalendarVisibility = true;
                 return;
             }
             InitPages();
@@ -184,7 +196,7 @@ namespace MALClient.XShared.ViewModels.Main
             if (idsToFetch.Count > 0)
             {
 
-                CalendarBuildingVisibility = Visibility.Visible;
+                CalendarBuildingVisibility = true;
                 MaxProgressValue = idsToFetch.Count;
                 foreach (var abstraction in idsToFetch)
                 {
@@ -296,72 +308,11 @@ namespace MALClient.XShared.ViewModels.Main
             else
                 CalendarPivotIndex = CalendarData.Count - 1;
 
-            CalendarBuildingVisibility = Visibility.Collapsed;
-            CalendarVisibility = Visibility.Visible;
+            CalendarBuildingVisibility = false;
+            CalendarVisibility = true;
 
         }
 
-        private static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
-        {
-            // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
-            int daysToAdd = ((int) day - (int) start.DayOfWeek + 7)%7;
-            return start.AddDays(daysToAdd);
-        }
-
-        private async void ExportToCalendar(AnimeItemViewModel animeItemViewModel)
-        {
-            DayOfWeek day = Utilities.StringToDay(animeItemViewModel.TopLeftInfoBind);
-            var date = GetNextWeekday(DateTime.Today, day);
-
-            var timeZoneOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
-            var startTime = new DateTimeOffset(date.Year, date.Month, date.Day, 0, 0, 0, timeZoneOffset);
-
-            var appointment = new Appointment();
-
-            appointment.StartTime = startTime;
-            appointment.Subject = "Anime - " + animeItemViewModel.Title;
-            appointment.AllDay = true;
-
-            var recurrence = new AppointmentRecurrence();
-            recurrence.Unit = AppointmentRecurrenceUnit.Weekly;
-            recurrence.Interval = 1;
-            recurrence.DaysOfWeek = Utilities.DayToAppointementDay(day);
-            if (animeItemViewModel.EndDate != AnimeItemViewModel.InvalidStartEndDate)
-            {
-                var endDate = DateTime.Parse(animeItemViewModel.EndDate);
-                recurrence.Until = endDate;
-            }
-            else if (animeItemViewModel.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
-                     animeItemViewModel.AllEpisodes != 0)
-            {
-                var weeksPassed = (DateTime.Today - DateTime.Parse(animeItemViewModel.StartDate)).Days/7;
-                if (weeksPassed < 0)
-                    return;
-                var weeks = (uint) (animeItemViewModel.AllEpisodes - weeksPassed);
-                recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(weeks*7));
-            }
-            else if (animeItemViewModel.AllEpisodes != 0)
-            {
-                var epsLeft = animeItemViewModel.AllEpisodes - animeItemViewModel.MyEpisodes;
-                recurrence.Until = DateTime.Today.Add(TimeSpan.FromDays(epsLeft*7));
-            }
-            else
-            {
-                var msg = new MessageDialog("Not enough data to create event.");
-                await msg.ShowAsync();
-                return;
-            }
-            appointment.Recurrence = recurrence;
-            var rect = new Rect(new Point(Window.Current.Bounds.Width/2, Window.Current.Bounds.Height/2), new Size());
-            try
-            {
-                await AppointmentManager.ShowAddAppointmentAsync(appointment, rect, Placement.Default);
-            }
-            catch (Exception)
-            {
-                //appointpent is already being created
-            }
-
-        }
+        
     }
 }

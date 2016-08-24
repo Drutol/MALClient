@@ -25,7 +25,6 @@ namespace MALClient.XShared.ViewModels
             {
                 _isFavourite = value;
                 RaisePropertyChanged(() => IsFavourite);
-                RaisePropertyChanged(() => FavouriteSymbolIcon);
             }
         }
 
@@ -40,8 +39,6 @@ namespace MALClient.XShared.ViewModels
                 RaisePropertyChanged(() => IsFavouriteButtonEnabled);
             }
         }
-
-        public Symbol FavouriteSymbolIcon => IsFavourite ? Symbol.UnFavorite : Symbol.Favorite;
 
         private ICommand _toggleFavouriteCommand;
 

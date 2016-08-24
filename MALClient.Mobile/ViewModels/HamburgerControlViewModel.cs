@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MalClient.Shared;
 using MALClient.Models.Enums;
 using MALClient.Pages;
 using MALClient.UserControls;
@@ -237,7 +238,7 @@ namespace MALClient.ViewModels
                 {
                     UserImage = new BitmapImage();
                     if (dl)
-                        await Utilities.DownloadProfileImg();
+                        await UWPUtilities.DownloadProfileImg();
                     else
                         UsrImgPlaceholderVisibility = Visibility.Visible;
                 }

@@ -35,7 +35,7 @@ namespace MalClient.Shared.Items
             dp.SetText($"http://www.myanimelist.net/{(ViewModel.AnimeMode ? "anime" : "manga")}/{ViewModel.Id}");
             Clipboard.SetContent(dp);
             FlyoutMore.Hide();
-            Utilities.GiveStatusBarFeedback("Copied to clipboard...");
+            UWPUtilities.GiveStatusBarFeedback("Copied to clipboard...");
         }
 
         private async void OpenInMALCommand(object sender, RoutedEventArgs e)

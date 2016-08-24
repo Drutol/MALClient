@@ -67,7 +67,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <StackPanel>
-                        <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1,1,1,0" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}" RenderTransformOrigin=".5,.5">
+                        <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1,1,1,0" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}" RenderTransformOrigin=".5,.5">
                             <SymbolIcon.RenderTransform>
                                 <ScaleTransform ScaleX=".6" ScaleY=".6"></ScaleTransform>
                             </SymbolIcon.RenderTransform>
@@ -104,7 +104,7 @@
                 <Button Grid.Column="4" Background="Transparent" Width="35" Height="35"
                         Padding="0" Foreground="{ThemeResource BrushText}"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2"
-                        Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
+                        Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                     <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Center" />
                     <Button.Flyout>
                         <Flyout>
@@ -118,7 +118,7 @@
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
+                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
@@ -159,7 +159,7 @@
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
+                        Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" />
@@ -191,7 +191,7 @@
                       Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
                     <Button VerticalAlignment="Center" Height="40" Margin="5" RenderTransformOrigin="0.5,0.5"
                         Width="40" Command="{x:Bind ViewModel.DecrementWatchedCommand}"
-                        Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                         <SymbolIcon Symbol="Remove" Foreground="White" />
                         <Button.RenderTransform>
@@ -202,7 +202,7 @@
                       Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
                     <Button Height="40" Width="40" Margin="5" RenderTransformOrigin="0.5,0.5"
                         Command="{x:Bind ViewModel.IncrementWatchedCommand}"
-                        Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
                         VerticalAlignment="Center"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="0">
                         <SymbolIcon Symbol="Add" Foreground="White" />
@@ -231,7 +231,7 @@
                                 </StackPanel>
                                 <TextBlock Text="Wrong input!"
                                            HorizontalAlignment="Center" FontWeight="SemiLight"
-                                           Visibility="{x:Bind ViewModel.WatchedEpsInputNoticeVisibility,Mode=OneWay}" />
+                                           Visibility="{x:Bind ViewModel.WatchedEpsInputNoticeVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>

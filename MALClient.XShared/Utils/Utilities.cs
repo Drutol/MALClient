@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FontAwesome.UWP;
 using HtmlAgilityPack;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
@@ -158,73 +159,7 @@ namespace MALClient.XShared.Utils
             return DayOfWeek.Friday;
         }
 
-        public static AppointmentDaysOfWeek DayToAppointementDay(DayOfWeek day)
-        {
-            switch (day)
-            {
-                case DayOfWeek.Friday:
-                    return AppointmentDaysOfWeek.Friday;
-                case DayOfWeek.Monday:
-                    return AppointmentDaysOfWeek.Monday;
-                case DayOfWeek.Saturday:
-                    return AppointmentDaysOfWeek.Saturday;
-                case DayOfWeek.Sunday:
-                    return AppointmentDaysOfWeek.Sunday;
-                case DayOfWeek.Thursday:
-                    return AppointmentDaysOfWeek.Thursday;
-                case DayOfWeek.Tuesday:
-                    return AppointmentDaysOfWeek.Tuesday;
-                case DayOfWeek.Wednesday:
-                    return AppointmentDaysOfWeek.Wednesday;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(day), day, null);
-            }
-        }
-
-        public static FontAwesomeIcon BoardToIcon(ForumBoards board)
-        {
-            switch (board)
-            {
-                case ForumBoards.Updates:
-                    return FontAwesomeIcon.Bullhorn;
-                case ForumBoards.Guidelines:
-                    return FontAwesomeIcon.Gavel;
-                case ForumBoards.Support:
-                    return FontAwesomeIcon.Support;
-                case ForumBoards.Suggestions:
-                    return FontAwesomeIcon.LightbulbOutline;
-                case ForumBoards.Contests:
-                    return FontAwesomeIcon.Trophy;
-                case ForumBoards.NewsDisc:
-                    return FontAwesomeIcon.NewspaperOutline;
-                case ForumBoards.Recomms:
-                    return FontAwesomeIcon.Gift;
-                case ForumBoards.AnimeSeriesDisc:
-                    return FontAwesomeIcon.FolderOutline;
-                case ForumBoards.MangaSeriesDisc:
-                    return FontAwesomeIcon.FolderOutline;
-                case ForumBoards.AnimeDisc:
-                    return FontAwesomeIcon.Television;
-                case ForumBoards.MangaDisc:
-                    return FontAwesomeIcon.Book;
-                case ForumBoards.Intro:
-                    return FontAwesomeIcon.CommentOutline;
-                case ForumBoards.GamesTech:
-                    return FontAwesomeIcon.Gamepad;
-                case ForumBoards.Music:
-                    return FontAwesomeIcon.Music;
-                case ForumBoards.Events:
-                    return FontAwesomeIcon.Glass;
-                case ForumBoards.CasualDisc:
-                    return FontAwesomeIcon.Coffee;
-                case ForumBoards.Creative:
-                    return FontAwesomeIcon.PictureOutline;
-                case ForumBoards.ForumsGames:
-                    return FontAwesomeIcon.PuzzlePiece;
-                default:
-                    return FontAwesomeIcon.None;
-            }
-        }
+        
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
@@ -239,18 +174,7 @@ namespace MALClient.XShared.Utils
             return (int) Math.Floor(diff.TotalSeconds);
         }
 
-        /// <summary>
-        ///     http://stackoverflow.com/questions/28635208/retrieve-the-current-app-version-from-package
-        /// </summary>
-        /// <returns></returns>
-        public static string GetAppVersion()
-        {
-            var package = Package.Current;
-            var packageId = package.Id;
-            var version = packageId.Version;
 
-            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-        }
 
         /// <summary>
         ///     http://stackoverflow.com/questions/14488796/does-net-provide-an-easy-way-convert-bytes-to-kb-mb-gb-etc
@@ -272,99 +196,9 @@ namespace MALClient.XShared.Utils
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
-        public static async Task RemoveProfileImg()
-        {
-            try
-            {
-                await (await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png")).DeleteAsync(StorageDeleteOption.PermanentDelete);
-            }
-            catch (Exception)
-            {
-                //no file
-            }
-        }
+        
 
-        public static async Task DownloadProfileImg()
-        {
-            if (!Credentials.Authenticated)
-                return;
-            try
-            {
-                var folder = ApplicationData.Current.LocalFolder;
-                var thumb = await folder.CreateFileAsync("UserImg.png", CreationCollisionOption.ReplaceExisting);
-
-                var http = new HttpClient();
-                byte[] response = {};
-                switch (Settings.SelectedApiType)
-                {
-                    case ApiType.Mal:
-                        await Task.Run(async () => response = await http.GetByteArrayAsync($"http://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
-                        break;
-                    case ApiType.Hummingbird:
-                        var avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();
-                        await Task.Run(async () => response = await http.GetByteArrayAsync(avatarLink));
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                //get bytes
-
-                var fs = await thumb.OpenStreamForWriteAsync(); //get stream
-                var writer = new DataWriter(fs.AsOutputStream());
-
-                writer.WriteBytes(response); //write
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-
-                writer.Dispose();
-
-                await ViewModelLocator.GeneralHamburger.UpdateProfileImg(false);
-            }
-            catch (Exception)
-            {
-                //
-            }
-            await Task.Delay(2000);
-            await ViewModelLocator.GeneralHamburger.UpdateProfileImg(false);
-        }
-
-        public static async void DownloadCoverImage(string url, string title)
-        {
-            if (url == null)
-                return;
-            try
-            {
-                var sp = new FileSavePicker();
-                sp.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> {".png"});
-                sp.SuggestedFileName = $"{title}-cover_art";
-
-                var file = await sp.PickSaveFileAsync();
-                if (file == null)
-                    return;
-                var http = new HttpClient();
-                byte[] response = {};
-
-                //get bytes
-                await Task.Run(async () => response = await http.GetByteArrayAsync(url));
-
-
-                var fs = await file.OpenStreamForWriteAsync(); //get stream
-                var writer = new DataWriter(fs.AsOutputStream());
-
-                writer.WriteBytes(response); //write
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-
-                writer.Dispose();
-                GiveStatusBarFeedback("File saved successfully.");
-            }
-            catch (Exception e)
-            {
-                GiveStatusBarFeedback("Error. File didn't save properly.");
-            }
-        }
+        
 
 
         public static string CleanAnimeTitle(string title)
@@ -375,7 +209,7 @@ namespace MALClient.XShared.Utils
 
         public static string FirstCharToUpper(string input)
         {
-            return input.First().ToString().ToUpper() + input.Substring(1);
+            return input.Substring(0,1).ToUpper() + input.Substring(1);
         }
 
         public static int LevenshteinDistance(string s, string t)
@@ -473,23 +307,48 @@ namespace MALClient.XShared.Utils
             return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("&mdash;", "—").Replace("&amp;", "&");
         }
 
-        public static async void GiveStatusBarFeedback(string text)
+        public static FontAwesomeIcon BoardToIcon(ForumBoards board)
         {
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            switch (board)
             {
-                try
-                {
-                    var sb = StatusBar.GetForCurrentView().ProgressIndicator;
-                    sb.Text = text;
-                    sb.ProgressValue = null;
-                    await sb.ShowAsync();
-                    await Task.Delay(2000);
-                    await sb.HideAsync();
-                }
-                catch (Exception)
-                {
-                    //
-                }
+                case ForumBoards.Updates:
+                    return FontAwesomeIcon.Bullhorn;
+                case ForumBoards.Guidelines:
+                    return FontAwesomeIcon.Gavel;
+                case ForumBoards.Support:
+                    return FontAwesomeIcon.Support;
+                case ForumBoards.Suggestions:
+                    return FontAwesomeIcon.LightbulbOutline;
+                case ForumBoards.Contests:
+                    return FontAwesomeIcon.Trophy;
+                case ForumBoards.NewsDisc:
+                    return FontAwesomeIcon.NewspaperOutline;
+                case ForumBoards.Recomms:
+                    return FontAwesomeIcon.Gift;
+                case ForumBoards.AnimeSeriesDisc:
+                    return FontAwesomeIcon.FolderOutline;
+                case ForumBoards.MangaSeriesDisc:
+                    return FontAwesomeIcon.FolderOutline;
+                case ForumBoards.AnimeDisc:
+                    return FontAwesomeIcon.Television;
+                case ForumBoards.MangaDisc:
+                    return FontAwesomeIcon.Book;
+                case ForumBoards.Intro:
+                    return FontAwesomeIcon.CommentOutline;
+                case ForumBoards.GamesTech:
+                    return FontAwesomeIcon.Gamepad;
+                case ForumBoards.Music:
+                    return FontAwesomeIcon.Music;
+                case ForumBoards.Events:
+                    return FontAwesomeIcon.Glass;
+                case ForumBoards.CasualDisc:
+                    return FontAwesomeIcon.Coffee;
+                case ForumBoards.Creative:
+                    return FontAwesomeIcon.PictureOutline;
+                case ForumBoards.ForumsGames:
+                    return FontAwesomeIcon.PuzzlePiece;
+                default:
+                    return FontAwesomeIcon.None;
             }
         }
 
@@ -559,33 +418,5 @@ namespace MALClient.XShared.Utils
             HockeyClient.Current.TrackEvent(@event.ToString() + " " + arg);
 #endif
         }
-
-        #region EnumDecorations
-
-        public class Description : Attribute
-        {
-            public readonly string Text;
-
-            public Description(string text)
-            {
-                Text = text;
-            }
-        }
-
-        public static string GetDescription(this Enum en)
-        {
-            Type type = en.GetType();
-            MemberInfo[] memInfo = type.GetMember(en.ToString());
-            if (memInfo != null && memInfo.Length > 0)
-            {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(Description), false).ToArray();
-
-                if (attrs != null && attrs.Length > 0)
-                    return ((Description) attrs[0]).Text;
-            }
-            return en.ToString();
-        }
-
-        #endregion
     }
 }

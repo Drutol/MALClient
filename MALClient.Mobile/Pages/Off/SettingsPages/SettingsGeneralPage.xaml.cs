@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using MalClient.Shared;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -36,7 +37,7 @@ namespace MALClient.Pages.Off.SettingsPages
                 RadioTabAnime.IsChecked = true;
             else
                 RadioTabManga.IsChecked = true;
-            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {Utilities.GetAppVersion()}";
+            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
             _initialized = true;
 
         }

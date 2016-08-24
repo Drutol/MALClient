@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MalClient.Shared.Items"
     mc:Ignorable="d"
     DataContext="{Binding Recommendations, Source={StaticResource Locator}}">
 
@@ -33,10 +34,15 @@
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid VerticalAlignment="Center" Height="60" Margin="0,0,0,-10" Padding="0,5,0,0">
-                        <TextBlock Text="{Binding}" FontSize="18" FontWeight="SemiLight" Height="70" />
+                        <TextBlock Text="{Binding Header}" FontSize="18" FontWeight="SemiLight" Height="70" />
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate>
+                    <items:RecomendationItem DataContext="{Binding Content}"/>
+                </DataTemplate>
+            </Pivot.ItemTemplate>
         </Pivot>
         <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"

@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MalClient.Shared;
 using MALClient.Pages.Off.SettingsPages;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
@@ -25,7 +26,7 @@ namespace MALClient.Pages.Off
             Loaded += (sender, args) => ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             SettingsNavFrame.Navigate(typeof(SettingsHomePage), null);
-            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {Utilities.GetAppVersion()}";
+            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
             _initialized = true;
         }
 

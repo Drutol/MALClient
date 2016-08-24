@@ -113,9 +113,9 @@ namespace MALClient.XShared.ViewModels.Details
                                 new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null,null, _prevArgs) { Source = PageIndex.PageCharacterDetails, AnimeMode = false})));
 
 
-        public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(async () =>
+        public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(() =>
         {
-            await Launcher.LaunchUriAsync(new Uri($"http://myanimelist.net/character/{Data.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"http://myanimelist.net/character/{Data.Id}"));
         }));
 
         public FavouriteViewModel FavouriteViewModel => Data == null ? null : new FavouriteViewModel(new AnimeCharacter { Id = Data.Id.ToString()});

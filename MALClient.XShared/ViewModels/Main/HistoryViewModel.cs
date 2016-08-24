@@ -24,9 +24,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _loadingVisibility;
+        private bool _loadingVisibility;
 
-        public Visibility LoadingVisibility
+        public bool LoadingVisibility
         {
             get { return _loadingVisibility; }
             set
@@ -36,9 +36,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private Visibility _historyEmptyNoticeVisibility = Visibility.Collapsed;
+        private bool _historyEmptyNoticeVisibility = false;
 
-        public Visibility HistoryEmptyNoticeVisibility
+        public bool HistoryEmptyNoticeVisibility
         {
             get { return _historyEmptyNoticeVisibility; }
             set
@@ -63,7 +63,7 @@ namespace MALClient.XShared.ViewModels.Main
             _prevArgs = args;
             History = null;
 
-            LoadingVisibility = Visibility.Visible;
+            LoadingVisibility = true;
             Dictionary<string, List<MalProfileHistoryEntry>> history = null;
             await Task.Run(async () => history = await new ProfileHistoryQuery(args.Source).GetProfileHistory());
 
@@ -126,8 +126,8 @@ namespace MALClient.XShared.ViewModels.Main
             }
             
             History = data;
-            HistoryEmptyNoticeVisibility = data.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            LoadingVisibility = Visibility.Collapsed;
+            HistoryEmptyNoticeVisibility = data.Count == 0 ? true : false;
+            LoadingVisibility = false;
         }
     }
 }

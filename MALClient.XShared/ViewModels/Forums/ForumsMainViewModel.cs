@@ -73,7 +73,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public async void LoadPinnedTopics()
         {
-            foreach (var item in (await DataCache.RetrieveData<List<ForumTopicLightEntry>>("pinned_forum_topics.json", ApplicationData.Current.RoamingFolder, -1)) ?? new List<ForumTopicLightEntry>())
+            foreach (var item in (await ResourceLocator.DataCacheService.RetrieveDataRoaming<List<ForumTopicLightEntry>>("pinned_forum_topics.json", -1)) ?? new List<ForumTopicLightEntry>())
             {
                 PinnedTopics.Add(item);
             }          
@@ -81,7 +81,7 @@ namespace MALClient.XShared.ViewModels.Forums
          
         public async Task SavePinnedTopics()
         {
-            await DataCache.SaveData(PinnedTopics.ToList(), "pinned_forum_topics.json", ApplicationData.Current.RoamingFolder);     
+            await ResourceLocator.DataCacheService.SaveDataRoaming(PinnedTopics.ToList(), "pinned_forum_topics.json");     
         }
 
         public ForumsMainViewModel()

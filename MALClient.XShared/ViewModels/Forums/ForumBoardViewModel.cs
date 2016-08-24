@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using FontAwesome.UWP;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.NavArgs;
@@ -68,9 +70,9 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        private Visibility _loadingTopics;
+        private bool _loadingTopics;
 
-        public Visibility LoadingTopics
+        public bool LoadingTopics
         {
             get { return _loadingTopics; }
             set
@@ -80,9 +82,9 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        private Visibility _emptyNoticeVisibility = Visibility.Collapsed;
+        private bool _emptyNoticeVisibility = false;
 
-        public Visibility EmptyNoticeVisibility
+        public bool EmptyNoticeVisibility
         {
             get { return _emptyNoticeVisibility; }
             set
@@ -92,9 +94,9 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        private Visibility _newTopicButtonVisibility;
+        private bool _newTopicButtonVisibility;
 
-        public Visibility NewTopicButtonVisibility
+        public bool NewTopicButtonVisibility
         {
             get { return _newTopicButtonVisibility; }
             set
@@ -104,9 +106,9 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        private Visibility _searchButtonVisibility;
+        private bool _searchButtonVisibility;
 
-        public Visibility SearchButtonVisibility
+        public bool SearchButtonVisibility
         {
             get { return _searchButtonVisibility; }
             set
@@ -116,9 +118,9 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        private Visibility _pageNavigationControlsVisibility;
+        private bool _pageNavigationControlsVisibility;
 
-        public Visibility PageNavigationControlsVisibility
+        public bool PageNavigationControlsVisibility
         {
             get { return _pageNavigationControlsVisibility; }
             set
@@ -237,24 +239,24 @@ namespace MALClient.XShared.ViewModels.Forums
             switch (args.WorkMode)
             {
                 case ForumBoardPageWorkModes.Standard:
-                    PageNavigationControlsVisibility = SearchButtonVisibility = Visibility.Visible;
+                    PageNavigationControlsVisibility = SearchButtonVisibility = true;
                     Title = args.TargetBoard.GetDescription();
                     Icon = Utilities.BoardToIcon(args.TargetBoard);
                     break;
                 case ForumBoardPageWorkModes.AnimeBoard:
-                    SearchButtonVisibility = Visibility.Collapsed;
-                    PageNavigationControlsVisibility = Visibility.Visible;
+                    SearchButtonVisibility = false;
+                    PageNavigationControlsVisibility = true;
                     Title = args.AnimeTitle;
                     Icon = FontAwesomeIcon.Tv;
                     break;
                 case ForumBoardPageWorkModes.MangaBoard:
-                    SearchButtonVisibility = Visibility.Collapsed;
-                    PageNavigationControlsVisibility = Visibility.Visible;
+                    SearchButtonVisibility = false;
+                    PageNavigationControlsVisibility = true;
                     Title = args.AnimeTitle;
                     Icon = FontAwesomeIcon.Book;
                     break;
                 case ForumBoardPageWorkModes.Search:
-                    PageNavigationControlsVisibility = SearchButtonVisibility = Visibility.Collapsed;
+                    PageNavigationControlsVisibility = SearchButtonVisibility = false;
                     Title = "Search - " + args.Query;
                     Icon = args.Scope == null ? FontAwesomeIcon.Search : Utilities.BoardToIcon(args.Scope.Value);
                     break;
@@ -265,14 +267,14 @@ namespace MALClient.XShared.ViewModels.Forums
             if (args.WorkMode == ForumBoardPageWorkModes.Search || args.TargetBoard == ForumBoards.NewsDisc ||
                 args.TargetBoard == ForumBoards.AnimeSeriesDisc || args.TargetBoard == ForumBoards.MangaSeriesDisc ||
                 args.TargetBoard == ForumBoards.Updates || args.TargetBoard == ForumBoards.Guidelines)
-                NewTopicButtonVisibility = Visibility.Collapsed;
+                NewTopicButtonVisibility = false;
             else
-                NewTopicButtonVisibility = Visibility.Visible;
+                NewTopicButtonVisibility = true;
         }
 
         public async void LoadPage(int page, bool decrement = false)
         {
-            LoadingTopics = Visibility.Visible;
+            LoadingTopics = true;
             if (decrement)
                 page--;
             try
@@ -307,14 +309,14 @@ namespace MALClient.XShared.ViewModels.Forums
                     _allPages = topics.Pages;
                     CurrentPage = page;
                 }
-                EmptyNoticeVisibility = Topics.Any() ? Visibility.Collapsed : Visibility.Visible;
+                EmptyNoticeVisibility = Topics.Any() ? false : true;
             }
             catch (Exception)
             {
                 //no shuch page
             }
             _initizalizing = false;
-            LoadingTopics = Visibility.Collapsed;
+            LoadingTopics = false;
         }
 
         public void LoadTopic(ForumTopicEntryViewModel topic, bool lastpost = false)

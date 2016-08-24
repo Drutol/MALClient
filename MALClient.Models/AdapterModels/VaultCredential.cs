@@ -15,8 +15,8 @@ namespace MALClient.Models.AdapterModels
         public VaultCredential(string domain,string username,string password)
         {
             Domain = domain;
-            UserName = UserName;
-            Password = Password;
+            UserName = username;
+            Password = password;
         }
     }
 }

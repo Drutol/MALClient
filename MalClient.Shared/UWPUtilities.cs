@@ -116,46 +116,8 @@ namespace MalClient.Shared
             await ViewModelLocator.GeneralHamburger.UpdateProfileImg(false);
         }
 
-        public static async void DownloadCoverImage(string url, string title)
-        {
-            if (url == null)
-                return;
-            try
-            {
-                var sp = new FileSavePicker();
-                sp.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                sp.FileTypeChoices.Add("Portable Network Graphics (*.png)", new List<string> { ".png" });
-                sp.SuggestedFileName = $"{title}-cover_art";
-
-                var file = await sp.PickSaveFileAsync();
-                if (file == null)
-                    return;
-                var http = new HttpClient();
-                byte[] response = { };
-
-                //get bytes
-                await Task.Run(async () => response = await http.GetByteArrayAsync(url));
-
-
-                var fs = await file.OpenStreamForWriteAsync(); //get stream
-                var writer = new DataWriter(fs.AsOutputStream());
-
-                writer.WriteBytes(response); //write
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-
-                writer.Dispose();
-                //GiveStatusBarFeedback("File saved successfully.");
-            }
-            catch (Exception e)
-            {
-               // GiveStatusBarFeedback("Error. File didn't save properly.");
-            }
-
-
-        }
-
-        public static async void GiveStatusBarFeedback(string text)
+       
+      public static async void GiveStatusBarFeedback(string text)
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {

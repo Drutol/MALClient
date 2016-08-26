@@ -570,4 +570,12 @@ namespace MALClient.XShared.Comm.Profile
                 new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
     }
+
+    public static class ProfileDataHelper
+    {
+        public static async Task UpdateComments(this ProfileData data)
+        {
+            data.Comments = await new ProfileQuery(false, data.User.Name).GetComments();
+        }
+    }
 }

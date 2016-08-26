@@ -14,9 +14,18 @@ namespace MALClient.XShared.Comm.Anime
     {
         public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
 
-        public AnimeUpdateQuery(IAnimeData item) : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
+        public AnimeUpdateQuery(IAnimeData item)
+            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
         {
-            //ResourceLocator.LiveTilesManager.UpdateTile(item); //TODO Xamarin
+            try
+            {
+                ResourceLocator.LiveTilesManager.UpdateTile(item);
+            }
+            catch (Exception)
+            {
+                //not windows
+            }
+            
         }
 
 

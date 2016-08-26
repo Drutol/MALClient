@@ -105,9 +105,14 @@ namespace MALClient.Pages.Off.SettingsPages
             }
         }
 
-        private void BtnCachedEntryRemove(object sender, RoutedEventArgs e)
+        private async void BtnCachedEntryRemove(object sender, RoutedEventArgs e)
         {
-            ViewModel.CachedEntries.Remove((sender as FrameworkElement).Tag as CachedEntryModel);
+            var entry = (sender as FrameworkElement).Tag as CachedEntryModel;
+            ViewModel.CachedEntries.Remove(entry);
+
+            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(entry.FileName);
+            await file.DeleteAsync();
+
         }
     }
 }

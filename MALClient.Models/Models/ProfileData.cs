@@ -86,11 +86,5 @@ namespace MALClient.Models.Models
         public List<int> RecentAnime { get;} = new List<int>();
         //Recent Manga 
         public List<int> RecentManga { get; } = new List<int>();
-
-        public async Task UpdateComments()
-        {
-            //TODO Xamarin
-            //Comments = await new ProfileQuery(false, User.Name).GetComments();
-        }
     }
 }

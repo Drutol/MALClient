@@ -26,8 +26,29 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-            Loaded += (a1,a2) => MobileViewModelLocator.Main.View = this;
+            Loaded += (a1, a2) =>
+            {
+                MobileViewModelLocator.Main.View = this;
+                UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
+                {
+                    PinDialogStoryboard.Begin();
+                };
+                UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
+            };
             ViewModel.NavigationRequested += Navigate;
+        }
+
+
+        private void HidePinDialog()
+        {
+            HidePinDialogStoryboard.Completed += SbOnCompleted;
+            HidePinDialogStoryboard.Begin();
+        }
+
+        private void SbOnCompleted(object sender, object o)
+        {
+            (sender as Storyboard).Completed -= SbOnCompleted;
+            UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
         }
 
         public MainViewModel ViewModel => DataContext as MainViewModel;

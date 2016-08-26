@@ -873,27 +873,26 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        //TODO Xamarin
-        //private ICommand _saveImageCommand;
+        private ICommand _saveImageCommand;
 
-        //public ICommand SaveImageCommand
-        //{
-        //    get
-        //    {
-        //        return _saveImageCommand ??
-        //               (_saveImageCommand =
-        //                   new RelayCommand<string>(
-        //                       async opt =>
-        //                       {
-        //                           if (AnimeMode || (!AnimeMode && opt != "hum"))
-        //                               Utilities.DownloadCoverImage(
-        //                                   opt == "hum"
-        //                                       ? (_alternateImgUrl ??
-        //                                          (_alternateImgUrl = await LoadHummingbirdCoverImage()))
-        //                                       : _imgUrl, Title);
-        //                       }));
-        //    }
-        //}
+        public ICommand SaveImageCommand
+        {
+            get
+            {
+                return _saveImageCommand ??
+                       (_saveImageCommand =
+                           new RelayCommand<string>(
+                               async opt =>
+                               {
+                                   if (AnimeMode || (!AnimeMode && opt != "hum"))
+                                       ResourceLocator.ImageDownloaderService.DownloadImage(
+                                           opt == "hum"
+                                               ? (_alternateImgUrl ??
+                                                  (_alternateImgUrl = await LoadHummingbirdCoverImage()))
+                                               : _imgUrl, Title);
+                               }));
+            }
+        }
 
         private ICommand _changeStatusCommand;
 

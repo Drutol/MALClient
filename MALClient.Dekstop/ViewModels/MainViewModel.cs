@@ -45,7 +45,6 @@ namespace MALClient.ViewModels
 
         private bool _subscribed;
         private bool _wasOnDetailsFromSearch;
-        public PinTileDialogViewModel PinDialogViewModel { get; } = new PinTileDialogViewModel();
 
         public PageIndex? CurrentMainPage { get; set; }
         public PageIndex? CurrentMainPageKind { get; set; }

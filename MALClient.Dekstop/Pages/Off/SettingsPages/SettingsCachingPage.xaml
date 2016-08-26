@@ -64,7 +64,7 @@
                                        Grid.Column="1" TextWrapping="WrapWholeWords"
                                        Margin="0,0,5,0" />
                             <Button Grid.Column="2" Grid.Row="0" Click="BtnCachedEntryRemove" Tag="{Binding}"
-                                    Command="{Binding RemoveFileCommand}" Grid.RowSpan="2"
+                                    Grid.RowSpan="2"
                                     VerticalAlignment="Center">
                                 <SymbolIcon Symbol="Delete" />
                             </Button>

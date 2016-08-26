@@ -29,7 +29,6 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-
             Loaded += (sender, args) =>
             {
                 LogoImage.Source =
@@ -41,8 +40,26 @@ namespace MALClient
                 vm.MainNavigationRequested += Navigate;
                 vm.OffNavigationRequested += NavigateOff;
                 vm.PropertyChanged += VmOnPropertyChanged;
+                UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
+                {
+                    PinDialogStoryboard.Begin();
+                };
+                UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
                 DesktopViewModelLocator.Main.View = this;
             };
+        }
+
+
+        private void HidePinDialog()
+        {
+            HidePinDialogStoryboard.Completed += SbOnCompleted;
+            HidePinDialogStoryboard.Begin();
+        }
+
+        private void SbOnCompleted(object sender, object o)
+        {
+            (sender as Storyboard).Completed -= SbOnCompleted;
+            UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
         }
 
         private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs args)

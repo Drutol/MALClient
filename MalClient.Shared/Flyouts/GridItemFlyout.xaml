@@ -73,9 +73,9 @@
         <MenuFlyoutSubItem Text="{Binding UpdateEpsUpperLabel}"
                            Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
             <MenuFlyoutItem Text="Increment" Command="{Binding IncrementWatchedCommand}"
-                            Visibility="{Binding IncrementEpsVisibility}" />
+                            Visibility="{Binding IncrementEpsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
             <MenuFlyoutItem Text="Decrement" Command="{Binding DecrementWatchedCommand}"
-                            Visibility="{Binding DecrementEpsVisibility}" />
+                            Visibility="{Binding DecrementEpsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         </MenuFlyoutSubItem>
     </MenuFlyout>
 </MenuFlyoutPresenter>

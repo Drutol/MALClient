@@ -21,7 +21,7 @@ namespace MALClient.XShared.Comm.Details
             _id = id;
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/people/{id}"));
+                    Uri.EscapeUriString($"https://myanimelist.net/people/{id}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

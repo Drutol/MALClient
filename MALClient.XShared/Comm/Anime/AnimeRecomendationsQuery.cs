@@ -14,7 +14,7 @@ namespace MALClient.XShared.Comm.Anime
         public AnimeRecomendationsQuery()
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString("http://myanimelist.net/recommendations.php?s=recentrecs&t=anime"));
+                WebRequest.Create(Uri.EscapeUriString("https://myanimelist.net/recommendations.php?s=recentrecs&t=anime"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

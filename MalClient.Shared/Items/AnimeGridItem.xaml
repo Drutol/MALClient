@@ -9,13 +9,14 @@
     xmlns:attachedProperties="using:MalClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400" ManipulationMode="{Binding ItemManipulationMode}"
+    d:DesignWidth="400"
     PointerReleased="AnimeGridItem_OnPointerReleased" ManipulationCompleted="AnimeGridItem_OnManipulationCompleted"
     PointerMoved="AnimeGridItem_OnPointerMoved" ManipulationStarted="AnimeGridItem_OnManipulationStarted">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+            <xamlConverters:BoolToAnimeItemManipulationModesConverter x:Key="BoolToAnimeItemManipulationModesConverter" />
             <Storyboard x:Name="GoBackStoryboard" TargetName="TranslateTransformSwipe" TargetProperty="X"
                         SpeedRatio="5">
                 <DoubleAnimation To="0" Completed="Timeline_OnCompleted" />
@@ -29,6 +30,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
+    <UserControl.ManipulationMode>
+        <Binding Converter="{StaticResource BoolToAnimeItemManipulationModesConverter}" Path="AllowItemManipulation"/>
+    </UserControl.ManipulationMode>
 
     <Grid>
         <Grid.ColumnDefinitions>

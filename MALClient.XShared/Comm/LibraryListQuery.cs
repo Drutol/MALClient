@@ -29,7 +29,7 @@ namespace MALClient.XShared.Comm
                     Request =
                         WebRequest.Create(
                             Uri.EscapeUriString(
-                                $"http://myanimelist.net/malappinfo.php?u={source}&status=all&type={type}"));
+                                $"https://myanimelist.net/malappinfo.php?u={source}&status=all&type={type}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;

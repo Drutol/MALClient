@@ -6,18 +6,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:MALClient.UserControls"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=MalArticles}">
 
+    <Page.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ProgressRing IsActive="True" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"
-                      Visibility="{Binding LoadingVisibility}" />
+                      Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         <WebView x:Name="ArticleWebView" NavigationCompleted="ArticleWebView_OnNavigationCompleted"
                  NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 Visibility="{Binding WebViewVisibility}" />
+                 Visibility="{Binding WebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         <GridView SelectionMode="None" ItemsSource="{Binding Articles}" HorizontalAlignment="Center"
                   IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick"
-                  Visibility="{Binding ArticleIndexVisibility}" Margin="0,0,-10,0">
+                  Visibility="{Binding ArticleIndexVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,-10,0">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="5" />

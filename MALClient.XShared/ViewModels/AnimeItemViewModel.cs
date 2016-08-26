@@ -829,7 +829,7 @@ namespace MALClient.XShared.ViewModels
                            {
                                ResourceLocator.SystemControlsLauncherService.LaunchUri(
                                        new Uri(
-                                           $"http://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
+                                           $"https://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}"));
                            }
                            else
                            {

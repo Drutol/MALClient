@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Items;
+using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,7 +25,7 @@ namespace MALClient.Pages.Main
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            (args.Item.Content as RecomendationItem).PopulateData();
+            ((args.Item.Content as RecommendationsViewModel.XPivotItem).Content as RecommendationItemViewModel).PopulateData();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -4,7 +4,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -15,7 +17,7 @@ namespace MalClient.Shared.Items
 {
     public sealed partial class RecomendationItem : UserControl
     {
-        private readonly RecomendationData _data;
+        private RecomendationData _data;
 
         private readonly ObservableCollection<Tuple<string, string, string, string, string>> _detailItems =
             new ObservableCollection<Tuple<string, string, string, string, string>>();
@@ -28,9 +30,17 @@ namespace MalClient.Shared.Items
             InitializeComponent();
             SizeChanged += OnSizeChanged;
             Loaded += OnLoaded;
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
             var vm = DataContext as RecommendationItemViewModel;
+            if(vm == null)
+                return;
             Index = vm.Index;
             _data = vm.Data;
+            vm.LoadData += PopulateData;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
@@ -47,7 +57,7 @@ namespace MalClient.Shared.Items
             }
         }
 
-        public int Index { get; }
+        public int Index { get; set; }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
@@ -70,10 +80,25 @@ namespace MalClient.Shared.Items
         {
             if (_dataLoaded)
                 return;
+            _dataLoaded = true;
             SpinnerLoading.Visibility = Visibility.Visible;
             try
             {
-                await _data.FetchData();
+                //Find for first
+                _data.DependentData =
+                    await
+                        new AnimeGeneralDetailsQuery().GetAnimeDetails(false, _data.DependentId.ToString(), _data.DependentTitle, true,
+                            ApiType.Mal);
+
+                //Find for second
+                _data.RecommendationData =
+                    await
+                        new AnimeGeneralDetailsQuery().GetAnimeDetails(false, _data.RecommendationId.ToString(),
+                            _data.RecommendationTitle, true, ApiType.Mal);
+
+                //If for some reason we fail
+                if (_data.DependentData == null || _data.RecommendationData == null)
+                    throw new ArgumentNullException(); // I'm to lazy to create my own so this will suffice     
             }
             catch (ArgumentNullException)
             {
@@ -132,7 +157,6 @@ namespace MalClient.Shared.Items
                     ? (myRecItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.EndDate : "Not set")
                     : ""));
             DetailsListView.ItemsSource = _detailItems;
-            _dataLoaded = true;
             SpinnerLoading.Visibility = Visibility.Collapsed;
         }
 

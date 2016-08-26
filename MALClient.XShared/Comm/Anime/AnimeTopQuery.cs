@@ -33,7 +33,7 @@ namespace MALClient.XShared.Comm.Anime
         {
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"http://myanimelist.net/{GetEndpoint(topType,page)}"));
+                    Uri.EscapeUriString($"https://myanimelist.net/{GetEndpoint(topType,page)}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _page = page;
@@ -106,7 +106,7 @@ namespace MALClient.XShared.Comm.Anime
                     current.ImgUrl = "http://cdn.myanimelist.net/images/" + imgUrlType + imgurl;
                     var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs[_type != TopAnimeType.Manga  ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
-                    current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(7).Split('/')[2]);
+                    current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(8).Split('/')[2]);
                     try
                     {
                         current.Score = float.Parse(item.Descendants("span").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());

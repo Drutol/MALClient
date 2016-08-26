@@ -67,12 +67,13 @@
                     </ItemsControl>
                 </ScrollViewer>
             </DataTemplate>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="0,0,0,0"
-               Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}"
+               Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
@@ -135,7 +136,7 @@
             </Pivot.HeaderTemplate>
         </Pivot>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center"
-              Visibility="{Binding CalendarBuildingVisibility}">
+              Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

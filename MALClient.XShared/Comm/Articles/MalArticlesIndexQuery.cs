@@ -20,7 +20,7 @@ namespace MALClient.XShared.Comm.Articles
         {
             _mode = mode;
             Request =
-                WebRequest.Create(Uri.EscapeUriString(mode == ArticlePageWorkMode.Articles ? "http://myanimelist.net/featured" : "http://myanimelist.net/news"));
+                WebRequest.Create(Uri.EscapeUriString(mode == ArticlePageWorkMode.Articles ? "https://myanimelist.net/featured" : "https://myanimelist.net/news"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }

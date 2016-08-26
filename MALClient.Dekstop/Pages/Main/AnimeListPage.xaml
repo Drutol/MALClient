@@ -51,7 +51,7 @@
                 </AppBarButton>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
-                          Visibility="{Binding AppBtnGoBackToMyListVisibility}" />
+                          Visibility="{Binding AppBtnGoBackToMyListVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
             <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
             <AppBarButton Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
@@ -73,7 +73,7 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Calendar" Label="Select season"
-                          Visibility="{Binding AppbarBtnPinTileVisibility}">
+                          Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
                         <StackPanel>
@@ -144,12 +144,12 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Grid Grid.Row="0" Margin="0,0,-16,0"
-                    Visibility="{Binding UpperCommandBarVisibility}" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    Visibility="{Binding UpperCommandBarVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding AppBtnSortingVisibility}">
+            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Sort" />
                 <Button.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">
@@ -165,18 +165,18 @@
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="3"
                                                             GroupName="SortOptionsPivotUpperItems"
-                                                            Visibility="{Binding SortAirDayVisibility}" />
+                                                            Visibility="{Binding SortAirDayVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
                                                             Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding HumApiSpecificControlsVisibility}"
+                                                            Visibility="{Binding HumApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                             CommandParameter="4" GroupName="SortOptionsPivotUpperItems" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
                                                             Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                             CommandParameter="5" GroupName="SortOptionsPivotUpperItems" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
                                                             Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                             CommandParameter="6" GroupName="SortOptionsPivotUpperItems" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="7"
@@ -265,7 +265,7 @@
             </ListView.ItemTemplate>
             <ListView.Footer>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                      Visibility="{Binding LoadMoreFooterVisibility}">
+                      Visibility="{Binding LoadMoreFooterVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="More" />
@@ -312,7 +312,7 @@
             </GridView.ItemTemplate>
             <GridView.Footer>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                      Visibility="{Binding LoadMoreFooterVisibility}">
+                      Visibility="{Binding LoadMoreFooterVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="More" />
@@ -355,7 +355,7 @@
             </GridView.ItemTemplate>
             <GridView.Footer>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                      Visibility="{Binding LoadMoreFooterVisibility}">
+                      Visibility="{Binding LoadMoreFooterVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="More" />

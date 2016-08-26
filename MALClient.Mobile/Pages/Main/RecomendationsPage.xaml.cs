@@ -24,7 +24,7 @@ namespace MALClient.Pages.Main
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            (args.Item.Content as RecomendationItem).PopulateData();
+            (args.Item.Content as RecommendationItemViewModel).PopulateData();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

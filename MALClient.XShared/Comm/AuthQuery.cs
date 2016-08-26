@@ -14,7 +14,7 @@ namespace MALClient.XShared.Comm
                 case ApiType.Mal:
                     Request =
                         WebRequest.Create(
-                            Uri.EscapeUriString("http://myanimelist.net/api/account/verify_credentials.xml"));
+                            Uri.EscapeUriString("https://myanimelist.net/api/account/verify_credentials.xml"));
                     Request.Credentials = Credentials.GetHttpCreditentials();
                     Request.Method = "GET";
                     break;

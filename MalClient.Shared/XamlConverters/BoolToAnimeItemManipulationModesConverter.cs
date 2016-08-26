@@ -20,7 +20,7 @@ namespace MalClient.Shared.XamlConverters
                     return ManipulationModes.TranslateRailsX | ManipulationModes.TranslateX |
                            ManipulationModes.System | ManipulationModes.TranslateInertia;
                 }
-            }
+            } 
             return ManipulationModes.System;
         }
 

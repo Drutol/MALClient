@@ -102,7 +102,7 @@
                                             <Button Content="History" Margin="5,0"
                                             Command="{Binding NavigateHistoryCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                            <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}" Visibility="{Binding PinProfileVisibility}">
+                                            <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}" Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                 <SymbolIcon Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}"/>
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu"/>
@@ -164,11 +164,11 @@
                                 <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <TextBlock
-                                Visibility="{Binding EmptyCommentsNoticeVisibility}"
+                                
                                 Text="No comments..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
                             </StackPanel>
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility}">
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding CommentInputBoxVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch" Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" PlaceholderText="Type comment..."/>
                                 <Button Content="Send Comment" Margin="20,0"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
@@ -231,7 +231,7 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                            <Grid Grid.Row="2" Visibility="{Binding LoadingCommentsVisiblity}"
+                            <Grid Grid.Row="2" Visibility="{Binding LoadingCommentsVisiblity,Converter={StaticResource BoolToVisibilityConverter}}"
                                           Background="{ThemeResource BrushLoadingNonTransparent}"
                                           Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
@@ -261,7 +261,7 @@
                         </PivotItem.Header>
                         <Grid>
                             <TextBlock
-                                Visibility="{Binding EmptyFavAnimeNoticeVisibility}"
+                                Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Text="No favourite anime added yet..."
                                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
                             <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
@@ -293,11 +293,11 @@
                             </StackPanel>
                         </PivotItem.Header>
                         <Grid>
-                            <TextBlock Visibility="{Binding EmptyFavMangaNoticeVisibility}"
+                            <TextBlock Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                        Text="No favourite manga added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
-                            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
+                            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <ListView ItemsSource="{Binding FavManga}"
                                       SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                 <ListView.ItemContainerStyle>
@@ -326,7 +326,7 @@
                             </StackPanel>
                         </PivotItem.Header>
                         <Grid>
-                            <TextBlock Visibility="{Binding EmptyFavCharactersNoticeVisibility}"
+                            <TextBlock Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                        Text="No favourite characters added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
@@ -354,7 +354,7 @@
                             </StackPanel>
                         </PivotItem.Header>
                         <Grid>
-                            <TextBlock Visibility="{Binding EmptyFavPeopleNoticeVisibility}"
+                            <TextBlock Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                        Text="No favourite people added yet..."
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
@@ -405,7 +405,7 @@
                                    Text="None..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
-                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
+                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <ListView ItemsSource="{Binding RecentAnime}" ScrollViewer.VerticalScrollMode="Disabled"
                                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>
@@ -423,7 +423,7 @@
                                    Text="None..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
-                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}"/>
+                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <ListView ItemsSource="{Binding RecentManga}" ScrollViewer.VerticalScrollMode="Disabled"
                                   SelectedItem="{Binding TemporarilySelectedAnimeItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ListView.ItemTemplate>

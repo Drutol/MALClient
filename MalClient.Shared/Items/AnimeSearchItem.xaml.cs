@@ -44,7 +44,7 @@ namespace MalClient.Shared.Items
             await
                 Launcher.LaunchUriAsync(
                     new Uri(
-                        $"http://myanimelist.net/{(ViewModel.AnimeMode ? "anime" : "manga")}/{ViewModel.Id}"));
+                        $"https://myanimelist.net/{(ViewModel.AnimeMode ? "anime" : "manga")}/{ViewModel.Id}"));
         }
     }
 }

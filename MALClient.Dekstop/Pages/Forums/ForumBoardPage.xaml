@@ -35,7 +35,7 @@
             <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PageNavigationControlsVisibility}">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PageNavigationControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <ItemsControl  ItemsSource="{Binding AvailablePages}" >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -82,9 +82,9 @@
         </StackPanel>
         <StackPanel  Grid.Row="1" Orientation="Horizontal">
             <Button Content="Create new topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
-                Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility}"
+                Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
-            <Button Content="Search" Visibility="{Binding SearchButtonVisibility}"
+            <Button Content="Search" Visibility="{Binding SearchButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                 Background="{ThemeResource BrushDeepBackground}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Button.Flyout>
@@ -154,12 +154,12 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </userControls:AlternatingListView>
-        <TextBlock Grid.Row="3" Visibility="{Binding EmptyNoticeVisibility}"
+        <TextBlock Grid.Row="3" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Text="No data received from MAL... :("
                        TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Foreground="#FFB9B9B9" />
         <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding LoadingTopics}"
+              Visibility="{Binding LoadingTopics,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"

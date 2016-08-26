@@ -34,14 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
-      <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
-      <Name>MALClient.Models</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Credentails\IPasswordVault.cs" />
+    <Compile Include="Credentials\IPasswordVault.cs" />
     <Compile Include="IApplicationDataService.cs" />
     <Compile Include="ICalendarExportProvider.cs" />
     <Compile Include="IClipboardProvider.cs" />
@@ -50,6 +43,12 @@
     <Compile Include="IPinTileService.cs" />
     <Compile Include="ISyetemControlLuancherService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
+      <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
+      <Name>MALClient.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

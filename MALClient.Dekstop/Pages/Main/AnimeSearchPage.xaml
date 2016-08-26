@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:MalClient.Shared.UserControls"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MalClient.Shared.Items"
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
@@ -16,7 +17,7 @@
     
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid>
-            <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
+            <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
                       IsItemClickEnabled="True" ItemClick="Animes_OnItemClick"
                       Margin="0,5,0,0" SelectionMode="Single"
                       Padding="0">
@@ -29,6 +30,11 @@
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <items:AnimeSearchItem DataContext="{Binding}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </userControls:AlternatingListView>
             <StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
                 <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">
@@ -38,13 +44,13 @@
                 </SymbolIcon>
                 <TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,40,0,0"/>
             </StackPanel>
-            <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility}"
+            <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Text="No data received from MAL, try searching for something more specific. :("
                        TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Foreground="#FFB9B9B9" />
             <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
-                          IsActive="True" Visibility="{Binding Loading}" />
+                          IsActive="True" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
         </Grid>
     </Grid>
 </Page>

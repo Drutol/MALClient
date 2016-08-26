@@ -19,31 +19,9 @@ namespace MALClient.Models.Models.AnimeScrapped
 
         public string Description { get; set; }
 
-        public AnimeGeneralDetailsData DependentData { get; private set; }
+        public AnimeGeneralDetailsData DependentData { get; set; }
 
-        public AnimeGeneralDetailsData RecommendationData { get; private set; }
+        public AnimeGeneralDetailsData RecommendationData { get; set; }
 
-        public async Task FetchData()
-        {
-            if (_loaded)
-                return;
-            //TODO Xamarin
-            ////Find for first
-            //DependentData =
-            //    await
-            //        new AnimeGeneralDetailsQuery().GetAnimeDetails(false, DependentId.ToString(), DependentTitle, true,
-            //            ApiType.Mal);
-
-            ////Find for second
-            //RecommendationData =
-            //    await
-            //        new AnimeGeneralDetailsQuery().GetAnimeDetails(false, RecommendationId.ToString(),
-            //            RecommendationTitle, true, ApiType.Mal);
-
-            ////If for some reason we fail
-            //if (DependentData == null || RecommendationData == null)
-            //    throw new ArgumentNullException(); // I'm to lazy to create my own so this will suffice
-            _loaded = true;
-        }
     }
 }

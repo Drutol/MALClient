@@ -30,7 +30,7 @@ namespace MALClient.XShared.Comm.Forums
         public ForumBoardTopicsQuery(ForumBoards board,int page)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/{GetEndpoint(board)}&show={page*50}"));
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/forum/{GetEndpoint(board)}&show={page*50}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _board = board;
@@ -45,7 +45,7 @@ namespace MALClient.XShared.Comm.Forums
         public ForumBoardTopicsQuery(int animeId,int page,bool anime)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/forum/?{(anime ? "anime" : "manga")}id={animeId}&show={page*50}"));
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/forum/?{(anime ? "anime" : "manga")}id={animeId}&show={page*50}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = animeId;

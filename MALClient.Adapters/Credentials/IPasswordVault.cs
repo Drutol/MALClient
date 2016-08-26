@@ -10,7 +10,7 @@ namespace MALClient.Adapters.Credentails
     public interface IPasswordVault
     {
         void Add(VaultCredential credential);
-
+        
         /// <summary>
         /// <exception cref="Exception">
         ///     Should throw exception in case of failure.

@@ -408,14 +408,14 @@ namespace MALClient.XShared.Utils
         public static void TelemetryTrackEvent(TelemetryTrackedEvents @event)
         {
 #if !DEBUG
-            HockeyClient.Current.TrackEvent(@event.ToString());
+            //HockeyClient.Current.TrackEvent(@event.ToString());
 #endif
         }
 
         public static void TelemetryTrackEvent(TelemetryTrackedEvents @event,string arg)
         {
 #if !DEBUG
-            HockeyClient.Current.TrackEvent(@event.ToString() + " " + arg);
+            //HockeyClient.Current.TrackEvent(@event.ToString() + " " + arg);
 #endif
         }
     }

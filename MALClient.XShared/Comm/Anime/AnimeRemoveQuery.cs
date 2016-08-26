@@ -14,7 +14,7 @@ namespace MALClient.XShared.Comm.Anime
             {
                 case ApiType.Mal:
                     Request =
-                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/api/animelist/delete/{id}.xml"));
+                        WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/animelist/delete/{id}.xml"));
                     Request.Credentials = Credentials.GetHttpCreditentials();
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";

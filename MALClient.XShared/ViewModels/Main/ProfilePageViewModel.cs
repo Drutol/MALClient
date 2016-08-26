@@ -293,12 +293,12 @@ namespace MALClient.XShared.ViewModels.Main
 
         private async void NavigateCharacterWebPage(AnimeCharacter character)
         {
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"http://myanimelist.net/character/{character.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/character/{character.Id}"));
         }
 
         private async void NavigatePersonWebPage(AnimeStaffPerson person)
         {
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"http://myanimelist.net/people/{person.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/people/{person.Id}"));
         }
 
         #region Props

@@ -28,7 +28,7 @@ namespace MALClient.XShared.Comm.Profile
             {
                 case ApiType.Mal:
                     Request =
-                        WebRequest.Create(Uri.EscapeUriString($"http://myanimelist.net/profile/{userName}"));
+                        WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/profile/{userName}"));
                     Request.ContentType = "application/x-www-form-urlencoded";
                     Request.Method = "GET";
                     break;

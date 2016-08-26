@@ -55,7 +55,7 @@ namespace MALClient.XShared.Utils
             get
             {
                 return
-                    (int) (ApplicationDataService["SelectedTheme"] ?? 0);
+                    (int) (ApplicationDataService["SelectedTheme"] ?? 1);
             }
             set { ApplicationDataService["SelectedTheme"] = value; }
         }

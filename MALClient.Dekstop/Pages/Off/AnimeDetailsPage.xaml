@@ -18,6 +18,7 @@
         <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
         <xamlConverters:StringToFlatStringConverter x:Key="StringToFlatStringConverter" />
+        <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
     </Page.Resources>
 
     <Page.Transitions>
@@ -61,7 +62,7 @@
                     <MenuFlyout x:Name="ImageSaveFlyout">
                         <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal" />
                         <MenuFlyoutItem Text="Save (Hummingbird)" Command="{Binding SaveImageCommand}"
-                                        CommandParameter="hum" Visibility="{Binding MalApiSpecificControlsVisibility}" />
+                                        CommandParameter="hum" Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
             </Image>
@@ -69,7 +70,7 @@
                         VerticalAlignment="Bottom"
                         Background="Transparent" Margin="0,5,0,0">
                 <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding NavigateForumBoardCommand}"
-                        Visibility="{Binding MalApiSpecificControlsVisibility}"
+                        Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="Transparent">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Forum board" />
@@ -77,7 +78,7 @@
                     <SymbolIcon Symbol="Comment" />
                 </Button>
                 <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
-                        Visibility="{Binding MyDetailsVisibility}"
+                        Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="Transparent">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Tags" />
@@ -181,7 +182,7 @@
 
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
-                        Visibility="{Binding MyDetailsVisibility}">
+                        Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <Button HorizontalAlignment="Stretch" Height="40" Width="40" RenderTransformOrigin="0.5,0.5"
                         Command="{Binding IncrementEpsCommand}" Margin="5"
                         IsEnabled="{Binding IsIncrementButtonEnabled}"
@@ -203,7 +204,7 @@
                         <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
                 </Button>
-                <Grid Visibility="{Binding MyDetailsVisibility}" Margin="0,0,5,0" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Grid Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,5,0" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                     <new:FavButton/>
                 </Grid>
             </StackPanel>
@@ -229,7 +230,7 @@
                           VerticalAlignment="Top" IsActive="True"
                           Visibility="{Binding LoadingUpdate,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Grid.Row="0" Grid.Column="1"
-                  Visibility="{Binding MyDetailsVisibility}"
+                  Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                   Margin="5,-10,0,0">
                 <StackPanel Orientation="Vertical" Margin="1,15,1,0" HorizontalAlignment="Left">
                     <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
@@ -340,7 +341,7 @@
                             </Button.Flyout>
                         </Button>
                     </StackPanel>
-                    <StackPanel Margin="0,5,0,5" Orientation="Horizontal" Visibility="{Binding MyVolumesVisibility}">
+                    <StackPanel Margin="0,5,0,5" Orientation="Horizontal" Visibility="{Binding MyVolumesVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock VerticalAlignment="Center" Width="70"
                                    Text="Read&#x0a;volumes" />
                         <Button FontWeight="Medium" Margin="2,1,1,1"
@@ -448,12 +449,12 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </userControls:AlternatingListView>
-                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Background="{ThemeResource BrushRowAlternate2}"
                                                 BorderThickness="0,0,1,0"
                                                 BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                             <ListViewItem RightTapped="StartDate_OnRightTapped" Margin="1,1,1,0"
-                                                          Visibility="{Binding MyDetailsVisibility}"
+                                                          Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                           Style="{StaticResource GeneralDetailsListItemStyle}"
                                                           BorderThickness="2,0,0,0">
                                                 <Grid>
@@ -527,12 +528,12 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </userControls:AlternatingListView>
-                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility}"
+                                        <Border Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Background="{ThemeResource BrushRowAlternate2}"
                                                 BorderThickness="1,0,0,0"
                                                 BorderBrush="{ThemeResource BrushDetailsGeneralBorder}">
                                             <ListViewItem RightTapped="EndDate_OnRightTapped" Margin="1,1,1,0"
-                                                          Visibility="{Binding MyDetailsVisibility}"
+                                                          Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                           Style="{StaticResource GeneralDetailsListItemStyle}"
                                                           BorderThickness="0,0,2,0">
                                                 <Grid>
@@ -571,16 +572,16 @@
                                            TextWrapping="WrapWholeWords" Margin="3,1" />
                                 <MenuFlyoutSeparator />
                                 <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center"
-                                           Visibility="{Binding LoadCharactersButtonVisibility}" />
+                                           Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <Button HorizontalAlignment="Center" Content="Load characters"
                                         Command="{Binding LoadCharactersCommand}"
-                                        Visibility="{Binding LoadCharactersButtonVisibility}"
+                                        Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                                         Margin="5,10"
                                         BorderThickness="2"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility}" />
-                                <Grid HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility}">
+                                <ProgressRing IsActive="True" Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <Grid HorizontalAlignment="Center" Visibility="{Binding CharactersGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Grid.Resources>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -633,7 +634,7 @@
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
                                                                     </Image.Source>
                                                                 </Image>
-                                                                <Grid Grid.Row="0" Width="40" Height="40" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                <Grid Grid.Row="0" Width="40" Height="40" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                     <new:FavButton DataContext="{Binding AnimeCharacter}"/>
                                                                 </Grid>
                                                                 <Grid Grid.Row="1" Padding="4"
@@ -674,7 +675,7 @@
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
                                                                     </Image.Source>
                                                                 </Image>
-                                                                <Grid Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Grid.Row="0" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                                <Grid Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Grid.Row="0" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                     <new:FavButton DataContext="{Binding AnimeStaffPerson}"/>
                                                                 </Grid>
                                                                 <Grid Grid.Row="1" Padding="4"
@@ -738,7 +739,7 @@
                                                                              DecodePixelWidth="175" />
                                                                 </Image.Source>
                                                             </Image>
-                                                            <Grid VerticalAlignment="Bottom" Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                                                            <Grid VerticalAlignment="Bottom" Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                 <new:FavButton/>
                                                             </Grid>
                                                             <Grid Grid.Row="1" Padding="4" HorizontalAlignment="Stretch" Width="175"
@@ -806,14 +807,14 @@
                         <ScrollViewer VerticalScrollBarVisibility="Hidden">
                             <Grid VerticalAlignment="Stretch">
                                 <TextBlock
-                                    Visibility="{Binding DetailedDataVisibility,Converter={StaticResource VisiblityInverterConverter}}"
+                                    Visibility="{Binding DetailedDataVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
                                     Text="Data unavailable :("
                                     VerticalAlignment="Center" HorizontalAlignment="Center"
                                     FontSize="30" FontWeight="SemiLight"
                                     Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
 
 
-                                <Grid Visibility="{Binding DetailedDataVisibility}" Margin="0,0,0,10">
+                                <Grid Visibility="{Binding DetailedDataVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,0,10">
                                     <Grid.Resources>
                                         <Style TargetType="userControls:AlternatingListView">
                                             <Setter Property="SelectionMode" Value="None" />
@@ -943,7 +944,7 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingDetails}" VerticalAlignment="Stretch"
+                                <Grid Visibility="{Binding LoadingDetails,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonOpaque}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
@@ -958,7 +959,7 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid HorizontalAlignment="Stretch">
-                            <Grid Visibility="{Binding ReviewsListViewVisibility}">
+                            <Grid Visibility="{Binding ReviewsListViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Grid VerticalAlignment="Stretch">
                                     <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
                                                Text="Reviews unavailable :("
@@ -966,7 +967,7 @@
                                                FontSize="30" FontWeight="SemiLight"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
+                                <Grid Visibility="{Binding LoadingReviews,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
@@ -1037,15 +1038,15 @@
                                 </ListView>
                             </Grid>
                             <Grid
-                                Visibility="{Binding ReviewsListViewVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                                Visibility="{Binding ReviewsListViewVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                                 <Grid VerticalAlignment="Stretch">
-                                    <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility}"
+                                    <TextBlock Visibility="{Binding NoReviewsDataNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                Text="Reviews unavailable :("
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                FontSize="30" FontWeight="SemiLight"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingReviews}" VerticalAlignment="Stretch"
+                                <Grid Visibility="{Binding LoadingReviews,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
@@ -1098,15 +1099,15 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid>
-                            <Grid Visibility="{Binding RecomsListViewVisibility}">
+                            <Grid Visibility="{Binding RecomsListViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Grid VerticalAlignment="Stretch">
-                                    <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility}"
+                                    <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                Text="Recommendations unavailable :("
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch"
+                                <Grid Visibility="{Binding LoadingRecommendations,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
@@ -1186,15 +1187,15 @@
                                 </ListView>
                             </Grid>
                             <Grid
-                                Visibility="{Binding RecomsListViewVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                                Visibility="{Binding RecomsListViewVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                                 <Grid VerticalAlignment="Stretch">
-                                    <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility}"
+                                    <TextBlock Visibility="{Binding NoRecommDataNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                Text="Recommendations unavailable :("
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingRecommendations}" VerticalAlignment="Stretch"
+                                <Grid Visibility="{Binding LoadingRecommendations,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
@@ -1269,13 +1270,13 @@
                         <ScrollViewer>
                             <Grid>
                                 <Grid VerticalAlignment="Stretch">
-                                    <TextBlock Visibility="{Binding NoRelatedDataNoticeVisibility}"
+                                    <TextBlock Visibility="{Binding NoRelatedDataNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                Text="Related anime unavailable :("
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                                FontSize="30" FontWeight="SemiLight" TextWrapping="WrapWholeWords"
                                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 </Grid>
-                                <Grid Visibility="{Binding LoadingRelated}" VerticalAlignment="Stretch"
+                                <Grid Visibility="{Binding LoadingRelated,Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch" Background="{ThemeResource BrushLoading}">
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
@@ -1318,7 +1319,7 @@
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}"
+        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
                           IsActive="True" />

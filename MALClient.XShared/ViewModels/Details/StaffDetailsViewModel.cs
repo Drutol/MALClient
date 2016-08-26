@@ -59,7 +59,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(() =>
         {
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"http://myanimelist.net/people/{Data.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/people/{Data.Id}"));
         }));
 
         public FavouriteViewModel FavouriteViewModel

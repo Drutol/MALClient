@@ -370,7 +370,7 @@ namespace MALClient.XShared.ViewModels.Details
         {
             if (Settings.SelectedApiType == ApiType.Mal)
             {
-                    _systemControlsLauncherService.LaunchUri(new Uri($"http://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
+                    _systemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
             else
             {
@@ -1805,7 +1805,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public async void LoadDetails(bool force = false)
         {
-            if (LoadingDetails == true || (_loadedDetails && !force && Initialized))
+            if (LoadingDetails || (_loadedDetails && !force && Initialized))
                 return;
             _loadedDetails = true;
             LoadingDetails = true;
@@ -1816,6 +1816,12 @@ namespace MALClient.XShared.ViewModels.Details
             OPs.Clear();
             EDs.Clear();
             var data = await new AnimeDetailsMalQuery(MalId, AnimeMode).GetDetails(force);
+            if (data == null)
+            {
+                DetailedDataVisibility = false;
+                return;
+            }
+            DetailedDataVisibility = true;
             //Now we can build elements here
             var i = 1;
             foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))

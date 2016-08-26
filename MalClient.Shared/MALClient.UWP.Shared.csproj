@@ -151,8 +151,8 @@
       <DependentUpon>CharacterItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\IItemWithFlyout.cs" />
-    <Compile Include="Items\RecomendationItem.xaml.cs">
-      <DependentUpon>RecomendationItem.xaml</DependentUpon>
+    <Compile Include="Items\RecommendationItem.xaml.cs">
+      <DependentUpon>RecommendationItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\StaffItem.xaml.cs">
       <DependentUpon>StaffItem.xaml</DependentUpon>
@@ -263,7 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Items\RecomendationItem.xaml">
+    <Page Include="Items\RecommendationItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

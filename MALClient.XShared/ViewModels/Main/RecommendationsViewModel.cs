@@ -50,7 +50,7 @@ namespace MALClient.XShared.ViewModels.Main
         public async void PopulateData()
         {
             Loading = true;
-            var data = new List<RecomendationData>();
+            var data = new List<RecommendationData>();
             await Task.Run(async () => data = await new AnimeRecomendationsQuery().GetRecomendationsData());
             if (data == null)
             {

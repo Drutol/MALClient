@@ -1,15 +1,19 @@
 ﻿<UserControl
-    x:Class="MalClient.Shared.Items.RecomendationItem"
+    x:Class="MalClient.Shared.Items.RecommendationItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
     <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}" VerticalScrollBarVisibility="Hidden">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -120,7 +124,11 @@
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
                         VerticalAlignment="Bottom">
                     <Grid>
-                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="DepImg" Stretch="Uniform" />
+                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Stretch="Uniform">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding Data.AnimeDependentData.ImgUrl}"/>
+                            </Image.Source>
+                        </Image>
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
                             <Grid.Background>
                                 <SolidColorBrush Color="Black" Opacity=".5" />
@@ -145,7 +153,11 @@
                         HorizontalAlignment="Left" Background="Transparent" Padding="0"
                         VerticalAlignment="Bottom">
                     <Grid>
-                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="RecImg" Stretch="Uniform" />
+                        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Stretch="Uniform" >
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding Data.AnimeRecommendationData.ImgUrl}"/>
+                            </Image.Source>
+                        </Image>
                         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="35" Height="35">
                             <Grid.Background>
                                 <SolidColorBrush Color="Black" Opacity=".5" />
@@ -157,18 +169,18 @@
             </Grid>
             <!-- TitleMid -->
             <Grid Grid.Row="1" Grid.Column="0">
-                <TextBlock x:Name="TxtDepTitle" IsTextSelectionEnabled="True" FontWeight="Bold"
+                <TextBlock Text="{Binding Data.AnimeDependentData.Title}" IsTextSelectionEnabled="True" FontWeight="Bold"
                            TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2" />
             </Grid>
             <Grid Grid.Row="1" Grid.Column="2">
-                <TextBlock x:Name="TxtRecTitle" IsTextSelectionEnabled="True" FontWeight="Bold"
+                <TextBlock Text="{Binding Data.AnimeRecommendationData.Title}" IsTextSelectionEnabled="True" FontWeight="Bold"
                            TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="2" />
             </Grid>
             <!--Details-->
             <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
                     <MenuFlyoutSeparator />
-                    <userControls:AlternatingListView x:Name="DetailsListView" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
+                    <userControls:AlternatingListView x:Name="DetailsListView" ItemsSource="{Binding DetailItems}" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -182,10 +194,10 @@
                 <StackPanel>
                     <MenuFlyoutSeparator />
                     <TextBlock Text="Recommendation description" FontWeight="Bold" HorizontalAlignment="Center" />
-                    <TextBlock x:Name="TxtRecommendation" TextWrapping="WrapWholeWords" Margin="5,15,5,5" />
+                    <TextBlock Text="{Binding Data.Description}" TextWrapping="WrapWholeWords" Margin="5,15,5,5" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" x:Name="SpinnerLoading"
+            <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Grid.RowSpan="4" Visibility="{Binding LoadingSpinnerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                   Background="{ThemeResource BrushLoadingNonTransparent}">
                 <ProgressRing
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"

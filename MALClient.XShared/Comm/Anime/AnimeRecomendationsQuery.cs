@@ -19,9 +19,9 @@ namespace MALClient.XShared.Comm.Anime
             Request.Method = "GET";
         }
 
-        public async Task<List<RecomendationData>> GetRecomendationsData()
+        public async Task<List<RecommendationData>> GetRecomendationsData()
         {
-            var output = new List<RecomendationData>();
+            var output = new List<RecommendationData>();
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
@@ -56,7 +56,7 @@ namespace MALClient.XShared.Comm.Anime
                                 node => Convert.ToInt32(node.Attributes["href"].Value.Substring(6).Split('/')[1]))
                                 .ToArray();
 
-                        output.Add(new RecomendationData
+                        output.Add(new RecommendationData
                         {
                             DependentId = ids[0],
                             RecommendationId = ids[1],

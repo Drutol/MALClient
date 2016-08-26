@@ -56,7 +56,7 @@
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />
     <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
-    <Compile Include="Models\AnimeScrapped\RecomendationData.cs" />
+    <Compile Include="Models\AnimeScrapped\RecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />
     <Compile Include="Models\AnimeScrapped\SeasonalAnimeData.cs" />
     <Compile Include="Models\AnimeScrapped\TopAnimeData.cs" />

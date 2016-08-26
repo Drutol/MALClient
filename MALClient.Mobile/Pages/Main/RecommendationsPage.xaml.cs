@@ -15,16 +15,16 @@ namespace MALClient.Pages.Main
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RecomendationsPage : Page
+    public sealed partial class RecommendationsPage : Page
     {
-        public RecomendationsPage()
+        public RecommendationsPage()
         {
             InitializeComponent();
         }
 
         private void Pivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
-            (args.Item.Content as RecommendationItemViewModel).PopulateData();
+            ((args.Item.Content as RecommendationsViewModel.XPivotItem).Content as RecommendationItemViewModel).PopulateData();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

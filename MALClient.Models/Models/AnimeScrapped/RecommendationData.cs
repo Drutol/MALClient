@@ -5,7 +5,7 @@ using MALClient.Models.Models.Anime;
 
 namespace MALClient.Models.Models.AnimeScrapped
 {
-    public class RecomendationData
+    public class RecommendationData
     {
         private bool _loaded;
         //Keys
@@ -19,9 +19,9 @@ namespace MALClient.Models.Models.AnimeScrapped
 
         public string Description { get; set; }
 
-        public AnimeGeneralDetailsData DependentData { get; set; }
+        public AnimeGeneralDetailsData AnimeDependentData { get; set; }
 
-        public AnimeGeneralDetailsData RecommendationData { get; set; }
+        public AnimeGeneralDetailsData AnimeRecommendationData { get; set; }
 
     }
 }

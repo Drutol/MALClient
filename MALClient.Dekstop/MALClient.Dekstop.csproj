@@ -170,8 +170,8 @@
     <Compile Include="Pages\Main\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main\RecomendationsPage.xaml.cs">
-      <DependentUpon>RecomendationsPage.xaml</DependentUpon>
+    <Compile Include="Pages\Main\RecommendationsPage.xaml.cs">
+      <DependentUpon>RecommendationsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Off\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -308,7 +308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Main\RecomendationsPage.xaml">
+    <Page Include="Pages\Main\RecommendationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

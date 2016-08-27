@@ -11,6 +11,7 @@
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:DummyFontAwesomeToRealFontAwesomeConverter x:Key="DummyFontAwesomeToRealFontAwesomeConverter" />
         <DataTemplate x:Key="PostListDataTemplate">
             <Grid Background="{ThemeResource BrushAnimeItemBackground}" MaxWidth="350" MaxHeight="120" MinHeight="90" Padding="5"
                   HorizontalAlignment="Stretch">
@@ -86,7 +87,7 @@
                                                     </MenuFlyout>
                                                 </FlyoutBase.AttachedFlyout>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <fa:FontAwesome Icon="{Binding Icon}" FontSize="21" Margin="10,0" />
+                                                    <fa:FontAwesome Icon="{Binding Icon,Converter={StaticResource DummyFontAwesomeToRealFontAwesomeConverter}}" FontSize="21" Margin="10,0" />
                                                     <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium"
                                                                FontSize="19" />
                                                 </StackPanel>

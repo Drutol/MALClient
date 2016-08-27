@@ -45,6 +45,7 @@
     <Compile Include="Enums\ArticlePageEnums.cs" />
     <Compile Include="Enums\EnumUtilities.cs" />
     <Compile Include="Enums\FavouriteType.cs" />
+    <Compile Include="Enums\FontAwesomeIconsEnum.cs" />
     <Compile Include="Enums\ForumBoards.cs" />
     <Compile Include="Enums\ForumsPageIndex.cs" />
     <Compile Include="Enums\HamburgerButtonsEnum.cs" />

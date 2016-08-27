@@ -191,6 +191,7 @@
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
+    <Compile Include="XamlConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
     <Compile Include="XamlConverters\EnumWithDescriptionToStringConverter.cs" />
     <Compile Include="XamlConverters\IsFavouriteToSymbolConverter.cs" />
     <Compile Include="XamlConverters\IsThereAnyTextToVisibilityConverter.cs" />

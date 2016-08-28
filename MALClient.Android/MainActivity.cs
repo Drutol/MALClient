@@ -7,6 +7,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Support.Design.Widget;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
+using GalaSoft.MvvmLight.Helpers;
 using Java.Net;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
@@ -17,10 +21,11 @@ using Uri = Android.Net.Uri;
 
 namespace MALClient.Android
 {
-    [Activity(Label = "MALClient.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity , IDimensionsProvider
+    [Activity(Label = "MALClient.Android", MainLauncher = true, Icon = "@drawable/icon",Theme = "@style/Theme.AppCompat.Light")]
+    public class MainActivity : AppCompatActivity , IDimensionsProvider
     {
-        int count = 1;
+        private DrawerLayout _drawerLayout;
+        private NavigationView _navigationView;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -34,14 +39,24 @@ namespace MALClient.Android
             ViewModelLocator.AnimeList.Init(null);
             ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
 
+            _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            _navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+
+            _navigationView.NavigationItemSelected += (sender, e) => {
+                e.MenuItem.SetChecked(true);
+                //react to click here and swap fragments or navigate
+                _drawerLayout.CloseDrawers();
+            };
+
         }
 
         private void AnimeListOnInitialized()
         {
-            var gridview = FindViewById<GridView>(Resource.Id.gridview1);
+            var gridview = FindViewById<GridView>(Resource.Id.AnimeItemsGrid);
             gridview.Adapter = new ImageAdapter(this);
 
-            gridview.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args) {
+            gridview.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
+            {
                 Toast.MakeText(this, args.Position.ToString(), ToastLength.Short).Show();
             };
         }
@@ -77,23 +92,34 @@ namespace MALClient.Android
         // create a new ImageView for each item referenced by the Adapter
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            ImageView imageView;
+            //ImageView imageView;
 
-            if (convertView == null)
-            {  // if it's not recycled, initialize some attributes
-                imageView = new ImageView(context);
-                imageView.LayoutParameters = new GridView.LayoutParams(200, 350);
-                imageView.SetScaleType(ImageView.ScaleType.FitXy);
-                imageView.SetPadding(8, 8, 8, 8);
-            }
-            else
-            {
-                imageView = (ImageView)convertView;
-            }
-            var imageBitmap = GetImageBitmapFromUrl(ViewModelLocator.AnimeList.AnimeGridItems[position].ImgUrl);
-            imageView.SetImageBitmap(imageBitmap);
-            return imageView;
-        }
+            //if (convertView == null)
+            //{  // if it's not recycled, initialize some attributes
+            //    imageView = new ImageView(context);
+            //    imageView.LayoutParameters = new GridView.LayoutParams(200, 350);
+            //    imageView.SetScaleType(ImageView.ScaleType.FitXy);
+            //    imageView.SetPadding(8, 8, 8, 8);
+            //}
+            //else
+            //{
+            //    imageView = (ImageView)convertView;
+            //}
+            //var imageBitmap = GetImageBitmapFromUrl(ViewModelLocator.AnimeList.AnimeGridItems[position].ImgUrl);
+            //imageView.SetImageBitmap(imageBitmap);
+            //return imageView;
+            var item = ViewModelLocator.AnimeList.AnimeGridItems[position];
+            var contentView = LayoutInflater.From(context).Inflate(Resource.Layout.AnimeGridItem, null);
+
+
+            var name = contentView.FindViewById<TextView>(Resource.Id.ShowTitle);
+            name.Text = item.Title;
+
+            var info = contentView.FindViewById<ImageView>(Resource.Id.ShowCoverImage);
+            info.SetImageBitmap(GetImageBitmapFromUrl(item.ImgUrl));
+
+            return contentView;        
+    }
 
         private Bitmap GetImageBitmapFromUrl(string url)
         {

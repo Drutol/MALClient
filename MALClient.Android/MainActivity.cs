@@ -30,7 +30,7 @@ namespace MALClient.Android
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             Credentials.SetAuthStatus(true);
-            Credentials.Update("MALClientTestAcc","MuchVerificatio",ApiType.Mal);            
+            Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
             ViewModelLocator.AnimeList.Init(null);
             ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
 

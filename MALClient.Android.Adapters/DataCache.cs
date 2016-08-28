@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using Android.App;
 using MALClient.Adapters;
+using Newtonsoft.Json;
 
 namespace MALClient.Android.Adapters
 {
@@ -8,34 +11,54 @@ namespace MALClient.Android.Adapters
     {
         public async Task SaveData<T>(T data, string filename, string targetFolder)
         {
-            //var folder = string.IsNullOrEmpty(targetFolder)
-            //    ? ApplicationData.Current.LocalFolder
-            //    : await
-            //        ApplicationData.Current.LocalFolder.CreateFolderAsync(targetFolder,
-            //            CreationCollisionOption.OpenIfExists);
-            //await SaveData(data, filename, folder);
+            try
+            {
+                await Task.Run(() =>
+                {
+                    targetFolder = string.IsNullOrEmpty(targetFolder) ? Application.Context.FilesDir.Path : Path.Combine(Application.Context.FilesDir.Path, targetFolder);
+                    var filepath = Path.Combine(targetFolder, filename);
+
+                    var json = JsonConvert.SerializeObject(new Tuple<DateTime, T>(DateTime.UtcNow, data));
+                    File.WriteAllText(filepath, json);
+                });
+            }
+            catch (Exception)
+            {
+                //
+            }
         }
 
         public async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
         {
-            //var folder = string.IsNullOrEmpty(originFolder)
-            //    ? ApplicationData.Current.LocalFolder
-            //    : await
-            //        ApplicationData.Current.LocalFolder.CreateFolderAsync(originFolder,
-            //            CreationCollisionOption.OpenIfExists);
-            //return await RetrieveData<T>(filename, folder, expiration);
-            return default(T);
+            try
+            {
+                originFolder = string.IsNullOrEmpty(originFolder) ? Application.Context.FilesDir.Path : Path.Combine(Application.Context.FilesDir.Path,originFolder);
+                var filepath = Path.Combine(originFolder, filename);
+                if (!File.Exists(filepath))
+                {
+                    return default(T);
+                }
+                var data = File.ReadAllText(filepath);
+
+                var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, T>>(data);
+                
+                return tuple.Item2;
+               
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
         }
 
         public async Task SaveDataRoaming<T>(T data, string filename)
         {
-            //await SaveData(data, filename, ApplicationData.Current.RoamingFolder);
+            await SaveData(data, filename, "");
         }
 
         public async Task<T> RetrieveDataRoaming<T>(string filename, int expiration)
         {
-            //return await RetrieveData<T>(filename, ApplicationData.Current.RoamingFolder, 0);
-            return default(T);
+            return await RetrieveData<T>(filename, "", expiration);
         }
 
         public async Task ClearApiRelatedCache()

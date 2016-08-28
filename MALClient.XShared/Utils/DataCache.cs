@@ -34,10 +34,10 @@ namespace MALClient.XShared.Utils
 
         static DataCache()
         {
+            DataCacheService = ResourceLocator.DataCacheService;
             LoadVolatileData();
             LoadSeasonalurls();
-            RetrieveHumMalIdDictionary();
-            DataCacheService = ResourceLocator.DataCacheService;
+            RetrieveHumMalIdDictionary();      
         }
 
         public static async Task ClearApiRelatedCache()

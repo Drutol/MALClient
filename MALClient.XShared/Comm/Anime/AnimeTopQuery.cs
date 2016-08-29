@@ -103,7 +103,7 @@ namespace MALClient.XShared.Comm.Anime
                     var pos = imgurl.IndexOf('?');
                     if (pos != -1)
                         imgurl = imgurl.Substring(0, pos);
-                    current.ImgUrl = "http://cdn.myanimelist.net/images/" + imgUrlType + imgurl;
+                    current.ImgUrl = "https://myanimelist.cdn-dena.com/images/" + imgUrlType + imgurl;
                     var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs[_type != TopAnimeType.Manga  ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(8).Split('/')[2]);

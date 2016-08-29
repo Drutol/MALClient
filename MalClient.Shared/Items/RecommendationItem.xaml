@@ -180,7 +180,7 @@
             <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
                     <MenuFlyoutSeparator />
-                    <userControls:AlternatingListView x:Name="DetailsListView" ItemsSource="{Binding DetailItems}" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
+                    <userControls:AlternatingListView x:Name="DetailsListView" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding DetailItems}" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />

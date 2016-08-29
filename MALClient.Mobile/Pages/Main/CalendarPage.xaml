@@ -73,7 +73,7 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0">
-        <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="0,0,0,0" Padding="0"
+        <Pivot x:Name="RootPivot" Margin="0,0,0,0" Padding="0"
                Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                ItemsSource="{Binding CalendarData}" SelectedItem="{Binding CurrentPivotPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <Pivot.Resources>
@@ -117,9 +117,9 @@
             <Pivot.ItemTemplateSelector>
                 <userControls1:DataTypeTemplateSelector>
                     <userControls1:DataTypeTemplateSelector.Matches>
-                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarPivotPage"
+                        <userControls1:TemplateMatch TargetType="MALClient.XShared.ViewModels.Main.CalendarPivotPage"
                                                     Template="{StaticResource DayPageTemplate}" />
-                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarSummaryPivotPage"
+                        <userControls1:TemplateMatch TargetType="MALClient.XShared.ViewModels.Main.CalendarSummaryPivotPage"
                                                     Template="{StaticResource SummaryPageTemplate}" />
                     </userControls1:DataTypeTemplateSelector.Matches>
                 </userControls1:DataTypeTemplateSelector>

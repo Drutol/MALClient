@@ -108,18 +108,23 @@ namespace MALClient.Android
             //var imageBitmap = GetImageBitmapFromUrl(ViewModelLocator.AnimeList.AnimeGridItems[position].ImgUrl);
             //imageView.SetImageBitmap(imageBitmap);
             //return imageView;
-            var item = ViewModelLocator.AnimeList.AnimeGridItems[position];
-            var contentView = LayoutInflater.From(context).Inflate(Resource.Layout.AnimeGridItem, null);
+            if (convertView == null)
+            {
+                var item = ViewModelLocator.AnimeList.AnimeGridItems[position];
+                var contentView = LayoutInflater.From(context).Inflate(Resource.Layout.AnimeGridItem, null);
 
 
-            var name = contentView.FindViewById<TextView>(Resource.Id.ShowTitle);
-            name.Text = item.Title;
+                var name = contentView.FindViewById<TextView>(Resource.Id.ShowTitle);
+                name.Text = item.Title;
 
-            var info = contentView.FindViewById<ImageView>(Resource.Id.ShowCoverImage);
-            info.SetImageBitmap(GetImageBitmapFromUrl(item.ImgUrl));
+                var info = contentView.FindViewById<ImageView>(Resource.Id.ShowCoverImage);
+                info.SetImageBitmap(GetImageBitmapFromUrl(item.ImgUrl));
 
-            return contentView;        
-    }
+                return contentView;
+            }
+            else
+                return convertView;
+        }
 
         private Bitmap GetImageBitmapFromUrl(string url)
         {

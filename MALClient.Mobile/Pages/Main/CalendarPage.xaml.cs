@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -20,7 +21,21 @@ namespace MALClient.Pages.Main
         {
             this.InitializeComponent();
             Loaded += (sender, args) => ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-            Loaded += (a1, a2) => (DataContext as CalendarPageViewModel).Init();
+            Loaded += (a1, a2) =>
+            {
+                (DataContext as CalendarPageViewModel).Init();
+                ViewModelLocator.CalendarPage.PivotSelectedIndexChange += CalendarPageOnPivotSelectedIndexChange;
+            };
+        }
+
+        private void CalendarPageOnPivotSelectedIndexChange()
+        {
+            RootPivot.SelectedIndex = ViewModelLocator.CalendarPage.CalendarPivotIndex;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ViewModelLocator.CalendarPage.PivotSelectedIndexChange -= CalendarPageOnPivotSelectedIndexChange;
         }
 
 

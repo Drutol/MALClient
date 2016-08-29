@@ -13,6 +13,7 @@ using MalClient.Shared.UserControls;
 using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -145,12 +146,12 @@ namespace MALClient
 
         private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
         {
-            if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
+            if (DesktopViewModelLocator.Main.CurrentMainPageKind == PageIndex.PageAnimeList && RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
                 RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
             {
                 var vm = ViewModelLocator.AnimeList;
                 if (vm.AreThereItemsWaitingForLoad)
-                    ViewModelLocator.AnimeList.RefreshList();
+                    vm.RefreshList();
             }
             if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0)
                 DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);

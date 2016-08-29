@@ -449,7 +449,7 @@ namespace MALClient.XShared.ViewModels
             {
                 if (_seasonalState)
                     return
-                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : $"{(Settings.MangaFocusVolumes ? "Volumes" : "Chapters")}")}";
+                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : "Chapters")}";
 
                 return Auth || MyEpisodes != 0
                     ? $"{(ParentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +

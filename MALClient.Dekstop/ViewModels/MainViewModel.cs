@@ -38,6 +38,15 @@ namespace MALClient.ViewModels
 
     public class MainViewModel : ViewModelBase , IMainViewModel
     {
+        static MainViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            AnimeItemViewModel.MaxWidth = bounds.Width / 2.05;
+            if (AnimeItemViewModel.MaxWidth > 200)
+                AnimeItemViewModel.MaxWidth = 200;
+        }
+
         public static Tuple<int, string> InitDetails;
 
         private Tuple<PageIndex, object> _postponedNavigationArgs;

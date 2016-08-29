@@ -54,7 +54,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
     public static class MalHttpContextProvider
     {
-        public const string MalBaseUrl = "http://myanimelist.net";
+        public const string MalBaseUrl = "https://myanimelist.net";
         private static CsrfHttpClient _httpClient;
         private static DateTime? _contextExpirationTime;
         private static bool _webViewsInitialized;

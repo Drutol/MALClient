@@ -13,6 +13,7 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+        <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch">
@@ -188,7 +189,7 @@
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.Auth,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}">
                     <Grid Height="40" Width="40" Margin="5"
-                      Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
+                      Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter},Mode=OneWay}" />
                     <Button VerticalAlignment="Center" Height="40" Margin="5" RenderTransformOrigin="0.5,0.5"
                         Width="40" Command="{x:Bind ViewModel.DecrementWatchedCommand}"
                         Visibility="{x:Bind ViewModel.DecrementEpsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -199,7 +200,7 @@
                         </Button.RenderTransform>
                     </Button>
                     <Grid Height="40" Width="40" Margin="5"
-                      Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Converter={StaticResource VisiblityInverterConverter},Mode=OneWay}" />
+                      Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter},Mode=OneWay}" />
                     <Button Height="40" Width="40" Margin="5" RenderTransformOrigin="0.5,0.5"
                         Command="{x:Bind ViewModel.IncrementWatchedCommand}"
                         Visibility="{x:Bind ViewModel.IncrementEpsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"

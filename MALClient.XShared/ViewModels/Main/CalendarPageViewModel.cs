@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -10,6 +11,7 @@ using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
@@ -34,6 +36,8 @@ namespace MALClient.XShared.ViewModels.Main
 
     public class CalendarPageViewModel : ViewModelBase
     {
+        public event EmptyEventHander PivotSelectedIndexChange;
+
         public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } =
             new ObservableCollection<CalendarPivotPage>();
 
@@ -47,7 +51,7 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 _calendarPivotIndex = value;
-                RaisePropertyChanged(() => CalendarPivotIndex);
+                PivotSelectedIndexChange?.Invoke();
             }
         }
 
@@ -165,7 +169,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 try
                 {
-                    if (abstraction.AirDay != -1)
+                    if (abstraction.AirDay > 0)
                     {
                         int day = abstraction.AirDay - 1;
                         if (Settings.AirDayOffset != 0)
@@ -289,6 +293,7 @@ namespace MALClient.XShared.ViewModels.Main
 
 
             RaisePropertyChanged(() => CalendarData);
+            await Task.Delay(10);
             if (Settings.CalendarStartOnToday)
             {
                 //we have to find it because it may have been removed

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Windows.Media.PlayTo;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -34,6 +35,15 @@ namespace MALClient.ViewModels
 {
     public class MainViewModel : ViewModelBase , IMainViewModel
     {
+        static MainViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            AnimeItemViewModel.MaxWidth = bounds.Width / 2.05;
+            if (AnimeItemViewModel.MaxWidth > 200)
+                AnimeItemViewModel.MaxWidth = 200;
+        }
+
         public static Tuple<int, string> InitDetails;
 
         private bool? _searchStateBeforeNavigatingToSearch;

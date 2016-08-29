@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Enums;
@@ -57,13 +58,12 @@ namespace MALClient.XShared.Comm.Anime
                         var current = new DirectRecommendationData();
 
                         var tds = recommNode.Descendants("td").Take(2).ToList();
-                        var img = tds[0].Descendants("img").First().Attributes["data-src"].Value.Split('/');
-                        int imgCount = img.Length;
-                        var imgurl = img[imgCount - 2] + "/" + img[imgCount - 1];
-                        var pos = imgurl.IndexOf('?');
-                        if (pos != -1)
-                            imgurl = imgurl.Substring(0, pos);
-                        current.ImageUrl = "http://cdn.myanimelist.net/images/anime/" + imgurl;
+                        var img = tds[0].Descendants("img").First().Attributes["data-src"].Value;
+                        if (!img.Contains("questionmark"))
+                        {
+                            img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
+                            current.ImageUrl = img.Substring(0, img.IndexOf('?'));
+                        }
                         current.Description = WebUtility.HtmlDecode(tds[1].Descendants("div").First(
                             node =>
                                 node.Attributes.Contains("class") &&

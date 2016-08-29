@@ -1719,9 +1719,18 @@ namespace MALClient.XShared.ViewModels.Details
 
             LeftDetailsRow = new List<Tuple<string, string>>();
             RightDetailsRow = new List<Tuple<string, string>>();
+            var item = _animeItemReference as AnimeItemViewModel;
+            if (AnimeMode || item == null)
+            {
+                LeftDetailsRow.Add(new Tuple<string, string>(AnimeMode ? "Episodes" : "Chapters",
+                    AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
+            }
+            else
+            {
+                LeftDetailsRow.Add(new Tuple<string, string>(Settings.MangaFocusVolumes ? "Volumes" : "Chapters",
+                    item.AllEpisodesFocused == 0 ? "?" : item.AllEpisodesFocused.ToString()));
+            }
 
-            LeftDetailsRow.Add(new Tuple<string, string>(AnimeMode ? "Episodes" : "Chapters",
-                AllEpisodes == 0 ? "?" : AllEpisodes.ToString()));
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start",
                 StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));

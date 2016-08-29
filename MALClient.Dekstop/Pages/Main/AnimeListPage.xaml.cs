@@ -24,7 +24,7 @@ namespace MALClient.Pages.Main
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page , IAnimeListViewInteractions , IDimensionsProvider
+    public sealed partial class AnimeListPage : Page, IAnimeListViewInteractions, IDimensionsProvider
     {
         private ScrollViewer _indefiniteScrollViewer;
         public AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
@@ -36,7 +36,7 @@ namespace MALClient.Pages.Main
                 return _indefiniteScrollViewer ??
                        (_indefiniteScrollViewer =
                            VisualTreeHelper.GetChild(
-                               VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
+                                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
                                ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
@@ -67,7 +67,8 @@ namespace MALClient.Pages.Main
                 ViewModel.ScrollToTopRequest += ViewModelOnScrollToTopRequest;
                 ViewModel.AddScrollHandlerRequest += ViewModelOnAddScrollHandlerRequest;
                 ViewModel.RemoveScrollHandlerRequest += ViewModelOnRemoveScrollHandlerRequest;
-                ViewModel.RemoveScrollingConatinerReferenceRequest += ViewModelOnRemoveScrollingConatinerReferenceRequest;
+                ViewModel.RemoveScrollingConatinerReferenceRequest +=
+                    ViewModelOnRemoveScrollingConatinerReferenceRequest;
                 ViewModel.HideSeasonSelectionFlyout += ViewModelOnHideSeasonSelectionFlyout;
                 ViewModel.Init(_navArgs);
                 SizeChanged += (s, a) =>
@@ -79,7 +80,7 @@ namespace MALClient.Pages.Main
                 };
             };
 
-            
+
             ViewModelLocator.GeneralMain.OffContentPaneStateChanged += MainOnOffContentPaneStateChanged;
         }
 
@@ -105,7 +106,15 @@ namespace MALClient.Pages.Main
 
         private async void ViewModelOnAddScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            try
+            {
+                (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            }
+            catch (Exception)
+            {
+                
+            }
+
             
         }
 

@@ -19,7 +19,7 @@ namespace MalClient.Shared.Items
     {
         private RecommendationData _data;
 
-
+        RecommendationItemViewModel ViewModel => DataContext as RecommendationItemViewModel;
 
         private bool _dataLoaded;
         private bool _wide;
@@ -54,9 +54,6 @@ namespace MalClient.Shared.Items
             {
                 _wide = ActualWidth > 900;
                 VisualStateManager.GoToState(this, _wide ? "Wide" : "Narrow", false);
-                var scrollViewer =
-                    VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(DetailsListView, 0), 0) as ScrollViewer;
-                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             }
             catch (Exception)
             {
@@ -68,8 +65,8 @@ namespace MalClient.Shared.Items
         {
             ViewModelLocator.GeneralMain
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(_data.RecommendationId, _data.RecommendationTitle,
-                        _data.AnimeRecommendationData, null,
+                    new AnimeDetailsPageNavigationArgs(ViewModel.Data.RecommendationId, ViewModel.Data.RecommendationTitle,
+                       ViewModel.Data.AnimeRecommendationData, null,
                         new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
 
@@ -77,8 +74,8 @@ namespace MalClient.Shared.Items
         {
             ViewModelLocator.GeneralMain
                 .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(_data.DependentId, _data.DependentTitle,
-                        _data.AnimeDependentData, null,
+                    new AnimeDetailsPageNavigationArgs(ViewModel.Data.DependentId, ViewModel.Data.DependentTitle,
+                        ViewModel.Data.AnimeDependentData, null,
                         new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
         }
     }

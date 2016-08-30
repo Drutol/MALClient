@@ -96,9 +96,9 @@
                             </ListView>
                             <TextBlock Text="Custom season" Margin="0,5" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox ItemsSource="{Binding SeasonSeasons}" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <ComboBox ItemsSource="{Binding SeasonYears}" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <Button Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
+                                <ComboBox ItemsSource="{Binding SeasonSeasons}" Margin="5,0" MinWidth="100" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox ItemsSource="{Binding SeasonYears}"  MinWidth="100" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button Margin="5,0" Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
                                     <SymbolIcon Symbol="Go"></SymbolIcon>
                                 </Button>
                             </StackPanel>
@@ -182,7 +182,7 @@
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="7"
                                                             GroupName="SortOptionsPivotUpperItems" />
                         <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />
+                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Descending" Click="ChangeSortOrder" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

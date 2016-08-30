@@ -267,10 +267,10 @@ namespace MALClient.XShared.ViewModels.Main
                         SetSortOrder(SortOptions.SortWatched); //index
                         SetDesiredStatus(null);
                         CurrentSeason = null;
-                        if (SeasonSelection.Count != 0)
-                            SeasonalUrlsSelectedIndex = 1;
+                        SeasonSelection.Clear();
                     }
-                    StatusAllLabel = WorkMode == AnimeListWorkModes.SeasonalAnime ? "Airing" : "All";
+                    
+                    //StatusAllLabel = WorkMode == AnimeListWorkModes.SeasonalAnime ? "Airing" : "All";
 
                     Sort3Label = "Index";
                     await FetchSeasonalData();
@@ -830,6 +830,7 @@ namespace MALClient.XShared.ViewModels.Main
                     RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
                 }
             }
+
             _fetchingSeasonal = false;
             RefreshList();
         }
@@ -1416,7 +1417,7 @@ namespace MALClient.XShared.ViewModels.Main
             get { return _seasonalUrlsSelectedIndex; }
             set
             {
-                if (_goingCustomSeason || value == _seasonalUrlsSelectedIndex || value < 0)
+                if (_goingCustomSeason || value == _seasonalUrlsSelectedIndex || value < 0 || !SeasonSelection.Any())
                     return;
                 if (SeasonSelection.Count == 5) //additional custom season
                     SeasonSelection.RemoveAt(4);
@@ -1433,7 +1434,7 @@ namespace MALClient.XShared.ViewModels.Main
             "Winter","Spring","Summer","Fall"
         };
 
-        public List<string> SeasonYears { get; set; } = new List<string>();
+        public List<string> SeasonYears { get; } = new List<string>();
 
         public string CurrentlySelectedCustomSeasonSeason { get; set; }
 
@@ -1499,8 +1500,10 @@ namespace MALClient.XShared.ViewModels.Main
                     page.CurrentStatus = $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
             else
                 page.CurrentStatus = $"{CurrentSeason?.Name} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-
-            page.CurrentStatusSub = SortOption != SortOptions.SortWatched ? SortOption.GetDescription() : Sort3Label;
+            if (WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga)
+                page.CurrentStatusSub = SortOption != SortOptions.SortWatched ? SortOption.GetDescription() : Sort3Label;
+            else
+                page.CurrentStatusSub = "";
         }
 
         public int GetDesiredStatus()

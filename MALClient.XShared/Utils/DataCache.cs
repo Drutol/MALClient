@@ -185,7 +185,7 @@ namespace MALClient.XShared.Utils
                 await Task.Run(async () =>
                 {
                     await
-                        DataCacheService.SaveData(new Tuple<DateTime, List<SeasonalAnimeData>>(DateTime.UtcNow, data),
+                        DataCacheService.SaveData(data,
                             $"seasonal_data{tag}.json", "");
                 });
             }

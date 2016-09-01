@@ -32,7 +32,7 @@ namespace MALClient.XShared.Comm.Anime
                             : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
                         data = WebUtility.HtmlDecode(data);
                         
-                        //data = data.Replace("&mdash", "-").Replace("&", ""); //unparsable stuff ahaead
+                        data = data.Replace("&", ""); //unparsable stuff ahaead :(
                         var parsedData = XDocument.Parse(data);
                                             
                         var elements = parsedData.Element(animeMode ? "anime" : "manga").Elements("entry");

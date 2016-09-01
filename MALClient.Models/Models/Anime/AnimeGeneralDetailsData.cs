@@ -41,7 +41,16 @@ namespace MALClient.Models.Models.Anime
             Status = xmlObj.Element("status").Value;
             Synopsis = xmlObj.Element("synopsis").Value;
             //Synopsis cleaning
-            Synopsis = Synopsis.Replace("&quot;", "\"").Replace("&ndash;", "-").Replace("&rdquo;", "\"").Replace("&ldquo;", "\"").Replace("&#039;","'").Replace("&amp;","&").Replace("&mdash;","-");
+            Synopsis =
+                Synopsis.Replace("quot;", "\"")
+                    .Replace("ndash;", "-")
+                    .Replace("rdquo;", "\"")
+                    .Replace("ldquo;", "\"")
+                    .Replace("rsquo;", "'")
+                    .Replace("#039;", "'")
+                    .Replace("amp;", "")
+                    .Replace("mdash;", "-")
+                    .Replace("<br />", "");
             Synopsis = Regex.Replace(Synopsis, @"\[[^\]]*\]", string.Empty); //get rid of bbcode
 
 

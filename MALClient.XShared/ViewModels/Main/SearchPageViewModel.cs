@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using GalaSoft.MvvmLight;
@@ -95,7 +96,8 @@ namespace MALClient.XShared.ViewModels.Main
                             response = await new MangaSearchQuery(Utilities.CleanAnimeTitle(query)).GetRequestResponse());
                 try
                 {
-                    var parsedData = XDocument.Parse(response);
+                    response = WebUtility.HtmlDecode(response);
+                    var parsedData = XDocument.Parse(response.Replace("&", "")); //due to unparasable stuff returned by mal);
                     foreach (var item in parsedData.Element("manga").Elements("entry"))
                     {
                         var type = item.Element("type").Value;

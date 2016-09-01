@@ -41,11 +41,11 @@ namespace MALClient.XShared.Comm.Anime
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return output;
-
+            raw = WebUtility.HtmlDecode(raw);
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    var parsed = XElement.Parse(raw);
+                    var parsed = XElement.Parse(raw.Replace("&","")); //due to unparasable stuff returned by mal
                     foreach (var element in parsed.Elements("entry"))
                     {
                         var item = new AnimeGeneralDetailsData();

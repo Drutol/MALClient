@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
-using MalClient.Shared.Utils;
+using MALClient.Models.Enums.Enums;
+using MALClient.XShared.Utils;
 
 namespace MalClient.Shared.XamlConverters
 {

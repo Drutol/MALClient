@@ -9,19 +9,20 @@
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsTopic}">
 
     <Page.Resources>
-        <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter"/>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter"/>
     </Page.Resources>
     
     <Grid Background="{ThemeResource BrushDeepBackground}">
         
-        <WebView x:Name="TopicWebView" Visibility="{Binding LoadingTopic,Converter={StaticResource VisiblityInverterConverter}}" 
+        <WebView x:Name="TopicWebView" Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityInvertedConverter}}" 
                  LoadCompleted="TopicWebView_OnLoadCompleted" 
                  FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" 
                  DOMContentLoaded="TopicWebView_OnDOMContentLoaded" 
                  NavigationStarting="TopicWebView_OnNavigationStarting"
                  ContentLoading="TopicWebView_OnContentLoading"/>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding LoadingTopic}"
+              Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"

@@ -3,9 +3,10 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.ViewModels;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,7 +29,7 @@ namespace MALClient.Pages.Messages
         {
             if (e.AddedItems.Count > 0)
             {
-                var msg = e.AddedItems.First() as MalMessageModel;
+                var msg = e.AddedItems.First() as MalMessageViewModel;
                 msg.IsRead = true;
             }
         }

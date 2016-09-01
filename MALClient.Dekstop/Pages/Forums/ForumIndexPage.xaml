@@ -11,6 +11,7 @@
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:DummyFontAwesomeToRealFontAwesomeConverter x:Key="DummyFontAwesomeToRealFontAwesomeConverter" />
         <DataTemplate x:Key="PostListDataTemplate">
             <Grid Background="{ThemeResource BrushAnimeItemBackground}" MaxWidth="350" MaxHeight="120" MinHeight="90" Padding="5"
                   HorizontalAlignment="Stretch">
@@ -37,6 +38,8 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -84,7 +87,7 @@
                                                     </MenuFlyout>
                                                 </FlyoutBase.AttachedFlyout>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <fa:FontAwesome Icon="{Binding Icon}" FontSize="21" Margin="10,0" />
+                                                    <fa:FontAwesome Icon="{Binding Icon,Converter={StaticResource DummyFontAwesomeToRealFontAwesomeConverter}}" FontSize="21" Margin="10,0" />
                                                     <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium"
                                                                FontSize="19" />
                                                 </StackPanel>
@@ -162,7 +165,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <ItemsControl Grid.Row="1" HorizontalAlignment="Center"
-                              Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                              Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                     <ItemsControl.Resources>
                         <Style TargetType="ListView">
                             <Setter Property="ItemContainerStyle">
@@ -239,7 +242,7 @@
                     </Grid>
                 </ItemsControl>
                 <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50"
-                      Visibility="{Binding LoadingSideContentVisibility}"
+                      Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                       Background="{ThemeResource BrushLoading}">
                     <ProgressRing
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"

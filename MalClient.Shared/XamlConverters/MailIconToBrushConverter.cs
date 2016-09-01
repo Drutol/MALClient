@@ -4,7 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
 namespace MalClient.Shared.XamlConverters
 {
@@ -14,7 +14,7 @@ namespace MalClient.Shared.XamlConverters
         {
             if ((Symbol) value == Symbol.Mail)
                 return Application.Current.Resources["SystemControlBackgroundAccentBrush"];
-            return Settings.SelectedTheme == ApplicationTheme.Dark
+            return Settings.SelectedTheme == (int)ApplicationTheme.Dark
                 ? new SolidColorBrush(Colors.White)
                 : new SolidColorBrush(Colors.Black);
         }

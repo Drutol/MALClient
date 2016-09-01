@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items="using:MALClient.Items"
     xmlns:viewModels="using:MALClient.ViewModels"
     xmlns:malClient="using:MALClient" 
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
@@ -68,12 +67,13 @@
                     </ItemsControl>
                 </ScrollViewer>
             </DataTemplate>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot SelectedIndex="{Binding CalendarPivotIndex}" Margin="0,0,0,0"
-               Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility}"
+        <Pivot x:Name="RootPivot" Margin="0,0,-10,0"
+               Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
@@ -113,9 +113,9 @@
             <Pivot.ItemTemplateSelector>
                 <userControls1:DataTypeTemplateSelector>
                     <userControls1:DataTypeTemplateSelector.Matches>
-                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarPivotPage"
+                        <userControls1:TemplateMatch TargetType="MALClient.XShared.ViewModels.Main.CalendarPivotPage"
                                                     Template="{StaticResource DayPageTemplate}" />
-                        <userControls1:TemplateMatch TargetType="MalClient.Shared.ViewModels.Main.CalendarSummaryPivotPage"
+                        <userControls1:TemplateMatch TargetType="MALClient.XShared.ViewModels.Main.CalendarSummaryPivotPage"
                                                     Template="{StaticResource SummaryPageTemplate}" />
                     </userControls1:DataTypeTemplateSelector.Matches>
                 </userControls1:DataTypeTemplateSelector>
@@ -136,7 +136,7 @@
             </Pivot.HeaderTemplate>
         </Pivot>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center"
-              Visibility="{Binding CalendarBuildingVisibility}">
+              Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

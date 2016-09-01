@@ -7,12 +7,13 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
 using MALClient.ViewModels;
-using MALClient.ViewModels.Main;
-using AnimeListPageNavigationArgs = MalClient.Shared.NavArgs.AnimeListPageNavigationArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Interfaces;
+using MALClient.XShared.ViewModels.Main;
+using AnimeListPageNavigationArgs = MALClient.XShared.NavArgs.AnimeListPageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,7 +23,7 @@ namespace MALClient.Pages.Main
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page , IAnimeListViewInteractions
+    public sealed partial class AnimeListPage : Page , IDimensionsProvider
     {
         private ScrollViewer _indefiniteScrollViewer;
         private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
@@ -102,13 +103,22 @@ namespace MALClient.Pages.Main
         public AnimeListPage()
         {
             InitializeComponent();
-            ViewModel.View = this;
             Loaded += async (sender, args) =>
             {
                 ViewModel.ScrollIntoViewRequested += ViewModelOnScrollRequest;
                 ViewModel.CanAddScrollHandler = true;
                 ViewModel.SortingSettingChanged += InitSortOptions;
                 ViewModel.Init(_lastArgs);
+                ViewModel.DimensionsProvider = this;
+                _loaded = true;
+                ViewModel.HideFiltersFlyout += ViewModelOnHideFiltersFlyout;
+                ViewModel.HideSortingFlyout += ViewModelOnHideSortingFlyout;
+                ViewModel.HideViewsFlyout += ViewModelOnHideViewsFlyout;
+                ViewModel.ScrollToTopRequest += ViewModelOnScrollToTopRequest;
+                ViewModel.AddScrollHandlerRequest += ViewModelOnAddScrollHandlerRequest;
+                ViewModel.RemoveScrollHandlerRequest += ViewModelOnRemoveScrollHandlerRequest;
+                ViewModel.RemoveScrollingConatinerReferenceRequest += ViewModelOnRemoveScrollingConatinerReferenceRequest;
+                ViewModel.HideSeasonSelectionFlyout += ViewModelOnHideSeasonSelectionFlyout;
                 _loaded = true;
                 try
                 {
@@ -121,6 +131,53 @@ namespace MALClient.Pages.Main
                 }
                 
             };
+        }
+
+        private void ViewModelOnHideSeasonSelectionFlyout()
+        {
+            FlyoutSeasonSelection.Hide();
+        }
+
+        private void ViewModelOnHideViewsFlyout()
+        {
+            FlyoutViews.Hide();
+        }
+
+        private void ViewModelOnRemoveScrollingConatinerReferenceRequest()
+        {
+            IndefiniteScrollViewer = null;
+        }
+
+        private async void ViewModelOnRemoveScrollHandlerRequest()
+        {
+            (await GetIndefiniteScrollViewer()).ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+        }
+
+        private async void ViewModelOnAddScrollHandlerRequest()
+        {
+            (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+
+        }
+
+        private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
+        {
+            ViewModel.IndefiniteScrollViewerOnViewChanging(e.FinalView.VerticalOffset);
+        }
+
+        private async void ViewModelOnScrollToTopRequest()
+        {
+            (await GetIndefiniteScrollViewer()).ChangeView(null, 0, null);
+            ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = false;
+        }
+
+        private void ViewModelOnHideSortingFlyout()
+        {
+            SortingFlyout.Hide();
+        }
+
+        private void ViewModelOnHideFiltersFlyout()
+        {
+            FiltersFlyout.Hide();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

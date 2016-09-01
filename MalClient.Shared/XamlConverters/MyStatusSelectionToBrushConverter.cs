@@ -3,7 +3,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using MalClient.Shared.Utils;
+using MALClient.XShared.Utils;
 
 namespace MalClient.Shared.XamlConverters
 {
@@ -16,7 +16,7 @@ namespace MalClient.Shared.XamlConverters
         {
             if (value.ToString() == parameter as string)
                 return Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-            return Settings.SelectedTheme == ApplicationTheme.Dark
+            return Settings.SelectedTheme == (int)ApplicationTheme.Dark
                 ? new SolidColorBrush(Colors.White)
                 : new SolidColorBrush(Colors.Black);
         }

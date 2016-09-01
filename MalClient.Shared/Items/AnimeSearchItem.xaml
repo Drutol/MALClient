@@ -8,23 +8,21 @@
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
-    ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia" IsTabStop="False">
+    d:DesignWidth="400" IsTabStop="False">
 
-    <UserControl.Resources>
-        <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
-    </UserControl.Resources>
-
-    <Grid Height="150" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="Root">
+    <Grid Height="190" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="Img" Grid.Column="0" Stretch="Fill"
-               HorizontalAlignment="Left" Height="Auto" MaxHeight="148"
-               Width="Auto" MaxWidth="120" Margin="1,1" />
-        <Button Grid.Column="0" x:Name="BtnNavDetails" Margin="1,0,0,1"
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.Column="0" Stretch="Fill"
+               HorizontalAlignment="Left" Height="Auto" MaxHeight="190"
+               Width="Auto" MaxWidth="150" Margin="1,1">
+            <Image.Source>
+                <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="178" DecodePixelWidth="150"/>
+            </Image.Source>
+            </Image>
+        <Button Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">
             <Button.Background>
                 <SolidColorBrush Color="Black" Opacity=".5" />
@@ -59,11 +57,11 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid HorizontalAlignment="Stretch">
-                <TextBlock x:Name="TxtTitle" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" MaxLines="1"
+                <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" MaxLines="1"
                            VerticalAlignment="Top" FontWeight="SemiBold"
                            TextWrapping="WrapWholeWords" Margin="5,3,0,0" />
             </Grid>
-            <TextBlock x:Name="TxtSynopsis" VerticalAlignment="Stretch" Grid.Row="1"
+            <TextBlock Text="{Binding Synopsis}" VerticalAlignment="Stretch" Grid.Row="1"
                        TextTrimming="CharacterEllipsis" MaxLines="4" FontSize="14"
                        TextWrapping="WrapWholeWords" Margin="5,3,0,0"
                        FontWeight="SemiLight" HorizontalAlignment="Stretch" />
@@ -71,14 +69,14 @@
                 <StackPanel Orientation="Horizontal">
                     <Border BorderThickness="0,0,0,2" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock x:Name="TxtType" FontWeight="SemiLight"
+                        <TextBlock Text="{Binding Type}" FontWeight="SemiLight"
                                    TextAlignment="Left"
                                    VerticalAlignment="Bottom" />
                     </Border>
                     <Border Margin="8,0,0,0" BorderThickness="0,0,0,2" HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock x:Name="WatchedEps" FontWeight="SemiLight"
+                        <TextBlock Text="{Binding WatchedEps}" FontWeight="SemiLight"
                                    TextAlignment="Left"
                                    VerticalAlignment="Bottom" />
                     </Border>
@@ -92,7 +90,7 @@
                         <ScaleTransform ScaleY="1.5" ScaleX="1.5" />
                     </SymbolIcon.RenderTransform>
                 </SymbolIcon>
-                <TextBlock x:Name="TxtGlobalScore" FontWeight="Medium"
+                <TextBlock Text="{Binding GlobalScoreBind}" FontWeight="Medium"
                            VerticalAlignment="Center" Margin="10,10,0,0"
                            HorizontalAlignment="Center" TextAlignment="Center" />
             </Grid>

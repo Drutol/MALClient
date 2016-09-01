@@ -7,31 +7,43 @@ using System.Windows.Input;
 using Windows.Media.PlayTo;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Delegates;
-using MalClient.Shared.Models;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.Models.Enums;
+using MALClient.Models.Models;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.Pages;
 using MALClient.Pages.Forums;
 using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
 using MALClient.Pages.Off;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.ViewModels
 {
     public class MainViewModel : ViewModelBase , IMainViewModel
     {
+        static MainViewModel()
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            //var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            AnimeItemViewModel.MaxWidth = bounds.Width / 2.05;
+            if (AnimeItemViewModel.MaxWidth > 200)
+                AnimeItemViewModel.MaxWidth = 200;
+        }
+
         public static Tuple<int, string> InitDetails;
 
         private bool? _searchStateBeforeNavigatingToSearch;
@@ -58,7 +70,7 @@ namespace MALClient.ViewModels
                 return;
             }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
-            ScrollToTopButtonVisibility = Visibility.Collapsed;
+            ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = Visibility.Collapsed;
 
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
@@ -161,7 +173,7 @@ namespace MALClient.ViewModels
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
-                    NavigationRequested?.Invoke(typeof(RecomendationsPage), args);
+                    NavigationRequested?.Invoke(typeof(RecommendationsPage), args);
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();
@@ -220,7 +232,7 @@ namespace MALClient.ViewModels
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageCharacterDetails)
                         ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
@@ -231,7 +243,7 @@ namespace MALClient.ViewModels
                     HideSearchStuff();
                     RefreshButtonVisibility = Visibility.Visible;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
-                    OffContentVisibility = Visibility.Visible;
+                    OffContentVisibility = true;
 
                     if (CurrentOffPage == PageIndex.PageStaffDetails)
                         ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
@@ -374,7 +386,7 @@ namespace MALClient.ViewModels
         }
 
         public PageIndex? CurrentOffPage { get; set; }
-        public Visibility OffContentVisibility { get; set; }
+        public bool OffContentVisibility { get; set; }
         public event SearchQuerySubmitted OnSearchQuerySubmitted;
         public event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
 
@@ -410,7 +422,7 @@ namespace MALClient.ViewModels
 
         private string _currentSearchQuery;
 
-        public Visibility NavigateMainBackButtonVisibility { get; set; }
+        public bool NavigateMainBackButtonVisibility { get; set; }
 
         public string CurrentSearchQuery
         {
@@ -530,9 +542,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _scrollToTopButtonVisibility = Visibility.Collapsed;
+        private bool _scrollToTopButtonVisibility;
 
-        public Visibility ScrollToTopButtonVisibility
+        public bool ScrollToTopButtonVisibility
         {
             get { return _scrollToTopButtonVisibility; }
             set
@@ -622,7 +634,7 @@ namespace MALClient.ViewModels
             set { CurrentStatus = value; }
         }
 
-        public Visibility NavigateOffBackButtonVisibility { get; set; }
+        public bool NavigateOffBackButtonVisibility { get; set; }
 
         private void NavigateSearch(object args)
         {

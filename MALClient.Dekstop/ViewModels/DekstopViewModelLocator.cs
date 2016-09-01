@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.Adapters;
+using MALClient.Adapters.Credentails;
 using MALClient.Utils;
 using MALClient.Utils.Managers;
-using MALClient.ViewModels.Main;
+using MALClient.UWP.Adapters;
 using MALClient.ViewModels.Off;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.ViewModels
@@ -24,6 +26,16 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IMainViewModel>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());
             SimpleIoc.Default.Register<INavMgr, NavMgr>();
+
+            SimpleIoc.Default.Register<IDataCache, DataCache>();
+            SimpleIoc.Default.Register<IPasswordVault, PasswordVaultProvider>();
+            SimpleIoc.Default.Register<IApplicationDataService, ApplicationDataServiceService>();
+            SimpleIoc.Default.Register<IClipboardProvider, ClipboardProvider>();
+            SimpleIoc.Default.Register<ISystemControlsLauncherService, SystemControlLauncherService>();
+            SimpleIoc.Default.Register<IMessageDialogProvider, MessageDialogProvider>();
+            SimpleIoc.Default.Register<ICalendarExportProvider, CalendarExportProvider>();
+            SimpleIoc.Default.Register<ILiveTilesManager, LiveTilesManagerRelay>();
+            SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

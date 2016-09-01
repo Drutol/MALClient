@@ -1,8 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Models.MalSpecific;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.ViewModels.Main;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

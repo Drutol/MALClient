@@ -6,11 +6,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
+using MalClient.Shared;
+using MALClient.Models.Enums;
 using MALClient.ViewModels;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -56,7 +58,7 @@ namespace MALClient.Pages.Main
             Credentials.SetAuthStatus(false);
             Credentials.Reset();
             Credentials.SetAuthToken("");
-            await Utilities.RemoveProfileImg();
+            await UWPUtilities.RemoveProfileImg();
             MobileViewModelLocator.AnimeList.LogOut();
             MobileViewModelLocator.Main.Navigate(PageIndex.PageLogIn);
             MobileViewModelLocator.Hamburger.UpdateProfileImg();
@@ -147,7 +149,7 @@ namespace MALClient.Pages.Main
             }
             try
             {
-                await Utilities.RemoveProfileImg();
+                await UWPUtilities.RemoveProfileImg();
                 await MobileViewModelLocator.Hamburger.UpdateProfileImg();
             }
             catch (Exception)
@@ -221,7 +223,7 @@ namespace MALClient.Pages.Main
             }
             try
             {
-                await Utilities.RemoveProfileImg();
+                await UWPUtilities.RemoveProfileImg();
                 await MobileViewModelLocator.Hamburger.UpdateProfileImg();
             }
             catch (Exception)

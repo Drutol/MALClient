@@ -2,11 +2,12 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
+using MalClient.Shared;
 using MALClient.Pages.Off.SettingsPages;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,7 +26,7 @@ namespace MALClient.Pages.Off
             Loaded += (sender, args) => ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             SettingsNavFrame.Navigate(typeof(SettingsHomePage), null);
-            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {Utilities.GetAppVersion()}";
+            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
             _initialized = true;
         }
 

@@ -10,10 +10,11 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.UserControls;
-using MalClient.Shared.Utils;
 using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
-using HamburgerControl = MALClient.UserControls.New.HamburgerControl;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -29,20 +30,37 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-
             Loaded += (sender, args) =>
             {
                 LogoImage.Source =
                     new BitmapImage(
-                        new Uri(Settings.SelectedTheme == ApplicationTheme.Dark
+                        new Uri(Settings.SelectedTheme == (int)ApplicationTheme.Dark
                             ? "ms-appx:///Assets/upperappbarlogowhite.png"
                             : "ms-appx:///Assets/upperappbarlogoblue.png"));
                 var vm = DesktopViewModelLocator.Main;
                 vm.MainNavigationRequested += Navigate;
                 vm.OffNavigationRequested += NavigateOff;
                 vm.PropertyChanged += VmOnPropertyChanged;
+                UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
+                {
+                    PinDialogStoryboard.Begin();
+                };
+                UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
                 DesktopViewModelLocator.Main.View = this;
             };
+        }
+
+
+        private void HidePinDialog()
+        {
+            HidePinDialogStoryboard.Completed += SbOnCompleted;
+            HidePinDialogStoryboard.Begin();
+        }
+
+        private void SbOnCompleted(object sender, object o)
+        {
+            (sender as Storyboard).Completed -= SbOnCompleted;
+            UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
         }
 
         private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -55,7 +73,7 @@ namespace MALClient
             }
             else if (args.PropertyName == "OffContentVisibility")
             {
-                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility == Visibility.Visible ? 16 : 0);
+                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
             }
 
         }
@@ -128,12 +146,12 @@ namespace MALClient
 
         private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
         {
-            if (RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
+            if (DesktopViewModelLocator.Main.CurrentMainPageKind == PageIndex.PageAnimeList && RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
                 RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
             {
                 var vm = ViewModelLocator.AnimeList;
                 if (vm.AreThereItemsWaitingForLoad)
-                    ViewModelLocator.AnimeList.RefreshList();
+                    vm.RefreshList();
             }
             if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0)
                 DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);
@@ -181,7 +199,7 @@ namespace MALClient
         private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
-                ViewModelLocator.GeneralMain.PinDialogViewModel.CloseDialogCommand.Execute(null);
+                UWPViewModelLocator.PinTileDialog.CloseDialogCommand.Execute(null);
         }
 
         private async void ToggleButton_OnClick(object sender, RoutedEventArgs e)

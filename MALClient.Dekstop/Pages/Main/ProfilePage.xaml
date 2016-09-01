@@ -5,7 +5,6 @@
     xmlns:local="using:MALClient"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items="using:MALClient.Items"
     xmlns:items1="using:MalClient.Shared.Items"
     xmlns:userControls="using:MalClient.Shared.UserControls"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
@@ -173,7 +172,7 @@
                                             Command="{Binding NavigateHistoryCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}"
-                                                  Visibility="{Binding PinProfileVisibility}">
+                                                  Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                         <SymbolIcon Foreground="White"
                                             Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}" />
                                         <ToolTipService.ToolTip>
@@ -228,7 +227,7 @@
                     <Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
                           Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch"
-                          Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -242,7 +241,7 @@
                                    Margin="5" />
                             <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center"
-                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
                             <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
@@ -266,7 +265,7 @@
                     <Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
                           Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch"
-                          Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -279,7 +278,7 @@
                                    Margin="5" />
                             <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center"
-                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
                             <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
@@ -303,7 +302,7 @@
                     <Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
                           Margin="10" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime"
-                          Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -335,7 +334,7 @@
                     <Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
                           HorizontalAlignment="Stretch" Margin="10"
-                          Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource VisiblityInverterConverter}}">
+                          Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -390,12 +389,12 @@
                         <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <Grid Grid.Row="1">
-                            <TextBlock Visibility="{Binding EmptyRecentAnimeNoticeVisibility}"
+                            <TextBlock Visibility="{Binding EmptyRecentAnimeNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                        Text="None updated recently..." TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
                             <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch"
                                          VerticalAlignment="Center"
-                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                                         Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
                             <GridView HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                       ItemsSource="{Binding RecentAnime}"
                                       IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
@@ -417,13 +416,13 @@
                         </Grid.RowDefinitions>
                         <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <TextBlock Grid.Row="1" Visibility="{Binding EmptyRecentMangaNoticeVisibility}"
+                        <TextBlock Grid.Row="1" Visibility="{Binding EmptyRecentMangaNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                    Text="None updated recently..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
                         <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center"
-                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity}" />
+                                     Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
                         <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding RecentManga}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
@@ -794,7 +793,7 @@
                                FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                     <StackPanel Grid.Row="1" HorizontalAlignment="Stretch"
-                                Visibility="{Binding CommentInputBoxVisibility}">
+                                Visibility="{Binding CommentInputBoxVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch"
                                  Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50"
                                  PlaceholderText="Type comment..." />
@@ -856,7 +855,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity}"
+                    <Grid Grid.Row="1" Visibility="{Binding LoadingCommentsVisiblity,Converter={StaticResource BoolToVisibilityConverter}}"
                           Background="{ThemeResource BrushLoadingNonTransparent}"
                           Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50"
@@ -867,7 +866,7 @@
             </Grid>
         </ScrollViewer>
 
-        <Grid Grid.ColumnSpan="2" Visibility="{Binding LoadingVisibility}"
+        <Grid Grid.ColumnSpan="2" Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoadingNonTransparent}"
               Margin="0,0,0,0">
             <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"

@@ -11,15 +11,21 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Managers;
+using MALClient.Adapters;
+using MALClient.Models.Enums;
+using MALClient.XShared.Delegates;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 using WinRTXamlToolkit.Imaging;
 
 namespace MalClient.Shared.ViewModels
 {
-    public class PinTileDialogViewModel : ViewModelBase
+    public class PinTileDialogViewModel : ViewModelBase , IPinTileService
     {
+        public event EmptyEventHander ShowPinDialog;
+        public event EmptyEventHander HidePinDialog;
+
         private Visibility _generalVisibility = Visibility.Collapsed;
 
         public Visibility GeneralVisibility
@@ -31,22 +37,16 @@ namespace MalClient.Shared.ViewModels
                 if (value == Visibility.Visible)
                 {
                     ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => GeneralVisibility = Visibility.Collapsed));
-                    ViewModelLocator.GeneralMain.View.PinDialogStoryboard.Begin();
+                    ShowPinDialog?.Invoke();
                     RaisePropertyChanged(() => GeneralVisibility);
                 }
                 else
                 {
-                    HidePinDialog();
+                    HidePinDialog?.Invoke();
                 }             
             }
         }
 
-        public async void HidePinDialog()
-        {
-            var sb = ViewModelLocator.GeneralMain.View.HidePinDialogStoryboard;
-            sb.Completed += SbOnCompleted;
-            sb.Begin();
-        }
 
 
         private Visibility _urlInputVisibility = Visibility.Visible;
@@ -251,11 +251,7 @@ namespace MalClient.Shared.ViewModels
         //    sb.Begin();
         //}
 
-        private void SbOnCompleted(object sender, object o)
-        {
-            (sender as Storyboard).Completed -= SbOnCompleted;
-            RaisePropertyChanged(() => GeneralVisibility);
-        }
+
 
         public void Load(AnimeItemViewModel data)
         {
@@ -315,7 +311,7 @@ namespace MalClient.Shared.ViewModels
             }
             catch (Exception)
             {
-                Utilities.GiveStatusBarFeedback("An error occured...");
+                UWPUtilities.GiveStatusBarFeedback("An error occured...");
             }
             IsCropEnabled = true;
         }
@@ -359,7 +355,7 @@ namespace MalClient.Shared.ViewModels
             }
             catch (Exception)
             {
-                Utilities.GiveStatusBarFeedback("An error occured...");
+                UWPUtilities.GiveStatusBarFeedback("An error occured...");
                 return null;
             }
 
@@ -425,9 +421,14 @@ namespace MalClient.Shared.ViewModels
             }
             catch (Exception)
             {
-                Utilities.GiveStatusBarFeedback("An error occured...");
+                UWPUtilities.GiveStatusBarFeedback("An error occured...");
             }           
             IsPinEnabled = true;
+        }
+
+        public void Load(object data)
+        {
+            Load(data as AnimeItemViewModel);
         }
     }
 }

@@ -12,19 +12,21 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.CommUtils;
-using MalClient.Shared.Comm.Manga;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
+using MalClient.Shared;
 using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.CommUtils;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
-using Settings = MalClient.Shared.Utils.Settings;
+using Settings = MALClient.XShared.Utils.Settings;
 
 namespace MALClient
 {
@@ -39,6 +41,7 @@ namespace MALClient
         /// </summary>
         public App()
         {
+            UWPViewModelLocator.RegisterDependencies();
             DesktopViewModelLocator.RegisterDependencies();
 #if !DEBUG
             HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
@@ -46,7 +49,7 @@ namespace MALClient
                 Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
             });
 #endif
-            Current.RequestedTheme = Settings.SelectedTheme;
+            Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
             InitializeComponent();
 
 
@@ -133,7 +136,7 @@ namespace MALClient
                 tb.ButtonBackgroundColor =
                     tb.InactiveBackgroundColor =
                         tb.ButtonInactiveBackgroundColor =
-                            Settings.SelectedTheme == ApplicationTheme.Dark
+                            Settings.SelectedTheme == (int)ApplicationTheme.Dark
                                 ? Color.FromArgb(255, 41, 41, 41)
                                 : Colors.White;
             ProcessUpdate();
@@ -153,7 +156,7 @@ namespace MALClient
             //    Settings.RatePopUpStartupCounter = 0;
             //}
 
-            ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
+            ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }
 
         private async void LaunchUri(string url)
@@ -165,7 +168,7 @@ namespace MALClient
             catch (Exception)
             {
                 //wrong url provided
-                Utilities.GiveStatusBarFeedback("Invalid target url...");
+                UWPUtilities.GiveStatusBarFeedback("Invalid target url...");
             }
         }
 

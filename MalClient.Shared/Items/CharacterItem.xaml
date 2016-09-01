@@ -4,12 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MalClient.Shared.Items"
     xmlns:ext="using:WinRTXamlToolkit.Controls.Extensions"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <xamlConverters:IsFavouriteToSymbolConverter x:Key="IsFavouriteToSymbolConverter"/>
+    </UserControl.Resources>
+    
     <Grid Height="325">
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="MenuFlyout">
@@ -42,7 +47,7 @@
                       Height="40" Width="40"
                       IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
                       IsEnabled="{Binding IsFavouriteButtonEnabled}">
-                <SymbolIcon Symbol="{Binding FavouriteSymbolIcon}" />
+                <SymbolIcon Symbol="{Binding IsFavourite,Converter={StaticResource IsFavouriteToSymbolConverter}}" />
                 <ToolTipService.ToolTip>
                     <ToolTip Content="Favourite" />
                 </ToolTipService.ToolTip>

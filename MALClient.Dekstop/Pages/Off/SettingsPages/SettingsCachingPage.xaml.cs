@@ -2,9 +2,9 @@
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MalClient.Shared.Models.Misc;
-using MalClient.Shared.Utils;
+using MALClient.Models.Models.Misc;
 using MALClient.ViewModels.Off;
+using MALClient.XShared.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -105,9 +105,14 @@ namespace MALClient.Pages.Off.SettingsPages
             }
         }
 
-        private void BtnCachedEntryRemove(object sender, RoutedEventArgs e)
+        private async void BtnCachedEntryRemove(object sender, RoutedEventArgs e)
         {
-            ViewModel.CachedEntries.Remove((sender as FrameworkElement).Tag as CachedEntryModel);
+            var entry = (sender as FrameworkElement).Tag as CachedEntryModel;
+            ViewModel.CachedEntries.Remove(entry);
+
+            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(entry.FileName);
+            await file.DeleteAsync();
+
         }
     }
 }

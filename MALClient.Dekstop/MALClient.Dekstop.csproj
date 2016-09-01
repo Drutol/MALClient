@@ -170,8 +170,8 @@
     <Compile Include="Pages\Main\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main\RecomendationsPage.xaml.cs">
-      <DependentUpon>RecomendationsPage.xaml</DependentUpon>
+    <Compile Include="Pages\Main\RecommendationsPage.xaml.cs">
+      <DependentUpon>RecommendationsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Off\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -308,7 +308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Main\RecomendationsPage.xaml">
+    <Page Include="Pages\Main\RecommendationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -406,9 +406,25 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MalClient.Shared\MALClient.Shared.csproj">
+    <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
+      <Project>{9f8e953e-47a6-4f72-a2fe-bef7a2dae850}</Project>
+      <Name>MALClient.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
+      <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
+      <Name>MALClient.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MalClient.Shared\MALClient.UWP.Shared.csproj">
       <Project>{fbd14ec9-e60e-4155-bd43-210f3096ca5a}</Project>
-      <Name>MALClient.Shared</Name>
+      <Name>MALClient.UWP.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.UWP.Adapters\MALClient.UWP.Adapters.csproj">
+      <Project>{7087a044-1675-413b-86c3-a0005c87b0b5}</Project>
+      <Name>MALClient.UWP.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
+      <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
+      <Name>MALClient.XShared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

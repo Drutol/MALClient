@@ -7,10 +7,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.UserControls;
-using MalClient.Shared.Utils.Enums;
 using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,8 +26,29 @@ namespace MALClient
         public MainPage()
         {
             InitializeComponent();
-            Loaded += (a1,a2) => MobileViewModelLocator.Main.View = this;
+            Loaded += (a1, a2) =>
+            {
+                MobileViewModelLocator.Main.View = this;
+                UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
+                {
+                    PinDialogStoryboard.Begin();
+                };
+                UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
+            };
             ViewModel.NavigationRequested += Navigate;
+        }
+
+
+        private void HidePinDialog()
+        {
+            HidePinDialogStoryboard.Completed += SbOnCompleted;
+            HidePinDialogStoryboard.Begin();
+        }
+
+        private void SbOnCompleted(object sender, object o)
+        {
+            (sender as Storyboard).Completed -= SbOnCompleted;
+            UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
         }
 
         public MainViewModel ViewModel => DataContext as MainViewModel;

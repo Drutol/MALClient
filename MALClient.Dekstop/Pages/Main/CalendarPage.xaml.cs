@@ -1,9 +1,10 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using MalClient.Shared.Utils.Managers;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
+using Windows.UI.Xaml.Navigation;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -17,10 +18,22 @@ namespace MALClient.Pages.Main
         public CalendarPage()
         {
             InitializeComponent();
-            Loaded += (a1, a2) => (DataContext as CalendarPageViewModel).Init();
-        }
+            Loaded += (a1, a2) => { (DataContext as CalendarPageViewModel).Init();
+            ViewModelLocator.CalendarPage.PivotSelectedIndexChange += CalendarPageOnPivotSelectedIndexChange;
+        };
+    }
 
-        private void ItemsViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+    private void CalendarPageOnPivotSelectedIndexChange()
+    {
+        RootPivot.SelectedIndex = ViewModelLocator.CalendarPage.CalendarPivotIndex;
+    }
+
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        ViewModelLocator.CalendarPage.PivotSelectedIndexChange -= CalendarPageOnPivotSelectedIndexChange;
+    }
+
+    private void ItemsViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             (e.ClickedItem as AnimeItemViewModel).NavigateDetails();
         }

@@ -1,9 +1,10 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using Settings = MalClient.Shared.Utils.Settings;
+using MalClient.Shared;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using Settings = MALClient.XShared.Utils.Settings;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,14 +32,14 @@ namespace MALClient.Pages.Off.SettingsPages
             ToggleSwitchSetup();
             ScrollViewer.Focus(FocusState.Pointer);
             ComboThemes.SelectedIndex = (int) Settings.SelectedTheme;
-            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != (int)Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (Settings.DefaultMenuTab == "anime")
                 RadioTabAnime.IsChecked = true;
             else
                 RadioTabManga.IsChecked = true;
-            ViewModelLocator.GeneralMain.CurrentOffStatus = $"Settings - {Utilities.GetAppVersion()}";
+            ViewModelLocator.GeneralMain.CurrentOffStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
             _initialized = true;
         }
 
@@ -121,8 +122,8 @@ namespace MALClient.Pages.Off.SettingsPages
 
         private void ChangeTheme(object sender, SelectionChangedEventArgs e)
         {
-            Settings.SelectedTheme = (ApplicationTheme) ComboThemes.SelectedIndex;
-            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+            Settings.SelectedTheme = ComboThemes.SelectedIndex;
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != (int)Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }

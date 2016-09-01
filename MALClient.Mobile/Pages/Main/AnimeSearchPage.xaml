@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MalClient.Shared.Items"
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
@@ -14,7 +15,7 @@
     
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid>
-            <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItems}"
+            <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
                       SelectedItem="{Binding CurrentlySelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,5,0,0" SelectionMode="Single"
                       Padding="0">
@@ -27,6 +28,11 @@
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <items:AnimeSearchItem DataContext="{Binding}"/>
+                    </DataTemplate>                   
+                </ListView.ItemTemplate>
             </ListView>
             <StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
                 <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">

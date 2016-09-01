@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
 using MALClient.ViewModels;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+
 namespace MALClient.Utils
 {
     /// <summary>
@@ -34,7 +34,7 @@ namespace MALClient.Utils
                 _currentOverride.Execute(null);
                 _currentOverride = null;
                 if (_randomNavigationStackMain.Count == 0)
-                    ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+                    ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
                 e.Handled = true;
                 return;
             }
@@ -45,7 +45,7 @@ namespace MALClient.Utils
             var data = _randomNavigationStackMain.Pop();
             ViewModelLocator.GeneralMain.Navigate(data.Item1, data.Item2);
             if (_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
             e.Handled = true;
         }
 
@@ -78,39 +78,39 @@ namespace MALClient.Utils
         {
             _randomNavigationStackMain.Clear();
             _currentOverride = null;
-            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Collapsed;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
         }
 
         public void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout)
         {
             _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
-            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
         }
 
         public void RegisterOneTimeOverride(ICommand command)
         {
             _currentOverride = command;
-            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+            ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;
         }
 
         public void ResetOneTimeOverride()
         {
             _currentOverride = null;
             if (_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;
         }
 
         public void RegisterOneTimeMainOverride(ICommand command)
         {
             _currentOverride = command;
-            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
         }
 
         public void ResetOneTimeMainOverride()
         {
             _currentOverride = null;
             if (_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = Visibility.Visible;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
         }
 
         public void CurrentMainViewOnBackRequested()

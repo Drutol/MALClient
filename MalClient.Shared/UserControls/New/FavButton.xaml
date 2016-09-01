@@ -4,13 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <conv:IsFavouriteToSymbolConverter x:Key="FavouriteToSymbolConverter"/>
+    </UserControl.Resources>
     <ToggleButton x:Name="Root" Padding="0" Margin="0" Height="40" Width="40" Background="Transparent"
                               IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
                               IsEnabled="{Binding IsFavouriteButtonEnabled}">
-        <SymbolIcon Symbol="{Binding FavouriteSymbolIcon,FallbackValue=None}" />
+        <SymbolIcon Symbol="{Binding IsFavourite,Converter={StaticResource FavouriteToSymbolConverter},FallbackValue=None}" />
         <ToolTipService.ToolTip>
             <ToolTip Content="Favourite"/>
         </ToolTipService.ToolTip>

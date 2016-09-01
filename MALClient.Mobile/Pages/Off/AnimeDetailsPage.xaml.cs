@@ -4,10 +4,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Comm;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.ViewModels;
+using MALClient.Models.Enums;
+using MALClient.XShared.Comm;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Details;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -94,7 +96,7 @@ namespace MALClient.Pages.Off
 
         private void Image_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.ImageOverlayVisibility = Visibility.Visible;
+            ViewModel.ImageOverlayVisibility = false;
         }
 
         private void ScrollViewer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -107,35 +109,35 @@ namespace MALClient.Pages.Off
             (sender as ScrollViewer).ZoomToFactor((float) .5);
         }
 
-        private void AlternateImage_OnImageOpened(object sender, RoutedEventArgs e)
-        {
-            AlternateImgScrollViewer.ZoomToFactor((float) .5);
-            CurrentImgDimesnions.Text =
-                $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
-        }
+        //private void AlternateImage_OnImageOpened(object sender, RoutedEventArgs e)
+        //{
+        //    AlternateImgScrollViewer.ZoomToFactor((float) .5);
+        //    CurrentImgDimesnions.Text =
+        //        $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
+        //}
 
-        private void MalImage_OnImageOpened(object sender, RoutedEventArgs e)
-        {
-            StockImgScrollViewer.ZoomToFactor(Settings.SelectedApiType == ApiType.Mal ? 1 : 0.5f);
-            CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
-        }
+        //private void MalImage_OnImageOpened(object sender, RoutedEventArgs e)
+        //{
+        //    StockImgScrollViewer.ZoomToFactor(Settings.SelectedApiType == ApiType.Mal ? 1 : 0.5f);
+        //    CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
+        //}
 
-        private void ImagePivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if ((sender as FlipView).SelectedIndex == 0 && ViewModel?.DetailImage != null)
-                    CurrentImgDimesnions.Text =
-                        $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
-                else if (ViewModel?.HummingbirdImage != null)
-                    CurrentImgDimesnions.Text =
-                        $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
-            }
-            catch (Exception)
-            {
-                //voodoo
-            }
-        }
+        //private void ImagePivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if ((sender as FlipView).SelectedIndex == 0 && ViewModel?.DetailImage != null)
+        //            CurrentImgDimesnions.Text =
+        //                $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
+        //        else if (ViewModel?.HummingbirdImage != null)
+        //            CurrentImgDimesnions.Text =
+        //                $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //voodoo
+        //    }
+        //}
 
         private void StartDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {

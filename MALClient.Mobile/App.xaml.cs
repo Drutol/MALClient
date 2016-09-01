@@ -14,16 +14,18 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.Comm.CommUtils;
-using MalClient.Shared.Comm.Manga;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
+using MalClient.Shared;
 using MalClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.ViewModels;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.CommUtils;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
 
 namespace MALClient
@@ -46,7 +48,8 @@ namespace MALClient
             });
 #endif
             MobileViewModelLocator.RegisterDependencies();
-            Current.RequestedTheme = Settings.SelectedTheme;
+            UWPViewModelLocator.RegisterDependencies();
+            Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -142,7 +145,7 @@ namespace MALClient
             //    Settings.RatePopUpStartupCounter = 0;
             //}
 
-            ApplicationData.Current.LocalSettings.Values["AppVersion"] = Utilities.GetAppVersion();
+            ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }
 
         private void ProcessStatusBar()
@@ -184,8 +187,8 @@ namespace MALClient
             }
             catch (Exception)
             {
-               //wrong url provided
-               Utilities.GiveStatusBarFeedback("Invalid target url...");
+                //wrong url provided
+                UWPUtilities.GiveStatusBarFeedback("Invalid target url...");
             }
 
         }

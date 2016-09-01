@@ -169,7 +169,7 @@
                 <Frame x:Name="MainContent" />
             </SplitView.Content>
         </SplitView>
-        <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding PinDialogViewModel}"
+        <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
               Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">

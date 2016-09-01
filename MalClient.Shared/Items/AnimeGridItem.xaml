@@ -9,23 +9,30 @@
     xmlns:attachedProperties="using:MalClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400" ManipulationMode="{Binding ItemManipulationMode}"
+    d:DesignWidth="400"
     PointerReleased="AnimeGridItem_OnPointerReleased" ManipulationCompleted="AnimeGridItem_OnManipulationCompleted"
     PointerMoved="AnimeGridItem_OnPointerMoved" ManipulationStarted="AnimeGridItem_OnManipulationStarted">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+            <xamlConverters:BoolToAnimeItemManipulationModesConverter x:Key="BoolToAnimeItemManipulationModesConverter" />
             <Storyboard x:Name="GoBackStoryboard" TargetName="TranslateTransformSwipe" TargetProperty="X"
                         SpeedRatio="5">
                 <DoubleAnimation To="0" Completed="Timeline_OnCompleted" />
             </Storyboard>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <xamlConverters:AnimeItemAirDayBoolToBrushConverter x:Key="AnimeItemAirDayBoolToBrushConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/Controlstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
+    <UserControl.ManipulationMode>
+        <Binding Converter="{StaticResource BoolToAnimeItemManipulationModesConverter}" Path="AllowItemManipulation"/>
+    </UserControl.ManipulationMode>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -72,7 +79,7 @@
                 </Image.Source>-->
             </Image>
             <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
-                  Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay}">
+                  Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>
@@ -91,7 +98,7 @@
                     <TextBlock Text="{x:Bind ViewModel.MyScoreBindShort,Mode=OneWay}" Foreground="White"
                                FontWeight="SemiLight" Margin="0,5,0,0"
                                HorizontalAlignment="Center" />
-                    <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="White" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay}"/>
+                    <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="White" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" MinWidth="40" MaxWidth="70" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -105,7 +112,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{x:Bind ViewModel.TopLeftInfoBind,Mode=OneWay}" FontWeight="SemiLight" VerticalAlignment="Center"
                        HorizontalAlignment="Center" Margin="2,1,2,1" TextAlignment="Center"
-                       Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay}" FontSize="20" />
+                       Foreground="{x:Bind ViewModel.AirDayBrush,Mode=OneWay,Converter={StaticResource AnimeItemAirDayBoolToBrushConverter}}" FontSize="20" />
                 <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter}}" FontWeight="SemiLight" 
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        Foreground="LightGray" FontSize="14" FontStyle="Italic" />
@@ -129,12 +136,12 @@
                 <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
                            TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
                 <ProgressBar Margin="0,2" IsIndeterminate="True" Grid.Column="0" Grid.ColumnSpan="2"
-                             Visibility="{x:Bind ViewModel.LoadingUpdate,Mode=OneWay}"
+                             Visibility="{x:Bind ViewModel.LoadingUpdate,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
                              VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
                 <Button Grid.Column="1" HorizontalAlignment="Center" Margin="1,1,0,0" VerticalAlignment="Center" Height="45" Width="45"
                         RenderTransformOrigin="0.5,0.5"
                         Command="{x:Bind ViewModel.AddAnimeCommand,Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                     <SymbolIcon Symbol="Add" />
@@ -143,7 +150,7 @@
                     </Button.RenderTransform>
                 </Button>
                 <Button Width="35" Height="35" Foreground="{ThemeResource BrushText}" Padding="0" Grid.Column="1" HorizontalAlignment="Center" Background="Transparent"
-                        VerticalAlignment="Bottom" Margin="0,0,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay}">
+                        VerticalAlignment="Bottom" Margin="0,0,2,2" Visibility="{x:Bind ViewModel.TagsControlVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                     <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                     <Button.Flyout>
                         <Flyout>

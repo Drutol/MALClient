@@ -10,14 +10,14 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 using Microsoft.Services.Store.Engagement;
-using Settings = MalClient.Shared.Utils.Settings;
+using Settings = MALClient.XShared.Utils.Settings;
 
 #pragma warning disable 4014
 
@@ -59,7 +59,7 @@ namespace MALClient.UserControls.New
                     ButtonExpandTopCategoriesOnClick(null, null);
             }
 
-            FeedbackImage.Source = Settings.SelectedTheme == ApplicationTheme.Dark
+            FeedbackImage.Source = Settings.SelectedTheme == (int)ApplicationTheme.Dark
                 ? new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-Light-120px-plus.png"))
                 : new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-120px-plus.png"));
         }

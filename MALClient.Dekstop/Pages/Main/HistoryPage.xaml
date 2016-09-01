@@ -7,8 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:items="using:MalClient.Shared.Items"
     xmlns:derived="using:MalClient.Shared.UserControls.Derived"
+    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=History}">
 
+    <Page.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding History}" VerticalAlignment="Top">
@@ -74,11 +78,11 @@
             </ItemsControl>
         </ScrollViewer>
         <TextBlock
-                Visibility="{Binding HistoryEmptyNoticeVisibility}"
+                Visibility="{Binding HistoryEmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                 Text="Empty..." HorizontalAlignment="Center" VerticalAlignment="Center"
                 TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#B9B9B9" />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding LoadingVisibility}"
+              Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"

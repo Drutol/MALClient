@@ -15,15 +15,17 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Anime;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.ViewModels;
-using MalClient.Shared.ViewModels.Main;
+using MalClient.Shared;
+using MALClient.Models.Enums;
 using MALClient.Pages;
 using MALClient.UserControls;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 using Microsoft.Services.Store.Engagement;
 
 namespace MALClient.ViewModels
@@ -236,7 +238,7 @@ namespace MALClient.ViewModels
                 {
                     UserImage = new BitmapImage();
                     if (dl)
-                        await Utilities.DownloadProfileImg();
+                        await UWPUtilities.DownloadProfileImg();
                     else
                         UsrImgPlaceholderVisibility = Visibility.Visible;
                 }
@@ -310,7 +312,7 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 
-        public Visibility MangaSectionVisbility { get; set; }
+        public bool MangaSectionVisbility { get; set; }
 
         public void SetActiveButton(TopAnimeType topType)
         {

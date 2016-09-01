@@ -1,8 +1,9 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
+using MalClient.Shared;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,14 +30,14 @@ namespace MALClient.Pages.Off.SettingsPages
             SetDesiredStatus();
             ToggleSwitchSetup();
             ComboThemes.SelectedIndex = (int)Settings.SelectedTheme;
-            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != (int)Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (Settings.DefaultMenuTab == "anime")
                 RadioTabAnime.IsChecked = true;
             else
                 RadioTabManga.IsChecked = true;
-            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {Utilities.GetAppVersion()}";
+            MobileViewModelLocator.Main.CurrentStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
             _initialized = true;
 
         }
@@ -121,8 +122,8 @@ namespace MALClient.Pages.Off.SettingsPages
 
         private void ChangeTheme(object sender, SelectionChangedEventArgs e)
         {
-            Settings.SelectedTheme = (ApplicationTheme)ComboThemes.SelectedIndex;
-            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != Application.Current.RequestedTheme
+            Settings.SelectedTheme = ComboThemes.SelectedIndex;
+            TxtThemeChangeNotice.Visibility = Settings.SelectedTheme != (int)Application.Current.RequestedTheme
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }

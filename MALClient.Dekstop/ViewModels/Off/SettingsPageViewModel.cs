@@ -10,19 +10,20 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.Comm;
-using MalClient.Shared.Comm.Profile;
-using MalClient.Shared.Models.Anime;
-using MalClient.Shared.Models.Misc;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
-using MalClient.Shared.ViewModels;
+using MALClient.Models.Enums;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.Misc;
 using MALClient.Pages.Off;
 using MALClient.Pages.Off.SettingsPages;
+using MALClient.XShared.Comm;
+using MALClient.XShared.Comm.Profile;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 using LogInPage = MALClient.Pages.Main.LogInPage;
-using Settings = MalClient.Shared.Utils.Settings;
+using Settings = MALClient.XShared.Utils.Settings;
 
 namespace MALClient.ViewModels.Off
 {
@@ -337,9 +338,7 @@ namespace MALClient.ViewModels.Off
             get { return Settings.HamburgerHideMangaSection; }
             set
             {
-                ViewModelLocator.GeneralHamburger.MangaSectionVisbility = value
-                    ? Visibility.Collapsed
-                    : Visibility.Visible;
+                ViewModelLocator.GeneralHamburger.MangaSectionVisbility = !value;
                 Settings.HamburgerHideMangaSection = value;
             }
         }

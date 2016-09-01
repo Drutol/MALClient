@@ -9,17 +9,16 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MalClient.Shared.Items;
-using MalClient.Shared.Models;
-using MalClient.Shared.NavArgs;
-using MalClient.Shared.Utils;
-using MalClient.Shared.Utils.Enums;
-using MalClient.Shared.Utils.Managers;
-using MalClient.Shared.ViewModels;
+using MALClient.Models.Models;
 using MALClient.ViewModels;
-using MALClient.ViewModels.Main;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 using WinRTXamlToolkit.Controls.Extensions;
 using WinRTXamlToolkit.Tools;
-using ProfilePageNavigationArgs = MalClient.Shared.NavArgs.ProfilePageNavigationArgs;
+using ProfilePageNavigationArgs = MALClient.XShared.NavArgs.ProfilePageNavigationArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -56,11 +55,11 @@ namespace MALClient.Pages.Main
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == ApplicationTheme.Dark ? "white" : "black").Replace(
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
                         "HorizontalSeparatorColor",
-                        Settings.SelectedTheme == ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
+                        Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
             css += "</style>";
             if (content.Length < 400)
                 AboutMeWebView.Height = 300;

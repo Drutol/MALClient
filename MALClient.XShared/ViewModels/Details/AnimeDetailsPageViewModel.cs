@@ -1765,7 +1765,7 @@ namespace MALClient.XShared.ViewModels.Details
             Title = _animeItemReference?.Title ?? data.Title;
             Type = data.Type;
             Status = data.Status;
-            Synopsis = data.Synopsis.Replace("quot;", "\"").Replace("ndash;","-");
+            Synopsis = data.Synopsis;
             StartDate = data.StartDate;
             EndDate = data.EndDate;
             GlobalScore = data.GlobalScore;

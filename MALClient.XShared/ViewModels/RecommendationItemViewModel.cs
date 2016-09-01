@@ -75,9 +75,9 @@ namespace MALClient.XShared.ViewModels
             var myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.RecommendationId);
 
             DetailItems.Add(new Tuple<string, string, string, string, string>("Episodes:",
-                Data.AnimeDependentData.AllEpisodes.ToString(),
+                Data.AnimeDependentData.AllEpisodes != 0 ? Data.AnimeDependentData.AllEpisodes.ToString() : "?",
                 myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{Data.AnimeDependentData.AllEpisodes}",
-                Data.AnimeRecommendationData.AllEpisodes.ToString(),
+                Data.AnimeRecommendationData.AllEpisodes != 0 ? Data.AnimeRecommendationData.AllEpisodes.ToString() : "?",
                 myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{Data.AnimeRecommendationData.AllEpisodes}"));
             DetailItems.Add(new Tuple<string, string, string, string, string>("Score:",
                 Data.AnimeDependentData.GlobalScore.ToString(),

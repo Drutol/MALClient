@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace MALClient.Models.Models.Anime
@@ -39,6 +40,11 @@ namespace MALClient.Models.Models.Anime
             Type = xmlObj.Element("type").Value;
             Status = xmlObj.Element("status").Value;
             Synopsis = xmlObj.Element("synopsis").Value;
+            //Synopsis cleaning
+            Synopsis = Synopsis.Replace("&quot;", "\"").Replace("&ndash;", "-").Replace("&rdquo;", "\"").Replace("&ldquo;", "\"").Replace("&#039;","'").Replace("&amp;","&").Replace("&mdash;","-");
+            Synopsis = Regex.Replace(Synopsis, @"\[[^\]]*\]", string.Empty); //get rid of bbcode
+
+
             StartDate = xmlObj.Element("start_date").Value;
             EndDate = xmlObj.Element("end_date").Value;
             ImgUrl = xmlObj.Element("image").Value;

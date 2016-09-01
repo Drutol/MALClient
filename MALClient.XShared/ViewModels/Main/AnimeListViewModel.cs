@@ -396,7 +396,7 @@ namespace MALClient.XShared.ViewModels.Main
                         break;
                     case SortOptions.SortScore:
                         if (WorkMode != AnimeListWorkModes.SeasonalAnime)
-                            items = items.OrderBy(item => item.MyScore);
+                            items = items.OrderBy(item => item.MyScore).ThenByDescending(item => item.Title);
                         else
                             items = items.OrderBy(item => item.GlobalScore);
                         break;

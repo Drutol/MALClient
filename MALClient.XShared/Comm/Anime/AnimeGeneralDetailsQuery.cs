@@ -31,8 +31,8 @@ namespace MALClient.XShared.Comm.Anime
                             ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false)
                             : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
                         data = WebUtility.HtmlDecode(data);
-
-                        data = data.Replace("&mdash", "").Replace("&rsquo", "").Replace("&", ""); //unparsable stuff ahaead
+                        
+                        //data = data.Replace("&mdash", "-").Replace("&", ""); //unparsable stuff ahaead
                         var parsedData = XDocument.Parse(data);
                                             
                         var elements = parsedData.Element(animeMode ? "anime" : "manga").Elements("entry");

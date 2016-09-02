@@ -53,8 +53,8 @@
                     <RowDefinition Height="260"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <TextBlock Margin="5" TextWrapping="WrapWholeWords" Text="{Binding Data.Content}"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock Margin="5,5,16,5" TextWrapping="WrapWholeWords" Text="{Binding Data.Content}"/>
                 </ScrollViewer>
                 <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Margin="0,5,0,0" Height="36" HorizontalAlignment="Stretch"

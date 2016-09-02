@@ -34,12 +34,12 @@ namespace MalClient.Shared.Items
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
         {
-            if (_wide && sizeChangedEventArgs.NewSize.Width < 900)
+            if (_wide && sizeChangedEventArgs.NewSize.Width < 1000)
             {
                 _wide = false;
                 VisualStateManager.GoToState(this, "Narrow",false);
             }
-            else if(!_wide && sizeChangedEventArgs.NewSize.Width > 900)
+            else if(!_wide && sizeChangedEventArgs.NewSize.Width > 1000)
             {
                 _wide = true;
                 VisualStateManager.GoToState(this, "Wide", false);
@@ -52,7 +52,7 @@ namespace MalClient.Shared.Items
         {
             try
             {
-                _wide = ActualWidth > 900;
+                _wide = ActualWidth > 1000;
                 VisualStateManager.GoToState(this, _wide ? "Wide" : "Narrow", false);
             }
             catch (Exception)

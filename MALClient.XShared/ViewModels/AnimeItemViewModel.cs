@@ -656,7 +656,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private bool _updateButtonsVisibility;
+        private bool _updateButtonsVisibility = true;
 
         public bool UpdateButtonsVisibility
         {

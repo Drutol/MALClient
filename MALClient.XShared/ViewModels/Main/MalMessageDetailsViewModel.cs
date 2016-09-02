@@ -84,6 +84,11 @@ namespace MALClient.XShared.ViewModels.Main
         private MalMessageModel _prevMsg;
         private MalMessageDetailsNavArgs _prevArgs;
 
+        public MalMessageDetailsViewModel()
+        {
+            MessageSet.CollectionChanged += (a, e) => RaisePropertyChanged(() => MessageSet);
+        }
+
         public async void Init(MalMessageDetailsNavArgs args)
         {
             if (args.WorkMode == MessageDetailsWorkMode.Message)

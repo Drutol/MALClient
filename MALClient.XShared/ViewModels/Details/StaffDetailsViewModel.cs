@@ -20,6 +20,8 @@ namespace MALClient.XShared.ViewModels.Details
         private ICommand _navigateCharacterDetailsCommand;
         private bool _loading;
         private ICommand _openInMalCommand;
+        private bool _isNoVoiceActingRolesNoticeVisible;
+        private bool _isNoProductionRolesNoticeVisible;
 
         public event PivotItemSelectionRequest OnPivotItemSelectionRequest;
 
@@ -75,6 +77,25 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
+        public bool IsNoVoiceActingRolesNoticeVisible
+        {
+            get { return _isNoVoiceActingRolesNoticeVisible; }
+            set
+            {
+                _isNoVoiceActingRolesNoticeVisible = value;
+                RaisePropertyChanged(() => IsNoVoiceActingRolesNoticeVisible);
+            }
+        }
+
+        public bool IsNoProductionRolesNoticeVisible
+        {
+            get { return _isNoProductionRolesNoticeVisible; }
+            set
+            {
+                _isNoProductionRolesNoticeVisible = value;
+                RaisePropertyChanged(() => IsNoProductionRolesNoticeVisible);
+            }
+        }
 
 
         public async void Init(StaffDetailsNaviagtionArgs args, bool force = false)
@@ -89,8 +110,12 @@ namespace MALClient.XShared.ViewModels.Details
             Loading = true;
             _prevArgs = args;
             Data = await new StaffDetailsQuery(args.Id).GetStaffDetails(force);
-            if(Data.ShowCharacterPairs.Count == 0)
+            if (Data.ShowCharacterPairs.Count == 0)
+            {
+                IsNoVoiceActingRolesNoticeVisible = true;
                 OnPivotItemSelectionRequest?.Invoke(1);
+            }
+            IsNoProductionRolesNoticeVisible = Data.StaffPositions.Count == 0;
             ViewModelLocator.GeneralMain.CurrentOffStatus = Data.Name;
             ViewModelLocator.GeneralMain.IsCurrentStatusSelectable = true;
             Loading = false;

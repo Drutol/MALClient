@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -61,128 +62,142 @@
                 </Button>
             </Grid>
         </Grid>
-        <Pivot x:Name="Pivot" Grid.Row="1" VerticalAlignment="Top" Padding="0" Margin="0" Style="{StaticResource PivotStyleOuterProfilePage}">
+        <Pivot x:Name="Pivot" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource PivotStyleOuterProfilePage}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}"/>
             </Pivot.Resources>
-            <PivotItem Header="Voiceacting Roles" Padding="0" Margin="0">
+            <PivotItem Header="Voice Acting Roles" Padding="0" Margin="0">
                 <PivotItem.Content>
-                    <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Data.ShowCharacterPairs}" VerticalAlignment="Stretch">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid ItemHeight="270" ItemWidth="266"
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30"
+                            Visibility="{Binding IsNoVoiceActingRolesNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
+                            Text="This person didn't voice any characters yet..."
+                            TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
+                        <ScrollViewer Visibility="{Binding IsNoVoiceActingRolesNoticeVisible,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                            <ItemsControl ItemsSource="{Binding Data.ShowCharacterPairs}" VerticalAlignment="Stretch">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsWrapGrid ItemHeight="270" ItemWidth="266"
                                       MaximumRowsOrColumns="2" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Margin" Value="2,4"/>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="130"/>
-                                            <ColumnDefinition Width="130"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Margin" Value="2,4"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Grid.Column="0" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                         Command="{Binding Source={StaticResource Locator},Path=StaffDetails.NavigateAnimeDetailsCommand}" 
                                         CommandParameter="{Binding AnimeLightEntry}">
-                                            <Grid DataContext="{Binding AnimeLightEntry}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="210"/>
-                                                    <RowDefinition Height="60"/>
-                                                </Grid.RowDefinitions>
-                                                <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
+                                                <Grid DataContext="{Binding AnimeLightEntry}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="210"/>
+                                                        <RowDefinition Height="60"/>
+                                                    </Grid.RowDefinitions>
+                                                    <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                <Image Stretch="Fill">
-                                                    <Image.Source>
-                                                        <BitmapImage DecodePixelType="Logical" DecodePixelHeight="210" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                                                    </Image.Source>
-                                                </Image>
-                                                <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
-                                                    <TextBlock Text="{Binding Title}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2" FontWeight="Medium"/>
+                                                    <Image Stretch="Fill">
+                                                        <Image.Source>
+                                                            <BitmapImage DecodePixelType="Logical" DecodePixelHeight="210" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
+                                                        </Image.Source>
+                                                    </Image>
+                                                    <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                        <TextBlock Text="{Binding Title}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2" FontWeight="Medium"/>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                        </Button>
-                                        <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                            </Button>
+                                            <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                         Command="{Binding Source={StaticResource Locator},Path=StaffDetails.NavigateCharacterDetailsCommand}" 
                                         CommandParameter="{Binding AnimeCharacter}">
-                                            <Grid DataContext="{Binding AnimeCharacter}" HorizontalAlignment="Stretch"> 
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="210"/>
-                                                    <RowDefinition Height="60"/>
-                                                </Grid.RowDefinitions>
-                                                <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center" />
-                                                <Image Stretch="Fill">
-                                                    <Image.Source>
-                                                        <BitmapImage DecodePixelType="Logical" DecodePixelHeight="210" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                                                    </Image.Source>
-                                                </Image>
-                                                <Grid Grid.Row="1" Width="133" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                <Grid DataContext="{Binding AnimeCharacter}" HorizontalAlignment="Stretch">
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="210"/>
+                                                        <RowDefinition Height="60"/>
                                                     </Grid.RowDefinitions>
-                                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Medium"/>
-                                                    <TextBlock Grid.Row="1" Text="{Binding Notes}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                                                    <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center" />
+                                                    <Image Stretch="Fill">
+                                                        <Image.Source>
+                                                            <BitmapImage DecodePixelType="Logical" DecodePixelHeight="210" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
+                                                        </Image.Source>
+                                                    </Image>
+                                                    <Grid Grid.Row="1" Width="133" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Medium"/>
+                                                        <TextBlock Grid.Row="1" Text="{Binding Notes}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                        </Button>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                    
                 </PivotItem.Content>
             </PivotItem>
             <PivotItem Header="Production Roles" Padding="0" Margin="0">
                 <PivotItem.Content>
-                    <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding  Data.StaffPositions}" VerticalAlignment="Stretch">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapGrid ItemHeight="290" ItemWidth="170"
+                    <Grid>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Visibility="{Binding IsNoProductionRolesNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
+                            Text="This person had no production roles yet..."
+                            TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
+                        <ScrollViewer Visibility="{Binding IsNoProductionRolesNoticeVisible,Converter={StaticResource BoolToVisibilityInvertedConverter}}"> 
+                            <ItemsControl ItemsSource="{Binding  Data.StaffPositions}" VerticalAlignment="Stretch">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapGrid ItemHeight="290" ItemWidth="170"
                                       MaximumRowsOrColumns="3" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Margin" Value="2,4"/>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Margin" Value="2,4"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                         Command="{Binding Source={StaticResource Locator},Path=StaffDetails.NavigateAnimeDetailsCommand}" 
                                         CommandParameter="{Binding}">
-                                        <Grid Width="170">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="230"/>
-                                                <RowDefinition Height="60"/>
-                                            </Grid.RowDefinitions>
-                                            <Image Stretch="Fill">
-                                                <Image.Source>
-                                                    <BitmapImage DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                                                </Image.Source>
-                                            </Image>
-                                            <Grid Height="60" Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                            <Grid Width="170">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="230"/>
+                                                    <RowDefinition Height="60"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Medium"/>
-                                                <TextBlock Grid.Row="1" Text="{Binding Notes}" TextTrimming="CharacterEllipsis"/>
+                                                <Image Stretch="Fill">
+                                                    <Image.Source>
+                                                        <BitmapImage DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
+                                                    </Image.Source>
+                                                </Image>
+                                                <Grid Height="60" Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Medium"/>
+                                                    <TextBlock Grid.Row="1" Text="{Binding Notes}" TextTrimming="CharacterEllipsis"/>
+                                                </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                    
                 </PivotItem.Content>
             </PivotItem>
         </Pivot>

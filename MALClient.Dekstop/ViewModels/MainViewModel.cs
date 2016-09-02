@@ -215,7 +215,6 @@ namespace MALClient.ViewModels
                     NavigateSearch(args);
                     break;
                 case PageIndex.PageLogIn:
-                    HideSearchStuff();
                     OffContentVisibility = true;
                     OffNavigationRequested?.Invoke(typeof(LogInPage));
                     break;

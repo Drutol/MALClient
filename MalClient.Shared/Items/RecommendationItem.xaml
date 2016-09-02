@@ -18,9 +18,6 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="900"/>
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="DetailsListView.ItemTemplate">
                             <Setter.Value>
@@ -67,11 +64,8 @@
                             </Setter.Value>
                         </Setter>
                     </VisualState.Setters>
-                </VisualState>                
+                </VisualState>
                 <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="DetailsListView.ItemTemplate">
                             <Setter.Value>

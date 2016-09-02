@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -68,7 +69,12 @@
                 </Pivot.Resources>
                 <PivotItem Header="Voiceacting Roles" Padding="0" Margin="0">
                     <PivotItem.Content>
-                        <ItemsControl ItemsSource="{Binding Data.ShowCharacterPairs}" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30"
+                            Visibility="{Binding IsNoVoiceActingRolesNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
+                            Text="This person didn't voice any characters yet..."
+                            TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
+                            <ItemsControl  Visibility="{Binding IsNoVoiceActingRolesNoticeVisible,Converter={StaticResource BoolToVisibilityInvertedConverter}}" ItemsSource="{Binding Data.ShowCharacterPairs}" VerticalAlignment="Stretch" HorizontalAlignment="Center">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapGrid ItemHeight="270" ItemWidth="266"
@@ -136,11 +142,17 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </Grid>
                     </PivotItem.Content>
                 </PivotItem>
                 <PivotItem Header="Production Roles" Padding="0" Margin="0">
                     <PivotItem.Content>
-                        <ItemsControl ItemsSource="{Binding  Data.StaffPositions}" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Visibility="{Binding IsNoProductionRolesNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
+                            Text="This person had no production roles yet..."
+                            TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
+                            <ItemsControl Visibility="{Binding IsNoProductionRolesNoticeVisible,Converter={StaticResource BoolToVisibilityInvertedConverter}}" ItemsSource="{Binding  Data.StaffPositions}" VerticalAlignment="Stretch" HorizontalAlignment="Center">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapGrid ItemHeight="290" ItemWidth="170"
@@ -180,6 +192,7 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </Grid>
                     </PivotItem.Content>
                 </PivotItem>
             </Pivot>

@@ -11,7 +11,7 @@ using MALClient.XShared.Utils;
 
 namespace MalClient.Shared.XamlConverters
 {
-    public class MessageEntryToVIewModelConverter : IValueConverter
+    public class MessageEntryToViewModelConverter : IValueConverter
     {
         public class MessageEntry
         {

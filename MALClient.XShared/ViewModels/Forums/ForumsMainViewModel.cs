@@ -70,9 +70,13 @@ namespace MALClient.XShared.ViewModels.Forums
             NavigationRequested?.Invoke((int)args.Page, args);
         }
 
+        private bool _pinnedTopicsLoaded;
 
         public async void LoadPinnedTopics()
         {
+            if(_pinnedTopicsLoaded)
+                return;
+            _pinnedTopicsLoaded = true;
             foreach (var item in (await ResourceLocator.DataCacheService.RetrieveDataRoaming<List<ForumTopicLightEntry>>("pinned_forum_topics.json", -1)) ?? new List<ForumTopicLightEntry>())
             {
                 PinnedTopics.Add(item);

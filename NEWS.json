@@ -1,5 +1,11 @@
 [
   {
+    "Title": "What's going on?",
+    "Date": "03.09.2016",
+    "Type": "Development",
+    "Content": "I'm currently rewriting behind the scenes systems and I'm cleaning up codebase in general. So there's going to be a little decline in updates feature-wise in the coming weeks. Don't worry! I still have big plans for notifications and such :) I'm also preparing to go multiplatform and with the beginning of October I'm planning to begin Android development. I hope to release an update next week with bugfixes but we'll see how it goes."
+  },
+  {
     "Title": "Mal has gone https...",
     "Date": "24.08.2016",
     "Type": "Distater",
@@ -12,34 +18,5 @@
     "Type": "Updates",
     "Content": "Lots of stuff is coming in next week's update! Character&Staff details, about section in profile, custom anime seasons, better quality show covers, new anime details tab and improved log-in page. I'll be uploading test builds over next few days... if you want to help you can find more info on github :)"
   },
-  {
-    "Title": "Mal is going https...",
-    "Date": "17.08.2016",
-    "Type": "Info",
-    "Content": "MAL is switching from http to https... You can expect some features to break, I'll do my best to issue an update asap."
-  },
-  {
-    "Title": "Forums are coming this week!",
-    "Date": "10.08.2016",
-    "Type": "Updates",
-    "Content": "Forums Beta are coming later this week, with fair share of fixes accross whole app :) Preview versions are as always available on github."
-  },
-  {
-    "Title": "Screw ads!",
-    "Date": "05.08.2016",
-    "Type": "Like, really...",
-    "Content": "I was going to add them but this is pure mess. I'm going to encourage dontations though. Instead of losing my time with them I'll finish up forums :D"
-  },
-  {
-    "Title": "Monetization discussion.",
-    "Date": "02.08.2016",
-    "Type": "Info",
-    "Content": "I want to introduce some form of monetization, if you'd like to make a suggestion feel free to post on github."
-  },
-  {
-    "Title": "Forums!",
-    "Date": "24.07.2016",
-    "Type": "Info",
-    "Content": "Forums are now in development, it's pretty hard and WILL take some time but I have the basics figured out :) Screenshots on github (TODO issue)."
-  },
+
 ]

@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     internal class DivideValueConverter : IValueConverter
     {

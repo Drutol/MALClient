@@ -6,9 +6,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.UserControls;
-using MalClient.Shared.ViewModels;
+using MALClient.Shared.UserControls;
+using MALClient.Shared.ViewModels;
 using MALClient.Pages;
+using MALClient.Shared.ViewModels.Interfaces;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -35,7 +36,7 @@ namespace MALClient
                 };
                 UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
             };
-            ViewModel.NavigationRequested += Navigate;
+            ViewModel.MainNavigationRequested += Navigate;
         }
 
 
@@ -92,7 +93,7 @@ namespace MALClient
 
         private void CurrentStatus_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            if (ViewModel.LastIndex == PageIndex.PageAnimeList)
+            if (ViewModel.CurrentMainPage == PageIndex.PageAnimeList)
                 CurrentStatusListFilterSelectorFlyout.ShowAt(sender as FrameworkElement);
         }
 
@@ -109,7 +110,7 @@ namespace MALClient
         private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
-                MobileViewModelLocator.Main.PinDialogViewModel.CloseDialogCommand.Execute(null);
+                UWPViewModelLocator.PinTileDialog.CloseDialogCommand.Execute(null);
         }
 
         private void SearchInput_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

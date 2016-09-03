@@ -5,9 +5,9 @@
     xmlns:local="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
-    xmlns:items="using:MalClient.Shared.Items"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:items="using:MALClient.Shared.Items"
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 

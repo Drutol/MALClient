@@ -5,14 +5,15 @@
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
         <Storyboard x:Name="FadeInPinDialogStoryboard">
             <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
                              EnableDependentAnimation="True" From="0" To="1" />
@@ -123,7 +124,7 @@
                          Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
                          PlaceholderText="Search..." />
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
-                        Visibility="{Binding SearchFilterButtonVisibility}">
+                        Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button.Flyout>
                         <Flyout>
                             <ListView ItemsSource="{Binding SearchFilterOptions}"
@@ -136,7 +137,7 @@
                             </ListView>
                         </Flyout>
                     </Button.Flyout>
-                    <SymbolIcon Symbol="Filter" Foreground="{Binding SearchFilterButtonBrush}" />
+                    <SymbolIcon Symbol="Filter" Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
                 </Button>
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
                         Visibility="{Binding ScrollToTopButtonVisibility}" Command="{Binding GoTopCommand}">
@@ -155,7 +156,7 @@
             <Button IsTabStop="False" HorizontalAlignment="Right"
                     VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
                     Command="{Binding RefreshDataCommand}"
-                    Visibility="{Binding RefreshButtonVisibility}">
+                    Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
         </Grid>

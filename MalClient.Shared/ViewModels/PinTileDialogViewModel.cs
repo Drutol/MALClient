@@ -19,7 +19,7 @@ using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using WinRTXamlToolkit.Imaging;
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.Shared.ViewModels
 {
     public class PinTileDialogViewModel : ViewModelBase , IPinTileService
     {

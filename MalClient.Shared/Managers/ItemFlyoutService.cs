@@ -1,5 +1,5 @@
 ﻿using Windows.UI.Xaml;
-using MalClient.Shared.Flyouts;
+using MALClient.Shared.Flyouts;
 
 namespace MALClient.XShared.Utils.Managers
 {

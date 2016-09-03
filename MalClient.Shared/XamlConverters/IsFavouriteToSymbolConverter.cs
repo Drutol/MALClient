@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class IsFavouriteToSymbolConverter : IValueConverter
     {

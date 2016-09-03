@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using MalClient.Shared;
+using MALClient.Shared;
 using MALClient.Adapters;
 
 namespace MALClient.UWP.Adapters

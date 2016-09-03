@@ -5,7 +5,7 @@
     xmlns:local="using:MALClient"
     xmlns:viewModels="using:MALClient.ViewModels"
     xmlns:viewModels1="using:MALClient.XShared.ViewModels"
-    xmlns:viewModels2="using:MalClient.Shared.ViewModels">
+    xmlns:viewModels2="using:MALClient.Shared.ViewModels">
 
     <Application.Resources>
         <ResourceDictionary>

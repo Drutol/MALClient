@@ -7,8 +7,8 @@
     <ProjectGuid>{FBD14EC9-E60E-4155-BD43-210F3096CA5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MalClient.Shared</RootNamespace>
-    <AssemblyName>MalClient.Shared</AssemblyName>
+    <RootNamespace>MALClient.Shared</RootNamespace>
+    <AssemblyName>MALClient.Shared</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -201,6 +201,7 @@
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
+    <Compile Include="XamlConverters\SearchFilterStatusToBrushConverter.cs" />
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />

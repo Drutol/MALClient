@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Shapes;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MalClient.Shared.UserControls
+namespace MALClient.Shared.UserControls
 {
     public sealed partial class StackedBarChartControl : UserControl
     {

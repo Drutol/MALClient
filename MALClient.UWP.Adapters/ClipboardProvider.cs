@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using MalClient.Shared;
+using MALClient.Shared;
 using MALClient.Adapters;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Utils;

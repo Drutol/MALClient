@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.UserControls.AttachedProperties
+namespace MALClient.Shared.UserControls.AttachedProperties
 {
     public class AnimeImageExtensions : DependencyObject
     {

@@ -11,7 +11,7 @@ using MALClient.XShared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MalClient.Shared.Items
+namespace MALClient.Shared.Items
 {
     public sealed partial class AnimeGridItem : UserControl
     {

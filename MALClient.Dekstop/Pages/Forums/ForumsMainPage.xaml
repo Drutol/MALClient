@@ -5,7 +5,7 @@
     xmlns:local="using:MALClient.Pages.Forums"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsMain}">
 
     <Page.Resources>

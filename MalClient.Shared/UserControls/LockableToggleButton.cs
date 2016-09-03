@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 
-namespace MalClient.Shared.UserControls
+namespace MALClient.Shared.UserControls
 {
     public class LockableToggleButton : ToggleButton
     {

@@ -5,7 +5,7 @@
     xmlns:local="using:MALClient.Pages.Messages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConv="using:MalClient.Shared.XamlConverters"
+    xmlns:xamlConv="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=MalMessageDetails}">
 
     <Page.Resources>

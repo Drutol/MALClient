@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using MALClient.XShared.Utils.Enums;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class WorkModeToPivotFilterVisibility : IValueConverter
     {

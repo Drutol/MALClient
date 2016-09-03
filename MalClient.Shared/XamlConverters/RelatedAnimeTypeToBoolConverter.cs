@@ -5,7 +5,7 @@ using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class RelatedAnimeTypeToBoolConverter : IValueConverter
     {

@@ -17,7 +17,7 @@ using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MalClient.Shared.Items
+namespace MALClient.Shared.Items
 {
     public sealed partial class AnimeSearchItem : UserControl
     {

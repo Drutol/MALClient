@@ -9,7 +9,7 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using MALClient.XShared.Comm.MagicalRawQueries;
 
-namespace MalClient.Shared.Managers
+namespace MALClient.Shared.Managers
 {
     public static class MalWebViewHttpContextInitializer
     {

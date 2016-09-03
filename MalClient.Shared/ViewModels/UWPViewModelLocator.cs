@@ -10,7 +10,7 @@ using MALClient.Adapters.Credentails;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.Shared.ViewModels
 {
     public class UWPViewModelLocator
     {

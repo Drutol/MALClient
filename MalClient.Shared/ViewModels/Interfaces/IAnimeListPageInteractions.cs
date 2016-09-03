@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace MalClient.Shared.ViewModels
+namespace MALClient.Shared.ViewModels
 {
     public interface IAnimeListViewInteractions
     {

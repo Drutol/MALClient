@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class MailIconToBrushConverter : IValueConverter
     {

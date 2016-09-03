@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared;
+using MALClient.Shared;
 using MALClient.Models.Enums;
 using MALClient.Pages;
 using MALClient.UserControls;

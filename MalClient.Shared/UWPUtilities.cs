@@ -19,7 +19,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MalClient.Shared
+namespace MALClient.Shared
 {
     public static class UWPUtilities
     {

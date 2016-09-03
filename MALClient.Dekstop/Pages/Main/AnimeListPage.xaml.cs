@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using MalClient.Shared.ViewModels;
+using MALClient.Shared.ViewModels;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.NavArgs;

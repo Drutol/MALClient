@@ -6,7 +6,7 @@
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
     mc:Ignorable="d" MinWidth="310" RequestedTheme="Dark">
 
     <Page.Transitions>

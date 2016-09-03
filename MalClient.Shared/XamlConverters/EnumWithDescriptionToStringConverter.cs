@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 using MALClient.Models.Enums.Enums;
 using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class EnumWithDescriptionToStringConverter : IValueConverter
     {

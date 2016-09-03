@@ -1,5 +1,5 @@
 ﻿using Windows.UI.Xaml;
-using MalClient.Shared.Flyouts.HamburgerFlyouts;
+using MALClient.Shared.Flyouts.HamburgerFlyouts;
 using MALClient.UserControls;
 
 namespace MALClient.Utils.Managers

@@ -3,7 +3,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace MalClient.Shared.UserControls
+namespace MALClient.Shared.UserControls
 {
     public class TemplateMatch
     {

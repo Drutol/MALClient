@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 using WinRTXamlToolkit.Controls.Extensions;
 
-namespace MalClient.Shared.UserControls
+namespace MALClient.Shared.UserControls
 {
 
     static class Extensions

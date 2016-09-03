@@ -7,9 +7,9 @@
     xmlns:controls="using:MALClient.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items="using:MalClient.Shared.Items"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
+    xmlns:items="using:MALClient.Shared.Items"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     DataContext="{Binding Source={StaticResource MobileLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MalClient.Shared.Items
+namespace MALClient.Shared.Items
 {
     public interface IItemWithFlyout
     {

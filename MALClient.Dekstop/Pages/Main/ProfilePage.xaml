@@ -5,10 +5,10 @@
     xmlns:local="using:MALClient"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:items1="using:MalClient.Shared.Items"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
-    xmlns:derived="using:MalClient.Shared.UserControls.Derived"
+    xmlns:items1="using:MALClient.Shared.Items"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:derived="using:MALClient.Shared.UserControls.Derived"
     DataContext="{Binding Source={StaticResource DesktopLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 

@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Media;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class MessageEntryToViewModelConverter : IValueConverter
     {

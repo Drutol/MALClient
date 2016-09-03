@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using MALClient.XShared.Utils;
 
-namespace MalClient.Shared.XamlConverters
+namespace MALClient.Shared.XamlConverters
 {
     public class BoolToAnimeItemManipulationModesConverter : IValueConverter
     {

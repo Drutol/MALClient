@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MalClient.Shared.ViewModels;
+using MALClient.Shared.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
@@ -22,6 +22,7 @@ using MALClient.Pages.Forums;
 using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
 using MALClient.Pages.Off;
+using MALClient.Shared.ViewModels.Interfaces;
 using MALClient.UserControls;
 using MALClient.Utils.Managers;
 using MALClient.XShared.Comm;
@@ -36,7 +37,7 @@ using MALClient.XShared.ViewModels.Main;
 namespace MALClient.ViewModels
 { 
 
-    public class MainViewModel : ViewModelBase , IMainViewModel
+    public class MainViewModel : MainViewModelBase , IMainViewModel
     {
         static MainViewModel()
         {
@@ -47,25 +48,10 @@ namespace MALClient.ViewModels
                 AnimeItemViewModel.MaxWidth = 200;
         }
 
-        public static Tuple<int, string> InitDetails;
+        public override event NavigationRequest MainNavigationRequested;
+        public override event NavigationRequest OffNavigationRequested;
 
-        private Tuple<PageIndex, object> _postponedNavigationArgs;
-        private bool? _searchStateBeforeNavigatingToSearch;
-
-        private bool _subscribed;
-        private bool _wasOnDetailsFromSearch;
-
-        public PageIndex? CurrentMainPage { get; set; }
-        public PageIndex? CurrentMainPageKind { get; set; }
-        public PageIndex? CurrentOffPage { get; set; }
-
-        public event OffContentPaneStateChanged OffContentPaneStateChanged;
-        public event NavigationRequest MainNavigationRequested;
-        public event NavigationRequest OffNavigationRequested;
-        public event SearchQuerySubmitted OnSearchQuerySubmitted;
-        public event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
-
-        public async void Navigate(PageIndex index, object args = null)
+        public override async void Navigate(PageIndex index, object args = null)
         {
             PageIndex? currPage = null;
             PageIndex? currOffPage = null;
@@ -97,7 +83,7 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageStaffDetails ||
                 index == PageIndex.PageLogIn)
             {
-                OffRefreshButtonVisibility = Visibility.Collapsed;
+                OffRefreshButtonVisibility = false;
                 mainPage = false;
                 IsCurrentStatusSelectable = false;
                 currOffPage = index;
@@ -112,7 +98,7 @@ namespace MALClient.ViewModels
             }
             else
             {
-                RefreshButtonVisibility = Visibility.Collapsed;
+                RefreshButtonVisibility = false;
                 ResetSearchFilter();
                 SearchToggleLock = false;
                 CurrentStatusSub = "";
@@ -191,7 +177,7 @@ namespace MALClient.ViewModels
                     detail.DetailImage = null;
                     detail.LeftDetailsRow.Clear();
                     detail.RightDetailsRow.Clear();
-                    OffRefreshButtonVisibility = Visibility.Visible;
+                    OffRefreshButtonVisibility = true;
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
@@ -212,7 +198,16 @@ namespace MALClient.ViewModels
                         CurrentMainPage.Value != PageIndex.PageMangaSearch &&
                         CurrentMainPage.Value != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
-                    NavigateSearch(args);
+                    SearchToggleLock = true;
+                    ShowSearchStuff();
+                    ToggleSearchStuff();
+                    if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
+                    {
+                        (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
+                    }
+                    MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
+                    await Task.Delay(10);
+                    View.SearchInputFocus(FocusState.Keyboard);
                     break;
                 case PageIndex.PageLogIn:
                     OffContentVisibility = true;
@@ -220,7 +215,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = true;
                     if (Settings.SelectedApiType == ApiType.Mal)
                         RefreshDataCommand =
                             new RelayCommand(() => DesktopViewModelLocator.ProfilePage.LoadProfileData(null, true));
@@ -239,14 +234,14 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
                     CurrentStatus = "Recommendations";
                     MainNavigationRequested?.Invoke(typeof(RecommendationsPage), args);
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CalendarPage.Init(true));
                     CurrentStatus = "Calendar";
                     MainNavigationRequested?.Invoke(typeof(CalendarPage), args);
@@ -254,14 +249,14 @@ namespace MALClient.ViewModels
                 case PageIndex.PageArticles:
                 case PageIndex.PageNews:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalArticles.Init(null); });
                     MainNavigationRequested?.Invoke(typeof(MalArticlesPage), args);
                     break;
                 case PageIndex.PageMessanging:
                     HideSearchStuff();
                     CurrentStatus = $"{Credentials.UserName} - Messages";
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
                     MainNavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
@@ -280,7 +275,7 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Forums";
                     if (args == null || (args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
                     {
-                        RefreshButtonVisibility = Visibility.Visible;
+                        RefreshButtonVisibility = true;
                         RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
                     }
                     if (CurrentMainPage != null && CurrentMainPage == PageIndex.PageForumIndex)
@@ -290,13 +285,13 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageHistory:
                     HideSearchStuff();
-                    RefreshButtonVisibility = Visibility.Visible;
+                    RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null,true); });
                     CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
                     MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 case PageIndex.PageCharacterDetails:
-                    OffRefreshButtonVisibility = Visibility.Visible;
+                    OffRefreshButtonVisibility = true;
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
                     OffContentVisibility = true;
 
@@ -306,7 +301,7 @@ namespace MALClient.ViewModels
                         OffNavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
                     break;
                 case PageIndex.PageStaffDetails:
-                    OffRefreshButtonVisibility = Visibility.Visible;
+                    OffRefreshButtonVisibility = true;
                     RefreshOffDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
                     OffContentVisibility = true;
 
@@ -341,35 +336,8 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => SearchToggleLock);
         }
 
-        private void AnimeListOnInitialized()
-        {
-            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
-            _subscribed = false;
-            if (_postponedNavigationArgs != null)
-                Navigate(_postponedNavigationArgs.Item1, _postponedNavigationArgs.Item2);
-        }
 
-        #region Helpers
-
-        public AnimeListPageNavigationArgs GetCurrentListOrderParams()
-        {
-            var page = ViewModelLocator.AnimeList;
-            return new AnimeListPageNavigationArgs(
-                page.SortOption,
-                page.CurrentStatus,
-                page.SortDescending,
-                page.WorkMode,
-                page.ListSource,
-                page.CurrentSeason,
-                page.DisplayMode) {ResetBackNav = page.ResetedNavBack};
-        }
-
-        #endregion
-
-        #region PropertyPairs
-
-        public bool SearchToggleLock { get; private set; }
-
+        #region PropertyPairs   
         private IMainViewInteractions _view;
 
         public IMainViewInteractions View
@@ -391,530 +359,26 @@ namespace MALClient.ViewModels
                 MenuPaneState = Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500;
             }
         }
-
-        private bool _isCurrentStatusSelectable;
-
-        public bool IsCurrentStatusSelectable
-        {
-            get { return _isCurrentStatusSelectable; }
-            set
-            {
-                _isCurrentStatusSelectable = value;
-                RaisePropertyChanged(() => IsCurrentStatusSelectable);
-            }
-        }
-
-        private void AnimeListOnInitializedLoadArgs()
-        {
-            Navigate(PageIndex.PageAnimeDetails,
-                new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
-            ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
-        }
-
-//entry point
-
-private bool _menuPaneState;
-
-        public bool MenuPaneState
-        {
-            get { return _menuPaneState; }
-            private set
-            {
-                _menuPaneState = value;
-                RaisePropertyChanged(() => MenuPaneState);
-            }
-        }
-
-        private bool _searchToggleStatus;
-
-        public bool SearchToggleStatus
-        {
-            get { return _searchToggleStatus; }
-            set
-            {
-                _searchToggleStatus = value;
-                RaisePropertyChanged(() => SearchToggleStatus);
-                ReverseSearchInput();
-            }
-        }
-
-        private bool _searchToggleVisibility;
-
-        public bool SearchToggleVisibility
-        {
-            get { return _searchToggleVisibility; }
-            set
-            {
-                _searchToggleVisibility = value;
-                RaisePropertyChanged(() => SearchToggleVisibility);
-            }
-        }
-
-        private bool _searchInputVisibility;
-
-        public bool SearchInputVisibility
-        {
-            get { return _searchInputVisibility; }
-            set
-            {
-                _searchInputVisibility = value;
-                RaisePropertyChanged(() => SearchInputVisibility);
-            }
-        }
-
-        private string _currentStatus;
-
-        public string CurrentStatus
-        {
-            get { return _currentStatus; }
-            set
-            {
-                if(_currentStatus == value)
-                    return;
-                _currentStatus = value;
-                View.CurrentStatusStoryboard.Begin();
-                RaisePropertyChanged(() => CurrentStatus);
-            }
-        }
-
-        private string _currentStatusSub;
-
-        public string CurrentStatusSub
-        {
-            get { return _currentStatusSub; }
-            set
-            {
-                if (_currentStatusSub == value)
-                    return;
-                 _currentStatusSub = value;
-                View.CurrentOffSubStatusStoryboard.Begin();
-                RaisePropertyChanged(() => CurrentStatusSub);
-            }
-        }
-
-        private string _currentOffStatus;
-
-        public string CurrentOffStatus
-        {
-            get { return _currentOffStatus; }
-            set
-            {
-                _currentOffStatus = value;
-                View.CurrentOffStatusStoryboard.Begin();
-                RaisePropertyChanged(() => CurrentOffStatus);
-            }
-        }
-
-        private string _currentSearchQuery;
-
-        public string CurrentSearchQuery
-        {
-            get { return SearchToggleStatus ? _currentSearchQuery : ""; }
-            set
-            {
-                _currentSearchQuery = value;
-                RaisePropertyChanged(() => CurrentSearchQuery);
-                SetSearchHints();
-                if (SearchToggleLock) return;
-                
-                if(string.IsNullOrEmpty(value))
-                    OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
-                else
-                    SubmitSearchQueryWithDelayCheck();
-            }
-        }
-
-        private ICommand _reversePaneCommand;
-
-        public ICommand ReversePaneCommand
-        {
-            get
-            {
-                return _reversePaneCommand ??
-                       (_reversePaneCommand = new RelayCommand(() => MenuPaneState = !MenuPaneState));
-            }
-        }
-
-        private ICommand _toggleSearchCommand;
-
-        public ICommand ToggleSearchCommand
-        {
-            get
-            {
-                return _toggleSearchCommand ??
-                       (_toggleSearchCommand = new RelayCommand(() =>
-                       {
-                           SetSearchHints();
-                           if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
-                               OnSearchInputSubmit();
-                       }));
-            }
-        }
-
-        private ICommand _refreshDataCommand;
-
-        public ICommand RefreshDataCommand
-        {
-            get { return _refreshDataCommand; }
-            private set
-            {
-                _refreshDataCommand = value;
-                RaisePropertyChanged(() => RefreshDataCommand);
-            }
-        }
-
-        private ICommand _refreshOffDataCommand;
-
-        public ICommand RefreshOffDataCommand
-        {
-            get { return _refreshOffDataCommand; }
-            private set
-            {
-                _refreshOffDataCommand = value;
-                RaisePropertyChanged(() => RefreshOffDataCommand);
-            }
-        }
-
-        private ICommand _goTopCommand;
-
-        public ICommand GoTopCommand
-        {
-            get
-            {
-                return _goTopCommand ??
-                       (_goTopCommand = new RelayCommand(() => ViewModelLocator.AnimeList.ScrollToTop()));
-            }
-        }
-
-        private ICommand _navigateBackCommand;
-
-        public ICommand NavigateBackCommand => _navigateBackCommand ??
-                                               (_navigateBackCommand =
-                                                   new RelayCommand(ViewModelLocator.NavMgr.CurrentOffViewOnBackRequested));
-
-        private ICommand _navigateMainBackCommand;
-
-        public ICommand NavigateMainBackCommand => _navigateMainBackCommand ??
-                                                   (_navigateMainBackCommand =
-                                                       new RelayCommand(ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested));
-
-
-        private ICommand _hideOffContentCommand;
-
-        public ICommand HideOffContentCommand
-        {
-            get
-            {
-                return _hideOffContentCommand ??
-                       (_hideOffContentCommand = new RelayCommand(() =>
-                       {
-                           ViewModelLocator.AnimeDetails.Id = -1;
-                           OffContentVisibility = false;
-                           ViewModelLocator.NavMgr.ResetOffBackNav();
-                       }));
-            }
-        }
-
-        private Visibility _refreshButtonVisibility;
-
-        public Visibility RefreshButtonVisibility
-        {
-            get { return _refreshButtonVisibility; }
-            set
-            {
-                _refreshButtonVisibility = value;
-                RaisePropertyChanged(() => RefreshButtonVisibility);
-            }
-        }
-
-        private Visibility _offRefreshButtonVisibility;
-
-        public Visibility OffRefreshButtonVisibility
-        {
-            get { return _offRefreshButtonVisibility; }
-            set
-            {
-                _offRefreshButtonVisibility = value;
-                RaisePropertyChanged(() => OffRefreshButtonVisibility);
-            }
-        }
-
-
-        private bool _navigateOffBackButtonVisibility = false;
-
-        public bool NavigateOffBackButtonVisibility
-        {
-            get { return _navigateOffBackButtonVisibility; }
-            set
-            {
-                _navigateOffBackButtonVisibility = value;
-                RaisePropertyChanged(() => NavigateOffBackButtonVisibility);
-            }
-        }
-
-        private bool _navigateMainBackButtonVisibility;
-
-        public bool NavigateMainBackButtonVisibility
-        {
-            get { return _navigateMainBackButtonVisibility; }
-            set
-            {
-                _navigateMainBackButtonVisibility = value;
-                RaisePropertyChanged(() => NavigateMainBackButtonVisibility);
-            }
-        }
-
-        private bool _scrollToTopButtonVisibility;
-
-        public bool ScrollToTopButtonVisibility
-        {
-            get { return _scrollToTopButtonVisibility; }
-            set
-            {
-                if (value == _scrollToTopButtonVisibility)
-                    return;
-                _scrollToTopButtonVisibility = value;
-                RaisePropertyChanged(() => ScrollToTopButtonVisibility);
-            }
-        }
-
-        private Visibility _searchFilterButtonVisibility = Visibility.Collapsed;
-
-        public Visibility SearchFilterButtonVisibility
-        {
-            get { return _searchFilterButtonVisibility; }
-            set
-            {
-                _searchFilterButtonVisibility = value;
-                RaisePropertyChanged(() => SearchFilterButtonVisibility);
-            }
-        }
-
-        private bool _offContentVisibility;
-
-        public bool OffContentVisibility
-        {
-            get { return _offContentVisibility; }
-            set
-            {
-                _offContentVisibility = value;
-                RaisePropertyChanged(() => OffContentVisibility);
-                if (value)
-                {
-                    MainContentColumnSpan = 1;
-                    View.InitSplitter();
-                }
-                else
-                {
-                    OffContentPaneStateChanged?.Invoke();
-                    MainContentColumnSpan = 3;
-                }
-            }
-        }
-
-        public List<string> SearchHints { get; set; }
-
-        private List<string> _currentHintSet;
-
-        public List<string> CurrentHintSet
-        {
-            get { return _currentHintSet; }
-            set
-            {
-                _currentHintSet = value;
-                RaisePropertyChanged(() => CurrentHintSet);
-            }
-        }
-
-        private Brush _searchFilterButtonBrush = new SolidColorBrush(Colors.Black);
-
-        public Brush SearchFilterButtonBrush
-        {
-            get { return _searchFilterButtonBrush; }
-            set
-            {
-                _searchFilterButtonBrush = value;
-                RaisePropertyChanged(() => SearchFilterButtonBrush);
-            }
-        }
-
-        private double _offContentStatusBarWidth = 420;
-
-        public double OffContentStatusBarWidth
-        {
-            get { return _offContentStatusBarWidth; }
-            set
-            {
-                _offContentStatusBarWidth = value;
-                RaisePropertyChanged(() => OffContentStatusBarWidth);
-            }
-        }
-
-
-        private int _searchFilterSelectedIndex;
-
-        public int SearchFilterSelectedIndex
-        {
-            get { return _searchFilterSelectedIndex; }
-            set
-            {
-                _searchFilterSelectedIndex = value;
-                OnSearchFilterSelected();
-                RaisePropertyChanged(() => SearchFilterSelectedIndex);
-            }
-        }
-
-        private int _mainContentColumnSpan = 1;
-
-        public int MainContentColumnSpan
-        {
-            get { return _mainContentColumnSpan; }
-            set
-            {
-                _mainContentColumnSpan = value;
-                RaisePropertyChanged(() => MainContentColumnSpan);
-            }
-        }
-
-        public ObservableCollection<string> SearchFilterOptions { get; } = new ObservableCollection<string>();
-
         #endregion
 
-        #region Search
-
-        private void ReverseSearchInput()
+        protected override void InitSplitter()
         {
-            if (SearchToggleLock)
-            {
-                if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
-                    OnSearchInputSubmit();
-                return;
-            }
-            SearchInputVisibility = SearchToggleStatus;
-            if (!SearchToggleLock)
-            {
-                OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
-                    OnSearchInputSubmit();
-            }
+            View.InitSplitter();
         }
 
-        public void OnSearchInputSubmit()
+        protected override void CurrentStatusStoryboardBegin()
         {
-            if (SearchToggleLock)
-            {
-                OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
-            }
+            View.CurrentStatusStoryboard.Begin();
         }
 
-        private async void NavigateSearch(object args)
+        protected override void CurrentOffSubStatusStoryboardBegin()
         {
-            SearchToggleLock = true;
-            ShowSearchStuff();
-            ToggleSearchStuff();
-            if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
-            {             
-                (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
-            }
-            MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
-            await Task.Delay(10);
-            View.SearchInputFocus(FocusState.Keyboard);
+            View.CurrentOffSubStatusStoryboard.Begin();
         }
 
-        private void SetSearchHints()
+        protected override void CurrentOffStatusStoryboardBegin()
         {
-            if (CurrentMainPageKind == PageIndex.PageAnimeList)
-                CurrentHintSet =
-                    SearchHints.Where(
-                        s => s.StartsWith(CurrentSearchQuery ?? "", StringComparison.CurrentCultureIgnoreCase))
-                        .Take(4)
-                        .ToList();
+            View.CurrentOffStatusStoryboard.Begin();
         }
-
-        #endregion
-
-        public async void SubmitSearchQueryWithDelayCheck()
-        {
-            string query = CurrentSearchQuery;
-            await Task.Delay(500);
-            if(query == CurrentSearchQuery)
-                OnSearchDelayedQuerySubmitted?.Invoke(CurrentSearchQuery);
-        }
-
-        #region UIHelpers
-
-        public void PopulateSearchFilters(HashSet<string> filters)
-        {
-            SearchFilterOptions.Clear();
-            if (filters.Count <= 1 || (CurrentMainPage.Value != PageIndex.PageSearch && CurrentMainPage.Value != PageIndex.PageMangaSearch))
-            {
-                SearchFilterButtonVisibility = Visibility.Collapsed;
-                return;
-            }
-            SearchFilterButtonVisibility = Visibility.Visible;
-            foreach (var filter in filters)
-                SearchFilterOptions.Add(filter);
-            SearchFilterOptions.Add("None");
-            SearchFilterSelectedIndex = SearchFilterOptions.Count - 1;
-        }
-
-        private void OnSearchFilterSelected()
-        {
-            if (SearchFilterSelectedIndex < 0)
-            {
-                SearchFilterButtonVisibility = Visibility.Collapsed;
-                return;
-            }
-            if (SearchFilterSelectedIndex == SearchFilterOptions.Count - 1)
-                SearchFilterButtonBrush =
-                    new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light
-                        ? Colors.Black
-                        : Colors.FloralWhite);
-            else
-                SearchFilterButtonBrush = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-
-            ViewModelLocator.SearchPage.SubmitFilter(SearchFilterOptions[SearchFilterSelectedIndex]);
-        }
-
-        private void ResetSearchFilter()
-        {
-            SearchFilterButtonVisibility = Visibility.Collapsed;
-            SearchFilterButtonBrush =
-                new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Light
-                    ? Colors.Black
-                    : Colors.FloralWhite);
-            SearchFilterOptions.Clear();
-        }
-
-        private void ShowSearchStuff()
-        {
-            SearchToggleVisibility = true;
-            if (SearchToggleStatus)
-                SearchInputVisibility = true;
-        }
-
-        private void HideSearchStuff()
-        {
-            SearchToggleStatus = false;
-            SearchInputVisibility = false;
-            SearchToggleVisibility = false;
-        }
-
-        private void ToggleSearchStuff()
-        {
-            SearchToggleStatus = true;
-            SearchInputVisibility = true;
-        }
-
-        private void UnToggleSearchStuff()
-        {
-            SearchToggleStatus = false;
-            SearchInputVisibility = false;
-        }
-
-        #endregion
     }
 }

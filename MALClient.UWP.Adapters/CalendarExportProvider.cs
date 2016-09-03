@@ -7,7 +7,7 @@ using Windows.ApplicationModel.Appointments;
 using Windows.Foundation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using MalClient.Shared;
+using MALClient.Shared;
 using MALClient.Adapters;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;

@@ -8,10 +8,10 @@
     xmlns:viewModels="using:MALClient.ViewModels"
     xmlns:userControls="using:MALClient.UserControls"
     xmlns:malClient="using:MALClient"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
-    xmlns:derived="using:MalClient.Shared.UserControls.Derived"
-    xmlns:items="using:MalClient.Shared.Items"
-    xmlns:userControls1="using:MalClient.Shared.UserControls"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:derived="using:MALClient.Shared.UserControls.Derived"
+    xmlns:items="using:MALClient.Shared.Items"
+    xmlns:userControls1="using:MALClient.Shared.UserControls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CalendarPage}">
 
     <Page.Resources>

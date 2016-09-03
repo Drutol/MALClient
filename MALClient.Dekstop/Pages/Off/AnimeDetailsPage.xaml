@@ -6,9 +6,9 @@
     xmlns:extensions="using:MALClient.UserControls.AttachedProperties"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
-    xmlns:userControls="using:MalClient.Shared.UserControls"
-    xmlns:new="using:MalClient.Shared.UserControls.New"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:new="using:MALClient.Shared.UserControls.New"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 

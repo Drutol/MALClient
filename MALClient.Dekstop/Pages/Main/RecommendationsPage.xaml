@@ -5,8 +5,8 @@
     xmlns:local="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConverters="using:MalClient.Shared.XamlConverters"
-    xmlns:items="using:MalClient.Shared.Items"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:items="using:MALClient.Shared.Items"
     mc:Ignorable="d"
     DataContext="{Binding Recommendations, Source={StaticResource Locator}}">
 

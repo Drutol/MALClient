@@ -16,7 +16,7 @@ namespace MALClient.UWP.Adapters
         public VaultCredential Get(string domain)
         {
             var vault = new PasswordVault();
-            var credential = vault.FindAllByResource("MALClient").FirstOrDefault();
+            var credential = vault.FindAllByResource(domain).FirstOrDefault();
             credential.RetrievePassword();
             return new VaultCredential(credential.Resource, credential.UserName, credential.Password);
         }

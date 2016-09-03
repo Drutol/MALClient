@@ -789,9 +789,14 @@
                             Command="{Binding RefreshCommentsCommand}">
                         <SymbolIcon Symbol="Refresh" Margin="5" />
                     </Button>
-                    <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight"
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight"
                                FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <TextBlock Visibility="{Binding EmptyCommentsNoticeVisibility}"
+                                Text="No comments..."
+                                TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" Margin="5" />
+                    </StackPanel>
                     <StackPanel Grid.Row="1" HorizontalAlignment="Stretch"
                                 Visibility="{Binding CommentInputBoxVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch"

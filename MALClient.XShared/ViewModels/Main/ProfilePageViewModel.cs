@@ -259,24 +259,13 @@ namespace MALClient.XShared.ViewModels.Main
                 CurrentData.MangaPlanned
             };
 
-            EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0
-                ? true
-                : false;
-            EmptyRecentMangaNoticeVisibility = RecentManga.Count == 0
-                ? true
-                : false;
-            EmptyFavCharactersNoticeVisibility = CurrentData.FavouriteCharacters.Count == 0
-                ? true
-                : false;
-            EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0
-                ? true
-                : false;
-            EmptyFavMangaNoticeVisibility = FavManga.Count == 0
-                ? true
-                : false;
-            EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0
-                ? true
-                : false;
+            EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0;
+            EmptyRecentMangaNoticeVisibility = RecentManga.Count == 0;
+            EmptyFavCharactersNoticeVisibility = CurrentData.FavouriteCharacters.Count == 0;
+            EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0;
+            EmptyFavMangaNoticeVisibility = FavManga.Count == 0;
+            EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0;
+            EmptyCommentsNoticeVisibility = CurrentData.Comments.Count == 0;
             OnInitialized?.Invoke();
         }
 
@@ -639,6 +628,16 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        public bool EmptyCommentsNoticeVisibility
+        {
+            get { return _emptyCommentsNoticeVisibility; }
+            set
+            {
+                _emptyCommentsNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyCommentsNoticeVisibility);
+            }
+        }
+
         public bool EmptyRecentMangaNoticeVisibility
         {
             get { return _emptyRecentMangaNoticeVisibility; }
@@ -747,6 +746,7 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _navigateCharacterDetailsCommand;
         private ICommand _navigateStaffDetailsCommand;
         private ICommand _toggleAboutMeWebViewVisibilityCommand;
+        private bool _emptyCommentsNoticeVisibility;
 
         public bool IsSendCommentButtonEnabled
         {

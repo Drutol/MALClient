@@ -22,6 +22,7 @@ namespace MALClient.XShared.Utils
 
             HummingbirdToken = (string)(ApplicationDataService["HummingbirdToken"] ?? "");
             Id = (int)(ApplicationDataService["UserId"] ?? 0);
+            Authenticated = bool.Parse(ApplicationDataService["Auth"] as string);
         }
 
         public static string HummingbirdToken { get; private set; } 

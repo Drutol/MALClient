@@ -94,7 +94,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Voiceactors" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="26" Margin="0,5" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Voice Actors" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="26" Margin="0,5" HorizontalAlignment="Center"/>
                     <GridView Grid.Row="1" ItemsSource="{Binding VoiceActors}" HorizontalAlignment="Center"
                           IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClickStaff" ScrollViewer.VerticalScrollMode="Disabled">
                         <GridView.ItemTemplate>

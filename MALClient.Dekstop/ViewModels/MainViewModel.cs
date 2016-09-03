@@ -66,7 +66,7 @@ namespace MALClient.ViewModels
                 return;
             }
             Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
-            ScrollToTopButtonVisibility = false;
+            
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
 
@@ -96,8 +96,9 @@ namespace MALClient.ViewModels
                 if(CurrentOffPage == PageIndex.PageSettings)
                     ViewModelLocator.NavMgr.ResetOffBackNav();
             }
-            else
+            else //naviagating main page
             {
+                ScrollToTopButtonVisibility = false;
                 RefreshButtonVisibility = false;
                 ResetSearchFilter();
                 SearchToggleLock = false;

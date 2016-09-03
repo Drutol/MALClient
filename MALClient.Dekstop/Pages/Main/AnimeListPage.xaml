@@ -38,7 +38,7 @@
                             <StackPanel>
                                 <TextBlock VerticalAlignment="Center" Text="Username:" />
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtListSource"
+                                    <TextBox x:Name="TxtListSource" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
                                          Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                          Margin="5,5" KeyDown="ListSource_OnKeyDown" />
                                     <Button Command="{Binding RefreshCommand}">
@@ -96,8 +96,8 @@
                             </ListView>
                             <TextBlock Text="Custom season" Margin="0,5" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox ItemsSource="{Binding SeasonSeasons}" Margin="5,0" MinWidth="100" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <ComboBox ItemsSource="{Binding SeasonYears}"  MinWidth="100" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonSeasons}" Margin="5,0" MinWidth="70" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonYears}"  MinWidth="70" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 <Button Margin="5,0" Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
                                     <SymbolIcon Symbol="Go"></SymbolIcon>
                                 </Button>
@@ -322,11 +322,9 @@
             </GridView.Footer>
         </GridView>
         <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
-                  MinWidth="200"
-                  RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
-                  ItemClick="AnimesGridIndefinite_OnItemClick"
-                  IsItemClickEnabled="True" ShowsScrollingPlaceholders="False"
-                  HorizontalAlignment="Center"
+                  MinWidth="200" IsItemClickEnabled="True"
+                  RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single" ShowsScrollingPlaceholders="False"
+                  HorizontalAlignment="Center" IsRightTapEnabled="True"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -350,7 +348,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels1:AnimeItemViewModel">
-                    <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
+                    <items:AnimeGridItem Tapped="AnimeGridItemOnTap" DataContext="{x:Bind}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.Footer>

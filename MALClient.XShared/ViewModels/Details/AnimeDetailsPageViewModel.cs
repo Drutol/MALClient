@@ -235,6 +235,9 @@ namespace MALClient.XShared.ViewModels.Details
                 MyVolumesVisibility = true;
                 HiddenPivotItemIndex = 1;
             }
+            //Add/Rem
+            IsRemoveAnimeButtonEnabled = false;
+            IsAddAnimeButtonEnabled = false;
             //favs
             IsFavourite = FavouritesManager.IsFavourite(AnimeMode ? FavouriteType.Anime : FavouriteType.Manga,
                 Id.ToString());
@@ -287,6 +290,8 @@ namespace MALClient.XShared.ViewModels.Details
                 //we have item on the list , so there's valid data here
                 MyDetailsVisibility = true;
                 AddAnimeVisibility = false;
+                IsRemoveAnimeButtonEnabled = true;
+                IsAddAnimeButtonEnabled = false;
                 try
                 {
                     _startDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.StartDate);
@@ -319,6 +324,11 @@ namespace MALClient.XShared.ViewModels.Details
                     var collection = new ObservableCollection<string>(tags);
                     MyTags = collection;
                 }
+            }
+            else
+            {
+                IsRemoveAnimeButtonEnabled = false;
+                IsAddAnimeButtonEnabled = true;
             }
 
             switch (param.Source)
@@ -1312,15 +1322,15 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        private bool _addAnimeBtnEnableState = true;
+        private bool _isAddAnimeButtonEnabled = true;
 
-        public bool AddAnimeBtnEnableState
+        public bool IsAddAnimeButtonEnabled
         {
-            get { return _addAnimeBtnEnableState; }
+            get { return _isAddAnimeButtonEnabled; }
             set
             {
-                _addAnimeBtnEnableState = value;
-                RaisePropertyChanged(() => AddAnimeBtnEnableState);
+                _isAddAnimeButtonEnabled = value;
+                RaisePropertyChanged(() => IsAddAnimeButtonEnabled);
             }
         }
 
@@ -1348,17 +1358,17 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        private bool _removeAnimeBtnEnableState = true;
+        private bool _isRemoveAnimeButtonEnabled = true;
 
 
 
-        public bool RemoveAnimeBtnEnableState
+        public bool IsRemoveAnimeButtonEnabled
         {
-            get { return _removeAnimeBtnEnableState; }
+            get { return _isRemoveAnimeButtonEnabled; }
             set
             {
-                _removeAnimeBtnEnableState = value;
-                RaisePropertyChanged(() => RemoveAnimeBtnEnableState);
+                _isRemoveAnimeButtonEnabled = value;
+                RaisePropertyChanged(() => IsRemoveAnimeButtonEnabled);
             }
         }
 
@@ -1563,12 +1573,12 @@ namespace MALClient.XShared.ViewModels.Details
         private async void AddAnime()
         {
             LoadingUpdate = true;
-            AddAnimeBtnEnableState = false;
+            IsAddAnimeButtonEnabled = false;
             var response = AnimeMode
                 ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
                 : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
             LoadingUpdate = false;
-            AddAnimeBtnEnableState = true;
+            IsAddAnimeButtonEnabled = true;
             if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created") && AnimeMode)
                 return;
             AddAnimeVisibility = false;
@@ -1668,14 +1678,14 @@ namespace MALClient.XShared.ViewModels.Details
                 async () =>
                 {
                     LoadingUpdate = true;
-                    RemoveAnimeBtnEnableState = false;
+                    IsRemoveAnimeButtonEnabled = false;
 
                     var response = AnimeMode
                         ? await new AnimeRemoveQuery(Id.ToString()).GetRequestResponse()
                         : await new MangaRemoveQuery(Id.ToString()).GetRequestResponse();
 
                     LoadingUpdate = false;
-                    RemoveAnimeBtnEnableState = true;
+                    IsRemoveAnimeButtonEnabled = true;
 
                     ViewModelLocator.AnimeList.RemoveAnimeEntry(
                         (_animeItemReference as AnimeItemViewModel).ParentAbstraction);
@@ -1828,6 +1838,7 @@ namespace MALClient.XShared.ViewModels.Details
             if (data == null)
             {
                 DetailedDataVisibility = false;
+                LoadingDetails = false;
                 return;
             }
             DetailedDataVisibility = true;

@@ -97,7 +97,7 @@ namespace MALClient.XShared.Comm.Details
                     else if (node.Name == "br")
                         output.Content += "\n";
                     else if (node.Name == "div" && node.Attributes.Contains("class") && node.Attributes["class"].Value == "spoiler")
-                        output.SpoilerContent += WebUtility.HtmlDecode(node.InnerText.Trim());
+                        output.SpoilerContent += WebUtility.HtmlDecode(node.InnerText.Trim()) + "\n\n";
                     else if (node.Name == "table")
                     {
                         foreach (var descendant in node.Descendants("tr"))
@@ -121,13 +121,14 @@ namespace MALClient.XShared.Comm.Details
                         }
                     }
                 }
+                output.Content = output.Content.Trim();
+                output.SpoilerContent = output.SpoilerContent.Trim();
             }
             catch (Exception)
             {
                 //html
             }
             
-
             DataCache.SaveData(output, _id.ToString(), "character_details");
 
             return output;

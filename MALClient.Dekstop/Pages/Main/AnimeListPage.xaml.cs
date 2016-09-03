@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -286,6 +287,16 @@ namespace MALClient.Pages.Main
             AnimesGridIndefinite.ScrollIntoView(e.ClickedItem);
         }
 
+        private async void AnimeGridItemOnTap(object sender, TappedRoutedEventArgs e)
+        {
+            var item = (sender as FrameworkElement).DataContext as AnimeItemViewModel;
+            if(item == null)
+                return;
+            ViewModel.TemporarilySelectedAnimeItem = item;
+            await Task.Delay(50);
+            AnimesGridIndefinite.ScrollIntoView(item);
+        }
+
 
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {
@@ -370,6 +381,15 @@ namespace MALClient.Pages.Main
         {
            if(!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
                 FlyoutSeasonSelection.Hide();
+        }
+
+        private TypeInfo _typeInfo;
+        //why? beacuse MSFT Bugged this after anniversary update
+        private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
+        {
+            var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+            var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+            prop?.SetValue(sender, true);
         }
     }
 }

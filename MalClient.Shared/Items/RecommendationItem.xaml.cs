@@ -63,6 +63,8 @@ namespace MALClient.Shared.Items
      
         private void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
         {
+            if(ViewModelLocator.AnimeDetails.Id == ViewModel.Data.RecommendationId)
+                return;
             ViewModelLocator.GeneralMain
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(ViewModel.Data.RecommendationId, ViewModel.Data.RecommendationTitle,
@@ -72,6 +74,8 @@ namespace MALClient.Shared.Items
 
         private void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ViewModelLocator.AnimeDetails.Id == ViewModel.Data.DependentId)
+                return;
             ViewModelLocator.GeneralMain
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(ViewModel.Data.DependentId, ViewModel.Data.DependentTitle,

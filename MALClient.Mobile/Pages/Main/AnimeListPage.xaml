@@ -36,7 +36,7 @@
                                 <TextBlock VerticalAlignment="Center" Text="Username:" />
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="TxtListSource"
-                                             Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             Text="{x:Bind ViewModel.ListSource,Mode=TwoWay}" 
                                              Margin="5,5" KeyDown="ListSource_OnKeyDown" />
                                     <Button x:Name="AcceptListSourceBtn" Command="{Binding RefreshCommand}">
                                         <SymbolIcon Symbol="Accept" />

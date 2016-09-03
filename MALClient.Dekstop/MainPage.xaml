@@ -121,7 +121,7 @@
                     Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
-            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" Visibility="{Binding OffContentVisibility}"/>
+            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
             <Grid Column="5" Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Width="{Binding OffContentStatusBarWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

@@ -24,6 +24,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
         public string Token { get; set; }
 
+        public bool Disabled { get; set; }
+
         public HttpClientHandler Handler { get; }
 
         protected new void Dispose(bool disposing)
@@ -36,6 +38,20 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             base.Dispose();
         }
 
+        public new Task<HttpResponseMessage> GetAsync(string uri)
+        {
+            if (!Disabled)
+                return base.GetAsync(uri);
+            return new Task<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.Forbidden));
+        }
+
+        public new Task<HttpResponseMessage> PostAsync(string uri,HttpContent content)
+        {
+            if(!Disabled)
+                return base.PostAsync(uri,content);
+            return new Task<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.Forbidden));
+        }
+
         public async Task GetToken()
         {
             var raw = await GetAsync("/pressroom"); //because it's lightweight and does not redirect
@@ -45,9 +61,10 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             var nodes = doc.DocumentNode.Descendants("head").First().ChildNodes;
             var csfr =
                 nodes.First(
-                    htmlNode =>
-                        htmlNode.Attributes.Contains("name") && htmlNode.Attributes["name"].Value == "csrf_token")
-                    .Attributes["content"].Value;                                
+                        htmlNode =>
+                            htmlNode.Attributes.Contains("name") &&
+                            htmlNode.Attributes["name"].Value == "csrf_token")
+                    .Attributes["content"].Value;
             Token = csfr;
         }
     }
@@ -73,20 +90,22 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
         /// </returns>
         public static async Task<CsrfHttpClient> GetHttpContextAsync()
         {
-            if (_contextExpirationTime == null || DateTime.Now.CompareTo(_contextExpirationTime.Value) > 0)
+            try
             {
-                _httpClient?.ExpiredDispose();
-
-                var httpHandler = new HttpClientHandler
+                if (_contextExpirationTime == null || DateTime.Now.CompareTo(_contextExpirationTime.Value) > 0)
                 {
-                    CookieContainer = new CookieContainer(),
-                    UseCookies = true,
-                    AllowAutoRedirect = false,
-                };
-                //Utilities.GiveStatusBarFeedback("Performing http authentication...");
-                _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
-                await _httpClient.GetToken(); //gets token and sets cookies            
-                var loginPostInfo = new List<KeyValuePair<string, string>>
+                    _httpClient?.ExpiredDispose();
+
+                    var httpHandler = new HttpClientHandler
+                    {
+                        CookieContainer = new CookieContainer(),
+                        UseCookies = true,
+                        AllowAutoRedirect = false,
+                    };
+                    //Utilities.GiveStatusBarFeedback("Performing http authentication...");
+                    _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
+                    await _httpClient.GetToken(); //gets token and sets cookies            
+                    var loginPostInfo = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("user_name", Credentials.UserName),
                     new KeyValuePair<string, string>("password", Credentials.Password),
@@ -95,20 +114,29 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     new KeyValuePair<string, string>("submit", "1"),
                     new KeyValuePair<string, string>("csrf_token", _httpClient.Token)
                 };
-                var content = new FormUrlEncodedContent(loginPostInfo);
+                    var content = new FormUrlEncodedContent(loginPostInfo);
 
-                //we won't dispose it here because this instance gonna be passed further down to other queries
-                
-                var response = await _httpClient.PostAsync("/login.php", content);
-                if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.RedirectMethod)
-                {
-                    _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
-                    return _httpClient; //else we are returning client that can be used for next queries
+                    //we won't dispose it here because this instance gonna be passed further down to other queries
+
+                    var response = await _httpClient.PostAsync("/login.php", content);
+                    if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.RedirectMethod)
+                    {
+                        _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
+                        return _httpClient; //else we are returning client that can be used for next queries
+                    }
+
+                    throw new WebException("Unable to authorize");
                 }
-
-                throw new WebException("Unable to authorize");
+                return _httpClient;
             }
-            return _httpClient;
+            catch (Exception)
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                    "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
+                    "Something went wrong™");
+                return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};
+            }
+            
         }
 
 

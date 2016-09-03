@@ -168,9 +168,9 @@
                     <SymbolIcon Symbol="Globe" />
                 </Button>
                 <Button Height="40"
-                        Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
+                        Visibility="{Binding IsAddAnimeButtonEnabled,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
                         Command="{Binding RemoveAnimeCommand}"
-                        IsEnabled="{Binding RemoveAnimeBtnEnableState}"
+                        IsEnabled="{Binding IsRemoveAnimeButtonEnabled}"
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
                         Margin="0,5,0,0">
@@ -215,7 +215,7 @@
                            HorizontalAlignment="Center" Opacity=".75" />
                 <Button HorizontalAlignment="Stretch" Height="50"
                         Command="{Binding AddAnimeCommand}"
-                        IsEnabled="{Binding AddAnimeBtnEnableState}"
+                        IsEnabled="{Binding IsAddAnimeButtonEnabled}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         Margin="20,10,20,0"
                         BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">

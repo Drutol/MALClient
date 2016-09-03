@@ -257,7 +257,7 @@
                                             </Button>
                                             <Button x:Name="BtnAddAnime" HorizontalAlignment="Stretch" Height="40"
                                                     Command="{Binding AddAnimeCommand}"
-                                                    IsEnabled="{Binding AddAnimeBtnEnableState}"
+                                                    IsEnabled="{Binding IsAddAnimeButtonEnabled}"
                                                     Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                     Background="{ThemeResource BrushDetailsMoreButton}"
                                                     Margin="0,5,0,0">
@@ -274,7 +274,7 @@
                                             <Button Height="40"
                                                     Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
                                                     Command="{Binding RemoveAnimeCommand}"
-                                                    IsEnabled="{Binding RemoveAnimeBtnEnableState}"
+                                                    IsEnabled="{Binding IsRemoveAnimeButtonEnabled}"
                                                     HorizontalAlignment="Stretch"
                                                     Background="{ThemeResource BrushDetailsMoreButton}"
                                                     Margin="0,5,0,0">
@@ -302,7 +302,7 @@
                                        HorizontalAlignment="Center" Opacity=".75" />
                             <Button HorizontalAlignment="Stretch" Height="50"
                                     Command="{Binding AddAnimeCommand}"
-                                    IsEnabled="{Binding AddAnimeBtnEnableState}"
+                                    IsEnabled="{Binding IsAddAnimeButtonEnabled}"
                                     Background="{ThemeResource AppBarBackgroundThemeBrush}"
                                     Margin="20,10,20,0"
                                     BorderThickness="2"

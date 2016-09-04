@@ -13,30 +13,6 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.XShared.ViewModels
 {
-    public interface IMainViewModel
-    {
-        void Navigate(PageIndex page, object args = null);
-        string CurrentStatus { get; set; }
-        AnimeListPageNavigationArgs GetCurrentListOrderParams();
-        void PopulateSearchFilters(HashSet<string> filters);
-        //Desktop
-        void OnSearchInputSubmit();
-        event OffContentPaneStateChanged OffContentPaneStateChanged ;
-        ICommand HideOffContentCommand { get; }
-        string CurrentOffStatus { get; set; }
-        bool NavigateOffBackButtonVisibility { get; set; }
-        bool NavigateMainBackButtonVisibility { get; set; }
-        string CurrentSearchQuery { get; set; }
-        List<string> SearchHints { get; set; }
-        bool ScrollToTopButtonVisibility { get; set; }
-        string CurrentStatusSub { get; set; }
-        bool IsCurrentStatusSelectable { get; set; }
-        PageIndex? CurrentOffPage { get; set; }
-        bool OffContentVisibility { get; set; }
-        event SearchQuerySubmitted OnSearchQuerySubmitted;
-        event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
-    }
-
     public interface IHamburgerViewModel
     {
         Task UpdateProfileImg(bool dl = true);
@@ -94,12 +70,13 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<StaffDetailsViewModel>();
             SimpleIoc.Default.Register<CharacterSearchViewModel>();
             SimpleIoc.Default.Register<ProfilePageViewModel>();
+            SimpleIoc.Default.Register<LogInViewModel>();
 
         }
 
         public static bool Mobile { get; set; }
 
-        public static IMainViewModel GeneralMain => ServiceLocator.Current.GetInstance<IMainViewModel>();
+        public static MainViewModelBase GeneralMain => ServiceLocator.Current.GetInstance<MainViewModelBase>();
 
         public static IHamburgerViewModel GeneralHamburger => ServiceLocator.Current.GetInstance<IHamburgerViewModel>();
 
@@ -142,6 +119,9 @@ namespace MALClient.XShared.ViewModels
 
         public static CharacterSearchViewModel CharacterSearch
             => ServiceLocator.Current.GetInstance<CharacterSearchViewModel>();
+
+        public static LogInViewModel LogIn
+            => ServiceLocator.Current.GetInstance<LogInViewModel>();
 
         //Forums
 

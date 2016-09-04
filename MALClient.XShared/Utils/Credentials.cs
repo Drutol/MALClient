@@ -61,7 +61,8 @@ namespace MALClient.XShared.Utils
         public static void Reset()
         {
             PasswordVault.Reset();
-
+            SetAuthStatus(false);
+            SetAuthToken("");
             UserName = Password = string.Empty;
         }
 

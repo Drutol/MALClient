@@ -37,7 +37,7 @@ using MALClient.XShared.ViewModels.Main;
 namespace MALClient.ViewModels
 { 
 
-    public class MainViewModel : MainViewModelBase , IMainViewModel
+    public class MainViewModel : MainViewModelBase
     {
         static MainViewModel()
         {

@@ -251,7 +251,8 @@ namespace MALClient.ViewModels
                 ProfileButtonVisibility = true;
             }
             else
-            {
+            {            
+                UWPUtilities.RemoveProfileImg();
                 ProfileButtonVisibility = false;
             }
         }

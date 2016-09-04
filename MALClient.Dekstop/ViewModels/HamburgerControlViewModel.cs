@@ -317,6 +317,10 @@ namespace MALClient.ViewModels
 
                 ProfileButtonVisibility = true;
             }
+            else
+            {
+                UWPUtilities.RemoveProfileImg();
+            }
         }
 
         private void ResetActiveButton()

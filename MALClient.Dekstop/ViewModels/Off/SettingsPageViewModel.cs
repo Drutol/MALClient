@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
@@ -22,6 +23,7 @@ using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
+using WinRTXamlToolkit.Tools;
 using LogInPage = MALClient.Pages.Main.LogInPage;
 using Settings = MALClient.XShared.Utils.Settings;
 
@@ -434,6 +436,14 @@ namespace MALClient.ViewModels.Off
                     if (abstraction.LoadedModel)
                         abstraction.ViewModel.MangaFocusChanged(value);
                 });
+                if (ViewModelLocator.GeneralMain.CurrentMainPage == PageIndex.PageProfile)
+                {
+                    ViewModelLocator.ProfilePage.FavManga.Concat(ViewModelLocator.ProfilePage.RecentManga).ForEach(
+                        abstraction =>
+                        {
+                            abstraction.MangaFocusChanged(value);
+                        });
+                }
             }
         }
 

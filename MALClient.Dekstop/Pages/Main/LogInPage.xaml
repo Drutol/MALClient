@@ -79,7 +79,7 @@
                     VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
                     Click="ButtonRegister_OnClick" />
             <Button Grid.Row="1" Content="Problems?" Style="{StaticResource TextBlockButtonStyle}"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,5,16,5" Visibility="{Binding IsMalToggleChecked,Converter={StaticResource BoolToVisibilityConverter}}"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,5,16,5" Visibility="{Binding ProblemsButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Click="ButtonProblems_OnClick" />
         </Grid>
     </Grid>

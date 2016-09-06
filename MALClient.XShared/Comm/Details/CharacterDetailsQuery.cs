@@ -82,11 +82,11 @@ namespace MALClient.XShared.Comm.Details
                 if (image.Attributes.Contains("alt"))
                 {
                     output.ImgUrl = image.Attributes["src"].Value;
-                    output.Name = image.Attributes["alt"].Value;
+                    output.Name = image.Attributes["alt"].Value.Trim();
                 }
                 else
                 {
-                    output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
+                    output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText).Trim();
                 }
                 output.Content = output.SpoilerContent = "";
                 output.Content += WebUtility.HtmlDecode(leftColumn.LastChild.InnerText.Trim()) + "\n\n";

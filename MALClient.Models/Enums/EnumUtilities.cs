@@ -23,12 +23,19 @@ namespace MALClient.Models.Enums.Enums
 
         public static string GetDescription(this Enum value)
         {
+            try
+            {
+                Description attribute = value.GetType()
+                    .GetRuntimeField(value.ToString())
+                    .GetCustomAttributes(typeof(Description), false)
+                    .SingleOrDefault() as Description;
+                return attribute == null ? value.ToString() : attribute.Text;
+            }
+            catch (Exception)
+            {
+                return value.ToString();
+            }
 
-            Description attribute = value.GetType()
-                .GetRuntimeField(value.ToString())
-                .GetCustomAttributes(typeof(Description), false)
-                .SingleOrDefault() as Description;
-            return attribute == null ? value.ToString() : attribute.Text;
         }
 
         #endregion

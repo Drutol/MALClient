@@ -404,6 +404,8 @@ namespace MALClient.XShared.Utils
             return doc.Descendants(descendants).Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
+
+        //TODO Xamarin
         public static void TelemetryTrackEvent(TelemetryTrackedEvents @event)
         {
 #if !DEBUG

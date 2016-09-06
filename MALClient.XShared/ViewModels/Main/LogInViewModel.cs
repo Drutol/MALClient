@@ -103,6 +103,8 @@ namespace MALClient.XShared.ViewModels.Main
                 return;
             Authenticating = true;
             Credentials.Update(UserNameInput, PasswordInput, CurrentApiType);
+            PasswordInput = string.Empty;
+            RaisePropertyChanged(() => PasswordInput);
             try
             {
                 if (CurrentApiType == ApiType.Mal)

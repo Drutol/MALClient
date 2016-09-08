@@ -28,7 +28,7 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     case ApiType.Mal:
                         var data = animeMode
-                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false)
+                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title),requestedApiType).GetRequestResponse(false)
                             : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
                         data = WebUtility.HtmlDecode(data);
                         

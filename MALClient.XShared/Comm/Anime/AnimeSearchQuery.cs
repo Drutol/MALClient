@@ -12,9 +12,10 @@ namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeSearchQuery : Query
     {
-        public AnimeSearchQuery(string query)
+        public AnimeSearchQuery(string query,ApiType? apiOverride = null)
         {
-            switch (CurrentApiType)
+            var targettedApi = apiOverride ?? CurrentApiType;
+            switch (targettedApi)
             {
                 case ApiType.Mal:
                     Request =

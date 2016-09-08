@@ -55,7 +55,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         private List<FavouriteViewModel> _mangaCharacterData;
 
-        public AnimeDetailsPageNavigationArgs _prevArgs;
+        public AnimeDetailsPageNavigationArgs PrevArgs { get; private set; }
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
 
         public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,ISystemControlsLauncherService systemControlsLauncherService)
@@ -179,7 +179,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _id = value;
                 if (value <= 0)
-                    _prevArgs = null;
+                    PrevArgs = null;
             }
         }
 
@@ -336,8 +336,8 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    if (PrevArgs != null)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
@@ -348,9 +348,9 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageForumIndex:
                 case PageIndex.PageStaffDetails:
                 case PageIndex.PageCharacterDetails:
-                    await FetchData();
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    await FetchData(false,param.Source);
+                    if (PrevArgs != null)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     if(ViewModelLocator.Mobile || (!ViewModelLocator.Mobile && param.Source != PageIndex.PageProfile))
                         ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
@@ -363,15 +363,15 @@ namespace MALClient.XShared.ViewModels.Details
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    if (PrevArgs != null)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
 
-            _prevArgs = param;
-            _prevArgs.RegisterBackNav = false;
-            _prevArgs.Source = PageIndex.PageAnimeDetails;
+            PrevArgs = param;
+            PrevArgs.RegisterBackNav = false;
+            PrevArgs.Source = PageIndex.PageAnimeDetails;
             Initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
             //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
@@ -916,7 +916,7 @@ namespace MALClient.XShared.ViewModels.Details
             => _navigateCharacterDetailsCommand ?? (_navigateCharacterDetailsCommand = new RelayCommand<AnimeCharacter>(
                 character =>
                 {
-                    ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,new CharacterDetailsNavigationArgs {Id = int.Parse(character.Id)});
                 }));
 
@@ -926,7 +926,7 @@ namespace MALClient.XShared.ViewModels.Details
             => _navigateStaffDetailsCommand ?? (_navigateStaffDetailsCommand = new RelayCommand<AnimeStaffPerson>(
                 person =>
                 {
-                    ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,new StaffDetailsNaviagtionArgs {Id = int.Parse(person.Id)});
                 }));
 
@@ -1804,13 +1804,21 @@ namespace MALClient.XShared.ViewModels.Details
             PopulateData();
         }
 
-        private async Task FetchData(bool force = false)
+        private async Task FetchData(bool force = false,PageIndex? sourcePage = null)
         {
             LoadingGlobal = true;
 
             try
             {
-                var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, AnimeMode);
+                var data =
+                    await
+                        new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, AnimeMode,
+                            sourcePage != null
+                                ? sourcePage == PageIndex.PageCharacterDetails ||
+                                  sourcePage == PageIndex.PageStaffDetails
+                                    ? (ApiType?) ApiType.Mal
+                                    : null
+                                : null);
                 ExtractData(data);
             }
             catch (Exception)

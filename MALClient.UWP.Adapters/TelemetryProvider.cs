@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
+using Microsoft.HockeyApp;
 
 namespace MALClient.UWP.Adapters
 {
@@ -24,14 +25,14 @@ namespace MALClient.UWP.Adapters
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event)
         {
 #if !DEBUG
-            //HockeyClient.Current.TrackEvent(@event.ToString());
+            HockeyClient.Current.TrackEvent(@event.ToString());
 #endif
         }
 
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event, string arg)
         {
 #if !DEBUG
-            //HockeyClient.Current.TrackEvent(@event.ToString() + " " + arg);
+            HockeyClient.Current.TrackEvent(@event + " " + arg);
 #endif
         }
     }

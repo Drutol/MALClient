@@ -41,14 +41,9 @@ namespace MALClient
         /// </summary>
         public App()
         {
-#if !DEBUG
-            HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
-            {
-                Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
-            });
-#endif
             MobileViewModelLocator.RegisterDependencies();
             UWPViewModelLocator.RegisterDependencies();
+            ResourceLocator.TelemetryProvider.Init();
             Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
             InitializeComponent();
             Suspending += OnSuspending;

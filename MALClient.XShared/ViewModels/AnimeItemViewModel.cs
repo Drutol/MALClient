@@ -267,6 +267,7 @@ namespace MALClient.XShared.ViewModels
          public int AllEpisodesFocused => _allEpisodes;
          public int AllVolumesFocused => _allVolumes;
 
+
         public string Notes
          {
              get { return ParentAbstraction.Notes; }
@@ -882,6 +883,12 @@ namespace MALClient.XShared.ViewModels
             AdjustIncrementButtonsVisibility();
         }
 
+
+        public void UpdateChapterData(int allEpisodes)
+        {
+            _allEpisodes = allEpisodes;
+        }
+
         private void AdjustIncrementButtonsVisibility()
         {
             if (!Auth || !Credentials.Authenticated)
@@ -1128,5 +1135,7 @@ namespace MALClient.XShared.ViewModels
         }
 
         #endregion
+
+
     }
 }

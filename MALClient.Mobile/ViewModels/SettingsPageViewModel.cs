@@ -395,7 +395,7 @@ namespace MALClient.ViewModels
             if (_newsLoaded)
                 return;
             _newsLoaded = true;
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.FetchedNews);
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FetchedNews);
             var data = new List<NewsData>();
             try
             {

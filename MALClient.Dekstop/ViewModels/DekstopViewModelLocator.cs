@@ -36,6 +36,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<ICalendarExportProvider, CalendarExportProvider>();
             SimpleIoc.Default.Register<ILiveTilesManager, LiveTilesManagerRelay>();
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
+            SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

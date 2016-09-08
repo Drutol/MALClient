@@ -3,6 +3,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Store;
 using Windows.System;
 using Windows.UI.Popups;
+using MALClient.Models.Enums;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Utils.Managers
 {
@@ -74,7 +76,7 @@ namespace MALClient.XShared.Utils.Managers
             {
                 //
             }
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.DonatePopUpAppeared);
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.DonatePopUpAppeared);
         }
     }
 }

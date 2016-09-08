@@ -116,7 +116,7 @@ namespace MALClient.XShared.ViewModels.Main
                     Settings.SelectedApiType = ApiType.Mal;
                     Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
                     Credentials.SetAuthStatus(true);
-                    Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
                 }
                 else //hummingbird
                 {
@@ -128,7 +128,7 @@ namespace MALClient.XShared.ViewModels.Main
                     Settings.SelectedApiType = ApiType.Hummingbird;
                     Credentials.SetAuthToken(response);
                     Credentials.SetAuthStatus(true);
-                    Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInHummingbird);
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInHummingbird);
 
                 }
             }

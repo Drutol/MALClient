@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Models.Enums;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.NavArgs;
@@ -198,7 +199,7 @@ namespace MALClient.UserControls.New
 
         private async void OpenRepo(object sender, RoutedEventArgs e)
         {
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
             await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient/issues"));
         }
 

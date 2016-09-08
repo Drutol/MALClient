@@ -1790,7 +1790,16 @@ namespace MALClient.XShared.ViewModels.Details
             //removes string from brackets (sthsth) lol ->  lol
             AllEpisodes = data.AllEpisodes;
             if (!AnimeMode)
+            {
                 AllVolumes = data.AllVolumes;
+                var vm = _animeItemReference as AnimeItemViewModel;
+                if (vm != null)
+                {
+                    vm.UpdateChapterData(data.AllEpisodes);
+                }
+            }
+            
+            
 
             PopulateData();
         }

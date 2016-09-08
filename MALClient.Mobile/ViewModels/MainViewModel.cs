@@ -63,7 +63,7 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = false;
 

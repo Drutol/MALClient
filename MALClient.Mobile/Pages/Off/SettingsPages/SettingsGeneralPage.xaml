@@ -71,7 +71,24 @@
                             IsOn="{Binding PullHigherQualityImages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="High quality" OffContent="Standard" HorizontalAlignment="Center" />
                     </Grid>
-                    <MenuFlyoutSeparator Margin="0,5"/>
+                    <TextBlock Text="Display show's season next to its type."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding DisplaySeasonWithType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Show" OffContent="Hide" HorizontalAlignment="Center" />
+                    </Grid>                    
+                    <TextBlock Text="Switch sorting order automatically (descending/ascending)"
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding AutoDescendingSorting,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Auto" OffContent="Disabled" HorizontalAlignment="Center" />
+                    </Grid>
                     <TextBlock Text="Make manga volumes more important than chapters."
                                                FontWeight="Medium"
                                                 HorizontalAlignment="Center" Margin="0,5"

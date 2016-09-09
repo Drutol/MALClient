@@ -53,6 +53,7 @@
     <Compile Include="Enums\PageIndex.cs" />
     <Compile Include="Enums\RelatedItemType.cs" />
     <Compile Include="Enums\TelemetryEventsEnum.cs" />
+    <Compile Include="Interfaces\IAnimeListItem.cs" />
     <Compile Include="Interfaces\IDetailsPageArgs.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />

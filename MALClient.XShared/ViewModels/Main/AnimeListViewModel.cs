@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -385,7 +386,7 @@ namespace MALClient.XShared.ViewModels.Main
                     items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
                 else
                     items = items.Where(item => item.Title.ToLower().Contains(query));
-            }
+            }            
             if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                 items = items.OrderBy(item => item.Index);
             else
@@ -423,7 +424,7 @@ namespace MALClient.XShared.ViewModels.Main
                                 airingAfterToday.OrderByDescending(abstraction => today - abstraction.AirDay)
                                     .Concat(
                                         airingBeforeToday.OrderByDescending(
-                                            abstraction => today - abstraction.AirDay)
+                                                abstraction => today - abstraction.AirDay)
                                             .Concat(nonAiringItems));
                         else
                             items =
@@ -437,13 +438,48 @@ namespace MALClient.XShared.ViewModels.Main
                         items = items.OrderBy(abstraction => abstraction.MyStartDate);
                         break;
                     case SortOptions.SortEndDate:
-                        items = items.OrderBy(abstraction => abstraction.MyEndDate);
+                        items = items.OrderBy(abstraction => abstraction.AirStartDate);
+                        break;
+                    case SortOptions.SortSeason:
+                        var itemsWithStartDate = new List<AnimeItemAbstraction>();
+                        var itemsWithoutStartDate = new List<AnimeItemAbstraction>();
+                        foreach (var item in items)
+                        {
+                            if (string.IsNullOrEmpty(item.AirStartDate))
+                            {
+                                itemsWithoutStartDate.Add(item);
+                            }
+                            else
+                            {
+                                itemsWithStartDate.Add(item);
+                            }
+                        }
+                        if (SortDescending)
+                        {
+                            itemsWithStartDate =
+                                itemsWithStartDate.OrderByDescending(
+                                        item => int.Parse(item.AirStartDate.Substring(0, 4)))
+                                    .ThenByDescending(item => Utilities.DateToSeason(item.AirStartDate))
+                                    .ThenBy(item => item.Title)
+                                    .ToList();
+                            items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                        }
+                        else
+                        {
+                            itemsWithStartDate =
+                                itemsWithStartDate.OrderBy(
+                                        item => int.Parse(item.AirStartDate.Substring(0, 4)))
+                                    .ThenBy(item => Utilities.DateToSeason(item.AirStartDate))
+                                    .ThenBy(item => item.Title)
+                                    .ToList();
+                            items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(SortOption), SortOption, null);
                 }
             //If we are descending then reverse order
-            if (SortDescending && SortOption != SortOptions.SortAirDay)
+            if (SortDescending && SortOption != SortOptions.SortAirDay && SortOption != SortOptions.SortSeason)
                 items = items.Reverse();
             //Add all abstractions to current set (spread across pages)
             _animeItemsSet.AddRange(items);
@@ -464,6 +500,38 @@ namespace MALClient.XShared.ViewModels.Main
         /// <param name="option"></param>
         private void SetSortOrder(SortOptions? option)
         {
+            if (Settings.AutoDescendingSorting)
+                switch (option)
+                {
+                    case SortOptions.SortTitle:
+                        _sortDescending = false;
+                        break;
+                    case SortOptions.SortScore:
+                        _sortDescending = true;
+                        break;
+                    case SortOptions.SortWatched:
+                        _sortDescending = true;
+                        break;
+                    case SortOptions.SortAirDay:
+                        _sortDescending = true;
+                        break;
+                    case SortOptions.SortLastWatched:
+                        _sortDescending = false;
+                        break;
+                    case SortOptions.SortStartDate:
+                        _sortDescending = false;
+                        break;
+                    case SortOptions.SortEndDate:
+                        _sortDescending = true;
+                        break;
+                    case SortOptions.SortNothing:
+                        break;
+                    case SortOptions.SortSeason:
+                        _sortDescending = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             SortOption = option ??
                          (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder);
         }
@@ -1319,7 +1387,7 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _refreshCommand;
 
         public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(ReloadList));
-
+       
         private ICommand _loadMoreCommand;
 
         public ICommand LoadMoreCommand => _loadMoreCommand ?? (_loadMoreCommand = new RelayCommand(LoadMore));
@@ -1596,5 +1664,126 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         #endregion
+
+        #region AllItemLoading
+
+        private bool _loadingAllDetailsVisibility;
+        private int _allItemsToLoad;
+        private int _itemsLoaded;
+        private ICommand _cancelLoadingAllItemsCommand;
+        private ICommand _loadAllItemsDetailsCommand;
+
+        public bool LoadingAllDetailsVisibility
+        {
+            get { return _loadingAllDetailsVisibility; }
+            set
+            {
+                _loadingAllDetailsVisibility = value;
+                RaisePropertyChanged(() => LoadingAllDetailsVisibility);
+            }
+        }
+
+        public int AllItemsToLoad
+        {
+            get { return _allItemsToLoad; }
+            set
+            {
+                _allItemsToLoad = value;
+                RaisePropertyChanged(() => AllItemsToLoad);
+            }
+        }
+
+        public int ItemsLoaded
+        {
+            get { return _itemsLoaded; }
+            set
+            {
+                _itemsLoaded = value;
+                RaisePropertyChanged(() => ItemsLoaded);
+                RaisePropertyChanged(() => LoadingItemsStatus);
+            }
+        }
+
+        public string LoadingItemsStatus => $"{ItemsLoaded}/{AllItemsToLoad}";
+
+        public ICommand CancelLoadingAllItemsCommand
+            => _cancelLoadingAllItemsCommand ?? (_cancelLoadingAllItemsCommand = new RelayCommand(() => _cancelLoadingAllItems = true));
+
+        public ICommand LoadAllItemsDetailsCommand
+            => _loadAllItemsDetailsCommand ?? (_loadAllItemsDetailsCommand = new RelayCommand(LoadAllItemsDetails));
+
+        private bool _cancelLoadingAllItems;
+
+        private async void LoadAllItemsDetails()
+        {
+            var idsToFetch = new List<AnimeItemAbstraction>();
+            foreach (var animeItemViewModel in _animeItemsSet)
+            {
+                if (!animeItemViewModel.LoadedVolatile)
+                    idsToFetch.Add(animeItemViewModel);
+            }
+
+
+            if (idsToFetch.Count > 0)
+            {
+                LoadingAllDetailsVisibility = true;
+                AllItemsToLoad = idsToFetch.Count;
+                foreach (var abstraction in idsToFetch)
+                {
+                    if (_cancelLoadingAllItems)
+                    {
+                        _cancelLoadingAllItems = false;
+                        break;
+                    }
+
+                    try
+                    {
+                        var data =
+                            await
+                                new AnimeGeneralDetailsQuery().GetAnimeDetails(false, abstraction.Id.ToString(),
+                                    abstraction.Title, true);
+                        int day;
+                        try
+                        {
+                            day = data.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+                                  (string.Equals(data.Status, "Currently Airing",
+                                      StringComparison.CurrentCultureIgnoreCase) ||
+                                   string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
+                                ? (int)DateTime.Parse(data.StartDate).DayOfWeek + 1
+                                : -1;
+                        }
+                        catch (Exception)
+                        {
+                            day = -1;
+                        }
+
+                        DataCache.RegisterVolatileData(abstraction.Id, new VolatileDataCache
+                        {
+                            DayOfAiring = day,
+                            GlobalScore = data.GlobalScore,
+                            AirStartDate =
+                                data.StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : data.StartDate
+                        });
+                        if (day != -1)
+                        {
+                            abstraction.AirDay = day;
+                            abstraction.GlobalScore = data.GlobalScore;
+                            if(abstraction.LoadedModel)
+                                abstraction.ViewModel.UpdateVolatileData();                        
+                        }
+                        ItemsLoaded++;
+                    }
+                    catch (Exception e)
+                    {
+                        //searching for crash source
+                    }
+                }
+                LoadingAllDetailsVisibility = false;
+            }
+        }
+
+        #endregion
+
+
     }
 }

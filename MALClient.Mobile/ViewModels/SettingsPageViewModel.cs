@@ -190,6 +190,18 @@ namespace MALClient.ViewModels
             set { Settings.LockDisplayMode = value; }
         }
 
+        public bool DisplaySeasonWithType
+        {
+            get { return Settings.DisplaySeasonWithType; }
+            set { Settings.DisplaySeasonWithType = value; }
+        }
+
+        public bool AutoDescendingSorting
+        {
+            get { return Settings.AutoDescendingSorting; }
+            set { Settings.AutoDescendingSorting = value; }
+        }
+
         public bool PullHigherQualityImages
         {
             get { return Settings.PullHigherQualityImages; }

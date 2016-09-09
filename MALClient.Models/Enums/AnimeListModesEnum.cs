@@ -35,6 +35,8 @@ namespace MALClient.XShared.Utils.Enums
         [EnumUtilities.Description("End Date")]
         SortEndDate,
         [EnumUtilities.Description("")]
-        SortNothing
+        SortNothing,
+        [EnumUtilities.Description("Season")]
+        SortSeason
     }
 }

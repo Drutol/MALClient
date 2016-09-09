@@ -387,6 +387,18 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["LockDisplayMode"] = value; }
         }
 
+        public static bool AutoDescendingSorting
+        {
+            get { return (bool) (ApplicationDataService["AutoDescendingSorting"] ?? true); }
+            set { ApplicationDataService["AutoDescendingSorting"] = value; }
+        }
+
+        public static bool DisplaySeasonWithType
+        {
+            get { return (bool) (ApplicationDataService["DisplaySeasonWithType"] ?? false); }
+            set { ApplicationDataService["DisplaySeasonWithType"] = value; }
+        }
+
         #endregion
 
         #region RatePopUp
@@ -523,6 +535,9 @@ namespace MALClient.XShared.Utils
             get { return (string) (ApplicationDataService["ForumsPinnedBoards"] ?? ""); }
             set { ApplicationDataService["ForumsPinnedBoards"] = value; }
         }
+
+
+
         #endregion
 
     }

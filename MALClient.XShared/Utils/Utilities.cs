@@ -89,7 +89,7 @@ namespace MALClient.XShared.Utils
             }
         }
 
-        public static string DayToString(DayOfWeek day,bool ignoreOffset = false)
+        public static string DayToString(DayOfWeek day, bool ignoreOffset = false)
         {
             if (day < 0)
                 return "";
@@ -129,24 +129,31 @@ namespace MALClient.XShared.Utils
             switch (day)
             {
                 case "Fri":
-                    return DayOfWeek.Friday; ;
+                    return DayOfWeek.Friday;
+                    ;
                 case "Mon":
-                    return DayOfWeek.Monday; ;
+                    return DayOfWeek.Monday;
+                    ;
                 case "Sat":
-                    return DayOfWeek.Saturday; ;
+                    return DayOfWeek.Saturday;
+                    ;
                 case "Sun":
-                    return DayOfWeek.Sunday; ;
+                    return DayOfWeek.Sunday;
+                    ;
                 case "Thu":
-                    return DayOfWeek.Thursday; ;
+                    return DayOfWeek.Thursday;
+                    ;
                 case "Tue":
-                    return DayOfWeek.Tuesday; ;
+                    return DayOfWeek.Tuesday;
+                    ;
                 case "Wed":
-                    return DayOfWeek.Wednesday; ;
+                    return DayOfWeek.Wednesday;
+                    ;
             }
             return DayOfWeek.Friday;
         }
 
-        
+
 
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
@@ -183,9 +190,9 @@ namespace MALClient.XShared.Utils
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
-        
 
-        
+
+
 
 
         public static string CleanAnimeTitle(string title)
@@ -196,7 +203,7 @@ namespace MALClient.XShared.Utils
 
         public static string FirstCharToUpper(string input)
         {
-            return input.Substring(0,1).ToUpper() + input.Substring(1);
+            return input.Substring(0, 1).ToUpper() + input.Substring(1);
         }
 
         public static int LevenshteinDistance(string s, string t)
@@ -286,12 +293,28 @@ namespace MALClient.XShared.Utils
 
         public static string DecodeXmlSynopsisDetail(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("mdash;", "—").Replace("&amp;", "&");
+            return
+                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("mdash;", "—")
+                    .Replace("&amp;", "&");
         }
 
         public static string DecodeXmlSynopsisSearch(string txt)
         {
-            return Regex.Replace(txt, @"<[^>]+>|&nbsp;", "").Trim().Replace("[i]", "").Replace("[/i]", "").Replace("#039;", "'").Replace("&quot;", "\"").Replace("&mdash;", "—").Replace("&amp;", "&");
+            return
+                Regex.Replace(txt, @"<[^>]+>|&nbsp;", "")
+                    .Trim()
+                    .Replace("[i]", "")
+                    .Replace("[/i]", "")
+                    .Replace("#039;", "'")
+                    .Replace("&quot;", "\"")
+                    .Replace("&mdash;", "—")
+                    .Replace("&amp;", "&");
         }
 
         public static FontAwesomeIcon BoardToIcon(ForumBoards board)
@@ -360,6 +383,45 @@ namespace MALClient.XShared.Utils
                 default:
                     return "";
             }
+        }
+
+        /// <summary>
+        /// Converts yyyy-MM-dd string to season, 1 - winter 4 - fall , 0 - error
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int DateToSeason(string date)
+        {
+            try
+            {
+                var month = int.Parse(date.Split('-')[1]);
+                if (month > 0 && month < 3)
+                    return 1;
+                if (month >= 3 && month < 6)
+                    return 2;
+                if (month >= 6 && month < 9)
+                    return 3;
+                return 4;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public static string SeasonToCapitalLetterWithYear(string date)
+        {
+            var season = DateToSeason(date);
+            var year = date.Substring(2, 2);
+            if (season == 1)
+                return "W" + year;
+            if (season == 2)
+                return "S" + year;
+            if (season == 3)
+                return "Su" + year;
+            if (season == 4)
+                return "F" + year;
+            return "";
         }
 
         public static HtmlNode FirstWithClass(this IEnumerable<HtmlNode> doc, string targettedClass)

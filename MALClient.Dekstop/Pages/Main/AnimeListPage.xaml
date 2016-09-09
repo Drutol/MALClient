@@ -49,6 +49,7 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
+                <AppBarButton Visibility="{Binding MalApiSpecificControlsVisibility}" Label="Load all details" Command="{Binding LoadAllItemsDetailsCommand}"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
                           Visibility="{Binding AppBtnGoBackToMyListVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -177,7 +178,11 @@
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
                                                             Command="{Binding SetSortModeCommand}"
                                                             Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                            CommandParameter="6" GroupName="SortOptionsPivotUpperItems" />
+                                                            CommandParameter="6" GroupName="SortOptionsPivotUpperItems" />  
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortSeason" Text="Season"
+                                                            Command="{Binding SetSortModeCommand}"
+                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                            CommandParameter="8" GroupName="SortOptionsPivotUpperItems" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None"
                                                             Command="{Binding SetSortModeCommand}" CommandParameter="7"
                                                             GroupName="SortOptionsPivotUpperItems" />
@@ -379,6 +384,32 @@
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                 IsActive="True" />
+        </Grid>        
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{ThemeResource BrushLoadingNonTransparent}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" CornerRadius="10" Padding="10">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".4"/>
+                </Grid.Background>
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" >
+                        <TextBlock Text="Loading all items details...  "/>
+                        <TextBlock Text="{Binding LoadingItemsStatus}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="0"/>
+                        <ProgressBar Grid.Column="1"  HorizontalAlignment="Stretch" Margin="10,0" Value="{Binding ItemsLoaded}" Minimum="0" Maximum="{Binding AllItemsToLoad}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding AllItemsToLoad}"/>
+                    </Grid>
+                    <Button Style="{StaticResource TextBlockButtonStyle}" Content="Cancel" Margin="0,10" HorizontalAlignment="Center" Command="{Binding CancelLoadingAllItemsCommand}"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

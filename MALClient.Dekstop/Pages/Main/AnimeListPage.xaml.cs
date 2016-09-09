@@ -336,8 +336,9 @@ namespace MALClient.Pages.Main
                         SortAiring.IsChecked =
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
-                                    SortEndDate.IsChecked =
-                                        SortStartDate.IsChecked = false;
+                                    SortEndDate.IsChecked = 
+                                        SortSeason.IsChecked =
+                                            SortStartDate.IsChecked = false;
             switch (option)
             {
                 case SortOptions.SortTitle:
@@ -363,6 +364,9 @@ namespace MALClient.Pages.Main
                     break;
                 case SortOptions.SortEndDate:
                     SortEndDate.IsChecked = true;
+                    break;
+                case SortOptions.SortSeason:
+                    SortSeason.IsChecked = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);

@@ -102,7 +102,25 @@
                         <ToggleSwitch
                             IsOn="{Binding PullHigherQualityImages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="High quality" OffContent="Standard" HorizontalAlignment="Center" />
-                    </Grid>                    
+                    </Grid>                              
+                    <TextBlock Text="Display show's season next to its type."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding DisplaySeasonWithType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Show" OffContent="Hide" HorizontalAlignment="Center" />
+                    </Grid>
+                    <TextBlock Text="Switch sorting order automatically (descending/ascending)"
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding AutoDescendingSorting,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Auto" OffContent="Disabled" HorizontalAlignment="Center" />
+                    </Grid>
                     <TextBlock Text="Ensure that currently selected item is visible after closing details pane."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"

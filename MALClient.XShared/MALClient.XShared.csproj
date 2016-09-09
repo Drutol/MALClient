@@ -96,6 +96,7 @@
     <Compile Include="Utils\Utilities.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
+    <Compile Include="ViewModels\AnimeListSeparatorViewModel.cs" />
     <Compile Include="ViewModels\AnimeSearchItemViewModel.cs" />
     <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />

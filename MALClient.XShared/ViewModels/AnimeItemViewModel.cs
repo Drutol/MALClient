@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
+using MALClient.Models.Interfaces;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm;
@@ -26,7 +27,7 @@ namespace MALClient.XShared.ViewModels
         AirDay,
     }
 
-    public class AnimeItemViewModel : ViewModelBase, IAnimeData
+    public class AnimeItemViewModel : ViewModelBase, IAnimeData, IAnimeListItem
     {
         public const string InvalidStartEndDate = "0000-00-00";
         public readonly AnimeItemAbstraction ParentAbstraction;
@@ -398,11 +399,14 @@ namespace MALClient.XShared.ViewModels
 
         public string Type
             =>
-                ParentAbstraction.Type == 0
-                    ? ""
-                    : ParentAbstraction.RepresentsAnime
-                        ? ((AnimeType) ParentAbstraction.Type).ToString()
-                        : ((MangaType) ParentAbstraction.Type).ToString();
+            (!Settings.DisplaySeasonWithType || string.IsNullOrEmpty(ParentAbstraction.AirStartDate)
+                ? ""
+                : Utilities.SeasonToCapitalLetterWithYear(ParentAbstraction.AirStartDate) + " ")  + 
+            (ParentAbstraction.Type == 0
+                ? ""
+                : ParentAbstraction.RepresentsAnime
+                    ? ((AnimeType) ParentAbstraction.Type).ToString()
+                    : ((MangaType) ParentAbstraction.Type).ToString());
 
 
         public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime);
@@ -919,6 +923,7 @@ namespace MALClient.XShared.ViewModels
         {
             RaisePropertyChanged(() => TopLeftInfoBind);
             RaisePropertyChanged(() => GlobalScoreBind);
+            RaisePropertyChanged(() => Type);
         }
 
         #endregion

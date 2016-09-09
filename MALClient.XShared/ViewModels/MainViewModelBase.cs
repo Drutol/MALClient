@@ -177,7 +177,7 @@ namespace MALClient.XShared.ViewModels
 
         private string _currentOffStatus;
 
-        public string CurrentOffStatus
+        public virtual string CurrentOffStatus
         {
             get { return _currentOffStatus; }
             set

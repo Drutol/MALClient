@@ -326,5 +326,10 @@ namespace MALClient.ViewModels
             View.CurrentStatusStoryboard.Begin();
         }
 
+        public override string CurrentOffStatus
+        {
+            get { return CurrentStatus; }
+            set { CurrentStatus = value; }
+        }
     }
 }

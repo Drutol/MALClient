@@ -19,11 +19,11 @@ using AnimeListPageNavigationArgs = MALClient.XShared.NavArgs.AnimeListPageNavig
 
 namespace MALClient.Pages.Main
 {
-   
+
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page , IDimensionsProvider
+    public sealed partial class AnimeListPage : Page, IDimensionsProvider
     {
         private ScrollViewer _indefiniteScrollViewer;
         private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
@@ -32,13 +32,40 @@ namespace MALClient.Pages.Main
         {
             private get
             {
-                return _indefiniteScrollViewer ??
-                       (_indefiniteScrollViewer =
-                           VisualTreeHelper.GetChild(
-                               VisualTreeHelper.GetChild((DependencyObject)GetScrollingContainer(), 0), 0) as
-                               ScrollViewer);
+                return (ScrollViewer)FindChildControl<ScrollViewer>((DependencyObject) GetScrollingContainer());
+                //return _indefiniteScrollViewer ??
+                //       (_indefiniteScrollViewer =
+                //           VisualTreeHelper.GetChild(
+                //                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
+                //               ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
+        }
+
+        private DependencyObject FindChildControl<T>(DependencyObject control)
+        {
+            int childNumber = VisualTreeHelper.GetChildrenCount(control);
+            for (int i = 0; i < childNumber; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(control, i);
+                FrameworkElement fe = child as FrameworkElement;
+                // Not a framework element or is null
+                if (fe == null) return null;
+
+                if (child is T)
+                {
+                    // Found the control so return
+                    return child;
+                }
+                else
+                {
+                    // Not found it - search children
+                    DependencyObject nextLevel = FindChildControl<T>(child);
+                    if (nextLevel != null)
+                        return nextLevel;
+                }
+            }
+            return null;
         }
 
         public Flyout FlyoutViews => ViewsFlyout;
@@ -99,9 +126,12 @@ namespace MALClient.Pages.Main
 
         private bool _loaded;
         private AnimeListPageNavigationArgs _lastArgs;
+        private bool _handlerAdded1;
 
         public AnimeListPage()
         {
+            _loaded = false;
+            _handlerAdded = false;
             InitializeComponent();
             Loaded += async (sender, args) =>
             {
@@ -110,26 +140,27 @@ namespace MALClient.Pages.Main
                 ViewModel.SortingSettingChanged += InitSortOptions;
                 ViewModel.Init(_lastArgs);
                 ViewModel.DimensionsProvider = this;
-                _loaded = true;
                 ViewModel.HideFiltersFlyout += ViewModelOnHideFiltersFlyout;
                 ViewModel.HideSortingFlyout += ViewModelOnHideSortingFlyout;
                 ViewModel.HideViewsFlyout += ViewModelOnHideViewsFlyout;
                 ViewModel.ScrollToTopRequest += ViewModelOnScrollToTopRequest;
                 ViewModel.AddScrollHandlerRequest += ViewModelOnAddScrollHandlerRequest;
                 ViewModel.RemoveScrollHandlerRequest += ViewModelOnRemoveScrollHandlerRequest;
-                ViewModel.RemoveScrollingConatinerReferenceRequest += ViewModelOnRemoveScrollingConatinerReferenceRequest;
+                ViewModel.RemoveScrollingConatinerReferenceRequest +=
+                    ViewModelOnRemoveScrollingConatinerReferenceRequest;
                 ViewModel.HideSeasonSelectionFlyout += ViewModelOnHideSeasonSelectionFlyout;
                 _loaded = true;
                 try
                 {
                     await Task.Delay(100);
-                    VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false); //force update on startup
+                    VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false);
+                    //force update on startup
                 }
                 catch (Exception)
                 {
                     //comexception
                 }
-                
+
             };
         }
 
@@ -148,20 +179,71 @@ namespace MALClient.Pages.Main
             IndefiniteScrollViewer = null;
         }
 
+        private bool _handlerAdded
+        {
+            get { return _handlerAdded1; }
+            set { _handlerAdded1 = value; }
+        }
+
         private async void ViewModelOnRemoveScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+            if(!_handlerAdded)
+                return;
+            try
+            {
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv != null)
+                {
+                    sv.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = false;
+                }
+            }
+            catch (Exception)
+            {
+                //Null delegate?
+            }
         }
 
         private async void ViewModelOnAddScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            if(_handlerAdded)
+                return;
+            try
+            {
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv == null)
+                {
+                    var container = GetScrollingContainer() as FrameworkElement;
+                    if (container != null)
+                        container.LayoutUpdated += ScrollViewerLoaded;
+                }
+                else
+                {
+                    sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = true;
+                }
 
+            }
+            catch (Exception)
+            {
+                //Null delegate?
+            }
+        }
+
+        private async void ScrollViewerLoaded(object sender, object e)
+        {
+            var sv = await GetIndefiniteScrollViewer();
+            if (sv == null)
+                return;
+            (GetScrollingContainer() as FrameworkElement).LayoutUpdated -= ScrollViewerLoaded;
+            sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            _handlerAdded = true;
+            
         }
 
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
-            ViewModel.IndefiniteScrollViewerOnViewChanging(e.FinalView.VerticalOffset);
+            ViewModelLocator.AnimeList.IndefiniteScrollViewerOnViewChanging(e.FinalView.VerticalOffset);
         }
 
         private async void ViewModelOnScrollToTopRequest()

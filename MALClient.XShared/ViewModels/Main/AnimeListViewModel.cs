@@ -500,7 +500,7 @@ namespace MALClient.XShared.ViewModels.Main
         /// <param name="option"></param>
         private void SetSortOrder(SortOptions? option)
         {
-            if (Settings.AutoDescendingSorting)
+            if (Settings.AutoDescendingSorting && option != null)
                 switch (option)
                 {
                     case SortOptions.SortTitle:

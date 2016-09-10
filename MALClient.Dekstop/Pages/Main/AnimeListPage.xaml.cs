@@ -34,13 +34,40 @@ namespace MALClient.Pages.Main
         {
             private get
             {
-                return _indefiniteScrollViewer ??
-                       (_indefiniteScrollViewer =
-                           VisualTreeHelper.GetChild(
-                                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
-                               ScrollViewer);
+                return (ScrollViewer)FindChildControl<ScrollViewer>((DependencyObject)GetScrollingContainer());
+                //return _indefiniteScrollViewer ??
+                //       (_indefiniteScrollViewer =
+                //           VisualTreeHelper.GetChild(
+                //                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
+                //               ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
+        }
+
+        private DependencyObject FindChildControl<T>(DependencyObject control)
+        {
+            int childNumber = VisualTreeHelper.GetChildrenCount(control);
+            for (int i = 0; i < childNumber; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(control, i);
+                FrameworkElement fe = child as FrameworkElement;
+                // Not a framework element or is null
+                if (fe == null) return null;
+
+                if (child is T)
+                {
+                    // Found the control so return
+                    return child;
+                }
+                else
+                {
+                    // Not found it - search children
+                    DependencyObject nextLevel = FindChildControl<T>(child);
+                    if (nextLevel != null)
+                        return nextLevel;
+                }
+            }
+            return null;
         }
 
         public Flyout FlyoutViews => ViewsFlyout;

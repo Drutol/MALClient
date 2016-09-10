@@ -50,6 +50,7 @@ namespace MALClient.Models.Models.Anime
                     .Replace("#039;", "'")
                     .Replace("amp;", "")
                     .Replace("mdash;", "-")
+                    .Replace("iuml;", "ï")
                     .Replace("<br />", "");
             Synopsis = Regex.Replace(Synopsis, @"\[[^\]]*\]", string.Empty); //get rid of bbcode
 

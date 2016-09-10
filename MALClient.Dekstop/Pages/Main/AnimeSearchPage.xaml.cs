@@ -22,6 +22,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModel.Init(e.Parameter as SearchPageNavigationArgs);
             base.OnNavigatedTo(e);
         }

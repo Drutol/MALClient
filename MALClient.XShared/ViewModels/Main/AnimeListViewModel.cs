@@ -507,10 +507,10 @@ namespace MALClient.XShared.ViewModels.Main
                         _sortDescending = false;
                         break;
                     case SortOptions.SortScore:
-                        _sortDescending = true;
+                        _sortDescending = WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga;
                         break;
                     case SortOptions.SortWatched:
-                        _sortDescending = true;
+                        _sortDescending = WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga;
                         break;
                     case SortOptions.SortAirDay:
                         _sortDescending = true;

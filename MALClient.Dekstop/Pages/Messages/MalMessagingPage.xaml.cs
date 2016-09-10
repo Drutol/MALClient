@@ -3,6 +3,7 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.ViewModels;
 using MALClient.XShared.ViewModels;
@@ -32,6 +33,12 @@ namespace MALClient.Pages.Messages
                 var msg = e.AddedItems.First() as MalMessageModel;
                 msg.IsRead = true;
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            base.OnNavigatedTo(e);
         }
 
         private async void ButtonDisclaimer_OnClick(object sender, RoutedEventArgs e)

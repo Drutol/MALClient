@@ -969,7 +969,7 @@
                                                             <ColumnDefinition Width=".5*" />
                                                             <ColumnDefinition Width=".5*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <userControls:AlternatingListView Grid.Column="0"
+                                                        <userControls:AlternatingListView Grid.Column="0" ScrollViewer.VerticalScrollMode="Disabled"
                                                                               ItemsSource="{Binding RightGenres}"
                                                                               BorderThickness="0,0,1,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
@@ -981,7 +981,7 @@
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </userControls:AlternatingListView>
-                                                        <userControls:AlternatingListView Grid.Column="1"
+                                                        <userControls:AlternatingListView Grid.Column="1" ScrollViewer.VerticalScrollMode="Disabled"
                                                                               ItemsSource="{Binding LeftGenres}"
                                                                               BorderThickness="1,0,0,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
@@ -998,7 +998,7 @@
                                                     <StackPanel>
                                                         <TextBlock Text="Information" FontWeight="Bold" VerticalAlignment="Top"
                                                    HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding Information}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ItemsSource="{Binding Information}" ScrollViewer.VerticalScrollMode="Disabled" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Grid HorizontalAlignment="Stretch">
@@ -1020,7 +1020,7 @@
                                                     <StackPanel>
                                                         <TextBlock Text="Statisctics" FontWeight="Bold" VerticalAlignment="Top"
                                                    HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding Stats}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Stats}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Grid HorizontalAlignment="Stretch">
@@ -1043,7 +1043,7 @@
                                                         <TextBlock Text="Opening themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.Resources>
                                                                 <Style TargetType="TextBlock">
                                                                     <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -1060,7 +1060,7 @@
                                                         <TextBlock Text="Ending themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.Resources>
                                                                 <Style TargetType="TextBlock">
                                                                     <Setter Property="IsTextSelectionEnabled" Value="True" />

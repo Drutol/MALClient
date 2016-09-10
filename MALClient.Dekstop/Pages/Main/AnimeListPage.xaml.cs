@@ -100,23 +100,59 @@ namespace MALClient.Pages.Main
             IndefiniteScrollViewer = null;
         }
 
+        private bool _handlerAdded;
         private async void ViewModelOnRemoveScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+            if (!_handlerAdded)
+                return;
+            try
+            {
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv != null)
+                {
+                    sv.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = false;
+                }
+            }
+            catch (Exception)
+            {
+                //Null delegate?
+            }
         }
 
         private async void ViewModelOnAddScrollHandlerRequest()
         {
             try
             {
-                (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv == null)
+                {
+                    var container = GetScrollingContainer() as FrameworkElement;
+                    if (container != null)
+                        container.LayoutUpdated += ScrollViewerLoaded;
+                }
+                else
+                {
+                    sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = true;
+                }
+
             }
             catch (Exception)
             {
-                
+                //Null delegate?
             }
+        }
 
-            
+        private async void ScrollViewerLoaded(object sender, object e)
+        {
+            var sv = await GetIndefiniteScrollViewer();
+            if (sv == null)
+                return;
+            (GetScrollingContainer() as FrameworkElement).LayoutUpdated -= ScrollViewerLoaded;
+            sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            _handlerAdded = true;
+
         }
 
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
@@ -388,6 +424,7 @@ namespace MALClient.Pages.Main
         }
 
         private TypeInfo _typeInfo;
+
         //why? beacuse MSFT Bugged this after anniversary update
         private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
         {

@@ -67,7 +67,7 @@
                 <Pivot.Resources>
                     <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}"/>
                 </Pivot.Resources>
-                <PivotItem Header="Voiceacting Roles" Padding="0" Margin="0">
+                <PivotItem Header="Voice Acting Roles" Padding="0" Margin="0">
                     <PivotItem.Content>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30"

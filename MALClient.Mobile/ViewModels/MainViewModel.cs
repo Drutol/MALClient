@@ -331,5 +331,11 @@ namespace MALClient.ViewModels
             get { return CurrentStatus; }
             set { CurrentStatus = value; }
         }
+
+        public override ICommand RefreshOffDataCommand
+        {
+            get { return RefreshDataCommand; }
+            set { RefreshDataCommand = value; }
+        }
     }
 }

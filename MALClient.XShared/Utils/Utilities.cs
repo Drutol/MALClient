@@ -414,13 +414,13 @@ namespace MALClient.XShared.Utils
             var season = DateToSeason(date);
             var year = date.Substring(2, 2);
             if (season == 1)
-                return "W" + year;
+                return "Winter " + year;
             if (season == 2)
-                return "S" + year;
+                return "Spring " + year;
             if (season == 3)
-                return "Su" + year;
+                return "Summer " + year;
             if (season == 4)
-                return "F" + year;
+                return "Fall " + year;
             return "";
         }
 

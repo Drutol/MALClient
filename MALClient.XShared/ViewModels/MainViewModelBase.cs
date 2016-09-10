@@ -248,10 +248,10 @@ namespace MALClient.XShared.ViewModels
 
         private ICommand _refreshOffDataCommand;
 
-        public ICommand RefreshOffDataCommand
+        public virtual ICommand RefreshOffDataCommand
         {
             get { return _refreshOffDataCommand; }
-            protected set
+            set
             {
                 _refreshOffDataCommand = value;
                 RaisePropertyChanged(() => RefreshOffDataCommand);

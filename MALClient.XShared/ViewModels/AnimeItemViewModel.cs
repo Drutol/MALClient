@@ -408,6 +408,13 @@ namespace MALClient.XShared.ViewModels
                     ? ((AnimeType) ParentAbstraction.Type).ToString()
                     : ((MangaType) ParentAbstraction.Type).ToString());
 
+        public string PureType
+            => ParentAbstraction.Type == 0
+                ? ""
+                : ParentAbstraction.RepresentsAnime
+                    ? ((AnimeType) ParentAbstraction.Type).ToString()
+                    : ((MangaType) ParentAbstraction.Type).ToString();
+
 
         public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime);
         public string MyStatusBindShort => Utilities.StatusToShortString(MyStatus, !ParentAbstraction.RepresentsAnime);

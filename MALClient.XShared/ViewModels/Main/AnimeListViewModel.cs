@@ -498,7 +498,7 @@ namespace MALClient.XShared.ViewModels.Main
         ///     Sets provided sort mode or takes one from settings
         /// </summary>
         /// <param name="option"></param>
-        private void SetSortOrder(SortOptions? option)
+        public void SetSortOrder(SortOptions? option)
         {
             if (Settings.AutoDescendingSorting && option != null)
                 switch (option)
@@ -1767,9 +1767,7 @@ namespace MALClient.XShared.ViewModels.Main
                         if (day != -1)
                         {
                             abstraction.AirDay = day;
-                            abstraction.GlobalScore = data.GlobalScore;
-                            if(abstraction.LoadedModel)
-                                abstraction.ViewModel.UpdateVolatileData();                        
+                            abstraction.GlobalScore = data.GlobalScore;                      
                         }
                         ItemsLoaded++;
                     }
@@ -1779,6 +1777,7 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                 }
                 LoadingAllDetailsVisibility = false;
+                RefreshList();
             }
         }
 

@@ -75,7 +75,7 @@
                         </SymbolIcon>
                         <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                        <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                        <TextBlock Text="{x:Bind ViewModel.PureType,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis">
                         </TextBlock>
                     </StackPanel>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -9,6 +10,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Shared.ViewModels;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
@@ -206,8 +208,6 @@ namespace MALClient.Pages.Main
 
         private async void ViewModelOnAddScrollHandlerRequest()
         {
-            if(_handlerAdded)
-                return;
             try
             {
                 var sv = await GetIndefiniteScrollViewer();
@@ -299,33 +299,37 @@ namespace MALClient.Pages.Main
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
+            //scary code, bad code
             var btn = sender as ToggleMenuFlyoutItem;
             switch (btn.Text)
             {
                 case "Title":
-                    ViewModel.SortOption = SortOptions.SortTitle;
+                    ViewModel.SetSortOrder(SortOptions.SortTitle);
                     break;
                 case "Score":
-                    ViewModel.SortOption = SortOptions.SortScore;
+                    ViewModel.SetSortOrder(SortOptions.SortScore);
                     break;
                 case "Watched":
                 case "Read":
-                    ViewModel.SortOption = SortOptions.SortWatched;
+                    ViewModel.SetSortOrder(SortOptions.SortWatched);
                     break;
                 case "Soonest airing":
-                    ViewModel.SortOption = SortOptions.SortAirDay;
+                    ViewModel.SetSortOrder(SortOptions.SortAirDay);
                     break;
                 case "Last watched":
-                    ViewModel.SortOption = SortOptions.SortLastWatched;
+                    ViewModel.SetSortOrder(SortOptions.SortLastWatched);
                     break;
                 case "Start date":
-                    ViewModel.SortOption = SortOptions.SortStartDate;
+                    ViewModel.SetSortOrder(SortOptions.SortStartDate);
                     break;
                 case "End date":
-                    ViewModel.SortOption = SortOptions.SortEndDate;
+                    ViewModel.SetSortOrder(SortOptions.SortEndDate);
+                    break;
+                case "Season":
+                    ViewModel.SetSortOrder(SortOptions.SortSeason);
                     break;
                 default:
-                    ViewModel.SortOption = SortOptions.SortNothing;
+                    ViewModel.SetSortOrder(SortOptions.SortNothing);
                     break;
             }
             SortTitle.IsChecked =
@@ -335,9 +339,9 @@ namespace MALClient.Pages.Main
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
                                     SortEndDate.IsChecked =
-                                        SortStartDate.IsChecked = false;
+                                        SortStartDate.IsChecked = SortSeason.IsChecked = false;
             btn.IsChecked = true;
-            ViewModel.RefreshList();
+            ViewModelLocator.AnimeList.RefreshList();
         }
 
 
@@ -371,7 +375,7 @@ namespace MALClient.Pages.Main
             TxtListSource.SelectAll();
         }
 
-        internal void InitSortOptions(SortOptions option, bool descending)
+        private void InitSortOptions(SortOptions option, bool descending)
         {
             SortTitle.IsChecked =
                 SortScore.IsChecked =
@@ -380,7 +384,7 @@ namespace MALClient.Pages.Main
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
                                     SortEndDate.IsChecked =
-                                        SortStartDate.IsChecked = false;
+                                        SortStartDate.IsChecked = SortSeason.IsChecked = false;
             switch (option)
             {
                 case SortOptions.SortTitle:
@@ -407,6 +411,9 @@ namespace MALClient.Pages.Main
                 case SortOptions.SortEndDate:
                     SortEndDate.IsChecked = true;
                     break;
+                case SortOptions.SortSeason:
+                    SortSeason.IsChecked = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }
@@ -417,6 +424,15 @@ namespace MALClient.Pages.Main
         {
             if (!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
                 FlyoutSeasonSelection.Hide();
+        }
+
+        private TypeInfo _typeInfo;
+        //why? beacuse MSFT Bugged this after anniversary update
+        private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
+        {
+            var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+            var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+            prop?.SetValue(sender, true);
         }
     }
 }

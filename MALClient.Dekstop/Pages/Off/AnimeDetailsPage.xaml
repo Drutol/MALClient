@@ -9,6 +9,7 @@
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:userControls="using:MALClient.Shared.UserControls"
     xmlns:new="using:MALClient.Shared.UserControls.New"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -56,8 +57,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="225" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1" Source="{Binding DetailImage}"
-                   Grid.Column="0" Stretch="Fill"
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1"
+                   Grid.Column="0" Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding DetailImage}"
                    Height="200" Width="134" IsRightTapEnabled="True" RightTapped="UIElement_OnRightTapped">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout x:Name="ImageSaveFlyout">
@@ -594,7 +595,7 @@
                                         </Style>
                                     </Grid.Resources>
                                     <StackPanel>
-                                        <TextBlock Text="Characters &amp; Voiceactors" FontWeight="Bold"
+                                        <TextBlock Text="Characters &amp; Voice actors" FontWeight="Bold"
                                                    HorizontalAlignment="Center" Margin="0,3" />
                                         <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}">
                                             <ItemsControl.ItemsPanel>
@@ -631,13 +632,14 @@
                                                                 </Grid.RowDefinitions>
                                                                 <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                                <Image Grid.Row="0" Stretch="Fill">
-                                                                    <Image.Source>
+                                                                <Image Grid.Row="0" Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding AnimeCharacter.Data.ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                    <!--<Image.Source>
                                                                         <BitmapImage
                                                                         UriSource="{Binding AnimeCharacter.Data.ImgUrl}"
                                                                         DecodePixelType="Logical"
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
-                                                                    </Image.Source>
+                                                                    </Image.Source>-->
                                                                 </Image>
                                                                 <Grid Grid.Row="0" Width="40" Height="40" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                     <new:FavButton DataContext="{Binding AnimeCharacter}"/>
@@ -672,13 +674,15 @@
                                                                 </Grid.RowDefinitions>
                                                                 <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                                <Image Grid.Row="0" Stretch="Fill">
-                                                                    <Image.Source>
+                                                                <Image Grid.Row="0" Stretch="Fill"                                                            
+                                                                       attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding AnimeStaffPerson.Data.ImgUrl}" 
+                                                                       attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                    <!--<Image.Source>
                                                                         <BitmapImage
                                                                         UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
                                                                         DecodePixelType="Logical"
                                                                         DecodePixelHeight="230" DecodePixelWidth="133" />
-                                                                    </Image.Source>
+                                                                    </Image.Source>-->
                                                                 </Image>
                                                                 <Grid Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Grid.Row="0" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                     <new:FavButton DataContext="{Binding AnimeStaffPerson}"/>
@@ -736,13 +740,14 @@
                                                             </Grid.RowDefinitions>
                                                             <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                     VerticalAlignment="Center" />
-                                                            <Image Grid.Row="0">
-                                                                <Image.Source>
+                                                            <Image Grid.Row="0" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" 
+                                                                               attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                <!--<Image.Source>
                                                                     <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                                                              DecodePixelType="Logical"
                                                                              DecodePixelHeight="250"
                                                                              DecodePixelWidth="175" />
-                                                                </Image.Source>
+                                                                </Image.Source>-->
                                                             </Image>
                                                             <Grid VerticalAlignment="Bottom" Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}" HorizontalAlignment="Right" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                                 <new:FavButton/>

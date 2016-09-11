@@ -399,6 +399,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["DisplaySeasonWithType"] = value; }
         }
 
+        public static bool EnableImageCache
+        {
+            get { return (bool) (ApplicationDataService["EnableImageCache"] ?? true); }
+            set { ApplicationDataService["EnableImageCache"] = value; }
+        }
+
         #endregion
 
         #region RatePopUp

@@ -10,6 +10,7 @@
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:new="using:MALClient.Shared.UserControls.New"
     xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -105,7 +106,7 @@
                                 Grid.Column="0">
                             <Image x:Name="DetailImage" controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                    Tapped="Image_OnTapped" Margin="1,1,1,1"
-                                   Source="{Binding DetailImage}" Stretch="Fill" />
+                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding DetailImage}" Stretch="Fill" />
                         </Border>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
@@ -716,7 +717,7 @@
                                                     </Style>
                                                 </Grid.Resources>
                                                 <StackPanel>
-                                                    <TextBlock Text="Characters &amp; Voiceactors" FontWeight="Bold"
+                                                    <TextBlock Text="Characters &amp; Voice actors" FontWeight="Bold"
                                                                HorizontalAlignment="Center" Margin="0,3" />
                                                     <ItemsControl
                                                         ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}"
@@ -745,14 +746,16 @@
                                                                         <SymbolIcon Symbol="Help"
                                                                                     HorizontalAlignment="Center"
                                                                                     VerticalAlignment="Center" />
-                                                                        <Image Grid.Row="0">
-                                                                            <Image.Source>
+                                                                            <Image Grid.Row="0" 
+                                                                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding AnimeCharacter.Data.ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                            <!--<Image.Source>
                                                                                 <BitmapImage
                                                                                     UriSource="{Binding AnimeCharacter.Data.ImgUrl}"
                                                                                     DecodePixelType="Logical"
                                                                                     DecodePixelHeight="230"
                                                                                     DecodePixelWidth="150" />
-                                                                            </Image.Source>
+                                                                            </Image.Source>-->
                                                                         </Image>
                                                                         <Grid Grid.Row="0"
                                                                                        HorizontalAlignment="Right"
@@ -792,14 +795,16 @@
                                                                             <SymbolIcon Symbol="Help"
                                                                                     HorizontalAlignment="Center"
                                                                                     VerticalAlignment="Center" />
-                                                                            <Image Grid.Row="0">
-                                                                                <Image.Source>
+                                                                            <Image Grid.Row="0"                                                                                   
+                                                                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding AnimeStaffPerson.Data.ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                                <!--<Image.Source>
                                                                                     <BitmapImage
                                                                                     UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
                                                                                     DecodePixelType="Logical"
                                                                                     DecodePixelHeight="230"
                                                                                     DecodePixelWidth="150" />
-                                                                                </Image.Source>
+                                                                                </Image.Source>-->
                                                                             </Image>
                                                                             <Grid HorizontalAlignment="Right"
                                                                                        VerticalAlignment="Bottom"
@@ -824,7 +829,7 @@
                                                                         </Grid>
                                                                     </Button>
                                                                 </Grid>
-                                                                                                                                </DataTemplate>
+                                                            </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
                                                     <MenuFlyoutSeparator />
@@ -862,13 +867,15 @@
                                                                         <SymbolIcon Symbol="Help"
                                                                                 HorizontalAlignment="Center"
                                                                                 VerticalAlignment="Center" />
-                                                                        <Image Grid.Row="0">
-                                                                            <Image.Source>
+                                                                        <Image Grid.Row="0"
+                                                                               attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" 
+                                                                               attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                            <!--<Image.Source >
                                                                                 <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                                                                          DecodePixelType="Logical"
                                                                                          DecodePixelHeight="250"
                                                                                          DecodePixelWidth="175" />
-                                                                            </Image.Source>
+                                                                            </Image.Source>-->
                                                                         </Image>
                                                                         <Grid Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}"
                                                                                    HorizontalAlignment="Right"

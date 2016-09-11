@@ -157,6 +157,7 @@
     <Compile Include="Items\StaffItem.xaml.cs">
       <DependentUpon>StaffItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\ItemFlyoutService.cs" />
     <Compile Include="Managers\LiveTilesManager.cs" />
     <Compile Include="Managers\MalWebViewHttpContextInitializer.cs" />

@@ -407,6 +407,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.EnsureRandomizerAlwaysSelectsWinner = value; }
         }
 
+        public  bool EnableImageCache
+        {
+            get { return Settings.EnableImageCache; }
+            set { Settings.EnableImageCache = value; }
+        }
+
         public  bool MangaFocusVolumes
         {
             get { return Settings.MangaFocusVolumes; }

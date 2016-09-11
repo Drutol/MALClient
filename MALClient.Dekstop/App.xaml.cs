@@ -119,7 +119,7 @@ namespace MALClient
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
             }
             // Ensure the current window is active
-
+            ImageCache.PerformScheduledCacheCleanup();
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();
             FavouritesManager.LoadData();

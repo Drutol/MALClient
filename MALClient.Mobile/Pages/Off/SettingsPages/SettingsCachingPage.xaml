@@ -83,11 +83,23 @@
                     <TextBlock  Text="{Binding TotalFilesCached}"
                                                VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0" />
                 </StackPanel>
+            </Button>            
+            <Button x:Name="BtnClearImageCache" Margin="2" Click="ClearImageCache" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Delete" VerticalAlignment="Center" />
+                    <TextBlock  Text="Clear image cache." VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0" />
+                </StackPanel>
             </Button>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
                 <ToggleSwitch VerticalAlignment="Center"
                                               IsOn="{Binding IsCachingEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="Enable list data caching." VerticalAlignment="Center"
+                                           TextAlignment="Center" />
+            </StackPanel>            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                <ToggleSwitch VerticalAlignment="Center"
+                                              IsOn="{Binding EnableImageCache,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Enable image caching." VerticalAlignment="Center"
                                            TextAlignment="Center" />
             </StackPanel>
             <StackPanel>

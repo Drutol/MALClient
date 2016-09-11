@@ -3,6 +3,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Models.Models.Misc;
+using MALClient.Shared.Managers;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
@@ -113,6 +114,13 @@ namespace MALClient.Pages.Off.SettingsPages
             var file = await ApplicationData.Current.LocalFolder.GetFileAsync(entry.FileName);
             await file.DeleteAsync();
 
+        }
+
+        private async void ClearImageCache(object sender, RoutedEventArgs e)
+        {
+            BtnClearImageCache.IsEnabled = false;
+            await ImageCache.ClearAsync();
+            BtnClearImageCache.IsEnabled = true;
         }
     }
 }

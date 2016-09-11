@@ -7,6 +7,7 @@
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -34,12 +35,12 @@
               VerticalAlignment="Stretch" Background="Transparent"
               BorderBrush="Transparent">
             <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoImgSymbol"/>
-            <Image Stretch="UniformToFill" Width="200" Height="325" ext:ImageExtensions.FadeInOnLoaded="True">
-                <Image.Source>
-                    <BitmapImage UriSource="{Binding Data.ImgUrl}"
+            <Image Stretch="UniformToFill" Width="200" Height="325" ext:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}">
+                <!--<Image.Source>
+                    <BitmapImage UriSource="{Binding }"
                                  DecodePixelHeight="325"
                                  DecodePixelWidth="200" DecodePixelType="Logical" />
-                </Image.Source>
+                </Image.Source>-->
             </Image>
         </Grid>
         <Grid x:Name="FavouriteButton" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{ThemeResource BrushFavouriteStarBackground}" Padding="0" Margin="0">

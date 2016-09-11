@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400" IsTabStop="False">
@@ -36,11 +37,7 @@
                 Stretch="Fill"
                HorizontalAlignment="Left"
                Width="Auto"
-               MaxWidth="120" Margin="1,1" >
-            <Image.Source>
-                <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl,Mode=OneWay}" DecodePixelType="Logical" DecodePixelHeight="200" DecodePixelWidth="150"></BitmapImage>
-            </Image.Source>
-        </Image>
+               MaxWidth="120" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}"/>
         <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,0"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
                 Visibility="Visible" Click="BtnMoreOnClick">

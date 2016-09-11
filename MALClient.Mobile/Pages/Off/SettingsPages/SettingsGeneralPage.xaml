@@ -325,7 +325,7 @@
             </Grid>
             <MenuFlyoutSeparator Margin="0,5" />
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch"
-                                        Visibility="{Binding MalApiDependatedntSectionsVisibility}">
+                                        Visibility="{Binding MalApiDependatedntSectionsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock Text="Start/End date auto setters:" FontWeight="Medium"
                                            HorizontalAlignment="Center" />
                 <Grid Margin="5" HorizontalAlignment="Stretch">
@@ -369,7 +369,7 @@
                                           IsChecked="{Binding OverrideValidStartEndDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <MenuFlyoutSeparator Margin="0,5"
-                                                 Visibility="{Binding MalApiDependatedntSectionsVisibility}" />
+                                                 Visibility="{Binding MalApiDependatedntSectionsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
             <StackPanel HorizontalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="Air day offset:" FontWeight="Medium"

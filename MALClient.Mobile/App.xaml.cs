@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Shared;
 using MALClient.Shared.ViewModels;
 using MALClient.Pages;
+using MALClient.Shared.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.CommUtils;

@@ -6,8 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:MALClient.UserControls" 
     xmlns:userControls1="using:MALClient.Shared.UserControls"
+    xmlns:converters="using:WinRTXamlToolkit.Converters"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -25,7 +29,7 @@
                                               HorizontalAlignment="Stretch"
                                               SelectionMode="None" Margin="0,10,0,5">
                 <ListView.Header>
-                    <TextBlock Visibility="{Binding EmptyCachedListVisiblity}"
+                    <TextBlock Visibility="{Binding EmptyCachedListVisiblity,Converter={StaticResource BoolToVisibilityConverter}}"
                                Text="No cached entries."
                                VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </ListView.Header>
@@ -72,7 +76,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </userControls1:AlternatingListView>
-            <Button Visibility="{Binding RemoveAllCachedDataButtonVisibility}" Margin="2" Click="RemoveAllAnimeDetails"
+            <Button Visibility="{Binding RemoveAllCachedDataButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Click="RemoveAllAnimeDetails"
                     HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Delete" VerticalAlignment="Center" />

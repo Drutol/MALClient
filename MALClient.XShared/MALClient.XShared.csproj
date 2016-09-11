@@ -125,6 +125,7 @@
     <Compile Include="ViewModels\MalMessageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationItemViewModel.cs" />
     <Compile Include="ViewModels\ResourceLocator.cs" />
+    <Compile Include="ViewModels\SettingsViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>

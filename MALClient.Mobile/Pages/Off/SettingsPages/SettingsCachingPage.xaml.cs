@@ -16,7 +16,7 @@ namespace MALClient.Pages.Off.SettingsPages
     public sealed partial class SettingsCachingPage : Page
     {
         private bool _initialized;
-        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
+        public SettingsViewModel ViewModel => DataContext as SettingsViewModel;
 
         public SettingsCachingPage()
         {

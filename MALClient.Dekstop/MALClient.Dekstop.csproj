@@ -207,7 +207,6 @@
     <Compile Include="Utils\Managers\NavMgr.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Off\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\DekstopViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>

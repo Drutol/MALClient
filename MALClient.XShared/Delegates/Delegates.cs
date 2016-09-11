@@ -1,4 +1,5 @@
 ﻿using System;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
@@ -27,4 +28,6 @@ namespace MALClient.XShared.Delegates
     public delegate void SearchQuerySubmitted(string query);
 
     public delegate void SearchDelayedQuerySubmitted(string query);
+
+    public delegate void SettingsNavigationRequest(SettingsPageIndex page);
 }

@@ -182,6 +182,7 @@
     <Compile Include="ViewModels\Interfaces\IAnimeListPageInteractions.cs" />
     <Compile Include="ViewModels\Interfaces\IMainViewInteractions.cs" />
     <Compile Include="ViewModels\PinTileDialogViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\UWPViewModelLocator.cs" />
     <Compile Include="XamlConverters\AnimeItemAirDayBoolToBrushConverter.cs" />
     <Compile Include="XamlConverters\AnimeItemIsThereAnyTextTopLeftToTitleMarginConverter.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\SearchFilterStatusToBrushConverter.cs" />
+    <Compile Include="XamlConverters\SettingsSymbolToSymbolConverter.cs" />
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />

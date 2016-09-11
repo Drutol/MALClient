@@ -19,6 +19,7 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
         <xamlConverters:StringToFlatStringConverter x:Key="StringToFlatStringConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+        <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
     </Page.Resources>
 
     <Page.Transitions>
@@ -567,9 +568,13 @@
                                 </Grid>
                                 <MenuFlyoutSeparator VerticalAlignment="Top" />
                                 <TextBlock Text="Synopsis" FontWeight="Bold" HorizontalAlignment="Center" />
-                                <TextBlock Text="{Binding Synopsis}" HorizontalAlignment="Stretch"
+                                <TextBlock x:Name="TxtSynopsis" Text="{Binding Synopsis}" Visibility="{Binding Synopsis,Converter={StaticResource AnyTextToVisibilityConverter}}" HorizontalAlignment="Stretch"
                                            FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
                                            TextWrapping="WrapWholeWords" Margin="3,1" />
+                                <TextBlock Visibility="{Binding ElementName=TxtSynopsis,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
+                                           Text="Synopsis unavailable..."
+                                           TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" Foreground="#FFB9B9B9" />
                                 <MenuFlyoutSeparator />
                                 <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center"
                                            Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />

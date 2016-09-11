@@ -461,7 +461,7 @@ namespace MALClient.XShared.ViewModels
             {
                 if (_seasonalState)
                     return
-                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : "Chapters")}";
+                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : "Volumes")}";
 
                 return Auth || MyEpisodes != 0
                     ? $"{(ParentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +
@@ -946,10 +946,13 @@ namespace MALClient.XShared.ViewModels
 
         #region Watched
 
+        private bool _incrementing;
+        private bool _decrementing;
         private async void IncrementWatchedEp()
         {
-            if(IncrementEpsVisibility == false || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
+            if(_incrementing || IncrementEpsVisibility == false || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
                 return;
+            _incrementing = true;
             LoadingUpdate = true;
             var trigCompleted = true;
             if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
@@ -974,12 +977,14 @@ namespace MALClient.XShared.ViewModels
                 PromptForStatusChange((int) AnimeStatus.Completed);
 
             LoadingUpdate = false;
+            _incrementing = false;
         }
 
         private async void DecrementWatchedEp()
         {
-            if (DecrementEpsVisibility == false || MyEpisodesFocused == 0)
+            if (_decrementing || DecrementEpsVisibility == false || MyEpisodesFocused == 0)
                 return;
+            _decrementing = true;
             LoadingUpdate = true;
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
@@ -990,7 +995,7 @@ namespace MALClient.XShared.ViewModels
                 AdjustIncrementButtonsVisibility();
             }
 
-
+            _decrementing = false;
             LoadingUpdate = false;
         }
 

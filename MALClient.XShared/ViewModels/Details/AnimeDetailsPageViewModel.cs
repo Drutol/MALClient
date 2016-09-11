@@ -1647,7 +1647,7 @@ namespace MALClient.XShared.ViewModels.Details
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
-            GlobalScore = GlobalScore; //trigger setter of anime item
+            RaisePropertyChanged(() => GlobalScore); //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
@@ -1692,6 +1692,7 @@ namespace MALClient.XShared.ViewModels.Details
 
                     (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
                     AddAnimeVisibility = true;
+                    IsAddAnimeButtonEnabled = true;
                     MyDetailsVisibility = false;
                 });
         }
@@ -1742,7 +1743,7 @@ namespace MALClient.XShared.ViewModels.Details
                     item.AllEpisodesFocused == 0 ? "?" : item.AllEpisodesFocused.ToString()));
             }
 
-            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
+            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start",
                 StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
@@ -1887,6 +1888,9 @@ namespace MALClient.XShared.ViewModels.Details
                 if (pos != -1)
                     continue;
                 pos = infoString.IndexOf("2 based");
+                if (pos != -1)
+                    infoString = infoString.Substring(0, pos-2);
+                pos = infoString.IndexOf("(scored");
                 if (pos != -1)
                     infoString = infoString.Substring(0, pos-2);
 

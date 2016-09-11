@@ -501,6 +501,7 @@ namespace MALClient.XShared.ViewModels.Main
         public void SetSortOrder(SortOptions? option)
         {
             if (Settings.AutoDescendingSorting && option != null)
+            {
                 switch (option)
                 {
                     case SortOptions.SortTitle:
@@ -532,6 +533,9 @@ namespace MALClient.XShared.ViewModels.Main
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                SortingSettingChanged?.Invoke(option.Value,_sortDescending);
+            }
+
             SortOption = option ??
                          (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder);
         }

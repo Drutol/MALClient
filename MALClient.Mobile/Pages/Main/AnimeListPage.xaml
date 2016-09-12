@@ -155,13 +155,29 @@
                         <ListView Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
                             SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             SelectionMode="Single">
+                            <ListView.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </ListView.Resources>
                             <ListView.Items>
-                                <ListViewItem Content="{Binding Filter1Label}" />
-                                <ListViewItem Content="Completed" />
-                                <ListViewItem Content="On hold" />
-                                <ListViewItem Content="Dropped" />
-                                <ListViewItem Content="{Binding Filter5Label}" />
-                                <ListViewItem Content="{Binding StatusAllLabel}" />
+                                <ListViewItem>
+                                    <TextBlock Text="{Binding Filter1Label}"/></ListViewItem>
+                                <ListViewItem>
+                                    <TextBlock Text="Completed"/>
+                                </ListViewItem>
+                                <ListViewItem>
+                                    <TextBlock Text="On hold"/>
+                                </ListViewItem>
+                                <ListViewItem>
+                                    <TextBlock Text="Dropped"/>
+                                </ListViewItem>
+                                <ListViewItem >
+                                    <TextBlock Text="{Binding Filter5Label}"/>
+                                </ListViewItem>
+                                <ListViewItem >
+                                    <TextBlock Text="{Binding StatusAllLabel}"/>
+                                </ListViewItem>
                             </ListView.Items>
                         </ListView>
                     </Flyout>

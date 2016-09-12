@@ -32,7 +32,7 @@
                     <Setter Property="Height" Value="40"/>
                     <Setter Property="MinHeight" Value="30"/>
                     <Setter Property="Margin" Value="0,2"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </Setter.Value>
         </Setter>

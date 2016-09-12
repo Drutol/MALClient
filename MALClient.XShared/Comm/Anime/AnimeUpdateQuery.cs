@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
@@ -13,6 +16,7 @@ namespace MALClient.XShared.Comm.Anime
     public class AnimeUpdateQuery : Query
     {
         public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
+        private static SemaphoreSlim _updateSemaphore = new SemaphoreSlim(1);
 
         public AnimeUpdateQuery(IAnimeData item)
             : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
@@ -43,6 +47,15 @@ namespace MALClient.XShared.Comm.Anime
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public override async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
+        {
+            //make sure that only one update is executing in order to avoid some synchonization issues
+            await _updateSemaphore.WaitAsync();
+            var result = await base.GetRequestResponse(wantMsg, statusBarMsg);
+            _updateSemaphore.Release();
+            return result;
         }
 
         private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate, string notes)

@@ -329,7 +329,7 @@
         <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
                   MinWidth="200" IsItemClickEnabled="True"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single" ShowsScrollingPlaceholders="False"
-                  HorizontalAlignment="Center" IsRightTapEnabled="True"
+                  HorizontalAlignment="Center" IsRightTapEnabled="True" ItemClick="AnimesGridIndefinite_OnItemClick"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -353,7 +353,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels1:AnimeItemViewModel">
-                    <items:AnimeGridItem Tapped="AnimeGridItemOnTap" DataContext="{x:Bind}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
+                    <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="{Binding Source={StaticResource Locator},Path=AnimeList.AnimeItemsDisplayContext}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.Footer>

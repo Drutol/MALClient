@@ -76,9 +76,6 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
 
-
-
-
             MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
                                                                     index == PageIndex.PageMessanging ||
                                                                     index == PageIndex.PageForumIndex);

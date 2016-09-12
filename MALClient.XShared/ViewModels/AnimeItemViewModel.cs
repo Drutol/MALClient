@@ -47,13 +47,14 @@ namespace MALClient.XShared.ViewModels
 
         public static List<string> ScoreFlyoutChoices { get; set; }
 
+        public bool AllowDetailsNavigation { get; set; } = true; //Disabled when draggig grid item
 
         //state fields
         public int Id { get; set; }
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
-            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime || ViewModelLocator.AnimeDetails.Id == Id)
+            if (!AllowDetailsNavigation || (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime) || ViewModelLocator.AnimeDetails.Id == Id)
                 return;
             var id = Id;
             if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch

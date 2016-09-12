@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -75,6 +76,7 @@ namespace MALClient.Shared.Items
         {
             if (_manip != null)
                 return;
+            ViewModel.AllowDetailsNavigation = false;
             _initialPoint = e.Position;
             _manip = this;
             DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
@@ -115,7 +117,7 @@ namespace MALClient.Shared.Items
             }
         }
 
-        private void AnimeGridItem_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        private async void AnimeGridItem_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             GoBackStoryboard.Begin();
             if (_incDecState != null)
@@ -124,8 +126,11 @@ namespace MALClient.Shared.Items
                 else
                     ViewModel.DecrementWatchedCommand.Execute(null);
 
+            
             _incDecState = null;
             _manip = null;
+            await Task.Delay(50);
+            ViewModel.AllowDetailsNavigation = true;
         }
 
         private void AnimeGridItem_OnPointerReleased(object sender, PointerRoutedEventArgs e)
@@ -140,6 +145,7 @@ namespace MALClient.Shared.Items
                     _incDecState = null;
                 }
 
+            //ViewModel.AllowDetailsNavigation = true;
             GoBackStoryboard.Begin();
         }
 

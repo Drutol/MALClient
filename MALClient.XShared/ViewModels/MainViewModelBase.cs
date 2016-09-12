@@ -17,7 +17,7 @@ namespace MALClient.XShared.ViewModels
     public abstract class MainViewModelBase : ViewModelBase
     {
         public static Tuple<int, string> InitDetails;
-
+        protected bool _navigating;
         protected Tuple<PageIndex, object> _postponedNavigationArgs;
         protected bool? _searchStateBeforeNavigatingToSearch;
 
@@ -474,7 +474,7 @@ namespace MALClient.XShared.ViewModels
                 return;
             }
             SearchInputVisibility = SearchToggleStatus;
-            if (!SearchToggleLock)
+            if (!SearchToggleLock && !_navigating)
             {
                 OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
             }

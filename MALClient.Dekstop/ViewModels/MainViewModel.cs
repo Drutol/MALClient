@@ -65,6 +65,7 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
+            _navigating = true;
             ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             
 
@@ -133,6 +134,7 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageHistory ||
                      index == PageIndex.PageCharacterSearch)
             {
+                CurrentStatusSub = "";
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
                 currPage = index;
             }
@@ -334,6 +336,7 @@ namespace MALClient.ViewModels
                 CurrentMainPageKind = index;
             if (currOffPage != null)
                 CurrentOffPage = currOffPage;
+            _navigating = false;
             RaisePropertyChanged(() => SearchToggleLock);
         }
 

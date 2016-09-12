@@ -14,7 +14,7 @@ namespace MALClient.XShared.Comm
 
         public static ApiType CurrentApiType { get; set; } = Settings.SelectedApiType;
 
-        public async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
+        public virtual async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
         {
             var responseString = "";
             try

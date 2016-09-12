@@ -838,24 +838,31 @@
                                         <TextBlock Margin="1,10,1,0" HorizontalAlignment="Center" FontWeight="Medium"
                                                    Text="{Binding User.Name}" />
                                     </StackPanel>
-                                    <TextBlock Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                               FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
+                                        <TextBlock Grid.Row="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
                                                TextAlignment="Left" Margin="10" HorizontalAlignment="Left"
                                                IsTextSelectionEnabled="True" />
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                               FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
-                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right"
+                                        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right"
                                                 VerticalAlignment="Bottom">
-                                        <Button Content="Conversation" Margin="5" Foreground="White"
+                                            <Button Content="Conversation" Margin="5" Foreground="White"
                                                 Visibility="{Binding ComToCom,Converter={StaticResource IsThereAnyTextToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.NavigateConversationCommand}"
                                                 CommandParameter="{Binding}" />
-                                        <Button Content="Delete" Margin="5" Foreground="White"
+                                            <Button Content="Delete" Margin="5" Foreground="White"
                                                 Visibility="{Binding CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Background="{StaticResource SystemControlBackgroundAccentBrush}"
                                                 Command="{Binding Source={StaticResource DesktopLocator},Path=ProfilePage.DeleteCommentCommand}"
                                                 CommandParameter="{Binding}" />
-                                    </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

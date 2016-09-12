@@ -43,6 +43,7 @@
                                                      Click="ChangeDefaultTab"
                                                      Tag="manga" />
                     </Grid>
+                    <MenuFlyoutSeparator Margin="0,5"/>
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock Text="Color theme :" FontWeight="Medium"
@@ -62,6 +63,7 @@
                                            Visibility="Collapsed"
                                            HorizontalAlignment="Center" />
                     </StackPanel>
+                    <MenuFlyoutSeparator Margin="0,5"/>
                     <TextBlock Text="Try to display higher quality images in relevant places."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"

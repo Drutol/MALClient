@@ -17,15 +17,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="3" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="189" y="202" width="42" height="21"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="5" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="378" y="311" width="42" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Test Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="5" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="260.5" y="290" width="79" height="20.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -33,10 +26,8 @@
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint id="10" firstItem="8bC-Xf-vdC" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" constant="90"/>
-                            <constraint id="11" firstItem="8bC-Xf-vdC" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" constant="87"/>
-                            <constraint id="12" firstItem="5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="99"/>
-                            <constraint id="13" firstItem="5" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="21"/>
+                            <constraint id="12" firstItem="5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX"/>
+                            <constraint id="13" firstItem="5" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY"/>
                         </constraints>
                     </view>
                 </viewController>

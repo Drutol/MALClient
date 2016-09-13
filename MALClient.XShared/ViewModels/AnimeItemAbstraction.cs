@@ -123,7 +123,7 @@ namespace MALClient.XShared.ViewModels
                     .Select(s => s.ToLower()).ToList()
                 : new List<string> {Notes.ToLower()});
 
-public DateTime LastWatched
+        public DateTime LastWatched
         {
             get { return EntryData?.LastWatched ?? DateTime.MinValue; }
             set
@@ -200,6 +200,7 @@ public DateTime LastWatched
             if (!DataCache.TryRetrieveDataForId(Id, out data)) return false;
             AirDay = data.DayOfAiring;
             GlobalScore = data.GlobalScore;
+            AirStartDate = data.AirStartDate;
             return true;
         }
 

@@ -76,7 +76,6 @@ namespace MALClient.Shared.Items
         {
             if (_manip != null)
                 return;
-            ViewModel.AllowDetailsNavigation = false;
             _initialPoint = e.Position;
             _manip = this;
             DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
@@ -92,6 +91,7 @@ namespace MALClient.Shared.Items
                 var delta = Math.Abs(freeDelta);                                   
                 if (delta > 35)
                 {
+                    ViewModel.AllowDetailsNavigation = false;
                     if (freeDelta < 0)
                     {
                         IncrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;

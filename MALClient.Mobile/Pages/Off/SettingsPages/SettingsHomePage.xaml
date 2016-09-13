@@ -21,7 +21,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid>
+    <ScrollViewer>
         <ItemsControl ItemsSource="{Binding SettingsPages}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -49,5 +49,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </Grid>
+    </ScrollViewer>
 </Page>

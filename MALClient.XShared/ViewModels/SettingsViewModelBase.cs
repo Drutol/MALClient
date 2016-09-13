@@ -173,7 +173,14 @@ namespace MALClient.XShared.ViewModels
         public bool DisplaySeasonWithType
         {
             get { return Settings.DisplaySeasonWithType; }
-            set { Settings.DisplaySeasonWithType = value; }
+            set
+            {
+                Settings.DisplaySeasonWithType = value;
+                foreach (var animeListAnimeItem in ViewModelLocator.AnimeList.AnimeItems)
+                {
+                    animeListAnimeItem.RaisePropertyChanged(() => animeListAnimeItem.Type);
+                }
+            }
         }
 
         public bool AutoDescendingSorting

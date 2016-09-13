@@ -78,7 +78,7 @@ namespace MALClient.XShared.ViewModels.Main
         public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; private set; } =
             new List<AnimeItemAbstraction>();
 
-        private SmartObservableCollection<AnimeItemViewModel> AnimeItems
+        public SmartObservableCollection<AnimeItemViewModel> AnimeItems
         {
             get { return _animeItems; }
             set
@@ -508,7 +508,7 @@ namespace MALClient.XShared.ViewModels.Main
                         _sortDescending = false;
                         break;
                     case SortOptions.SortScore:
-                        _sortDescending = WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga;
+                        _sortDescending = true;
                         break;
                     case SortOptions.SortWatched:
                         _sortDescending = WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga;
@@ -1572,7 +1572,7 @@ namespace MALClient.XShared.ViewModels.Main
                     page.CurrentStatus = $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
             else
                 page.CurrentStatus = $"{CurrentSeason?.Name} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
-            if (WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga)
+            if (WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga || WorkMode == AnimeListWorkModes.SeasonalAnime)
                 page.CurrentStatusSub = SortOption != SortOptions.SortWatched ? SortOption.GetDescription() : Sort3Label;
             else
                 page.CurrentStatusSub = "";
@@ -1721,7 +1721,7 @@ namespace MALClient.XShared.ViewModels.Main
         private async void LoadAllItemsDetails()
         {
             var idsToFetch = new List<AnimeItemAbstraction>();
-            foreach (var animeItemViewModel in _animeItemsSet)
+            foreach (var animeItemViewModel in _animeItemsSet.Concat(AnimeItems.Select(model => model.ParentAbstraction)))
             {
                 if (!animeItemViewModel.LoadedVolatile)
                     idsToFetch.Add(animeItemViewModel);
@@ -1730,6 +1730,7 @@ namespace MALClient.XShared.ViewModels.Main
 
             if (idsToFetch.Count > 0)
             {
+                ItemsLoaded = 0;
                 LoadingAllDetailsVisibility = true;
                 AllItemsToLoad = idsToFetch.Count;
                 foreach (var abstraction in idsToFetch)
@@ -1768,10 +1769,13 @@ namespace MALClient.XShared.ViewModels.Main
                             AirStartDate =
                                 data.StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : data.StartDate
                         });
-                        if (day != -1)
+                        if (!abstraction.LoadedVolatile)
                         {
-                            abstraction.AirDay = day;
-                            abstraction.GlobalScore = data.GlobalScore;                      
+                            if (abstraction.TryRetrieveVolatileData())
+                            {
+                                if(abstraction.LoadedModel)
+                                    abstraction.ViewModel.UpdateVolatileData();
+                            }
                         }
                         ItemsLoaded++;
                     }
@@ -1781,7 +1785,6 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                 }
                 LoadingAllDetailsVisibility = false;
-                RefreshList();
             }
         }
 

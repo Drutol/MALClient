@@ -596,12 +596,12 @@ namespace MALClient.XShared.ViewModels
 
         public float GlobalScore
         {
-            get { return _globalScore; }
+            get { return ParentAbstraction.GlobalScore; }
             set
             {
                 if (value == 0)
                     return;
-                _globalScore = value;
+                ParentAbstraction.GlobalScore = value;
                 RaisePropertyChanged(() => GlobalScoreBind);
             }
         }

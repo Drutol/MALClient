@@ -145,12 +145,12 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Grid Grid.Row="0" Margin="0,0,-16,0"
-                    Visibility="{Binding UpperCommandBarVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                    Visibility="Visible" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{x:Bind ViewModel.AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}">
                 <SymbolIcon Symbol="Sort" />
                 <Button.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">
@@ -217,7 +217,7 @@
                     <DataTemplate />
                 </Pivot.ItemTemplate>
             </Pivot>
-            <Pivot x:Name="PivotSeasonSelection" Style="{StaticResource PivotHamburgerStyle}"
+            <Pivot Grid.Column="1" x:Name="PivotSeasonSelection" Style="{StaticResource PivotHamburgerStyle}"
                    Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeSeasonal}}"
                    SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                    ItemsSource="{Binding SeasonSelection}">

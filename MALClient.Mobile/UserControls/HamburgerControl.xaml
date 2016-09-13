@@ -87,6 +87,7 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="45" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeList]}"
@@ -102,6 +103,25 @@
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
+                                                    <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                                                Foreground="{Binding ElementName=TxtList , Path=Foreground}" >
+                                                            <SymbolIcon.RenderTransform>
+                                                                <RotateTransform Angle="90"/>
+                                                            </SymbolIcon.RenderTransform>
+                                                        </SymbolIcon>
+                                                        <Button.Flyout>
+                                                            <MenuFlyout Placement="Right">
+                                                                <MenuFlyoutItem Text="Watching" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="0"/>
+                                                                <MenuFlyoutItem Text="Completed" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="1"/>
+                                                                <MenuFlyoutItem Text="On hold" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="2"/>
+                                                                <MenuFlyoutItem Text="Dropped" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="3"/>
+                                                                <MenuFlyoutItem Text="Plan to watch" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="4"/>
+                                                                <MenuFlyoutItem Text="All" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="5"/>
+                                                            </MenuFlyout>
+                                                        </Button.Flyout>
+                                                    </Button>
                                                 </Grid>
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"
@@ -269,6 +289,7 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
                                                         <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="45" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"
@@ -284,6 +305,25 @@
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
+                                                    <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                                                Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" >
+                                                            <SymbolIcon.RenderTransform>
+                                                                <RotateTransform Angle="90"/>
+                                                            </SymbolIcon.RenderTransform>
+                                                        </SymbolIcon>
+                                                        <Button.Flyout>
+                                                            <MenuFlyout Placement="Right">
+                                                                <MenuFlyoutItem Text="Reading" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="0"/>
+                                                                <MenuFlyoutItem Text="Completed" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="1"/>
+                                                                <MenuFlyoutItem Text="On hold" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="2"/>
+                                                                <MenuFlyoutItem Text="Dropped" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="3"/>
+                                                                <MenuFlyoutItem Text="Plan to read" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="4"/>
+                                                                <MenuFlyoutItem Text="All" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="5"/>
+                                                            </MenuFlyout>
+                                                        </Button.Flyout>
+                                                    </Button>
                                                 </Grid>
                                             </Button>
                                             <Button VerticalContentAlignment="Center" Background="Transparent"

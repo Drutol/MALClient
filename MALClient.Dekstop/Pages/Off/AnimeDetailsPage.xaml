@@ -624,7 +624,7 @@
                                                         </Grid.ColumnDefinitions>
                                                         <Button Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                                                 Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateCharacterDetailsCommand}" 
-                                                                CommandParameter="{Binding AnimeCharacter.Data}">
+                                                                CommandParameter="{Binding AnimeCharacter.Data}" HorizontalContentAlignment="Stretch">
                                                             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                                                 <Grid.RowDefinitions>
                                                                     <RowDefinition Height="230" />
@@ -665,7 +665,7 @@
                                                         </Button>
                                                         <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                                                 Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}" 
-                                                                CommandParameter="{Binding AnimeStaffPerson.Data}">
+                                                                CommandParameter="{Binding AnimeStaffPerson.Data}" HorizontalContentAlignment="Stretch">
                                                             <Grid VerticalAlignment="Stretch"
                                                               HorizontalAlignment="Stretch">
                                                                 <Grid.RowDefinitions>

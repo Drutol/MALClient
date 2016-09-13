@@ -122,7 +122,7 @@
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />
                 </Grid.Background>
-                <TextBlock Text="{x:Bind ViewModel.Type}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic"
+                <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic"
                            FontSize="13"
                            VerticalAlignment="Bottom" Margin="5,0,5,5" />
             </Grid>

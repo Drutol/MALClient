@@ -96,17 +96,7 @@ namespace MALClient.Pages.Off
 
         private void Image_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.ImageOverlayVisibility = false;
-        }
-
-        private void ScrollViewer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            (sender as ScrollViewer).ZoomToFactor(Settings.SelectedApiType == ApiType.Mal ? 1 : 0.5f);
-        }
-
-        private void ScrollViewerAlternate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            (sender as ScrollViewer).ZoomToFactor((float) .5);
+            ImageSaveFlyout.ShowAt(sender as FrameworkElement);
         }
 
         //private void AlternateImage_OnImageOpened(object sender, RoutedEventArgs e)

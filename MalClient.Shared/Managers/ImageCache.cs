@@ -84,7 +84,7 @@ namespace MALClient.Shared.Managers
                 ResourceLocator.ApplicationDataService["LastImageCacheCleanup"] = DateTime.Now.ToBinary();
                 return;
             }
-            var lastCleanup = DateTime.FromBinary((long)date);
+            var lastCleanup = DateTime.FromBinary((long) date);
             if (DateTime.Now.Subtract(lastCleanup).TotalDays >= 1) //perform it once a day
             {
                 await ClearAsync(CacheDuration);
@@ -99,7 +99,7 @@ namespace MALClient.Shared.Managers
         /// <returns>a BitmapImage</returns>
         public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
         {
-            if(!Settings.EnableImageCache)
+            if (!Settings.EnableImageCache)
                 return new BitmapImage(uri);
 
             Task busy;
@@ -138,7 +138,7 @@ namespace MALClient.Shared.Managers
                 }
             }
 
-            return CreateBitmapImage(key);
+            return CreateBitmapImage(key, uri);
         }
 
         /// <summary>
@@ -153,9 +153,18 @@ namespace MALClient.Shared.Managers
             return $"{uriHash}.jpg";
         }
 
-        private static BitmapImage CreateBitmapImage(string fileName)
+        private static BitmapImage CreateBitmapImage(string fileName, Uri fallbackUri = null)
         {
-            return new BitmapImage(new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}"));
+            BitmapImage img;
+            try
+            {
+                img = new BitmapImage(new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}"));
+            }
+            catch (Exception)
+            {
+                img = new BitmapImage(fallbackUri);
+            }
+            return img;
         }
 
         private static async Task EnsureFileAsync(Uri uri)

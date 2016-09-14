@@ -592,7 +592,8 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString("N2");
+        public string GlobalScoreBind
+            => ParentAbstraction.LoadedVolatile ? GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2") : "";
 
         public float GlobalScore
         {

@@ -63,8 +63,6 @@
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout x:Name="ImageSaveFlyout">
                         <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal" />
-                        <MenuFlyoutItem Text="Save (Hummingbird)" Command="{Binding SaveImageCommand}"
-                                        CommandParameter="hum" Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
             </Image>

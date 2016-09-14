@@ -53,9 +53,12 @@ namespace MALClient.Shared.UserControls.AttachedProperties
 
         private static async void ImgOnImageFailed(object sender, ExceptionRoutedEventArgs exceptionRoutedEventArgs)
         {
+
             var img = sender as Image;
             img.ImageFailed -= ImgOnImageFailed;
-            img.Source = await ImageCache.GetFromCacheAsync(new Uri(GetMalBaseImageSource(img)));
+            var url = GetMalBaseImageSource(img);
+            if(!string.IsNullOrEmpty(url))
+                img.Source = await ImageCache.GetFromCacheAsync(new Uri(url));
      
         }
 

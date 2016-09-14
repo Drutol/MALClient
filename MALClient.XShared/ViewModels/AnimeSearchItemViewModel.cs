@@ -37,7 +37,7 @@ namespace MALClient.XShared.ViewModels
         public float MyScore { get; set; }
         public int MyStatus { get; set; }
 
-        public string GlobalScoreBind => GlobalScore.ToString("N2");
+        public string GlobalScoreBind => GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2");
         public string Synopsis { get; set; }
         public string ImgUrl { get; set; }
         public string WatchedEps => $"{(AnimeMode ? "Episodes" : "Chapters")} : {AllEpisodes}";

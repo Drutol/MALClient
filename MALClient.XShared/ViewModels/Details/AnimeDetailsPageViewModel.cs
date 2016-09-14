@@ -893,14 +893,9 @@ namespace MALClient.XShared.ViewModels.Details
                 return _saveImageCommand ??
                        (_saveImageCommand =
                            new RelayCommand<string>(
-                               async opt =>
+                               opt =>
                                {
-                                   if (AnimeMode || (!AnimeMode && opt != "hum"))
-                                       ResourceLocator.ImageDownloaderService.DownloadImage(
-                                           opt == "hum"
-                                               ? (_alternateImgUrl ??
-                                                  (_alternateImgUrl = await LoadHummingbirdCoverImage()))
-                                               : _imgUrl, Title);
+                                       ResourceLocator.ImageDownloaderService.DownloadImage(_imgUrl, Title);
                                }));
             }
         }
@@ -1115,20 +1110,20 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        private bool _imageOverlayVisibility = false;
+        //private bool _imageOverlayVisibility = false;
 
-        public bool ImageOverlayVisibility
-        {
-            get { return _imageOverlayVisibility; }
-            set
-            {
-                _imageOverlayVisibility = value;
-                if (value == true)
-                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(
-                        new RelayCommand(() => ImageOverlayVisibility = false));
-                RaisePropertyChanged(() => ImageOverlayVisibility);
-            }
-        }
+        //public bool ImageOverlayVisibility
+        //{
+        //    get { return _imageOverlayVisibility; }
+        //    set
+        //    {
+        //        _imageOverlayVisibility = value;
+        //        if (value == true)
+        //            ViewModelLocator.NavMgr.RegisterOneTimeOverride(
+        //                new RelayCommand(() => ImageOverlayVisibility = false));
+        //        RaisePropertyChanged(() => ImageOverlayVisibility);
+        //    }
+        //}
 
         private bool _noEpisodesDataVisibility;
 

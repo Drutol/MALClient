@@ -1,6 +1,6 @@
-MainPackage=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.5.0_ARM.appx
-SymbolPackage=C:\Users\dogie\Documents\VisualStudioBuilds\MALClient.Mobile_5.0.5.0_Test\MALClient.Mobile_5.0.5.0_ARM.appxsym
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.5.0_scale-100.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.5.0_scale-125.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.5.0_scale-150.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.5.0_scale-400.appx
+MainPackage=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.7.0_ARM.appx
+SymbolPackage=C:\Users\dogie\Documents\VisualStudioBuilds\MALClient.Mobile_5.0.7.0_Test\MALClient.Mobile_5.0.7.0_ARM.appxsym
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.7.0_scale-100.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.7.0_scale-125.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.7.0_scale-150.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Mobile\bin\ARM\Release\MALClient.Mobile_5.0.7.0_scale-400.appx

@@ -107,7 +107,6 @@ namespace MALClient.Pages.Off
             ImageSaveFlyout.ShowAt(sender as FrameworkElement);
         }
 
-
         private void ReadVolumesButton_OnClick(object sender, RoutedEventArgs e)
         {
             ReadVolumesFlyout.Hide();

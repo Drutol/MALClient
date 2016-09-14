@@ -49,7 +49,7 @@ namespace MALClient.Models.Models.Anime
                     .Replace("ldquo;", "\"")
                     .Replace("rsquo;", "'")
                     .Replace("#039;", "'")
-                    .Replace("radiac;", "√")
+                    .Replace("radic;", "√")
                     .Replace("szlig;", "ß")
                     .Replace("auml;", "ä")
                     .Replace("uuml;", "ü")

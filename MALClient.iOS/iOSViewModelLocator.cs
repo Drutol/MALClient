@@ -15,9 +15,9 @@ namespace MALClient.iOS.ViewModel
 		{
 			ViewModelLocator.RegisterBase();
 
-			//SimpleIoc.Default.Register<IHamburgerViewModel, HamburgerControlViewModel>();
+			SimpleIoc.Default.Register<IHamburgerViewModel, HamburgerViewModel>();
 			SimpleIoc.Default.Register<INavMgr, NavigationManager>();
-			//SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();
+			SimpleIoc.Default.Register<MainViewModelBase, MainViewModel>();
 
 			SimpleIoc.Default.Register<IDataCache, DataCache>();
 			SimpleIoc.Default.Register<IPasswordVault, PasswordVaultProvider>();

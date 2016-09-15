@@ -8,17 +8,17 @@ namespace MALClient.iOS.Adapters
 	{
 		public void Add(VaultCredential credential)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public VaultCredential Get(string domain)
 		{
-			throw new NotImplementedException();
+			return new VaultCredential("MALClient", "MALClientTestAcc", "MuchVerificatio");
 		}
 
 		public void Reset()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 	}
 }

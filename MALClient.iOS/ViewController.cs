@@ -20,7 +20,9 @@ namespace MALClient.iOS
 			App.Create();
 
  			Credentials.SetAuthStatus(true);
-			//Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
+			Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
+			ViewModelLocator.AnimeList.Init(null);
+			ViewModelLocator.AnimeList.Initialized += AnimeList_Initialized;
 		}
 
 		public override void DidReceiveMemoryWarning()
@@ -28,6 +30,17 @@ namespace MALClient.iOS
 			base.DidReceiveMemoryWarning();
 			// Release any cached data, images, etc that aren't in use.
 		}
+
+		SmartObservableCollection<AnimeItemViewModel> animeItems;
+
+		void AnimeList_Initialized()
+		{
+			animeItems = ViewModelLocator.AnimeList.AnimeGridItems;
+		}
+
+		partial void UIButton17_TouchUpInside(UIButton sender)
+		{
+			
+		}
 	}
 }
-

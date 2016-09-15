@@ -12,33 +12,34 @@ namespace MALClient.iOS
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return default(bool);
+				//throw new NotImplementedException();
 			}
 
 			set
 			{
-				throw new NotImplementedException();
+				//throw new NotImplementedException();
 			}
 		}
 
 		public void SetActiveButton(TopAnimeType topType)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public void SetActiveButton(HamburgerButtons val)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public void UpdateAnimeFiltersSelectedIndex()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public void UpdateApiDependentButtons()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public void UpdateLogInLabel()
@@ -48,12 +49,13 @@ namespace MALClient.iOS
 
 		public void UpdatePinnedProfiles()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public Task UpdateProfileImg(bool dl = true)
 		{
-			throw new NotImplementedException();
+			return default(Task);
+			//throw new NotImplementedException();
 		}
 	}
 }

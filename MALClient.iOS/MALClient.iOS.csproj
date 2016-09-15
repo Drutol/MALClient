@@ -131,6 +131,14 @@
     <Compile Include="Managers\NavigationManager.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ViewModels\HamburgerViewModel.cs" />
+    <Compile Include="MyAnimeListViewController.cs" />
+    <Compile Include="MyAnimeListViewController.designer.cs">
+      <DependentUpon>MyAnimeListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HummingbirdViewController.cs" />
+    <Compile Include="HummingbirdViewController.designer.cs">
+      <DependentUpon>HummingbirdViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">

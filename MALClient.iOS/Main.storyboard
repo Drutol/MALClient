@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="34">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
     </dependencies>
@@ -13,19 +13,19 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Test Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="5" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="260.5" y="290" width="79" height="20.5"/>
+                                <rect key="frame" x="200.5" y="390" width="79" height="20.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="17" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="267" y="127" width="46" height="30"/>
+                                <rect key="frame" x="234" y="206" width="46" height="30"/>
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -39,10 +39,142 @@
                             <constraint id="13" firstItem="5" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY"/>
                         </constraints>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="480" height="800"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="0.0" y="0.0"/>
+            <point key="canvasLocation" x="-211" y="202"/>
+        </scene>
+        <scene sceneID="33">
+            <objects>
+                <tabBarController definesPresentationContext="YES" id="34" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="39">
+                        <rect key="frame" x="0.0" y="751" width="480" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="36" kind="relationship" relationship="viewControllers" id="35"/>
+                        <segue destination="38" kind="relationship" relationship="viewControllers" id="37"/>
+                    </connections>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="480" height="800"/>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="40" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="374" y="203"/>
+        </scene>
+        <scene sceneID="41">
+            <objects>
+                <viewController id="36" sceneMemberID="viewController" customClass="MyAnimeListViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="29"/>
+                        <viewControllerLayoutGuide type="bottom" id="30"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="42">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" lineBreakMode="tailTruncation" minimumFontSize="10" id="52" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                                <rect key="frame" x="198.5" y="50" width="83.5" height="21.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="53" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="120" y="91.5" width="240" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                                <connections/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="54" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                                <rect key="frame" x="202" y="141.5" width="78" height="21.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="55" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="120" y="183" width="240" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" enablesReturnKeyAutomatically="YES" returnKeyType="go"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="85" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="305" y="233" width="50" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Log In">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="86" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="125" y="233" width="67" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="97" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="401" y="22" width="77" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Problems?">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint id="61" firstItem="52" firstAttribute="centerX" secondItem="42" secondAttribute="centerX"/>
+                            <constraint id="62" firstItem="53" firstAttribute="centerX" secondItem="42" secondAttribute="centerX"/>
+                            <constraint id="63" firstItem="54" firstAttribute="centerX" secondItem="42" secondAttribute="centerX" constant="1"/>
+                            <constraint id="64" firstItem="55" firstAttribute="centerX" secondItem="42" secondAttribute="centerX"/>
+                            <constraint id="65" firstItem="53" firstAttribute="top" secondItem="52" secondAttribute="bottom" constant="20"/>
+                            <constraint id="66" firstItem="54" firstAttribute="top" secondItem="53" secondAttribute="bottom" constant="20"/>
+                            <constraint id="67" firstItem="55" firstAttribute="top" secondItem="54" secondAttribute="bottom" constant="20"/>
+                            <constraint id="68" firstItem="53" firstAttribute="width" secondItem="42" secondAttribute="width" multiplier="0.5"/>
+                            <constraint id="69" firstItem="55" firstAttribute="width" secondItem="42" secondAttribute="width" multiplier="0.5"/>
+                            <constraint id="80" firstItem="52" firstAttribute="top" secondItem="29" secondAttribute="bottom" constant="30"/>
+                            <constraint id="87" firstItem="86" firstAttribute="top" secondItem="55" secondAttribute="bottom" constant="20"/>
+                            <constraint id="88" firstItem="86" firstAttribute="leading" secondItem="55" secondAttribute="leading" constant="5"/>
+                            <constraint id="89" firstItem="55" firstAttribute="trailing" secondItem="85" secondAttribute="trailing" constant="5"/>
+                            <constraint id="90" firstItem="85" firstAttribute="top" secondItem="55" secondAttribute="bottom" constant="20"/>
+                            <constraint id="100" firstItem="97" firstAttribute="top" secondItem="29" secondAttribute="bottom" constant="2"/>
+                            <constraint id="101" firstItem="42" firstAttribute="trailing" secondItem="97" secondAttribute="trailing" constant="2"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" id="43" title="MyAnimeList"/>
+                    <connections>
+                        <outlet property="UsernameTextField" destination="53" id="name-outlet-53"/>
+                        <outlet property="PasswordTextField" destination="55" id="name-outlet-55"/>
+                        <outlet property="LogInButton" destination="85" id="name-outlet-85"/>
+                        <outlet property="RegisterButton" destination="86" id="name-outlet-86"/>
+                        <outlet property="ProblemsButton" destination="97" id="name-outlet-97"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="44" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="974" y="-317"/>
+        </scene>
+        <scene sceneID="45">
+            <objects>
+                <viewController id="38" sceneMemberID="viewController" customClass="HummingbirdViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="31"/>
+                        <viewControllerLayoutGuide type="bottom" id="32"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="46">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews/>
+                    </view>
+                    <tabBarItem key="tabBarItem" id="47" title="Hummingbird"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="48" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="976" y="533"/>
         </scene>
     </scenes>
 </document>

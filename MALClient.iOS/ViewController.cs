@@ -37,7 +37,7 @@ namespace MALClient.iOS
 		{
 			animeItems = ViewModelLocator.AnimeList.AnimeGridItems;
 		}
-
+      
 		partial void UIButton17_TouchUpInside(UIButton sender)
 		{
 			

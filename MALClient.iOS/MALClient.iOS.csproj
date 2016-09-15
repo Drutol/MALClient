@@ -109,6 +109,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Managers\" />
+    <Folder Include="Assets.xcassets\Logo.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -138,6 +139,10 @@
     <Compile Include="HummingbirdViewController.cs" />
     <Compile Include="HummingbirdViewController.designer.cs">
       <DependentUpon>HummingbirdViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogInViewController.cs" />
+    <Compile Include="LogInViewController.designer.cs">
+      <DependentUpon>LogInViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

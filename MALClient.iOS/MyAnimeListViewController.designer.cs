@@ -34,6 +34,14 @@ namespace MALClient.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField UsernameTextField { get; set; }
 
+        [Action ("LogInButton_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void LogInButton_TouchUpInside (UIKit.UIButton sender);
+
+        [Action ("TextField_Editing:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void TextField_Editing (UIKit.UITextField sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (LogInButton != null) {

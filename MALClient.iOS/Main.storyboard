@@ -85,11 +85,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="53" translatesAutoresizingMaskIntoConstraints="NO">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="53" translatesAutoresizingMaskIntoConstraints="NO" borderStyle="roundedRect">
                                 <rect key="frame" x="120" y="91.5" width="240" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
-                                <connections/>
+                                <connections>
+                                    <action selector="TextField_Editing:" destination="36" id="134" eventType="editingDidBegin"/>
+                                    <action selector="TextField_Editing:" destination="36" id="135" eventType="editingChanged"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="54" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
                                 <rect key="frame" x="202" y="141.5" width="78" height="21.5"/>
@@ -102,6 +105,10 @@
                                 <rect key="frame" x="120" y="183" width="240" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" enablesReturnKeyAutomatically="YES" returnKeyType="go"/>
+                                <connections>
+                                    <action selector="TextField_Editing:" destination="36" id="137" eventType="editingDidBegin"/>
+                                    <action selector="TextField_Editing:" destination="36" id="138" eventType="editingChanged"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="85" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="305" y="233" width="50" height="34"/>
@@ -109,6 +116,9 @@
                                 <state key="normal" title="Log In">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="LogInButton_TouchUpInside:" destination="36" id="122" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="86" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="125" y="233" width="67" height="34"/>

@@ -56,7 +56,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
                     <StackPanel.Background>
-                        <SolidColorBrush Color="Black" Opacity=".25"/>
+                        <SolidColorBrush Color="Black" Opacity=".6"/>
                     </StackPanel.Background>
                     <Image Source="/Assets/SplashScreen.scale-200.png"  Width="310" Height="150"
                    VerticalAlignment="Center" />

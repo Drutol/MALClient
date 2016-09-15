@@ -390,7 +390,7 @@
               Background="{ThemeResource BrushLoadingNonTransparent}">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" CornerRadius="10" Padding="10">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".4"/>
+                    <SolidColorBrush Color="Black" Opacity=".6"/>
                 </Grid.Background>
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" >

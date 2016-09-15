@@ -1,6 +1,0 @@
-MainPackage=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Debug\MALClient.Dekstop_5.0.8.0_x64_Debug.appx
-SymbolPackage=C:\Users\dogie\Documents\VisualStudioBuilds\MALClient.Dekstop_5.0.8.0_Debug_Test\MALClient.Dekstop_5.0.8.0_x64_Debug.appxsym
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Debug\MALClient.Dekstop_5.0.8.0_scale-100.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Debug\MALClient.Dekstop_5.0.8.0_scale-125.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Debug\MALClient.Dekstop_5.0.8.0_scale-150.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Debug\MALClient.Dekstop_5.0.8.0_scale-400.appx

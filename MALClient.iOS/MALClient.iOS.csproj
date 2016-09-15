@@ -129,6 +129,8 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="iOSViewModelLocator.cs" />
     <Compile Include="Managers\NavigationManager.cs" />
+    <Compile Include="App.cs" />
+    <Compile Include="ViewModels\HamburgerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
@@ -139,13 +141,13 @@
       <Project>{9948A48D-1CFC-40E5-9BFA-6F93FE4C44A0}</Project>
       <Name>MALClient.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="MALClient.iOS.Adapters\MALClient.iOS.Adapters.csproj">
-      <Project>{774E5457-E96C-4DED-87E0-2F1442541840}</Project>
-      <Name>MALClient.iOS.Adapters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
       <Project>{9F8E953E-47A6-4F72-A2FE-BEF7A2DAE850}</Project>
       <Name>MALClient.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.iOS.Adapters\MALClient.iOS.Adapters.csproj">
+      <Project>{B7380F21-80AA-4602-8B57-ED3D1E733524}</Project>
+      <Name>MALClient.iOS.Adapters</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

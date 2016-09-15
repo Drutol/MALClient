@@ -22,4 +22,3 @@ namespace MALClient.iOS.Adapters
 		}
 	}
 }
-

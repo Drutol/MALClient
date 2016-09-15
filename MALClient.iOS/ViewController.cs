@@ -11,13 +11,15 @@ namespace MALClient.iOS
 		protected ViewController(IntPtr handle) : base(handle)
 		{
 			// Note: this .ctor should not contain any initialization logic.
+
 		}
 
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			App.Create();
 
-			//Credentials.SetAuthStatus(true);
+ 			Credentials.SetAuthStatus(true);
 			//Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
 		}
 

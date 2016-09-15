@@ -21,8 +21,8 @@ namespace MALClient.XShared.Utils
             PasswordVault = ResourceLocator.PasswordVaultProvider;
 
             HummingbirdToken = (string)(ApplicationDataService["HummingbirdToken"] ?? "");
-            Id = (int)(ApplicationDataService["UserId"] ?? 0);
-            Authenticated = bool.Parse(ApplicationDataService["Auth"] as string);
+			Id = (int)(ApplicationDataService["UserId"] ?? 0);
+            //Authenticated = bool.Parse(ApplicationDataService["Auth"] as string);
         }
 
         public static string HummingbirdToken { get; private set; } 

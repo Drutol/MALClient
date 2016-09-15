@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using MALClient.Adapters;
 
@@ -37,4 +38,3 @@ namespace MALClient.iOS.Adapters
 		}
 	}
 }
-

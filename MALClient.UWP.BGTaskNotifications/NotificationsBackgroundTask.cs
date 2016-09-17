@@ -35,7 +35,7 @@ namespace MALClient.UWP.BGTaskNotifications
 
             var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TriggeredNotifications"] ?? string.Empty);
 
-            var triggeredNotifications = allTriggeredNotifications.Split(';');
+            var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
             //trigger new notifications
             foreach (var notification in notifications)
@@ -43,6 +43,7 @@ namespace MALClient.UWP.BGTaskNotifications
                 if(triggeredNotifications.Contains(notification.Id))
                     continue;
 
+                triggeredNotifications.Add(notification.Id);
                 ScheduleToast(notification);
             }
 
@@ -80,6 +81,8 @@ namespace MALClient.UWP.BGTaskNotifications
 
                 Visual = new ToastVisual()
                 {
+                   
+
                     BindingGeneric = new ToastBindingGeneric()
                     {
                         Children =

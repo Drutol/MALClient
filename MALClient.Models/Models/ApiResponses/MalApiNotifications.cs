@@ -38,6 +38,11 @@ namespace MALClient.Models.Models.ApiResponses
         public string commentUserImageUrl { get; set; }
         public string text { get; set; }
         public string date { get; set; }
+        public bool isApproved { get; set; }
+        public string friendName { get; set; }
+        public string friendProfileUrl { get; set; }
+        public string friendImageUrl { get; set; }
+        public string message { get; set; }
         public List<MalScrappedNotificationAnime2> animes { get; set; }
     }
 

@@ -12,5 +12,6 @@
         ClubMessages,
         NewRelatedAnime,
         NowAiring,      
+        Payment,      
     }
 }

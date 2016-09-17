@@ -62,13 +62,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
                     foreach (var notification in notifications.items)
                     {
-                        var current = new MalNotification();
-
-                        current.Id = notification.id;
-                        current.Content = notification.text;
-                        current.Date = notification.date;
-
-                        output.Add(current);
+                        output.Add(MalNotification.CreateFromRawData(notification));
                     }
                 }
                 catch (Exception)

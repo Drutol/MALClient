@@ -430,9 +430,16 @@ namespace MALClient.Pages.Main
         //why? beacuse MSFT Bugged this after anniversary update
         private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
         {
-            var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
-            var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
-            prop?.SetValue(sender, true);
+            try
+            {
+                var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+                var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, true);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
         }
     }
 }

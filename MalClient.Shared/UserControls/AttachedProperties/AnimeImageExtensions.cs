@@ -27,11 +27,11 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         }
 
         public static readonly DependencyProperty MalBaseImageSourceProperty =
-          DependencyProperty.RegisterAttached(
-              "MalBaseImageSource",
-              typeof(string),
-              typeof(AnimeImageExtensions),
-              new PropertyMetadata("", PropertyChangedCallback));
+            DependencyProperty.RegisterAttached(
+                "MalBaseImageSource",
+                typeof(string),
+                typeof(AnimeImageExtensions),
+                new PropertyMetadata("", PropertyChangedCallback));
 
         private static async void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -46,7 +46,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
                     img.Source = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));
                 }
             }
-            else
+            else if(!string.IsNullOrEmpty(source))
                 img.Source = await ImageCache.GetFromCacheAsync(new Uri(source));
 
         }

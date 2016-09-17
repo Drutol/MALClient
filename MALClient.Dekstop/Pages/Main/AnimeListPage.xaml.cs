@@ -34,7 +34,7 @@ namespace MALClient.Pages.Main
         {
             private get
             {
-                return (ScrollViewer)FindChildControl<ScrollViewer>((DependencyObject)GetScrollingContainer());
+                return (ScrollViewer) FindChildControl<ScrollViewer>((DependencyObject) GetScrollingContainer());
                 //return _indefiniteScrollViewer ??
                 //       (_indefiniteScrollViewer =
                 //           VisualTreeHelper.GetChild(
@@ -128,6 +128,7 @@ namespace MALClient.Pages.Main
         }
 
         private bool _handlerAdded;
+
         private async void ViewModelOnRemoveScrollHandlerRequest()
         {
             if (!_handlerAdded)
@@ -324,7 +325,7 @@ namespace MALClient.Pages.Main
                     {
                         AnimesGridIndefinite.SelectedItem = item;
                         AnimesGridIndefinite.Focus(FocusState.Pointer);
-                    }                 
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -353,7 +354,7 @@ namespace MALClient.Pages.Main
         private async void AnimeGridItemOnTap(object sender, TappedRoutedEventArgs e)
         {
             var item = (sender as FrameworkElement).DataContext as AnimeItemViewModel;
-            if(item == null)
+            if (item == null)
                 return;
             ViewModel.TemporarilySelectedAnimeItem = item;
             await Task.Delay(50);
@@ -399,7 +400,7 @@ namespace MALClient.Pages.Main
                         SortAiring.IsChecked =
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
-                                    SortEndDate.IsChecked = 
+                                    SortEndDate.IsChecked =
                                         SortSeason.IsChecked =
                                             SortStartDate.IsChecked = false;
             switch (option)
@@ -446,7 +447,8 @@ namespace MALClient.Pages.Main
 
         private void ButtonCustomSeasonGo(object sender, RoutedEventArgs e)
         {
-           if(!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
+            if (!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) &&
+                !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
                 FlyoutSeasonSelection.Hide();
         }
 
@@ -455,9 +457,17 @@ namespace MALClient.Pages.Main
         //why? beacuse MSFT Bugged this after anniversary update
         private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
         {
-            var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
-            var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
-            prop?.SetValue(sender, true);
+            try
+            {
+                var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+                var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, true);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
+
         }
     }
 }

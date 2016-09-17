@@ -49,6 +49,7 @@
     <Compile Include="Enums\ForumBoards.cs" />
     <Compile Include="Enums\ForumsPageIndex.cs" />
     <Compile Include="Enums\HamburgerButtonsEnum.cs" />
+    <Compile Include="Enums\MalNotificationsTypesEnum.cs" />
     <Compile Include="Enums\MessageSymbolsEnum.cs" />
     <Compile Include="Enums\PageIndex.cs" />
     <Compile Include="Enums\RelatedItemType.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Models\Anime\AnimeSeason.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
+    <Compile Include="Models\ApiResponses\MalApiNotifications.cs" />
     <Compile Include="Models\Favourites\AnimeCharacter.cs" />
     <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
     <Compile Include="Models\Favourites\FavouriteBase.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
+    <Compile Include="Models\Notifications\MalNotification.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />
     <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />

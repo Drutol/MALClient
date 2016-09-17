@@ -62,6 +62,7 @@
     <Compile Include="Comm\LibraryListQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />
+    <Compile Include="Comm\MagicalRawQueries\MalNotificationsQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\AccountMessagesMangaer.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />

@@ -27,6 +27,7 @@ using MALClient.UserControls;
 using MALClient.Utils.Managers;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
@@ -137,7 +138,7 @@ namespace MALClient.ViewModels
                 CurrentStatusSub = "";
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
                 currPage = index;
-            }
+            }            
 
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)

@@ -16,6 +16,10 @@ namespace MALClient.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIVisualEffectView Bluuuur { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton HummigbirdButton { get; set; }
 
         [Outlet]
@@ -60,6 +64,11 @@ namespace MALClient.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (Bluuuur != null) {
+                Bluuuur.Dispose ();
+                Bluuuur = null;
+            }
+
             if (HummigbirdButton != null) {
                 HummigbirdButton.Dispose ();
                 HummigbirdButton = null;

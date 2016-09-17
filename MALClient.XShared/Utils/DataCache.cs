@@ -42,10 +42,9 @@ namespace MALClient.XShared.Utils
 
         public static async Task ClearApiRelatedCache()
         {
-           // await DataCacheService.ClearApiRelatedCache();
-			//if(_volatileDataCache != null)
-   //         _volatileDataCache.Clear();
-   //         AnimeDetailsHummingbirdQuery.MalToHumId?.Clear();
+			await DataCacheService.ClearApiRelatedCache();
+            _volatileDataCache.Clear();
+            AnimeDetailsHummingbirdQuery.MalToHumId?.Clear();
         }
 
         public static async Task ClearAnimeListData()

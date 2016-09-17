@@ -114,7 +114,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="187" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="0.0" y="750" width="240" height="50"/>
-                                <state key="normal" title="MyAnimeList">
+                                <state key="normal" image="MALIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -123,16 +123,37 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="188" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="240" y="750" width="240" height="50"/>
-                                <state key="normal" title="Hummingbird">
+                                <state key="normal" image="HummingbirdIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <constraints>
-                                    <constraint id="195" firstItem="188" firstAttribute="height" constant="50"/>
-                                </constraints>
                                 <connections>
                                     <action selector="HummigbirdButton_TouchUpInside:" destination="36" id="202" eventType="touchUpInside"/>
                                 </connections>
+                                <constraints>
+                                    <constraint id="239" firstAttribute="width" secondItem="188" secondAttribute="height" multiplier="24:5"/>
+                                </constraints>
                             </button>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" id="252" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="96" y="0.0" width="297" height="293"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="253">
+                                    <rect key="frame" x="0.0" y="0.0" width="297" height="293"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="266" translatesAutoresizingMaskIntoConstraints="NO" image="HummingbirdIcon">
+                                            <rect key="frame" x="80" y="41" width="160" height="240"/>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint id="267" firstItem="266" firstAttribute="top" secondItem="253" secondAttribute="top" constant="41"/>
+                                        <constraint id="268" firstItem="266" firstAttribute="leading" secondItem="253" secondAttribute="leading" constant="80"/>
+                                        <constraint id="269" firstItem="253" firstAttribute="bottom" secondItem="266" secondAttribute="bottom" constant="12"/>
+                                        <constraint id="270" firstItem="253" firstAttribute="trailing" secondItem="266" secondAttribute="trailing" constant="57"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="dark"/>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                            </visualEffectView>
                         </subviews>
                         <constraints>
                             <constraint id="61" firstItem="52" firstAttribute="centerX" secondItem="42" secondAttribute="centerX"/>
@@ -158,6 +179,11 @@
                             <constraint id="193" firstItem="188" firstAttribute="width" secondItem="42" secondAttribute="width" multiplier="0.5"/>
                             <constraint id="194" firstItem="187" firstAttribute="width" secondItem="42" secondAttribute="width" multiplier="0.5"/>
                             <constraint id="196" firstItem="187" firstAttribute="height" secondItem="188" secondAttribute="height"/>
+                            <constraint id="215" firstItem="42" firstAttribute="trailing" secondItem="187" secondAttribute="trailing" constant="240"/>
+                            <constraint id="254" firstItem="29" firstAttribute="bottom" secondItem="252" secondAttribute="top" constant="8"/>
+                            <constraint id="255" firstItem="252" firstAttribute="leading" secondItem="42" secondAttribute="leading" constant="89"/>
+                            <constraint id="256" firstItem="42" firstAttribute="trailing" secondItem="252" secondAttribute="trailing" constant="94"/>
+                            <constraint id="257" firstItem="188" firstAttribute="top" secondItem="252" secondAttribute="bottom" constant="445"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" id="43" title="MyAnimeList"/>
@@ -178,4 +204,8 @@
             <point key="canvasLocation" x="634" y="207"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="MALIcon" width="240" height="41"/>
+        <image name="HummingbirdIcon" width="240" height="50"/>
+    </resources>
 </document>

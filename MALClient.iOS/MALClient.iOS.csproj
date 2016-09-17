@@ -105,11 +105,21 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\MALIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\MALIcon.imageset\MyAnimeListLogo%401x.png" />
+    <ImageAsset Include="Assets.xcassets\MALIcon.imageset\MyAnimeListLogo%402x.png" />
+    <ImageAsset Include="Assets.xcassets\MALIcon.imageset\MyAnimeListLogo%403x.png" />
+    <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Hummingbird%401x.png" />
+    <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Hummingbird%402x.png" />
+    <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Hummingbird%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Managers\" />
     <Folder Include="Assets.xcassets\Logo.imageset\" />
+    <Folder Include="Assets.xcassets\MALIcon.imageset\" />
+    <Folder Include="Assets.xcassets\HummingbirdIcon.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

@@ -15,7 +15,7 @@ namespace MALClient.iOS.Adapters
 
 		public Task ClearApiRelatedCache()
 		{
-			return default(Task);
+			return Task.Delay(10);
 			//throw new NotImplementedException();
 		}
 

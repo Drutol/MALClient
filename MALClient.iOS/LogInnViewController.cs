@@ -28,11 +28,13 @@ namespace MALClient.iOS
 					{
 						case ApiType.Hummingbird:
 							ProblemsButton.Hidden = true;
-							//button appearance
+							HummigbirdButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 60);
+							MyAnimeListButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 30);
 							break;
 						case ApiType.Mal:
 							ProblemsButton.Hidden = false;
-	                        //button appearance
+							MyAnimeListButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 60);
+							HummigbirdButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 30);
 							break;
 					}
 				}
@@ -63,7 +65,9 @@ namespace MALClient.iOS
 			base.ViewDidLoad();
 			App.Create();
 
-			//temporary
+			Bluuuur.a
+
+			SelectedApiType = ApiType.Hummingbird;
 			SelectedApiType = ApiType.Mal;
 
 			UsernameTextField.ShouldReturn += UsernameTextField_ShouldReturn;

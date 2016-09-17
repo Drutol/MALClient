@@ -6,7 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Notifications;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
 using MALClient.UWP.Adapters;
 using MALClient.XShared.Comm.MagicalRawQueries;
@@ -20,12 +22,23 @@ namespace MALClient.UWP.BGTaskNotifications
     {
         public BackgroundTaskDeferral Defferal { get; private set; }
         private SemaphoreSlim ToastSemaphore = new SemaphoreSlim(1);
+        private const string Logo = "ms-appdata:///Assets/Square150x150Logo.scale-200.png";
 
         private int waitCount = 0;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
+
             Defferal = taskInstance.GetDeferral();
+
+            var details = taskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
+            if (details != null)
+            {
+                await Launcher.LaunchUriAsync(new Uri(details.Argument));
+                Defferal.Complete();
+                return;
+            }
+
             ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
             ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
             ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
@@ -33,7 +46,7 @@ namespace MALClient.UWP.BGTaskNotifications
 
             var notifications = await MalNotificationsQuery.GetNotifications();
 
-            var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TriggeredNotifications"] ?? string.Empty);
+            var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TrigggeredNotifications"] ?? string.Empty);
 
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
@@ -76,41 +89,150 @@ namespace MALClient.UWP.BGTaskNotifications
         {
             return new ToastContent()
             {
-                Launch = $"action=viewEvent&eventId={notification.Id}",
+                Launch = notification.LaunchArgs,
                 Scenario = ToastScenario.Reminder,
 
                 Visual = new ToastVisual()
                 {
-                   
-
+                                     
                     BindingGeneric = new ToastBindingGeneric()
                     {
+                        
+                        HeroImage = string.IsNullOrEmpty(notification.ImgUrl) ? null : new ToastGenericHeroImage { Source = notification.ImgUrl},
                         Children =
                         {
                             new AdaptiveText()
                             {
-                                Text = notification.Type.ToString()
+                                Text = notification.Header
                             },
 
                             new AdaptiveText()
                             {
                                 Text = notification.Content
                             },
-                        }
+                        },
+                        
                     },
+                    
                               
                 },
-                Actions = new ToastActionsCustom
-                {
-                    Buttons =
-                    {
-                        new ToastButtonDismiss()
-                    }
-                }
-
-                
+                Actions = GetActions(notification)               
             };
         }
 
+        private ToastActionsCustom GetActions(MalNotification notification)
+        {
+            switch (notification.Type)
+            {
+                case MalNotificationsTypes.Generic:
+                case MalNotificationsTypes.FriendRequestAcceptDeny:
+                case MalNotificationsTypes.BlogComment:
+                case MalNotificationsTypes.Payment:
+                    return new ToastActionsCustom
+                    {
+                        Buttons = { new ToastButtonDismiss() }                       
+                    };
+                case MalNotificationsTypes.FriendRequest:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Launch website",notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Background,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.ProfileComment:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open conversation", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.ForumQuoute:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open topic", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.UserMentions:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.WatchedTopics:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open topic", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.ClubMessages:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open website", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Background,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.NewRelatedAnime:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open details", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.NowAiring:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open details", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
+
 }

@@ -52,6 +52,18 @@ namespace MALClient
             Suspending += OnSuspending;
         }
 
+
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            var e = args as ToastNotificationActivatedEventArgs;
+            if (e != null)
+            {
+                var arg = await MalLinkParser.GetNavigationParametersForUrl(e.Argument);
+                if(arg != null)
+                    ViewModelLocator.GeneralMain.Navigate(arg.Item1,arg.Item2);
+            }
+        }
+
         /// <summary>
         ///     Invoked when the application is launched normally by the end user.  Other entry points
         ///     will be used such as when the application is launched to open a specific file.
@@ -62,16 +74,25 @@ namespace MALClient
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             var rootFrame = Window.Current.Content as Frame;
             Tuple<int, string> navArgs = null;
+            Tuple<PageIndex, object> fullNavArgs = null;
             if (!string.IsNullOrWhiteSpace(e.Arguments))
             {
-                var options = e.Arguments.Split(';');
-                if (options[0] == TileActions.OpenUrl.ToString())
-                    LaunchUri(options[1]);
+                if (e.Arguments.Contains("|"))
+                {
+                    var options = e.Arguments.Split(';');
+                    if (options[0] == TileActions.OpenUrl.ToString())
+                        LaunchUri(options[1]);
+                    else
+                    {
+                        var detailArgs = options[1].Split('|');
+                        navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    }
+                }
                 else
                 {
-                    var detailArgs = options[1].Split('|');
-                    navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(e.Arguments);
                 }
+
             }
             Credentials.Init();
             // Do not repeat app initialization when the Window already has content,
@@ -117,6 +138,10 @@ namespace MALClient
             {
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
+            }
+            else if (fullNavArgs != null)
+            {
+                ViewModelLocator.GeneralMain.Navigate(fullNavArgs.Item1, fullNavArgs.Item2);
             }
             // Ensure the current window is active
             NotificationTaskManager.StartNotificationTask();

@@ -19,7 +19,7 @@ namespace MALClient.Shared.Managers
         public static async Task<Tuple<PageIndex, object>> GetNavigationParametersForUrl(string url)
         {
             var uri = url;
-            if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?subboard=\d+"))
+            if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?subboard=\d+"))
             {
                 var id = uri.Split('=').Last();  
                 if (id == "1")
@@ -27,7 +27,7 @@ namespace MALClient.Shared.Managers
                 else if (id == "4")
                     return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoards.MangaSeriesDisc));
             }
-            else if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?board=\d+"))
+            else if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?board=\d+"))
             {
                 ForumBoards board;
                 if (ForumBoards.TryParse(uri.Split('=').Last(), out board))
@@ -35,7 +35,7 @@ namespace MALClient.Shared.Managers
                     return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(board));
                 }
             }
-            else if(Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?animeid=\d+"))
+            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?animeid=\d+"))
             {
                 int id;
                 if (int.TryParse(uri.Split('=').Last(), out id))
@@ -43,7 +43,7 @@ namespace MALClient.Shared.Managers
                     return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id, "Anime Series Board", true));
                 }
             }
-            else if(Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?mangaid=\d+"))
+            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?mangaid=\d+"))
             {
                 int id;
                 if (int.TryParse(uri.Split('=').Last(), out id))
@@ -51,11 +51,11 @@ namespace MALClient.Shared.Managers
                     return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id, "Manga Series Board", false));
                 }
             }
-            else if(Regex.IsMatch(uri, @"http:\/\/myanimelist\.net\/forum\/message\/\d+\?goto=topic"))
+            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist\.net\/forum\/message\/\d+\?goto=topic"))
             {
                 //
             }
-            else if(Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?topicid=\d+"))
+            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?topicid=\d+"))
             {
                 var id = uri.Split('=').Last();
                 return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative));

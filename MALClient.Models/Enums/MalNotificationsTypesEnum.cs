@@ -4,6 +4,7 @@
     {
         Generic,
         FriendRequest,
+        FriendRequestAcceptDeny,
         ProfileComment,
         BlogComment,
         ForumQuoute,

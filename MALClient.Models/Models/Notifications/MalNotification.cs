@@ -20,79 +20,100 @@ namespace MALClient.Models.Models.Notifications
         public string Content { get; set; }
         public string Date { get; set; }
         public string Header { get; set; }
-        public string LuanchArgs { get; set; }
+        public string LaunchArgs { get; set; }
         public bool IsSupported { get; set; }
+        public string ImgUrl { get; set; }
 
         public static MalNotification CreateFromRawData(MalScrappedNotification notification)
         {
             var output = new MalNotification();
             switch (notification.typeIdentifier)
             {
-                case "friend-request":
+                case "friend_request":
                     output.Type = MalNotificationsTypes.FriendRequest;
                     output.Header = "New friend request";
                     output.Content = $"{notification.friendName} sent you a friend request!";
+                    output.LaunchArgs = notification.url;
                     output.IsSupported = false;
+                    output.ImgUrl = notification.friendImageUrl;
                     break;
-                case "friend-request-accept":
-                    output.Type = MalNotificationsTypes.FriendRequest;
+                case "friend_request_accept":
+                    output.Type = MalNotificationsTypes.FriendRequestAcceptDeny;
                     output.Header = "Friend request accepted";
                     output.Content = $"{notification.friendName} accepted your friend request!";
                     output.IsSupported = false;
                     break;
-                case "friend-request-deny":
-                    output.Type = MalNotificationsTypes.FriendRequest;
+                case "friend_request_deny":
+                    output.Type = MalNotificationsTypes.FriendRequestAcceptDeny;
                     output.Header = "Friend request denied";
-                    output.Content = $"{notification.friendName} rejected yopur friend request.";
+                    output.Content = $"{notification.friendName} rejected your friend request.";
                     output.IsSupported = false;
                     break;
-                case "profile-comment":
+                case "profile_comment":
                     output.Type = MalNotificationsTypes.ProfileComment;
                     output.Header = "New profile comment";
                     output.Content = $"{notification.commentUserName} posted a comment on your profile\n{notification.text}.";
-                    output.LuanchArgs = notification.url;
+                    output.LaunchArgs = notification.url;
+                    output.ImgUrl = notification.commentUserImageUrl;
                     output.IsSupported = true;
                     break;
-                case "forum-quote":
+                case "forum_quote":
                     output.Type = MalNotificationsTypes.ForumQuoute;
+                    output.Header = "New forum quoute!";
+                    output.Content = $"{notification.quoteUserName} has quouted your post in the \"{notification.topicTitle}\" thread.";
+                    output.LaunchArgs = notification.topicUrl;
+                    output.IsSupported = true;
                     break;
-                case "blog-comment":
+                case "blog_comment":
                     output.Type = MalNotificationsTypes.BlogComment;
+                    output.Header = "New blog comment.";
+                    output.IsSupported = false;
                     break;
-                case " watched-topic-message":
+                case "watched_topic_message":
                     output.Type = MalNotificationsTypes.WatchedTopics;
+                    output.Header = "New reply on your watched topic!";
+                    output.Content = $"New reply was posted on your watched topic: \"{notification.pageTitle}\"";
+                    output.LaunchArgs = notification.url;
+                    output.IsSupported = true;
                     break;
-                case "club-mass-message-in-forum":
+                case "club_mass_message_in_forum":
                     output.Type = MalNotificationsTypes.ClubMessages;
+                    output.Header = "New club message.";
+                    output.IsSupported = false;
                     break;
-                case "user-mention-in-club-comment":
+                case "user_mention_in_club_comment":
                     output.Type = MalNotificationsTypes.UserMentions;
                     output.Header = notification.categoryName;
                     output.Content = $"{notification.senderName} has mentioned you in club {notification.pageTitle}";
+                    output.LaunchArgs = notification.pageUrl;
                     output.IsSupported = false;
                     break;
-                case " on-air":
+                case "on_air":
                     output.Type = MalNotificationsTypes.NowAiring;
                     output.Header = notification.categoryName;
                     output.Content = $"The anime you plan to watch began airing on {notification.date} {notification.animes.First().title}";
-                    output.LuanchArgs = notification.animes.First().url;
+                    output.LaunchArgs = notification.animes.First().url;
                     output.IsSupported = true;
                     break;
-                case " payment-stripe":
+                case " payment_stripe":
                     output.Type = MalNotificationsTypes.Payment;
                     output.Header = "Payment notification.";
                     output.Content = "(I don't know what does it mean, feel free to let me know about this on github)";
                     output.IsSupported = false;
                     break;
-                case "related-anime-add":
+                case "related_anime_add":
                     output.Type = MalNotificationsTypes.NewRelatedAnime;
                     output.Header = notification.categoryName;
                     output.Content = $"{notification.anime.title} ({notification.anime.mediaType}) has just been added to MAL databse!";
-                    output.LuanchArgs = notification.url;
+                    output.LaunchArgs = notification.url;
                     output.IsSupported = true;
                     break;
-                case "user-mention-in-forum-message":
+                case "user_mention_in_forum_message":
                     output.Type = MalNotificationsTypes.UserMentions;
+                    output.Header = notification.categoryName;
+                    output.Content = $"{notification.senderName} has mentioned you in forum message {notification.pageTitle}";
+                    output.LaunchArgs = notification.pageUrl;
+                    output.IsSupported = true;
                     break;                
                 default:
                     output.Type = MalNotificationsTypes.Generic;

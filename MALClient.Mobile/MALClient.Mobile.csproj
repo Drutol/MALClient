@@ -399,6 +399,10 @@
       <Project>{7087a044-1675-413b-86c3-a0005c87b0b5}</Project>
       <Name>MALClient.UWP.Adapters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MALClient.UWP.BGTaskNotifications\MALClient.UWP.BGTaskNotifications.csproj">
+      <Project>{cb57338d-9a51-4cbc-b0bb-3d579c2588fd}</Project>
+      <Name>MALClient.UWP.BGTaskNotifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
       <Name>MALClient.XShared</Name>

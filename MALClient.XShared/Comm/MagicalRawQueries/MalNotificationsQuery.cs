@@ -59,6 +59,17 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     var json = notificationsScriptNode.InnerHtml.Substring(startPos+1, endPos-startPos-1);
                     var notifications =
                         JsonConvert.DeserializeObject<MalScrappedRootNotification>(json);
+
+                    foreach (var notification in notifications.items)
+                    {
+                        var current = new MalNotification();
+
+                        current.Id = notification.id;
+                        current.Content = notification.text;
+                        current.Date = notification.date;
+
+                        output.Add(current);
+                    }
                 }
                 catch (Exception)
                 {

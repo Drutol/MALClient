@@ -20,7 +20,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VisualStudioBuilds\</AppxPackageDir>
     <PackageCertificateThumbprint>87205DEB851A1C5CC6CE7E65C7C282B812C6EE97</PackageCertificateThumbprint>
     <HockeyAppResourceId>b79e78858bdf44c4bfc3a1f37c8fd90c</HockeyAppResourceId>
@@ -431,6 +431,10 @@
     <ProjectReference Include="..\MALClient.UWP.Adapters\MALClient.UWP.Adapters.csproj">
       <Project>{7087a044-1675-413b-86c3-a0005c87b0b5}</Project>
       <Name>MALClient.UWP.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.UWP.BGTaskNotifications\MALClient.UWP.BGTaskNotifications.csproj">
+      <Project>{cb57338d-9a51-4cbc-b0bb-3d579c2588fd}</Project>
+      <Name>MALClient.UWP.BGTaskNotifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>

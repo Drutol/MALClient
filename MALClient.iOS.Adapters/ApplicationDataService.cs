@@ -13,13 +13,12 @@ namespace MALClient.iOS.Adapters
 		{
 			get
 			{
-				return null;
-				//throw new NotImplementedException();
+				return _userDefaults.ValueForKey((NSString)key);
 			}
 
 			set
 			{
-				//throw new NotImplementedException();
+				_userDefaults.SetValueForKey(NSObject.FromObject(value), (NSString)key);            
 			}
 		}
 	}

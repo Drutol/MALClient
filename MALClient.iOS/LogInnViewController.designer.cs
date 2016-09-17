@@ -11,12 +11,20 @@ using UIKit;
 
 namespace MALClient.iOS
 {
-    [Register ("MyAnimeListViewController")]
-    partial class MyAnimeListViewController
+    [Register ("LogInViewController")]
+    partial class LogInViewController
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton HummigbirdButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LogInButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton MyAnimeListButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -34,9 +42,17 @@ namespace MALClient.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField UsernameTextField { get; set; }
 
+        [Action ("HummigbirdButton_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void HummigbirdButton_TouchUpInside (UIKit.UIButton sender);
+
         [Action ("LogInButton_TouchUpInside:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void LogInButton_TouchUpInside (UIKit.UIButton sender);
+
+        [Action ("MyAnimeListButton_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void MyAnimeListButton_TouchUpInside (UIKit.UIButton sender);
 
         [Action ("TextField_Editing:")]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -44,9 +60,19 @@ namespace MALClient.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (HummigbirdButton != null) {
+                HummigbirdButton.Dispose ();
+                HummigbirdButton = null;
+            }
+
             if (LogInButton != null) {
                 LogInButton.Dispose ();
                 LogInButton = null;
+            }
+
+            if (MyAnimeListButton != null) {
+                MyAnimeListButton.Dispose ();
+                MyAnimeListButton = null;
             }
 
             if (PasswordTextField != null) {

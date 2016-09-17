@@ -132,7 +132,7 @@ namespace MALClient.XShared.ViewModels.Main
 
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Credentials.SetAuthStatus(false);
                 Credentials.Update(string.Empty, string.Empty, ApiType.Mal);

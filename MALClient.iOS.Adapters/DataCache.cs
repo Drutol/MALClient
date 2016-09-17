@@ -9,32 +9,38 @@ namespace MALClient.iOS.Adapters
 	{
 		public Task ClearAnimeListData()
 		{
-			throw new NotImplementedException();
+			return default(Task);
+			//throw new NotImplementedException();
 		}
 
 		public Task ClearApiRelatedCache()
 		{
-			throw new NotImplementedException();
+			return default(Task);
+			//throw new NotImplementedException();
 		}
 
 		public Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
 		{
-			throw new NotImplementedException();
+			return default(Task<T>);
+			//throw new NotImplementedException();
 		}
 
 		public Task<T> RetrieveDataRoaming<T>(string filename, int expiration)
 		{
-			throw new NotImplementedException();
+			return default(Task<T>);
+			//throw new NotImplementedException();
 		}
 
 		public Task SaveData<T>(T data, string filename, string targetFolder)
 		{
-			throw new NotImplementedException();
+			return default(Task);
+			//throw new NotImplementedException();
 		}
 
 		public Task SaveDataRoaming<T>(T data, string filename)
 		{
-			throw new NotImplementedException();
+			return default(Task);
+			//throw new NotImplementedException();
 		}
 	}
 }

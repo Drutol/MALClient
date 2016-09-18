@@ -50,6 +50,17 @@ namespace MALClient
             Suspending += OnSuspending;
         }
 
+
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            var e = args as ToastNotificationActivatedEventArgs;
+            if (e != null)
+            {
+                var arg = await MalLinkParser.GetNavigationParametersForUrl(e.Argument);
+                if (arg != null)
+                    ViewModelLocator.GeneralMain.Navigate(arg.Item1, arg.Item2);
+            }
+        }
         /// <summary>
         ///     Invoked when the application is launched normally by the end user.  Other entry points
         ///     will be used such as when the application is launched to open a specific file.
@@ -116,6 +127,7 @@ namespace MALClient
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
             }
             // Ensure the current window is active
+            NotificationTaskManager.StartNotificationTask();
             ImageCache.PerformScheduledCacheCleanup();
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();

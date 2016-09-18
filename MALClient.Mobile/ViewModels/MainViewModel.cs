@@ -289,7 +289,7 @@ namespace MALClient.ViewModels
                 Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
-                if (InitDetails != null)
+                if (InitDetails != null || InitDetailsFull != null)
                     MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
             }
         }

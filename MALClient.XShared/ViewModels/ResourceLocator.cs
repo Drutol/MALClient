@@ -30,6 +30,8 @@ namespace MALClient.XShared.ViewModels
 
         public static ITelemetryProvider TelemetryProvider  => SimpleIoc.Default.GetInstance<ITelemetryProvider>();
 
+        public static INotificationsTaskManager  NotificationsTaskManager  => SimpleIoc.Default.GetInstance<INotificationsTaskManager>();
+
         #region UsedByBackgroundTask
 
         public static void RegisterPasswordVaultAdapter(IPasswordVault vault)

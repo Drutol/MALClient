@@ -35,6 +35,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<ILiveTilesManager, LiveTilesManagerRelay>();
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
+            SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

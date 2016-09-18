@@ -107,6 +107,13 @@ namespace MALClient.XShared.ViewModels
             },
             new SettingsPageEntry
             {
+                Header = "Notifications",
+                Subtitle = "Notifications types, pooling frequency...",
+                Symbol = SettingsSymbolsEnum.Important,
+                PageType = SettingsPageIndex.Notifications
+            },
+            new SettingsPageEntry
+            {
                 Header = "About",
                 Subtitle = "Github repo, donations etc.",
                 Symbol = SettingsSymbolsEnum.Manage,
@@ -490,6 +497,46 @@ namespace MALClient.XShared.ViewModels
 
         public abstract void LoadCachedEntries();
 
+        #region Notifications
+        protected ICommand _setNotificationsRefreshTime;
+
+        public ICommand SetNotificationsRefreshTime
+            =>
+            _setNotificationsRefreshTime ??
+            (_setNotificationsRefreshTime = new RelayCommand<int>(i => NotificationsRefreshTime = i));
+
+
+        public bool EnableNotifications
+        {
+            get { return Settings.EnableNotifications; }
+            set
+            {
+                Settings.EnableNotifications = value;
+                if(value)
+                    ResourceLocator.NotificationsTaskManager.StartTask();
+                else
+                    ResourceLocator.NotificationsTaskManager.StopTask();                 
+            }
+        }
+
+        public int NotificationsRefreshTime
+        {
+            get { return Settings.NotificationsRefreshTime; }
+            set { Settings.NotificationsRefreshTime = value; }
+        }
+
+
+        public MalNotificationsTypes EnabledNotificationTypes
+        {
+            get { return Settings.EnabledNotificationTypes; }
+            set
+            {
+                Settings.EnabledNotificationTypes = value;
+                ResourceLocator.NotificationsTaskManager.StartTask();
+            }
+        }
+
+        #endregion
 
         #region RecentlyMovedToMvvm
 

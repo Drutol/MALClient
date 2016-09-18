@@ -20,11 +20,11 @@ namespace MALClient.UWP.BGTaskNotifications
 {
     public sealed class NotificationsBackgroundTask : IBackgroundTask
     {
-        public BackgroundTaskDeferral Defferal { get; private set; }
-        private SemaphoreSlim ToastSemaphore = new SemaphoreSlim(1);
-        private const string Logo = "ms-appdata:///Assets/Square150x150Logo.scale-200.png";
+        private BackgroundTaskDeferral Defferal { get; set; }
+        private readonly SemaphoreSlim ToastSemaphore = new SemaphoreSlim(1);
+        private const string Logo = "ms-appx:///Assets/BadgeLogo.scale-400.png";
 
-        private int waitCount = 0;
+        private int _waitCount = 0;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -45,6 +45,11 @@ namespace MALClient.UWP.BGTaskNotifications
             Credentials.Init();
 
             var notifications = await MalNotificationsQuery.GetNotifications();
+            notifications =
+                notifications.Where(
+                    notification =>
+                        !notification.IsRead &&
+                        (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
 
             var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TrigggeredNotifications"] ?? string.Empty);
 
@@ -74,14 +79,14 @@ namespace MALClient.UWP.BGTaskNotifications
 
         private async void ScheduleToast(MalNotification notification)
         {
-            waitCount++;
+            _waitCount++;
             var toastContent = BuildToast(notification);
             await ToastSemaphore.WaitAsync();
             ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(toastContent.GetXml()));
             await Task.Delay(500);
             ToastSemaphore.Release();
-            waitCount--;
-            if(waitCount == 0)
+            _waitCount--;
+            if(_waitCount == 0)
                 Defferal.Complete();
         }
 
@@ -89,16 +94,24 @@ namespace MALClient.UWP.BGTaskNotifications
         {
             return new ToastContent()
             {
-                Launch = notification.LaunchArgs,
-                Scenario = ToastScenario.Reminder,
+                Launch =
+                ((notification.Type == MalNotificationsTypes.UserMentions && !notification.IsSupported) ||
+                 notification.Type == MalNotificationsTypes.FriendRequest ||
+                 notification.Type == MalNotificationsTypes.ClubMessages
+                    ? "OpenUrl;"
+                    : "") + notification.LaunchArgs,
+                Scenario = ToastScenario.Default,
 
                 Visual = new ToastVisual()
                 {
-                                     
+
                     BindingGeneric = new ToastBindingGeneric()
                     {
-                        
-                        HeroImage = string.IsNullOrEmpty(notification.ImgUrl) ? null : new ToastGenericHeroImage { Source = notification.ImgUrl},
+                        AppLogoOverride = new ToastGenericAppLogo {Source = Logo},
+                        HeroImage =
+                            string.IsNullOrEmpty(notification.ImgUrl)
+                                ? null
+                                : new ToastGenericHeroImage {Source = notification.ImgUrl},
                         Children =
                         {
                             new AdaptiveText()
@@ -111,12 +124,12 @@ namespace MALClient.UWP.BGTaskNotifications
                                 Text = notification.Content
                             },
                         },
-                        
+
                     },
-                    
-                              
+
+
                 },
-                Actions = GetActions(notification)               
+                Actions = GetActions(notification)
             };
         }
 
@@ -128,18 +141,15 @@ namespace MALClient.UWP.BGTaskNotifications
                 case MalNotificationsTypes.FriendRequestAcceptDeny:
                 case MalNotificationsTypes.BlogComment:
                 case MalNotificationsTypes.Payment:
-                    return new ToastActionsCustom
-                    {
-                        Buttons = { new ToastButtonDismiss() }                       
-                    };
+                    return new ToastActionsCustom();
                 case MalNotificationsTypes.FriendRequest:
                     return new ToastActionsCustom
                     {
                         Buttons =
                         {
-                            new ToastButton("Launch website",notification.LaunchArgs)
+                            new ToastButton("Open website","OpenUrl;" + notification.LaunchArgs)
                             {
-                                ActivationType = ToastActivationType.Background,
+                                ActivationType = ToastActivationType.Foreground,
                             },
                             new ToastButtonDismiss()
                         }
@@ -173,7 +183,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     {
                         Buttons =
                         {
-                            new ToastButton("Open", notification.LaunchArgs)
+                            new ToastButton("Open", (!notification.IsSupported ? "OpenUrl;" : "") + notification.LaunchArgs)
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
@@ -197,9 +207,9 @@ namespace MALClient.UWP.BGTaskNotifications
                     {
                         Buttons =
                         {
-                            new ToastButton("Open website", notification.LaunchArgs)
+                            new ToastButton("Open website", "OpenUrl;" + notification.LaunchArgs)
                             {
-                                ActivationType = ToastActivationType.Background,
+                                ActivationType = ToastActivationType.Foreground,
                             },
                             new ToastButtonDismiss()
                         }

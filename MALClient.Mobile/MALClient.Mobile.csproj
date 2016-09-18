@@ -167,6 +167,9 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsHomePage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml.cs">
+      <DependentUpon>SettingsNotificationsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs" />
     <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
       <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
@@ -187,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\GitHub-Mark-120px-plus.png" />
     <Content Include="Assets\GitHub-Mark-Light-120px-plus.png" />
     <Content Include="Assets\hummingbird150x150.scale-200.png" />
@@ -326,6 +331,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

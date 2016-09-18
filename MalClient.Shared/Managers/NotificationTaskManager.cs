@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using MALClient.XShared.Utils;
 
 namespace MALClient.Shared.Managers
 {
@@ -17,32 +18,37 @@ namespace MALClient.Shared.Managers
 
         public static async void StartNotificationTask()
         {
-            if(_taskRegistered)
+            if(!Settings.EnableNotifications)
                 return;
 
-            foreach (var task in BackgroundTaskRegistration.AllTasks)
-            {
-                if (task.Value.Name == TaskName)
+            if(!_taskRegistered)
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
                 {
-                    _taskRegistered = true;
-                    TaskRegistration = task.Value;
-                    return;
+                    if (task.Value.Name == TaskName)
+                    {
+                        _taskRegistered = true;
+                        TaskRegistration = task.Value;
+                        return;
+                    }
                 }
-            }
+
+            if (_taskRegistered)
+                TaskRegistration?.Unregister(true);
+
             var access = await BackgroundExecutionManager.RequestAccessAsync();
             if(access == BackgroundAccessStatus.DeniedBySystemPolicy || 
                access == BackgroundAccessStatus.DeniedByUser)
                 return;
 
-            TaskRegistration?.Unregister(true);
+            var builder = new BackgroundTaskBuilder
+            {
+                Name = TaskName,
+                TaskEntryPoint = TaskNamespace
+            };
 
-            var builder = new BackgroundTaskBuilder();
-
-            builder.Name = TaskName;
-            builder.TaskEntryPoint = TaskNamespace;
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             builder.SetTrigger(new SystemTrigger(SystemTriggerType.InternetAvailable, false));
-            //builder.SetTrigger(new TimeTrigger(30,false));
+            builder.SetTrigger(new TimeTrigger((uint)Settings.NotificationsRefreshTime,false));
 
             TaskRegistration = builder.Register();
 
@@ -52,7 +58,9 @@ namespace MALClient.Shared.Managers
 
         public static void StopNotificationTask()
         {
+            _taskRegistered = false;
             TaskRegistration.Unregister(false);
+            TaskRegistration = null;
         }
     }
 }

@@ -22,11 +22,17 @@ namespace MALClient.Models.Models.Notifications
         public string Header { get; set; }
         public string LaunchArgs { get; set; }
         public bool IsSupported { get; set; }
+        public bool IsRead { get; set; }
         public string ImgUrl { get; set; }
 
         public static MalNotification CreateFromRawData(MalScrappedNotification notification)
         {
             var output = new MalNotification();
+            output.IsRead = notification.isRead;
+
+            if (output.IsRead)
+                return output;
+
             switch (notification.typeIdentifier)
             {
                 case "friend_request":

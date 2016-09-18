@@ -31,6 +31,8 @@ namespace MALClient.Shared.XamlConverters
                     return Symbol.Contact;
                 case SettingsSymbolsEnum.Placeholder:
                     return Symbol.Placeholder;
+                case SettingsSymbolsEnum.Important:
+                    return Symbol.Important;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }

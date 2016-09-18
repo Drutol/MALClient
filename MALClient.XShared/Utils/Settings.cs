@@ -546,5 +546,35 @@ namespace MALClient.XShared.Utils
 
         #endregion
 
+        #region Notifiations
+
+        public static bool EnableNotifications
+        {
+            get { return (bool)(ApplicationDataService[nameof(EnableNotifications)] ?? true); }
+            set { ApplicationDataService[nameof(EnableNotifications)] = value; }
+        }
+
+        public static MalNotificationsTypes EnabledNotificationTypes
+        {
+            get
+            {
+                return
+                    (MalNotificationsTypes)
+                    (ApplicationDataService[nameof(EnabledNotificationTypes)] ??
+                     MalNotificationsTypes.ClubMessages | MalNotificationsTypes.ForumQuoute |
+                     MalNotificationsTypes.FriendRequest |
+                     MalNotificationsTypes.FriendRequestAcceptDeny | MalNotificationsTypes.NewRelatedAnime |
+                     MalNotificationsTypes.ProfileComment | MalNotificationsTypes.UserMentions |
+                     MalNotificationsTypes.WatchedTopics | MalNotificationsTypes.NowAiring);
+            }
+            set { ApplicationDataService[nameof(EnabledNotificationTypes)] = (int)value; }
+        }
+
+        public static int NotificationsRefreshTime
+        {
+            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 30); }
+            set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
+        }
+        #endregion
     }
 }

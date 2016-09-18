@@ -42,6 +42,7 @@
     <Compile Include="IImageDownloaderService.cs" />
     <Compile Include="ILiveTilesManager.cs" />
     <Compile Include="IMessageDialogProvider.cs" />
+    <Compile Include="INotificationsTaskManager.cs" />
     <Compile Include="IPinTileService.cs" />
     <Compile Include="ISyetemControlLuancherService.cs" />
     <Compile Include="ITelemetryProvider.cs" />

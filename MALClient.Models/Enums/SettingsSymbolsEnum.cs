@@ -9,6 +9,7 @@
         PostUpdate,
         Manage,
         Contact,
-        Placeholder
+        Placeholder,
+        Important
     }
 }

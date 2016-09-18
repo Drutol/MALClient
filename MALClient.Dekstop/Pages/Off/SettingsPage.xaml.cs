@@ -63,6 +63,9 @@ namespace MALClient.Pages.Off
                 case SettingsPageIndex.Homepage:
                     pageType = typeof(SettingsHomePage);
                     break;
+                case SettingsPageIndex.Notifications:
+                    pageType = typeof(SettingsNotificationsPage);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

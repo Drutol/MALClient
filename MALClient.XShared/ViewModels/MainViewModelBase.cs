@@ -17,6 +17,7 @@ namespace MALClient.XShared.ViewModels
     public abstract class MainViewModelBase : ViewModelBase
     {
         public static Tuple<int, string> InitDetails;
+        public static Tuple<PageIndex, object> InitDetailsFull;
         protected bool _navigating;
         protected Tuple<PageIndex, object> _postponedNavigationArgs;
         protected bool? _searchStateBeforeNavigatingToSearch;
@@ -74,8 +75,11 @@ namespace MALClient.XShared.ViewModels
 
         protected void AnimeListOnInitializedLoadArgs()
         {
-            Navigate(PageIndex.PageAnimeDetails,
-                new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
+            if(InitDetails != null)
+                Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
+            if(InitDetailsFull != null)
+                Navigate(InitDetailsFull.Item1,InitDetailsFull.Item2);
             ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }
         #endregion

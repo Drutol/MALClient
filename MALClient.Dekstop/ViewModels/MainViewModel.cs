@@ -358,8 +358,10 @@ namespace MALClient.ViewModels
                     Navigate(PageIndex.PageLogIn);
                     Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General));
                 }
-                if (InitDetails != null)
+                if (InitDetails != null || InitDetailsFull != null)
+                {
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+                }
 
                 MenuPaneState = Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500;
             }

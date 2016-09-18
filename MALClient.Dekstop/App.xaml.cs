@@ -148,7 +148,9 @@ namespace MALClient
                 if(navArgs != null)
                     MainViewModelBase.InitDetails = navArgs;
                 else if (fullNavArgs != null)
+                {
                     MainViewModelBase.InitDetailsFull = fullNavArgs;
+                }
                 rootFrame.Navigate(typeof(MainPage));
             }
             else if (navArgs != null)

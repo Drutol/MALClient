@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
-using MALClient.XShared.ViewModels;
+using Newtonsoft.Json;
 
-namespace MALClient.Shared.Managers
+namespace MALClient.XShared.Utils
 {
     public static class MalLinkParser
     {
@@ -64,12 +62,21 @@ namespace MALClient.Shared.Managers
             {
                 return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             }
-            else if (Regex.IsMatch(uri,@"https:\/\/myanimelist.net\/comtocom.php\?id1=\d+&id2=\d+"))
+            else if (Regex.IsMatch(uri,@"https:\/\/myanimelist.net\/comtocom.php\?id1=\d+&id2=\d+\|.*"))
             {
                 return new Tuple<PageIndex, object>(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs
                 {
                     WorkMode = MessageDetailsWorkMode.ProfileComments,
-                    Arg = new MalComment { ComToCom = uri.Split('?').Last() , User = new MalUser { Name = "Unknown"} }
+                    Arg = new MalComment { ComToCom = uri.Split('?').Last() , User = new MalUser { Name = uri.Split('|').Last()} }
+                });
+            }
+            else if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/mymessages.php\?go=read&id=\d+\|.*"))
+            {
+                var msg = JsonConvert.DeserializeObject<MalMessageModel>(uri.Split('|').Last());
+                return new Tuple<PageIndex, object>(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs
+                {
+                    WorkMode = MessageDetailsWorkMode.Message,
+                    Arg = msg
                 });
             }
 

@@ -28,6 +28,8 @@ namespace MALClient.Models.Enums
         [EnumUtilities.Description("Now On Air")]
         NowAiring = 0x200,
         [EnumUtilities.Description("Payment")]
-        Payment = 0x400,      
+        Payment = 0x400,
+        [EnumUtilities.Description("Messages")]
+        Messages = 0x800,      
     }
 }

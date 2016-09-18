@@ -12,6 +12,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
 using MALClient.UWP.Adapters;
 using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.Comm.MagicalRawQueries.Messages;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -44,14 +45,42 @@ namespace MALClient.UWP.BGTaskNotifications
             ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
             Credentials.Init();
 
-            var notifications = await MalNotificationsQuery.GetNotifications();
-            notifications =
-                notifications.Where(
-                    notification =>
-                        !notification.IsRead &&
-                        (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
+            List<MalNotification> notifications = new List<MalNotification>();
 
-            var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TrigggeredNotifications"] ?? string.Empty);
+            if (
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequestAcceptDeny) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NewRelatedAnime) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.BlogComment) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ClubMessages) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ForumQuoute) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequest) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NowAiring) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ProfileComment) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.Payment) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.UserMentions) ||
+                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.WatchedTopics))
+            {
+                notifications.AddRange(await MalNotificationsQuery.GetNotifications());
+                notifications =
+                    notifications.Where(
+                        notification =>
+                            !notification.IsRead &&
+                            (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
+            }
+
+            if ((Settings.EnabledNotificationTypes & MalNotificationsTypes.Messages) == MalNotificationsTypes.Messages)
+            {
+                var msgs = await AccountMessagesManager.GetMessagesAsync(1);
+                foreach (var malMessageModel in msgs)
+                {
+                    if (!malMessageModel.IsRead)
+                    {
+                        notifications.Add(new MalNotification(malMessageModel)); //I'm assuming that Ids are unique
+                    }
+                }
+            }
+
+            var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TriggeredNotifications"] ?? string.Empty);
 
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
@@ -122,6 +151,11 @@ namespace MALClient.UWP.BGTaskNotifications
                             new AdaptiveText()
                             {
                                 Text = notification.Content
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = notification.Date,
+                                HintStyle = AdaptiveTextStyle.Subtitle
                             },
                         },
 
@@ -239,6 +273,18 @@ namespace MALClient.UWP.BGTaskNotifications
                         }
                     };
 
+                case MalNotificationsTypes.Messages:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open conversation", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -562,7 +562,7 @@ namespace MALClient.XShared.Utils
                     (MalNotificationsTypes)
                     (ApplicationDataService[nameof(EnabledNotificationTypes)] ??
                      MalNotificationsTypes.ClubMessages | MalNotificationsTypes.ForumQuoute |
-                     MalNotificationsTypes.FriendRequest |
+                     MalNotificationsTypes.FriendRequest | MalNotificationsTypes.Messages |
                      MalNotificationsTypes.FriendRequestAcceptDeny | MalNotificationsTypes.NewRelatedAnime |
                      MalNotificationsTypes.ProfileComment | MalNotificationsTypes.UserMentions |
                      MalNotificationsTypes.WatchedTopics | MalNotificationsTypes.NowAiring);

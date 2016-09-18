@@ -62,7 +62,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
                     foreach (var notification in notifications.items)
                     {
-                        output.Add(MalNotification.CreateFromRawData(notification));
+                        output.Add(new MalNotification(notification));
                     }
                 }
                 catch (Exception)

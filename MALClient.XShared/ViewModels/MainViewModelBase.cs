@@ -75,10 +75,10 @@ namespace MALClient.XShared.ViewModels
 
         protected void AnimeListOnInitializedLoadArgs()
         {
-            if(InitDetails != null)
+            if (InitDetails != null)
                 Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
-            if(InitDetailsFull != null)
+            if (InitDetailsFull != null)        
                 Navigate(InitDetailsFull.Item1,InitDetailsFull.Item2);
             ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }

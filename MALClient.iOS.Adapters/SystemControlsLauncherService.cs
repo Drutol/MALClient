@@ -1,5 +1,7 @@
 ﻿using System;
 using MALClient.Adapters;
+using UIKit;
+using Foundation;
 
 namespace MALClient.iOS.Adapters
 {
@@ -7,7 +9,7 @@ namespace MALClient.iOS.Adapters
 	{
 		public void LaunchUri(Uri uri)
 		{
-			throw new NotImplementedException();
+			UIApplication.SharedApplication.OpenUrl(new NSUrl(uri.AbsoluteUri));
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
@@ -29,15 +29,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.Android", "MALCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.Android.Adapters", "MALClient.Android.Adapters\MALClient.Android.Adapters.csproj", "{7FAE60D4-665D-4220-84EE-966236AFACCC}"
 EndProject
-<<<<<<< HEAD
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iOS", "iOS", "{CC8A18DC-C1EF-4800-9F7F-5EBA93507AC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.iOS", "MALClient.iOS\MALClient.iOS.csproj", "{5AAD4D61-C029-4FC0-8A2B-A04F30265F34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.iOS.Adapters", "MALClient.iOS.Adapters\MALClient.iOS.Adapters.csproj", "{B7380F21-80AA-4602-8B57-ED3D1E733524}"
-=======
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.BGTaskNotifications", "MALClient.UWP.BGTaskNotifications\MALClient.UWP.BGTaskNotifications.csproj", "{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}"
->>>>>>> master
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -405,7 +403,6 @@ Global
 		{7FAE60D4-665D-4220-84EE-966236AFACCC}.Release|x64.Build.0 = Release|Any CPU
 		{7FAE60D4-665D-4220-84EE-966236AFACCC}.Release|x86.ActiveCfg = Release|Any CPU
 		{7FAE60D4-665D-4220-84EE-966236AFACCC}.Release|x86.Build.0 = Release|Any CPU
-<<<<<<< HEAD
 		{7FAE60D4-665D-4220-84EE-966236AFACCC}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{7FAE60D4-665D-4220-84EE-966236AFACCC}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{7FAE60D4-665D-4220-84EE-966236AFACCC}.Release|iPhone.ActiveCfg = Release|Any CPU
@@ -478,7 +475,6 @@ Global
 		{B7380F21-80AA-4602-8B57-ED3D1E733524}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{B7380F21-80AA-4602-8B57-ED3D1E733524}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{B7380F21-80AA-4602-8B57-ED3D1E733524}.Debug|iPhone.Build.0 = Debug|Any CPU
-=======
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}.Debug|ARM.ActiveCfg = Debug|ARM
@@ -503,7 +499,6 @@ Global
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}.Release|x64.Build.0 = Release|x64
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}.Release|x86.ActiveCfg = Release|x86
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD}.Release|x86.Build.0 = Release|x86
->>>>>>> master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -519,11 +514,8 @@ Global
 		{7087A044-1675-413B-86C3-A0005C87B0B5} = {54301918-C485-4F4F-B82D-8F7ECAA6477B}
 		{FB09A862-8C21-4A4C-ADFA-82AB4C36EA84} = {94F3C837-6CD7-4797-A537-915F53974ED8}
 		{7FAE60D4-665D-4220-84EE-966236AFACCC} = {94F3C837-6CD7-4797-A537-915F53974ED8}
-<<<<<<< HEAD
 		{5AAD4D61-C029-4FC0-8A2B-A04F30265F34} = {CC8A18DC-C1EF-4800-9F7F-5EBA93507AC8}
 		{B7380F21-80AA-4602-8B57-ED3D1E733524} = {CC8A18DC-C1EF-4800-9F7F-5EBA93507AC8}
-=======
 		{CB57338D-9A51-4CBC-B0BB-3D579C2588FD} = {54301918-C485-4F4F-B82D-8F7ECAA6477B}
->>>>>>> master
 	EndGlobalSection
 EndGlobal

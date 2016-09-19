@@ -75,6 +75,7 @@ namespace MALClient.iOS
 			HummigbirdButton.SetCommand("TouchUpInside", VM.FocusHumCommand);
 			MyAnimeListButton.SetCommand("TouchUpInside", VM.FocusMalCommand);
 			ProblemsButton.SetCommand("TouchUpInside", VM.ProblemsCommand);
+			RegisterButton.SetCommand("TouchUpInside", VM.NavigateRegister);
 
 			UsernameTextField.ShouldReturn += UsernameTextField_ShouldReturn;
 			PasswordTextField.ShouldReturn += UsernameTextField_ShouldReturn;

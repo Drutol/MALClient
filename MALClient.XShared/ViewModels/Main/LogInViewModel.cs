@@ -27,11 +27,8 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _focusHumCommand;
         private ICommand _logOutCommand;
         private ICommand _logInCommand;
-<<<<<<< HEAD
 		private ICommand _problemsCommand;
-=======
         private ICommand _navigateRegister;
->>>>>>> master
         private bool _authenticating;
         private bool _logOutButtonVisibility;
         private bool _isHumToggleChecked;
@@ -94,12 +91,11 @@ namespace MALClient.XShared.ViewModels.Main
 
         public ICommand LogInCommand => _logInCommand ?? (_logInCommand = new RelayCommand(AttemptAuthentication));
 
-<<<<<<< HEAD
 		public ICommand ProblemsCommand => _problemsCommand ?? (_problemsCommand = new RelayCommand(() =>
 											{
 												ResourceLocator.MessageDialogProvider.ShowMessageDialog("If you are experiencing constant error messages while trying to log in , resetting your password on MAL may solve this issue. Why you may ask... MAL api is just very very bad and it tends to do such things which are beyond my control.","Somthing went wrong ™");
 											}));
-=======
+
 
 
         public ICommand NavigateRegister => _navigateRegister ?? (_navigateRegister = new RelayCommand(() =>
@@ -109,7 +105,7 @@ namespace MALClient.XShared.ViewModels.Main
                                                         ? new Uri("https://hummingbird.me/sign-up")
                                                         : new Uri("https://myanimelist.net/register.php"));
                                             }));
->>>>>>> master
+
 
         public void Init()
         {

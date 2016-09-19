@@ -113,6 +113,9 @@
     <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Hummingbird%401x.png" />
     <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Hummingbird%402x.png" />
     <ImageAsset Include="Assets.xcassets\HummingbirdIcon.imageset\Hummingbird%403x.png" />
+    <ImageAsset Include="Assets.xcassets\Anime.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Anime.imageset\anime.png" />
+    <ImageAsset Include="Assets.xcassets\Anime.imageset\LogInBG.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -120,6 +123,7 @@
     <Folder Include="Assets.xcassets\Logo.imageset\" />
     <Folder Include="Assets.xcassets\MALIcon.imageset\" />
     <Folder Include="Assets.xcassets\HummingbirdIcon.imageset\" />
+    <Folder Include="Assets.xcassets\Anime.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

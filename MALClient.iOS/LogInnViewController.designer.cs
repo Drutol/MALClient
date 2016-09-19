@@ -16,7 +16,7 @@ namespace MALClient.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIVisualEffectView Bluuuur { get; set; }
+        UIKit.UIVisualEffectView BlurVisualEffect { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -24,7 +24,15 @@ namespace MALClient.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView LoginBackgroundView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LogInButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton LogOutButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -46,17 +54,9 @@ namespace MALClient.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField UsernameTextField { get; set; }
 
-        [Action ("HummigbirdButton_TouchUpInside:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void HummigbirdButton_TouchUpInside (UIKit.UIButton sender);
-
         [Action ("LogInButton_TouchUpInside:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void LogInButton_TouchUpInside (UIKit.UIButton sender);
-
-        [Action ("MyAnimeListButton_TouchUpInside:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void MyAnimeListButton_TouchUpInside (UIKit.UIButton sender);
 
         [Action ("TextField_Editing:")]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -64,9 +64,9 @@ namespace MALClient.iOS
 
         void ReleaseDesignerOutlets ()
         {
-            if (Bluuuur != null) {
-                Bluuuur.Dispose ();
-                Bluuuur = null;
+            if (BlurVisualEffect != null) {
+                BlurVisualEffect.Dispose ();
+                BlurVisualEffect = null;
             }
 
             if (HummigbirdButton != null) {
@@ -74,9 +74,19 @@ namespace MALClient.iOS
                 HummigbirdButton = null;
             }
 
+            if (LoginBackgroundView != null) {
+                LoginBackgroundView.Dispose ();
+                LoginBackgroundView = null;
+            }
+
             if (LogInButton != null) {
                 LogInButton.Dispose ();
                 LogInButton = null;
+            }
+
+            if (LogOutButton != null) {
+                LogOutButton.Dispose ();
+                LogOutButton = null;
             }
 
             if (MyAnimeListButton != null) {

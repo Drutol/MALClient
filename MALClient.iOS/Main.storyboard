@@ -58,6 +58,15 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="267" translatesAutoresizingMaskIntoConstraints="NO" image="Anime">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" id="303" translatesAutoresizingMaskIntoConstraints="NO" alpha="0.6">
+                                <rect key="frame" x="80" y="45" width="320" height="227"/>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                <subviews/>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" lineBreakMode="tailTruncation" minimumFontSize="10" id="52" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
                                 <rect key="frame" x="198.5" y="50" width="83.5" height="21.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -106,8 +115,8 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="97" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="401" y="22" width="77" height="32"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <rect key="frame" x="414" y="22" width="64" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Problems?">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -117,42 +126,44 @@
                                 <state key="normal" image="MALIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="MyAnimeListButton_TouchUpInside:" destination="36" id="203" eventType="touchUpInside"/>
-                                </connections>
+                                <connections/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="188" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="240" y="750" width="240" height="50"/>
                                 <state key="normal" image="HummingbirdIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="HummigbirdButton_TouchUpInside:" destination="36" id="202" eventType="touchUpInside"/>
-                                </connections>
+                                <connections/>
                                 <constraints>
                                     <constraint id="239" firstAttribute="width" secondItem="188" secondAttribute="height" multiplier="24:5"/>
                                 </constraints>
                             </button>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" id="252" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                                <rect key="frame" x="96" y="0.0" width="297" height="293"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="330" translatesAutoresizingMaskIntoConstraints="NO" hidden="YES">
+                                <rect key="frame" x="300" y="233" width="65" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Log Out">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="LogInButton_TouchUpInside:" destination="332" id="331" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
+                            <visualEffectView contentMode="scaleToFill" id="252" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" hidden="YES" misplaced="YES">
+                                <rect key="frame" x="0.0" y="369" width="480" height="243"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="253">
-                                    <rect key="frame" x="0.0" y="0.0" width="297" height="293"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="243"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="266" translatesAutoresizingMaskIntoConstraints="NO" image="HummingbirdIcon">
-                                            <rect key="frame" x="80" y="41" width="160" height="240"/>
-                                        </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="293" animating="YES">
+                                            <rect key="frame" x="221.5" y="381.5" width="37" height="37"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
-                                        <constraint id="267" firstItem="266" firstAttribute="top" secondItem="253" secondAttribute="top" constant="41"/>
-                                        <constraint id="268" firstItem="266" firstAttribute="leading" secondItem="253" secondAttribute="leading" constant="80"/>
-                                        <constraint id="269" firstItem="253" firstAttribute="bottom" secondItem="266" secondAttribute="bottom" constant="12"/>
-                                        <constraint id="270" firstItem="253" firstAttribute="trailing" secondItem="266" secondAttribute="trailing" constant="57"/>
+                                        <constraint id="294" firstItem="293" firstAttribute="centerX" secondItem="253" secondAttribute="centerX"/>
+                                        <constraint id="295" firstItem="253" firstAttribute="centerY" secondItem="293" secondAttribute="centerY"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="dark"/>
-                                <color key="backgroundColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                             </visualEffectView>
                         </subviews>
                         <constraints>
@@ -180,10 +191,20 @@
                             <constraint id="194" firstItem="187" firstAttribute="width" secondItem="42" secondAttribute="width" multiplier="0.5"/>
                             <constraint id="196" firstItem="187" firstAttribute="height" secondItem="188" secondAttribute="height"/>
                             <constraint id="215" firstItem="42" firstAttribute="trailing" secondItem="187" secondAttribute="trailing" constant="240"/>
-                            <constraint id="254" firstItem="29" firstAttribute="bottom" secondItem="252" secondAttribute="top" constant="8"/>
-                            <constraint id="255" firstItem="252" firstAttribute="leading" secondItem="42" secondAttribute="leading" constant="89"/>
-                            <constraint id="256" firstItem="42" firstAttribute="trailing" secondItem="252" secondAttribute="trailing" constant="94"/>
-                            <constraint id="257" firstItem="188" firstAttribute="top" secondItem="252" secondAttribute="bottom" constant="445"/>
+                            <constraint id="276" firstItem="267" firstAttribute="top" secondItem="42" secondAttribute="top"/>
+                            <constraint id="277" firstItem="267" firstAttribute="leading" secondItem="42" secondAttribute="leading"/>
+                            <constraint id="278" firstItem="42" firstAttribute="trailing" secondItem="267" secondAttribute="trailing"/>
+                            <constraint id="281" firstItem="30" firstAttribute="top" secondItem="267" secondAttribute="bottom"/>
+                            <constraint id="287" firstItem="252" firstAttribute="top" secondItem="267" secondAttribute="top"/>
+                            <constraint id="288" firstItem="267" firstAttribute="trailing" secondItem="252" secondAttribute="trailing"/>
+                            <constraint id="289" firstItem="252" firstAttribute="leading" secondItem="267" secondAttribute="leading"/>
+                            <constraint id="290" firstItem="30" firstAttribute="top" secondItem="252" secondAttribute="bottom"/>
+                            <constraint id="304" firstItem="303" firstAttribute="leading" secondItem="53" secondAttribute="leading" constant="-40"/>
+                            <constraint id="305" firstItem="303" firstAttribute="top" secondItem="52" secondAttribute="top" constant="-5"/>
+                            <constraint id="306" firstItem="53" firstAttribute="trailing" secondItem="303" secondAttribute="trailing" constant="-40"/>
+                            <constraint id="307" firstItem="86" firstAttribute="bottom" secondItem="303" secondAttribute="bottom" constant="-5"/>
+                            <constraint id="333" firstItem="330" firstAttribute="top" secondItem="55" secondAttribute="bottom" constant="20"/>
+                            <constraint id="334" firstItem="330" firstAttribute="trailing" secondItem="55" secondAttribute="trailing" constant="5"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" id="43" title="MyAnimeList"/>
@@ -195,6 +216,9 @@
                         <outlet property="ProblemsButton" destination="97" id="name-outlet-97"/>
                         <outlet property="MyAnimeListButton" destination="187" id="name-outlet-187"/>
                         <outlet property="HummigbirdButton" destination="188" id="name-outlet-188"/>
+                        <outlet property="BlurVisualEffect" destination="252" id="name-outlet-252"/>
+                        <outlet property="LogOutButton" destination="330" id="name-outlet-330"/>
+                        <outlet property="LoginBackgroundView" destination="303" id="name-outlet-303"/>
                     </connections>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="480" height="800"/>
@@ -207,5 +231,6 @@
     <resources>
         <image name="MALIcon" width="240" height="41"/>
         <image name="HummingbirdIcon" width="240" height="50"/>
+        <image name="Anime" width="596" height="993"/>
     </resources>
 </document>

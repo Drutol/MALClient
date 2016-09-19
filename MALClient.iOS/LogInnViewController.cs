@@ -12,35 +12,6 @@ namespace MALClient.iOS
 {
     public partial class LogInViewController : UIViewController
     {
-		private ApiType _selectedApiType;
-		public ApiType SelectedApiType
-		{
-			get
-			{
-				return _selectedApiType;
-			}
-			set
-			{
-				if (value != _selectedApiType)
-				{
-					_selectedApiType = value;
-					switch (value)
-					{
-						case ApiType.Hummingbird:
-							ProblemsButton.Hidden = true;
-							HummigbirdButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 60);
-							MyAnimeListButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 30);
-							break;
-						case ApiType.Mal:
-							ProblemsButton.Hidden = false;
-							MyAnimeListButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 60);
-							HummigbirdButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 30);
-							break;
-					}
-				}
-			}
-		}
-
 		LogInViewModel VM { get { return ViewModelLocator.LogIn; } }
 
         public LogInViewController (IntPtr handle) : base (handle)
@@ -60,15 +31,50 @@ namespace MALClient.iOS
 			ViewModelLocator.LogIn.Init();
 		}
 
+		public Binding<bool, bool> AuthenticatingBinding { get; private set; }
+		public Binding<bool, bool> ProblemsButtonBinding { get; private set; }
+		public Binding<bool, bool> LogInLogOutBinding { get; private set; }
+		public Binding<ApiType, ApiType> CurrentApiTypeBinding { get; private set; }
+
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			App.Create();
 
-			Bluuuur.a
+			LoginBackgroundView.Layer.CornerRadius = 5;
 
-			SelectedApiType = ApiType.Hummingbird;
-			SelectedApiType = ApiType.Mal;
+			AuthenticatingBinding = this.SetBinding(() => VM.Authenticating);
+			AuthenticatingBinding.WhenSourceChanges(() => BlurVisualEffect.Hidden = !VM.Authenticating);
+
+			ProblemsButtonBinding = this.SetBinding(() => VM.ProblemsButtonVisibility);
+			ProblemsButtonBinding.WhenSourceChanges(() => ProblemsButton.Hidden = !VM.ProblemsButtonVisibility);
+
+			CurrentApiTypeBinding = this.SetBinding(() => VM.CurrentApiType);
+			CurrentApiTypeBinding.WhenSourceChanges(() =>
+			{
+				switch (VM.CurrentApiType)
+				{
+					case ApiType.Hummingbird:
+						HummigbirdButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 60);
+						MyAnimeListButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 30);
+						break;
+					case ApiType.Mal:
+						MyAnimeListButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 60);
+						HummigbirdButton.BackgroundColor = UIColor.FromRGBA(10, 115, 255, 30);
+						break;
+				}
+			});
+
+			LogInLogOutBinding = this.SetBinding(() => VM.LogOutButtonVisibility);
+			LogInLogOutBinding.WhenSourceChanges(() =>
+			{
+				LogInButton.Hidden = VM.LogOutButtonVisibility;
+				LogOutButton.Hidden = !VM.LogOutButtonVisibility;
+			});
+
+			HummigbirdButton.SetCommand("TouchUpInside", VM.FocusHumCommand);
+			MyAnimeListButton.SetCommand("TouchUpInside", VM.FocusMalCommand);
+			ProblemsButton.SetCommand("TouchUpInside", VM.ProblemsCommand);
 
 			UsernameTextField.ShouldReturn += UsernameTextField_ShouldReturn;
 			PasswordTextField.ShouldReturn += UsernameTextField_ShouldReturn;
@@ -117,21 +123,12 @@ namespace MALClient.iOS
 
 		private void logIn()
 		{
-			//VM.PasswordInput = PasswordTextField.Text;
-			VM.UserNameInput = "MALClientTestAcc";
-			//VM.UserNameInput = UsernameTextField.Text;
-			VM.PasswordInput = "MuchVerificatio";
+			VM.PasswordInput = PasswordTextField.Text;
+			//VM.UserNameInput = "MALClientTestAcc";
+			VM.UserNameInput = UsernameTextField.Text;
+			//VM.PasswordInput = "MuchVerificatio";
 			VM.LogInCommand.Execute(null);
 		}
 
-		partial void HummigbirdButton_TouchUpInside(UIButton sender)
-		{
-			SelectedApiType = ApiType.Hummingbird;
-		}
-
-		partial void MyAnimeListButton_TouchUpInside(UIButton sender)
-		{
-			SelectedApiType = ApiType.Mal;
-		}
 	}
 }

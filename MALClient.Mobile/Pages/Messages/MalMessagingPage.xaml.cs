@@ -31,7 +31,7 @@ namespace MALClient.Pages.Messages
         {
             if (e.AddedItems.Count > 0)
             {
-                var msg = e.AddedItems.First() as MalMessageViewModel;
+                var msg = e.AddedItems.First() as MalMessageModel;
                 msg.IsRead = true;
             }
         }

@@ -332,6 +332,27 @@ namespace MALClient.ViewModels
 
         public List<string> PinnedProfiles => Settings.PinnedProfiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
+        private ICommand _navigateAnimeListCategoryCommand;
+
+        public ICommand NavigateAnimeListCategoryCommand
+            => _navigateAnimeListCategoryCommand ?? (_navigateAnimeListCategoryCommand = new RelayCommand<string>(
+                   value =>
+                   {
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
+                           new AnimeListPageNavigationArgs(int.Parse(value), AnimeListWorkModes.Anime));
+                   }));
+
+        private ICommand _navigateMangaListCategoryCommand;
+
+        public ICommand NavigateMangaListCategoryCommand
+            => _navigateMangaListCategoryCommand ?? (_navigateMangaListCategoryCommand = new RelayCommand<string>(
+                   value =>
+                   {
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
+                           new AnimeListPageNavigationArgs(int.Parse(value), AnimeListWorkModes.Manga));
+                   }));
+
+
         public void UpdatePinnedProfiles()
         {
             RaisePropertyChanged(() => PinnedProfiles);

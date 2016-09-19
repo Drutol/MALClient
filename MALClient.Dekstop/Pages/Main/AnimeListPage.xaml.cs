@@ -34,13 +34,40 @@ namespace MALClient.Pages.Main
         {
             private get
             {
-                return _indefiniteScrollViewer ??
-                       (_indefiniteScrollViewer =
-                           VisualTreeHelper.GetChild(
-                                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
-                               ScrollViewer);
+                return (ScrollViewer) FindChildControl<ScrollViewer>((DependencyObject) GetScrollingContainer());
+                //return _indefiniteScrollViewer ??
+                //       (_indefiniteScrollViewer =
+                //           VisualTreeHelper.GetChild(
+                //                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
+                //               ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
+        }
+
+        private DependencyObject FindChildControl<T>(DependencyObject control)
+        {
+            int childNumber = VisualTreeHelper.GetChildrenCount(control);
+            for (int i = 0; i < childNumber; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(control, i);
+                FrameworkElement fe = child as FrameworkElement;
+                // Not a framework element or is null
+                if (fe == null) return null;
+
+                if (child is T)
+                {
+                    // Found the control so return
+                    return child;
+                }
+                else
+                {
+                    // Not found it - search children
+                    DependencyObject nextLevel = FindChildControl<T>(child);
+                    if (nextLevel != null)
+                        return nextLevel;
+                }
+            }
+            return null;
         }
 
         public Flyout FlyoutViews => ViewsFlyout;
@@ -100,23 +127,60 @@ namespace MALClient.Pages.Main
             IndefiniteScrollViewer = null;
         }
 
+        private bool _handlerAdded;
+
         private async void ViewModelOnRemoveScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+            if (!_handlerAdded)
+                return;
+            try
+            {
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv != null)
+                {
+                    sv.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = false;
+                }
+            }
+            catch (Exception)
+            {
+                //Null delegate?
+            }
         }
 
         private async void ViewModelOnAddScrollHandlerRequest()
         {
             try
             {
-                (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv == null)
+                {
+                    var container = GetScrollingContainer() as FrameworkElement;
+                    if (container != null)
+                        container.LayoutUpdated += ScrollViewerLoaded;
+                }
+                else
+                {
+                    sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = true;
+                }
+
             }
             catch (Exception)
             {
-                
+                //Null delegate?
             }
+        }
 
-            
+        private async void ScrollViewerLoaded(object sender, object e)
+        {
+            var sv = await GetIndefiniteScrollViewer();
+            if (sv == null)
+                return;
+            (GetScrollingContainer() as FrameworkElement).LayoutUpdated -= ScrollViewerLoaded;
+            sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            _handlerAdded = true;
+
         }
 
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
@@ -261,7 +325,7 @@ namespace MALClient.Pages.Main
                     {
                         AnimesGridIndefinite.SelectedItem = item;
                         AnimesGridIndefinite.Focus(FocusState.Pointer);
-                    }                 
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -290,7 +354,7 @@ namespace MALClient.Pages.Main
         private async void AnimeGridItemOnTap(object sender, TappedRoutedEventArgs e)
         {
             var item = (sender as FrameworkElement).DataContext as AnimeItemViewModel;
-            if(item == null)
+            if (item == null)
                 return;
             ViewModel.TemporarilySelectedAnimeItem = item;
             await Task.Delay(50);
@@ -337,7 +401,8 @@ namespace MALClient.Pages.Main
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
                                     SortEndDate.IsChecked =
-                                        SortStartDate.IsChecked = false;
+                                        SortSeason.IsChecked =
+                                            SortStartDate.IsChecked = false;
             switch (option)
             {
                 case SortOptions.SortTitle:
@@ -364,6 +429,9 @@ namespace MALClient.Pages.Main
                 case SortOptions.SortEndDate:
                     SortEndDate.IsChecked = true;
                     break;
+                case SortOptions.SortSeason:
+                    SortSeason.IsChecked = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }
@@ -379,17 +447,27 @@ namespace MALClient.Pages.Main
 
         private void ButtonCustomSeasonGo(object sender, RoutedEventArgs e)
         {
-           if(!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
+            if (!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) &&
+                !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
                 FlyoutSeasonSelection.Hide();
         }
 
         private TypeInfo _typeInfo;
+
         //why? beacuse MSFT Bugged this after anniversary update
         private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
         {
-            var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
-            var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
-            prop?.SetValue(sender, true);
+            try
+            {
+                var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+                var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, true);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
+
         }
     }
 }

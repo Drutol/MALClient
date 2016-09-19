@@ -74,6 +74,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             _lastArgs = e.Parameter as MalArticlesPageNavigationArgs;
             base.OnNavigatedTo(e);
         }

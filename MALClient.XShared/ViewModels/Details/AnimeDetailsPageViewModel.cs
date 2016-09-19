@@ -55,7 +55,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         private List<FavouriteViewModel> _mangaCharacterData;
 
-        public AnimeDetailsPageNavigationArgs _prevArgs;
+        public AnimeDetailsPageNavigationArgs PrevArgs { get; private set; }
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
 
         public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,ISystemControlsLauncherService systemControlsLauncherService)
@@ -179,7 +179,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _id = value;
                 if (value <= 0)
-                    _prevArgs = null;
+                    PrevArgs = null;
             }
         }
 
@@ -336,8 +336,8 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     ExtractData(param.AnimeElement);
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    if (PrevArgs != null)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeList:
@@ -348,9 +348,9 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageForumIndex:
                 case PageIndex.PageStaffDetails:
                 case PageIndex.PageCharacterDetails:
-                    await FetchData();
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    await FetchData(false,param.Source);
+                    if (PrevArgs != null)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     if(ViewModelLocator.Mobile || (!ViewModelLocator.Mobile && param.Source != PageIndex.PageProfile))
                         ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
@@ -363,15 +363,15 @@ namespace MALClient.XShared.ViewModels.Details
                     break;
                 case PageIndex.PageRecomendations:
                     ExtractData(param.AnimeElement);
-                    if (_prevArgs != null)
-                        ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    if (PrevArgs != null)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
             }
 
-            _prevArgs = param;
-            _prevArgs.RegisterBackNav = false;
-            _prevArgs.Source = PageIndex.PageAnimeDetails;
+            PrevArgs = param;
+            PrevArgs.RegisterBackNav = false;
+            PrevArgs.Source = PageIndex.PageAnimeDetails;
             Initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
             //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
@@ -893,14 +893,9 @@ namespace MALClient.XShared.ViewModels.Details
                 return _saveImageCommand ??
                        (_saveImageCommand =
                            new RelayCommand<string>(
-                               async opt =>
+                               opt =>
                                {
-                                   if (AnimeMode || (!AnimeMode && opt != "hum"))
-                                       ResourceLocator.ImageDownloaderService.DownloadImage(
-                                           opt == "hum"
-                                               ? (_alternateImgUrl ??
-                                                  (_alternateImgUrl = await LoadHummingbirdCoverImage()))
-                                               : _imgUrl, Title);
+                                       ResourceLocator.ImageDownloaderService.DownloadImage(_imgUrl, Title);
                                }));
             }
         }
@@ -916,7 +911,7 @@ namespace MALClient.XShared.ViewModels.Details
             => _navigateCharacterDetailsCommand ?? (_navigateCharacterDetailsCommand = new RelayCommand<AnimeCharacter>(
                 character =>
                 {
-                    ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,new CharacterDetailsNavigationArgs {Id = int.Parse(character.Id)});
                 }));
 
@@ -926,7 +921,7 @@ namespace MALClient.XShared.ViewModels.Details
             => _navigateStaffDetailsCommand ?? (_navigateStaffDetailsCommand = new RelayCommand<AnimeStaffPerson>(
                 person =>
                 {
-                    ViewModelLocator.NavMgr.RegisterBackNav(_prevArgs);
+                    ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,new StaffDetailsNaviagtionArgs {Id = int.Parse(person.Id)});
                 }));
 
@@ -1115,20 +1110,20 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        private bool _imageOverlayVisibility = false;
+        //private bool _imageOverlayVisibility = false;
 
-        public bool ImageOverlayVisibility
-        {
-            get { return _imageOverlayVisibility; }
-            set
-            {
-                _imageOverlayVisibility = value;
-                if (value == true)
-                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(
-                        new RelayCommand(() => ImageOverlayVisibility = false));
-                RaisePropertyChanged(() => ImageOverlayVisibility);
-            }
-        }
+        //public bool ImageOverlayVisibility
+        //{
+        //    get { return _imageOverlayVisibility; }
+        //    set
+        //    {
+        //        _imageOverlayVisibility = value;
+        //        if (value == true)
+        //            ViewModelLocator.NavMgr.RegisterOneTimeOverride(
+        //                new RelayCommand(() => ImageOverlayVisibility = false));
+        //        RaisePropertyChanged(() => ImageOverlayVisibility);
+        //    }
+        //}
 
         private bool _noEpisodesDataVisibility;
 
@@ -1647,7 +1642,7 @@ namespace MALClient.XShared.ViewModels.Details
             MyScore = 0;
             MyStatus = 6;
             MyEpisodes = 0;
-            GlobalScore = GlobalScore; //trigger setter of anime item
+            RaisePropertyChanged(() => GlobalScore); //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
@@ -1692,6 +1687,7 @@ namespace MALClient.XShared.ViewModels.Details
 
                     (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);
                     AddAnimeVisibility = true;
+                    IsAddAnimeButtonEnabled = true;
                     MyDetailsVisibility = false;
                 });
         }
@@ -1742,7 +1738,7 @@ namespace MALClient.XShared.ViewModels.Details
                     item.AllEpisodesFocused == 0 ? "?" : item.AllEpisodesFocused.ToString()));
             }
 
-            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore.ToString("N2")));
+            LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start",
                 StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
@@ -1790,18 +1786,35 @@ namespace MALClient.XShared.ViewModels.Details
             //removes string from brackets (sthsth) lol ->  lol
             AllEpisodes = data.AllEpisodes;
             if (!AnimeMode)
+            {
                 AllVolumes = data.AllVolumes;
+                var vm = _animeItemReference as AnimeItemViewModel;
+                if (vm != null)
+                {
+                    vm.UpdateChapterData(data.AllEpisodes);
+                }
+            }
+            
+            
 
             PopulateData();
         }
 
-        private async Task FetchData(bool force = false)
+        private async Task FetchData(bool force = false,PageIndex? sourcePage = null)
         {
             LoadingGlobal = true;
 
             try
             {
-                var data = await new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, AnimeMode);
+                var data =
+                    await
+                        new AnimeGeneralDetailsQuery().GetAnimeDetails(force, Id.ToString(), Title, AnimeMode,
+                            sourcePage != null
+                                ? sourcePage == PageIndex.PageCharacterDetails ||
+                                  sourcePage == PageIndex.PageStaffDetails
+                                    ? (ApiType?) ApiType.Mal
+                                    : null
+                                : null);
                 ExtractData(data);
             }
             catch (Exception)
@@ -1870,6 +1883,9 @@ namespace MALClient.XShared.ViewModels.Details
                 if (pos != -1)
                     continue;
                 pos = infoString.IndexOf("2 based");
+                if (pos != -1)
+                    infoString = infoString.Substring(0, pos-2);
+                pos = infoString.IndexOf("(scored");
                 if (pos != -1)
                     infoString = infoString.Substring(0, pos-2);
 

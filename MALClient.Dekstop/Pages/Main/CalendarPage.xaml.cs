@@ -18,34 +18,32 @@ namespace MALClient.Pages.Main
         public CalendarPage()
         {
             InitializeComponent();
-            Loaded += (a1, a2) => { (DataContext as CalendarPageViewModel).Init();
-            ViewModelLocator.CalendarPage.PivotSelectedIndexChange += CalendarPageOnPivotSelectedIndexChange;
-        };
-    }
+            Loaded += (a1, a2) =>
+            {
+                (DataContext as CalendarPageViewModel).Init();
+                ViewModelLocator.CalendarPage.PivotSelectedIndexChange += CalendarPageOnPivotSelectedIndexChange;
+            };
+        }
 
-    private void CalendarPageOnPivotSelectedIndexChange()
-    {
-        RootPivot.SelectedIndex = ViewModelLocator.CalendarPage.CalendarPivotIndex;
-    }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            base.OnNavigatedTo(e);
+        }
 
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
-    {
-        ViewModelLocator.CalendarPage.PivotSelectedIndexChange -= CalendarPageOnPivotSelectedIndexChange;
-    }
+        private void CalendarPageOnPivotSelectedIndexChange()
+        {
+            RootPivot.SelectedIndex = ViewModelLocator.CalendarPage.CalendarPivotIndex;
+        }
 
-    private void ItemsViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ViewModelLocator.CalendarPage.PivotSelectedIndexChange -= CalendarPageOnPivotSelectedIndexChange;
+        }
+
+        private void ItemsViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             (e.ClickedItem as AnimeItemViewModel).NavigateDetails();
-        }
-
-        private void UIElement_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            (sender as FrameworkElement).Opacity = 1;
-        }
-
-        private void UIElement_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            (sender as FrameworkElement).Opacity = .5;
         }
 
         private void AnimesGridIndefinite_OnRightTapped(object sender, RightTappedRoutedEventArgs e)

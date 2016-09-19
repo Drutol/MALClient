@@ -190,7 +190,7 @@ namespace MALClient.XShared.Utils.Managers
                 RegisterTileCache(entry.Id,new PinnedTileCache {ImgUri = imgUri,WideImgUri = wideImgUri,Settings = settings});
                 if(settings.AnythingAtAll)
                     UpdateTile(entry,imgUri,wideImgUri,settings);
-                Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.PinnedTile);
+                ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.PinnedTile);
             }
             catch (Exception)
             {

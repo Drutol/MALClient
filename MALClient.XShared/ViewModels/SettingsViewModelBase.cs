@@ -1,82 +1,62 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Misc;
-using MALClient.Pages;
-using MALClient.Pages.Off.SettingsPages;
-using MALClient.UserControls;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Profile;
+using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
-using MALClient.XShared.Utils.Managers;
-using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
-using LogInPage = MALClient.Pages.Main.LogInPage;
+using Settings = MALClient.XShared.Utils.Settings;
 
-namespace MALClient.ViewModels
+namespace MALClient.XShared.ViewModels
 {
-    public delegate void SettingsNavigationRequest(Type pageType);
-
     public class SettingsPageEntry
     {
         public string Header { get; set; }
         public string Subtitle { get; set; }
-        public Symbol Symbol { get; set; }
-        public Type PageType { get; set; }
+        public SettingsSymbolsEnum Symbol { get; set; }
+        public SettingsPageIndex PageType { get; set; }
     }
 
-    public class SettingsPageViewModel : ViewModelBase
+    public abstract class SettingsViewModelBase : ViewModelBase
     {
+        public abstract event SettingsNavigationRequest NavigationRequest;
+
+        protected bool _cachedItemsLoaded;
         private bool _newsLoaded;
-        private ICommand _reviewCommand;
+        protected ICommand _requestNavigationCommand;
+        protected ICommand _reviewCommand;
         private ICommand _syncFavsCommand;
 
-
-        public ICommand ReviewCommand => _reviewCommand ?? (_reviewCommand = new RelayCommand(async () =>
+        public SettingsViewModelBase()
         {
-            Settings.RatePopUpEnable = false;
-            await
-                Launcher.LaunchUriAsync(
-                    new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
-        }));
-
-        public event SettingsNavigationRequest NavigationRequest;
-        private ICommand _requestNavigationCommand;
-
-        public ICommand RequestNavigationCommand
-            => _requestNavigationCommand ?? (_requestNavigationCommand = new RelayCommand<Type>(page =>
+            CachedEntries.CollectionChanged += (sender, args) =>
             {
-                //Get to account page from settings
-                if (page == typeof(LogInPage))
+                if (CachedEntries.Count == 0)
                 {
-                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    return;
+                    EmptyCachedListVisiblity = true;
                 }
-                NavigationRequest?.Invoke(page);
-                if (page != typeof(SettingsHomePage))
-                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() =>
-                    {
-                        NavigationRequest?.Invoke(typeof(SettingsHomePage));
-                    }));
-            }));
+            };
+        }
+
+
+        public abstract ICommand ReviewCommand { get; }
+
+        public abstract ICommand RequestNavigationCommand { get; }
 
         public ICommand SyncFavsCommand => _syncFavsCommand ?? (_syncFavsCommand = new RelayCommand(async () =>
         {
             IsSyncFavsButtonEnabled = false;
-            await new ProfileQuery().GetProfileData(true, true);
+            await new ProfileQuery().GetProfileData(true,true);
             IsSyncFavsButtonEnabled = true;
         }));
 
@@ -94,57 +74,64 @@ namespace MALClient.ViewModels
             {
                 Header = "General",
                 Subtitle = "Default filters, theme etc.",
-                Symbol = Symbol.Setting,
-                PageType = typeof(SettingsGeneralPage)
+                Symbol = SettingsSymbolsEnum.Setting,
+                PageType = SettingsPageIndex.General
             },
             new SettingsPageEntry
             {
                 Header = "Caching",
                 Subtitle = "Cached data and caching options.",
-                Symbol = Symbol.SaveLocal,
-                PageType = typeof(SettingsCachingPage)
+                Symbol = SettingsSymbolsEnum.SaveLocal,
+                PageType = SettingsPageIndex.Caching
             },
             new SettingsPageEntry
             {
                 Header = "Calendar",
                 Subtitle = "Build options, behaviours etc.",
-                Symbol = Symbol.CalendarWeek,
-                PageType = typeof(SettingsCalendarPage)
+                Symbol = SettingsSymbolsEnum.CalendarWeek,
+                PageType = SettingsPageIndex.Calendar
             },
             new SettingsPageEntry
             {
                 Header = "Articles",
                 Subtitle = "Article view settings.",
-                Symbol = Symbol.PreviewLink,
-                PageType = typeof(SettingsArticlesPage)
+                Symbol = SettingsSymbolsEnum.PreviewLink,
+                PageType = SettingsPageIndex.Articles
             },
             new SettingsPageEntry
             {
                 Header = "News",
                 Subtitle = "News regarding app development, bugs etc.",
-                Symbol = Symbol.PostUpdate,
-                PageType = typeof(SettingsNewsPage)
+                Symbol = SettingsSymbolsEnum.PostUpdate,
+                PageType = SettingsPageIndex.News
+            },
+            new SettingsPageEntry
+            {
+                Header = "Notifications",
+                Subtitle = "Notifications types, pooling frequency...",
+                Symbol = SettingsSymbolsEnum.Important,
+                PageType = SettingsPageIndex.Notifications
             },
             new SettingsPageEntry
             {
                 Header = "About",
                 Subtitle = "Github repo, donations etc.",
-                Symbol = Symbol.Manage,
-                PageType = typeof(SettingsAboutPage)
+                Symbol = SettingsSymbolsEnum.Manage,
+                PageType = SettingsPageIndex.About
             },
             new SettingsPageEntry
             {
                 Header = "Account",
                 Subtitle = "MyAnimelist or Hummingbird authentication.",
-                Symbol = Symbol.Contact,
-                PageType = typeof(LogInPage)
+                Symbol = SettingsSymbolsEnum.Contact,
+                PageType = SettingsPageIndex.LogIn
             },
             new SettingsPageEntry
             {
                 Header = "Miscellaneous",
                 Subtitle = "Review popup settings...",
-                Symbol = Symbol.Placeholder,
-                PageType = typeof(SettingsMiscPage)
+                Symbol = SettingsSymbolsEnum.Placeholder,
+                PageType = SettingsPageIndex.Misc
             }
         };
 
@@ -190,6 +177,25 @@ namespace MALClient.ViewModels
             set { Settings.LockDisplayMode = value; }
         }
 
+        public bool DisplaySeasonWithType
+        {
+            get { return Settings.DisplaySeasonWithType; }
+            set
+            {
+                Settings.DisplaySeasonWithType = value;
+                foreach (var animeListAnimeItem in ViewModelLocator.AnimeList.AnimeItems)
+                {
+                    animeListAnimeItem.RaisePropertyChanged(() => animeListAnimeItem.Type);
+                }
+            }
+        }
+
+        public bool AutoDescendingSorting
+        {
+            get { return Settings.AutoDescendingSorting; }
+            set { Settings.AutoDescendingSorting = value; }
+        }
+
         public bool PullHigherQualityImages
         {
             get { return Settings.PullHigherQualityImages; }
@@ -214,6 +220,30 @@ namespace MALClient.ViewModels
             set { Settings.HideSortingSelectionFlyout = value; }
         }
 
+        public bool HamburgerAnimeFiltersExpanded
+        {
+            get { return Settings.HamburgerAnimeFiltersExpanded; }
+            set { Settings.HamburgerAnimeFiltersExpanded = value; }
+        }
+
+        public bool HamburgerMangaFiltersExpanded
+        {
+            get { return Settings.HamburgerMangaFiltersExpanded; }
+            set { Settings.HamburgerMangaFiltersExpanded = value; }
+        }
+
+        public bool HamburgerTopCategoriesExpanded
+        {
+            get { return Settings.HamburgerTopCategoriesExpanded; }
+            set { Settings.HamburgerTopCategoriesExpanded = value; }
+        }
+
+        public bool AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse
+        {
+            get { return Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse; }
+            set { Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse = value; }
+        }
+
         public bool RatePopUpEnable
         {
             get { return Settings.RatePopUpEnable; }
@@ -230,10 +260,7 @@ namespace MALClient.ViewModels
             set { Settings.EnableHearthAnimation = value; }
         }
 
-        public int RatePopUpStartupCounter
-        {
-            get { return RateReminderPopUp.LaunchThresholdValue - Settings.RatePopUpStartupCounter; }
-        }
+        public int RatePopUpStartupCounter => 7 - Settings.RatePopUpStartupCounter; //TODO Move this constant upper in dependency hierarchy
 
         public int AirDayOffset
         {
@@ -268,103 +295,156 @@ namespace MALClient.ViewModels
             }
         }
 
-        public static bool SetStartDateOnWatching
+        public  bool SetStartDateOnWatching
         {
             get { return Settings.SetStartDateOnWatching; }
             set { Settings.SetStartDateOnWatching = value; }
         }
 
-        public static bool SetStartDateOnListAdd
+        public  bool SetStartDateOnListAdd
         {
             get { return Settings.SetStartDateOnListAdd; }
             set { Settings.SetStartDateOnListAdd = value; }
         }
 
-        public static bool SetEndDateOnDropped
+        public  bool SetEndDateOnDropped
         {
             get { return Settings.SetEndDateOnDropped; }
             set { Settings.SetEndDateOnDropped = value; }
         }
 
-        public static bool SetEndDateOnCompleted
+        public  bool SetEndDateOnCompleted
         {
             get { return Settings.SetEndDateOnCompleted; }
             set { Settings.SetEndDateOnCompleted = value; }
         }
 
-        public static bool OverrideValidStartEndDate
+        public  bool OverrideValidStartEndDate
         {
             get { return Settings.OverrideValidStartEndDate; }
             set { Settings.OverrideValidStartEndDate = value; }
         }
 
-        public static bool CalendarIncludeWatching
+        public  bool HamburgerMenuDefaultPaneState
+        {
+            get { return Settings.HamburgerMenuDefaultPaneState; }
+            set { Settings.HamburgerMenuDefaultPaneState = value; }
+        }
+
+        public  bool HamburgerHideMangaSection
+        {
+            get { return Settings.HamburgerHideMangaSection; }
+            set
+            {
+                ViewModelLocator.GeneralHamburger.MangaSectionVisbility = !value;
+                Settings.HamburgerHideMangaSection = value;
+            }
+        }
+
+        public  bool CalendarIncludeWatching
         {
             get { return Settings.CalendarIncludeWatching; }
             set { Settings.CalendarIncludeWatching = value; }
         }
 
-        public static bool CalendarIncludePlanned
+        public  bool CalendarIncludePlanned
         {
             get { return Settings.CalendarIncludePlanned; }
             set { Settings.CalendarIncludePlanned = value; }
         }
 
-        public static bool IsCachingEnabled
+        public  bool IsCachingEnabled
         {
             get { return Settings.IsCachingEnabled; }
             set { Settings.IsCachingEnabled = value; }
         }
 
-        public static bool CalendarStartOnToday
+        public  bool CalendarStartOnToday
         {
             get { return Settings.CalendarStartOnToday; }
             set { Settings.CalendarStartOnToday = value; }
         }
 
-        public static bool CalendarRemoveEmptyDays
+        public  bool CalendarRemoveEmptyDays
         {
             get { return Settings.CalendarRemoveEmptyDays; }
             set { Settings.CalendarRemoveEmptyDays = value; }
         }
 
-        public static bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
+        public  bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
 
-        public static bool CalendarSwitchMonSun
+        public  bool CalendarSwitchMonSun
         {
             get { return !Settings.CalendarSwitchMonSun; }
             set { Settings.CalendarSwitchMonSun = !value; }
         }
 
-        public static bool ArticlesLaunchExternalLinks
+        public  bool EnableSwipeToIncDec
+        {
+            get { return Settings.EnableSwipeToIncDec; }
+            set { Settings.EnableSwipeToIncDec = value; }
+        }
+
+        public  bool DetailsListReviewsView
+        {
+            get { return Settings.DetailsListReviewsView; }
+            set { Settings.DetailsListReviewsView = value; }
+        }
+
+        public  bool DetailsListRecomsView
+        {
+            get { return Settings.DetailsListRecomsView; }
+            set { Settings.DetailsListRecomsView = value; }
+        }
+
+        public  bool ArticlesLaunchExternalLinks
         {
             get { return Settings.ArticlesLaunchExternalLinks; }
             set { Settings.ArticlesLaunchExternalLinks = value; }
         }
 
-        public static bool SyncFavsFromTimeToTime
+        public  bool ArticlesDisplayScrollBar
+        {
+            get { return Settings.ArticlesDisplayScrollBar; }
+            set { Settings.ArticlesDisplayScrollBar = value; }
+        }
+
+        public  bool SyncFavsFromTimeToTime
         {
             get { return Settings.SyncFavsFromTimeToTime; }
             set { Settings.SyncFavsFromTimeToTime = value; }
         }
 
-        public static bool EnsureRandomizerAlwaysSelectsWinner
+        public  bool EnsureRandomizerAlwaysSelectsWinner
         {
             get { return Settings.EnsureRandomizerAlwaysSelectsWinner; }
             set { Settings.EnsureRandomizerAlwaysSelectsWinner = value; }
         }
 
-        public static bool MangaFocusVolumes
+        public  bool EnableImageCache
+        {
+            get { return Settings.EnableImageCache; }
+            set { Settings.EnableImageCache = value; }
+        }
+
+        public  bool MangaFocusVolumes
         {
             get { return Settings.MangaFocusVolumes; }
             set
             {
                 Settings.MangaFocusVolumes = value;
-                ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.ForEach(abstraction =>
+                foreach (var item in ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions)
                 {
-                    if (abstraction.LoadedModel)
-                        abstraction.ViewModel.MangaFocusChanged(value);
-                });
+                    if (item.LoadedModel)
+                        item.ViewModel.MangaFocusChanged(value);
+                }
+                if (ViewModelLocator.GeneralMain.CurrentMainPage == PageIndex.PageProfile)
+                {
+                    foreach (var item in ViewModelLocator.ProfilePage.FavManga.Concat(ViewModelLocator.ProfilePage.RecentManga))
+                    {
+                        item.MangaFocusChanged(value);
+                    }               
+                }
             }
         }
 
@@ -384,8 +464,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        public Visibility MalApiDependatedntSectionsVisibility
-            => Settings.SelectedApiType == ApiType.Mal ? Visibility.Visible : Visibility.Collapsed;
+
+        public bool MalApiDependatedntSectionsVisibility
+            => Settings.SelectedApiType == ApiType.Mal;
 
         public bool HumApiDependatedntSectionsEnabled
             => Settings.SelectedApiType != ApiType.Mal;
@@ -395,7 +476,7 @@ namespace MALClient.ViewModels
             if (_newsLoaded)
                 return;
             _newsLoaded = true;
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.FetchedNews);
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FetchedNews);
             var data = new List<NewsData>();
             try
             {
@@ -414,57 +495,53 @@ namespace MALClient.ViewModels
             CurrentNews = data;
         }
 
-        private bool _cachedItemsLoaded;
+        public abstract void LoadCachedEntries();
 
-        public async void LoadCachedEntries()
+        #region Notifications
+        protected ICommand _setNotificationsRefreshTime;
+
+        public ICommand SetNotificationsRefreshTime
+            =>
+            _setNotificationsRefreshTime ??
+            (_setNotificationsRefreshTime = new RelayCommand<int>(i => NotificationsRefreshTime = i));
+
+
+        public bool EnableNotifications
         {
-            if (_cachedItemsLoaded)
-                return;
-            _cachedItemsLoaded = true;
-            var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
-            foreach (var file in files)
-            {
-                if (file.FileType == ".json")
-                {
-                    var data = await file.GetBasicPropertiesAsync();
-                    CachedEntries.Add(new CachedEntryModel
-                    {
-                        Date = data.DateModified.LocalDateTime.ToString("dd/MM/yyyy HH:mm"),
-                        FileName = file.Name,
-                        Size = Utilities.SizeSuffix((long) data.Size),
-                    });
-                }
-            }
-            EmptyCachedListVisiblity = files.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            try
-            {
-                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
-                var data = await folder.GetFilesAsync();
-                TotalFilesCached = $"Remove all anime details data({data.Count}files)";
-                RemoveAllCachedDataButtonVisibility = Visibility.Visible;
-            }
-            catch (Exception)
-            {
-                //No folder yet
-                RemoveAllCachedDataButtonVisibility = Visibility.Collapsed;
-            }
-        }
-
-        private bool _isSyncFavsButtonEnabled = true;
-
-        public bool IsSyncFavsButtonEnabled
-        {
-            get { return _isSyncFavsButtonEnabled; }
+            get { return Settings.EnableNotifications; }
             set
             {
-                _isSyncFavsButtonEnabled = value;
-                RaisePropertyChanged(() => IsSyncFavsButtonEnabled);
+                Settings.EnableNotifications = value;
+                if(value)
+                    ResourceLocator.NotificationsTaskManager.StartTask();
+                else
+                    ResourceLocator.NotificationsTaskManager.StopTask();                 
             }
         }
+
+        public int NotificationsRefreshTime
+        {
+            get { return Settings.NotificationsRefreshTime; }
+            set { Settings.NotificationsRefreshTime = value; }
+        }
+
+
+        public MalNotificationsTypes EnabledNotificationTypes
+        {
+            get { return Settings.EnabledNotificationTypes; }
+            set
+            {
+                Settings.EnabledNotificationTypes = value;
+                ResourceLocator.NotificationsTaskManager.StartTask();
+            }
+        }
+
+        #endregion
 
         #region RecentlyMovedToMvvm
 
-        private ObservableCollection<CachedEntryModel> _cachedEntries = new ObservableCollection<CachedEntryModel>();
+        private readonly ObservableCollection<CachedEntryModel> _cachedEntries =
+            new ObservableCollection<CachedEntryModel>();
 
         public ObservableCollection<CachedEntryModel> CachedEntries
         {
@@ -475,9 +552,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _emptyCachedListVisiblity = Visibility.Collapsed;
+        private bool _emptyCachedListVisiblity = false;
 
-        public Visibility EmptyCachedListVisiblity
+        public bool EmptyCachedListVisiblity
         {
             get { return _emptyCachedListVisiblity; }
             set
@@ -487,9 +564,9 @@ namespace MALClient.ViewModels
             }
         }
 
-        private Visibility _removeAllCachedDataButtonVisibility = Visibility.Collapsed;
+        private bool _removeAllCachedDataButtonVisibility = false;
 
-        public Visibility RemoveAllCachedDataButtonVisibility
+        public bool RemoveAllCachedDataButtonVisibility
         {
             get { return _removeAllCachedDataButtonVisibility; }
             set
@@ -511,17 +588,18 @@ namespace MALClient.ViewModels
             }
         }
 
-        #endregion
+        private bool _isSyncFavsButtonEnabled = true;
 
-        public SettingsPageViewModel()
+        public bool IsSyncFavsButtonEnabled
         {
-            CachedEntries.CollectionChanged += (sender, args) =>
+            get { return _isSyncFavsButtonEnabled; }
+            set
             {
-                if ((sender as ObservableCollection<CachedEntryModel>).Count == 0)
-                {
-                    EmptyCachedListVisiblity = Visibility.Visible;
-                }
-            };
+                _isSyncFavsButtonEnabled = value;
+                RaisePropertyChanged(() => IsSyncFavsButtonEnabled);
+            }
         }
+
+        #endregion
     }
 }

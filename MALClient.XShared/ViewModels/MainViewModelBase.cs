@@ -17,7 +17,8 @@ namespace MALClient.XShared.ViewModels
     public abstract class MainViewModelBase : ViewModelBase
     {
         public static Tuple<int, string> InitDetails;
-
+        public static Tuple<PageIndex, object> InitDetailsFull;
+        protected bool _navigating;
         protected Tuple<PageIndex, object> _postponedNavigationArgs;
         protected bool? _searchStateBeforeNavigatingToSearch;
 
@@ -74,8 +75,11 @@ namespace MALClient.XShared.ViewModels
 
         protected void AnimeListOnInitializedLoadArgs()
         {
-            Navigate(PageIndex.PageAnimeDetails,
-                new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
+            if (InitDetails != null)
+                Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(InitDetails.Item1, InitDetails.Item2, null, null));
+            if (InitDetailsFull != null)        
+                Navigate(InitDetailsFull.Item1,InitDetailsFull.Item2);
             ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitializedLoadArgs;
         }
         #endregion
@@ -177,7 +181,7 @@ namespace MALClient.XShared.ViewModels
 
         private string _currentOffStatus;
 
-        public string CurrentOffStatus
+        public virtual string CurrentOffStatus
         {
             get { return _currentOffStatus; }
             set
@@ -248,10 +252,10 @@ namespace MALClient.XShared.ViewModels
 
         private ICommand _refreshOffDataCommand;
 
-        public ICommand RefreshOffDataCommand
+        public virtual ICommand RefreshOffDataCommand
         {
             get { return _refreshOffDataCommand; }
-            protected set
+            set
             {
                 _refreshOffDataCommand = value;
                 RaisePropertyChanged(() => RefreshOffDataCommand);
@@ -474,7 +478,7 @@ namespace MALClient.XShared.ViewModels
                 return;
             }
             SearchInputVisibility = SearchToggleStatus;
-            if (!SearchToggleLock)
+            if (!SearchToggleLock && !_navigating)
             {
                 OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
             }

@@ -7,9 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator} , Path=MalMessaging}">
-
+    
     <Page.Resources>
         <xamlConverters:MailIconToBrushConverter x:Key="MailIconToBrushConverter" />
+        <xamlConverters:MessageModelToSymbolIconConverter x:Key="MessageModelToSymbolIconConverter" />
     </Page.Resources>
 
     <Page.BottomAppBar>
@@ -49,9 +50,9 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Target}" FontSize="18" TextWrapping="WrapWholeWords" MaxLines="2"
                                    TextTrimming="CharacterEllipsis" FontWeight="Medium" Margin="10,5" />
-                        <SymbolIcon Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                                    Symbol="{Binding Icon}"
-                                    Foreground="{Binding Icon,Converter={StaticResource MailIconToBrushConverter}}" />
+                        <SymbolIcon Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" x:Name="SymbolIcon"
+                                    Symbol="{Binding Converter={StaticResource MessageModelToSymbolIconConverter}}"
+                                    Foreground="{Binding ElementName=SymbolIcon,Path=Symbol,Converter={StaticResource MailIconToBrushConverter}}" />
                         <StackPanel Grid.Column="1" Margin="10,0">
                             <TextBlock Text="{Binding Subject}"
                                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"

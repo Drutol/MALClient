@@ -3,8 +3,9 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Models.Models.Misc;
-using MALClient.ViewModels.Off;
+using MALClient.Shared.Managers;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,7 +24,7 @@ namespace MALClient.Pages.Off.SettingsPages
             Loaded += OnLoaded;
         }
 
-        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
+        public SettingsViewModelBase ViewModel => DataContext as SettingsViewModelBase;
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
@@ -113,6 +114,13 @@ namespace MALClient.Pages.Off.SettingsPages
             var file = await ApplicationData.Current.LocalFolder.GetFileAsync(entry.FileName);
             await file.DeleteAsync();
 
+        }
+
+        private async void ClearImageCache(object sender, RoutedEventArgs e)
+        {
+            BtnClearImageCache.IsEnabled = false;
+            await ImageCache.ClearAsync();
+            BtnClearImageCache.IsEnabled = true;
         }
     }
 }

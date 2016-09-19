@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AdapterModels\VaultCredential.cs" />
     <Compile Include="Enums\AnimeListModesEnum.cs" />
     <Compile Include="Enums\AnimeStatusEnum.cs" />
@@ -49,9 +46,14 @@
     <Compile Include="Enums\ForumBoards.cs" />
     <Compile Include="Enums\ForumsPageIndex.cs" />
     <Compile Include="Enums\HamburgerButtonsEnum.cs" />
+    <Compile Include="Enums\MalNotificationsTypesEnum.cs" />
     <Compile Include="Enums\MessageSymbolsEnum.cs" />
     <Compile Include="Enums\PageIndex.cs" />
     <Compile Include="Enums\RelatedItemType.cs" />
+    <Compile Include="Enums\SettingsPageIndexEnum.cs" />
+    <Compile Include="Enums\SettingsSymbolsEnum.cs" />
+    <Compile Include="Enums\TelemetryEventsEnum.cs" />
+    <Compile Include="Interfaces\IAnimeListItem.cs" />
     <Compile Include="Interfaces\IDetailsPageArgs.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Models\Anime\AnimeSeason.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdLibraryResponses.cs" />
     <Compile Include="Models\ApiResponses\HummingbirdUserResponses.cs" />
+    <Compile Include="Models\ApiResponses\MalApiNotifications.cs" />
     <Compile Include="Models\Favourites\AnimeCharacter.cs" />
     <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
     <Compile Include="Models\Favourites\FavouriteBase.cs" />
@@ -83,10 +86,20 @@
     <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
+    <Compile Include="Models\Notifications\MalNotification.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />
     <Compile Include="Models\ScrappedDetails\StaffDetailsData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

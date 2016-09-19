@@ -6,42 +6,59 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Shared.Managers;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Shared.UserControls.AttachedProperties
 {
     public class AnimeImageExtensions : DependencyObject
     {
-        public static readonly DependencyProperty MalBaseImageSourceProperty =
-          DependencyProperty.RegisterAttached(
-              "MalBaseImageSource",
-              typeof(string),
-              typeof(AnimeImageExtensions),
-              new PropertyMetadata("", PropertyChangedCallback));
+        public static readonly DependencyProperty ForceStandardImageProperty = DependencyProperty.RegisterAttached(
+            "ForceStandardImage", typeof(bool), typeof(AnimeImageExtensions), new PropertyMetadata(false));
 
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static void SetForceStandardImage(DependencyObject element, bool value)
+        {
+            element.SetValue(ForceStandardImageProperty, value);
+        }
+
+        public static bool GetForceStandardImage(DependencyObject element)
+        {
+            return (bool) element.GetValue(ForceStandardImageProperty);
+        }
+
+        public static readonly DependencyProperty MalBaseImageSourceProperty =
+            DependencyProperty.RegisterAttached(
+                "MalBaseImageSource",
+                typeof(string),
+                typeof(AnimeImageExtensions),
+                new PropertyMetadata("", PropertyChangedCallback));
+
+        private static async void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var img = d as Image;
             var source = e.NewValue as string;
-            if (Settings.PullHigherQualityImages)
+            if (Settings.PullHigherQualityImages && !GetForceStandardImage(d))
             {
                 var pos = source.IndexOf(".jpg");
                 if (pos != -1)
                 {
                     img.ImageFailed += ImgOnImageFailed;
-                    img.Source = new BitmapImage(new Uri(source.Insert(pos, "l")));
+                    img.Source = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));
                 }
             }
-            else
-                img.Source = new BitmapImage(new Uri(source));
+            else if(!string.IsNullOrEmpty(source))
+                img.Source = await ImageCache.GetFromCacheAsync(new Uri(source));
 
         }
 
-        private static void ImgOnImageFailed(object sender, ExceptionRoutedEventArgs exceptionRoutedEventArgs)
+        private static async void ImgOnImageFailed(object sender, ExceptionRoutedEventArgs exceptionRoutedEventArgs)
         {
+
             var img = sender as Image;
             img.ImageFailed -= ImgOnImageFailed;
-            img.Source = new BitmapImage(new Uri(GetMalBaseImageSource(img)));
+            var url = GetMalBaseImageSource(img);
+            if(!string.IsNullOrEmpty(url))
+                img.Source = await ImageCache.GetFromCacheAsync(new Uri(url));
      
         }
 

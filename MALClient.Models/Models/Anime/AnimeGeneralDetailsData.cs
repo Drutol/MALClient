@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -42,15 +43,22 @@ namespace MALClient.Models.Models.Anime
             Synopsis = xmlObj.Element("synopsis").Value;
             //Synopsis cleaning
             Synopsis =
-                Synopsis.Replace("quot;", "\"")
+                new StringBuilder(Synopsis).Replace("quot;", "\"")
                     .Replace("ndash;", "-")
                     .Replace("rdquo;", "\"")
                     .Replace("ldquo;", "\"")
                     .Replace("rsquo;", "'")
                     .Replace("#039;", "'")
+                    .Replace("radic;", "√")
+                    .Replace("szlig;", "ß")
+                    .Replace("auml;", "ä")
+                    .Replace("uuml;", "ü")
+                    .Replace("ouml;", "ö")
+                    .Replace("euml;", "ë")
                     .Replace("amp;", "")
                     .Replace("mdash;", "-")
-                    .Replace("<br />", "");
+                    .Replace("iuml;", "ï")
+                    .Replace("<br />", "").ToString();
             Synopsis = Regex.Replace(Synopsis, @"\[[^\]]*\]", string.Empty); //get rid of bbcode
 
 

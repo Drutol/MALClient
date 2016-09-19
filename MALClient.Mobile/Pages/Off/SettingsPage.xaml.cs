@@ -2,6 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
+using MALClient.Pages.Main;
 using MALClient.Shared;
 using MALClient.Pages.Off.SettingsPages;
 using MALClient.ViewModels;
@@ -37,12 +39,48 @@ namespace MALClient.Pages.Off
             base.OnNavigatingFrom(e);
         }
 
-        private void ViewModelOnNavigationRequest(Type pageType)
+        private void ViewModelOnNavigationRequest(SettingsPageIndex page)
         {
+            Type pageType;
+            switch (page)
+            {
+                case SettingsPageIndex.General:
+                    pageType = typeof(SettingsGeneralPage);
+                    break;
+                case SettingsPageIndex.Caching:
+                    pageType = typeof(SettingsCachingPage);
+                    break;
+                case SettingsPageIndex.Calendar:
+                    pageType = typeof(SettingsCalendarPage);
+                    break;
+                case SettingsPageIndex.Articles:
+                    pageType = typeof(SettingsArticlesPage);
+                    break;
+                case SettingsPageIndex.News:
+                    pageType = typeof(SettingsNewsPage);
+                    break;
+                case SettingsPageIndex.About:
+                    pageType = typeof(SettingsAboutPage);
+                    break;
+                case SettingsPageIndex.LogIn:
+                    pageType = typeof(LogInPage);
+                    break;
+                case SettingsPageIndex.Misc:
+                    pageType = typeof(SettingsMiscPage);
+                    break;
+                case SettingsPageIndex.Homepage:
+                    pageType = typeof(SettingsHomePage);
+                    break;
+                case SettingsPageIndex.Notifications:
+                    pageType = typeof(SettingsNotificationsPage);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(page), page, null);
+            }
             SettingsNavFrame.Navigate(pageType, null);
         }
 
-        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
+        public SettingsViewModel ViewModel => DataContext as SettingsViewModel;
 
 
         private void SettingsNavFrame_OnNavigated(object sender, NavigationEventArgs e)

@@ -10,6 +10,7 @@
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:new="using:MALClient.Shared.UserControls.New"
     xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -20,6 +21,7 @@
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
         <xamlConverters:StringToFlatStringConverter x:Key="StringToFlatStringConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+        <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
     </Page.Resources>
 
     <Page.Transitions>
@@ -104,7 +106,13 @@
                                 Grid.Column="0">
                             <Image x:Name="DetailImage" controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                    Tapped="Image_OnTapped" Margin="1,1,1,1"
-                                   Source="{Binding DetailImage}" Stretch="Fill" />
+                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding DetailImage}" Stretch="Fill" >
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout x:Name="ImageSaveFlyout">
+                                        <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </Image>
                         </Border>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
@@ -272,7 +280,7 @@
                                                 </Grid>
                                             </Button>
                                             <Button Height="40"
-                                                    Visibility="{Binding ElementName=BtnAddAnime,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
+                                                    Visibility="{Binding AddAnimeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
                                                     Command="{Binding RemoveAnimeCommand}"
                                                     IsEnabled="{Binding IsRemoveAnimeButtonEnabled}"
                                                     HorizontalAlignment="Stretch"
@@ -685,10 +693,13 @@
                                                 <MenuFlyoutSeparator VerticalAlignment="Top" />
                                                 <TextBlock Text="Synopsis" FontWeight="Bold"
                                                            HorizontalAlignment="Center" />
-                                                <TextBlock Text="{Binding Synopsis}" HorizontalAlignment="Stretch"
-                                                           FontWeight="SemiLight" FontSize="16"
-                                                           VerticalAlignment="Stretch"
-                                                           TextWrapping="WrapWholeWords" Margin="3,1" />
+                                                <TextBlock x:Name="TxtSynopsis" Text="{Binding Synopsis}" Visibility="{Binding Synopsis,Converter={StaticResource AnyTextToVisibilityConverter}}" HorizontalAlignment="Stretch"
+                                                   FontWeight="SemiLight" FontSize="16" VerticalAlignment="Stretch"
+                                                   TextWrapping="WrapWholeWords" Margin="3,1" />
+                                                <TextBlock Visibility="{Binding ElementName=TxtSynopsis,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}"
+                                                   Text="Synopsis unavailable..."
+                                                   TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" Foreground="#FFB9B9B9" />
                                                 <MenuFlyoutSeparator />
                                                 <TextBlock Text="Characters &amp; Staff" FontWeight="Bold"
                                                            HorizontalAlignment="Center"
@@ -712,7 +723,7 @@
                                                     </Style>
                                                 </Grid.Resources>
                                                 <StackPanel>
-                                                    <TextBlock Text="Characters &amp; Voiceactors" FontWeight="Bold"
+                                                    <TextBlock Text="Characters &amp; Voice actors" FontWeight="Bold"
                                                                HorizontalAlignment="Center" Margin="0,3" />
                                                     <ItemsControl
                                                         ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}"
@@ -734,48 +745,50 @@
                                                                 CommandParameter="{Binding AnimeCharacter.Data}">
                                                                         <Grid VerticalAlignment="Stretch"
                                                                           HorizontalAlignment="Stretch">
-                                                                        <Grid.RowDefinitions>
-                                                                            <RowDefinition Height="230" />
-                                                                            <RowDefinition Height="Auto" />
-                                                                        </Grid.RowDefinitions>
-                                                                        <SymbolIcon Symbol="Help"
+                                                                            <Grid.RowDefinitions>
+                                                                                <RowDefinition Height="230" />
+                                                                                <RowDefinition Height="Auto" />
+                                                                            </Grid.RowDefinitions>
+                                                                            <SymbolIcon Symbol="Help"
                                                                                     HorizontalAlignment="Center"
                                                                                     VerticalAlignment="Center" />
-                                                                        <Image Grid.Row="0">
-                                                                            <Image.Source>
+                                                                            <Image Grid.Row="0" 
+                                                                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding AnimeCharacter.Data.ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                                <!--<Image.Source>
                                                                                 <BitmapImage
                                                                                     UriSource="{Binding AnimeCharacter.Data.ImgUrl}"
                                                                                     DecodePixelType="Logical"
                                                                                     DecodePixelHeight="230"
                                                                                     DecodePixelWidth="150" />
-                                                                            </Image.Source>
-                                                                        </Image>
-                                                                        <Grid Grid.Row="0"
+                                                                            </Image.Source>-->
+                                                                            </Image>
+                                                                            <Grid Grid.Row="0"
                                                                                        HorizontalAlignment="Right"
                                                                                        VerticalAlignment="Bottom" Background="{ThemeResource BrushFavouriteStarBackground}"
                                                                               Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                                                                            <new:FavButton DataContext="{Binding AnimeCharacter}"/>
-                                                                        </Grid>
+                                                                                <new:FavButton DataContext="{Binding AnimeCharacter}"/>
+                                                                            </Grid>
 
-                                                                        <Grid Grid.Row="1" Padding="4"
+                                                                            <Grid Grid.Row="1" Padding="4"
                                                                               HorizontalAlignment="Stretch"
                                                                               VerticalAlignment="Bottom"
                                                                               Background="{ThemeResource BrushAnimeItemBackground}"
                                                                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                               BorderThickness="0,1,0,0">
-                                                                            <Grid.ColumnDefinitions>
-                                                                                <ColumnDefinition Width="*" />
-                                                                                <ColumnDefinition Width="Auto" />
-                                                                            </Grid.ColumnDefinitions>
-                                                                            <StackPanel HorizontalAlignment="Center">
-                                                                                <TextBlock FontWeight="Medium"
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="*" />
+                                                                                    <ColumnDefinition Width="Auto" />
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <StackPanel HorizontalAlignment="Center">
+                                                                                    <TextBlock FontWeight="Medium"
                                                                                            Text="{Binding AnimeCharacter.Data.Name}" />
-                                                                                <TextBlock FontWeight="SemiLight"
+                                                                                    <TextBlock FontWeight="SemiLight"
                                                                                            Text="{Binding AnimeCharacter.Data.Notes}" />
-                                                                            </StackPanel>
+                                                                                </StackPanel>
+                                                                            </Grid>
                                                                         </Grid>
-                                                                    </Grid>
-                                                                        </Button>
+                                                                    </Button>
                                                                     <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                                                 Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}" 
                                                                 CommandParameter="{Binding AnimeStaffPerson.Data}">
@@ -788,14 +801,16 @@
                                                                             <SymbolIcon Symbol="Help"
                                                                                     HorizontalAlignment="Center"
                                                                                     VerticalAlignment="Center" />
-                                                                            <Image Grid.Row="0">
-                                                                                <Image.Source>
+                                                                            <Image Grid.Row="0"                                                                                   
+                                                                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding AnimeStaffPerson.Data.ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                                <!--<Image.Source>
                                                                                     <BitmapImage
                                                                                     UriSource="{Binding AnimeStaffPerson.Data.ImgUrl}"
                                                                                     DecodePixelType="Logical"
                                                                                     DecodePixelHeight="230"
                                                                                     DecodePixelWidth="150" />
-                                                                                </Image.Source>
+                                                                                </Image.Source>-->
                                                                             </Image>
                                                                             <Grid HorizontalAlignment="Right"
                                                                                        VerticalAlignment="Bottom"
@@ -820,7 +835,7 @@
                                                                         </Grid>
                                                                     </Button>
                                                                 </Grid>
-                                                                                                                                </DataTemplate>
+                                                            </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
                                                     <MenuFlyoutSeparator />
@@ -858,13 +873,15 @@
                                                                         <SymbolIcon Symbol="Help"
                                                                                 HorizontalAlignment="Center"
                                                                                 VerticalAlignment="Center" />
-                                                                        <Image Grid.Row="0">
-                                                                            <Image.Source>
+                                                                        <Image Grid.Row="0"
+                                                                               attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" 
+                                                                               attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                                            <!--<Image.Source >
                                                                                 <BitmapImage UriSource="{Binding Data.ImgUrl}"
                                                                                          DecodePixelType="Logical"
                                                                                          DecodePixelHeight="250"
                                                                                          DecodePixelWidth="175" />
-                                                                            </Image.Source>
+                                                                            </Image.Source>-->
                                                                         </Image>
                                                                         <Grid Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}"
                                                                                    HorizontalAlignment="Right"
@@ -969,7 +986,7 @@
                                                             <ColumnDefinition Width=".5*" />
                                                             <ColumnDefinition Width=".5*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <userControls:AlternatingListView Grid.Column="0"
+                                                        <userControls:AlternatingListView Grid.Column="0" ScrollViewer.VerticalScrollMode="Disabled"
                                                                               ItemsSource="{Binding RightGenres}"
                                                                               BorderThickness="0,0,1,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
@@ -981,7 +998,7 @@
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </userControls:AlternatingListView>
-                                                        <userControls:AlternatingListView Grid.Column="1"
+                                                        <userControls:AlternatingListView Grid.Column="1" ScrollViewer.VerticalScrollMode="Disabled"
                                                                               ItemsSource="{Binding LeftGenres}"
                                                                               BorderThickness="1,0,0,0"
                                                                               BorderBrush="{ThemeResource BrushDetailsGeneralBorder}"
@@ -998,7 +1015,7 @@
                                                     <StackPanel>
                                                         <TextBlock Text="Information" FontWeight="Bold" VerticalAlignment="Top"
                                                    HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding Information}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ItemsSource="{Binding Information}" ScrollViewer.VerticalScrollMode="Disabled" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Grid HorizontalAlignment="Stretch">
@@ -1020,7 +1037,7 @@
                                                     <StackPanel>
                                                         <TextBlock Text="Statisctics" FontWeight="Bold" VerticalAlignment="Top"
                                                    HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding Stats}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding Stats}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Grid HorizontalAlignment="Stretch">
@@ -1043,7 +1060,7 @@
                                                         <TextBlock Text="Opening themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.Resources>
                                                                 <Style TargetType="TextBlock">
                                                                     <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -1060,7 +1077,7 @@
                                                         <TextBlock Text="Ending themes" FontWeight="Bold"
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
-                                                        <userControls:AlternatingListView ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
+                                                        <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
                                                             <ListView.Resources>
                                                                 <Style TargetType="TextBlock">
                                                                     <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -1364,54 +1381,6 @@
                                       IsActive="True" />
                     </Grid>
 
-                </Grid>
-                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                      Visibility="{Binding ImageOverlayVisibility}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75" />
-                    </Grid.Background>
-                    <FlipView
-                        SelectedIndex="{Binding CurrentlySelectedImagePivotIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" RequestedTheme="Dark">
-                        <Grid>
-                            <ScrollViewer x:Name="StockImgScrollViewer" VerticalAlignment="Stretch"
-                                          HorizontalAlignment="Stretch" DoubleTapped="ScrollViewer_OnDoubleTapped"
-                                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3"
-                                          HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
-                                <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="MalImage"
-                                       Source="{Binding DetailImage}" Stretch="None"/>
-                            </ScrollViewer>
-                        </Grid>
-                        <Grid Visibility="{Binding MalApiSpecificControlsVisibility}">
-                            <Grid Visibility="{Binding LoadingHummingbirdImage,Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ProgressRing HorizontalAlignment="Stretch" Width="50" Height="50"
-                                              VerticalAlignment="Stretch"
-                                              IsActive="True" />
-                            </Grid>
-                            <TextBlock Text="Unavailable for manga. :(" Foreground="White" HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Visibility="{Binding AlternateImageUnavailableNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <ScrollViewer x:Name="AlternateImgScrollViewer" VerticalAlignment="Stretch"
-                                          HorizontalAlignment="Stretch"
-                                          DoubleTapped="ScrollViewerAlternate_OnDoubleTapped"
-                                          VerticalScrollBarVisibility="Auto" MinZoomFactor="0.5" MaxZoomFactor="3"
-                                          HorizontalScrollBarVisibility="Auto" Padding="10" ZoomMode="Enabled">
-                                <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" x:Name="AlternateImage"
-                                       Source="{Binding HummingbirdImage}" Stretch="Uniform"/>
-                            </ScrollViewer>
-                        </Grid>
-                    </FlipView>
-                    <TextBlock Margin="5,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                               x:Name="CurrentImgDimesnions"
-                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
-                               FontWeight="SemiLight" />
-                    <Button Background="{ThemeResource BrushDetailsMoreButton}" Grid.Row="1"
-                            Content="Save" HorizontalAlignment="Stretch" Margin="5"
-                            Command="{Binding SaveImageCommand}"
-                            BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                 </Grid>
             </Grid>
         </ScrollViewer>

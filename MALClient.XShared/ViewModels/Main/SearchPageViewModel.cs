@@ -54,9 +54,9 @@ namespace MALClient.XShared.ViewModels.Main
             _queryHandler = false;
         }
 
-        public async void SubmitQuery(string query)
+        private async void SubmitQuery(string query)
         {
-            if (query == PrevQuery)
+            if (string.IsNullOrEmpty(query) || query == PrevQuery || query.Length < 2)
                 return;
             IsFirstVisitGridVisible = false;
             PrevQuery = query;

@@ -58,7 +58,7 @@
             </Button>
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="35" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" MinWidth="120" />
                     <ColumnDefinition Width="Auto" />
@@ -66,7 +66,7 @@
                     <ColumnDefinition Width="*" MinWidth="10" MaxWidth="100" />
                     <ColumnDefinition Width="*" MinWidth="20" MaxWidth="120" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel>
                         <SymbolIcon VerticalAlignment="Center" HorizontalAlignment="Center" Symbol="Favorite"  Margin="1,1,1,0" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}" RenderTransformOrigin=".5,.5">
                             <SymbolIcon.RenderTransform>
@@ -75,7 +75,7 @@
                         </SymbolIcon>
                         <TextBlock Text="{x:Bind ViewModel.GlobalScoreBind,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                        <TextBlock Text="{x:Bind ViewModel.Type,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
+                        <TextBlock Text="{x:Bind ViewModel.PureType,Mode=OneWay}" FontWeight="SemiLight" FontStyle="Italic" FontSize="13"
                                VerticalAlignment="Bottom" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis">
                         </TextBlock>
                     </StackPanel>

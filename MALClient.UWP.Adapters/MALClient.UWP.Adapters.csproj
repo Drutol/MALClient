@@ -112,11 +112,13 @@
     <Compile Include="DataCache.cs" />
     <Compile Include="ClipboardProvider.cs" />
     <Compile Include="ImageDownloaderService.cs" />
-    <Compile Include="ISystemControlsLauncherService.cs" />
+    <Compile Include="NotificationsTaskManager.cs" />
+    <Compile Include="SystemControlsLauncherService.cs" />
     <Compile Include="LiveTilesManagerRelay.cs" />
     <Compile Include="MessageDialogProvider.cs" />
     <Compile Include="PasswordVaultProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TelemetryProvider.cs" />
     <EmbeddedResource Include="Properties\MALClient.UWP.Adapters.rd.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -70,9 +70,8 @@
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
     </Page.Resources>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot x:Name="RootPivot" Margin="0,0,-10,0"
+        <Pivot x:Name="RootPivot" Margin="0,0,-12,0"
                Style="{StaticResource PivotStyleOuterProfilePage}" Visibility="{Binding CalendarVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                ItemsSource="{Binding CalendarData}">
             <Pivot.Resources>

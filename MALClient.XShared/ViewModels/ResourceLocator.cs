@@ -27,5 +27,28 @@ namespace MALClient.XShared.ViewModels
         public static ILiveTilesManager LiveTilesManager  => SimpleIoc.Default.GetInstance<ILiveTilesManager>();
 
         public static IImageDownloaderService ImageDownloaderService  => SimpleIoc.Default.GetInstance<IImageDownloaderService>();
+
+        public static ITelemetryProvider TelemetryProvider  => SimpleIoc.Default.GetInstance<ITelemetryProvider>();
+
+        public static INotificationsTaskManager  NotificationsTaskManager  => SimpleIoc.Default.GetInstance<INotificationsTaskManager>();
+
+        #region UsedByBackgroundTask
+
+        public static void RegisterPasswordVaultAdapter(IPasswordVault vault)
+        {
+            SimpleIoc.Default.Register<IPasswordVault>(() => vault);
+        }
+
+        public static void RegisterAppDataServiceAdapter(IApplicationDataService appData)
+        {
+            SimpleIoc.Default.Register<IApplicationDataService>(() => appData);
+        }
+
+        public static void RegisterMessageDialogAdapter(IMessageDialogProvider msgDialog)
+        {
+            SimpleIoc.Default.Register<IMessageDialogProvider>(() => msgDialog);
+        }
+        #endregion
+
     }
 }

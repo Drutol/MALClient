@@ -123,6 +123,9 @@ namespace MALClient.XShared.ViewModels
         public static LogInViewModel LogIn
             => ServiceLocator.Current.GetInstance<LogInViewModel>();
 
+        public static SettingsViewModelBase Settings
+            => ServiceLocator.Current.GetInstance<SettingsViewModelBase>();
+
         //Forums
 
         public static ForumsMainViewModel ForumsMain

@@ -3,6 +3,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Models.Models.Misc;
+using MALClient.Shared.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 
@@ -16,7 +17,7 @@ namespace MALClient.Pages.Off.SettingsPages
     public sealed partial class SettingsCachingPage : Page
     {
         private bool _initialized;
-        public SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
+        public SettingsViewModel ViewModel => DataContext as SettingsViewModel;
 
         public SettingsCachingPage()
         {
@@ -111,6 +112,13 @@ namespace MALClient.Pages.Off.SettingsPages
 
             var file = await ApplicationData.Current.LocalFolder.GetFileAsync(entry.FileName);
             await file.DeleteAsync();
+        }
+
+        private async void ClearImageCache(object sender, RoutedEventArgs e)
+        {
+            BtnClearImageCache.IsEnabled = false;
+            await ImageCache.ClearAsync();
+            BtnClearImageCache.IsEnabled = true;
         }
     }
 }

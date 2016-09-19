@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -9,6 +10,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Shared.ViewModels;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
@@ -19,11 +21,11 @@ using AnimeListPageNavigationArgs = MALClient.XShared.NavArgs.AnimeListPageNavig
 
 namespace MALClient.Pages.Main
 {
-   
+
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AnimeListPage : Page , IDimensionsProvider
+    public sealed partial class AnimeListPage : Page, IDimensionsProvider
     {
         private ScrollViewer _indefiniteScrollViewer;
         private AnimeListViewModel ViewModel => DataContext as AnimeListViewModel;
@@ -32,13 +34,40 @@ namespace MALClient.Pages.Main
         {
             private get
             {
-                return _indefiniteScrollViewer ??
-                       (_indefiniteScrollViewer =
-                           VisualTreeHelper.GetChild(
-                               VisualTreeHelper.GetChild((DependencyObject)GetScrollingContainer(), 0), 0) as
-                               ScrollViewer);
+                return (ScrollViewer)FindChildControl<ScrollViewer>((DependencyObject) GetScrollingContainer());
+                //return _indefiniteScrollViewer ??
+                //       (_indefiniteScrollViewer =
+                //           VisualTreeHelper.GetChild(
+                //                   VisualTreeHelper.GetChild((DependencyObject) GetScrollingContainer(), 0), 0) as
+                //               ScrollViewer);
             }
             set { _indefiniteScrollViewer = value; }
+        }
+
+        private DependencyObject FindChildControl<T>(DependencyObject control)
+        {
+            int childNumber = VisualTreeHelper.GetChildrenCount(control);
+            for (int i = 0; i < childNumber; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(control, i);
+                FrameworkElement fe = child as FrameworkElement;
+                // Not a framework element or is null
+                if (fe == null) return null;
+
+                if (child is T)
+                {
+                    // Found the control so return
+                    return child;
+                }
+                else
+                {
+                    // Not found it - search children
+                    DependencyObject nextLevel = FindChildControl<T>(child);
+                    if (nextLevel != null)
+                        return nextLevel;
+                }
+            }
+            return null;
         }
 
         public Flyout FlyoutViews => ViewsFlyout;
@@ -99,9 +128,12 @@ namespace MALClient.Pages.Main
 
         private bool _loaded;
         private AnimeListPageNavigationArgs _lastArgs;
+        private bool _handlerAdded1;
 
         public AnimeListPage()
         {
+            _loaded = false;
+            _handlerAdded = false;
             InitializeComponent();
             Loaded += async (sender, args) =>
             {
@@ -110,26 +142,27 @@ namespace MALClient.Pages.Main
                 ViewModel.SortingSettingChanged += InitSortOptions;
                 ViewModel.Init(_lastArgs);
                 ViewModel.DimensionsProvider = this;
-                _loaded = true;
                 ViewModel.HideFiltersFlyout += ViewModelOnHideFiltersFlyout;
                 ViewModel.HideSortingFlyout += ViewModelOnHideSortingFlyout;
                 ViewModel.HideViewsFlyout += ViewModelOnHideViewsFlyout;
                 ViewModel.ScrollToTopRequest += ViewModelOnScrollToTopRequest;
                 ViewModel.AddScrollHandlerRequest += ViewModelOnAddScrollHandlerRequest;
                 ViewModel.RemoveScrollHandlerRequest += ViewModelOnRemoveScrollHandlerRequest;
-                ViewModel.RemoveScrollingConatinerReferenceRequest += ViewModelOnRemoveScrollingConatinerReferenceRequest;
+                ViewModel.RemoveScrollingConatinerReferenceRequest +=
+                    ViewModelOnRemoveScrollingConatinerReferenceRequest;
                 ViewModel.HideSeasonSelectionFlyout += ViewModelOnHideSeasonSelectionFlyout;
                 _loaded = true;
                 try
                 {
                     await Task.Delay(100);
-                    VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false); //force update on startup
+                    VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false);
+                    //force update on startup
                 }
                 catch (Exception)
                 {
                     //comexception
                 }
-                
+
             };
         }
 
@@ -148,20 +181,69 @@ namespace MALClient.Pages.Main
             IndefiniteScrollViewer = null;
         }
 
+        private bool _handlerAdded
+        {
+            get { return _handlerAdded1; }
+            set { _handlerAdded1 = value; }
+        }
+
         private async void ViewModelOnRemoveScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+            if(!_handlerAdded)
+                return;
+            try
+            {
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv != null)
+                {
+                    sv.ViewChanging -= IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = false;
+                }
+            }
+            catch (Exception)
+            {
+                //Null delegate?
+            }
         }
 
         private async void ViewModelOnAddScrollHandlerRequest()
         {
-            (await GetIndefiniteScrollViewer()).ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            try
+            {
+                var sv = await GetIndefiniteScrollViewer();
+                if (sv == null)
+                {
+                    var container = GetScrollingContainer() as FrameworkElement;
+                    if (container != null)
+                        container.LayoutUpdated += ScrollViewerLoaded;
+                }
+                else
+                {
+                    sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+                    _handlerAdded = true;
+                }
 
+            }
+            catch (Exception)
+            {
+                //Null delegate?
+            }
+        }
+
+        private async void ScrollViewerLoaded(object sender, object e)
+        {
+            var sv = await GetIndefiniteScrollViewer();
+            if (sv == null)
+                return;
+            (GetScrollingContainer() as FrameworkElement).LayoutUpdated -= ScrollViewerLoaded;
+            sv.ViewChanging += IndefiniteScrollViewerOnViewChanging;
+            _handlerAdded = true;
+            
         }
 
         private void IndefiniteScrollViewerOnViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
-            ViewModel.IndefiniteScrollViewerOnViewChanging(e.FinalView.VerticalOffset);
+            ViewModelLocator.AnimeList.IndefiniteScrollViewerOnViewChanging(e.FinalView.VerticalOffset);
         }
 
         private async void ViewModelOnScrollToTopRequest()
@@ -217,33 +299,37 @@ namespace MALClient.Pages.Main
 
         private void SelectSortMode(object sender, RoutedEventArgs e)
         {
+            //scary code, bad code
             var btn = sender as ToggleMenuFlyoutItem;
             switch (btn.Text)
             {
                 case "Title":
-                    ViewModel.SortOption = SortOptions.SortTitle;
+                    ViewModel.SetSortOrder(SortOptions.SortTitle);
                     break;
                 case "Score":
-                    ViewModel.SortOption = SortOptions.SortScore;
+                    ViewModel.SetSortOrder(SortOptions.SortScore);
                     break;
                 case "Watched":
                 case "Read":
-                    ViewModel.SortOption = SortOptions.SortWatched;
+                    ViewModel.SetSortOrder(SortOptions.SortWatched);
                     break;
                 case "Soonest airing":
-                    ViewModel.SortOption = SortOptions.SortAirDay;
+                    ViewModel.SetSortOrder(SortOptions.SortAirDay);
                     break;
                 case "Last watched":
-                    ViewModel.SortOption = SortOptions.SortLastWatched;
+                    ViewModel.SetSortOrder(SortOptions.SortLastWatched);
                     break;
                 case "Start date":
-                    ViewModel.SortOption = SortOptions.SortStartDate;
+                    ViewModel.SetSortOrder(SortOptions.SortStartDate);
                     break;
                 case "End date":
-                    ViewModel.SortOption = SortOptions.SortEndDate;
+                    ViewModel.SetSortOrder(SortOptions.SortEndDate);
+                    break;
+                case "Season":
+                    ViewModel.SetSortOrder(SortOptions.SortSeason);
                     break;
                 default:
-                    ViewModel.SortOption = SortOptions.SortNothing;
+                    ViewModel.SetSortOrder(SortOptions.SortNothing);
                     break;
             }
             SortTitle.IsChecked =
@@ -253,9 +339,9 @@ namespace MALClient.Pages.Main
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
                                     SortEndDate.IsChecked =
-                                        SortStartDate.IsChecked = false;
+                                        SortStartDate.IsChecked = SortSeason.IsChecked = false;
             btn.IsChecked = true;
-            ViewModel.RefreshList();
+            ViewModelLocator.AnimeList.RefreshList();
         }
 
 
@@ -289,7 +375,7 @@ namespace MALClient.Pages.Main
             TxtListSource.SelectAll();
         }
 
-        internal void InitSortOptions(SortOptions option, bool descending)
+        private void InitSortOptions(SortOptions option, bool descending)
         {
             SortTitle.IsChecked =
                 SortScore.IsChecked =
@@ -298,7 +384,7 @@ namespace MALClient.Pages.Main
                             SortNone.IsChecked =
                                 SortLastWatched.IsChecked =
                                     SortEndDate.IsChecked =
-                                        SortStartDate.IsChecked = false;
+                                        SortStartDate.IsChecked = SortSeason.IsChecked = false;
             switch (option)
             {
                 case SortOptions.SortTitle:
@@ -325,6 +411,9 @@ namespace MALClient.Pages.Main
                 case SortOptions.SortEndDate:
                     SortEndDate.IsChecked = true;
                     break;
+                case SortOptions.SortSeason:
+                    SortSeason.IsChecked = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }
@@ -335,6 +424,22 @@ namespace MALClient.Pages.Main
         {
             if (!string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonSeason) && !string.IsNullOrEmpty(ViewModel.CurrentlySelectedCustomSeasonYear))
                 FlyoutSeasonSelection.Hide();
+        }
+
+        private TypeInfo _typeInfo;
+        //why? beacuse MSFT Bugged this after anniversary update
+        private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+                var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, true);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
         }
     }
 }

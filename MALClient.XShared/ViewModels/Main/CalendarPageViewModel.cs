@@ -153,6 +153,7 @@ namespace MALClient.XShared.ViewModels.Main
         {
             if (_initialized && !force)
             {
+                await GoToDesiredTab();
                 CalendarVisibility = true;
                 return;
             }
@@ -293,6 +294,15 @@ namespace MALClient.XShared.ViewModels.Main
 
 
             RaisePropertyChanged(() => CalendarData);
+            await GoToDesiredTab();
+
+            CalendarBuildingVisibility = false;
+            CalendarVisibility = true;
+
+        }
+
+        public async Task GoToDesiredTab()
+        {
             await Task.Delay(10);
             if (Settings.CalendarStartOnToday)
             {
@@ -312,12 +322,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
             else
                 CalendarPivotIndex = CalendarData.Count - 1;
-
-            CalendarBuildingVisibility = false;
-            CalendarVisibility = true;
-
         }
-
         
     }
 }

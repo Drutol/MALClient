@@ -30,6 +30,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             if (e.Parameter is RecommendationPageNavigationArgs)
                 (DataContext as RecommendationsViewModel).PivotItemIndex =
                     (e.Parameter as RecommendationPageNavigationArgs).Index;

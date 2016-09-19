@@ -8,6 +8,7 @@
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:items="using:MALClient.Shared.Items"
     xmlns:new="using:MALClient.Shared.UserControls.New"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CharacterDetails}">
 
     <Page.Resources>
@@ -18,10 +19,10 @@
                     <RowDefinition Height="250"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Image Stretch="Fill">
-                    <Image.Source>
+                <Image Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}">
+                    <!--<Image.Source>
                         <BitmapImage DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                    </Image.Source>
+                    </Image.Source>-->
                 </Image>
                 <Grid Grid.Row="1" Height="50" Width="170" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                     <TextBlock Text="{Binding Title}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2" FontWeight="Medium"/>
@@ -42,10 +43,10 @@
             </Grid.ColumnDefinitions>
             <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
                 <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <Image Stretch="Uniform" VerticalAlignment="Top" Height="300" Width="175">
-                    <Image.Source>
+                <Image Stretch="Uniform" VerticalAlignment="Top" Height="300" Width="175" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" >
+                    <!--<Image.Source>
                         <BitmapImage DecodePixelWidth="175" DecodePixelHeight="300" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
-                    </Image.Source>
+                    </Image.Source>-->
                 </Image>
             </Grid>
             <Grid Grid.Column="1">

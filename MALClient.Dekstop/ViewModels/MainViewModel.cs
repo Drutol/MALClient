@@ -27,6 +27,7 @@ using MALClient.UserControls;
 using MALClient.Utils.Managers;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
@@ -65,7 +66,8 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
+            _navigating = true;
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
@@ -133,9 +135,10 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageHistory ||
                      index == PageIndex.PageCharacterSearch)
             {
+                CurrentStatusSub = "";
                 DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
                 currPage = index;
-            }
+            }            
 
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
@@ -334,6 +337,7 @@ namespace MALClient.ViewModels
                 CurrentMainPageKind = index;
             if (currOffPage != null)
                 CurrentOffPage = currOffPage;
+            _navigating = false;
             RaisePropertyChanged(() => SearchToggleLock);
         }
 
@@ -354,8 +358,10 @@ namespace MALClient.ViewModels
                     Navigate(PageIndex.PageLogIn);
                     Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General));
                 }
-                if (InitDetails != null)
+                if (InitDetails != null || InitDetailsFull != null)
+                {
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+                }
 
                 MenuPaneState = Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500;
             }

@@ -21,7 +21,6 @@ namespace MALClient.ViewModels
 
             SimpleIoc.Default.Register<MainViewModel>();         
             SimpleIoc.Default.Register<HamburgerControlViewModel>();
-            SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<MainViewModelBase>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel>(() => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>());          
             SimpleIoc.Default.Register<INavMgr,NavMgr>();
@@ -35,6 +34,8 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<ICalendarExportProvider, CalendarExportProvider>();
             SimpleIoc.Default.Register<ILiveTilesManager, LiveTilesManagerRelay>();
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
+            SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
+            SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
 
             ViewModelLocator.Mobile = true;
         }
@@ -45,9 +46,6 @@ namespace MALClient.ViewModels
             => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
 
         public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
-
-        public static SettingsPageViewModel SettingsPage
-            => ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
 
         public static ProfilePageViewModel ProfilePage => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
     }

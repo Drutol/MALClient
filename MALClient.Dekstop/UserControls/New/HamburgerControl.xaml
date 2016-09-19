@@ -763,21 +763,19 @@
                             <FlyoutBase.AttachedFlyout>
                                 <Flyout>
                                     <Grid>
+                                        <Grid.Resources>
+                                            <ResourceDictionary>
+                                                <ResourceDictionary.MergedDictionaries>
+                                                    <ResourceDictionary Source="ms-appx:///MALClient.Shared/XamlResources/FancyListFlyoutStyle.xaml"/>
+                                                </ResourceDictionary.MergedDictionaries>
+                                            </ResourceDictionary>
+                                        </Grid.Resources>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
-                                        <ListView Grid.Row="1" Margin="-20,0" SelectionMode="None" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
-                                                    <Setter Property="Height" Value="30"/>
-                                                    <Setter Property="MinHeight" Value="30"/>
-                                                    <Setter Property="Margin" Value="0,2"/>
-                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
+                                        <ListView Grid.Row="1" Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>

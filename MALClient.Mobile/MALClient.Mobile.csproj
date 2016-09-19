@@ -167,6 +167,9 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsHomePage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml.cs">
+      <DependentUpon>SettingsNotificationsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs" />
     <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
       <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
@@ -179,7 +182,6 @@
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MobileViewModelLocator.cs" />
-    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -188,18 +190,31 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\GitHub-Mark-120px-plus.png" />
     <Content Include="Assets\GitHub-Mark-Light-120px-plus.png" />
     <Content Include="Assets\hummingbird150x150.scale-200.png" />
     <Content Include="Assets\LogInBG.PNG" />
     <Content Include="Assets\mallonglogo300x150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +334,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -388,6 +407,10 @@
     <ProjectReference Include="..\MALClient.UWP.Adapters\MALClient.UWP.Adapters.csproj">
       <Project>{7087a044-1675-413b-86c3-a0005c87b0b5}</Project>
       <Name>MALClient.UWP.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.UWP.BGTaskNotifications\MALClient.UWP.BGTaskNotifications.csproj">
+      <Project>{cb57338d-9a51-4cbc-b0bb-3d579c2588fd}</Project>
+      <Name>MALClient.UWP.BGTaskNotifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>

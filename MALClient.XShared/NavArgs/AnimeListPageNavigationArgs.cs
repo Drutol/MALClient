@@ -36,10 +36,10 @@ namespace MALClient.XShared.NavArgs
         {
         }
 
-        public AnimeListPageNavigationArgs(int index, AnimeListWorkModes workMode)
+        public AnimeListPageNavigationArgs(int filterIndex, AnimeListWorkModes workMode)
         {
             WorkMode = workMode;
-            StatusIndex = index;
+            StatusIndex = filterIndex;
         }
 
         public static AnimeListPageNavigationArgs Seasonal

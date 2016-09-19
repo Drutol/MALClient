@@ -40,7 +40,7 @@
             </Grid.RowDefinitions>
             <userControls:LockableToggleButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                        x:Name="MalLoginButton"  Command="{Binding FocusMalCommand}" Checked="MalLoginButton_OnChecked">
-                <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="200" />
+                <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="185" />
             </userControls:LockableToggleButton>
             <userControls:LockableToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Checked="HumLoginButton_OnChecked"
                                         x:Name="HumLoginButton" Command="{Binding FocusHumCommand}">
@@ -56,7 +56,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
                     <StackPanel.Background>
-                        <SolidColorBrush Color="Black" Opacity=".25"/>
+                        <SolidColorBrush Color="Black" Opacity=".6"/>
                     </StackPanel.Background>
                     <Image Source="/Assets/SplashScreen.scale-200.png"  Width="310" Height="150"
                    VerticalAlignment="Center" />
@@ -77,8 +77,7 @@
                     Background="{ThemeResource AppBarBackgroundThemeBrush}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
-                    Click="ButtonRegister_OnClick" />
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" Command="{Binding NavigateRegister}" />
                 <Button Grid.Row="1" Content="Problems?" Style="{StaticResource TextBlockButtonStyle}"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,5,16,5" Visibility="{Binding ProblemsButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Click="ButtonProblems_OnClick" />

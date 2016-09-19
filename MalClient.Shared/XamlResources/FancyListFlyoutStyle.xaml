@@ -1,0 +1,41 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Shared">
+
+
+    <Style x:Key="FancyListFlyoutStyle" TargetType="ListView">
+        <Setter Property="Margin" Value="-20,0"/>
+        <Setter Property="SelectionMode" Value="None"/>
+        <Setter Property="IsItemClickEnabled" Value="True"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="MinHeight" Value="30"/>
+                    <Setter Property="Margin" Value="0,2"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>    
+    
+    <Style x:Key="FancyBiggerListFlyoutStyle" TargetType="ListView">
+        <Setter Property="Margin" Value="-20,0"/>
+        <Setter Property="SelectionMode" Value="None"/>
+        <Setter Property="IsItemClickEnabled" Value="True"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="MinHeight" Value="30"/>
+                    <Setter Property="Margin" Value="0,2"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

@@ -387,6 +387,24 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["LockDisplayMode"] = value; }
         }
 
+        public static bool AutoDescendingSorting
+        {
+            get { return (bool) (ApplicationDataService["AutoDescendingSorting"] ?? true); }
+            set { ApplicationDataService["AutoDescendingSorting"] = value; }
+        }
+
+        public static bool DisplaySeasonWithType
+        {
+            get { return (bool) (ApplicationDataService["DisplaySeasonWithType"] ?? false); }
+            set { ApplicationDataService["DisplaySeasonWithType"] = value; }
+        }
+
+        public static bool EnableImageCache
+        {
+            get { return (bool) (ApplicationDataService["EnableImageCache"] ?? true); }
+            set { ApplicationDataService["EnableImageCache"] = value; }
+        }
+
         #endregion
 
         #region RatePopUp
@@ -523,7 +541,40 @@ namespace MALClient.XShared.Utils
             get { return (string) (ApplicationDataService["ForumsPinnedBoards"] ?? ""); }
             set { ApplicationDataService["ForumsPinnedBoards"] = value; }
         }
+
+
+
         #endregion
 
+        #region Notifiations
+
+        public static bool EnableNotifications
+        {
+            get { return (bool)(ApplicationDataService[nameof(EnableNotifications)] ?? true); }
+            set { ApplicationDataService[nameof(EnableNotifications)] = value; }
+        }
+
+        public static MalNotificationsTypes EnabledNotificationTypes
+        {
+            get
+            {
+                return
+                    (MalNotificationsTypes)
+                    (ApplicationDataService[nameof(EnabledNotificationTypes)] ??
+                     MalNotificationsTypes.ClubMessages | MalNotificationsTypes.ForumQuoute |
+                     MalNotificationsTypes.FriendRequest | MalNotificationsTypes.Messages |
+                     MalNotificationsTypes.FriendRequestAcceptDeny | MalNotificationsTypes.NewRelatedAnime |
+                     MalNotificationsTypes.ProfileComment | MalNotificationsTypes.UserMentions |
+                     MalNotificationsTypes.WatchedTopics | MalNotificationsTypes.NowAiring);
+            }
+            set { ApplicationDataService[nameof(EnabledNotificationTypes)] = (int)value; }
+        }
+
+        public static int NotificationsRefreshTime
+        {
+            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 30); }
+            set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
+        }
+        #endregion
     }
 }

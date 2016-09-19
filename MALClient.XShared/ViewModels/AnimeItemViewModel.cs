@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
+using MALClient.Models.Interfaces;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm;
@@ -26,7 +27,7 @@ namespace MALClient.XShared.ViewModels
         AirDay,
     }
 
-    public class AnimeItemViewModel : ViewModelBase, IAnimeData
+    public class AnimeItemViewModel : ViewModelBase, IAnimeData, IAnimeListItem
     {
         public const string InvalidStartEndDate = "0000-00-00";
         public readonly AnimeItemAbstraction ParentAbstraction;
@@ -46,13 +47,14 @@ namespace MALClient.XShared.ViewModels
 
         public static List<string> ScoreFlyoutChoices { get; set; }
 
+        public bool AllowDetailsNavigation { get; set; } = true; //Disabled when draggig grid item
 
         //state fields
         public int Id { get; set; }
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
-            if (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime || ViewModelLocator.AnimeDetails.Id == Id)
+            if (!AllowDetailsNavigation || (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime) || ViewModelLocator.AnimeDetails.Id == Id)
                 return;
             var id = Id;
             if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
@@ -267,6 +269,7 @@ namespace MALClient.XShared.ViewModels
          public int AllEpisodesFocused => _allEpisodes;
          public int AllVolumesFocused => _allVolumes;
 
+
         public string Notes
          {
              get { return ParentAbstraction.Notes; }
@@ -397,11 +400,21 @@ namespace MALClient.XShared.ViewModels
 
         public string Type
             =>
-                ParentAbstraction.Type == 0
-                    ? ""
-                    : ParentAbstraction.RepresentsAnime
-                        ? ((AnimeType) ParentAbstraction.Type).ToString()
-                        : ((MangaType) ParentAbstraction.Type).ToString();
+            (!Settings.DisplaySeasonWithType || string.IsNullOrEmpty(ParentAbstraction.AirStartDate)
+                ? ""
+                : Utilities.SeasonToCapitalLetterWithYear(ParentAbstraction.AirStartDate) + " ")  + 
+            (ParentAbstraction.Type == 0
+                ? ""
+                : ParentAbstraction.RepresentsAnime
+                    ? ((AnimeType) ParentAbstraction.Type).ToString()
+                    : ((MangaType) ParentAbstraction.Type).ToString());
+
+        public string PureType
+            => ParentAbstraction.Type == 0
+                ? ""
+                : ParentAbstraction.RepresentsAnime
+                    ? ((AnimeType) ParentAbstraction.Type).ToString()
+                    : ((MangaType) ParentAbstraction.Type).ToString();
 
 
         public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime);
@@ -449,7 +462,7 @@ namespace MALClient.XShared.ViewModels
             {
                 if (_seasonalState)
                     return
-                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : "Chapters")}";
+                        $"{(AllEpisodesFocused == 0 ? "?" : AllEpisodesFocused.ToString())} {(ParentAbstraction.RepresentsAnime ? "Episodes" : "Volumes")}";
 
                 return Auth || MyEpisodes != 0
                     ? $"{(ParentAbstraction.RepresentsAnime ? "Watched" : "Read")} : " +
@@ -579,16 +592,17 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public string GlobalScoreBind => GlobalScore == 0 ? "" : GlobalScore.ToString("N2");
+        public string GlobalScoreBind
+            => ParentAbstraction.LoadedVolatile ? GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2") : "";
 
         public float GlobalScore
         {
-            get { return _globalScore; }
+            get { return ParentAbstraction.GlobalScore; }
             set
             {
                 if (value == 0)
                     return;
-                _globalScore = value;
+                ParentAbstraction.GlobalScore = value;
                 RaisePropertyChanged(() => GlobalScoreBind);
             }
         }
@@ -882,6 +896,12 @@ namespace MALClient.XShared.ViewModels
             AdjustIncrementButtonsVisibility();
         }
 
+
+        public void UpdateChapterData(int allEpisodes)
+        {
+            _allEpisodes = allEpisodes;
+        }
+
         private void AdjustIncrementButtonsVisibility()
         {
             if (!Auth || !Credentials.Authenticated)
@@ -912,6 +932,7 @@ namespace MALClient.XShared.ViewModels
         {
             RaisePropertyChanged(() => TopLeftInfoBind);
             RaisePropertyChanged(() => GlobalScoreBind);
+            RaisePropertyChanged(() => Type);
         }
 
         #endregion
@@ -927,10 +948,13 @@ namespace MALClient.XShared.ViewModels
 
         #region Watched
 
+        private bool _incrementing;
+        private bool _decrementing;
         private async void IncrementWatchedEp()
         {
-            if(IncrementEpsVisibility == false || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
+            if(_incrementing || IncrementEpsVisibility == false || (AllEpisodesFocused != 0 && MyEpisodesFocused == AllEpisodesFocused))
                 return;
+            _incrementing = true;
             LoadingUpdate = true;
             var trigCompleted = true;
             if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
@@ -955,12 +979,14 @@ namespace MALClient.XShared.ViewModels
                 PromptForStatusChange((int) AnimeStatus.Completed);
 
             LoadingUpdate = false;
+            _incrementing = false;
         }
 
         private async void DecrementWatchedEp()
         {
-            if (DecrementEpsVisibility == false || MyEpisodesFocused == 0)
+            if (_decrementing || DecrementEpsVisibility == false || MyEpisodesFocused == 0)
                 return;
+            _decrementing = true;
             LoadingUpdate = true;
             MyEpisodes--;
             AdjustIncrementButtonsVisibility();
@@ -971,7 +997,7 @@ namespace MALClient.XShared.ViewModels
                 AdjustIncrementButtonsVisibility();
             }
 
-
+            _decrementing = false;
             LoadingUpdate = false;
         }
 
@@ -1128,5 +1154,7 @@ namespace MALClient.XShared.ViewModels
         }
 
         #endregion
+
+
     }
 }

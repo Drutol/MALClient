@@ -21,8 +21,13 @@ namespace MALClient.XShared.Utils
             PasswordVault = ResourceLocator.PasswordVaultProvider;
 
             HummingbirdToken = (string)(ApplicationDataService["HummingbirdToken"] ?? "");
+<<<<<<< HEAD
 			Id = (int)(ApplicationDataService["UserId"] ?? 0);
             //Authenticated = bool.Parse(ApplicationDataService["Auth"] as string);
+=======
+            Id = (int)(ApplicationDataService["UserId"] ?? 0);
+            Authenticated = bool.Parse(ApplicationDataService["Auth"] as string ?? "False"); //why? because I can? but I shouldn't
+>>>>>>> master
         }
 
         public static string HummingbirdToken { get; private set; } 

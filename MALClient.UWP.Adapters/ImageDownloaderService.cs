@@ -18,6 +18,9 @@ namespace MALClient.UWP.Adapters
         {
             if (url == null)
                 return;
+
+
+
             try
             {
                 var sp = new FileSavePicker();
@@ -30,10 +33,19 @@ namespace MALClient.UWP.Adapters
                     return;
                 var http = new HttpClient();
                 byte[] response = {};
-
+                string betterUrl = url;
+                var pos = betterUrl.IndexOf(".jpg");
+                if (pos != -1)
+                    betterUrl = betterUrl.Insert(pos, "l");
                 //get bytes
-                await Task.Run(async () => response = await http.GetByteArrayAsync(url));
-
+                try
+                {
+                    await Task.Run(async () => response = await http.GetByteArrayAsync(betterUrl));
+                }
+                catch (Exception)
+                {
+                    await Task.Run(async () => response = await http.GetByteArrayAsync(url));
+                }
 
                 var fs = await file.OpenStreamForWriteAsync(); //get stream
                 var writer = new DataWriter(fs.AsOutputStream());

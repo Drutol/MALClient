@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Shared;
 using MALClient.Shared.ViewModels;
 using MALClient.Pages;
+using MALClient.Shared.Managers;
 using MALClient.Utils.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.Comm.Anime;
@@ -35,6 +36,7 @@ namespace MALClient
     /// </summary>
     sealed partial class App : Application
     {
+        private bool _initialized;
         /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
         ///     executed, and as such is the logical equivalent of main() or WinMain().
@@ -43,12 +45,7 @@ namespace MALClient
         {
             UWPViewModelLocator.RegisterDependencies();
             DesktopViewModelLocator.RegisterDependencies();
-#if !DEBUG
-            HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
-            {
-                Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
-            });
-#endif
+            ResourceLocator.TelemetryProvider.Init();
             Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
             InitializeComponent();
 
@@ -56,28 +53,65 @@ namespace MALClient
             Suspending += OnSuspending;
         }
 
-        /// <summary>
-        ///     Invoked when the application is launched normally by the end user.  Other entry points
-        ///     will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            OnLaunchedOrActivated(args);
+        }
+
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        {
+            if (e.PrelaunchActivated)
+                return;
+
+            OnLaunchedOrActivated(e);
+        }
+
+        protected async void OnLaunchedOrActivated(IActivatedEventArgs e)
         {
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             var rootFrame = Window.Current.Content as Frame;
             Tuple<int, string> navArgs = null;
-            if (!string.IsNullOrWhiteSpace(e.Arguments))
+            Tuple<PageIndex, object> fullNavArgs = null;
+            var launchArgs = e as LaunchActivatedEventArgs;
+            if (!string.IsNullOrWhiteSpace(launchArgs?.Arguments))
             {
-                var options = e.Arguments.Split(';');
-                if (options[0] == TileActions.OpenUrl.ToString())
-                    LaunchUri(options[1]);
+                if (launchArgs.Arguments.Contains(";"))
+                {
+                    var options = launchArgs.Arguments.Split(';');
+                    if (options[0] == TileActions.OpenUrl.ToString())
+                        LaunchUri(options[1]);
+                    else if (launchArgs.Arguments.Contains('|'))
+                    {
+                        var detailArgs = options[1].Split('|');
+                        navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    }
+                }
                 else
                 {
-                    var detailArgs = options[1].Split('|');
-                    navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(launchArgs.Arguments);
                 }
             }
-            Credentials.Init();
+            else
+            {
+                var activationArgs = e as ToastNotificationActivatedEventArgs;
+                if (activationArgs != null)
+                {
+                    if (activationArgs.Argument.Contains(";"))
+                    {
+                        var options = activationArgs.Argument.Split(';');
+                        if (options[0] == TileActions.OpenUrl.ToString())
+                            LaunchUri(options[1]);
+                    }
+                    else
+                    {
+                        fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(activationArgs.Argument);
+                    }
+                }
+            }
+
+
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -99,10 +133,7 @@ namespace MALClient
                         await DataCache.ClearAnimeListData(); //clear all cached users data
                     }
                 }
-                if (e.PrelaunchActivated)
-                {
-                    return;
-                }
+
 
 
                 // Place the frame in the current Window
@@ -114,7 +145,12 @@ namespace MALClient
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                MainViewModel.InitDetails = navArgs;
+                if(navArgs != null)
+                    MainViewModelBase.InitDetails = navArgs;
+                else if (fullNavArgs != null)
+                {
+                    MainViewModelBase.InitDetailsFull = fullNavArgs;
+                }
                 rootFrame.Navigate(typeof(MainPage));
             }
             else if (navArgs != null)
@@ -122,8 +158,17 @@ namespace MALClient
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
             }
-            // Ensure the current window is active
 
+            if (_initialized && fullNavArgs != null)
+            {
+                ViewModelLocator.GeneralMain.Navigate(fullNavArgs.Item1, fullNavArgs.Item2);
+            }
+            // Ensure the current window is active
+            if (_initialized)
+                return;
+            Credentials.Init();
+            NotificationTaskManager.StartNotificationTask();
+            ImageCache.PerformScheduledCacheCleanup();
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();
             FavouritesManager.LoadData();
@@ -140,6 +185,8 @@ namespace MALClient
                                 ? Color.FromArgb(255, 41, 41, 41)
                                 : Colors.White;
             ProcessUpdate();
+            _initialized = true;
+
         }
 
         private async void ProcessUpdate()

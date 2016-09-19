@@ -63,7 +63,7 @@ namespace MALClient.ViewModels
                 await msg.ShowAsync();
                 return;
             }
-            Utilities.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = false;
 
@@ -75,9 +75,6 @@ namespace MALClient.ViewModels
                 index == PageIndex.PageTopManga ||
                 index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
-
-
-
 
             MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
                                                                     index == PageIndex.PageMessanging ||
@@ -159,7 +156,12 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageProfile:
                     HideSearchStuff();
-                    RefreshButtonVisibility = false;
+                    RefreshButtonVisibility = true;
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                        RefreshDataCommand =
+                            new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                    else
+                        RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
                         if (CurrentMainPage == PageIndex.PageProfile)
@@ -287,7 +289,7 @@ namespace MALClient.ViewModels
                 Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
-                if (InitDetails != null)
+                if (InitDetails != null || InitDetailsFull != null)
                     MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
             }
         }
@@ -326,5 +328,16 @@ namespace MALClient.ViewModels
             View.CurrentStatusStoryboard.Begin();
         }
 
+        public override string CurrentOffStatus
+        {
+            get { return CurrentStatus; }
+            set { CurrentStatus = value; }
+        }
+
+        public override ICommand RefreshOffDataCommand
+        {
+            get { return RefreshDataCommand; }
+            set { RefreshDataCommand = value; }
+        }
     }
 }

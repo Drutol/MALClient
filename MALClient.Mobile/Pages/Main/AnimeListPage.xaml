@@ -23,6 +23,13 @@
 
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
+            <CommandBar.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="ms-appx:///MALClient.Shared/XamlResources/FancyListFlyoutStyle.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </CommandBar.Resources>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Shuffle" Label="Select one at random" Command="{Binding SelectAtRandomCommand}"></AppBarButton>
                 <AppBarButton Icon="Refresh" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
@@ -47,21 +54,17 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton x:Name="AppBarButtonRefresh" Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <AppBarButton Visibility="{Binding MalApiSpecificControlsVisibility}" Label="Load all details" Command="{Binding LoadAllItemsDetailsCommand}"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}"/>
             <AppBarButton Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ViewsFlyout">
-                        <ListView ItemsSource="{Binding DisplayModes}"
-                                  SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Height" Value="25" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
+                        <ListView ItemsSource="{Binding DisplayModes}" Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
+                                  SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Item2}" Height="25" />
+                                    <TextBlock Text="{Binding Item2}" HorizontalAlignment="Center"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -92,8 +95,8 @@
                             </ListView>
                             <TextBlock Text="Custom season" Margin="0,5" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox ItemsSource="{Binding SeasonSeasons}" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <ComboBox ItemsSource="{Binding SeasonYears}" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonSeasons}" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" Margin="5,0" ItemsSource="{Binding SeasonYears}" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 <Button Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
                                     <SymbolIcon Symbol="Go"></SymbolIcon>
                                 </Button>
@@ -103,43 +106,78 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Sort" Label="Order by" Visibility="{Binding AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                <AppBarButton.Resources>
+                    <Style x:Key="SortBtnStyle" TargetType="ToggleMenuFlyoutItem">
+                        <Setter Property="MinHeight" Value="30"/>
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Margin" Value="-90,2,0,2"/>
+                        <Setter Property="Padding" Value="5,0"/>
+                        <Setter Property="Width" Value="150"/>
+                        <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                    </Style>
+                </AppBarButton.Resources>
                 <AppBarButton.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">
-                        <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" />
-                        <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" />
-                        <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" />
+                        <MenuFlyout.MenuFlyoutPresenterStyle>
+                            <Style TargetType="MenuFlyoutPresenter">
+                                <Setter Property="MaxWidth" Value="150"/>
+                            </Style>
+                        </MenuFlyout.MenuFlyoutPresenterStyle>
+                        <ToggleMenuFlyoutItem x:Name="SortTitle" Text="Title" Click="SelectSortMode" Style="{StaticResource SortBtnStyle}"/>
+                        <ToggleMenuFlyoutItem x:Name="SortScore" Text="Score" Click="SelectSortMode" Style="{StaticResource SortBtnStyle}"/>
+                        <ToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}" Click="SelectSortMode" Style="{StaticResource SortBtnStyle}"/>
                         <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
-                                                      Visibility="{Binding SortAirDayVisibility}" />
+                                                      Visibility="{Binding SortAirDayVisibility}" Style="{StaticResource SortBtnStyle}"/>
                         <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
                                                       Click="SelectSortMode"
-                                                      Visibility="{Binding HumApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                      Visibility="{Binding HumApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource SortBtnStyle}"/>
                         <ToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
                                                              Click="SelectSortMode"
                                                              Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                             CommandParameter="5"/>
+                                                             CommandParameter="5" Style="{StaticResource SortBtnStyle}"/>
                         <ToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
                                                              Click="SelectSortMode"
                                                              Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                             CommandParameter="6"/>
-                        <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" />
-                        <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Decsending" Click="ChangeSortOrder" />
+                                                             CommandParameter="6" Style="{StaticResource SortBtnStyle}"/>                        
+                        <ToggleMenuFlyoutItem x:Name="SortSeason" Text="Season"
+                                                             Click="SelectSortMode"
+                                                             Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                             CommandParameter="8" Style="{StaticResource SortBtnStyle}"/>
+                        <ToggleMenuFlyoutItem x:Name="SortNone" Text="None" Click="SelectSortMode" Style="{StaticResource SortBtnStyle}"/>
+                        <MenuFlyoutSeparator Margin="-90,0,0,0" Width="150"/>
+                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Descending" Click="ChangeSortOrder" Style="{StaticResource SortBtnStyle}"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FiltersFlyout">
-                        <ListView
+                        <ListView Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
                             SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             SelectionMode="Single">
+                            <ListView.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </ListView.Resources>
                             <ListView.Items>
-                                <ListViewItem Content="{Binding Filter1Label}" />
-                                <ListViewItem Content="Completed" />
-                                <ListViewItem Content="On hold" />
-                                <ListViewItem Content="Dropped" />
-                                <ListViewItem Content="{Binding Filter5Label}" />
-                                <ListViewItem Content="{Binding StatusAllLabel}" />
+                                <ListViewItem>
+                                    <TextBlock Text="{Binding Filter1Label}"/></ListViewItem>
+                                <ListViewItem>
+                                    <TextBlock Text="Completed"/>
+                                </ListViewItem>
+                                <ListViewItem>
+                                    <TextBlock Text="On hold"/>
+                                </ListViewItem>
+                                <ListViewItem>
+                                    <TextBlock Text="Dropped"/>
+                                </ListViewItem>
+                                <ListViewItem >
+                                    <TextBlock Text="{Binding Filter5Label}"/>
+                                </ListViewItem>
+                                <ListViewItem >
+                                    <TextBlock Text="{Binding StatusAllLabel}"/>
+                                </ListViewItem>
                             </ListView.Items>
                         </ListView>
                     </Flyout>
@@ -292,7 +330,7 @@
             <Button x:Name="BtnSetSource" Content="Set source" Margin="0,10,0,0" VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                    Click="ShowListSourceFlyout" />
+                    Click="ShowListSourceFlyout" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" />
         </StackPanel>
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -301,6 +339,32 @@
             <ProgressRing
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100" Height="100"
                 IsActive="True" />
+        </Grid>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{ThemeResource BrushLoadingNonTransparent}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" CornerRadius="10" Padding="10">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".7"/>
+                </Grid.Background>
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" >
+                        <TextBlock Text="Loading all items details...  "/>
+                        <TextBlock Text="{Binding LoadingItemsStatus}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="0"/>
+                        <ProgressBar Grid.Column="1"  HorizontalAlignment="Stretch" Margin="10,0" Value="{Binding ItemsLoaded}" Minimum="0" Maximum="{Binding AllItemsToLoad}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding AllItemsToLoad}"/>
+                    </Grid>
+                    <Button Style="{StaticResource TextBlockButtonStyle}" Content="Cancel" Margin="0,10" HorizontalAlignment="Center" Command="{Binding CancelLoadingAllItemsCommand}"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

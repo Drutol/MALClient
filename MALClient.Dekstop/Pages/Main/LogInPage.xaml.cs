@@ -42,14 +42,6 @@ namespace MALClient.Pages.Main
             base.OnNavigatedTo(e);
         }
 
-        private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
-        {
-            if(ViewModelLocator.LogIn.CurrentApiType == ApiType.Mal)
-                await Launcher.LaunchUriAsync(new Uri("https://hummingbird.me/sign-up"));
-            else
-                await Launcher.LaunchUriAsync(new Uri("https://myanimelist.net/register.php"));
-        }
-
         private async void ButtonProblems_OnClick(object sender, RoutedEventArgs e)
         {
             var msg =

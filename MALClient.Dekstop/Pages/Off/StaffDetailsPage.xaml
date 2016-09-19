@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:new="using:MALClient.Shared.UserControls.New"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=StaffDetails}">
 
     <Page.Resources>
@@ -30,10 +31,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Image Grid.Column="0" Stretch="Uniform" VerticalAlignment="Top" Height="250" Width="150">
-                <Image.Source>
+            <Image Grid.Column="0" Stretch="Uniform" VerticalAlignment="Top" Height="250" Width="150" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}">
+                <!--<Image.Source>
                     <BitmapImage DecodePixelWidth="150" DecodePixelHeight="250" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
-                </Image.Source>
+                </Image.Source>-->
             </Image>
             <Grid Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
                 <new:FavButton DataContext="{Binding FavouriteViewModel}"/>
@@ -103,10 +104,11 @@
                                                     </Grid.RowDefinitions>
                                                     <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                    <Image Stretch="Fill">
-                                                        <Image.Source>
+                                                    <Image Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                        <!--<Image.Source>
                                                             <BitmapImage DecodePixelType="Logical" DecodePixelHeight="210" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                                                        </Image.Source>
+                                                        </Image.Source>-->
                                                     </Image>
                                                     <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                                                         <TextBlock Text="{Binding Title}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2" FontWeight="Medium"/>
@@ -123,10 +125,11 @@
                                                     </Grid.RowDefinitions>
                                                     <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
-                                                    <Image Stretch="Fill">
-                                                        <Image.Source>
+                                                    <Image Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}" 
+                                                                                   attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+                                                        <!--<Image.Source>
                                                             <BitmapImage DecodePixelType="Logical" DecodePixelHeight="210" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                                                        </Image.Source>
+                                                        </Image.Source>-->
                                                     </Image>
                                                     <Grid Grid.Row="1" Width="133" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                                                         <Grid.RowDefinitions>
@@ -177,10 +180,10 @@
                                                     <RowDefinition Height="230"/>
                                                     <RowDefinition Height="60"/>
                                                 </Grid.RowDefinitions>
-                                                <Image Stretch="Fill">
-                                                    <Image.Source>
+                                                <Image Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}">
+                                                    <!--<Image.Source>
                                                         <BitmapImage DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
-                                                    </Image.Source>
+                                                    </Image.Source>-->
                                                 </Image>
                                                 <Grid Height="60" Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}" Padding="5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                                                     <Grid.RowDefinitions>

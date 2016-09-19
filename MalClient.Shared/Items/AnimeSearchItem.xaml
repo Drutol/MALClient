@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400" IsTabStop="False">
@@ -17,11 +18,7 @@
         </Grid.ColumnDefinitions>
         <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.Column="0" Stretch="Fill"
                HorizontalAlignment="Left" Height="Auto" MaxHeight="190"
-               Width="Auto" MaxWidth="150" Margin="1,1">
-            <Image.Source>
-                <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical" DecodePixelHeight="178" DecodePixelWidth="150"/>
-            </Image.Source>
-            </Image>
+               Width="Auto" MaxWidth="150" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}"/>
         <Button Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">
             <Button.Background>

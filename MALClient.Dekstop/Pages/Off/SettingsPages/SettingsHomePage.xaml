@@ -4,8 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <xamlConverters:SettingsSymbolToSymbolConverter x:Key="SettingsSymbolToSymbolConverter" />
+    </Page.Resources>
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -20,7 +24,7 @@
         <ItemsControl ItemsSource="{Binding SettingsPages}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding SettingsPage.RequestNavigationCommand,Source={StaticResource DesktopLocator}}"
+                    <Button Command="{Binding Settings.RequestNavigationCommand,Source={StaticResource Locator}}"
                             CommandParameter="{Binding PageType}" Background="Transparent"
                             HorizontalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Left"
                             Margin="5,6,15,6">
@@ -31,7 +35,7 @@
                             </Grid.ColumnDefinitions>
                             <SymbolIcon Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                         RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center"
-                                        VerticalAlignment="Center" Symbol="{Binding Symbol}" Margin="5,0,10,0">
+                                        VerticalAlignment="Center" Symbol="{Binding Symbol,Converter={StaticResource SettingsSymbolToSymbolConverter}}" Margin="5,0,10,0">
                                 <SymbolIcon.RenderTransform>
                                     <ScaleTransform ScaleX="1.35" ScaleY="1.35" />
                                 </SymbolIcon.RenderTransform>

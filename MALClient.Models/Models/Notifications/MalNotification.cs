@@ -86,8 +86,8 @@ namespace MALClient.Models.Models.Notifications
                 case "watched_topic_message":
                     Type = MalNotificationsTypes.WatchedTopics;
                     Header = "New reply on your watched topic!";
-                    Content = $"New reply was posted on your watched topic: \"{notification.pageTitle}\"";
-                    LaunchArgs = notification.url;
+                    Content = $"{notification.postedUserName} has posted on your watched topic: \"{notification.topicTitle}\"";
+                    LaunchArgs = notification.topicUrl;
                     IsSupported = true;
                     break;
                 case "club_mass_message_in_forum":

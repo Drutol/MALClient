@@ -44,6 +44,8 @@ namespace MALClient.Models.Models.ApiResponses
         public string friendImageUrl { get; set; }
         public string quoteUserName { get; set; }
         public string quoteUserProfileUrl { get; set; }
+        public string postedUserName { get; set; }
+        public string postedUserProfileUrl { get; set; }
         public string topicUrl { get; set; }
         public string topicTitle { get; set; }
         public string message { get; set; }

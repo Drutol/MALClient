@@ -64,15 +64,20 @@ namespace MALClient.XShared.Utils
             }
             else if (Regex.IsMatch(uri,@"https:\/\/myanimelist.net\/comtocom.php\?id1=\d+&id2=\d+\|.*"))
             {
+                var split = uri.Split('|');
+                uri = split[0];
+                var data = string.Join("", split.Skip(1));
                 return new Tuple<PageIndex, object>(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs
                 {
                     WorkMode = MessageDetailsWorkMode.ProfileComments,
-                    Arg = new MalComment { ComToCom = uri.Split('?').Last() , User = new MalUser { Name = uri.Split('|').Last()} }
+                    Arg = new MalComment { ComToCom = uri.Split('?').Last() , User = new MalUser { Name = data } }
                 });
             }
             else if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/mymessages.php\?go=read&id=\d+\|.*"))
             {
-                var msg = JsonConvert.DeserializeObject<MalMessageModel>(uri.Split('|').Last());
+                var split = uri.Split('|');
+                var data = string.Join("", split.Skip(1));
+                var msg = JsonConvert.DeserializeObject<MalMessageModel>(data);
                 return new Tuple<PageIndex, object>(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs
                 {
                     WorkMode = MessageDetailsWorkMode.Message,

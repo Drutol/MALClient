@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Shared.Managers
@@ -18,7 +19,7 @@ namespace MALClient.Shared.Managers
 
         public static async void StartNotificationTask()
         {
-            if(!Settings.EnableNotifications)
+            if(!Settings.EnableNotifications || !Credentials.Authenticated || Settings.SelectedApiType == ApiType.Hummingbird)
                 return;
 
             if(!_taskRegistered)
@@ -47,7 +48,6 @@ namespace MALClient.Shared.Managers
             };
 
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            builder.SetTrigger(new SystemTrigger(SystemTriggerType.InternetAvailable, false));
             builder.SetTrigger(new TimeTrigger((uint)Settings.NotificationsRefreshTime,false));
 
             TaskRegistration = builder.Register();

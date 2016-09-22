@@ -15,9 +15,9 @@ namespace MALClient.Shared.Managers
         private const string TaskName = "NotificationsBackgroundTask";
         private const string TaskNamespace = "MALClient.UWP.BGTaskNotifications.NotificationsBackgroundTask";
 
-        private static IBackgroundTaskRegistration TaskRegistration { get; set; }
+        private static BackgroundTaskRegistration TaskRegistration { get; set; }
 
-        public static async void StartNotificationTask()
+        public static async void StartNotificationTask(bool restart = true)
         {
             if(!Settings.EnableNotifications || !Credentials.Authenticated || Settings.SelectedApiType == ApiType.Hummingbird)
                 return;
@@ -28,10 +28,12 @@ namespace MALClient.Shared.Managers
                     if (task.Value.Name == TaskName)
                     {
                         _taskRegistered = true;
-                        TaskRegistration = task.Value;
-                        return;
+                        TaskRegistration = task.Value as BackgroundTaskRegistration;
                     }
                 }
+
+            if(_taskRegistered && !restart)
+                return;
 
             if (_taskRegistered)
                 TaskRegistration?.Unregister(true);
@@ -49,6 +51,7 @@ namespace MALClient.Shared.Managers
 
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             builder.SetTrigger(new TimeTrigger((uint)Settings.NotificationsRefreshTime,false));
+            builder.SetTrigger(new ApplicationTrigger());
 
             TaskRegistration = builder.Register();
 
@@ -61,6 +64,13 @@ namespace MALClient.Shared.Managers
             _taskRegistered = false;
             TaskRegistration.Unregister(false);
             TaskRegistration = null;
+        }
+
+        public static async void CallBackgroundTask()
+        {
+            var trigger = TaskRegistration?.Trigger as ApplicationTrigger;
+            if(trigger != null)
+                await trigger.RequestAsync();
         }
     }
 }

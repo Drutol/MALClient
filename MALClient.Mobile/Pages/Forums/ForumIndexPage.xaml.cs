@@ -67,5 +67,10 @@ namespace MALClient.Pages.Forums
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                 new ForumsTopicNavigationArgs((e.ClickedItem as ForumPostEntry).Id, ForumBoards.Creative));
         }
+
+        private void PeekPostPanelOnLoaded(object sender, RoutedEventArgs e)
+        {
+            (sender as WrapGrid).ItemWidth = ActualWidth/2.2;
+        }
     }
 }

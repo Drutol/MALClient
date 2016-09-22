@@ -138,7 +138,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Margin="3,2" HorizontalAlignment="Stretch"
+                                        <TextBox Margin="3,2" HorizontalAlignment="Stretch" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
                                                  Text="{x:Bind ViewModel.NewTagInput,Mode=TwoWay}" />
                                         <Button Grid.Column="1" Padding="0" Width="32" Height="32"
                                                 Command="{x:Bind ViewModel.AddTagCommand}">
@@ -179,7 +179,6 @@
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Delete" />
                 </Button>
-
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
                         Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
@@ -325,7 +324,7 @@
                                             HorizontalAlignment="Center"
                                             FontWeight="SemiLight" />
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBox x:Name="TxtBoxWatchedEps"
+                                            <TextBox x:Name="TxtBoxWatchedEps" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
                                                      Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                      KeyDown="SubmitWatchedEps" InputScope="TelephoneNumber" />
                                             <Button Command="{Binding ChangeWatchedCommand}"
@@ -355,7 +354,7 @@
                                         <TextBlock Text="Read volumes:" HorizontalAlignment="Center"
                                                    FontWeight="SemiLight" />
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBox x:Name="TxtReadVolumes"
+                                            <TextBox x:Name="TxtReadVolumes" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
                                                      Text="{Binding ReadVolumesInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                      KeyDown="SubmitReadVolumes" />
                                             <Button Command="{Binding ChangeVolumesCommand}"

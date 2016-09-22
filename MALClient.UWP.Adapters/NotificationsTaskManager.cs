@@ -19,5 +19,10 @@ namespace MALClient.UWP.Adapters
         {
             NotificationTaskManager.StopNotificationTask();
         }
+
+        public void CallTask()
+        {
+            NotificationTaskManager.CallBackgroundTask();
+        }
     }
 }

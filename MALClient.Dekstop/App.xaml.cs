@@ -167,7 +167,7 @@ namespace MALClient
             if (_initialized)
                 return;
             Credentials.Init();
-            NotificationTaskManager.StartNotificationTask();
+            NotificationTaskManager.StartNotificationTask(false);
             ImageCache.PerformScheduledCacheCleanup();
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();

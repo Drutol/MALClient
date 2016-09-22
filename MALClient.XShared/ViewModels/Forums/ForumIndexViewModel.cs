@@ -7,6 +7,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Forums
@@ -118,6 +119,8 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public async void Init(bool force = false)
         {        
+            if(!Settings.PullPeekPostsOnStartup && !force)
+                return;
             if(_loading || (_loaded && !force))
                 return;
             LoadingSideContentVisibility = true;

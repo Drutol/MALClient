@@ -69,6 +69,15 @@
                     <ComboBoxItem Content="2 hours" Tag="{StaticResource Int120}"/>
                 </ComboBox.Items>
             </ComboBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                <Button Content="Get notifications now!" Margin="5,0"  IsEnabled="{Binding IsCallNotificationsButtonEnabled}" Command="{Binding CallBackgroundTaskCommand}"/>
+                <Button Content="Clear seen notifications" Margin="5,0" Command="{Binding ResetSeenNotificationsCommand}"/>
+            </StackPanel>
+          
+            <TextBlock
+                    Text="I'm not entirely sure when task fetching notifications will trigger and these values are just hint for the system so &quot;2 hours&quot; may be much longer than in reality. Setting MALClient as lockscreen app may also help in case of missing notifications. Such is the way of getting them directly from html :)"
+                    FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" TextAlignment="Center"
+                    HorizontalAlignment="Center" Margin="5" /> 
         </StackPanel>
     </ScrollViewer>
 </Page>

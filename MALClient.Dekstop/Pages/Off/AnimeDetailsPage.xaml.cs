@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,6 +116,22 @@ namespace MALClient.Pages.Off
         private void WatchedEpsButton_OnClick(object sender, RoutedEventArgs e)
         {
             WatchedEpsFlyout.Hide();
+        }
+
+        private TypeInfo _typeInfo;
+        //why? beacuse MSFT Bugged this after anniversary update
+        private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+                var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, true);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
         }
     }
 }

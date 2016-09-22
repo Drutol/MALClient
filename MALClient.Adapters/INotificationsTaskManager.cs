@@ -10,5 +10,6 @@ namespace MALClient.Adapters
     {
         void StartTask();
         void StopTask();
+        void CallTask();
     }
 }

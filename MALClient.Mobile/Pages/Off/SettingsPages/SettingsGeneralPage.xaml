@@ -100,6 +100,15 @@
                                             IsOn="{Binding MangaFocusVolumes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              OnContent="Focus volumes" OffContent="Focus chapters" HorizontalAlignment="Center" />
                     </Grid>
+                    <TextBlock Text="Load latest forum posts for board in forum index."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding PullPeekPostsOnStartup,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Load" OffContent="Skip" HorizontalAlignment="Center" />
+                    </Grid>
                     <TextBlock Text="When choosing at random ensure winner to be selected."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"

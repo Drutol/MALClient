@@ -542,6 +542,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["ForumsPinnedBoards"] = value; }
         }
 
+        public static bool PullPeekPostsOnStartup
+        {
+            get { return (bool) (ApplicationDataService[nameof(PullPeekPostsOnStartup)] ?? true); }
+            set { ApplicationDataService[nameof(PullPeekPostsOnStartup)] = value; }
+        }
+
 
 
         #endregion
@@ -566,13 +572,13 @@ namespace MALClient.XShared.Utils
                      MalNotificationsTypes.FriendRequestAcceptDeny | MalNotificationsTypes.NewRelatedAnime |
                      MalNotificationsTypes.ProfileComment | MalNotificationsTypes.UserMentions |
                      MalNotificationsTypes.WatchedTopics | MalNotificationsTypes.NowAiring);
-            }
+            } 
             set { ApplicationDataService[nameof(EnabledNotificationTypes)] = (int)value; }
         }
 
         public static int NotificationsRefreshTime
         {
-            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 30); }
+            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 15); }
             set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
         }
         #endregion

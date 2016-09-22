@@ -182,6 +182,8 @@ namespace MALClient.Pages.Forums
             }
             if (args.Uri.ToString().Contains(_baseUri.ToString()))
                 return;
+            if(Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist.net\/forum\/index.php\?topic_id=\d+&action=message"))
+                return;
             if (_lastpost && args.Uri.ToString().Contains("&show="))
                 return;
             try
@@ -190,94 +192,11 @@ namespace MALClient.Pages.Forums
                 {
                     var uri = args.Uri.AbsoluteUri;
                     args.Cancel = true;
-                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?subboard=\d+"))
-                    {
-                        var id = uri.Split('=').Last();
-                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                        if (id == "1")
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoards.AnimeSeriesDisc));
-                        else if (id == "4")
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoards.MangaSeriesDisc));
-                        return;
-                    }
-                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?board=\d+"))
-                    {
-                        ForumBoards board;
-                        if (ForumBoards.TryParse(uri.Split('=').Last(), out board))
-                        {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(board));
-                        }
-                        return;
-                    }
-                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?animeid=\d+"))
-                    {
-                        int id;
-                        if (int.TryParse(uri.Split('=').Last(), out id))
-                        {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id, "Anime Series Board", true));
-                        }
-                        return;
-                    }
-                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?mangaid=\d+"))
-                    {
-                        int id;
-                        if (int.TryParse(uri.Split('=').Last(), out id))
-                        {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id, "Manga Series Board", false));
-                        }
-                        return;
-                    }
-                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist\.net\/forum\/message\/\d+\?goto=topic"))
-                    {
-                        args.Cancel = false;
-                        return;
-                    }
-                    if (Regex.IsMatch(uri, @"http:\/\/myanimelist.net\/forum\/\?topicid=\d+"))
-                    {
-                        var id = uri.Split('=').Last();
-                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative));
-                        return;
-                    }
-                    if (uri == "https://myanimelist.net/forum/")
+                    var navArgs =  await MalLinkParser.GetNavigationParametersForUrl(uri);
+                    if (navArgs != null)
                     {
                         ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-                        return;
-                    }
-                    var paramIndex = uri.IndexOf('?');
-                    if (paramIndex != -1)
-                        uri = uri.Substring(0, paramIndex);
-                    if (Regex.IsMatch(uri, "anime\\/\\d") ||
-                        (Settings.SelectedApiType != ApiType.Hummingbird && Regex.IsMatch(uri, "manga\\/\\d")))
-                    {
-                        var link = uri.Substring(8).Split('/');
-                        if (link[3] == "")
-                        {
-                            if (Settings.ArticlesLaunchExternalLinks)
-                            {
-                                await Launcher.LaunchUriAsync(args.Uri);
-                            }
-                            return;
-                        }
-                        var id = int.Parse(link[2]);
-                        if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
-                            id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(id, link[3], null, null,_args)
-                            {
-                                AnimeMode = link[1] == "anime",
-                                Source = PageIndex.PageForumIndex
-                                
-                            });
-                    }
-                    else if (uri.Contains("/profile/"))
-                    {
-                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = uri.Split('/').Last() });
+                        ViewModelLocator.GeneralMain.Navigate(navArgs.Item1,navArgs.Item2);
                     }
                     else if (Settings.ArticlesLaunchExternalLinks)
                     {

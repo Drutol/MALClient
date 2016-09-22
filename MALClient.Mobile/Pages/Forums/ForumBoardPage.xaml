@@ -8,17 +8,18 @@
     xmlns:uwp="using:FontAwesome.UWP"
     xmlns:userControls="using:MALClient.Shared.UserControls"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:derived="using:MALClient.Shared.UserControls.Derived"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsBoard}">
 
     <Page.Resources>
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
                 <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                    <DrillInNavigationTransitionInfo/>
+                    <DrillInNavigationTransitionInfo />
                 </NavigationThemeTransition.DefaultNavigationTransitionInfo>
             </NavigationThemeTransition>
         </TransitionCollection>
@@ -26,144 +27,173 @@
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
-            <TextBlock Grid.Column="1" Text="{Binding Title}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
+            <uwp:FontAwesome Icon="{Binding Icon}" FontSize="28" Margin="10,0" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{Binding Title}" TextTrimming="CharacterEllipsis"
+                       HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center"
+                       Margin="0,5" />
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PageNavigationControlsVisibility}">
-            <ItemsControl  ItemsSource="{Binding AvailablePages}" >
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsStackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Margin="2,0" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.LoadPageCommand}"
-                            CommandParameter="{Binding Item1}" Padding="0">
-                            <Grid Width="20" Height="25">
-                                <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="20" Height="25"
-                                  Visibility="{Binding Item2,Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                <TextBlock Text="{Binding Item1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Grid>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Button Margin="2,0">
-                <Button.Flyout>
-                    <Flyout x:Name="GotoPageFlyout">
-                        <StackPanel>
-                            <TextBlock Text="Go to page" HorizontalAlignment="Center"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBox x:Name="GotoPageTextBox" Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="GotoInputOnKeyDown"/>
-                                <Button Margin="5,0" Click="GotoAcceptButtonOnClick" Command="{Binding LoadGotoPageCommand}">
-                                    <SymbolIcon Symbol="Accept"/>
-                                </Button>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="New topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
+                        Background="{ThemeResource BrushDeepBackground}"
+                        Visibility="{Binding NewTopicButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+                <Button Content="Search" Visibility="{Binding SearchButtonVisibility}"
+                        Background="{ThemeResource BrushDeepBackground}"
+                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <Button.Flyout>
+                        <Flyout x:Name="FlyoutSearch">
+                            <StackPanel>
+                                <TextBlock Text="Search query" HorizontalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBox x:Name="SearchTextBox"
+                                             Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             KeyDown="SearchQueryOnKeyDown" Margin="5,0" />
+                                    <Button Command="{Binding SearchCommand}" Click="SearchQueryButtonOnClick">
+                                        <SymbolIcon Symbol="Accept" />
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
-                            <Grid Margin="0,4" HorizontalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Button Content="First" Margin="0,0,5,0" Command="{Binding GotoFirstPageCommand}"/>
-                                <Button Grid.Column="1" Content="Last" Command="{Binding GotoLastPageCommand}"/>
-                            </Grid>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-                <SymbolIcon Symbol="Go" Height="25" Width="35"/>
-            </Button>
-        </StackPanel>
-        <StackPanel  Grid.Row="2" Orientation="Horizontal">
-            <Button Content="Create new topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
-                Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility}"
-                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>
-            <Button Content="Search" Visibility="{Binding SearchButtonVisibility}"
-                Background="{ThemeResource BrushDeepBackground}"
-                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                <Button.Flyout>
-                    <Flyout x:Name="FlyoutSearch">
-                        <StackPanel>
-                            <TextBlock Text="Search query" HorizontalAlignment="Center"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBox x:Name="SearchTextBox" Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SearchQueryOnKeyDown" Margin="5,0"/>
-                                <Button Command="{Binding SearchCommand}" Click="SearchQueryButtonOnClick">
-                                    <SymbolIcon Symbol="Accept"/>
-                                </Button>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Visibility="{Binding PageNavigationControlsVisibility}">
+                <ItemsControl ItemsSource="{Binding AvailablePages}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Margin="2,0"
+                                    Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.LoadPageCommand}"
+                                    CommandParameter="{Binding Item1}" Padding="0">
+                                <Grid Width="20" Height="25">
+                                    <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="20"
+                                          Height="25"
+                                          Visibility="{Binding Item2,Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding Item1}" HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Margin="2,0">
+                    <Button.Flyout>
+                        <Flyout x:Name="GotoPageFlyout">
+                            <StackPanel>
+                                <TextBlock Text="Go to page" HorizontalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4">
+                                    <TextBox x:Name="GotoPageTextBox"
+                                             Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             KeyDown="GotoInputOnKeyDown" />
+                                    <Button Margin="5,0" Click="GotoAcceptButtonOnClick"
+                                            Command="{Binding LoadGotoPageCommand}">
+                                        <SymbolIcon Symbol="Accept" />
+                                    </Button>
+                                </StackPanel>
+                                <Grid Margin="0,4" HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="First" Margin="0,0,5,0" Command="{Binding GotoFirstPageCommand}" />
+                                    <Button Grid.Column="1" Content="Last" Command="{Binding GotoLastPageCommand}" />
+                                </Grid>
                             </StackPanel>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </StackPanel>
-        <userControls:AlternatingListView Grid.Row="3" ItemsSource="{Binding Topics}" 
+                        </Flyout>
+                    </Button.Flyout>
+                    <SymbolIcon Symbol="Go" Height="25" Width="35" />
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+        <userControls:AlternatingListView Grid.Row="2" ItemsSource="{Binding Topics}"
                                           ItemClick="TopicOnClick" IsItemClickEnabled="True"
                                           IsRightTapEnabled="True" RightTapped="TopicOnRightClick">
             <ListView.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".8*"/>
-                        <ColumnDefinition Width=".2*"/>
-                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width=".8*" />
+                        <ColumnDefinition Width=".2*" />
+                        <ColumnDefinition Width="150" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Topic" HorizontalAlignment="Stretch"  Margin="0,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
-                    <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
-                    <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch"  Margin="-3,0,0,3" TextAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Text="Topic" HorizontalAlignment="Stretch" Margin="0,0,0,3" TextAlignment="Center"
+                               FontWeight="Bold" />
+                    <TextBlock Grid.Column="1" Text="Replies" HorizontalAlignment="Stretch" Margin="-3,0,0,3"
+                               TextAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Grid.Column="2" Text="Last Post" HorizontalAlignment="Stretch" Margin="-3,0,0,3"
+                               TextAlignment="Center" FontWeight="Bold" />
                 </Grid>
             </ListView.Header>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Margin" Value="0,3"/>
-                    <Setter Property="BorderThickness" Value="2.5,0,0,0"/>
-                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0,3" />
+                    <Setter Property="BorderThickness" Value="2.5,0,0,0" />
+                    <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Holding="TopicOnRightClick">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width=".8*"/>
-                            <ColumnDefinition Width=".2*"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width=".8*" />
+                            <ColumnDefinition Width=".2*" />
+                            <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
-                        <uwp:FontAwesome Margin="0,0,3,0" Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <uwp:FontAwesome Margin="0,0,3,0" Icon="{Binding FontAwesomeIcon}" HorizontalAlignment="Left"
+                                         Grid.Column="0" />
                         <StackPanel Grid.Column="1">
-                            <TextBlock Margin="0,4" Text="{Binding Data.Title}" FontSize="18" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
+                            <TextBlock Margin="0,4" Text="{Binding Data.Title}" FontSize="18"
+                                       TextWrapping="WrapWholeWords" HorizontalAlignment="Left" />
                             <StackPanel Margin="0,3" Orientation="Horizontal">
-                                <TextBlock Text="{Binding Data.Op}" FontWeight="Medium"/>
-                                <TextBlock Text="{Binding Data.Created}" Margin="5,0" FontWeight="SemiLight"/>
+                                <TextBlock Text="{Binding Data.Op}" FontWeight="Medium" />
+                                <TextBlock Text="{Binding Data.Created}" Margin="5,0" FontWeight="SemiLight" />
                             </StackPanel>
                         </StackPanel>
-                        <TextBlock Grid.Column="2" Text="{Binding Data.Replies}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Button Grid.Column="3" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center" Padding="0"
-                                Style="{StaticResource TextBlockButtonStyle}" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.GotoLastPostCommand}"
+                        <TextBlock Grid.Column="2" Text="{Binding Data.Replies}" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Grid.Column="3" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center"
+                                Padding="0"
+                                Style="{StaticResource TextBlockButtonStyle}"
+                                Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.GotoLastPostCommand}"
                                 CommandParameter="{Binding}" Foreground="{ThemeResource BrushText}">
-                            <StackPanel BorderThickness="0,0,-20,1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" >
-                                <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium"/>
-                                <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center" FontWeight="SemiLight" MaxLines="2" TextWrapping="WrapWholeWords"/>
+                            <StackPanel BorderThickness="0,0,-20,1"
+                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium" />
+                                <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center"
+                                           FontWeight="SemiLight" MaxLines="2" TextWrapping="WrapWholeWords" />
                             </StackPanel>
                         </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </userControls:AlternatingListView>
-        <TextBlock Grid.Row="3" Visibility="{Binding EmptyNoticeVisibility}"
-                       Text="No data received from MAL... :("
-                       TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
-                       VerticalAlignment="Center" Foreground="#FFB9B9B9" />
-        <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <TextBlock Grid.Row="2" Visibility="{Binding EmptyNoticeVisibility}"
+                   Text="No data received from MAL... :("
+                   TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" Foreground="#FFB9B9B9" />
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopics}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing

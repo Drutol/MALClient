@@ -427,6 +427,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.EnableImageCache = value; }
         }
 
+        public  bool PullPeekPostsOnStartup
+        {
+            get { return Settings.PullPeekPostsOnStartup; }
+            set { Settings.PullPeekPostsOnStartup = value; }
+        }
+
         public  bool MangaFocusVolumes
         {
             get { return Settings.MangaFocusVolumes; }
@@ -498,13 +504,47 @@ namespace MALClient.XShared.ViewModels
         public abstract void LoadCachedEntries();
 
         #region Notifications
-        protected ICommand _setNotificationsRefreshTime;
+        private ICommand _SetNotificationsRefreshTimeCommand;
 
-        public ICommand SetNotificationsRefreshTime
+        public ICommand SetNotificationsRefreshTimeCommand
             =>
-            _setNotificationsRefreshTime ??
-            (_setNotificationsRefreshTime = new RelayCommand<int>(i => NotificationsRefreshTime = i));
+            _SetNotificationsRefreshTimeCommand ??
+            (_SetNotificationsRefreshTimeCommand = new RelayCommand<int>(i => NotificationsRefreshTime = i));
 
+        private ICommand _callBackgroundTaskCommand;
+
+        public ICommand CallBackgroundTaskCommand
+            =>
+            _callBackgroundTaskCommand ??
+            (_callBackgroundTaskCommand = new RelayCommand(async () =>
+            {
+                ResourceLocator.NotificationsTaskManager.CallTask();
+                IsCallNotificationsButtonEnabled = false;
+                await Task.Delay(60000);
+                IsCallNotificationsButtonEnabled = true;
+            }));
+
+        private ICommand _resetSeenNotificationsCommand;
+
+        public ICommand ResetSeenNotificationsCommand
+            =>
+            _resetSeenNotificationsCommand ??
+            (_resetSeenNotificationsCommand = new RelayCommand(() =>
+            {
+                ResourceLocator.ApplicationDataService["TriggeredNotifications"] = string.Empty;
+            }));
+
+        private bool _isCallNotificationsButtonEnabled = true;
+
+        public bool IsCallNotificationsButtonEnabled
+        {
+            get { return _isCallNotificationsButtonEnabled; }
+            set
+            {
+                _isCallNotificationsButtonEnabled = value;
+                RaisePropertyChanged(() => IsCallNotificationsButtonEnabled);
+            }
+        }
 
         public bool EnableNotifications
         {
@@ -535,6 +575,7 @@ namespace MALClient.XShared.ViewModels
                 ResourceLocator.NotificationsTaskManager.StartTask();
             }
         }
+
 
         #endregion
 

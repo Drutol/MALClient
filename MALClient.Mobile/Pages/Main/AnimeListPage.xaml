@@ -286,11 +286,11 @@
         </ListView>
         <GridView x:Name="AnimesGridIndefinite" ItemsSource="{Binding AnimeGridItems}"
                   SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
-                  ShowsScrollingPlaceholders="False"
+                  ShowsScrollingPlaceholders="False" 
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="GridViewWrapPanel" Orientation="Horizontal" ItemHeight="320" ItemWidth="{Binding MaxWidth}"/>
+                    <ItemsWrapGrid x:Name="GridViewWrapPanel" CacheLength="8" Orientation="Horizontal" ItemHeight="320" ItemWidth="{Binding MaxWidth}"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>

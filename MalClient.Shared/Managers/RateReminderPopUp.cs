@@ -56,21 +56,22 @@ namespace MALClient.Shared.Managers
             Settings.DonatePopUpStartupCounter++;
             if (Settings.DonatePopUpStartupCounter <= DonateLaunchThresholdValue)
                 return;
-            Settings.DonatePopUpStartupCounter = 0;
-            var consumables = await CurrentApp.GetUnfulfilledConsumablesAsync();
-            if(consumables.Count > 0)
-            {
-                Settings.Donated = true;
-                return; //user has already donated
-            }
-            var msg =
-                new MessageDialog(
-                    "Did you consider making a donation?\nI've devoted hundreds of hours worth of time so I would be grateful for a little tip if you don't mind :)",
-                    "You seem to use this app quite a bit!");
-            msg.Commands.Add(new UICommand("Okay..."));
-            msg.CancelCommandIndex = 1;
             try
             {
+                Settings.DonatePopUpStartupCounter = 0;
+                var consumables = await CurrentApp.GetUnfulfilledConsumablesAsync();
+                if (consumables.Count > 0)
+                {
+                    Settings.Donated = true;
+                    return; //user has already donated
+                }
+                var msg =
+                    new MessageDialog(
+                        "Did you consider making a donation?\nI've devoted hundreds of hours worth of time so I would be grateful for a little tip if you don't mind :)",
+                        "You seem to use this app quite a bit!");
+                msg.Commands.Add(new UICommand("Okay..."));
+                msg.CancelCommandIndex = 1;
+
                 await msg.ShowAsync();
             }
             catch (Exception)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -27,7 +28,10 @@ namespace MALClient.XShared.ViewModels.Forums
         {
             Entry.PeekPosts = posts;
             RaisePropertyChanged(() => Entry);
+            RaisePropertyChanged(() => ArePeekPostsAvailable);
         }
+
+        public bool ArePeekPostsAvailable => Entry.PeekPosts?.Any() ?? false;
 
         public ICommand AddToFavouritesCommand
             => new RelayCommand<ForumBoards>(board => ViewModelLocator.ForumsMain.AddFavouriteBoard(board));

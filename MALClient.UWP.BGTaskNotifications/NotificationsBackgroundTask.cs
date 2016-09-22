@@ -22,7 +22,7 @@ namespace MALClient.UWP.BGTaskNotifications
     public sealed class NotificationsBackgroundTask : IBackgroundTask
     {
         private BackgroundTaskDeferral Defferal { get; set; }
-        private readonly SemaphoreSlim ToastSemaphore = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _toastSemaphore = new SemaphoreSlim(1);
         private const string Logo = "ms-appx:///Assets/BadgeLogo.scale-400.png";
 
         private int _waitCount = 0;
@@ -110,10 +110,10 @@ namespace MALClient.UWP.BGTaskNotifications
         {
             _waitCount++;
             var toastContent = BuildToast(notification);
-            await ToastSemaphore.WaitAsync();
+            await _toastSemaphore.WaitAsync();
             ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(toastContent.GetXml()));
             await Task.Delay(500);
-            ToastSemaphore.Release();
+            _toastSemaphore.Release();
             _waitCount--;
             if(_waitCount == 0)
                 Defferal.Complete();

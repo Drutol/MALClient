@@ -1,6 +1,7 @@
 using Foundation;
 using System;
 using UIKit;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.iOS
 {
@@ -9,6 +10,8 @@ namespace MALClient.iOS
         public ImageViewController (IntPtr handle) : base (handle)
         {
         }
+
+
 
 		public override void ViewDidLoad()
 		{
@@ -20,6 +23,12 @@ namespace MALClient.iOS
 
 			image.Image = image2;
 
+
+			ResourceLocator.PasswordVaultProvider.Reset();
+
+			ResourceLocator.PasswordVaultProvider.Add(new Models.AdapterModels.VaultCredential("AaA", "BbB", "CcC"));
+
+			var x = ResourceLocator.PasswordVaultProvider.Get("AaA");
 		}
     }
 }

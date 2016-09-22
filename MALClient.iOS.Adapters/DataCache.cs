@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace MALClient.iOS.Adapters
 {
+	//I think it should work ... probably
 	public class DataCache : IDataCache
 	{
 		static bool CheckForOldData(DateTime date, int days = 7)
@@ -32,8 +33,40 @@ namespace MALClient.iOS.Adapters
 
 		public Task ClearApiRelatedCache()
 		{
-			return Task.Delay(10);
-			//throw new NotImplementedException();
+			return Task.Run(() =>
+			{
+				var targetFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+				var file = Path.Combine(targetFolder, "mal_to_hum.json");
+				try
+				{
+					File.Delete(file);
+				}
+				catch (Exception)
+				{
+					//
+				}
+				file = Path.Combine(targetFolder, "volatile_data.json");
+				try
+				{
+					File.Delete(file);
+				}
+				catch (Exception)
+				{
+					//
+				}
+
+				ClearAnimeListData();
+
+				var directory = Path.Combine(targetFolder, "AnimeDetails");
+				try
+				{
+					Directory.Delete(directory, true);
+				}
+				catch (Exception)
+				{
+					//
+				}
+			});
 		}
 
 		public Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
@@ -66,7 +99,8 @@ namespace MALClient.iOS.Adapters
 			return Task.Run(() =>
 			{
 				var specialFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-				var file = Path.Combine(specialFolder, targetFolder, filename);
+
+				var file = Path.Combine(specialFolder, string.IsNullOrEmpty(targetFolder) ? string.Empty : targetFolder, filename);
 
 				var json = JsonConvert.SerializeObject(new Tuple<DateTime,T>(DateTime.UtcNow,data));
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" customClass="AnimeListCollectionViewCell" id="cZE-iV-UFb" reuseIdentifier="AnimeListCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="36" translatesAutoresizingMaskIntoConstraints="NO">
+                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="53" translatesAutoresizingMaskIntoConstraints="NO">
+                        <rect key="frame" x="4" y="14" width="42" height="21"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="329" y="268"/>
+            <connections>
+                <outlet property="AnimeCoverImageView" destination="36" id="name-outlet-36"/>
+                <outlet property="TitleLabel" destination="53" id="name-outlet-53"/>
+            </connections>
+            <constraints>
+                <constraint id="37" firstItem="36" firstAttribute="top" secondItem="cZE-iV-UFb" secondAttribute="top"/>
+                <constraint id="38" firstItem="36" firstAttribute="leading" secondItem="cZE-iV-UFb" secondAttribute="leading"/>
+                <constraint id="39" firstItem="cZE-iV-UFb" firstAttribute="trailing" secondItem="36" secondAttribute="trailing"/>
+                <constraint id="40" firstItem="cZE-iV-UFb" firstAttribute="bottom" secondItem="36" secondAttribute="bottom"/>
+                <constraint id="54" firstItem="53" firstAttribute="centerY" secondItem="36" secondAttribute="centerY"/>
+                <constraint id="55" firstItem="53" firstAttribute="centerX" secondItem="36" secondAttribute="centerX"/>
+            </constraints>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="MALIcon" width="240" height="41"/>
+        <image name="HummingbirdIcon" width="240" height="50"/>
+        <image name="Anime" width="596" height="993"/>
+    </resources>
+</document>

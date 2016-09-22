@@ -124,10 +124,13 @@
     <Folder Include="Assets.xcassets\MALIcon.imageset\" />
     <Folder Include="Assets.xcassets\HummingbirdIcon.imageset\" />
     <Folder Include="Assets.xcassets\Anime.imageset\" />
+    <Folder Include="Custom Controls\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Custom Controls\AnimeListCollectionViewCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -150,9 +153,26 @@
     <Compile Include="HummingbirdViewController.designer.cs">
       <DependentUpon>HummingbirdViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogInnViewController.cs" />
-    <Compile Include="LogInnViewController.designer.cs">
+    <Compile Include="Custom Controls\AnimeListCollectionViewCell.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionViewCell.designer.cs">
+      <DependentUpon>AnimeListCollectionViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\AnimeListCollectionView.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionView.designer.cs">
+      <DependentUpon>AnimeListCollectionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\LogInnViewController.cs" />
+    <Compile Include="Controllers\LogInnViewController.designer.cs">
       <DependentUpon>LogInnViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AnimeListCollectionViewController.cs" />
+    <Compile Include="Controllers\AnimeListCollectionViewController.designer.cs">
+      <DependentUpon>AnimeListCollectionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\AnimeListCollectionViewSource.cs" />
+    <Compile Include="ImageViewController.cs" />
+    <Compile Include="ImageViewController.designer.cs">
+      <DependentUpon>ImageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

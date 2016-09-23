@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using MALClient.Models.Enums;
+using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Shared.Managers
@@ -15,11 +16,14 @@ namespace MALClient.Shared.Managers
         private const string TaskName = "NotificationsBackgroundTask";
         private const string TaskNamespace = "MALClient.UWP.BGTaskNotifications.NotificationsBackgroundTask";
 
+        public static event EmptyEventHander OnNotificationTaskRequested;
+
         private static BackgroundTaskRegistration TaskRegistration { get; set; }
+
 
         public static async void StartNotificationTask(bool restart = true)
         {
-            if(!Settings.EnableNotifications || !Credentials.Authenticated || Settings.SelectedApiType == ApiType.Hummingbird)
+             if(!Settings.EnableNotifications || !Credentials.Authenticated || Settings.SelectedApiType == ApiType.Hummingbird)
                 return;
 
             if(!_taskRegistered)
@@ -51,7 +55,7 @@ namespace MALClient.Shared.Managers
 
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             builder.SetTrigger(new TimeTrigger((uint)Settings.NotificationsRefreshTime,false));
-            builder.SetTrigger(new ApplicationTrigger());
+            //builder.SetTrigger(new ApplicationTrigger());
 
             TaskRegistration = builder.Register();
 
@@ -66,11 +70,9 @@ namespace MALClient.Shared.Managers
             TaskRegistration = null;
         }
 
-        public static async void CallBackgroundTask()
+        public static void CallBackgroundTask()
         {
-            var trigger = TaskRegistration?.Trigger as ApplicationTrigger;
-            if(trigger != null)
-                await trigger.RequestAsync();
+            OnNotificationTaskRequested?.Invoke();
         }
     }
 }

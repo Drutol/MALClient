@@ -40,7 +40,7 @@ namespace MALClient.Pages.Forums
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            ViewModel.Init(_args);
+            this.ViewModel.Init(_args);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

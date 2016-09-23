@@ -26,6 +26,26 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchNewPostPanel.Orientation" Value="Vertical"/>
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="390"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchNewPostPanel.Orientation" Value="Horizontal"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -46,7 +66,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel x:Name="SearchNewPostPanel" Orientation="Horizontal">
                 <Button Content="New topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
                         Background="{ThemeResource BrushDeepBackground}"
                         Visibility="{Binding NewTopicButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -178,7 +198,7 @@
                                 Style="{StaticResource TextBlockButtonStyle}"
                                 Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.GotoLastPostCommand}"
                                 CommandParameter="{Binding}" Foreground="{ThemeResource BrushText}">
-                            <StackPanel BorderThickness="0,0,-20,1"
+                            <StackPanel BorderThickness="0,0,0,1"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                                 <TextBlock Text="{Binding Data.LastPoster}" TextAlignment="Center" FontWeight="Medium" />
                                 <TextBlock Text="{Binding Data.LastPostDate}" TextAlignment="Center"

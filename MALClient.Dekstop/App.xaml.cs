@@ -17,6 +17,7 @@ using MALClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Shared.Managers;
 using MALClient.Utils.Managers;
+using MALClient.UWP.BGTaskNotifications;
 using MALClient.ViewModels;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.CommUtils;
@@ -168,6 +169,7 @@ namespace MALClient
                 return;
             Credentials.Init();
             NotificationTaskManager.StartNotificationTask(false);
+            NotificationTaskManager.OnNotificationTaskRequested += NotificationTaskManagerOnOnNotificationTaskRequested;
             ImageCache.PerformScheduledCacheCleanup();
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();
@@ -187,6 +189,11 @@ namespace MALClient
             ProcessUpdate();
             _initialized = true;
 
+        }
+
+        private void NotificationTaskManagerOnOnNotificationTaskRequested()
+        {
+            new NotificationsBackgroundTask().Run(null);
         }
 
         private async void ProcessUpdate()

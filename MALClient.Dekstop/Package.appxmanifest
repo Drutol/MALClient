@@ -27,7 +27,6 @@
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskNotifications.NotificationsBackgroundTask">
           <BackgroundTasks>
-            <Task Type="general" />
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>

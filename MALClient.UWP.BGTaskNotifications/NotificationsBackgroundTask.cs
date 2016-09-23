@@ -30,20 +30,23 @@ namespace MALClient.UWP.BGTaskNotifications
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
 
-            Defferal = taskInstance.GetDeferral();
+            Defferal = taskInstance?.GetDeferral();
 
-            var details = taskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-            if (details != null)
+            //var details = taskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
+            //if (details != null)
+            //{
+            //    await Launcher.LaunchUriAsync(new Uri(details.Argument));
+            //    Defferal.Complete();
+            //    return;
+            //}
+
+            if (taskInstance != null) //we are already running -> started on demand
             {
-                await Launcher.LaunchUriAsync(new Uri(details.Argument));
-                Defferal.Complete();
-                return;
+                ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
+                ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
+                ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
+                Credentials.Init();
             }
-
-            ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
-            ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
-            ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
-            Credentials.Init();
 
             List<MalNotification> notifications = new List<MalNotification>();
 
@@ -116,7 +119,7 @@ namespace MALClient.UWP.BGTaskNotifications
             _toastSemaphore.Release();
             _waitCount--;
             if(_waitCount == 0)
-                Defferal.Complete();
+                Defferal?.Complete();
         }
 
         private ToastContent BuildToast(MalNotification notification)

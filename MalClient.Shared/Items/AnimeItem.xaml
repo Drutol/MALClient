@@ -14,7 +14,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <xamlConverters:AnimeItemAirDayBoolToBrushConverter x:Key="AnimeItemAirDayBoolToBrushConverter" />

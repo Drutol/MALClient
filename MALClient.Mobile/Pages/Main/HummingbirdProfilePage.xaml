@@ -20,7 +20,6 @@
     </Page.Transitions>
     <Page.Resources>
         <ResourceDictionary>
-            <xamlConverters:UrlToBitmapImageConverter x:Key="BitmapImageConverter" />
             <xamlConverters:MinutesToFormattedTimeLostConverter x:Key="FormattedTimeLostConverter" />
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
@@ -35,8 +34,12 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image Source="{Binding CurrentData.cover_image,Converter={StaticResource BitmapImageConverter}}"
-                       Stretch="Fill" />
+                <Image
+                       Stretch="Fill" >
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding CurrentData.cover_image}"/>
+                    </Image.Source>
+                </Image>
                 <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10">
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".5" />
@@ -47,13 +50,17 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Image Margin="10,0,0,0"
-                           Source="{Binding CurrentData.avatar,Converter={StaticResource BitmapImageConverter}}"
-                           Height="90" Width="90" />
+                           
+                           Height="90" Width="90" >
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding CurrentData.avatar}"/>
+                        </Image.Source>
+                    </Image>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontWeight="Medium" FontSize="25" Foreground="White"
                                        Text="{Binding CurrentData.name}" Margin="5" />
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                         Visibility="{Binding CurrentData.waifu,Converter={StaticResource BoolToVisibilityConverter}}"
                                         Margin="5">
                                 <TextBlock Text="{Binding CurrentData.waifu_or_husbando}" FontWeight="Medium"
@@ -180,9 +187,12 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <Image Width="120" Height="Auto" MaxHeight="250" Margin="5"
-                                               VerticalAlignment="Center"
-                                               Source="{Binding media.cover_image,Converter={StaticResource BitmapImageConverter}}" />
-                                        <Grid Grid.Column="1">
+                                               VerticalAlignment="Center" >
+                                            <Image.Source>
+                                                <BitmapImage UriSource="{Binding media.cover_image}"/>
+                                            </Image.Source>
+                                        </Image>
+                                            <Grid Grid.Column="1">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="*" />
@@ -252,7 +262,11 @@
                                             </Grid.ColumnDefinitions>
                                             <Image Width="70" Margin="5" HorizontalAlignment="Center"
                                                    VerticalAlignment="Top" Height="Auto" Stretch="Fill"
-                                                   Source="{Binding poster.avatar_small,Converter={StaticResource BitmapImageConverter}}" />
+                                                  >
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{Binding poster.avatar_small}"/>
+                                                </Image.Source>
+                                            </Image>
                                             <Grid Grid.Column="1">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />

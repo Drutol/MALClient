@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using MALClient.Models.Enums;
 using MALClient.Shared.Managers;
 using MALClient.XShared.Utils;
 
@@ -37,7 +38,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         {
             var img = d as Image;
             var source = e.NewValue as string;
-            if (Settings.PullHigherQualityImages && !GetForceStandardImage(d))
+            if (Settings.PullHigherQualityImages && Settings.SelectedApiType != ApiType.Hummingbird && !GetForceStandardImage(d))
             {
                 var pos = source.IndexOf(".jpg");
                 if (pos != -1)

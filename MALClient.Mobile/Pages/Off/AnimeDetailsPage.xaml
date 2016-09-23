@@ -17,7 +17,6 @@
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <xamlConverters:UrlToBitmapImageConverter x:Key="UrlToBitmapImageConverter" />
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
         <xamlConverters:StringToFlatStringConverter x:Key="StringToFlatStringConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
@@ -1150,9 +1149,13 @@
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <Image
                                                                             controlsExt:ImageExtensions.FadeInOnLoaded="True"
-                                                                            Source="{Binding AuthorAvatar,Converter={StaticResource UrlToBitmapImageConverter}}"
+                                                                            
                                                                             Width="Auto" Height="Auto" MaxHeight="35"
-                                                                            HorizontalAlignment="Center" />
+                                                                            HorizontalAlignment="Center" >
+                                                                            <Image.Source>
+                                                                                <BitmapImage UriSource="{Binding AuthorAvatar}"/>
+                                                                            </Image.Source>
+                                                                        </Image>
                                                                         <StackPanel Orientation="Vertical" Margin="5,0">
                                                                             <TextBlock Text="{Binding Author}"
                                                                                        FontSize="17"
@@ -1273,10 +1276,14 @@
                                                                     <Grid>
                                                                         <Image
                                                                             controlsExt:ImageExtensions.FadeInOnLoaded="True"
-                                                                            Source="{Binding ImageUrl,Converter={StaticResource UrlToBitmapImageConverter}}"
+                                                                          
                                                                             Width="Auto" VerticalAlignment="Stretch"
                                                                             HorizontalAlignment="Left"
-                                                                            Stretch="Uniform" />
+                                                                            Stretch="Uniform" >
+                                                                            <Image.Source>
+                                                                                <BitmapImage UriSource="{Binding ImageUrl}"/>
+                                                                            </Image.Source>
+                                                                        </Image>
                                                                         <Grid VerticalAlignment="Bottom"
                                                                               HorizontalAlignment="Left" Width="30"
                                                                               Height="30">

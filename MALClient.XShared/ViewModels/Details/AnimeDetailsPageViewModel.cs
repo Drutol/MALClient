@@ -2015,7 +2015,7 @@ namespace MALClient.XShared.ViewModels.Details
             LoadCharactersButtonVisibility = false;
             if (AnimeMode)
             {
-                AnimeStaffData = new AnimeStaffDataViewModels(await new AnimeCharactersStaffQuery(Id, AnimeMode).GetCharStaffData(force));
+                AnimeStaffData = new AnimeStaffDataViewModels(await new AnimeCharactersStaffQuery(MalId, AnimeMode).GetCharStaffData(force));
                 CharactersGridVisibility = true;
             }
             else //broken for now -> malformed html

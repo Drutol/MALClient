@@ -209,7 +209,6 @@
     <Compile Include="XamlConverters\SearchFilterStatusToBrushConverter.cs" />
     <Compile Include="XamlConverters\SettingsSymbolToSymbolConverter.cs" />
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
-    <Compile Include="XamlConverters\UrlToBitmapImageConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
     <Compile Include="XamlConverters\WorkModeToPivotFilterVisibility.cs" />
     <EmbeddedResource Include="Properties\MalClient.Shared.rd.xml" />

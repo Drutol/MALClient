@@ -550,7 +550,7 @@ namespace MALClient.XShared.Utils
             {
                 result = new Dictionary<int, int>();
             }
-            AnimeDetailsHummingbirdQuery.MalToHumId = result;
+            AnimeDetailsHummingbirdQuery.MalToHumId = result ?? new Dictionary<int, int>();
         }
 
         #endregion

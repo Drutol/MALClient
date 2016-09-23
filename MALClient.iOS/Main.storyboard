@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="36">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="421">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
     </dependencies>
@@ -227,45 +227,6 @@
             </objects>
             <point key="canvasLocation" x="634" y="207"/>
         </scene>
-        <scene sceneID="339">
-            <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="340" sceneMemberID="viewController" customClass="AnimeListCollectionViewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="341" customClass="AnimeListCollectionView">
-                        <rect key="frame" x="0.0" y="0.0" width="640" height="960"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="345">
-                            <size key="itemSize" width="135" height="150"/>
-                            <size key="headerReferenceSize" width="0" height="20"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="375" customClass="AnimeListCollectionViewCell" reuseIdentifier="AnimeListCollectionViewCell">
-                                <rect key="frame" x="0.0" y="20" width="135" height="150"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="20" width="135" height="150"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="340" id="342"/>
-                            <outlet property="delegate" destination="340" id="343"/>
-                        </connections>
-                        <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                    </collectionView>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="640" height="960"/>
-                    <connections>
-                        <outlet property="AnimeListCollectionView" destination="341" id="name-outlet-341"/>
-                    </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="346" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-211" y="1212"/>
-        </scene>
         <scene sceneID="383">
             <objects>
                 <viewController id="384" sceneMemberID="viewController" customClass="ImageViewController">
@@ -298,6 +259,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="386" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="521" y="1237"/>
+        </scene>
+        <scene sceneID="420">
+            <objects>
+                <viewController id="421" sceneMemberID="viewController" customClass="AnimeListCollectionVieController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="418"/>
+                        <viewControllerLayoutGuide type="bottom" id="419"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="422">
+                        <rect key="frame" x="0.0" y="0.0" width="640" height="960"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="425" translatesAutoresizingMaskIntoConstraints="NO" customClass="AnimeListCollectionView">
+                                <rect key="frame" x="0.0" y="20" width="640" height="940"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="10" id="427">
+                                    <size key="itemSize" width="130" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="426" customClass="AnimeListCollectionViewCell" reuseIdentifier="AnimeListCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="130" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="130" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                            </collectionView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="434" firstItem="425" firstAttribute="top" secondItem="418" secondAttribute="bottom"/>
+                            <constraint id="435" firstItem="419" firstAttribute="top" secondItem="425" secondAttribute="bottom"/>
+                            <constraint id="436" firstItem="425" firstAttribute="leading" secondItem="422" secondAttribute="leading"/>
+                            <constraint id="437" firstItem="422" firstAttribute="trailing" secondItem="425" secondAttribute="trailing"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="640" height="960"/>
+                    <connections>
+                        <outlet property="AnimeListCollectionView" destination="425" id="name-outlet-425"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="423" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1293" y="1193"/>
         </scene>
     </scenes>
     <resources>

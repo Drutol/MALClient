@@ -56,7 +56,9 @@ namespace MALClient.XShared.ViewModels.Main
 
         private bool _wasPreviousQuery;
 
-        public bool CanAddScrollHandler;
+		public List<AnimeItemAbstraction> AnimeItemsSet { get { return _animeItemsSet; } }
+       
+		public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
 
         public IDimensionsProvider DimensionsProvider { get; set; }
@@ -592,24 +594,28 @@ namespace MALClient.XShared.ViewModels.Main
             var minimumIndex = CurrentIndexPosition == -1
                 ? minItems
                 : CurrentIndexPosition + 1 <= minItems ? minItems : CurrentIndexPosition + 1;
-            switch (DisplayMode)
-            {
-                case AnimeListDisplayModes.IndefiniteCompactList:
-                    AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
-                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-                    break;
-                case AnimeListDisplayModes.IndefiniteList:
-                    AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
-                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-                    break;
-                case AnimeListDisplayModes.IndefiniteGrid:
-                    AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex)
-                        .Select(abstraction => abstraction.ViewModel));
-                    _animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+
+			#if __IOS__
+			switch (DisplayMode)
+			{
+				case AnimeListDisplayModes.IndefiniteCompactList:
+					AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
+					_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
+					break;
+				case AnimeListDisplayModes.IndefiniteList:
+					AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
+					_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
+					break;
+				case AnimeListDisplayModes.IndefiniteGrid:
+					AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex)
+						.Select(abstraction => abstraction.ViewModel));
+					_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			#endif
+
             RaisePropertyChanged(() => AnimeItems);
             AddScrollHandler();
             if (CurrentIndexPosition != -1)
@@ -655,9 +661,9 @@ namespace MALClient.XShared.ViewModels.Main
 
         }
 
-        #endregion
+#endregion
 
-        #region CacheManip
+#region CacheManip
 
         public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
         {
@@ -691,9 +697,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        #endregion
+#endregion
 
-        #region IndefiniteScrollerino
+#region IndefiniteScrollerino
 
         private int _lastOffset;
 
@@ -770,9 +776,9 @@ namespace MALClient.XShared.ViewModels.Main
             ScrollToTopRequest?.Invoke();
         }
 
-        #endregion
+#endregion
 
-        #region FetchAndPopulate
+#region FetchAndPopulate
 
         /// <summary>
         ///     Fetches seasonal data and top manga/anime.
@@ -1063,9 +1069,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        #endregion
+#endregion
 
-        #region PropertyPairs
+#region PropertyPairs
 
         private string _listSource;
 
@@ -1553,9 +1559,9 @@ namespace MALClient.XShared.ViewModels.Main
 
         public double MaxWidth => (_maxWidth ?? (_maxWidth = AnimeItemViewModel.MaxWidth)).Value;
 
-        #endregion
+#endregion
 
-        #region StatusRelatedStuff
+#region StatusRelatedStuff
 
         private void UpdateUpperStatus()
         {
@@ -1633,9 +1639,9 @@ namespace MALClient.XShared.ViewModels.Main
             Initializing = false;
         }
 
-        #endregion
+#endregion
 
-        #region LogInOut
+#region LogInOut
 
         //TODO : Refactor
         public void LogOut()
@@ -1667,9 +1673,9 @@ namespace MALClient.XShared.ViewModels.Main
             _prevListSource = "";
         }
 
-        #endregion
+#endregion
 
-        #region AllItemLoading
+#region AllItemLoading
 
         private bool _loadingAllDetailsVisibility;
         private int _allItemsToLoad;
@@ -1788,7 +1794,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        #endregion
+#endregion
 
 
     }

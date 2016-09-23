@@ -126,6 +126,7 @@
     <Folder Include="Assets.xcassets\Anime.imageset\" />
     <Folder Include="Custom Controls\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -165,15 +166,16 @@
     <Compile Include="Controllers\LogInnViewController.designer.cs">
       <DependentUpon>LogInnViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AnimeListCollectionViewController.cs" />
-    <Compile Include="Controllers\AnimeListCollectionViewController.designer.cs">
-      <DependentUpon>AnimeListCollectionViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Custom Controls\AnimeListCollectionViewSource.cs" />
     <Compile Include="ImageViewController.cs" />
     <Compile Include="ImageViewController.designer.cs">
       <DependentUpon>ImageViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AnimeListCollectionVieController.cs" />
+    <Compile Include="Controllers\AnimeListCollectionVieController.designer.cs">
+      <DependentUpon>AnimeListCollectionVieController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\AnimeImageDownloaderHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">

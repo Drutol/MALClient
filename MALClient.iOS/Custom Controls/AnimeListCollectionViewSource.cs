@@ -12,7 +12,7 @@ namespace MALClient.iOS
 
 		public AnimeListCollectionViewSource(List<AnimeItemAbstraction> allLoadedAnimeItemAbstractions)
 		{
-			this._allLoadedAnimeItemAbstractions = allLoadedAnimeItemAbstractions;
+			_allLoadedAnimeItemAbstractions = allLoadedAnimeItemAbstractions;
 		}
 
 		public override UICollectionViewCell GetCell(UICollectionView collectionView, Foundation.NSIndexPath indexPath)

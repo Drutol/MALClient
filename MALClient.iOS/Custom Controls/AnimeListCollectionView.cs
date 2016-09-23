@@ -20,9 +20,24 @@ namespace MALClient.iOS
 			set
 			{
 				Source = new AnimeListCollectionViewSource(value);
-				ReloadData();
+
+				List<string> urls = new List<string>();
+				foreach (var item in value)
+				{
+					urls.Add(item.ImgUrl);
+				}
+				AnimeImageDownloaderHelper.LoadImages(urls.ToArray());
+				AnimeImageDownloaderHelper.OnImagesLoaded -= AnimeImageDownloaderHelper_OnImagesLoaded;
+				AnimeImageDownloaderHelper.OnImagesLoaded += AnimeImageDownloaderHelper_OnImagesLoaded; 
 				_allLoadedAnimeItemAbstractions = value;
 			}
 		}
-    }
+
+		//Problem with loading
+		void AnimeImageDownloaderHelper_OnImagesLoaded(object sender, EventArgs e)
+		{
+			InvokeOnMainThread(() => ReloadData());
+		}
+
+	}
 }

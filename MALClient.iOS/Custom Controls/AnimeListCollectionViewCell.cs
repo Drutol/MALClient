@@ -35,7 +35,8 @@ namespace MALClient.iOS
 
 			TitleLabel.Text = AnimeItemAbstraction.ViewModel.Title;
 
-			await LoadImage(AnimeItemAbstraction.ViewModel.ImgUrl);
+			if (AnimeImageDownloaderHelper.ImageDictionary.ContainsKey(AnimeItemAbstraction.ViewModel.ImgUrl))
+				AnimeCoverImageView.Image = AnimeImageDownloaderHelper.ImageDictionary[AnimeItemAbstraction.ViewModel.ImgUrl];
 		}
 
 		public Task LoadImage(string imageUrl)

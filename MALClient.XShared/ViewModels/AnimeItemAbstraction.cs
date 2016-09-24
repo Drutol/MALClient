@@ -32,10 +32,15 @@ namespace MALClient.XShared.ViewModels
                 if(value <= 0)
                     return;
                 VolatileData.DayOfAiring = value;
+                DataCache.UpdateVolatileDataAirDay(Id,value);
             }
         }
 
-        public string AirStartDate => VolatileData.AirStartDate;
+        public string AirStartDate
+        {
+            get { return VolatileData.AirStartDate; }
+            set { VolatileData.AirStartDate = value; }
+        }
 
         public float GlobalScore
         {

@@ -134,15 +134,13 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource BrushLoadingNonTransparent}"
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonTransparent}"
               Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center"
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center"
                          Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}" />
-            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
+                <TextBlock  HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

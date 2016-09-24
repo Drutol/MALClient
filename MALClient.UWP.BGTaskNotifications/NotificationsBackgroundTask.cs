@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
+using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
 using MALClient.UWP.Adapters;
@@ -83,7 +84,7 @@ namespace MALClient.UWP.BGTaskNotifications
                 }
             }
 
-            var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values["TriggeredNotifications"] ?? string.Empty);
+            var allTriggeredNotifications = (string)(ApplicationData.Current.RoamingSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
 
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
@@ -106,7 +107,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     presentNotifications.Add(triggeredNotification);
             }
 
-            ApplicationData.Current.LocalSettings.Values["TriggeredNotifications"] = string.Join(";",presentNotifications);
+            ApplicationData.Current.RoamingSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",presentNotifications);
         }
 
         private async void ScheduleToast(MalNotification notification)

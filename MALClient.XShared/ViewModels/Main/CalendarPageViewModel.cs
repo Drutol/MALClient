@@ -232,6 +232,8 @@ namespace MALClient.XShared.ViewModels.Main
                                    string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
                                 ? (int) DateTime.Parse(data.StartDate).DayOfWeek + 1
                                 : -1;
+                            if (day == -1)
+                                abstraction.AirDay = -1;
                         }
                         catch (Exception)
                         {
@@ -249,6 +251,7 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             abstraction.AirDay = day;
                             abstraction.GlobalScore = data.GlobalScore;
+                            abstraction.AirStartDate = data.StartDate;
                             abstraction.ViewModel.UpdateVolatileData();
                             abstraction.LoadedVolatile = true;
                             day--;

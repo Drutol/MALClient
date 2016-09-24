@@ -270,6 +270,14 @@ namespace MALClient.XShared.Utils
             }
         }
 
+        public static void UpdateVolatileDataAirDay(int id, int day)
+        {
+            if (_volatileDataCache.ContainsKey(id))
+            {
+                _volatileDataCache[id].DayOfAiring = day;
+            }
+        }
+
         public static void RegisterVolatileDataAiringTimeFetchFailure(int id)
         {
             if (_volatileDataCache.ContainsKey(id))

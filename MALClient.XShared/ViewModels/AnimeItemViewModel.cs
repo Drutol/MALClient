@@ -868,14 +868,25 @@ namespace MALClient.XShared.ViewModels
         public string GetTimeTillNextAir(TimeZoneInfo zoneInfo)
         {
 
-            if (ParentAbstraction.ExactAiringTime != null)
+            if (ParentAbstraction.ExactAiringTime != null && Airing)
             {
+                if (ParentAbstraction.AirStartDate == InvalidStartEndDate)
+                    return "";
+                
                 DateTime jst = TimeZoneInfo.ConvertTime(DateTime.Now, zoneInfo);
                 DateTime jstTarget = TimeZoneInfo.ConvertTime(DateTime.Today, zoneInfo);
                 var time = ParentAbstraction.ExactAiringTime;
                 var dayDiff = (7 +((int)time.DayOfWeek - (int)jst.DayOfWeek)) % 7;
                 jstTarget = jstTarget.AddDays(dayDiff);
                 jstTarget = jstTarget.Add(time.Time);
+
+                //make sure that it's after start date
+                DateTime date;
+                if (!DateTime.TryParse(ParentAbstraction.AirStartDate, out date))
+                    return "";
+                if (jstTarget < date)
+                    return "";
+
                 var diff = jstTarget - jst;
                 if (diff.TotalDays > 1)
                     return $"{diff.Days}d {diff.Hours}h {diff.Minutes}m";

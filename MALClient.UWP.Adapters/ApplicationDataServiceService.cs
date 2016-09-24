@@ -16,5 +16,11 @@ namespace MALClient.UWP.Adapters
             get { return ApplicationData.Current.LocalSettings.Values[key]; }
             set { ApplicationData.Current.LocalSettings.Values[key] = value; }
         }
+
+        public object this[RoamingDataTypes key]
+        {
+            get { return ApplicationData.Current.RoamingSettings.Values[key.ToString()]; }
+            set { ApplicationData.Current.RoamingSettings.Values[key.ToString()] = value; }
+        }
     }
 }

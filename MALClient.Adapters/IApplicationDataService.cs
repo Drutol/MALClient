@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace MALClient.Adapters
 {
+    public enum RoamingDataTypes
+    {
+        ReadNotifications
+    }
+
     public interface IApplicationDataService
     {
         object this[string key] { get; set; }
+
+        object this[RoamingDataTypes key] { get; set; }
     }
 }

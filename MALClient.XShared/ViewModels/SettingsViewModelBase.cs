@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Misc;
@@ -537,7 +538,7 @@ namespace MALClient.XShared.ViewModels
             _resetSeenNotificationsCommand ??
             (_resetSeenNotificationsCommand = new RelayCommand(() =>
             {
-                ResourceLocator.ApplicationDataService["TriggeredNotifications"] = string.Empty;
+                ResourceLocator.ApplicationDataService[RoamingDataTypes.ReadNotifications] = string.Empty;
             }));
 
         private bool _isCallNotificationsButtonEnabled = true;

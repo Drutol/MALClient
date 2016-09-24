@@ -26,5 +26,6 @@ namespace MALClient.Models.Models.Library
         public int Type { get; set; }
         public DateTime LastWatched { get; set; } = DateTime.MinValue;
         public string Notes { get; set; }
+        public bool IsRewatching { get; set; }
     }
 }

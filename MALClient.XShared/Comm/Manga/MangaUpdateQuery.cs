@@ -10,16 +10,36 @@ namespace MALClient.XShared.Comm.Manga
     {
         public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
 
+        /// <summary>
+        /// Just send rewatched value witch cannot be retrieved back
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="rewatched"></param>
+        public MangaUpdateQuery(IAnimeData item, int rewatched)
+        {
+            var xml = new StringBuilder();
+            xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            xml.AppendLine("<entry>");
+            xml.AppendLine($"<times_reread>{rewatched}</times_reread>");
+            xml.AppendLine("</entry>");
+
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/mangalist/update/{item.Id}.xml?data={xml}"));
+            Request.Credentials = Credentials.GetHttpCreditentials();
+            Request.ContentType = "application/x-www-form-urlencoded";
+            Request.Method = "GET";
+        }
+
         public MangaUpdateQuery(IAnimeData item)
             : this(
                 item.Id, item.MyEpisodes, item.MyStatus, (int) item.MyScore, item.MyVolumes, item.StartDate,
-                item.EndDate,item.Notes)
+                item.EndDate,item.Notes,item.IsRewatching)
         {
         }
 
 
         private MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
-            string endDate,string notes)
+            string endDate,string notes,bool rereading)
         {
             UpdatedSomething = true;
             if (startDate != null)
@@ -47,7 +67,7 @@ namespace MALClient.XShared.Comm.Manga
             if(endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
-            //xml.AppendLine("<enable_rewatching></enable_rewatching>");
+            xml.AppendLine($"<enable_rewatching>{rereading}</enable_rewatching>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
             xml.AppendLine($"<tags>{notes}</tags>");

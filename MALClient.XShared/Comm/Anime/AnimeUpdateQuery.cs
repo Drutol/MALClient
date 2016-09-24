@@ -18,8 +18,29 @@ namespace MALClient.XShared.Comm.Anime
         public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
         private static SemaphoreSlim _updateSemaphore = new SemaphoreSlim(1);
 
+        /// <summary>
+        /// Just send rewatched value witch cannot be retrieved back
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="rewatched"></param>
+        public AnimeUpdateQuery(IAnimeData item, int rewatched)
+        {
+            var xml = new StringBuilder();
+            xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            xml.AppendLine("<entry>");
+            xml.AppendLine($"<times_rewatched>{rewatched}</times_rewatched>");
+            xml.AppendLine("</entry>");
+
+
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/animelist/update/{item.Id}.xml?data={xml}"));
+            Request.Credentials = Credentials.GetHttpCreditentials();
+            Request.ContentType = "application/x-www-form-urlencoded";
+            Request.Method = "GET";
+        }
+
         public AnimeUpdateQuery(IAnimeData item)
-            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes)
+            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes,item.IsRewatching)
         {
             try
             {
@@ -33,13 +54,13 @@ namespace MALClient.XShared.Comm.Anime
         }
 
 
-        private AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore, string startDate, string endDate, string notes)
+        private AnimeUpdateQuery(int id, int watchedEps, int myStatus, float myScore, string startDate, string endDate, string notes,bool rewatching)
         {
             UpdatedSomething = true;
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    UpdateAnimeMal(id, watchedEps, myStatus, (int)myScore, startDate, endDate, notes);
+                    UpdateAnimeMal(id, watchedEps, myStatus, (int)myScore, startDate, endDate, notes,rewatching);
                     break;
                 case ApiType.Hummingbird:
                     UpdateAnimeHummingbird(id, watchedEps, myStatus, myScore, startDate, endDate);
@@ -58,7 +79,7 @@ namespace MALClient.XShared.Comm.Anime
             return result;
         }
 
-        private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate, string notes)
+        private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate, string notes,bool rewatching)
         {
             if (startDate != null)
             {
@@ -85,7 +106,7 @@ namespace MALClient.XShared.Comm.Anime
             if (endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
-            //xml.AppendLine("<enable_rewatching></enable_rewatching>");
+            xml.AppendLine($"<enable_rewatching>{rewatching}</enable_rewatching>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
             xml.AppendLine($"<tags>{notes}</tags>");

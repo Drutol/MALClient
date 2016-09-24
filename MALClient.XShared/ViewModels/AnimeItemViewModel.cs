@@ -281,6 +281,12 @@ namespace MALClient.XShared.ViewModels
              }
          }
 
+        public bool IsRewatching
+        {
+            get { return ParentAbstraction.IsRewatching; }
+            set { ParentAbstraction.IsRewatching = value; }
+        }
+
         public string EndDate
         {
             get { return ParentAbstraction.MyEndDate; }
@@ -417,8 +423,8 @@ namespace MALClient.XShared.ViewModels
                     : ((MangaType) ParentAbstraction.Type).ToString();
 
 
-        public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime);
-        public string MyStatusBindShort => Utilities.StatusToShortString(MyStatus, !ParentAbstraction.RepresentsAnime);
+        public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
+        public string MyStatusBindShort => Utilities.StatusToShortString(MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
 
         public int MyStatus
         {

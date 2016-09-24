@@ -374,7 +374,7 @@ namespace MALClient.XShared.ViewModels.Main
                 _prevQuery = query;
             _animeItemsSet.Clear();
 
-            items = items.Where(item => status == 7 || item.MyStatus == status);
+            items = items.Where(item => status == 7 || item.MyStatus == status || (item.IsRewatching && status == 1));
 
             if(!queryCondition)
                 _prevAnimeStatus = status;

@@ -101,6 +101,17 @@ namespace MALClient.XShared.ViewModels
         public int Id => EntryData?.Id ?? _seasonalData.Id;
         public int MalId => EntryData?.MalId ?? _seasonalData.Id;
         public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData.ImgUrl;
+
+        public bool IsRewatching
+        {
+            get { return EntryData?.IsRewatching ?? false; }
+            set
+            {
+                if (EntryData != null)
+                    EntryData.IsRewatching = true;
+            }
+        }
+
         public int AllEpisodes
         {
             get { return EntryData?.AllEpisodes ?? _seasonalAllEps; }

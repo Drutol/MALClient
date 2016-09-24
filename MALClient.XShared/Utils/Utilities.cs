@@ -18,14 +18,16 @@ namespace MALClient.XShared.Utils
     {
         private static readonly string[] SizeSuffixes = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
-        public static string StatusToString(int status, bool manga = false)
+        public static string StatusToString(int status, bool manga = false, bool rewatch = false)
         {
             switch (status)
             {
                 case 1:
                     return manga ? "Reading" : "Watching";
                 case 2:
-                    return "Completed";
+                    if (!rewatch)
+                        return "Completed";
+                    return manga ? "Rereading" : "Rewatching";                     
                 case 3:
                     return "On hold";
                 case 4:
@@ -41,14 +43,14 @@ namespace MALClient.XShared.Utils
             }
         }
 
-        public static string StatusToShortString(int status, bool manga = false)
+        public static string StatusToShortString(int status, bool manga = false,bool rewatch = false)
         {
             switch (status)
             {
                 case 1:
                     return manga ? "R" : "W";
                 case 2:
-                    return "C";
+                    return rewatch ? "Re" : "C";
                 case 3:
                     return "H";
                 case 4:

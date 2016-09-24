@@ -26,6 +26,7 @@ namespace MALClient.XShared.ViewModels
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string Notes { get; set; }
+        public bool IsRewatching { get; set; }
         public int MyVolumes { get; set; }
         public int AllVolumes { get; set; }
         public string Title { get; set; }

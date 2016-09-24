@@ -187,6 +187,7 @@ namespace MALClient
                                 ? Color.FromArgb(255, 41, 41, 41)
                                 : Colors.White;
             ProcessUpdate();
+            StoreLogoWorkaroundHacker.Hack();
             _initialized = true;
 
         }

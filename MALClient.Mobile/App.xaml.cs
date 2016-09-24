@@ -181,7 +181,7 @@ namespace MALClient
             ViewModelLocator.ForumsMain.LoadPinnedTopics();
             ProcessStatusBar();
             ProcessUpdate();
-
+            StoreLogoWorkaroundHacker.Hack();
             _initialized = true;
         }
 

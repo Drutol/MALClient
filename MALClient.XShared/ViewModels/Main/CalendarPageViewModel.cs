@@ -160,6 +160,7 @@ namespace MALClient.XShared.ViewModels.Main
             InitPages();
             _initialized = true;
             List<AnimeItemAbstraction> idsToFetch = new List<AnimeItemAbstraction>();
+            List<AnimeItemAbstraction> idsToFetchAiringTime = new List<AnimeItemAbstraction>();
 
             foreach (
                 var abstraction in
@@ -185,10 +186,21 @@ namespace MALClient.XShared.ViewModels.Main
                         }
                         if (day >= 0 && day <= 7)
                             CalendarData[day].Items.Add(abstraction.ViewModel);
+                        if (Settings.CalendarPullExactAiringTime && abstraction.VolatileData.ExactAiringTime == null)
+                        {
+                            if (abstraction.VolatileData.LastFailedAiringTimeFetchAttempt != null)
+                            {
+                                if((DateTime.UtcNow - abstraction.VolatileData.LastFailedAiringTimeFetchAttempt.Value).TotalDays < 1)
+                                    continue;
+                            }
+                            idsToFetchAiringTime.Add(abstraction);
+                        }
                     }
                     else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
                     {
                         idsToFetch.Add(abstraction);
+                        if(Settings.CalendarPullExactAiringTime)
+                            idsToFetchAiringTime.Add(abstraction);
                     }
                 }
                 catch (Exception e)
@@ -198,11 +210,11 @@ namespace MALClient.XShared.ViewModels.Main
                 }
 
             }
-            if (idsToFetch.Count > 0)
+            if (idsToFetch.Count > 0 || idsToFetchAiringTime.Count > 0)
             {
-
+                ProgressValue = 0;
                 CalendarBuildingVisibility = true;
-                MaxProgressValue = idsToFetch.Count;
+                MaxProgressValue = idsToFetch.Count + idsToFetchAiringTime.Count;
                 foreach (var abstraction in idsToFetch)
                 {
                     try
@@ -238,6 +250,7 @@ namespace MALClient.XShared.ViewModels.Main
                             abstraction.AirDay = day;
                             abstraction.GlobalScore = data.GlobalScore;
                             abstraction.ViewModel.UpdateVolatileData();
+                            abstraction.LoadedVolatile = true;
                             day--;
                             if (Settings.AirDayOffset != 0)
                             {
@@ -257,6 +270,22 @@ namespace MALClient.XShared.ViewModels.Main
                     {
                         //searching for crash source
                     }
+                }
+                foreach (var animeItemAbstraction in idsToFetchAiringTime)
+                {
+                    var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId,true).GetDetails(false);
+
+                    var time = data.ExtractAiringTime();
+                    if (time != null)
+                    {
+                        DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id,time);
+                        animeItemAbstraction.VolatileData.ExactAiringTime = time;
+                    }
+                    else
+                    {
+                        DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
+                    }
+                    ProgressValue++;
                 }
             }
 

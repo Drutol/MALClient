@@ -8,6 +8,7 @@ using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.Models.Models.MalSpecific;
+using MALClient.Models.Models.Misc;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -24,6 +25,8 @@ namespace MALClient.XShared.Utils
     {
         public float GlobalScore { get; set; }
         public int DayOfAiring { get; set; }
+        public ExactAiringTimeData ExactAiringTime { get; set; }
+        public DateTime? LastFailedAiringTimeFetchAttempt { get; set; }
         public List<string> Genres { get; set; }
         public string AirStartDate { get; set; }
     }
@@ -256,6 +259,23 @@ namespace MALClient.XShared.Utils
             }
             else
                 _volatileDataCache[id] = data;
+        }
+
+        public static void UpdateVolatileDataWithExactDate(int id, ExactAiringTimeData data)
+        {
+            if (_volatileDataCache.ContainsKey(id))
+            {
+                _volatileDataCache[id].ExactAiringTime = data;
+                _volatileDataCache[id].LastFailedAiringTimeFetchAttempt = null;
+            }
+        }
+
+        public static void RegisterVolatileDataAiringTimeFetchFailure(int id)
+        {
+            if (_volatileDataCache.ContainsKey(id))
+            {
+                _volatileDataCache[id].LastFailedAiringTimeFetchAttempt = DateTime.UtcNow;
+            }
         }
 
         public static bool TryRetrieveDataForId(int id, out VolatileDataCache data)

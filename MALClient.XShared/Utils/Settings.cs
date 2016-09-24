@@ -501,6 +501,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["CalendarRemoveEmptyDays"] = value; }
         }
 
+        public static bool CalendarPullExactAiringTime
+        {
+            get { return (bool) (ApplicationDataService[nameof(CalendarPullExactAiringTime)] ?? true); }
+            set { ApplicationDataService[nameof(CalendarPullExactAiringTime)] = value; }
+        }
+
         #endregion
 
         #region Articles

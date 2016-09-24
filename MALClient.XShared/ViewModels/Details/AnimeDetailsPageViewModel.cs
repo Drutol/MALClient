@@ -1873,6 +1873,25 @@ namespace MALClient.XShared.ViewModels.Details
                     continue;
                 infoString = infoString.Replace(", add some", "");
                 var parts = infoString.Split(':');
+
+                if (parts[0] == "Broadcast" && parts[1] != "Unknown")
+                {
+                    var vm = _animeItemReference as AnimeItemViewModel;
+                    if (vm != null)
+                    {
+                        if (vm.ParentAbstraction.LoadedVolatile)
+                        {
+                            var time = data.ExtractAiringTime();
+                            if (time != null)
+                            {
+                                DataCache.UpdateVolatileDataWithExactDate(Id, time);
+                                vm.ParentAbstraction.ExactAiringTime = time;
+                            }
+                            else
+                                DataCache.RegisterVolatileDataAiringTimeFetchFailure(Id);
+                        }
+                    }
+                }
                 Information.Add(new Tuple<string, string>(parts[0],string.Join(":",parts.Skip(1))));
             }
 
@@ -1918,7 +1937,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
             foreach (var rev in revs)
                 Reviews.Add(rev);
-            NoReviewsDataNoticeVisibility = Reviews.Count > 0 ? false : true;
+            NoReviewsDataNoticeVisibility = Reviews.Count <= 0;
             LoadingReviews = false;
         }
 
@@ -1943,7 +1962,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
             foreach (var item in recomm)
                 Recommendations.Add(item);
-            NoRecommDataNoticeVisibility = Recommendations.Count > 0 ? false : true;
+            NoRecommDataNoticeVisibility = Recommendations.Count <= 0;
             LoadingRecommendations = false;
         }
 
@@ -1964,7 +1983,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
             foreach (var item in related)
                 RelatedAnime.Add(item);
-            NoRelatedDataNoticeVisibility = RelatedAnime.Count > 0 ? false : true;
+            NoRelatedDataNoticeVisibility = RelatedAnime.Count <= 0;
             LoadingRelated = false;
         }
 

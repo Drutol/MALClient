@@ -379,6 +379,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.CalendarSwitchMonSun = !value; }
         }
 
+        public  bool CalendarPullExactAiringTime
+        {
+            get { return Settings.CalendarPullExactAiringTime; }
+            set { Settings.CalendarPullExactAiringTime = value; }
+        }
+
         public  bool EnableSwipeToIncDec
         {
             get { return Settings.EnableSwipeToIncDec; }

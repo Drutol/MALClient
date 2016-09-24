@@ -865,6 +865,26 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public string GetTimeTillNextAir(TimeZoneInfo zoneInfo)
+        {
+
+            if (ParentAbstraction.ExactAiringTime != null)
+            {
+                DateTime jst = TimeZoneInfo.ConvertTime(DateTime.Now, zoneInfo);
+                DateTime jstTarget = TimeZoneInfo.ConvertTime(DateTime.Today, zoneInfo);
+                var time = ParentAbstraction.ExactAiringTime;
+                var dayDiff = (7 +((int)time.DayOfWeek - (int)jst.DayOfWeek)) % 7;
+                jstTarget = jstTarget.AddDays(dayDiff);
+                jstTarget = jstTarget.Add(time.Time);
+                var diff = jstTarget - jst;
+                if (diff.TotalDays > 1)
+                    return $"{diff.Days}d {diff.Hours}h {diff.Minutes}m";
+                return $"{diff.Hours}h {diff.Minutes}m";
+            }
+            return "";
+
+        }
+
         #endregion
 
         #region Utils/Helpers

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
+using MALClient.Models.Models.Misc;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
@@ -25,22 +26,28 @@ namespace MALClient.XShared.ViewModels
 
         public int AirDay
         {
-            get { return _airDay; }
+            get { return VolatileData.DayOfAiring; }
             set
             {
                 if(value <= 0)
                     return;
-                _airDay = value;
+                VolatileData.DayOfAiring = value;
             }
         }
 
-        public string AirStartDate;
-        public float GlobalScore;
+        public string AirStartDate => VolatileData.AirStartDate;
+
+        public float GlobalScore
+        {
+            get { return VolatileData.GlobalScore; }
+            set { VolatileData.GlobalScore = value; }
+        }
 
         public int Index;
         public bool LoadedAnime;
         public bool LoadedModel;
         public bool LoadedVolatile;
+        public VolatileDataCache VolatileData { get; set; } = new VolatileDataCache();
 
         //three constructors depending on original init
         private AnimeItemAbstraction(ILibraryData entry, int? id = null)
@@ -54,10 +61,8 @@ namespace MALClient.XShared.ViewModels
 
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(id ?? Id, out data)) return;
+            VolatileData = data;
             LoadedVolatile = true;
-            AirDay = data.DayOfAiring;
-            GlobalScore = data.GlobalScore;
-            AirStartDate = data.AirStartDate;
         }
 
         //three constructors depending on original init
@@ -179,6 +184,16 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public ExactAiringTimeData ExactAiringTime
+        {
+            get { return VolatileData.ExactAiringTime; }
+            set
+            {
+                VolatileData.ExactAiringTime = value;
+                VolatileData.LastFailedAiringTimeFetchAttempt = null;
+            }
+        }
+
 
         public AnimeItemViewModel ViewModel
         {
@@ -198,9 +213,8 @@ namespace MALClient.XShared.ViewModels
                 return true;
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(Id, out data)) return false;
-            AirDay = data.DayOfAiring;
-            GlobalScore = data.GlobalScore;
-            AirStartDate = data.AirStartDate;
+            VolatileData = data;
+            LoadedVolatile = true;
             return true;
         }
 

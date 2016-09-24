@@ -46,5 +46,15 @@
             <ToggleSwitch Header="Remove empty days"
                                           IsOn="{Binding CalendarRemoveEmptyDays,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
+        <MenuFlyoutSeparator Margin="0,5"/>
+        <TextBlock Text="Always load exact airing time. (double the download)"
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+        <Grid HorizontalAlignment="Stretch">
+            <ToggleSwitch
+                            IsOn="{Binding CalendarPullExactAiringTime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Load" OffContent="Skip" HorizontalAlignment="Center" />
+        </Grid>
     </StackPanel>
 </Page>

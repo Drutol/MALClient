@@ -17,6 +17,7 @@ namespace MALClient.Shared.Items
     public sealed partial class AnimeGridItem : UserControl
     {
         private Point _initialPoint;
+        private static readonly TimeZoneInfo _jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
 
         public AnimeGridItem()
         {
@@ -41,6 +42,16 @@ namespace MALClient.Shared.Items
             set { SetValue(DisplayContextProperty, value); }
         }
 
+
+        public static readonly DependencyProperty DisplayAirTillTimeProperty = DependencyProperty.Register(
+            "DisplayAirTillTime", typeof(bool), typeof(AnimeGridItem), new PropertyMetadata(default(bool)));
+
+        public bool DisplayAirTillTime
+        {
+            get { return (bool) GetValue(DisplayAirTillTimeProperty); }
+            set { SetValue(DisplayAirTillTimeProperty, value); }
+        }
+
         public bool AllowSwipeInGivenContext
         {
             set
@@ -55,6 +66,15 @@ namespace MALClient.Shared.Items
             if(DataContext == null)
                 return;
             ViewModel.AnimeItemDisplayContext = DisplayContext;
+            if (DisplayAirTillTime)
+            {
+                var time = ViewModel.GetTimeTillNextAir(_jstTimeZone);
+                if (!string.IsNullOrEmpty(time))
+                {
+                    TimeTillNextAirGrid.Visibility = Visibility.Visible;
+                    TimeTillNextAir.Text = time;
+                }
+            }
             Bindings.Update();
         }
 
@@ -70,7 +90,7 @@ namespace MALClient.Shared.Items
             ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
         }
 
-        private static AnimeGridItem _manip;
+        private static AnimeGridItem _manip; //currently manipulated item
 
         private void AnimeGridItem_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {

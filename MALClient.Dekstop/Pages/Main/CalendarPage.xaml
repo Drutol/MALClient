@@ -94,7 +94,7 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <Grid>
-                                    <items1:AnimeGridItem DataContext="{Binding}" DisplayContext="AirDay"/>
+                                    <items1:AnimeGridItem DataContext="{Binding}" DisplayAirTillTime="True" DisplayContext="AirDay"/>
                                     <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
                                             Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
                                             CommandParameter="{Binding}">
@@ -134,7 +134,7 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center"
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource BrushLoadingNonTransparent}"
               Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

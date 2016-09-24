@@ -202,8 +202,8 @@
                         <ScaleTransform ScaleY=".75" ScaleX=".75" />
                     </Button.RenderTransform>
                 </Button>
-                <Grid Visibility="{Binding MalApiSpecificControlsVisibility}">
-                    <Grid Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,5,0" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Grid Visibility="{Binding MalApiSpecificControlsVisibility}"  Margin="0,0,5,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"> 
+                    <Grid Visibility="{Binding MyDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushFavouriteStarBackground}" >
                         <new:FavButton/>
                     </Grid>
                 </Grid>

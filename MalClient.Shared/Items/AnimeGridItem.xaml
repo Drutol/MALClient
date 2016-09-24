@@ -160,15 +160,24 @@
                 </Button>
 
             </Grid>
-            <Button Grid.Row="0"
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="40"
+            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"> 
+                <Button 
+                    Height="40" Width="40"
                     Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick">
-                <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
+                    <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                             Foreground="WhiteSmoke" />
-                <Button.Background>
-                    <SolidColorBrush Color="Black" Opacity=".75" />
-                </Button.Background>
-            </Button>
+                    <Button.Background>
+                        <SolidColorBrush Color="Black" Opacity=".75" />
+                    </Button.Background>
+                </Button>
+                <Grid x:Name="TimeTillNextAirGrid" VerticalAlignment="Bottom" Visibility="Collapsed">
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black" Opacity=".75" />
+                    </Grid.Background>
+                    <TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0"/>
+                </Grid>
+
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

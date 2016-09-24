@@ -85,6 +85,7 @@
     <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
     <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />
     <Compile Include="Models\Misc\CachedEntryModel.cs" />
+    <Compile Include="Models\Misc\ExactAiringTimeData.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
     <Compile Include="Models\Notifications\MalNotification.cs" />
     <Compile Include="Models\ProfileData.cs" />

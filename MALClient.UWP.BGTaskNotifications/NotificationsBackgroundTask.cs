@@ -74,14 +74,22 @@ namespace MALClient.UWP.BGTaskNotifications
 
             if ((Settings.EnabledNotificationTypes & MalNotificationsTypes.Messages) == MalNotificationsTypes.Messages)
             {
-                var msgs = await AccountMessagesManager.GetMessagesAsync(1);
-                foreach (var malMessageModel in msgs)
+                try
                 {
-                    if (!malMessageModel.IsRead)
+                    var msgs = await AccountMessagesManager.GetMessagesAsync(1);
+                    foreach (var malMessageModel in msgs)
                     {
-                        notifications.Add(new MalNotification(malMessageModel)); //I'm assuming that Ids are unique
+                        if (!malMessageModel.IsRead)
+                        {
+                            notifications.Add(new MalNotification(malMessageModel)); //I'm assuming that Ids are unique
+                        }
                     }
                 }
+                catch (Exception)
+                {
+                    //no messages
+                }
+
             }
 
             var allTriggeredNotifications = (string)(ApplicationData.Current.RoamingSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);

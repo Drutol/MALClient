@@ -29,7 +29,6 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 var doc = new HtmlDocument();
                 doc.LoadHtml(await response.Content.ReadAsStringAsync());
                 var output = new List<MalNotification>();
-                var c = await response.Content.ReadAsStringAsync();
                 try
                 {
                     //foreach (var notificationRow in doc.FirstOfDescendantsWithClass("ol","notification-item-list").Descendants("li"))

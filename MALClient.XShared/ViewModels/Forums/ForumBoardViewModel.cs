@@ -154,7 +154,7 @@ namespace MALClient.XShared.ViewModels.Forums
                     return;
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                    new ForumsBoardNavigationArgs(SearchQuery, PrevArgs.Scope));
+                    new ForumsBoardNavigationArgs(SearchQuery, PrevArgs.TargetBoard));
                 SearchQuery = "";
             }));
 
@@ -309,7 +309,7 @@ namespace MALClient.XShared.ViewModels.Forums
                     _allPages = topics.Pages;
                     CurrentPage = page;
                 }
-                EmptyNoticeVisibility = Topics.Any() ? false : true;
+                EmptyNoticeVisibility = !Topics.Any();
             }
             catch (Exception)
             {

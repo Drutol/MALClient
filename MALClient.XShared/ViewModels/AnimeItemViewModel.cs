@@ -899,6 +899,10 @@ namespace MALClient.XShared.ViewModels
                     return "";
 
                 var diff = jstTarget - jst;
+
+                if (diff.TotalDays < 0) //TODO : Find Reason
+                    return "";
+
                 if (diff.TotalDays > 1)
                     return $"{diff.Days}d {diff.Hours}h {diff.Minutes}m";
                 return $"{diff.Hours}h {diff.Minutes}m";

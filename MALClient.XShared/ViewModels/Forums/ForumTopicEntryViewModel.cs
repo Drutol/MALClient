@@ -48,7 +48,10 @@ namespace MALClient.XShared.ViewModels.Forums
         {
             var topic = ForumTopicLightEntry.FromTopicEntry(Data);
             topic.Lastpost = lastpost;
-            topic.SourceBoard = ViewModelLocator.ForumsBoard.PrevArgs.TargetBoard;
+            if (ViewModelLocator.ForumsBoard.PrevArgs.Scope != null)
+                topic.SourceBoard = ViewModelLocator.ForumsBoard.PrevArgs.Scope.Value;
+            else
+                topic.SourceBoard = ViewModelLocator.ForumsBoard.PrevArgs.TargetBoard;
             ViewModelLocator.ForumsMain.PinnedTopics.Add(topic);
         }
     }

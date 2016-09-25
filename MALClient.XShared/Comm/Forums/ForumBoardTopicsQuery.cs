@@ -162,7 +162,7 @@ namespace MALClient.XShared.Comm.Forums
             current.Id = link.Split('=').Last();
             
 
-            var spans = tds[1].Descendants("span").ToList();
+            var spans = tds[1].Descendants("span").Where(node => !string.IsNullOrEmpty(node.InnerText)).ToList();
             current.Op = spans[0].InnerText;
             current.Created = spans[1].InnerText;
 

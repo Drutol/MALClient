@@ -1,2 +1,0 @@
-MainPackage=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.0.14.0_x64.appx
-SymbolPackage=C:\Users\dogie\Documents\VisualStudioBuilds\MALClient.Dekstop_5.0.14.0_Test\MALClient.Dekstop_5.0.14.0_x64.appxsym

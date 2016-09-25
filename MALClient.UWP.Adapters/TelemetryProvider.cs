@@ -14,7 +14,7 @@ namespace MALClient.UWP.Adapters
     {
         public void Init()
         {
-#if DEBUG
+#if !DEBUG
             HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
             {
                 Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,

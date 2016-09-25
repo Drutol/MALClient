@@ -74,7 +74,7 @@ namespace MALClient.Shared.Items
                 {
                     TimeTillNextAirGrid.Visibility = Visibility.Visible;
                     TimeTillNextAir.Text = time;
-                    TypeTextBlock.Text = ViewModel.Type;
+                    TypeTextBlock.Text = ViewModel.PureType;
                 }
             }
             Bindings.Update();

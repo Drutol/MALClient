@@ -105,27 +105,14 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="17.09.2016 v5.5.11.0 &amp; v5.0.10.0" />
-                            <TextBlock Text="Colossal code change therefore v5!" />
-                            <TextBlock Text="Added proper image caching." />
-                            <TextBlock Text="Added sorting by season." />
-                            <TextBlock Text="Added new logos." />
-                            <TextBlock Text="Added option to automatically choose sort order (asc/desc)." />
-                            <TextBlock Text="Added option to display show's season." />
-                            <TextBlock Text="Added pulling detailed data about every anime in current list." />
-                            <TextBlock Text="Fixed multitude of issues with synopsis." />
-                            <TextBlock Text="Fixed calendar start tab issues." />
-                            <TextBlock Text="Resolved various issues with mix between chapters/volumes." />
-                            <TextBlock Text="Fixed images in manga recommendations." />
-                            <TextBlock Text="Fixed unclickable buttons introduced after AU upgrade." />
-                            <TextBlock Text="Fixed sorting button visibility in seasonal anime." />
-                            <TextBlock Text="Sorting by score will now do sub-sort by title." />
-                            <TextBlock Text="Fixed forum pin post bug (more on forums in next updates)." />
-                            <TextBlock Text="Fixed offline crashes." />
-                            <TextBlock Text="Tweaked show score display." />
-                            <TextBlock Text="Update anime requests are now bound to be executed in proper order." />
-                            <TextBlock Text="Unified  show cover downloading." />
-                            <TextBlock Text="Mobile hamburger's anime/manga list buttons now have quick access to filters." />
+                            <TextBlock Text="27.09.2016 v5.5.19.0 &amp; v5.0.18.0" />
+                            <TextBlock Text="Added notifications!" />
+                            <TextBlock Text="New store logo!" />
+                            <TextBlock Text="Added calendar episode countdown!" />
+                            <TextBlock Text="Added re-watching support." />
+                            <TextBlock Text="Improved forums." />
+                            <TextBlock Text="Major Hummingbird fixes." />
+                            <TextBlock Text="Various tweaks and fixes." />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

@@ -136,7 +136,7 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageCharacterSearch)
             {
                 CurrentStatusSub = "";
-                DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageForumIndex);
+                DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
                 currPage = index;
             }            
 

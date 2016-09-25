@@ -5,6 +5,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using MALClient.XShared.Utils.Managers;
@@ -73,6 +74,7 @@ namespace MALClient.Shared.Items
                 {
                     TimeTillNextAirGrid.Visibility = Visibility.Visible;
                     TimeTillNextAir.Text = time;
+                    TypeTextBlock.Text = ViewModel.Type;
                 }
             }
             Bindings.Update();

@@ -176,16 +176,11 @@ namespace MALClient.Pages.Forums
 
         private async void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            if (_navigatingRoot)
+            if (_navigatingRoot || (_lastpost && args.Uri.ToString().Contains("&show=")) || Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist.net\/forum\/\?topicid=.*") || Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist.net\/forum\/index.php\?topic_id=.*"))
             {
+                ViewModel.LoadingTopic = true;
                 return;
             }
-            if (args.Uri.ToString().Contains(_baseUri.ToString()))
-                return;
-            if(Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist.net\/forum\/index.php\?topic_id=\d+&action=message"))
-                return;
-            if (_lastpost && args.Uri.ToString().Contains("&show="))
-                return;
             try
             {
                 if (args.Uri != null)

@@ -129,6 +129,46 @@
                                 <Button.Flyout>
                                     <Flyout>
                                         <StackPanel>
+                                            <Grid HorizontalAlignment="Stretch" Visibility="{Binding IsRewatchingButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ToggleButton Height="40" Margin="0,0,0,5" HorizontalAlignment="Stretch"
+                                                    IsChecked="{Binding IsRewatching,Mode=TwoWay}" Background="{ThemeResource BrushDetailsMoreButton}"
+                                                    Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip Content="Rewatching" />
+                                                    </ToolTipService.ToolTip>
+                                                    <Grid HorizontalAlignment="Stretch">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <SymbolIcon Symbol="ReShare" />
+                                                        <TextBlock Margin="5,0" Grid.Column="1"
+                                                               HorizontalAlignment="Center" Text="Rewatching" />
+                                                    </Grid>
+                                                </ToggleButton>
+                                                <Button Grid.Column="1" Margin="0,0,0,5" Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Width="40" Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <Button.Flyout>
+                                                        <MenuFlyout>
+                                                            <MenuFlyoutItem Text="Times rewatched" Foreground="White" IsEnabled="False"/>
+                                                            <MenuFlyoutItem Text="0" Command="{Binding SetRewatchingCountCommand}" CommandParameter="0"/>
+                                                            <MenuFlyoutItem Text="1" Command="{Binding SetRewatchingCountCommand}" CommandParameter="1"/>
+                                                            <MenuFlyoutItem Text="2" Command="{Binding SetRewatchingCountCommand}" CommandParameter="2"/>
+                                                            <MenuFlyoutItem Text="3" Command="{Binding SetRewatchingCountCommand}" CommandParameter="3"/>
+                                                            <MenuFlyoutItem Text="4" Command="{Binding SetRewatchingCountCommand}" CommandParameter="4"/>
+                                                            <MenuFlyoutItem Text="5" Command="{Binding SetRewatchingCountCommand}" CommandParameter="5"/>
+                                                            <MenuFlyoutItem Text="6" Command="{Binding SetRewatchingCountCommand}" CommandParameter="6"/>
+                                                            <MenuFlyoutItem Text="7" Command="{Binding SetRewatchingCountCommand}" CommandParameter="7"/>
+                                                            <MenuFlyoutItem Text="8" Command="{Binding SetRewatchingCountCommand}" CommandParameter="8"/>
+                                                            <MenuFlyoutItem Text="9" Command="{Binding SetRewatchingCountCommand}" CommandParameter="9"/>
+                                                        </MenuFlyout>
+                                                    </Button.Flyout>
+                                                    <SymbolIcon Symbol="More"/>
+                                                </Button>
+                                            </Grid>
                                             <Button Height="40" Margin="0,0,0,5" HorizontalAlignment="Stretch"
                                                     Command="{Binding NavigateForumBoardCommand}" Background="{ThemeResource BrushDetailsMoreButton}"
                                                     Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">

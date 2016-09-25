@@ -635,7 +635,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtForums , Path=Foreground}" />
-                                <TextBlock x:Name="TxtForums" Text="Forums Beta"
+                                <TextBlock x:Name="TxtForums" Text="Forums"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Forums]}"
                                            HorizontalAlignment="Left" Grid.Column="1"

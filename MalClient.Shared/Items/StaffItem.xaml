@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <xamlConverters:IsFavouriteToSymbolConverter x:Key="IsFavouriteToSymbolConverter" />
     </UserControl.Resources>
-    <Grid Height="325">
+    <Grid Height="325" HorizontalAlignment="Stretch" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="52" />
@@ -50,7 +50,7 @@
               Background="{ThemeResource BrushAnimeItemBackground}"
               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
               BorderThickness="0,1.5,0,0">
-            <TextBlock Text="{Binding Data.Name}" />
+            <TextBlock Text="{Binding Data.Name}" HorizontalAlignment="Stretch" />
         </Grid>
     </Grid>
 </UserControl>

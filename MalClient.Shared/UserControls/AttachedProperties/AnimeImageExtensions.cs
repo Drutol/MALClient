@@ -46,9 +46,13 @@ namespace MALClient.Shared.UserControls.AttachedProperties
                     img.ImageFailed += ImgOnImageFailed;
                     img.Source = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));
                 }
+                else
+                    img.Source = null;
             }
-            else if(!string.IsNullOrEmpty(source))
+            else if (!string.IsNullOrEmpty(source))
                 img.Source = await ImageCache.GetFromCacheAsync(new Uri(source));
+            else
+                img.Source = null;
 
         }
 

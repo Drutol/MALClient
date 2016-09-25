@@ -36,7 +36,7 @@ namespace MALClient.Shared.Managers
                     }
                 }
 
-            if(_taskRegistered && !restart)
+             if(_taskRegistered && !restart)
                 return;
 
             if (_taskRegistered)

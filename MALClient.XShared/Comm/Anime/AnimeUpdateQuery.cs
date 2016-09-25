@@ -106,7 +106,7 @@ namespace MALClient.XShared.Comm.Anime
             if (endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
-            xml.AppendLine($"<enable_rewatching>{rewatching}</enable_rewatching>");
+            xml.AppendLine($"<enable_rewatching>{(rewatching ? "1" : "0")}</enable_rewatching>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
             xml.AppendLine($"<tags>{notes}</tags>");

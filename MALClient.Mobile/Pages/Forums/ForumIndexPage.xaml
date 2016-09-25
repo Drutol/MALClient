@@ -126,13 +126,13 @@
                                                                                 </Image>
                                                                             </Grid>
                                                                             <Grid Grid.Column="1" VerticalAlignment="Top"
-                                                                      Margin="3,0">
+                                                                                  Margin="3,0">
                                                                                 <Button
-                                                                        Style="{StaticResource TextBlockButtonStyle}"
-                                                                        Foreground="{ThemeResource BrushText}"
-                                                                        Padding="0"
-                                                                        Command="{Binding Source={StaticResource Locator},Path=ForumsIndex.GoToLastPostCommand}"
-                                                                        CommandParameter="{Binding}">
+                                                                                        Style="{StaticResource TextBlockButtonStyle}"
+                                                                                        Foreground="{ThemeResource BrushText}"
+                                                                                        Padding="0"
+                                                                                        Command="{Binding Source={StaticResource Locator},Path=ForumsIndex.GoToLastPostCommand}"
+                                                                                        CommandParameter="{Binding}">
                                                                                     <Grid>
                                                                                         <Grid.RowDefinitions>
                                                                                             <RowDefinition Height="Auto" />
@@ -168,91 +168,95 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Recent" Padding="0">
-                <ScrollViewer HorizontalAlignment="Stretch">
-                    <Grid HorizontalAlignment="Stretch">
-                        <ItemsControl HorizontalAlignment="Stretch" 
+                <Grid>
+                    <TextBlock Text="To see recent posts please refresh this page." Visibility="{Binding ElementName=RecentPostsScrollViewer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" TextWrapping="WrapWholeWords" Foreground="#FFB9B9B9" Margin="20" HorizontalAlignment="Center"/>
+                    <ScrollViewer x:Name="RecentPostsScrollViewer" HorizontalAlignment="Stretch" Visibility="{Binding ForumIndexContent,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid HorizontalAlignment="Stretch">
+                            <ItemsControl HorizontalAlignment="Stretch" 
                               Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                            <ItemsControl.Resources>
-                                <Style TargetType="ListView">
-                                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                    <Setter Property="ItemContainerStyle">
-                                        <Setter.Value>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="0,5" />
-                                            </Style>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ItemsControl.Resources>
-                            <ItemsControl.ItemContainerTransitions>
-                                <TransitionCollection>
-                                    <RepositionThemeTransition />
-                                    <EntranceThemeTransition />
-                                    <AddDeleteThemeTransition />
-                                </TransitionCollection>
-                            </ItemsControl.ItemContainerTransitions>
-                            <Grid HorizontalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Popular New Topics" FontSize="22" Margin="0,5" HorizontalAlignment="Center"
+                                <ItemsControl.Resources>
+                                    <Style TargetType="ListView">
+                                        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="ItemContainerStyle">
+                                            <Setter.Value>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,5" />
+                                                </Style>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ItemsControl.Resources>
+                                <ItemsControl.ItemContainerTransitions>
+                                    <TransitionCollection>
+                                        <RepositionThemeTransition />
+                                        <EntranceThemeTransition />
+                                        <AddDeleteThemeTransition />
+                                    </TransitionCollection>
+                                </ItemsControl.ItemContainerTransitions>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Popular New Topics" FontSize="22" Margin="0,5" HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                    FontWeight="SemiLight" />
-                                <ListView Grid.Row="1"  IsItemClickEnabled="True" ItemClick="RecentPostOnClick" 
+                                    <ListView Grid.Row="1"  IsItemClickEnabled="True" ItemClick="RecentPostOnClick" 
                                   ItemsSource="{Binding ForumIndexContent.PopularNewTopics}"
                                   ItemTemplate="{StaticResource PostListDataTemplate}" />
-                            </Grid>
-                            <Grid HorizontalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Recent posts" FontSize="22" Margin="0,5" HorizontalAlignment="Center"
+                                </Grid>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Recent posts" FontSize="22" Margin="0,5" HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                    FontWeight="SemiLight" />
-                                <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                    <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
                                   ItemsSource="{Binding ForumIndexContent.RecentPosts}"
                                   ItemTemplate="{StaticResource PostListDataTemplate}" />
-                            </Grid>
-                            <Grid HorizontalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Recent Anime Discussion" FontSize="22" Margin="0,5"
+                                </Grid>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Recent Anime Discussion" FontSize="22" Margin="0,5"
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                    FontWeight="SemiLight" />
-                                <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                    <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
                                   ItemsSource="{Binding ForumIndexContent.AnimeSeriesDisc}"
                                   ItemTemplate="{StaticResource PostListDataTemplate}" />
-                            </Grid>
-                            <Grid HorizontalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Recent Manga Discussion" FontSize="22" Margin="0,5"
+                                </Grid>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Recent Manga Discussion" FontSize="22" Margin="0,5"
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                    FontWeight="SemiLight" />
-                                <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
+                                    <ListView Grid.Row="1" IsItemClickEnabled="True" ItemClick="RecentPostOnClick"
                                   ItemsSource="{Binding ForumIndexContent.MangaSeriesDisc}"
                                   ItemTemplate="{StaticResource PostListDataTemplate}" />
-                            </Grid>
-                        </ItemsControl>
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50"
+                                </Grid>
+                            </ItemsControl>
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50"
                       Visibility="{Binding LoadingSideContentVisibility}"
                       Background="Transparent">
-                            <ProgressRing
+                                <ProgressRing
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="50" Height="50"
                         IsActive="True" />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </ScrollViewer>
+                    </ScrollViewer>
+                </Grid>
+
             </PivotItem>
         </Pivot>
         

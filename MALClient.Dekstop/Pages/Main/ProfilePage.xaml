@@ -252,6 +252,7 @@
                                         <Setter Property="Padding" Value="5,5" />
                                         <Setter Property="Margin" Value="0,5" />
                                         <Setter Property="Width" Value="200" />
+                                        <Setter Property="Height" Value="350" />
                                     </Style>
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
@@ -319,6 +320,7 @@
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="Padding" Value="5,5" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="Margin" Value="0,5" />
                                         <Setter Property="Width" Value="200" />
                                     </Style>
@@ -350,6 +352,7 @@
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="Padding" Value="5,5" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="Margin" Value="0,5" />
                                         <Setter Property="Width" Value="200" />
                                     </Style>

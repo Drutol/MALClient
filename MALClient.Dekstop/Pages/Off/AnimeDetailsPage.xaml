@@ -216,6 +216,7 @@
                         <FlyoutBase.AttachedFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Text="Times rewatched" Foreground="White" IsEnabled="False"/>
+                                <MenuFlyoutItem Text="0" Command="{Binding SetRewatchingCountCommand}" CommandParameter="0"/>
                                 <MenuFlyoutItem Text="1" Command="{Binding SetRewatchingCountCommand}" CommandParameter="1"/>
                                 <MenuFlyoutItem Text="2" Command="{Binding SetRewatchingCountCommand}" CommandParameter="2"/>
                                 <MenuFlyoutItem Text="3" Command="{Binding SetRewatchingCountCommand}" CommandParameter="3"/>

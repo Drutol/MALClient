@@ -67,7 +67,7 @@ namespace MALClient.XShared.Comm.Manga
             if(endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
-            xml.AppendLine($"<enable_rewatching>{rereading}</enable_rewatching>");
+            xml.AppendLine($"<enable_rereading>{(rereading ? "1" : "0")}</enable_rereading>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
             xml.AppendLine($"<tags>{notes}</tags>");

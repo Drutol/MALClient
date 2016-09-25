@@ -3,6 +3,7 @@ using System.Reflection;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.XShared.NavArgs;
@@ -132,6 +133,13 @@ namespace MALClient.Pages.Off
             {
                 //not AU
             }
+        }
+
+        private void RewatchedButtonOnRightClick(object sender, RightTappedRoutedEventArgs e)
+        {
+            var btn = sender as FrameworkElement;
+            var flyout = FlyoutBase.GetAttachedFlyout(btn);
+            flyout.ShowAt(btn);
         }
     }
 }

@@ -284,7 +284,12 @@ namespace MALClient.XShared.ViewModels
         public bool IsRewatching
         {
             get { return ParentAbstraction.IsRewatching; }
-            set { ParentAbstraction.IsRewatching = value; }
+            set
+            {
+                ParentAbstraction.IsRewatching = value;
+                RaisePropertyChanged(() => MyStatusBind);
+                RaisePropertyChanged(() => MyStatusBindShort);
+            }
         }
 
         public string EndDate
@@ -1093,6 +1098,16 @@ namespace MALClient.XShared.ViewModels
             else if (Settings.SetEndDateOnCompleted &&  stat == AnimeStatus.Completed &&
                      (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+
+            if (MyStatus != (int)AnimeStatus.Completed)
+            {
+                if (IsRewatching)
+                {
+                    if (AllEpisodes != 0)
+                        MyEpisodes = AllEpisodes;
+                    IsRewatching = false;
+                }
+            }
 
             ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
 

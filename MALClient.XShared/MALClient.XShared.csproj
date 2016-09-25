@@ -101,6 +101,7 @@
     <Compile Include="ViewModels\AnimeListSeparatorViewModel.cs" />
     <Compile Include="ViewModels\AnimeSearchItemViewModel.cs" />
     <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
+    <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.ui.cs" />
     <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
     <Compile Include="ViewModels\Details\StaffDetailsViewModel.cs" />
     <Compile Include="ViewModels\FavouriteViewModel.cs" />

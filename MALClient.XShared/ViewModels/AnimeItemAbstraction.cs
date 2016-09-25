@@ -108,7 +108,7 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 if (EntryData != null)
-                    EntryData.IsRewatching = true;
+                    EntryData.IsRewatching = value;
             }
         }
 

@@ -804,13 +804,13 @@ namespace MALClient.XShared.ViewModels.Main
                 case AnimeListWorkModes.SeasonalAnime:
                     var tResponse = new List<SeasonalAnimeData>();
                     await Task.Run(new Func<Task>(async () => tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
-                    data.AddRange(tResponse);
-                    break;
+                    data.AddRange(tResponse ?? new List<SeasonalAnimeData>());
+                    break; 
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
                     var topResponse = new List<TopAnimeData>();
                     await Task.Run(new Func<Task>(async () => topResponse = await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga, page).GetTopAnimeData(force)));
-                    data.AddRange(topResponse);
+                    data.AddRange(topResponse ?? new List<TopAnimeData>());
                     break;
             }
             //if we don't have any we cannot do anything I guess...
@@ -1776,7 +1776,7 @@ namespace MALClient.XShared.ViewModels.Main
                             if (abstraction.TryRetrieveVolatileData())
                             {
                                 if(abstraction.LoadedModel)
-                                    abstraction.ViewModel.UpdateVolatileData();
+                                    abstraction.ViewModel.UpdateVolatileDataBindings();
                             }
                         }
                         ItemsLoaded++;

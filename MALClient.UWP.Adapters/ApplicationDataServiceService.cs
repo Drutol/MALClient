@@ -19,8 +19,18 @@ namespace MALClient.UWP.Adapters
 
         public object this[RoamingDataTypes key]
         {
-            get { return ApplicationData.Current.RoamingSettings.Values[key.ToString()]; }
-            set { ApplicationData.Current.RoamingSettings.Values[key.ToString()] = value; }
+            get
+            {
+                var val = ApplicationData.Current.RoamingSettings.Values[key.ToString()] ??
+                          ApplicationData.Current.LocalSettings.Values[key.ToString()];
+                return val;
+            }
+            set
+            {
+                ApplicationData.Current.RoamingSettings.Values[key.ToString()] = value;
+                if (ApplicationData.Current.RoamingSettings.Values[key.ToString()] == null)
+                    this[key.ToString()] = value;
+            }
         }
     }
 }

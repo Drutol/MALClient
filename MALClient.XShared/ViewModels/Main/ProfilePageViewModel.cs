@@ -112,7 +112,7 @@ namespace MALClient.XShared.ViewModels.Main
             MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
             FavouriteCharacters = new List<FavouriteViewModel>(CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
             FavouriteStaff = new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
-            CommentInputBoxVisibility = string.IsNullOrEmpty(CurrentData.ProfileMemId) ? false : true; //posting restricted
+            CommentInputBoxVisibility = !string.IsNullOrEmpty(CurrentData.ProfileMemId); //posting restricted
             LoadAboutMeButtonVisibility = true;
             LoadingAboutMeVisibility = AboutMeWebViewVisibility = false;
             if (authenticatedUser)
@@ -189,9 +189,13 @@ namespace MALClient.XShared.ViewModels.Main
                         var libraryData in data)
                         mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
 
-                    _othersAbstractions.Add(args.TargetUser,
-                        new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
-                            mangaAbstractions));
+                    lock (_othersAbstractions)
+                    {
+                        if (!_othersAbstractions.ContainsKey(args.TargetUser))
+                            _othersAbstractions.Add(args.TargetUser,
+                                new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
+                                    mangaAbstractions));
+                    }
 
                     LoadingOhersLibrariesProgressVisiblity = false;
                 }

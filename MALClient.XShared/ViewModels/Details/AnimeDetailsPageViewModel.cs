@@ -58,7 +58,8 @@ namespace MALClient.XShared.ViewModels.Details
         public AnimeDetailsPageNavigationArgs PrevArgs { get; private set; }
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
 
-        public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,ISystemControlsLauncherService systemControlsLauncherService)
+        public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,
+            ISystemControlsLauncherService systemControlsLauncherService)
         {
             _clipboardProvider = clipboardProvider;
             _systemControlsLauncherService = systemControlsLauncherService;
@@ -84,9 +85,9 @@ namespace MALClient.XShared.ViewModels.Details
         //Dates set by the user
         public string MyStartDate
             =>
-                (_animeItemReference?.StartDate ?? "0000-00-00") == "0000-00-00"
-                    ? "Not set"
-                    : _animeItemReference?.StartDate;
+            (_animeItemReference?.StartDate ?? "0000-00-00") == "0000-00-00"
+                ? "Not set"
+                : _animeItemReference?.StartDate;
 
         public string MyEndDate
             => (_animeItemReference?.EndDate ?? "0000-00-00") == "0000-00-00" ? "Not set" : _animeItemReference?.EndDate
@@ -107,12 +108,12 @@ namespace MALClient.XShared.ViewModels.Details
         /// </summary>
         public class AnimeStaffDataViewModels
         {
-            public List<AnimeCharacterStaffModelViewModel> AnimeCharacterPairs { get; set; } 
+            public List<AnimeCharacterStaffModelViewModel> AnimeCharacterPairs { get; set; }
             public List<FavouriteViewModel> AnimeStaff { get; set; }
 
             public class AnimeCharacterStaffModelViewModel
             {
-                public FavouriteViewModel AnimeCharacter { get; set; } 
+                public FavouriteViewModel AnimeCharacter { get; set; }
                 public FavouriteViewModel AnimeStaffPerson { get; set; }
 
                 public AnimeCharacterStaffModelViewModel(AnimeCharacterStaffModel data)
@@ -347,10 +348,10 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageForumIndex:
                 case PageIndex.PageStaffDetails:
                 case PageIndex.PageCharacterDetails:
-                    await FetchData(false,param.Source);
+                    await FetchData(false, param.Source);
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
-                    if(ViewModelLocator.Mobile || (!ViewModelLocator.Mobile && param.Source != PageIndex.PageProfile))
+                    if (ViewModelLocator.Mobile || (!ViewModelLocator.Mobile && param.Source != PageIndex.PageProfile))
                         ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
                     break;
                 case PageIndex.PageAnimeDetails:
@@ -376,19 +377,21 @@ namespace MALClient.XShared.ViewModels.Details
             //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
         }
 
-        private  void OpenMalPage()
+        private void OpenMalPage()
         {
             if (Settings.SelectedApiType == ApiType.Mal)
             {
-                    _systemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
+                _systemControlsLauncherService.LaunchUri(
+                    new Uri($"https://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
             else
             {
-                _systemControlsLauncherService.LaunchUri(new Uri($"https://hummingbird.me/{(AnimeMode ? "anime" : "manga")}/{Id}"));
+                _systemControlsLauncherService.LaunchUri(
+                    new Uri($"https://hummingbird.me/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
         }
 
-        private  void OpenAnnPage()
+        private void OpenAnnPage()
         {
             _systemControlsLauncherService.LaunchUri(new Uri(SourceLink));
         }
@@ -403,14 +406,14 @@ namespace MALClient.XShared.ViewModels.Details
             ViewModelLocator.GeneralMain
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(args.Id, args.Title, null, null,
-                        new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
-                        {
-                            Source = PageIndex.PageAnimeDetails,
-                            RegisterBackNav = false,
-                            AnimeMode = AnimeMode,
-                            SourceTabIndex = DetailsPivotSelectedIndex
-                        })
-                    {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
+                            new AnimeDetailsPageNavigationArgs(Id, Title, null, _animeItemReference)
+                            {
+                                Source = PageIndex.PageAnimeDetails,
+                                RegisterBackNav = false,
+                                AnimeMode = AnimeMode,
+                                SourceTabIndex = DetailsPivotSelectedIndex
+                            })
+                        {Source = PageIndex.PageAnimeDetails, AnimeMode = args.Type == RelatedItemType.Anime});
         }
 
         /// <summary>
@@ -509,8 +512,8 @@ namespace MALClient.XShared.ViewModels.Details
             else
             {
                 if (AnimeMode)
-                    return new AnimeUpdateQuery(_animeItemReference,rewatchCount.Value);
-                return new MangaUpdateQuery(_animeItemReference,rewatchCount.Value);
+                    return new AnimeUpdateQuery(_animeItemReference, rewatchCount.Value);
+                return new MangaUpdateQuery(_animeItemReference, rewatchCount.Value);
             }
         }
 
@@ -617,7 +620,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _animeItemReference.MyEpisodes = 0;
             }
-            else if(_animeItemReference.AllEpisodes != 0)
+            else if (_animeItemReference.AllEpisodes != 0)
             {
                 _animeItemReference.MyEpisodes = _animeItemReference.AllEpisodes;
             }
@@ -659,13 +662,13 @@ namespace MALClient.XShared.ViewModels.Details
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
                          MyStatus == (int) AnimeStatus.OnHold))
-                    {                        
+                    {
                         reference.PromptForStatusChange((int) AnimeStatus.Watching);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     else if (MyEpisodes == AllEpisodes && AllEpisodes != 0)
                     {
-                        
+
                         reference.PromptForStatusChange((int) AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
@@ -858,7 +861,7 @@ namespace MALClient.XShared.ViewModels.Details
                         ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
                         : -1;
                     if (day == -1)
-                        model.ParentAbstraction.AirDay = -1;//no longer airing
+                        model.ParentAbstraction.AirDay = -1; //no longer airing
                 }
                 catch (Exception)
                 {
@@ -872,6 +875,8 @@ namespace MALClient.XShared.ViewModels.Details
                     AirStartDate = StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : StartDate
                 });
                 model.Airing = day != -1;
+                if(model.ParentAbstraction.TryRetrieveVolatileData())
+                    model.UpdateVolatileDataBindings();
             }
 
             LeftDetailsRow = new List<Tuple<string, string>>();
@@ -944,13 +949,13 @@ namespace MALClient.XShared.ViewModels.Details
                     vm.UpdateChapterData(data.AllEpisodes);
                 }
             }
-            
-            
+
+
 
             PopulateData();
         }
 
-        private async Task FetchData(bool force = false,PageIndex? sourcePage = null)
+        private async Task FetchData(bool force = false, PageIndex? sourcePage = null)
         {
             LoadingGlobal = true;
 
@@ -1019,7 +1024,7 @@ namespace MALClient.XShared.ViewModels.Details
             foreach (var info in data.Information)
             {
                 var infoString = info;
-                if(info.StartsWith("Genres:"))
+                if (info.StartsWith("Genres:"))
                     continue;
                 infoString = infoString.Replace(", add some", "");
                 var parts = infoString.Split(':');
@@ -1042,7 +1047,7 @@ namespace MALClient.XShared.ViewModels.Details
                         }
                     }
                 }
-                Information.Add(new Tuple<string, string>(parts[0],string.Join(":",parts.Skip(1))));
+                Information.Add(new Tuple<string, string>(parts[0], string.Join(":", parts.Skip(1))));
             }
 
             foreach (var statistic in data.Statistics)
@@ -1053,10 +1058,10 @@ namespace MALClient.XShared.ViewModels.Details
                     continue;
                 pos = infoString.IndexOf("2 based");
                 if (pos != -1)
-                    infoString = infoString.Substring(0, pos-2);
+                    infoString = infoString.Substring(0, pos - 2);
                 pos = infoString.IndexOf("(scored");
                 if (pos != -1)
-                    infoString = infoString.Substring(0, pos-2);
+                    infoString = infoString.Substring(0, pos - 2);
 
                 var parts = infoString.Split(':');
                 Stats.Add(new Tuple<string, string>(parts[0], parts[1]));
@@ -1182,17 +1187,27 @@ namespace MALClient.XShared.ViewModels.Details
         {
             LoadingCharactersVisibility = true;
             LoadCharactersButtonVisibility = false;
-            if (AnimeMode)
+            try
             {
-                AnimeStaffData = new AnimeStaffDataViewModels(await new AnimeCharactersStaffQuery(MalId, AnimeMode).GetCharStaffData(force));
-                CharactersGridVisibility = true;
+                if (AnimeMode)
+                {
+                    AnimeStaffData =
+                        new AnimeStaffDataViewModels(
+                            await new AnimeCharactersStaffQuery(MalId, AnimeMode).GetCharStaffData(force));
+                    CharactersGridVisibility = true;
+                }
+                else //broken for now -> malformed html
+                {
+                    //MangaCharacterData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetMangaCharacters(force);
+                    MangaCharacterGridVisibility = true;
+                }
+                LoadingCharactersVisibility = false;
             }
-            else //broken for now -> malformed html
+            catch (Exception)
             {
-                //MangaCharacterData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetMangaCharacters(force);
-                MangaCharacterGridVisibility = true;
+                //no iternet most probably
+                LoadingCharactersVisibility = false;
             }
-            LoadingCharactersVisibility = false;
         }
         #endregion
     }

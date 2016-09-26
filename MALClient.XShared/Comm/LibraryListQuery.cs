@@ -69,7 +69,7 @@ namespace MALClient.XShared.Comm
                 return output;
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
-                return output;
+                return await DataCache.RetrieveDataForUser(_source, _mode) ?? output;
 
             switch (CurrentApiType)
             {

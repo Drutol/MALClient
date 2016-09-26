@@ -69,64 +69,71 @@ namespace MALClient.XShared.ViewModels.Main
 
             var data = new Dictionary<string, List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>>();
 
-            if (args.Source == Credentials.UserName)
+            if (history != null)
             {
-                foreach (var key in history.Keys)
+                if (args.Source == Credentials.UserName)
+                {
+                    foreach (var key in history.Keys)
+                    {
+                        try
+                        {
+                            List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> entries =
+                                new List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>();
+                            var distinctIds = history[key].Select(entry => entry.Id).Distinct();
+                            foreach (var distinctId in distinctIds)
+                            {
+                                var vm = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(distinctId,
+                                    history[key].First(entry => entry.Id == distinctId).IsAnime) as AnimeItemViewModel;
+
+                                entries.Add(new Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>(vm,
+                                    history[key].Where(entry => entry.Id == distinctId).ToList()));
+                            }
+                            data.Add(key, entries);
+                        }
+                        catch (Exception)
+                        {
+                            //
+                        }
+
+                    }
+                }
+                else
                 {
                     try
                     {
-                        List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> entries = new List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>();
-                        var distinctIds = history[key].Select(entry => entry.Id).Distinct();
-                        foreach (var distinctId in distinctIds)
+                        var others = ViewModelLocator.ProfilePage.OthersAbstractions[args.Source];
+                        foreach (var key in history.Keys)
                         {
-                            var vm = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(distinctId,
-                                history[key].First(entry => entry.Id == distinctId).IsAnime) as AnimeItemViewModel;
+                            List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> entries =
+                                new List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>();
+                            var distinctIds = history[key].Select(entry => entry.Id).Distinct();
+                            foreach (var distinctId in distinctIds)
+                            {
+                                bool anime =
+                                    history[key].
+                                        First(entry => entry.Id == distinctId).IsAnime;
+                                var vm = anime
+                                    ? others.Item1.FirstOrDefault(abstraction => abstraction.Id == distinctId)
+                                    : others.Item2.FirstOrDefault(abstraction => abstraction.Id == distinctId);
 
-                            entries.Add(new Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>(vm, history[key].Where(entry => entry.Id == distinctId).ToList()));
+                                if (vm != null)
+                                {
+                                    entries.Add(new Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>(
+                                        vm.ViewModel, history[key].Where(entry => entry.Id == distinctId).ToList()));
+                                }
+                            }
+                            data.Add(key, entries);
                         }
-                        data.Add(key, entries);
                     }
                     catch (Exception)
                     {
-                       //
-                    }
-
-                }
-            }
-            else
-            {
-                try
-                {
-                    var others = ViewModelLocator.ProfilePage.OthersAbstractions[args.Source];
-                    foreach (var key in history.Keys)
-                    {
-                        List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> entries = new List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>();
-                        var distinctIds = history[key].Select(entry => entry.Id).Distinct();
-                        foreach (var distinctId in distinctIds)
-                        {
-                            bool anime =
-                                history[key].
-                                    First(entry => entry.Id == distinctId).IsAnime;
-                            var vm = anime
-                                ? others.Item1.FirstOrDefault(abstraction => abstraction.Id == distinctId)
-                                : others.Item2.FirstOrDefault(abstraction => abstraction.Id == distinctId);
-
-                            if (vm != null)
-                            {
-                                entries.Add(new Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>(vm.ViewModel, history[key].Where(entry => entry.Id == distinctId).ToList()));
-                            }
-                        }
-                        data.Add(key, entries);
+                        //
                     }
                 }
-                catch (Exception)
-                {
-                    //
-                }
             }
-            
+
             History = data;
-            HistoryEmptyNoticeVisibility = data.Count == 0 ? true : false;
+            HistoryEmptyNoticeVisibility = data.Count == 0;
             LoadingVisibility = false;
         }
     }

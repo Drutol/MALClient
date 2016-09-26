@@ -225,7 +225,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool TryRetrieveVolatileData(bool force = false)
         {
-            if (GlobalScore != 0 && !force)
+            if (LoadedVolatile && !force)
                 return true;
             VolatileDataCache data;
             if (!DataCache.TryRetrieveDataForId(Id, out data)) return false;

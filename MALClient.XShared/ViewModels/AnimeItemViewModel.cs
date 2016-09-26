@@ -604,7 +604,7 @@ namespace MALClient.XShared.ViewModels
         }
 
         public string GlobalScoreBind
-            => ParentAbstraction.LoadedVolatile ? GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2") : "";
+            => ParentAbstraction.LoadedVolatile && GlobalScore != 0 ? GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2") : "";
 
         public float GlobalScore
         {
@@ -974,7 +974,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public void UpdateVolatileData()
+        public void UpdateVolatileDataBindings()
         {
             RaisePropertyChanged(() => TopLeftInfoBind);
             RaisePropertyChanged(() => GlobalScoreBind);

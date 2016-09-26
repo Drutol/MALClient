@@ -30,7 +30,9 @@ namespace MALClient.XShared.ViewModels.Main
     {
         public new string Header => "Summary";
         public new string Sub => "";
-        public List<Tuple<string, List<AnimeItemViewModel>>> Data { get; set; } = new List<Tuple<string, List<AnimeItemViewModel>>>();
+
+        public List<Tuple<string, List<AnimeItemViewModel>>> Data { get; set; } =
+            new List<Tuple<string, List<AnimeItemViewModel>>>();
     }
 
 
@@ -115,16 +117,16 @@ namespace MALClient.XShared.ViewModels.Main
 
         public ICommand ExportToCalendarCommand
             => _exportToCalendarCommand ?? (_exportToCalendarCommand = new RelayCommand<AnimeItemViewModel>(entry =>
-            {
-                try
-                {
-                    SimpleIoc.Default.GetInstance<ICalendarExportProvider>().ExportToCalendar(entry);
-                }
-                catch (Exception)
-                {
-                    //no calendar on platofirm
-                }
-            }));
+               {
+                   try
+                   {
+                       SimpleIoc.Default.GetInstance<ICalendarExportProvider>().ExportToCalendar(entry);
+                   }
+                   catch (Exception)
+                   {
+                       //no calendar on platofirm
+                   }
+               }));
 
 
         private void InitPages()
@@ -164,10 +166,10 @@ namespace MALClient.XShared.ViewModels.Main
 
             foreach (
                 var abstraction in
-                    ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
-                        abstraction =>
-                            (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int) AnimeStatus.PlanToWatch) ||
-                            (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int) AnimeStatus.Watching)))
+                ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
+                    abstraction =>
+                        (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int) AnimeStatus.PlanToWatch) ||
+                        (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int) AnimeStatus.Watching)))
             {
                 try
                 {
@@ -190,7 +192,9 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             if (abstraction.VolatileData.LastFailedAiringTimeFetchAttempt != null)
                             {
-                                if((DateTime.UtcNow - abstraction.VolatileData.LastFailedAiringTimeFetchAttempt.Value).TotalDays < 1)
+                                if (
+                                    (DateTime.UtcNow - abstraction.VolatileData.LastFailedAiringTimeFetchAttempt.Value)
+                                        .TotalDays < 1)
                                     continue;
                             }
                             idsToFetchAiringTime.Add(abstraction);
@@ -199,7 +203,7 @@ namespace MALClient.XShared.ViewModels.Main
                     else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
                     {
                         idsToFetch.Add(abstraction);
-                        if(Settings.CalendarPullExactAiringTime)
+                        if (Settings.CalendarPullExactAiringTime)
                             idsToFetchAiringTime.Add(abstraction);
                     }
                 }
@@ -228,7 +232,7 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             day = data.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
                                   (string.Equals(data.Status, "Currently Airing",
-                                      StringComparison.CurrentCultureIgnoreCase) ||
+                                       StringComparison.CurrentCultureIgnoreCase) ||
                                    string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
                                 ? (int) DateTime.Parse(data.StartDate).DayOfWeek + 1
                                 : -1;
@@ -252,7 +256,7 @@ namespace MALClient.XShared.ViewModels.Main
                             abstraction.AirDay = day;
                             abstraction.GlobalScore = data.GlobalScore;
                             abstraction.AirStartDate = data.StartDate;
-                            abstraction.ViewModel.UpdateVolatileData();
+                            abstraction.ViewModel.UpdateVolatileDataBindings();
                             abstraction.LoadedVolatile = true;
                             day--;
                             if (Settings.AirDayOffset != 0)
@@ -267,27 +271,35 @@ namespace MALClient.XShared.ViewModels.Main
                             }
                             CalendarData[day].Items.Add(abstraction.ViewModel);
                         }
-                        ProgressValue++;
                     }
                     catch (Exception e)
                     {
                         //searching for crash source
                     }
+                    ProgressValue++;
                 }
                 foreach (var animeItemAbstraction in idsToFetchAiringTime)
                 {
-                    var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId,true).GetDetails(false);
+                    try
+                    {
+                        var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId, true).GetDetails(false);
 
-                    var time = data.ExtractAiringTime();
-                    if (time != null)
-                    {
-                        DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id,time);
-                        animeItemAbstraction.VolatileData.ExactAiringTime = time;
+                        var time = data.ExtractAiringTime();
+                        if (time != null)
+                        {
+                            DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id, time);
+                            animeItemAbstraction.VolatileData.ExactAiringTime = time;
+                        }
+                        else
+                        {
+                            DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-                        DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
+                        //no data/no internet/mal is crazy (choose one or all)
                     }
+
                     ProgressValue++;
                 }
             }

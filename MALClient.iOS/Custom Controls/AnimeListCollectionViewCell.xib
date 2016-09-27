@@ -25,20 +25,20 @@
                                     <constraint firstAttribute="height" constant="2" id="U85-NM-sbe"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bleach" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQa-eT-Djh">
-                                <rect key="frame" x="10" y="5" width="56" height="25"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bleach" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQa-eT-Djh">
+                                <rect key="frame" x="0.0" y="3" width="63" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="fQa-eT-Djh" firstAttribute="top" secondItem="F86-QB-29F" secondAttribute="top" constant="5" id="1e2-N5-AYQ"/>
+                            <constraint firstItem="fQa-eT-Djh" firstAttribute="top" secondItem="F86-QB-29F" secondAttribute="top" constant="3" id="1e2-N5-AYQ"/>
                             <constraint firstAttribute="trailing" secondItem="ESs-rD-3rH" secondAttribute="trailing" id="892-yb-KwF"/>
-                            <constraint firstItem="fQa-eT-Djh" firstAttribute="leading" secondItem="F86-QB-29F" secondAttribute="leading" constant="10" id="JoM-nE-DIU"/>
+                            <constraint firstItem="fQa-eT-Djh" firstAttribute="leading" secondItem="F86-QB-29F" secondAttribute="leading" constant="3" id="JoM-nE-DIU"/>
                             <constraint firstAttribute="height" constant="35" id="Qge-Ih-Tff"/>
-                            <constraint firstAttribute="bottom" secondItem="fQa-eT-Djh" secondAttribute="bottom" constant="5" id="TeD-m7-UHt"/>
+                            <constraint firstAttribute="bottom" secondItem="fQa-eT-Djh" secondAttribute="bottom" constant="3" id="TeD-m7-UHt"/>
                             <constraint firstItem="ESs-rD-3rH" firstAttribute="leading" secondItem="F86-QB-29F" secondAttribute="leading" id="bdl-XF-0jf"/>
                             <constraint firstAttribute="trailing" secondItem="fQa-eT-Djh" secondAttribute="trailing" constant="50" id="bho-SE-OOE"/>
                             <constraint firstItem="ESs-rD-3rH" firstAttribute="top" secondItem="F86-QB-29F" secondAttribute="top" id="yDG-p7-CR5"/>
@@ -53,9 +53,6 @@
                             <constraint firstAttribute="width" secondItem="36" secondAttribute="height" multiplier="225:320" id="p1t-Nd-sjQ"/>
                         </constraints>
                     </imageView>
-                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Jjq-XN-WAA">
-                        <rect key="frame" x="14" y="17" width="94" height="29"/>
-                    </stepper>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -75,7 +72,7 @@
                 <outlet property="AnimeCoverImageView" destination="36" id="name-outlet-36"/>
                 <outlet property="TitleLabel" destination="fQa-eT-Djh" id="name-outlet-fQa-eT-Djh"/>
             </connections>
-            <point key="canvasLocation" x="415" y="342"/>
+            <point key="canvasLocation" x="247" y="297"/>
         </collectionViewCell>
     </objects>
 </document>

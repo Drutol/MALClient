@@ -177,6 +177,10 @@
     </Compile>
     <Compile Include="Utils\AnimeImageDownloaderHelper.cs" />
     <Compile Include="Custom Controls\AnimeListCollectionViewDelegateFlowLayout.cs" />
+    <Compile Include="Controllers\AnimeDetailsViewController.cs" />
+    <Compile Include="Controllers\AnimeDetailsViewController.designer.cs">
+      <DependentUpon>AnimeDetailsViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">

@@ -38,7 +38,10 @@ namespace MALClient.XShared.ViewModels.Main
         private List<AnimeItemAbstraction> _animeItemsSet =
             new List<AnimeItemAbstraction>(); //All for current list        
 
-        private bool _initializing;
+		public List<AnimeItemAbstraction> AnimeItemsSet { get { return _animeItemsSet; } }
+		public bool IsiOS { get; set; } = false;
+
+		private bool _initializing;
         private bool _queryHandler;
 
         public bool ResetedNavBack { get; set; } = true;
@@ -56,8 +59,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         private bool _wasPreviousQuery;
 
-		public List<AnimeItemAbstraction> AnimeItemsSet { get { return _animeItemsSet; } }
-       
 		public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
 
@@ -595,26 +596,27 @@ namespace MALClient.XShared.ViewModels.Main
                 ? minItems
                 : CurrentIndexPosition + 1 <= minItems ? minItems : CurrentIndexPosition + 1;
 
-			#if __IOS__
-			switch (DisplayMode)
+			if (!IsiOS)
 			{
-				case AnimeListDisplayModes.IndefiniteCompactList:
-					AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
-					_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-					break;
-				case AnimeListDisplayModes.IndefiniteList:
-					AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
-					_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-					break;
-				case AnimeListDisplayModes.IndefiniteGrid:
-					AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex)
-						.Select(abstraction => abstraction.ViewModel));
-					_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
+				switch (DisplayMode)
+				{
+					case AnimeListDisplayModes.IndefiniteCompactList:
+						AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
+						_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
+						break;
+					case AnimeListDisplayModes.IndefiniteList:
+						AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex).Select(abstraction => abstraction.ViewModel));
+						_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
+						break;
+					case AnimeListDisplayModes.IndefiniteGrid:
+						AnimeItems.AddRange(_animeItemsSet.Take(minimumIndex)
+							.Select(abstraction => abstraction.ViewModel));
+						_animeItemsSet = _animeItemsSet.Skip(minimumIndex).ToList();
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
 			}
-			#endif
 
             RaisePropertyChanged(() => AnimeItems);
             AddScrollHandler();

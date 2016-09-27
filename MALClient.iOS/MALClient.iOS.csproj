@@ -166,7 +166,7 @@
     <Compile Include="Controllers\LogInnViewController.designer.cs">
       <DependentUpon>LogInnViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Custom Controls\AnimeListCollectionViewSource.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionViewDataSource.cs" />
     <Compile Include="ImageViewController.cs" />
     <Compile Include="ImageViewController.designer.cs">
       <DependentUpon>ImageViewController.cs</DependentUpon>
@@ -176,6 +176,7 @@
       <DependentUpon>AnimeListCollectionVieController.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\AnimeImageDownloaderHelper.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionViewDelegateFlowLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">

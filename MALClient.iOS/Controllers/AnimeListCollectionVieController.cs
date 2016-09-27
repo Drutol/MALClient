@@ -12,6 +12,7 @@ namespace MALClient.iOS
     public partial class AnimeListCollectionVieController : UIViewController
     {
 		AnimeListViewModel VM { get { return ViewModelLocator.AnimeList; } }
+		static double _imageRatio = 1.724;
 
 		public AnimeListCollectionVieController(IntPtr handle) : base(handle)
 		{
@@ -26,8 +27,10 @@ namespace MALClient.iOS
 			Credentials.SetAuthStatus(true);
 			Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
 			ViewModelLocator.AnimeList.Init(null);
+			ViewModelLocator.AnimeList.IsiOS = true;
 			ViewModelLocator.AnimeList.Initialized += AnimeList_Initialized;
 			AnimeListCollectionView.RegisterNibForCell(AnimeListCollectionViewCell.Nib, AnimeListCollectionViewCell.Key);
+			AnimeListCollectionView.Delegate = new AnimeListCollectionViewDelegateFlowLayout(View.Frame.Size, _imageRatio);
 			AnimeItemsBinding = this.SetBinding(() => VM.AnimeItems);
 			AnimeItemsBinding.WhenSourceChanges(() => AnimeListCollectionView.AllLoadedAnimeItemAbstractions = VM.AllLoadedAnimeItemAbstractions);
 		}
@@ -35,6 +38,12 @@ namespace MALClient.iOS
 		void AnimeList_Initialized()
 		{
 
+		}
+
+		public override void WillRotate(UIInterfaceOrientation toInterfaceOrientation, double duration)
+		{
+			base.WillRotate(toInterfaceOrientation, duration);
+			AnimeListCollectionView.ReloadData();
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace MALClient.iOS
 			get { return _allLoadedAnimeItemAbstractions; }
 			set
 			{
-				Source = new AnimeListCollectionViewSource(value);
+				DataSource = new AnimeListCollectionViewDataSource(value);
 
 				List<string> urls = new List<string>();
 				foreach (var item in value)
@@ -38,6 +38,5 @@ namespace MALClient.iOS
 		{
 			InvokeOnMainThread(() => ReloadData());
 		}
-
 	}
 }

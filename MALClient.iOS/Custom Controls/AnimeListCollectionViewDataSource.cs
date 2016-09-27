@@ -6,11 +6,11 @@ using UIKit;
 
 namespace MALClient.iOS
 {
-	public class AnimeListCollectionViewSource : UICollectionViewSource
+	public class AnimeListCollectionViewDataSource : UICollectionViewDataSource
 	{
 		List<AnimeItemAbstraction> _allLoadedAnimeItemAbstractions;
 
-		public AnimeListCollectionViewSource(List<AnimeItemAbstraction> allLoadedAnimeItemAbstractions)
+		public AnimeListCollectionViewDataSource(List<AnimeItemAbstraction> allLoadedAnimeItemAbstractions)
 		{
 			_allLoadedAnimeItemAbstractions = allLoadedAnimeItemAbstractions;
 		}
@@ -28,7 +28,6 @@ namespace MALClient.iOS
 		{
 			return _allLoadedAnimeItemAbstractions.Count;
 		}
-
 	}
 }
 

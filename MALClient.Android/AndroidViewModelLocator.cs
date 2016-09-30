@@ -25,9 +25,10 @@ namespace MALClient.Android
         {
             ViewModelLocator.RegisterBase();
 
+            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<MainViewModelBase>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel,HamburgerControlViewModel>();
             SimpleIoc.Default.Register<INavMgr,NavMgr>();
-            SimpleIoc.Default.Register<IMainViewModel,MainViewModel>();
 
             SimpleIoc.Default.Register<IDataCache, DataCache>();
             SimpleIoc.Default.Register<IPasswordVault, PasswordVaultProvider>();
@@ -36,6 +37,8 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<ISystemControlsLauncherService, SystemControlLauncherService>();
             SimpleIoc.Default.Register<IMessageDialogProvider, MessageDialogProvider>();
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
+            SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
+            SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
         }
     }
 }

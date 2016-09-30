@@ -34,11 +34,20 @@ namespace MALClient.Android.Adapters
                     case TypeCode.Int32:
                         editor.PutInt(key, (int) value);
                         break;
+                    case TypeCode.Int64:
+                        editor.PutLong(key, (long) value);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
                 editor.Apply();
             }
+        }
+
+        object IApplicationDataService.this[RoamingDataTypes key]
+        {
+            get { return this[key.ToString()]; }
+            set { this[key.ToString()] = value; }
         }
     }
 }

@@ -12,6 +12,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using GalaSoft.MvvmLight.Helpers;
 using Java.Net;
+using MALClient.Android.Activities;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -32,21 +33,20 @@ namespace MALClient.Android
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Main);
-            ViewModelLocator.RegisterBase();
-            AndroidViewModelLocator.RegisterDependencies();
-            Credentials.SetAuthStatus(true);
-            Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
-            ViewModelLocator.AnimeList.Init(null);
-            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+            StartActivity(typeof(LogInActivity));
+            //Credentials.SetAuthStatus(true);
+            //Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
+            //ViewModelLocator.AnimeList.Init(null);
+            //ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
 
-            _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            _navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            //_drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            //_navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
-            _navigationView.NavigationItemSelected += (sender, e) => {
-                e.MenuItem.SetChecked(true);
-                //react to click here and swap fragments or navigate
-                _drawerLayout.CloseDrawers();
-            };
+            //_navigationView.NavigationItemSelected += (sender, e) => {
+            //    e.MenuItem.SetChecked(true);
+            //    //react to click here and swap fragments or navigate
+            //    _drawerLayout.CloseDrawers();
+            //};
 
         }
 

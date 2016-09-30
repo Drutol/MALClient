@@ -16,42 +16,26 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.ViewModels
 {
-    public class MainViewModel : IMainViewModel
+    public class MainViewModel : MainViewModelBase
     {
-        public void Navigate(PageIndex page, object args = null)
+        protected override void CurrentStatusStoryboardBegin()
         {
-            
+            //throw new NotImplementedException();
         }
 
-        public string CurrentStatus { get; set; }
-        public AnimeListPageNavigationArgs GetCurrentListOrderParams()
+        protected override void CurrentOffSubStatusStoryboardBegin()
         {
-            return new AnimeListPageNavigationArgs(0,AnimeListWorkModes.Anime);
+           // throw new NotImplementedException();
         }
 
-        public void PopulateSearchFilters(HashSet<string> filters)
+        protected override void CurrentOffStatusStoryboardBegin()
         {
-            
+          //  throw new NotImplementedException();
         }
 
-        public void OnSearchInputSubmit()
+        public override void Navigate(PageIndex index, object args = null)
         {
-            
+           // throw new NotImplementedException();
         }
-
-        public event OffContentPaneStateChanged OffContentPaneStateChanged;
-        public ICommand HideOffContentCommand { get; }
-        public string CurrentOffStatus { get; set; }
-        public bool NavigateOffBackButtonVisibility { get; set; }
-        public bool NavigateMainBackButtonVisibility { get; set; }
-        public string CurrentSearchQuery { get; set; }
-        public List<string> SearchHints { get; set; }
-        public bool ScrollToTopButtonVisibility { get; set; }
-        public string CurrentStatusSub { get; set; }
-        public bool IsCurrentStatusSelectable { get; set; }
-        public PageIndex? CurrentOffPage { get; set; }
-        public bool OffContentVisibility { get; set; }
-        public event SearchQuerySubmitted OnSearchQuerySubmitted;
-        public event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
     }
 }

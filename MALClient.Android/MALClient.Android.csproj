@@ -93,7 +93,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\LogInActivity.cs" />
+    <Compile Include="Activities\LogInActivity.ui.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
+    <Compile Include="App.cs" />
+    <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -102,11 +106,13 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\AnimeGridItem.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\login_page.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -148,6 +154,7 @@
   <ItemGroup>
     <Folder Include="Fragments\" />
     <Folder Include="Resources\layout\anime_items\" />
+    <Folder Include="Resources\layout\pages\" />
     <Folder Include="Resources\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>

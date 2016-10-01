@@ -54,25 +54,26 @@ namespace MALClient.XShared.Comm.Forums
 
         
 
-        public async Task<ForumBoardContent> GetTopicPosts(int? lastPage)
+        public async Task<ForumBoardContent> GetTopicPosts(int? lastPage,bool force = false)
         {
-            try
-            {
-                if (_animeId == 0)
+            if(!force)
+                try
                 {
-                    if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
-                        return _boardCache[_board][_page];
+                    if (_animeId == 0)
+                    {
+                        if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
+                            return _boardCache[_board][_page];
+                    }
+                    else
+                    {
+                        if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
+                            return _animeBoardCache[_animeId][_page];
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
-                        return _animeBoardCache[_animeId][_page];
+                    //
                 }
-            }
-            catch (Exception e)
-            {
-                //
-            }
 
 
 
@@ -128,13 +129,19 @@ namespace MALClient.XShared.Comm.Forums
             {
                 if (!_boardCache.ContainsKey(_board))
                     _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
-                _boardCache[_board].Add(_page, output);
+                if (!_boardCache[_board].ContainsKey(_page))
+                    _boardCache[_board].Add(_page, output);
+                else
+                    _boardCache[_board][_page] = output;
             }
             else
             {
                 if (!_animeBoardCache.ContainsKey(_animeId))
                     _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
-                _animeBoardCache[_animeId].Add(_page, output);
+                if (!_animeBoardCache[_animeId].ContainsKey(_page))
+                    _animeBoardCache[_animeId].Add(_page, output);
+                else
+                    _animeBoardCache[_animeId][_page] = output;
             }
 
 

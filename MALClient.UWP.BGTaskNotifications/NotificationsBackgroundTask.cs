@@ -92,8 +92,7 @@ namespace MALClient.UWP.BGTaskNotifications
 
             }
 
-            var allTriggeredNotifications = (string)(ApplicationData.Current.RoamingSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
-
+            var allTriggeredNotifications = (string)(ResourceLocator.ApplicationDataService[RoamingDataTypes.ReadNotifications] ?? string.Empty);
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
             //trigger new notifications
@@ -115,7 +114,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     presentNotifications.Add(triggeredNotification);
             }
 
-            ApplicationData.Current.RoamingSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",presentNotifications);
+            ResourceLocator.ApplicationDataService[RoamingDataTypes.ReadNotifications] = string.Join(";",presentNotifications);
         }
 
         private async void ScheduleToast(MalNotification notification)

@@ -484,8 +484,11 @@ namespace MALClient.XShared.ViewModels.Details
                 (_navigateForumBoardCommand =
                     new RelayCommand(
                         () =>
+                        {
+                            ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                                new ForumsBoardNavigationArgs(Id, Title, AnimeMode))));
+                                new ForumsBoardNavigationArgs(Id, Title, AnimeMode));
+                        }));
 
         private ICommand _toggleFavouriteCommand;
 

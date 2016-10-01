@@ -225,16 +225,19 @@ namespace MALClient.XShared.ViewModels.Forums
         private bool _initizalizing;
 
 
-        public void Init(ForumsBoardNavigationArgs args)
+        public void Init(ForumsBoardNavigationArgs args,bool force = false)
         {
-            if (_initizalizing)
-                return;
-            if (args.Equals(PrevArgs))
-                return;
+            if (!force)
+            {
+                if (_initizalizing)
+                    return;
+                if (args.Equals(PrevArgs))
+                    return;
+            }
             _initizalizing = true;
             PrevArgs = args;
 
-            LoadPage(args.PageNumber);
+            LoadPage(args.PageNumber,false,force);
 
             switch (args.WorkMode)
             {
@@ -272,7 +275,7 @@ namespace MALClient.XShared.ViewModels.Forums
                 NewTopicButtonVisibility = true;
         }
 
-        public async void LoadPage(int page, bool decrement = false)
+        public async void LoadPage(int page, bool decrement = false,bool force = false)
         {
             LoadingTopics = true;
             if (decrement)
@@ -289,12 +292,12 @@ namespace MALClient.XShared.ViewModels.Forums
                 switch (PrevArgs.WorkMode)
                 {
                     case ForumBoardPageWorkModes.Standard:
-                        topics = await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts(arg);
+                        topics = await new ForumBoardTopicsQuery(PrevArgs.TargetBoard, page).GetTopicPosts(arg,force);
                         break;
                     case ForumBoardPageWorkModes.AnimeBoard:
                     case ForumBoardPageWorkModes.MangaBoard:
                         topics = await
-                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard).GetTopicPosts(arg);
+                            new ForumBoardTopicsQuery(PrevArgs.AnimeId, page, PrevArgs.IsAnimeBoard).GetTopicPosts(arg,force);
                         break;
                     case ForumBoardPageWorkModes.Search:
                         topics = await
@@ -323,6 +326,11 @@ namespace MALClient.XShared.ViewModels.Forums
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard, lastpost));
+        }
+
+        public void Reload()
+        {
+            Init(PrevArgs,true);
         }
     }
 }

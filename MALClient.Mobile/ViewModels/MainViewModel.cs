@@ -216,8 +216,17 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Forums";
                     if (args == null || (args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
                     {
-                        RefreshButtonVisibility = true;
-                        RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
+                            RefreshButtonVisibility = true;
+                            RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
+                    }
+                    else
+                    {
+                        var navArgs = args as ForumsNavigationArgs;
+                        if (navArgs?.Page == ForumsPageIndex.PageBoard)
+                        {
+                            RefreshButtonVisibility = true;
+                            RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsBoard.Reload(); });
+                        }
                     }
                     if (CurrentMainPage == PageIndex.PageForumIndex)
                         ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);

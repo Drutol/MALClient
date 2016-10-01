@@ -46,7 +46,7 @@ namespace MALClient.Shared.Items
             }
         }
 
-        public int Index { get; set; }
+        public int Index => ViewModel.Index;
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {

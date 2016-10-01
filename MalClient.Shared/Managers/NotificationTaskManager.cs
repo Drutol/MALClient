@@ -23,43 +23,53 @@ namespace MALClient.Shared.Managers
 
         public static async void StartNotificationTask(bool restart = true)
         {
-             if(!Settings.EnableNotifications || !Credentials.Authenticated || Settings.SelectedApiType == ApiType.Hummingbird)
+            if (!Settings.EnableNotifications || !Credentials.Authenticated ||
+                Settings.SelectedApiType == ApiType.Hummingbird)
                 return;
 
-            if(!_taskRegistered)
-                foreach (var task in BackgroundTaskRegistration.AllTasks)
-                {
-                    if (task.Value.Name == TaskName)
-                    {
-                        _taskRegistered = true;
-                        TaskRegistration = task.Value as BackgroundTaskRegistration;
-                    }
-                }
-
-             if(_taskRegistered && !restart)
-                return;
-
-            if (_taskRegistered)
-                TaskRegistration?.Unregister(true);
-
-            var access = await BackgroundExecutionManager.RequestAccessAsync();
-            if(access == BackgroundAccessStatus.DeniedBySystemPolicy || 
-               access == BackgroundAccessStatus.DeniedByUser)
-                return;
-
-            var builder = new BackgroundTaskBuilder
+            try
             {
-                Name = TaskName,
-                TaskEntryPoint = TaskNamespace
-            };
 
-            builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            builder.SetTrigger(new TimeTrigger((uint)Settings.NotificationsRefreshTime,false));
-            //builder.SetTrigger(new ApplicationTrigger());
+                if (!_taskRegistered)
+                    foreach (var task in BackgroundTaskRegistration.AllTasks)
+                    {
+                        if (task.Value.Name == TaskName)
+                        {
+                            _taskRegistered = true;
+                            TaskRegistration = task.Value as BackgroundTaskRegistration;
+                        }
+                    }
 
-            TaskRegistration = builder.Register();
+                if (_taskRegistered && !restart)
+                    return;
 
-            _taskRegistered = true;
+                if (_taskRegistered)
+                    TaskRegistration?.Unregister(true);
+
+                var access = await BackgroundExecutionManager.RequestAccessAsync();
+                if (access == BackgroundAccessStatus.DeniedBySystemPolicy ||
+                    access == BackgroundAccessStatus.DeniedByUser)
+                    return;
+
+                var builder = new BackgroundTaskBuilder
+                {
+                    Name = TaskName,
+                    TaskEntryPoint = TaskNamespace
+                };
+
+                builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                builder.SetTrigger(new TimeTrigger((uint) Settings.NotificationsRefreshTime, false));
+                //builder.SetTrigger(new ApplicationTrigger());
+
+                TaskRegistration = builder.Register();
+
+                _taskRegistered = true;
+
+            }
+            catch (Exception)
+            {
+                //unable to register this task
+            }
         }
 
 

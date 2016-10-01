@@ -125,7 +125,8 @@ namespace MALClient.Pages.Forums
                 commands = new List<string>
                 {
                     @"document.getElementById(""headerSmall"").outerHTML='';document.getElementById(""menu"").outerHTML='';document.getElementsByClassName(""js-sns-icon-container icon-block-small"")[0].outerHTML='';document.getElementsByTagName(""footer"")[0].innerHTML='';document.getElementsByClassName(""mauto clearfix pt24"")[0].outerHTML='';",
-                    @"$(""#contentWrapper"").find('div:first').remove();",
+                    @"$(""#contentWrapper"").find('div:first').remove();",                 
+                    @"$(""div[id^="" +""ad-skin"" + ""]"").remove();",
                     $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"");",
                     $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
                     $@"$(""td"").css(""background-color"", ""{bodyDarker}"").css(""border-color"", ""{bodyDarker}"");",

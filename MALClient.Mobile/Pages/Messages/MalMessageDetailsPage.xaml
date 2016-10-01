@@ -11,6 +11,7 @@
 
     <Page.Resources>
         <xamlConverters:MessageEntryToViewModelConverter x:Key="MessageEntryToViewModelConverter"/>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
 
@@ -64,10 +65,10 @@
                      Visibility="{Binding NewMessageFieldsVisibility}" Margin="4" PlaceholderText="Subject" />
             <TextBox Grid.Column="0" Grid.Row="2"
                      Text="{Binding MessageText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True"
-                     Margin="4" PlaceholderText="Type message..." />
+                     Margin="4" PlaceholderText="Type message..." TextWrapping="Wrap"/>
             <Grid Grid.Column="1" Grid.Row="2">
                 <StackPanel>
-                    <ProgressRing IsActive="True" Visibility="{Binding SendingMessageSpinnerVisibility}" Height="20" Width="20"/>
+                    <ProgressRing IsActive="True" Visibility="{Binding SendingMessageSpinnerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Height="20" Width="20"/>
                     <Button Height="40" Width="40" Command="{Binding SendMessageCommand}" HorizontalAlignment="Right"
                         Margin="5" Padding="0" VerticalAlignment="Center" IsEnabled="{Binding IsSendButtonEnabled}"
                         Background="{StaticResource SystemControlBackgroundAccentBrush}">
@@ -78,7 +79,7 @@
             </Grid>
         </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2"
-              Background="{ThemeResource BrushLoadingNonOpaque}" Visibility="{Binding LoadingVisibility}">
+              Background="{ThemeResource BrushLoadingNonOpaque}" Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" Height="75"
                           Width="75" />
         </Grid>

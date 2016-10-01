@@ -41,7 +41,7 @@ namespace MALClient.Shared.Managers
                 }
                 catch (Exception)
                 {
-                    var msg = new MessageDialog("Something went wrong™", "Authorization failed while rewriting cookies, I don't know why this is happenning and after hours of debugging it fixed itself after reinstall. :(");
+                    var msg = new MessageDialog( "Authorization failed while rewriting cookies, I don't know why this is happenning and after hours of debugging it fixed itself after reinstall. :(","Something went wrong™");
                     await msg.ShowAsync();
                 }
 

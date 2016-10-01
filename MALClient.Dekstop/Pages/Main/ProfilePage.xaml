@@ -803,7 +803,7 @@
                     <StackPanel Grid.Row="1" HorizontalAlignment="Stretch"
                                 Visibility="{Binding CommentInputBoxVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch"
-                                 Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50"
+                                 Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" TextWrapping="Wrap"
                                  PlaceholderText="Type comment..." />
                         <Button Content="Send Comment" Margin="20,0" Foreground="White"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"

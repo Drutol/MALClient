@@ -9,11 +9,24 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
 
 namespace MALClient.Android.Activities
 {
     public partial class LogInActivity
     {
+        protected override void InitBindings()
+        {
+            _bindings = new Dictionary<int, Binding>
+            {
+                { UsernameInput.Id, this.SetBinding(() => ViewModel.UserNameInput,() => UsernameInput.Text,BindingMode.TwoWay)},
+                { PasswordInput.Id, this.SetBinding(() => ViewModel.PasswordInput,() => PasswordInput.Text,BindingMode.TwoWay)},
+                { ProgressSpinner.Id, this.SetBinding(() => ViewModel.Authenticating,() => ProgressSpinner.Visibility,BindingMode.OneWay).ConvertSourceToTarget(Converters.BoolToVisibility)},
+            };
+            SignInButton.SetCommand(ViewModel.LogInCommand);
+        }
+
         private Button _signInButton;
         private EditText _usernameInput;
         private EditText _passwordInput;

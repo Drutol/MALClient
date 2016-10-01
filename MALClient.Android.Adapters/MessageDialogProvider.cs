@@ -1,4 +1,6 @@
 ﻿using System;
+using Android.App;
+using GalaSoft.MvvmLight.Views;
 using MALClient.Adapters;
 
 namespace MALClient.Android.Adapters
@@ -9,6 +11,12 @@ namespace MALClient.Android.Adapters
         {
             //var msg = new MessageDialog(content, title);
             //await msg.ShowAsync();
+            var dialog = new AlertDialog.Builder(ActivityBase.CurrentActivity);
+            dialog.SetNeutralButton("OK",(sender, args) => {});
+            dialog.SetTitle(title);
+            dialog.SetMessage(content);
+            dialog.SetCancelable(false);
+            dialog.Show();
         }
 
         public async void ShowMessageDialogWithInput(string content, string title,string trueCommand,string falseCommand, Action callbackOnTrue,Action callBackOnFalse = null)

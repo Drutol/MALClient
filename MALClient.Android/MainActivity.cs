@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -22,33 +23,42 @@ using Uri = Android.Net.Uri;
 
 namespace MALClient.Android
 {
-    [Activity(Label = "MALClient.Android", MainLauncher = true, Icon = "@drawable/icon",Theme = "@style/Theme.AppCompat.Light")]
-    public class MainActivity : AppCompatActivity , IDimensionsProvider
+    [Activity(Label = "MALClient.Android", MainLauncher = true, Icon = "@drawable/icon")]
+    public class MainActivity : MalActivityBase , IDimensionsProvider
     {
         private DrawerLayout _drawerLayout;
         private NavigationView _navigationView;
 
-        protected override void OnCreate(Bundle bundle)
+        protected override void InitBindings()
         {
-            base.OnCreate(bundle);
-
-            SetContentView(Resource.Layout.Main);
-            StartActivity(typeof(LogInActivity));
-            //Credentials.SetAuthStatus(true);
-            //Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
-            //ViewModelLocator.AnimeList.Init(null);
-            //ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
-
-            //_drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            //_navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-
-            //_navigationView.NavigationItemSelected += (sender, e) => {
-            //    e.MenuItem.SetChecked(true);
-            //    //react to click here and swap fragments or navigate
-            //    _drawerLayout.CloseDrawers();
-            //};
-
+            
         }
+
+        protected override async void Init(Bundle savedInstanceState)
+        {
+            await Task.Delay(100);
+            AndroidViewModelLocator.NavigationService.NavigateTo(nameof(PageIndex.PageLogIn));
+        }
+
+        //protected override void OnCreate(Bundle bundle)
+        //{
+
+
+        //    //Credentials.SetAuthStatus(true);
+        //    //Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
+        //    //ViewModelLocator.AnimeList.Init(null);
+        //    //ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+
+        //    //_drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+        //    //_navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+
+        //    //_navigationView.NavigationItemSelected += (sender, e) => {
+        //    //    e.MenuItem.SetChecked(true);
+        //    //    //react to click here and swap fragments or navigate
+        //    //    _drawerLayout.CloseDrawers();
+        //    //};
+
+        //}
 
         private void AnimeListOnInitialized()
         {

@@ -27,7 +27,7 @@ namespace MALClient.XShared.Utils
                 case 2:
                     if (!rewatch)
                         return "Completed";
-                    return manga ? "Rereading" : "Rewatching";                     
+                    return manga ? "Rereading" : "Rewatching";
                 case 3:
                     return "On hold";
                 case 4:
@@ -43,7 +43,7 @@ namespace MALClient.XShared.Utils
             }
         }
 
-        public static string StatusToShortString(int status, bool manga = false,bool rewatch = false)
+        public static string StatusToShortString(int status, bool manga = false, bool rewatch = false)
         {
             switch (status)
             {
@@ -428,32 +428,58 @@ namespace MALClient.XShared.Utils
 
         public static HtmlNode FirstWithClass(this IEnumerable<HtmlNode> doc, string targettedClass)
         {
-            return doc.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+            return
+                doc.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
-        public static HtmlNode FirstOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
+        public static HtmlNode FirstOfDescendantsWithClass(this HtmlDocument doc, string descendants,
+            string targettedClass)
         {
-            return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
         public static HtmlNode FirstOfDescendantsWithId(this HtmlDocument doc, string descendants, string targettedId)
         {
-            return doc.DocumentNode.Descendants(descendants).First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == targettedId);
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == targettedId);
         }
 
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
         {
-            return doc.Descendants(descendants).First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+            return
+                doc.Descendants(descendants)
+                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
-        public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlDocument doc, string descendants, string targettedClass)
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlDocument doc, string descendants,
+            string targettedClass)
         {
-            return doc.DocumentNode.Descendants(descendants).Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
         }
 
-        public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlNode doc, string descendants,
+            string targettedClass)
         {
-            return doc.Descendants(descendants).Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+            return
+                doc.Descendants(descendants)
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> source,Action<T> action)
+        {
+            foreach (T element in source)
+                action(element);
+        }
+
+        public static void IndexedForEach<T>(this IEnumerable<T> source,Action<T> action)
+        {
+            foreach (T element in source)
+                action(element);
         }
 
     }

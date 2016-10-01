@@ -93,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\MalActivityBase.cs" />
     <Compile Include="Activities\LogInActivity.cs" />
     <Compile Include="Activities\LogInActivity.ui.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
@@ -155,7 +156,6 @@
     <Folder Include="Fragments\" />
     <Folder Include="Resources\layout\anime_items\" />
     <Folder Include="Resources\layout\pages\" />
-    <Folder Include="Resources\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportdesign">

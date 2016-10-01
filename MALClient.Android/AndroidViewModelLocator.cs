@@ -10,12 +10,16 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Views;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
+using MALClient.Android.Activities;
 using MALClient.Android.Adapters;
 using MALClient.Android.Managers;
 using MALClient.Android.ViewModels;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.Android
 {
@@ -39,6 +43,14 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
+
+            var nav = new NavigationService();
+            nav.Configure(nameof(PageIndex.PageLogIn), typeof(LogInActivity));
+            nav.Configure(nameof(PageIndex.PageAnimeList), typeof(LogInActivity));
+
+            SimpleIoc.Default.Register<INavigationService>(() => nav);
         }
+
+        public static INavigationService NavigationService => ServiceLocator.Current.GetInstance<INavigationService>();
     }
 }

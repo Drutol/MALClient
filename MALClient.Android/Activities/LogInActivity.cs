@@ -16,34 +16,17 @@ using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.Activities
 {
-    [Activity(Label = "LogInActivity")]
-    public partial class LogInActivity : Activity
+    [Activity(Label = "LogInMalActivity")]
+    public partial class LogInActivity : MalActivityBase
     {
-        private LogInViewModel ViewModel;
-        private List<Binding> _bindings;
+        private LogInViewModel ViewModel { get; set; }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void Init(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
             ViewModel = ViewModelLocator.LogIn;
             ViewModel.Init();
             SetContentView(Resource.Layout.login_page);
-
-            InitBindings();
         }
 
-
-        private void InitBindings()
-        {
-            _bindings = new List<Binding>
-            {
-                this.SetBinding(() => ViewModel.UserNameInput,() => UsernameInput.Text,BindingMode.TwoWay),
-                this.SetBinding(() => ViewModel.PasswordInput,() => PasswordInput.Text,BindingMode.TwoWay),    
-                this.SetBinding(() => ViewModel.Authenticating,() => ProgressSpinner.Visibility,BindingMode.OneWay).ConvertSourceToTarget(Converters.BoolToVisibility)       
-            };
-            SignInButton.SetCommand(ViewModel.LogInCommand);
-        }
-
-       
     }
 }

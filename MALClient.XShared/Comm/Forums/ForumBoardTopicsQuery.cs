@@ -74,6 +74,19 @@ namespace MALClient.XShared.Comm.Forums
                 {
                     //
                 }
+            else //clear all pages
+            {
+                if (_animeId == 0)
+                {
+                    if(_boardCache.ContainsKey(_board))
+                        _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
+                }
+                else
+                {
+                    if (_animeBoardCache.ContainsKey(_animeId))
+                        _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
+                }
+            }
 
 
 

@@ -7,26 +7,26 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
-using GalaSoft.MvvmLight.Helpers;
-using MALClient.Android.BindingConverters;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Activities
+namespace MALClient.Android.Fragments
 {
-    [Activity(Label = "LogInMalActivity")]
-    public partial class LogInActivity : MalActivityBase
+    public partial class LogInPageFragment
     {
+        public override int LayoutResourceId => Resource.Layout.LogInPage;
+
         private LogInViewModel ViewModel { get; set; }
 
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.LogIn;
             ViewModel.Init();
-            SetContentView(Resource.Layout.login_page);
         }
 
+        public static LogInPageFragment Instance => new LogInPageFragment();
     }
 }

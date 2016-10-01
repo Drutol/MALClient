@@ -1,74 +1,62 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Android.Support.Design.Widget;
-using Android.Support.V4.Widget;
 using Android.Support.V7.App;
-using GalaSoft.MvvmLight.Helpers;
-using Java.Net;
-using MALClient.Android.Activities;
-using MALClient.Models.Enums;
-using MALClient.XShared.Utils;
+using Android.Views;
+using Android.Widget;
+using GalaSoft.MvvmLight.Ioc;
+using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
-using Uri = Android.Net.Uri;
+using Fragment = Android.Support.V4.App.Fragment;
 
-namespace MALClient.Android
+namespace MALClient.Android.Activities
 {
-    [Activity(Label = "MALClient.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : MalActivityBase , IDimensionsProvider
+    [Activity(Label = "MALClient", MainLauncher = true, Icon = "@drawable/icon", LaunchMode = LaunchMode.SingleTop,Theme = "@style/Theme.AppCompat")]
+    public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
-        private DrawerLayout _drawerLayout;
-        private NavigationView _navigationView;
+        private MainViewModel _viewModel;
+        private bool _addedNavHandlers;
 
-        protected override void InitBindings()
+        private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
+
+        protected override void OnCreate(Bundle bundle)
         {
-            
-        }
-
-        protected override async void Init(Bundle savedInstanceState)
-        {
-            await Task.Delay(100);
-            AndroidViewModelLocator.NavigationService.NavigateTo(nameof(PageIndex.PageLogIn));
-        }
-
-        //protected override void OnCreate(Bundle bundle)
-        //{
-
-
-        //    //Credentials.SetAuthStatus(true);
-        //    //Credentials.Update("MALClientTestAcc", "MuchVerificatio", ApiType.Mal);
-        //    //ViewModelLocator.AnimeList.Init(null);
-        //    //ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
-
-        //    //_drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-        //    //_navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-
-        //    //_navigationView.NavigationItemSelected += (sender, e) => {
-        //    //    e.MenuItem.SetChecked(true);
-        //    //    //react to click here and swap fragments or navigate
-        //    //    _drawerLayout.CloseDrawers();
-        //    //};
-
-        //}
-
-        private void AnimeListOnInitialized()
-        {
-            var gridview = FindViewById<GridView>(Resource.Id.AnimeItemsGrid);
-            gridview.Adapter = new ImageAdapter(this);
-
-            gridview.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
+            SetContentView(Resource.Layout.MainPage);
+            if (!_addedNavHandlers)
             {
-                Toast.MakeText(this, args.Position.ToString(), ToastLength.Short).Show();
-            };
+                ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
+            }
+            base.OnCreate(bundle);       
+            NavView.NavigationItemSelected += NavViewOnNavigationItemSelected;
+        }
+
+        private void ViewModelOnMainNavigationRequested(Fragment fragment)
+        {
+            SupportFragmentManager.BeginTransaction()
+                .Replace(Resource.Id.MainContentFrame, fragment)
+                .Commit();
+        }
+
+
+        private void NavViewOnNavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
+        {
+            e.MenuItem.SetChecked(true);
+
+            switch (e.MenuItem.ItemId)
+            {
+                case Resource.Id.MainHamburgerBtnLogIn:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                    break;
+            }
+
+            DrawerLayout.CloseDrawers();
         }
 
         public double ActualWidth => 800;

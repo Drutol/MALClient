@@ -1,25 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
   <group android:checkableBehavior="single">
     <item
-      android:id="@+id/nav_home"
-      android:title="Home" />
+        android:id="@+id/nav_home_1"
+        android:title="Home 1" />
     <item
-      android:id="@+id/nav_messages"
-      android:title="Messages" />
-    <item
-      android:id="@+id/nav_friends"
-      android:title="Friends" />
-    <item
-      android:id="@+id/nav_discussion"
-      android:title="Discussion" />
+        android:id="@+id/MainHamburgerBtnLogIn"
+        android:title="Sign In" />
   </group>
+
   <item android:title="Sub items">
     <menu>
       <item
-        android:title="Sub item 1" />
+          android:title="Sub item 1" />
       <item
-        android:title="Sub item 2" />
+          android:title="Sub item 2" />
     </menu>
   </item>
+
 </menu>

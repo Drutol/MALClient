@@ -43,12 +43,6 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
-
-            var nav = new NavigationService();
-            nav.Configure(nameof(PageIndex.PageLogIn), typeof(LogInActivity));
-            nav.Configure(nameof(PageIndex.PageAnimeList), typeof(LogInActivity));
-
-            SimpleIoc.Default.Register<INavigationService>(() => nav);
         }
 
         public static INavigationService NavigationService => ServiceLocator.Current.GetInstance<INavigationService>();

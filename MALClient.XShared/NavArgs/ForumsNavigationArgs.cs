@@ -8,7 +8,9 @@ namespace MALClient.XShared.NavArgs
         Standard,
         AnimeBoard,
         MangaBoard,
-        Search
+        Search,
+        UserSearch,
+        WatchedTopics
     }
 
     public class ForumsNavigationArgs
@@ -54,6 +56,12 @@ namespace MALClient.XShared.NavArgs
             Page = ForumsPageIndex.PageBoard;
         }
 
+        public ForumsBoardNavigationArgs(ForumBoardPageWorkModes workMode)
+        {
+            WorkMode = workMode;
+            Page = ForumsPageIndex.PageBoard;
+        }
+
         public override bool Equals(object obj)
         {
             var arg = obj as ForumsBoardNavigationArgs;
@@ -69,6 +77,10 @@ namespace MALClient.XShared.NavArgs
                         return AnimeId == arg.AnimeId;
                     case ForumBoardPageWorkModes.Search:
                         return Query == arg.Query && Scope == arg.Scope;
+                    case ForumBoardPageWorkModes.UserSearch:
+                        return WorkMode == arg.WorkMode;
+                    case ForumBoardPageWorkModes.WatchedTopics:
+                        return WorkMode == arg.WorkMode;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -81,7 +93,7 @@ namespace MALClient.XShared.NavArgs
     {
         public bool CreateNewTopic { get; set; }
         public string TopicId { get; set; }
-        public ForumBoards SourceBoard { get; set; }
+        public ForumBoards? SourceBoard { get; set; }
         public bool Lastpost { get; set; }
 
         public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard, bool lastpost = false)
@@ -89,6 +101,13 @@ namespace MALClient.XShared.NavArgs
             TopicId = topicId;
             Page = ForumsPageIndex.PageTopic;
             SourceBoard = sourceBoard;
+            Lastpost = lastpost;
+        }
+
+        public ForumsTopicNavigationArgs(string topicId, bool lastpost)
+        {
+            TopicId = topicId;
+            Page = ForumsPageIndex.PageTopic;
             Lastpost = lastpost;
         }
 

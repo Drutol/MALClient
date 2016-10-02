@@ -688,7 +688,7 @@
                                     <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate" />
                                 </MenuFlyout>
                             </Button.Flyout>
-                            <Grid Height="35">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
@@ -716,7 +716,7 @@
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited" Click="OpenRepo">
-                            <Grid Height="35">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
@@ -736,7 +736,7 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
-                            <Grid Height="35">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
@@ -785,28 +785,40 @@
                                     </Grid>
                                 </Flyout>
                             </FlyoutBase.AttachedFlyout>
-                            <Grid Height="35">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="120" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                <Image Source="{Binding UserImage}" Grid.Column="0" Stretch="UniformToFill"
+                                <Ellipse Grid.Column="0"
                                        Width="33"
-                                       Height="33" Margin="1,1,2,1"
-                                       Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
+                                       Height="33" Margin="1,1,0,1"
+                                       Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
+                                    <Ellipse.Fill>
+                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                                 <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                             Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-80,0"
+                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-120,0"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                 <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                                        Width="40" Height="40">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="My recent topics"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Comment"
+                                                Margin="0,0,1,0" />
+                                    </Button>                                    
                                     <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="19" Background="Transparent"
-                                        Width="40" Height="35">
+                                        Width="40" Height="40">
                                         <ToolTipService.ToolTip>
                                             <ToolTip Content="History"/>
                                         </ToolTipService.ToolTip>
@@ -815,7 +827,7 @@
                                     </Button>
                                     <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="16" Background="Transparent"
-                                        Width="40" Height="35" >
+                                        Width="40" Height="40" >
                                         <ToolTipService.ToolTip>
                                             <ToolTip Content="Messaging"/>
                                         </ToolTipService.ToolTip>
@@ -832,7 +844,7 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="2">
-                            <Grid Height="35">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />

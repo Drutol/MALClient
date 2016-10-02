@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient.UserControls"
-    xmlns:enum="using:MALClient.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
@@ -602,10 +601,14 @@
                                     <Border Grid.Column="1"
                                             BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                             BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                    <Image Source="{Binding UserImage}" Grid.Column="0" Stretch="UniformToFill"
-                                           Width="33"
-                                           Height="33" Margin="1,1"
-                                           Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" />
+                                    <Ellipse Grid.Column="0"
+                                       Width="33"
+                                       Height="33" Margin="1,1,0,1"
+                                       Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
+                                        <Ellipse.Fill>
+                                            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
                                     <SymbolIcon Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                                 Visibility="{Binding UsrImgPlaceholderVisibility}" />
                                     <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="10,0,0,0"

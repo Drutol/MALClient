@@ -263,11 +263,24 @@ namespace MALClient.XShared.ViewModels.Forums
                     Title = "Search - " + args.Query;
                     Icon = args.Scope == null ? FontAwesomeIcon.Search : Utilities.BoardToIcon(args.Scope.Value);
                     break;
+                case ForumBoardPageWorkModes.UserSearch: //for now user is logged in user
+                    Title = "My Recent Posts";
+                    PageNavigationControlsVisibility = true;
+                    SearchButtonVisibility = false;
+                    Icon = FontAwesomeIcon.ClockOutline;
+                    break;
+                case ForumBoardPageWorkModes.WatchedTopics:
+                    Icon = FontAwesomeIcon.Eye;
+                    Title = "Watched Topics";
+                    PageNavigationControlsVisibility = true;
+                    SearchButtonVisibility = false;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (args.WorkMode == ForumBoardPageWorkModes.Search || args.TargetBoard == ForumBoards.NewsDisc ||
+            if (args.WorkMode == ForumBoardPageWorkModes.Search || args.WorkMode == ForumBoardPageWorkModes.UserSearch ||
+                args.WorkMode == ForumBoardPageWorkModes.WatchedTopics || args.TargetBoard == ForumBoards.NewsDisc ||
                 args.TargetBoard == ForumBoards.AnimeSeriesDisc || args.TargetBoard == ForumBoards.MangaSeriesDisc ||
                 args.TargetBoard == ForumBoards.Updates || args.TargetBoard == ForumBoards.Guidelines)
                 NewTopicButtonVisibility = false;
@@ -303,6 +316,14 @@ namespace MALClient.XShared.ViewModels.Forums
                         topics = await
                             ForumSearchQuery.GetSearchResults(PrevArgs.Query, PrevArgs.Scope);
                         break;
+                    case ForumBoardPageWorkModes.UserSearch:
+                        topics = await
+                            ForumSearchQuery.GetRecentTopics();
+                        break;
+                    case ForumBoardPageWorkModes.WatchedTopics:
+                        topics = await
+                             ForumSearchQuery.GetWatchedTopics();
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -325,7 +346,13 @@ namespace MALClient.XShared.ViewModels.Forums
         public void LoadTopic(ForumTopicEntryViewModel topic, bool lastpost = false)
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard, lastpost));
+            if (PrevArgs.WorkMode == ForumBoardPageWorkModes.UserSearch ||
+                PrevArgs.WorkMode == ForumBoardPageWorkModes.WatchedTopics)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                    new ForumsTopicNavigationArgs(topic.Data.Id, lastpost));
+            else
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                    new ForumsTopicNavigationArgs(topic.Data.Id, PrevArgs.TargetBoard, lastpost));
         }
 
         public void Reload()

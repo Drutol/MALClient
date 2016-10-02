@@ -15,7 +15,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ProgressRing IsActive="True" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"
                       Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-        <WebView x:Name="ArticleWebView" NavigationCompleted="ArticleWebView_OnNavigationCompleted"
+        <WebView x:Name="ArticleWebView" DOMContentLoaded="ArticleWebView_OnDOMContentLoaded"
                  NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                  Visibility="{Binding WebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />

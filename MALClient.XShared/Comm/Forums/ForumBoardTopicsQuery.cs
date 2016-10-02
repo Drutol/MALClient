@@ -161,7 +161,7 @@ namespace MALClient.XShared.Comm.Forums
             return output;
         }
 
-        public static ForumTopicEntry ParseHtmlToTopic(HtmlNode topicRow)
+        public static ForumTopicEntry ParseHtmlToTopic(HtmlNode topicRow,int tdOffset = 0)
         {
             var current = new ForumTopicEntry();
             var tds = topicRow.Descendants("td").ToList();
@@ -186,10 +186,10 @@ namespace MALClient.XShared.Comm.Forums
             current.Op = spans[0].InnerText;
             current.Created = spans[1].InnerText;
 
-            current.Replies = tds[2].InnerText;
+            current.Replies = tds[2+tdOffset].InnerText;
 
-            current.LastPoster = tds[3].Descendants("a").First().InnerText;
-            current.LastPostDate = tds[3].ChildNodes.Last().InnerText;
+            current.LastPoster = tds[3+tdOffset].Descendants("a").First().InnerText;
+            current.LastPostDate = tds[3+tdOffset].ChildNodes.Last().InnerText;
 
             return current;
         }

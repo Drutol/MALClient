@@ -142,7 +142,7 @@ namespace MALClient.Pages.Main
             }
         }
 
-        private void ArticleWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        private void ArticleWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
             ViewModel.LoadingVisibility = false;
             ViewModel.WebViewVisibility = true;
@@ -298,5 +298,7 @@ namespace MALClient.Pages.Main
         }";
 
         #endregion
+
+
     }
 }

@@ -282,6 +282,15 @@ namespace MALClient.ViewModels
                         RefreshButtonVisibility = true;
                         RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
                     }
+                    else
+                    {
+                        var navArgs = args as ForumsNavigationArgs;
+                        if (navArgs?.Page == ForumsPageIndex.PageBoard)
+                        {
+                            RefreshButtonVisibility = true;
+                            RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsBoard.Reload(); });
+                        }
+                    }
                     if (CurrentMainPage != null && CurrentMainPage == PageIndex.PageForumIndex)
                         ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
                     else

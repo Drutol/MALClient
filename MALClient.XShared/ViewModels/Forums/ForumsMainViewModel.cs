@@ -59,6 +59,20 @@ namespace MALClient.XShared.ViewModels.Forums
                 _unpinTopicCommand ??
                 (_unpinTopicCommand = new RelayCommand<ForumTopicLightEntry>(topic => PinnedTopics.Remove(topic)));
 
+        private ICommand _navigateRecentTopicsCommand;
+
+        public ICommand NavigateRecentTopicsCommand
+            =>
+                _navigateRecentTopicsCommand ??
+                (_navigateRecentTopicsCommand = new RelayCommand(GotoMyRecentTopics));
+
+        private ICommand _navigateWatchedTopicsCommand;
+
+        public ICommand NavigateWatchedTopicsCommand
+            =>
+                _navigateWatchedTopicsCommand ??
+                (_navigateWatchedTopicsCommand = new RelayCommand(GotoWatchedTopics));
+
         public void Init(ForumsNavigationArgs args)
         {
             if (args == null)
@@ -128,6 +142,20 @@ namespace MALClient.XShared.ViewModels.Forums
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Id,topic.SourceBoard,topic.Lastpost));
+        }
+
+        private void GotoMyRecentTopics()
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.UserSearch));
+        }
+
+        private void GotoWatchedTopics()
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
         }
     }
 }

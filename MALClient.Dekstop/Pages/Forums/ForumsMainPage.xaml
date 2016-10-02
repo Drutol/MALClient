@@ -21,6 +21,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button>
                 <Button.Flyout>
@@ -109,6 +110,15 @@
                     </ItemsControl.ItemContainerTransitions>
                 </ItemsControl>
             </ScrollViewer>
+            <Button Grid.Column="2">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="My recent topics" Command="{Binding NavigateRecentTopicsCommand}"/>
+                        <MenuFlyoutItem Text="My watched topics" Command="{Binding NavigateWatchedTopicsCommand}"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="More"/>
+            </Button>
         </Grid>
         <Frame Grid.Row="1" x:Name="MainForumContentFrame"/>
     </Grid>

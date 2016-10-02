@@ -198,6 +198,9 @@
                                                 <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelHeight="75"
                                                              DecodePixelWidth="75" DecodePixelType="Logical" />
                                             </Image.Source>
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="{Binding Name}"/>
+                                            </ToolTipService.ToolTip>
                                         </Image>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
@@ -290,6 +293,7 @@
                                         <Setter Property="Padding" Value="5,5" />
                                         <Setter Property="Margin" Value="0,5" />
                                         <Setter Property="Width" Value="200" />
+                                        <Setter Property="Height" Value="350" />
                                     </Style>
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>

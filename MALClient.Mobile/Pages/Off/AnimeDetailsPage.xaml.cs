@@ -2,6 +2,7 @@
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
@@ -149,6 +150,11 @@ namespace MALClient.Pages.Off
         private void WatchedEpsButton_OnClick(object sender, RoutedEventArgs e)
         {
             WatchedEpsFlyout.Hide();
+        }
+
+        private void RewatchedFlyoutOnItemSelected(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.SetRewatchingCountCommand.Execute(e.ClickedItem);
         }
     }
 }

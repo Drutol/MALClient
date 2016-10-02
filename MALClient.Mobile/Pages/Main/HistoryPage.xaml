@@ -78,28 +78,29 @@
                             <Setter.Value>
                                 <DataTemplate>
                                     <ScrollViewer>
-                                        <Grid Margin="1" Padding="1" CornerRadius="5" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Margin="0" Padding="0">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <ListView Grid.Row="1" ItemsSource="{Binding Value}" Margin="-5,0" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
+                                            <ListView Grid.Row="1" ItemsSource="{Binding Value}" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
-                                                        <Setter Property="Margin" Value="1"/>
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                                        <Setter Property="Height" Value="340"/>
+                                                        <Setter Property="Height" Value="330"/>
+                                                        <Setter Property="BorderThickness" Value="0,0,0,.5"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Padding="1" Background="{ThemeResource BrushHamburgerInnerBackground}" CornerRadius="5" HorizontalAlignment="Stretch">
+                                                        <Grid Margin="0,10" Background="{ThemeResource BrushHamburgerInnerBackground}" HorizontalAlignment="Stretch">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="200"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <items:AnimeGridItem IsRightTapEnabled="True" MaxWidth="200" AllowSwipeInGivenContext="False" RightTapped="AnimeItemOnRightClick" Height="315" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
-                                                            <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch">
+                                                            <items:AnimeGridItem IsRightTapEnabled="True" Height="350" AllowSwipeInGivenContext="False" RightTapped="AnimeItemOnRightClick" HorizontalAlignment="Stretch" DataContext="{Binding Item1}"/>
+                                                            <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch" Padding="2">
                                                                 <ItemsControl ItemsSource="{Binding Item2}" HorizontalAlignment="Stretch">
                                                                     <ItemsControl.ItemContainerStyle>
                                                                         <Style TargetType="ContentPresenter">
@@ -132,7 +133,21 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Pivot ItemsSource="{Binding History}" VerticalAlignment="Top" x:Name="Pivot">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Pivot ItemsSource="{Binding History}" VerticalAlignment="Top" x:Name="Pivot" Style="{StaticResource PivotStyleInnerProfilePage}">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}"/>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </Pivot.Resources>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Key}"/>

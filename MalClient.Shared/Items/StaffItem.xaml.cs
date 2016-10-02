@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,11 +23,21 @@ namespace MALClient.Shared.Items
         public StaffItem()
         {
             this.InitializeComponent();
+            Loaded += async (sender, args) =>
+            {
+                await Task.Delay(2000);
+                NoImgSymbol.Visibility = Visibility.Visible;
+            };
         }
 
         public void ShowFlyout()
         {
             MenuFlyout.ShowAt(this);
+        }
+
+        private void Image_OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            NoImgSymbol.Opacity = 0;
         }
     }
 }

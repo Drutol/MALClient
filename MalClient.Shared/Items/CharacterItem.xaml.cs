@@ -41,5 +41,9 @@ namespace MALClient.Shared.Items
             MenuFlyout.ShowAt(this);
         }
 
+        private void Image_OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            NoImgSymbol.Opacity = 0;
+        }
     }
 }

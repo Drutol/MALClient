@@ -140,7 +140,7 @@
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip Content="Rewatching" />
                                                     </ToolTipService.ToolTip>
-                                                    <Grid HorizontalAlignment="Stretch">
+                                                    <Grid HorizontalAlignment="Stretch" Margin="40,0,0,0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition Width="*" />
@@ -152,19 +152,25 @@
                                                 </ToggleButton>
                                                 <Button Grid.Column="1" Margin="0,0,0,5" Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Width="40" Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                     <Button.Flyout>
-                                                        <MenuFlyout>
-                                                            <MenuFlyoutItem Text="Times rewatched" Foreground="White" IsEnabled="False"/>
-                                                            <MenuFlyoutItem Text="0" Command="{Binding SetRewatchingCountCommand}" CommandParameter="0"/>
-                                                            <MenuFlyoutItem Text="1" Command="{Binding SetRewatchingCountCommand}" CommandParameter="1"/>
-                                                            <MenuFlyoutItem Text="2" Command="{Binding SetRewatchingCountCommand}" CommandParameter="2"/>
-                                                            <MenuFlyoutItem Text="3" Command="{Binding SetRewatchingCountCommand}" CommandParameter="3"/>
-                                                            <MenuFlyoutItem Text="4" Command="{Binding SetRewatchingCountCommand}" CommandParameter="4"/>
-                                                            <MenuFlyoutItem Text="5" Command="{Binding SetRewatchingCountCommand}" CommandParameter="5"/>
-                                                            <MenuFlyoutItem Text="6" Command="{Binding SetRewatchingCountCommand}" CommandParameter="6"/>
-                                                            <MenuFlyoutItem Text="7" Command="{Binding SetRewatchingCountCommand}" CommandParameter="7"/>
-                                                            <MenuFlyoutItem Text="8" Command="{Binding SetRewatchingCountCommand}" CommandParameter="8"/>
-                                                            <MenuFlyoutItem Text="9" Command="{Binding SetRewatchingCountCommand}" CommandParameter="9"/>
-                                                        </MenuFlyout>
+                                                        <Flyout>
+                                                            <StackPanel>
+                                                                <StackPanel.Resources>
+                                                                    <ResourceDictionary>
+                                                                        <ResourceDictionary.MergedDictionaries>
+                                                                            <ResourceDictionary Source="ms-appx:///MALClient.Shared/XamlResources/FancyListFlyoutStyle.xaml"/>
+                                                                        </ResourceDictionary.MergedDictionaries>
+                                                                    </ResourceDictionary>
+                                                                </StackPanel.Resources>
+                                                                <TextBlock Text="Times rewatched" HorizontalAlignment="Center"/>
+                                                                <ListView Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding RewatchedOptions}" ItemClick="RewatchedFlyoutOnItemSelected">
+                                                                    <ListView.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                                                                        </DataTemplate>
+                                                                    </ListView.ItemTemplate>
+                                                                </ListView>
+                                                            </StackPanel>
+                                                        </Flyout>
                                                     </Button.Flyout>
                                                     <SymbolIcon Symbol="More"/>
                                                 </Button>

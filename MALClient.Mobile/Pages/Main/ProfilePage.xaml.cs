@@ -1,4 +1,5 @@
-﻿using Windows.System;
+﻿using System.Threading.Tasks;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -11,6 +12,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -100,6 +102,12 @@ namespace MALClient.Pages.Main
                 GotoUserName.Text = "";
                 e.Handled = true;
             }
+        }
+
+        private void InnerPivot_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var sv = InnerPivot.GetFirstDescendantOfType<ItemsPresenter>();
+            sv.RenderTransform = null;
         }
     }
 }

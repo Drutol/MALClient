@@ -27,8 +27,8 @@
                     CommandParameter="{Binding Data}" Text="Open in browser" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
-        <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Image Grid.Row="0" Stretch="UniformToFill" extensions:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}">
+        <SymbolIcon x:Name="NoImgSymbol" Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <Image Grid.Row="0" Stretch="UniformToFill" ImageOpened="Image_OnImageOpened" extensions:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
             <!--<Image.Source>
                 <BitmapImage UriSource="{Binding Data.ImgUrl}"
                              DecodePixelHeight="325"
@@ -46,7 +46,7 @@
                 </ToolTipService.ToolTip>
             </ToggleButton>
         </Grid>
-        <Grid Row="1" HorizontalAlignment="Stretch"
+        <Grid Row="1" HorizontalAlignment="Stretch" Padding="2"
               Background="{ThemeResource BrushAnimeItemBackground}"
               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
               BorderThickness="0,1.5,0,0">

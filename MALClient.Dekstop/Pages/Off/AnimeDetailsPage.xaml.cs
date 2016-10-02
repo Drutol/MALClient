@@ -141,5 +141,10 @@ namespace MALClient.Pages.Off
             var flyout = FlyoutBase.GetAttachedFlyout(btn);
             flyout.ShowAt(btn);
         }
+
+        private void RewatchedFlyoutOnItemSelected(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.SetRewatchingCountCommand.Execute(e.ClickedItem);
+        }
     }
 }

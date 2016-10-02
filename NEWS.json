@@ -1,22 +1,8 @@
 [
   {
-    "Title": "What's going on?",
-    "Date": "03.09.2016",
-    "Type": "Development",
-    "Content": "I'm currently rewriting behind the scenes systems and I'm cleaning up codebase in general. So there's going to be a little decline in updates feature-wise in the coming weeks. Don't worry! I still have big plans for notifications and such :) I'm also preparing to go multiplatform and with the beginning of October I'm planning to begin Android development. I hope to release an update next week with bugfixes but we'll see how it goes."
+    "Title": "New ads on MAL site...",
+    "Date": "02.10.2016",
+    "Type": "Bugs",
+    "Content": "I'm aware of forums being eclipsed by huge banners with oppai. Update with this fix among the others is coming early next week!"
   },
-  {
-    "Title": "Mal has gone https...",
-    "Date": "24.08.2016",
-    "Type": "Distater",
-    "Content": "Stuff is broken, will be unbroken in next update. They went on very short notice about this and I couldn't do much about it. I'll issue update asap."
-  },
-
-  {
-    "Title": "Big update on its way!",
-    "Date": "20.08.2016",
-    "Type": "Updates",
-    "Content": "Lots of stuff is coming in next week's update! Character&Staff details, about section in profile, custom anime seasons, better quality show covers, new anime details tab and improved log-in page. I'll be uploading test builds over next few days... if you want to help you can find more info on github :)"
-  },
-
 ]

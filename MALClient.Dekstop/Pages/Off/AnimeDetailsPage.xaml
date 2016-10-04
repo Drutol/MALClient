@@ -214,7 +214,7 @@
                             <ToolTip Content="Rewatching. Right click to set amount of times rewatched." />
                         </ToolTipService.ToolTip>
                         <FlyoutBase.AttachedFlyout>
-                            <Flyout>
+                            <Flyout x:Name="RewatchingFlyout">
                                 <StackPanel>
                                     <StackPanel.Resources>
                                         <ResourceDictionary>
@@ -223,7 +223,9 @@
                                             </ResourceDictionary.MergedDictionaries>
                                         </ResourceDictionary>
                                     </StackPanel.Resources>
-                                    <TextBlock Text="Times rewatched" HorizontalAlignment="Center"/>
+                                    <TextBlock HorizontalAlignment="Center">
+                                                                    Times <Run Text="{Binding RewatchedLabel}"/>
+                                    </TextBlock>
                                     <ListView Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding RewatchedOptions}" ItemClick="RewatchedFlyoutOnItemSelected">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>

@@ -14,6 +14,7 @@
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
+
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -138,7 +139,7 @@
                                                     IsChecked="{Binding IsRewatching,Mode=TwoWay}" Background="{ThemeResource BrushDetailsMoreButton}"
                                                     Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                     <ToolTipService.ToolTip>
-                                                        <ToolTip Content="Rewatching" />
+                                                        <ToolTip Content="{Binding RewatchingLabel}" />
                                                     </ToolTipService.ToolTip>
                                                     <Grid HorizontalAlignment="Stretch" Margin="40,0,0,0">
                                                         <Grid.ColumnDefinitions>
@@ -152,7 +153,7 @@
                                                 </ToggleButton>
                                                 <Button Grid.Column="1" Margin="0,0,0,5" Background="{ThemeResource BrushDetailsMoreButton}" Height="40" Width="40" Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                     <Button.Flyout>
-                                                        <Flyout>
+                                                        <Flyout x:Name="RewatchingFlyout">
                                                             <StackPanel>
                                                                 <StackPanel.Resources>
                                                                     <ResourceDictionary>
@@ -161,7 +162,9 @@
                                                                         </ResourceDictionary.MergedDictionaries>
                                                                     </ResourceDictionary>
                                                                 </StackPanel.Resources>
-                                                                <TextBlock Text="Times rewatched" HorizontalAlignment="Center"/>
+                                                                <TextBlock HorizontalAlignment="Center">
+                                                                    Times <Run Text="{Binding RewatchedLabel}"/>
+                                                                </TextBlock>
                                                                 <ListView Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding RewatchedOptions}" ItemClick="RewatchedFlyoutOnItemSelected">
                                                                     <ListView.ItemTemplate>
                                                                         <DataTemplate>

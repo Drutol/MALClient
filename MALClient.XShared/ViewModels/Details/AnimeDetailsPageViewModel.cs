@@ -34,7 +34,17 @@ namespace MALClient.XShared.ViewModels.Details
         private int _allVolumes;
         private string _alternateImgUrl;
         private IAnimeData _animeItemReference; //our connection with everything
-        public bool AnimeMode { get; set; }
+
+        public bool AnimeMode
+        {
+            get { return _animeMode; }
+            set
+            {
+                _animeMode = value;
+                RaisePropertyChanged(() => RewatchedLabel);
+                RaisePropertyChanged(() => RewatchingLabel);
+            }
+        }
 
         private AnimeStaffDataViewModels _animeStaffData;
         private float _globalScore;
@@ -57,6 +67,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public AnimeDetailsPageNavigationArgs PrevArgs { get; private set; }
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
+        private bool _animeMode;
 
         public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,
             ISystemControlsLauncherService systemControlsLauncherService)

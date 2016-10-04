@@ -25,15 +25,15 @@
             </Grid.ColumnDefinitions>
             <Button>
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="PinnedTopicsFlyout">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="Pinned topics" Margin="0,0,0,5" HorizontalAlignment="Center"/>
-                            <ListView x:Name="PinnedTopicListView" Grid.Row="1" Margin="-20,0" SelectionMode="Single" SelectionChanged="PinnedTopicSelectionchanged"
-                                      ItemsSource="{Binding PinnedTopics}" SelectedItem="{Binding SelectedForumTopicLightEntry,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView x:Name="PinnedTopicListView" Grid.Row="1" Margin="-20,0" SelectionMode="Single"
+                                      ItemsSource="{Binding PinnedTopics}" IsItemClickEnabled="True" ItemClick="PinnedTopicListView_OnItemClick">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>

@@ -61,6 +61,8 @@ namespace MALClient.Pages.Forums
         private void ViewModelOnWebViewNewTopicNavigationRequested(string content, bool b)
         {
             _baseUri = new Uri($"https://myanimelist.net/forum/?action=post&boardid={content}");
+            _newTopic = true;
+            _navigatingRoot = true;
             TopicWebView.Navigate(_baseUri);
         }
 
@@ -68,6 +70,7 @@ namespace MALClient.Pages.Forums
         {
             _baseUri = new Uri($"https://myanimelist.net/forum/?topicid={content}{(arg ? "&goto=lastpost" : "")}");
             _lastpost = arg;
+            _navigatingRoot = true;
             TopicWebView.Navigate(_baseUri);
         }
       
@@ -106,6 +109,7 @@ namespace MALClient.Pages.Forums
                     $@"$(""#contentWrapper"").css(""background-color"", ""{bodyLighter}"");",
                     $@"$(""body"").css(""font-family"", ""Segoe UI"").css(""color"", ""{fontColor}"").css(""background-color"", ""{bodyLighter}"");",
                     @"$(""footer"").remove()",
+                    @"$(""input[name='preview']:first"").remove()",
                     $@"$(""textarea"").css(""background-color"",""{bodyDarker}"").css(""color"", ""{fontColor}"")",
                     $@"$(""td"").css(""color"", ""{fontColor}"")",
                     $@"$(""a"").css(""color"", ""#{color.ToString().Substring(3)}"");",
@@ -166,6 +170,8 @@ namespace MALClient.Pages.Forums
 
         private Size _prevSize;
         private bool _canChangeSize;
+        private bool _newTopic;
+        private bool _skipStyling;
 
         private async void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -198,6 +204,11 @@ namespace MALClient.Pages.Forums
                 return;
             if (args.Uri.ToString().Contains("&show="))
                 return;
+            if (_newTopic && Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist\.net\/forum\/\?action=post&boardid=.*"))
+            {
+                TopicWebView.NavigationCompleted += TopicWebViewOnNavigationCompleted;
+                return;
+            }
             try
             {
                 if (args.Uri != null)
@@ -220,6 +231,13 @@ namespace MALClient.Pages.Forums
             {
                 args.Cancel = true;
             }
+        }
+
+        private void TopicWebViewOnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        {
+            TopicWebView.NavigationCompleted -= TopicWebViewOnNavigationCompleted;
+            ViewModelLocator.ForumsBoard.ReloadOnNextLoad();
+            ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();           
         }
 
         private void TopicWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)

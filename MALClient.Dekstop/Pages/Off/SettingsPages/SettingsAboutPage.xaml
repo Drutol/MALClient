@@ -105,14 +105,13 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="27.09.2016 v5.5.19.0 &amp; v5.0.18.0" />
-                            <TextBlock Text="Added notifications!" />
-                            <TextBlock Text="New store logo!" />
-                            <TextBlock Text="Added calendar episode countdown!" />
-                            <TextBlock Text="Added re-watching support." />
-                            <TextBlock Text="Improved forums." />
-                            <TextBlock Text="Major Hummingbird fixes." />
-                            <TextBlock Text="Various tweaks and fixes." />
+                            <TextBlock Text="07.09.2016 v5.0.25 &amp; v5.0.24.0" />
+                            <TextBlock Text="Added recent&amp;watched topics!" />
+                            <TextBlock Text="Added button to refresh forum board." />
+                            <TextBlock Text="Fixed issues with shell icons scaling." />
+                            <TextBlock Text="Messaging text boxes will now wrap text." />
+                            <TextBlock Text="Rewatch flyout is now less obscure." />
+                            <TextBlock Text="A few crashfixes &amp; a few bugfixes :)" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

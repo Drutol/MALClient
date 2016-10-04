@@ -145,6 +145,7 @@ namespace MALClient.Pages.Off
         private void RewatchedFlyoutOnItemSelected(object sender, ItemClickEventArgs e)
         {
             ViewModel.SetRewatchingCountCommand.Execute(e.ClickedItem);
+            RewatchingFlyout.Hide();
         }
     }
 }

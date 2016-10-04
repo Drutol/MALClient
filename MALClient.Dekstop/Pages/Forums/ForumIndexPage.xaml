@@ -168,7 +168,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Grid Grid.Row="1" Visibility="{Binding ForumIndexContent,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Grid.Row="1" Padding="0,10,0,0" BorderThickness="0,1,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{StaticResource BrushAnimeItemInnerBackground}" Visibility="{Binding ForumIndexContent,Converter={StaticResource BoolToVisibilityConverter}}">
                     <ItemsControl HorizontalAlignment="Center"
                               Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                         <ItemsControl.Resources>

@@ -501,7 +501,7 @@ namespace MALClient.XShared.ViewModels
         {
             if (CurrentMainPageKind == PageIndex.PageAnimeList)
                 CurrentHintSet =
-                    SearchHints.Where(
+                    SearchHints?.Where(
                         s => s.StartsWith(CurrentSearchQuery ?? "", StringComparison.CurrentCultureIgnoreCase))
                         .Take(4)
                         .ToList();

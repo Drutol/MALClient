@@ -32,7 +32,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <SymbolIcon Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <Image Grid.Column="0" Stretch="Uniform" VerticalAlignment="Top" Height="250" Width="150" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}">
+                <Image Grid.Column="0" Stretch="Uniform" VerticalAlignment="Center" Height="250" Width="150" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}">
                     <!--<Image.Source>
                         <BitmapImage DecodePixelWidth="150" DecodePixelHeight="250" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
                     </Image.Source>-->

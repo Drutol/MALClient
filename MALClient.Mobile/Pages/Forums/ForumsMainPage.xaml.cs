@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Models.Forums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -80,16 +81,11 @@ namespace MALClient.Pages.Forums
             (FlyoutBase.GetAttachedFlyout(btn)).ShowAt(btn);
         }
 
-        private async void BetaForumsFeedback(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues/44"));
-        }
-
-        private void PinnedTopicSelectionchanged(object sender, SelectionChangedEventArgs e)
+        private void PinnedTopicListView_OnItemClick(object sender, ItemClickEventArgs e)
         {
             PinnedTopicListView.SelectedIndex = -1;
+            ViewModel.SelectedForumTopicLightEntry = e.ClickedItem as ForumTopicLightEntry;
+            PinnedTopicsFlyout.Hide();
         }
-
-
     }
 }

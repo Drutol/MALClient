@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <xamlConverters:IsFavouriteToSymbolConverter x:Key="IsFavouriteToSymbolConverter" />
     </UserControl.Resources>
-    <Grid Height="325" HorizontalAlignment="Stretch" Background="Transparent">
+    <Grid Height="325" HorizontalAlignment="Stretch" Background="{StaticResource BrushAnimeItemInnerBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="52" />
@@ -28,7 +28,7 @@
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
         <SymbolIcon x:Name="NoImgSymbol" Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
-        <Image Grid.Row="0" Stretch="UniformToFill" ImageOpened="Image_OnImageOpened" extensions:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
+        <Image Grid.Row="0" Stretch="Uniform" ImageOpened="Image_OnImageOpened" extensions:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" attachedProperties:AnimeImageExtensions.ForceStandardImage="True">
             <!--<Image.Source>
                 <BitmapImage UriSource="{Binding Data.ImgUrl}"
                              DecodePixelHeight="325"

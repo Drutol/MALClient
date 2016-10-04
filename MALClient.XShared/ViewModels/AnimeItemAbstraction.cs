@@ -234,7 +234,6 @@ namespace MALClient.XShared.ViewModels
             return true;
         }
 
-        //Load UIElement
         private AnimeItemViewModel LoadElementModel()
         {
             if (LoadedModel)

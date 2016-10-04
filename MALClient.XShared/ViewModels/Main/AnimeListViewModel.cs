@@ -438,7 +438,7 @@ namespace MALClient.XShared.ViewModels.Main
                         items = items.OrderBy(abstraction => abstraction.MyStartDate);
                         break;
                     case SortOptions.SortEndDate:
-                        items = items.OrderBy(abstraction => abstraction.AirStartDate);
+                        items = items.OrderBy(abstraction => abstraction.MyEndDate);
                         break;
                     case SortOptions.SortSeason:
                         var itemsWithStartDate = new List<AnimeItemAbstraction>();

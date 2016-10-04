@@ -19,7 +19,7 @@
                     <RowDefinition Height="250"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <Image Stretch="Fill" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}">
+                <Image Stretch="Uniform" VerticalAlignment="Center" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}">
                     <!--<Image.Source>
                         <BitmapImage DecodePixelType="Logical" DecodePixelHeight="250" DecodePixelWidth="170" UriSource="{Binding ImgUrl}"/>
                     </Image.Source>-->
@@ -44,7 +44,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
                     <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Image Stretch="Uniform" VerticalAlignment="Top" Height="250" Width="150" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" >
+                    <Image Stretch="Uniform" VerticalAlignment="Center" Height="250" Width="150" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" >
                         <!--<Image.Source>
                             <BitmapImage DecodePixelWidth="150" DecodePixelHeight="250" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
                         </Image.Source>-->

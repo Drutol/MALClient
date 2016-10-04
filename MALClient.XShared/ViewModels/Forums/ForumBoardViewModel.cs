@@ -223,10 +223,18 @@ namespace MALClient.XShared.ViewModels.Forums
         }
 
         private bool _initizalizing;
+        private bool _forceReloadOnNextInit;
 
 
         public void Init(ForumsBoardNavigationArgs args,bool force = false)
         {
+            if (_forceReloadOnNextInit)//navigating from crete new topic
+            {
+                force = true; 
+                _forceReloadOnNextInit = false;
+            }
+
+
             if (!force)
             {
                 if (_initizalizing)
@@ -358,6 +366,11 @@ namespace MALClient.XShared.ViewModels.Forums
         public void Reload()
         {
             Init(PrevArgs,true);
+        }
+
+        public void ReloadOnNextLoad()
+        {
+            _forceReloadOnNextInit = true;
         }
     }
 }

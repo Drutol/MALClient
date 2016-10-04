@@ -43,7 +43,7 @@
             </Grid.ColumnDefinitions>
             <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
                 <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <Image Stretch="Uniform" VerticalAlignment="Top" Height="300" Width="175" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" >
+                <Image Stretch="Uniform" VerticalAlignment="Center" Height="300" Width="175" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" >
                     <!--<Image.Source>
                         <BitmapImage DecodePixelWidth="175" DecodePixelHeight="300" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
                     </Image.Source>-->

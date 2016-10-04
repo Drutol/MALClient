@@ -31,8 +31,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="52" />
         </Grid.RowDefinitions>
-        <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch" Background="Transparent"
+        <Grid Padding="0" Grid.Row="0" HorizontalAlignment="Stretch" 
+              VerticalAlignment="Stretch" Background="{StaticResource BrushAnimeItemInnerBackground}"
               BorderBrush="Transparent">
             <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoImgSymbol"/>
             <Image Stretch="Uniform" Width="200" Height="325" ImageOpened="Image_OnImageOpened" ext:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" attachedProperties:AnimeImageExtensions.ForceStandardImage="True">

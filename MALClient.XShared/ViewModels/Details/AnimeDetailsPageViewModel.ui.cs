@@ -621,7 +621,7 @@ namespace MALClient.XShared.ViewModels.Details
         public ICommand _setRewatchingCountCommand;
 
         public ICommand SetRewatchingCountCommand
-            => _setRewatchingCountCommand ?? (_setRewatchingCountCommand = new RelayCommand<string>(s => ChangeRewatchingCount(int.Parse(s))));
+            => _setRewatchingCountCommand ?? (_setRewatchingCountCommand = new RelayCommand<int>(ChangeRewatchingCount));
 
         private ICommand _copyToClipboardCommand;
 
@@ -941,6 +941,10 @@ namespace MALClient.XShared.ViewModels.Details
         }
 
         public List<int> RewatchedOptions { get; } = new List<int> {0,1,2,3,4,5,6,7,8,9};
+
+        public string RewatchingLabel => AnimeMode ? "Rewatching" : "Rereading";
+
+        public string RewatchedLabel => AnimeMode ? "rewatched" : "reread";
 
         #endregion
     }

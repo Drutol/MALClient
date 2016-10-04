@@ -9,12 +9,12 @@ using GalaSoft.MvvmLight.Helpers;
 
 namespace MALClient.iOS
 {
-    public partial class AnimeListCollectionVieController : UIViewController
+    public partial class AnimeListCollectionViewController : UIViewController
     {
 		AnimeListViewModel VM { get { return ViewModelLocator.AnimeList; } }
 		static double _imageRatio = 1.724;
 
-		public AnimeListCollectionVieController(IntPtr handle) : base(handle)
+		public AnimeListCollectionViewController(IntPtr handle) : base(handle)
 		{
 		}
 

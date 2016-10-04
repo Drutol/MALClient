@@ -11,8 +11,8 @@ using UIKit;
 
 namespace MALClient.iOS
 {
-    [Register ("AnimeListCollectionVieController")]
-    partial class AnimeListCollectionVieController
+    [Register ("AnimeListCollectionViewController")]
+    partial class AnimeListCollectionViewController
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]

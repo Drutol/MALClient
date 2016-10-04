@@ -127,11 +127,13 @@
     <Folder Include="Custom Controls\" />
     <Folder Include="Controllers\" />
     <Folder Include="Utils\" />
+    <Folder Include="Custom Controls\AnimeListCollectionView\" />
+    <Folder Include="Custom Controls\GeneralTableView\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
-    <InterfaceDefinition Include="Custom Controls\AnimeListCollectionViewCell.xib" />
+    <InterfaceDefinition Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionViewCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -154,32 +156,38 @@
     <Compile Include="HummingbirdViewController.designer.cs">
       <DependentUpon>HummingbirdViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Custom Controls\AnimeListCollectionViewCell.cs" />
-    <Compile Include="Custom Controls\AnimeListCollectionViewCell.designer.cs">
-      <DependentUpon>AnimeListCollectionViewCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Custom Controls\AnimeListCollectionView.cs" />
-    <Compile Include="Custom Controls\AnimeListCollectionView.designer.cs">
-      <DependentUpon>AnimeListCollectionView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\LogInnViewController.cs" />
     <Compile Include="Controllers\LogInnViewController.designer.cs">
       <DependentUpon>LogInnViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Custom Controls\AnimeListCollectionViewDataSource.cs" />
     <Compile Include="ImageViewController.cs" />
     <Compile Include="ImageViewController.designer.cs">
       <DependentUpon>ImageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AnimeListCollectionVieController.cs" />
-    <Compile Include="Controllers\AnimeListCollectionVieController.designer.cs">
-      <DependentUpon>AnimeListCollectionVieController.cs</DependentUpon>
+    <Compile Include="Controllers\AnimeListCollectionViewController.cs" />
+    <Compile Include="Controllers\AnimeListCollectionViewController.designer.cs">
+      <DependentUpon>AnimeListCollectionViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\AnimeImageDownloaderHelper.cs" />
-    <Compile Include="Custom Controls\AnimeListCollectionViewDelegateFlowLayout.cs" />
     <Compile Include="Controllers\AnimeDetailsViewController.cs" />
     <Compile Include="Controllers\AnimeDetailsViewController.designer.cs">
       <DependentUpon>AnimeDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionView.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionView.designer.cs">
+      <DependentUpon>AnimeListCollectionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionViewCell.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionViewCell.designer.cs">
+      <DependentUpon>AnimeListCollectionViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionViewDataSource.cs" />
+    <Compile Include="Custom Controls\AnimeListCollectionView\AnimeListCollectionViewDelegateFlowLayout.cs" />
+    <Compile Include="Custom Controls\GeneralTableView\GeneralTableView.cs" />
+    <Compile Include="Custom Controls\GeneralTableView\GeneralTableViewSource.cs" />
+    <Compile Include="Controllers\GeneralAnimeDetailsViewController.cs" />
+    <Compile Include="Controllers\GeneralAnimeDetailsViewController.designer.cs">
+      <DependentUpon>GeneralAnimeDetailsViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

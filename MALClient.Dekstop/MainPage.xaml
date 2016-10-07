@@ -6,8 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:WinRTXamlToolkit.Controls"
     xmlns:xamlConverters1="using:MALClient.Shared.XamlConverters"
-    xmlns:userControls="using:MALClient.Shared.UserControls" 
+    xmlns:userControls="using:MALClient.Shared.UserControls"
     xmlns:new="using:MALClient.UserControls.New"
+    xmlns:attProp="using:MALClient.UserControls.AttachedProperties"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
@@ -42,6 +44,14 @@
                              SpeedRatio="3" EnableDependentAnimation="True" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="CurrentStatusSub" FromVerticalOffset="20"
                                  FromHorizontalOffset="0" />
+        </Storyboard>
+
+        <Storyboard x:Key="MediaElementFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="MediaElementGrid" />
+        </Storyboard>
+
+        <Storyboard x:Key="MediaElementFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="MediaElementGrid" />
         </Storyboard>
     </Page.Resources>
 
@@ -97,10 +107,10 @@
                        Stretch="Uniform" />
             </Grid>
             <Button Grid.Column="1" IsTabStop="False" HorizontalAlignment="Right"
-                        VerticalAlignment="Center" Width="45" Height="48"
-                        Command="{Binding NavigateMainBackCommand}"
-                        Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                        Background="{ThemeResource SystemControlHighlightListAccentLowBrush}">
+                    VerticalAlignment="Center" Width="45" Height="48"
+                    Command="{Binding NavigateMainBackCommand}"
+                    Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="{ThemeResource SystemControlHighlightListAccentLowBrush}">
                 <SymbolIcon Symbol="Back" Foreground="White" />
             </Button>
             <StackPanel Orientation="Horizontal" Grid.Column="2">
@@ -121,8 +131,11 @@
                     Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
-            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <Grid Column="5" Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Width="{Binding OffContentStatusBarWidth}">
+            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}"
+                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Grid Column="5"
+                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                  Width="{Binding OffContentStatusBarWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -144,7 +157,8 @@
                 <TextBlock x:Name="CurrentOffStatus" Grid.Column="1" FontWeight="Bold"
                            Text="{Binding CurrentOffStatus}"
                            TextTrimming="CharacterEllipsis" Margin="10,0,0,0"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch" IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}"/>
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                           IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}" />
                 <Button IsTabStop="False" HorizontalAlignment="Right"
                         VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
                         Command="{Binding RefreshOffDataCommand}"
@@ -177,20 +191,22 @@
                             </ListView>
                         </Flyout>
                     </Button.Flyout>
-                    <SymbolIcon Symbol="Filter" Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
+                    <SymbolIcon Symbol="Filter"
+                                Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
                 </Button>
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
-                        Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding GoTopCommand}">
+                        Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        Command="{Binding GoTopCommand}">
                     <SymbolIcon Symbol="Up" />
                 </Button>
             </Grid>
             <userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
-                                           HorizontalAlignment="Right" IsThreeState="False"
-                                           VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3"
-                                           Background="Transparent" Click="ToggleButton_OnClick"
-                                           IsChecked="{Binding SearchToggleStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           Command="{Binding ToggleSearchCommand}"
-                                           Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                                               HorizontalAlignment="Right" IsThreeState="False"
+                                               VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3"
+                                               Background="Transparent" Click="ToggleButton_OnClick"
+                                               IsChecked="{Binding SearchToggleStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                               Command="{Binding ToggleSearchCommand}"
+                                               Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Find" />
             </userControls:LockableToggleButton>
         </Grid>
@@ -215,16 +231,31 @@
                                             Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                             Background="{ThemeResource BrushSplitter}" ResizeDirection="Columns"
                                             ResizeBehavior="PreviousAndNext" />
-                <Grid Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Grid.Column="2"
+                <Grid Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                      Grid.Column="2"
                       Margin="{Binding ElementName=OffContent,Path=Margin}" SizeChanged="OffContent_OnSizeChanged"
                       Height="10" />
                 <Frame Grid.Column="2" x:Name="OffContent" HorizontalAlignment="Stretch" MinWidth="420"
                        PointerPressed="OffContent_OnPointerPressed"
                        Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Margin="{Binding Source={StaticResource DesktopLocator} ,Path=Hamburger.BottomStackPanelMargin}" />
+                <Grid Grid.Column="0" x:Name="MediaElementGrid"
+              attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"
+              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" >
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black" Opacity=".75"/>
+                    </Grid.Background>
+                    <MediaElement x:Name="MediaElement" Source="{Binding MediaElementSource}" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50">
+                        <MediaElement.TransportControls>
+                            <MediaTransportControls/>
+                        </MediaElement.TransportControls>
+                    </MediaElement>
+                </Grid>
             </Grid>
         </Grid>
-        <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
+        <Grid x:Name="PinDialog" Opacity="0"
+              DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
               Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">
@@ -292,14 +323,14 @@
                                     <PivotItem Header="Normal" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
                                         <Grid>
                                             <userControls:CropControl ImageSource="{Binding PreviewImageNormal}"
-                                                                         DesiredAspectRatio="1.0"
-                                                                         Width="200" Height="320"
-                                                                         VerticalAlignment="Center"
-                                                                         HorizontalAlignment="Center"
-                                                                         CropLeft="{Binding CropLeft,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                                      DesiredAspectRatio="1.0"
+                                                                      Width="200" Height="320"
+                                                                      VerticalAlignment="Center"
+                                                                      HorizontalAlignment="Center"
+                                                                      CropLeft="{Binding CropLeft,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                      CropTop="{Binding CropTop,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                      CropWidth="{Binding CropWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                      CropHeight="{Binding CropHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                                 <userControls:CropControl.Style>
                                                     <Style
                                                         TargetType="userControls:CropControl">
@@ -344,14 +375,14 @@
                                     <PivotItem Header="Wide" PointerWheelChanged="PinPivotItem_OnPointerWheelChanged">
                                         <Grid>
                                             <userControls:CropControl ImageSource="{Binding PreviewImageWide}"
-                                                                         DesiredAspectRatio="2.0"
-                                                                         Width="200" Height="320"
-                                                                         VerticalAlignment="Center"
-                                                                         HorizontalAlignment="Center"
-                                                                         CropLeft="{Binding CropLeftWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropTop="{Binding CropTopWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropWidth="{Binding CropWidthWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                                         CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                                      DesiredAspectRatio="2.0"
+                                                                      Width="200" Height="320"
+                                                                      VerticalAlignment="Center"
+                                                                      HorizontalAlignment="Center"
+                                                                      CropLeft="{Binding CropLeftWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                      CropTop="{Binding CropTopWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                      CropWidth="{Binding CropWidthWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                      CropHeight="{Binding CropHeightWide,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                                 <userControls:CropControl.Style>
                                                     <Style
                                                         TargetType="userControls:CropControl">
@@ -431,5 +462,6 @@
                 </ScrollViewer>
             </Grid>
         </Grid>
+
     </Grid>
 </Page>

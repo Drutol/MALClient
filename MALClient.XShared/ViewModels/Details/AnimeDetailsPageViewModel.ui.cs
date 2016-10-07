@@ -8,6 +8,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Interfaces;
+using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Favourites;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
@@ -302,6 +303,31 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _loadCharactersButtonVisibility = value;
                 RaisePropertyChanged(() => LoadCharactersButtonVisibility);
+            }
+        }
+
+
+        private bool _loadingVideosVisibility = false;
+
+        public bool LoadingVideosVisibility
+        {
+            get { return _loadingVideosVisibility; }
+            set
+            {
+                _loadingVideosVisibility = value;
+                RaisePropertyChanged(() => LoadingVideosVisibility);
+            }
+        }
+
+        private bool _noVideosNoticeVisibility ;
+
+        public bool NoVideosNoticeVisibility
+        {
+            get { return _noVideosNoticeVisibility; }
+            set
+            {
+                _noVideosNoticeVisibility = value;
+                RaisePropertyChanged(() => NoVideosNoticeVisibility);
             }
         }
 
@@ -618,6 +644,16 @@ namespace MALClient.XShared.ViewModels.Details
         public ICommand LoadCharactersCommand
             => _loadCharactersCommand ?? (_loadCharactersCommand = new RelayCommand(() => LoadCharacters()));
 
+        private ICommand _loadVideosCommand;
+
+        public ICommand LoadVideosCommand
+            => _loadVideosCommand ?? (_loadVideosCommand = new RelayCommand(() => LoadVideos()));
+
+        private ICommand _openVideoCommand;
+
+        public ICommand OpenVideoCommand
+            => _openVideoCommand ?? (_openVideoCommand = new RelayCommand<AnimeVideoData>(OpenVideo));
+
         public ICommand _setRewatchingCountCommand;
 
         public ICommand SetRewatchingCountCommand
@@ -927,9 +963,7 @@ namespace MALClient.XShared.ViewModels.Details
         }
 
         private bool _isRemoveAnimeButtonEnabled = true;
-
-
-
+        
         public bool IsRemoveAnimeButtonEnabled
         {
             get { return _isRemoveAnimeButtonEnabled; }
@@ -940,11 +974,15 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
+
+
+
         public List<int> RewatchedOptions { get; } = new List<int> {0,1,2,3,4,5,6,7,8,9};
 
         public string RewatchingLabel => AnimeMode ? "Rewatching" : "Rereading";
 
         public string RewatchedLabel => AnimeMode ? "rewatched" : "reread";
+
 
         #endregion
     }

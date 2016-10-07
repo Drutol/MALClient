@@ -49,6 +49,7 @@
     <Compile Include="Comm\Anime\AnimeSeasonalQuery.cs" />
     <Compile Include="Comm\Anime\AnimeTopQuery.cs" />
     <Compile Include="Comm\Anime\AnimeUpdateQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeVideosQuery.cs" />
     <Compile Include="Comm\Articles\MalArticleQuery.cs" />
     <Compile Include="Comm\Articles\MalArticlesIndexQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
@@ -152,9 +153,14 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="YoutubeExtractor, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExtractor.0.10.11\lib\portable-net45+win8+wpa81+wp8\YoutubeExtractor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Comm\HtmlClassesDefinitions.json" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

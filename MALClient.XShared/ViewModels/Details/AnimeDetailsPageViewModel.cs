@@ -22,6 +22,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
+using YoutubeExtractor;
 
 namespace MALClient.XShared.ViewModels.Details
 {
@@ -60,6 +61,7 @@ namespace MALClient.XShared.ViewModels.Details
         private bool _loadedRecomm;
         private bool _loadedRelated;
         private bool _loadedReviews;
+        private bool _loadedVideos;
 
         private bool _loadingAlternate;
 
@@ -179,6 +181,19 @@ namespace MALClient.XShared.ViewModels.Details
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
 
+        private ObservableCollection<AnimeVideoData> _availableVideos;
+
+        public ObservableCollection<AnimeVideoData> AvailableVideos
+        {
+            get { return _availableVideos; }
+            set
+            {
+                _availableVideos = value;
+                RaisePropertyChanged(() => AvailableVideos);
+            }
+        }
+
+
         public static List<string> ScoreFlyoutChoices { get; set; }
 
 
@@ -224,7 +239,7 @@ namespace MALClient.XShared.ViewModels.Details
             _loadingAlternate = false;
 
             //details reset
-            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = false;
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = _loadedVideos = false;
 
             //basic init assignment
             _animeItemReference = param.AnimeItem;
@@ -886,7 +901,7 @@ namespace MALClient.XShared.ViewModels.Details
                     AirStartDate = StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : StartDate
                 });
                 model.Airing = day != -1;
-                if(model.ParentAbstraction.TryRetrieveVolatileData())
+                if (model.ParentAbstraction.TryRetrieveVolatileData())
                     model.UpdateVolatileDataBindings();
             }
 
@@ -1109,7 +1124,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public async void LoadRecommendations(bool force = false)
         {
-            if (LoadingRecommendations == true || (_loadedRecomm && !force && Initialized))
+            if (LoadingRecommendations || (_loadedRecomm && !force && Initialized))
                 return;
             LoadingRecommendations = true;
             _loadedRecomm = true;
@@ -1220,6 +1235,43 @@ namespace MALClient.XShared.ViewModels.Details
                 LoadingCharactersVisibility = false;
             }
         }
+
+
+        private async void LoadVideos(bool force = false)
+        {
+            if (LoadingVideosVisibility || (_loadedVideos && !force))
+                return;
+            LoadingVideosVisibility = true;
+            _loadedVideos = true;
+
+            AvailableVideos = new ObservableCollection<AnimeVideoData>(await new AnimeVideosQuery(Id).GetVideos(force));
+
+            NoVideosNoticeVisibility = AvailableVideos.Any();
+            LoadingVideosVisibility = false;
+        }
+
         #endregion
+
+        private void OpenVideo(AnimeVideoData data)
+        {
+            try
+            {
+                var videoInfos = DownloadUrlResolver.GetDownloadUrls(data.YtLink);
+                var video =
+                    videoInfos.Where(info => info.VideoType == VideoType.Mp4)
+                        .OrderByDescending(info => info.Resolution)
+                        .First();
+                if(video.RequiresDecryption)
+                    DownloadUrlResolver.DecryptDownloadUrl(video);
+
+                ViewModelLocator.GeneralMain.MediaElementSource = video.DownloadUrl;
+                ViewModelLocator.GeneralMain.MediaElementVisibility = true;
+            }
+            catch (Exception)
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong with loading this video, probably google has messed again with their api again... yay!","Unable to load youtube video!");
+            }
+
+        }
     }
 }

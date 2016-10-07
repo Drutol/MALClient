@@ -46,9 +46,15 @@ namespace MALClient
                 {
                     PinDialogStoryboard.Begin();
                 };
+                vm.MediaElementCollapsed += VmOnMediaElementCollapsed;
                 UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
                 DesktopViewModelLocator.Main.View = this;
             };
+        }
+
+        private void VmOnMediaElementCollapsed()
+        {
+            MediaElement.Stop();
         }
 
 

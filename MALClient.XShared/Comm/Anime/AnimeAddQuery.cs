@@ -35,7 +35,7 @@ namespace MALClient.XShared.Comm.Anime
             xml.AppendLine("<status>6</status>");
             xml.AppendLine("<score>0</score>");
             if (Settings.SetStartDateOnListAdd)
-                xml.AppendLine($"<date_start>{DateTimeOffset.Now.ToString("MMddyyyy")}</date_start>");
+                xml.AppendLine($"<date_start>{DateTimeOffset.Now:MMddyyyy}</date_start>");
             //xml.AppendLine("<download_episodes></download_episodes>");
             //xml.AppendLine("<storage_type></storage_type>");
             //xml.AppendLine("<storage_value></storage_value>");

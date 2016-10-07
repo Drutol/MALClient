@@ -30,6 +30,7 @@ namespace MALClient.XShared.ViewModels
         public virtual event NavigationRequest OffNavigationRequested;
         public virtual event SearchQuerySubmitted OnSearchQuerySubmitted;
         public virtual event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
+        public virtual event EmptyEventHander MediaElementCollapsed;
 
 
         protected abstract void CurrentStatusStoryboardBegin();
@@ -145,7 +146,21 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 _searchInputVisibility = value;
+                if(!value)
+                    MediaElementCollapsed?.Invoke();
                 RaisePropertyChanged(() => SearchInputVisibility);
+            }
+        }
+
+        private bool _mediaElementVisibility = false;
+
+        public bool MediaElementVisibility
+        {
+            get { return _mediaElementVisibility; }
+            set
+            {
+                _mediaElementVisibility = value;
+                RaisePropertyChanged(() => MediaElementVisibility);
             }
         }
 
@@ -189,6 +204,18 @@ namespace MALClient.XShared.ViewModels
                 _currentOffStatus = value;
                 CurrentOffStatusStoryboardBegin();
                 RaisePropertyChanged(() => CurrentOffStatus);
+            }
+        }
+
+        private string _mediaElementSource;
+
+        public  string MediaElementSource
+        {
+            get { return _mediaElementSource; }
+            set
+            {
+                _mediaElementSource = value;
+                RaisePropertyChanged(() => MediaElementSource);
             }
         }
 
@@ -298,6 +325,20 @@ namespace MALClient.XShared.ViewModels
                            ViewModelLocator.AnimeDetails.Id = -1;
                            OffContentVisibility = false;
                            ViewModelLocator.NavMgr.ResetOffBackNav();
+                       }));
+            }
+        }
+
+        private ICommand _hideMediaElementCommand;
+
+        public ICommand HideMediaElementCommand
+        {
+            get
+            {
+                return _hideOffContentCommand ??
+                       (_hideOffContentCommand = new RelayCommand(() =>
+                       {
+                           MediaElementVisibility = false;
                        }));
             }
         }

@@ -166,6 +166,7 @@
     <Compile Include="Managers\StoreLogoWorkaroundHacker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\AlternatingListView.cs" />
+    <Compile Include="UserControls\AttachedProperties\AnimatedVisibilityExtension.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>

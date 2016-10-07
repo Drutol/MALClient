@@ -58,6 +58,7 @@
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeScrappedDetails.cs" />
+    <Compile Include="Models\AnimeScrapped\AnimeVideoData.cs" />
     <Compile Include="Models\AnimeScrapped\DirectRecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\RelatedAnimeData.cs" />

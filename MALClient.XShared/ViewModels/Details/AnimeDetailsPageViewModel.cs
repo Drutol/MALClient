@@ -22,7 +22,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
-using YoutubeExtractor;
+using VideoLibrary;
 
 namespace MALClient.XShared.ViewModels.Details
 {
@@ -1246,26 +1246,22 @@ namespace MALClient.XShared.ViewModels.Details
 
             AvailableVideos = new ObservableCollection<AnimeVideoData>(await new AnimeVideosQuery(Id).GetVideos(force));
 
-            NoVideosNoticeVisibility = AvailableVideos.Any();
+            NoVideosNoticeVisibility = !AvailableVideos.Any();
             LoadingVideosVisibility = false;
         }
 
         #endregion
 
-        private void OpenVideo(AnimeVideoData data)
+        private async void OpenVideo(AnimeVideoData data)
         {
             try
             {
-                var videoInfos = DownloadUrlResolver.GetDownloadUrls(data.YtLink);
-                var video =
-                    videoInfos.Where(info => info.VideoType == VideoType.Mp4)
-                        .OrderByDescending(info => info.Resolution)
-                        .First();
-                if(video.RequiresDecryption)
-                    DownloadUrlResolver.DecryptDownloadUrl(video);
-
-                ViewModelLocator.GeneralMain.MediaElementSource = video.DownloadUrl;
+                var youTube = YouTube.Default;
+                var video = youTube.GetVideo(data.YtLink);
+                var uri =  await video.GetUriAsync();
+                ViewModelLocator.GeneralMain.MediaElementSource = uri;
                 ViewModelLocator.GeneralMain.MediaElementVisibility = true;
+                ViewModelLocator.GeneralMain.MediaElementIndirectSource = data.YtLink;
             }
             catch (Exception)
             {

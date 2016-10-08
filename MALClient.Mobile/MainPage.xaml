@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
@@ -32,6 +33,15 @@
         <Storyboard x:Name="FadeInCurrentSubStatus" SpeedRatio="1">
             <DoubleAnimation Storyboard.TargetName="CurrentStatusSub" Storyboard.TargetProperty="Opacity"  From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="CurrentStatusSub" FromVerticalOffset="30" FromHorizontalOffset="0"  />
+        </Storyboard>
+
+
+        <Storyboard x:Key="MediaElementFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="MediaElementGrid" />
+        </Storyboard>
+
+        <Storyboard x:Key="MediaElementFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="MediaElementGrid" />
         </Storyboard>
     </Page.Resources>
 
@@ -167,7 +177,44 @@
                 <controls:HamburgerControl />
             </SplitView.Pane>
             <SplitView.Content>
-                <Frame x:Name="MainContent" />
+                <Grid>
+                    <Frame x:Name="MainContent" />
+                    <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" >
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/XamlResources/Controlstyles.xaml"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <Grid.Background>
+                            <SolidColorBrush Color="Black" Opacity=".9"/>
+                        </Grid.Background>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Button HorizontalAlignment="Left" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top" Style="{StaticResource FancyButtonStyle}" Command="{Binding CopyMediaElementUrlCommand}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Copy youtube link to clipboard."/>
+                                </ToolTipService.ToolTip>
+                                <SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                            <Button HorizontalAlignment="Right" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top" Style="{StaticResource FancyButtonStyle}" Command="{Binding HideMediaElementCommand}">
+                                <SymbolIcon Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                        </Grid>
+                        <MediaElement Grid.Row="1" x:Name="MediaElement" Source="{Binding MediaElementSource}" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <MediaElement.TransportControls>
+                                <MediaTransportControls/>
+                            </MediaElement.TransportControls>
+                        </MediaElement>
+                    </Grid>
+                </Grid>
             </SplitView.Content>
         </SplitView>
         <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"

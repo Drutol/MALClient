@@ -211,6 +211,13 @@
             </userControls:LockableToggleButton>
         </Grid>
         <Grid VerticalAlignment="Stretch" Grid.Row="1">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/XamlResources/Controlstyles.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -239,16 +246,25 @@
                        PointerPressed="OffContent_OnPointerPressed"
                        Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Margin="{Binding Source={StaticResource DesktopLocator} ,Path=Hamburger.BottomStackPanelMargin}" />
-                <Grid Grid.Column="0" x:Name="MediaElementGrid"
-              attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"
-              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" >
+                <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" > 
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75"/>
+                        <SolidColorBrush Color="Black" Opacity=".9"/>
                     </Grid.Background>
+                    <Button HorizontalAlignment="Left" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top" Style="{StaticResource FancyButtonStyle}" Command="{Binding CopyMediaElementUrlCommand}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Copy youtube link to clipboard."/>
+                        </ToolTipService.ToolTip>
+                        <SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>                    
+                    <Button HorizontalAlignment="Right" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top" Style="{StaticResource FancyButtonStyle}" Command="{Binding HideMediaElementCommand}">
+                        <SymbolIcon Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
                     <MediaElement x:Name="MediaElement" Source="{Binding MediaElementSource}" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50">
                         <MediaElement.TransportControls>
-                            <MediaTransportControls/>
+                            <MediaTransportControls IsFullWindowButtonVisible="False"/>
                         </MediaElement.TransportControls>
                     </MediaElement>
                 </Grid>

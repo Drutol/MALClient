@@ -151,6 +151,7 @@ namespace MALClient.Pages.Off
         private void VideosListViewOnItemCLick(object sender, ItemClickEventArgs e)
         {
             ViewModel.OpenVideoCommand.Execute(e.ClickedItem);
+            PromotionalVideosFlyout.Hide();
         }
     }
 }

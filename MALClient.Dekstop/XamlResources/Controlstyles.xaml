@@ -75,4 +75,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style x:Key="FancyButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource AppBarBackgroundThemeBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+    </Style>
 </ResourceDictionary>

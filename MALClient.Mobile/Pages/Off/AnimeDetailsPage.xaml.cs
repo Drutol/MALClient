@@ -157,5 +157,12 @@ namespace MALClient.Pages.Off
             ViewModel.SetRewatchingCountCommand.Execute(e.ClickedItem);
             RewatchingFlyout.Hide();
         }
+
+        private void VideosListViewOnItemCLick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.OpenVideoCommand.Execute(e.ClickedItem);
+            PromotionalVideosFlyout.Hide();
+            MoreFlyout.Hide();
+        }
     }
 }

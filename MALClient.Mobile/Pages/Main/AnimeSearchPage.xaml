@@ -45,7 +45,7 @@
             <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility}"
                        Text="No data received from MAL, try searching for something more specific. :("
                        TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
-                       VerticalAlignment="Center" Foreground="#FFB9B9B9" />
+                       VerticalAlignment="Center" Foreground="#B9B9B9" />
             <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100" Height="100"
                           IsActive="True" Visibility="{Binding Loading}" />

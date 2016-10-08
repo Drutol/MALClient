@@ -30,7 +30,7 @@ namespace MALClient.XShared.ViewModels
         public virtual event NavigationRequest OffNavigationRequested;
         public virtual event SearchQuerySubmitted OnSearchQuerySubmitted;
         public virtual event SearchDelayedQuerySubmitted OnSearchDelayedQuerySubmitted;
-        public virtual event EmptyEventHander MediaElementCollapsed;
+        public event EmptyEventHander MediaElementCollapsed;
 
 
         protected abstract void CurrentStatusStoryboardBegin();
@@ -146,13 +146,12 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 _searchInputVisibility = value;
-                if(!value)
-                    MediaElementCollapsed?.Invoke();
+
                 RaisePropertyChanged(() => SearchInputVisibility);
             }
         }
 
-        private bool _mediaElementVisibility = false;
+        private bool _mediaElementVisibility;
 
         public bool MediaElementVisibility
         {
@@ -160,6 +159,8 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 _mediaElementVisibility = value;
+                if (!value)
+                    MediaElementCollapsed?.Invoke();
                 RaisePropertyChanged(() => MediaElementVisibility);
             }
         }
@@ -218,6 +219,8 @@ namespace MALClient.XShared.ViewModels
                 RaisePropertyChanged(() => MediaElementSource);
             }
         }
+
+        public string MediaElementIndirectSource { get; set; }
 
         private string _currentSearchQuery;
 
@@ -335,10 +338,24 @@ namespace MALClient.XShared.ViewModels
         {
             get
             {
-                return _hideOffContentCommand ??
-                       (_hideOffContentCommand = new RelayCommand(() =>
+                return _hideMediaElementCommand ??
+                       (_hideMediaElementCommand = new RelayCommand(() =>
                        {
                            MediaElementVisibility = false;
+                       }));
+            }
+        }
+
+        private ICommand _copyMediaElementUrlCommand;
+
+        public ICommand CopyMediaElementUrlCommand
+        {
+            get
+            {
+                return _copyMediaElementUrlCommand ??
+                       (_copyMediaElementUrlCommand = new RelayCommand(() =>
+                       {
+                           ResourceLocator.ClipboardProvider.SetText(MediaElementIndirectSource);
                        }));
             }
         }

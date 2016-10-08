@@ -75,23 +75,28 @@
                         <ToolTip Content="Promotional videos" />
                     </ToolTipService.ToolTip>
                     <Button.Flyout>
-                        <Flyout>
+                        <Flyout x:Name="PromotionalVideosFlyout">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Promotional videos" HorizontalAlignment="Center" Margin="5,0"/>
-                                <ListView Grid.Row="1" ItemsSource="{Binding AvailableVideos}" IsItemClickEnabled="True" ItemClick="VideosListViewOnItemCLick">
+                                <StackPanel>
+                                    <TextBlock Text="Promotional videos" HorizontalAlignment="Center" Margin="5,0" FontSize="20"/>
+                                    <MenuFlyoutSeparator Margin="0,5"/>
+                                </StackPanel>
+
+                                <ListView Margin="-10,0" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding LoadingVideosVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}" ItemsSource="{Binding AvailableVideos}" IsItemClickEnabled="True" ItemClick="VideosListViewOnItemCLick">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                             <Setter Property="Margin" Value="0,5"/>
+                                            <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
                                         </Style>
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid Width="320" Background="{StaticResource BrushAnimeItemInnerBackground}">
+                                            <Grid Width="320" Margin="16,0" Background="{StaticResource BrushAnimeItemInnerBackground}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="180"/>
                                                     <RowDefinition Height="Auto"/>
@@ -101,13 +106,15 @@
                                                         <BitmapImage UriSource="{Binding Thumb}" DecodePixelType="Logical" DecodePixelHeight="180" DecodePixelWidth="320"/>
                                                     </Image.Source>
                                                 </Image>
-                                                <Grid Grid.Row="1" MinHeight="40" BorderThickness="0,1,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{StaticResource BrushAnimeItemBackground}">
+                                                <Grid Grid.Row="1" MinHeight="40" BorderThickness="0,1,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
                                                     <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,10" TextWrapping="WrapWholeWords"/>
                                                 </Grid>
                                             </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
+                                <ProgressRing Grid.Row="1" IsActive="True" Width="30" Height="30" Margin="0,20" Visibility="{Binding LoadingVideosVisibility,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center"></ProgressRing>
+                                <TextBlock Grid.Row="1" Margin="0,20" Text="Promotional videos unavailable..." TextWrapping="WrapWholeWords" Visibility="{Binding NoVideosNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Foreground="{ThemeResource BrushNoSearchResults}"/>
                             </Grid>
                         </Flyout>
                     </Button.Flyout>

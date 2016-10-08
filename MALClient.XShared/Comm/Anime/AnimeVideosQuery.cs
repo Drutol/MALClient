@@ -56,6 +56,8 @@ namespace MALClient.XShared.Comm.Anime
                 output.Add(current);
             }
 
+            DataCache.SaveData(output, $"videos_{_id}", "AnimeDetails");
+
             return output;
 
         }

@@ -30,6 +30,7 @@ namespace MALClient
             Loaded += (a1, a2) =>
             {
                 MobileViewModelLocator.Main.View = this;
+                ViewModelLocator.GeneralMain.MediaElementCollapsed += GeneralMainOnMediaElementCollapsed;
                 UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
                 {
                     PinDialogStoryboard.Begin();
@@ -39,6 +40,10 @@ namespace MALClient
             ViewModel.MainNavigationRequested += Navigate;
         }
 
+        private void GeneralMainOnMediaElementCollapsed()
+        {
+            MediaElement.Stop();
+        }
 
         private void HidePinDialog()
         {

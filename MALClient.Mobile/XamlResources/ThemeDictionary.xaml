@@ -30,6 +30,7 @@
             <SolidColorBrush x:Key="BrushPinTileDialogBackground" Color="#a8a8a8" />
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="#555555" />
             <SolidColorBrush x:Key="BrushFavouriteStarBackground" Color="White" Opacity=".5"/>
+            <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushText" Color="White" />
@@ -57,6 +58,7 @@
             <SolidColorBrush x:Key="BrushPinTileDialogBackground" Color="#303030" />
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="LightGray" />
             <SolidColorBrush x:Key="BrushFavouriteStarBackground" Color="Black" Opacity=".75"/>
+            <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

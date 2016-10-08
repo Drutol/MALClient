@@ -41,6 +41,7 @@
     <Compile Include="Comm\Anime\AnimeDetailsMalQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDirectRecommendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeWallpapersQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRemoveQuery.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
     <Compile Include="NavArgs\SearchPageNavArgs.cs" />
     <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
+    <Compile Include="NavArgs\WallpaperPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />
     <Compile Include="ViewModels\Main\SearchPageViewModel.cs" />
+    <Compile Include="ViewModels\Main\WallpapersViewModel.cs" />
     <Compile Include="ViewModels\MalMessageViewModel.cs" />
     <Compile Include="ViewModels\RecommendationItemViewModel.cs" />
     <Compile Include="ViewModels\ResourceLocator.cs" />

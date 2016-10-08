@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="MALClient.Pages.Main.WallpapersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:derived="using:MALClient.Shared.UserControls.Derived"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=Wallpapers}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <GridView ItemsSource="{Binding Wallpapers}">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <derived:TrueVariableWarpGrid SqeezeChildren="True" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource TextBlockButtonStyle}" MaxWidth="500" MaxHeight="500">
+                        <Image Stretch="Uniform">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding FileUrl}"/>
+                            </Image.Source>
+                        </Image>
+                    </Button>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="10"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+        </GridView>
+    </Grid>
+</Page>

@@ -71,6 +71,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<CharacterSearchViewModel>();
             SimpleIoc.Default.Register<ProfilePageViewModel>();
             SimpleIoc.Default.Register<LogInViewModel>();
+            SimpleIoc.Default.Register<WallpapersViewModel>();
 
         }
 
@@ -125,6 +126,9 @@ namespace MALClient.XShared.ViewModels
 
         public static SettingsViewModelBase Settings
             => ServiceLocator.Current.GetInstance<SettingsViewModelBase>();
+
+        public static WallpapersViewModel Wallpapers
+            => ServiceLocator.Current.GetInstance<WallpapersViewModel>();
 
         //Forums
 

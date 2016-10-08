@@ -138,7 +138,7 @@ namespace MALClient.XShared.ViewModels.Main
                             string.IsNullOrWhiteSpace(_currrentFilter) ||
                             string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
                 AnimeSearchItemViewModels.Add(item);
-            EmptyNoticeVisibility = AnimeSearchItemViewModels.Count == 0 ? true : false;
+            EmptyNoticeVisibility = AnimeSearchItemViewModels.Count == 0;
         }
 
         private void ResetQuery()

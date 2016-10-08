@@ -654,6 +654,14 @@ namespace MALClient.XShared.ViewModels.Details
         public ICommand OpenVideoCommand
             => _openVideoCommand ?? (_openVideoCommand = new RelayCommand<AnimeVideoData>(OpenVideo));
 
+        private ICommand _navigateWallpapersPage;
+
+        public ICommand NavigateWallpapersPage
+            => _navigateWallpapersPage ?? (_navigateWallpapersPage = new RelayCommand(() =>
+               {
+                   ViewModelLocator.GeneralMain.Navigate(PageIndex.PageWallpapers,new WallpaperPageNavigationArgs {Query = _animeItemReference.Title});
+               }));
+
         public ICommand _setRewatchingCountCommand;
 
         public ICommand SetRewatchingCountCommand

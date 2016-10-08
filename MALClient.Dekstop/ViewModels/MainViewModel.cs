@@ -199,10 +199,11 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     var arg = args as SearchPageNavigationArgs;
-                    if(Settings.ForceSearchIntoOffPage)
+                    if (Settings.ForceSearchIntoOffPage)
                         arg.DisplayMode = SearchPageDisplayModes.Off;
-                    if (arg.DisplayMode == SearchPageDisplayModes.Off || CurrentMainPage == PageIndex.PageForumIndex || CurrentMainPage == PageIndex.PageProfile)
-                    {                                         
+                    if (arg.DisplayMode == SearchPageDisplayModes.Off || CurrentMainPage == PageIndex.PageForumIndex ||
+                        CurrentMainPage == PageIndex.PageProfile)
+                    {
                         if (string.IsNullOrWhiteSpace(arg.Query))
                             arg.Query = CurrentSearchQuery;
                         arg.DisplayMode = SearchPageDisplayModes.Off;
@@ -213,7 +214,7 @@ namespace MALClient.ViewModels
                         ViewModelLocator.AnimeDetails.Id = -1;
                         StatusFilterVisibilityLock = false;
                         CurrentOffStatus = "Search";
-                        OffNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);                       
+                        OffNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
                     }
                     else
                     {
@@ -326,7 +327,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageHistory:
                     HideSearchStuff();
                     RefreshButtonVisibility = true;
-                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null,true); });
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null, true); });
                     CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
                     MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
@@ -357,12 +358,17 @@ namespace MALClient.ViewModels
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                     ShowSearchStuff();
                     ToggleSearchStuff();
-                    
+
                     SearchToggleLock = true;
-                    if(CurrentMainPage != PageIndex.PageCharacterSearch)
+                    if (CurrentMainPage != PageIndex.PageCharacterSearch)
                         MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
                     await Task.Delay(10);
                     View.SearchInputFocus(FocusState.Keyboard);
+                    break;
+                case PageIndex.PageWallpapers:
+                    HideSearchStuff();
+                    CurrentStatus = "Wallpapers";
+                    MainNavigationRequested?.Invoke(typeof(WallpapersPage),args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

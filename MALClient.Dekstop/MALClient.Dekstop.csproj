@@ -132,6 +132,9 @@
     <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
       <DependentUpon>ForumTopicPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\WallpapersPage.xaml.cs">
+      <DependentUpon>WallpapersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Messages\MalMessageDetailsPage.xaml.cs" />
     <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs" />
     <Compile Include="Pages\Off\AnimeDetailsPage.xaml.cs">
@@ -284,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\WallpapersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

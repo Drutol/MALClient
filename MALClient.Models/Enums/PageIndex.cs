@@ -25,5 +25,6 @@
         PageCharacterDetails,
         PageStaffDetails,
         PageCharacterSearch,
+        PageWallpapers
     }
 }

@@ -30,7 +30,8 @@ namespace MALClient.XShared.Comm.Anime
 
             var output = force
                 ? new List<AnimeVideoData>()
-                : await DataCache.RetrieveData<List<AnimeVideoData>>($"videos_{_id}", "AnimeDetails", 7) ?? new List<AnimeVideoData>();
+                : await DataCache.RetrieveData<List<AnimeVideoData>>($"videos_{_id}", "AnimeDetails", 7) ??
+                  new List<AnimeVideoData>();
 
             var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
@@ -39,21 +40,39 @@ namespace MALClient.XShared.Comm.Anime
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
 
-            foreach (var video in doc.FirstOfDescendantsWithClass("div","video-block promotional-video mt16").WhereOfDescendantsWithClass("div", "video-list-outer po-r pv"))
+            try
             {
-                var current = new AnimeVideoData();
-                var img = video.Descendants("img").First();
-                current.Thumb = img.Attributes["data-src"].Value;
-                if(current.Thumb.Contains("banned"))
-                    continue;
-                var href = video.Descendants("a").First().Attributes["href"].Value;
-                var pos = href.IndexOf('?');
-                href = href.Substring(0, pos);
-                current.YtLink = $"https://www.youtube.com/watch?v={href.Split('/').Last()}";
-                
-                current.Name = WebUtility.HtmlDecode(img.Attributes["data-title"].Value);
+                foreach (
+                    var video in
+                    doc.FirstOfDescendantsWithClass("div", "video-block promotional-video mt16")
+                        .WhereOfDescendantsWithClass("div", "video-list-outer po-r pv"))
+                {
+                    try
+                    {
+                        var current = new AnimeVideoData();
+                        var img = video.Descendants("img").First();
+                        current.Thumb = img.Attributes["data-src"].Value;
+                        if (current.Thumb.Contains("banned"))
+                            continue;
+                        var href = video.Descendants("a").First().Attributes["href"].Value;
+                        var pos = href.IndexOf('?');
+                        href = href.Substring(0, pos);
+                        current.YtLink = $"https://www.youtube.com/watch?v={href.Split('/').Last()}";
 
-                output.Add(current);
+                        current.Name = WebUtility.HtmlDecode(img.Attributes["data-title"].Value);
+
+                        output.Add(current);
+                    }
+                    catch (Exception)
+                    {
+                        //html
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                //no videos
             }
 
             DataCache.SaveData(output, $"videos_{_id}", "AnimeDetails");

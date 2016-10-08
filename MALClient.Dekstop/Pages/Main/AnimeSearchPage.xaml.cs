@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Shared.Items;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -13,12 +14,12 @@ namespace MALClient.Pages.Main
     /// </summary>
     public sealed partial class AnimeSearchPage : Page
     {
+        private SearchPageViewModel ViewModel => DataContext as SearchPageViewModel;
+
         public AnimeSearchPage()
         {
             InitializeComponent();
         }
-
-        private SearchPageViewModel ViewModel => DataContext as SearchPageViewModel;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -36,6 +37,11 @@ namespace MALClient.Pages.Main
         private void Animes_OnItemClick(object sender, ItemClickEventArgs e)
         {
             ViewModelLocator.SearchPage.CurrentlySelectedItem = e.ClickedItem as AnimeSearchItemViewModel;
+        }
+
+        private void DirectInputOnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            ViewModel.SubmitQuery(DirectInput.Text);
         }
     }
 }

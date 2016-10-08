@@ -151,6 +151,18 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        private bool _statusFilterVisibilityLock = true;
+
+        public bool StatusFilterVisibilityLock
+        {
+            get { return _statusFilterVisibilityLock; }
+            set
+            {
+                _statusFilterVisibilityLock = value;
+                RaisePropertyChanged(() => StatusFilterVisibilityLock);
+            }
+        }
+
         private bool _mediaElementVisibility;
 
         public bool MediaElementVisibility
@@ -160,7 +172,10 @@ namespace MALClient.XShared.ViewModels
             {
                 _mediaElementVisibility = value;
                 if (!value)
+                {
+                    MediaElementSource = null;
                     MediaElementCollapsed?.Invoke();
+                }
                 RaisePropertyChanged(() => MediaElementVisibility);
             }
         }
@@ -326,6 +341,7 @@ namespace MALClient.XShared.ViewModels
                        (_hideOffContentCommand = new RelayCommand(() =>
                        {
                            ViewModelLocator.AnimeDetails.Id = -1;
+                           CurrentOffPage = null;
                            OffContentVisibility = false;
                            ViewModelLocator.NavMgr.ResetOffBackNav();
                        }));
@@ -580,9 +596,10 @@ namespace MALClient.XShared.ViewModels
         public void PopulateSearchFilters(HashSet<string> filters)
         {
             SearchFilterOptions.Clear();
-            if (filters.Count <= 1 || (CurrentMainPage.Value != PageIndex.PageSearch && CurrentMainPage.Value != PageIndex.PageMangaSearch))
+            if (filters.Count <= 1 || (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentOffPage != PageIndex.PageSearch))
             {
                 SearchFilterButtonVisibility = false;
+                IsSearchFilterActive = false;
                 return;
             }
             SearchFilterButtonVisibility = true;

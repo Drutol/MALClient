@@ -72,7 +72,8 @@ namespace MALClient.XShared.ViewModels
                             new SearchPageNavigationArgs
                             {
                                 Query = ViewModelLocator.SearchPage.PrevQuery,
-                                Anime = AnimeMode
+                                Anime = AnimeMode,
+                                DisplayMode = ViewModelLocator.SearchPage.PrevArgs.DisplayMode
                             })
                         {
                             Source = AnimeMode ? PageIndex.PageSearch : PageIndex.PageMangaSearch,

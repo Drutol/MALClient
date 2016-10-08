@@ -177,23 +177,25 @@
                                 Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
                                 PlaceholderText="Search..." />
-                <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
+                <Grid Grid.Column="1" Visibility="{Binding StatusFilterVisibilityLock,Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Button IsTabStop="False"  Background="Transparent" Height="48" Width="45"
                         Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Button.Flyout>
-                        <Flyout>
-                            <ListView ItemsSource="{Binding SearchFilterOptions}"
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView ItemsSource="{Binding SearchFilterOptions}"
                                       SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}" />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Flyout>
-                    </Button.Flyout>
-                    <SymbolIcon Symbol="Filter"
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                        <SymbolIcon Symbol="Filter"
                                 Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
-                </Button>
+                    </Button>
+                </Grid>
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
                         Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Command="{Binding GoTopCommand}">

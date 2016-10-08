@@ -198,20 +198,47 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    if (CurrentMainPage.Value != PageIndex.PageSearch &&
-                        CurrentMainPage.Value != PageIndex.PageMangaSearch &&
-                        CurrentMainPage.Value != PageIndex.PageCharacterSearch)
-                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
-                    SearchToggleLock = true;
-                    ShowSearchStuff();
-                    ToggleSearchStuff();
-                    if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
-                    {
-                        (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
+                    var arg = args as SearchPageNavigationArgs;
+                    if(Settings.ForceSearchIntoOffPage)
+                        arg.DisplayMode = SearchPageDisplayModes.Off;
+                    if (arg.DisplayMode == SearchPageDisplayModes.Off || CurrentMainPage == PageIndex.PageForumIndex || CurrentMainPage == PageIndex.PageProfile)
+                    {                                         
+                        if (string.IsNullOrWhiteSpace(arg.Query))
+                            arg.Query = CurrentSearchQuery;
+                        arg.DisplayMode = SearchPageDisplayModes.Off;
+                        OffContentVisibility = true;
+                        currOffPage = PageIndex.PageSearch;
+                        currPage = null;
+                        OffRefreshButtonVisibility = false;
+                        ViewModelLocator.AnimeDetails.Id = -1;
+                        StatusFilterVisibilityLock = false;
+                        CurrentOffStatus = "Search";
+                        OffNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);                       
                     }
-                    MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
-                    await Task.Delay(10);
-                    View.SearchInputFocus(FocusState.Keyboard);
+                    else
+                    {
+                        if (CurrentOffPage == PageIndex.PageSearch)
+                        {
+                            DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(CurrentMainPage ==
+                                                                                           PageIndex.PageMessanging ||
+                                                                                           CurrentMainPageKind ==
+                                                                                           PageIndex.PageAnimeList);
+                            break; // we are already on the right
+                        }
+                        if (CurrentMainPage.Value != PageIndex.PageSearch &&
+                            CurrentMainPage.Value != PageIndex.PageMangaSearch &&
+                            CurrentMainPage.Value != PageIndex.PageCharacterSearch)
+                            _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+                        SearchToggleLock = true;
+                        ShowSearchStuff();
+                        ToggleSearchStuff();
+                        StatusFilterVisibilityLock = true;
+                        if (string.IsNullOrWhiteSpace(arg.Query))
+                            arg.Query = CurrentSearchQuery;
+                        MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
+                        await Task.Delay(10);
+                        View.SearchInputFocus(FocusState.Keyboard);
+                    }
                     break;
                 case PageIndex.PageLogIn:
                     OffContentVisibility = true;

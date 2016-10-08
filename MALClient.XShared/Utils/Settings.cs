@@ -301,6 +301,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["PullHigherQualityImages"] = value; }
         }
 
+        public static bool ForceSearchIntoOffPage
+        {
+            get { return (bool) (ApplicationDataService[nameof(ForceSearchIntoOffPage)] ?? false); }
+            set { ApplicationDataService[nameof(ForceSearchIntoOffPage)] = value; }
+        }
+
         public static string PinnedProfiles
         {
             get { return (string) (ApplicationDataService["PinnedProfiles"] ?? ""); }

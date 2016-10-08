@@ -169,7 +169,7 @@ namespace MALClient.Pages.Forums
         }
 
         private Size _prevSize;
-        private bool _canChangeSize;
+        private bool _canChangeSize = true;
         private bool _newTopic;
         private bool _skipStyling;
 

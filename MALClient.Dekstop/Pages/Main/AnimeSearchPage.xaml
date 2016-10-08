@@ -13,23 +13,56 @@
 
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch" Background="{StaticResource BrushAnimeItemInnerBackground}" Visibility="{Binding DirectQueryInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <AutoSuggestBox x:Name="DirectInput"  VerticalAlignment="Center" QueryIcon="Find" HorizontalAlignment="Stretch" Margin="10,5" PlaceholderText="Search..." QuerySubmitted="DirectInputOnQuerySubmitted"/>
+            <Button Margin="5,0" IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45" DataContext="{Binding Source={StaticResource Locator},Path=GeneralMain}">
+                <Button.Flyout>
+                    <Flyout>
+                        <ListView ItemsSource="{Binding SearchFilterOptions}"
+                                      SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="Filter"
+                                Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1">
             <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
                       IsItemClickEnabled="True" ItemClick="Animes_OnItemClick"
-                      Margin="0,5,0,0" SelectionMode="Single"
+                      Margin="0,5,-16,0" SelectionMode="Single"
                       Padding="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <Setter Property="BorderThickness" Value="2,0,0,0" />
+                        <!--<Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                        <Setter Property="BorderThickness" Value="2,0,0,0" />-->
                         <Setter Property="Margin" Value="2,5,0,5" />
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Margin="0,0,16,0"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <items:AnimeSearchItem DataContext="{Binding}"/>

@@ -440,6 +440,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.PullPeekPostsOnStartup = value; }
         }
 
+        public  bool ForceSearchIntoOffPage
+        {
+            get { return Settings.ForceSearchIntoOffPage; }
+            set { Settings.ForceSearchIntoOffPage = value; }
+        }
+
         public  bool MangaFocusVolumes
         {
             get { return Settings.MangaFocusVolumes; }

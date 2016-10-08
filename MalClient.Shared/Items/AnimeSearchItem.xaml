@@ -13,12 +13,12 @@
 
     <Grid Height="190" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.Column="0" Stretch="Fill"
-               HorizontalAlignment="Left" Height="Auto" MaxHeight="190"
-               Width="Auto" MaxWidth="150" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}"/>
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.Column="0" Stretch="UniformToFill"
+               HorizontalAlignment="Left"
+               Width="125" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}"/>
         <Button Grid.Column="0" Margin="1,0,0,1"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Visibility="Visible">
             <Button.Background>
@@ -26,25 +26,10 @@
             </Button.Background>
             <SymbolIcon Symbol="More" Foreground="White" />
             <Button.Flyout>
-                <Flyout x:Name="FlyoutMore">
-                    <StackPanel Padding="0">
-                        <StackPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Height" Value="35" />
-                                <Setter Property="HorizontalAlignment" Value="Left" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Margin" Value="1" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <SymbolIcon Symbol="World" VerticalAlignment="Center" />
-                            <StackPanel HorizontalAlignment="Left">
-                                <Button Content="Copy url to clipboard" Click="CopyLinkToClipboardCommand" />
-                                <Button Content="Open in browser" Click="OpenInMALCommand" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </Flyout>
+                <MenuFlyout x:Name="FlyoutMore">
+                    <MenuFlyoutItem Text="Copy url to clipboard" Click="CopyLinkToClipboardCommand" />
+                    <MenuFlyoutItem Text="Open in browser" Click="OpenInMALCommand" />
+                </MenuFlyout>
             </Button.Flyout>
         </Button>
         <Grid VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,11,11">

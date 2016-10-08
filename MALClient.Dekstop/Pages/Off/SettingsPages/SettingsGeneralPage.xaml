@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
-    mc:Ignorable="d">
+    xmlns:viewModels="using:MALClient.XShared.ViewModels"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:SettingsViewModelBase}">
 
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -146,6 +147,15 @@
                     <Grid HorizontalAlignment="Stretch">
                         <ToggleSwitch
                             IsOn="{Binding PullPeekPostsOnStartup,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Load" OffContent="Skip" HorizontalAlignment="Center" />
+                    </Grid>                       
+                    <TextBlock Text="Force search page to appear always in the off section."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding ForceSearchIntoOffPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="Load" OffContent="Skip" HorizontalAlignment="Center" />
                     </Grid>                    
                     <TextBlock Text="When choosing at random ensure winner to be selected."

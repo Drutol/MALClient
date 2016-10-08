@@ -9,24 +9,28 @@ using GalaSoft.MvvmLight;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {
-    public class SearchPageNavigationArgs
-    {
-        public bool Anime { get; set; } = true;
-        public string Query { get; set; }
-    }
+
 
     public class SearchPageViewModel : ViewModelBase
     {
         private bool _animeSearch; // default to anime
         private bool _queryHandler;
+        private readonly HashSet<string> _filters = new HashSet<string>();
+        private string _currrentFilter;
+        private bool _isFirstVisitGridVisible = true;
+        private bool _directQueryInputVisibility;
+        public SearchPageNavigationArgs PrevArgs;
         public string PrevQuery;
 
         public void Init(SearchPageNavigationArgs args)
         {
+            PrevArgs = args;
             if (_animeSearch != args.Anime)
                 PrevQuery = null;
             if(!_queryHandler)
@@ -34,6 +38,12 @@ namespace MALClient.XShared.ViewModels.Main
             _queryHandler = true;
             _currrentFilter = null;
             _animeSearch = args.Anime;
+            if (args.DisplayMode == SearchPageDisplayModes.Off)
+            {
+                ViewModelLocator.NavMgr.ResetOffBackNav();
+                DirectQueryInputVisibility = true;
+            }
+
             if (!string.IsNullOrWhiteSpace(args.Query))
             {
                 ViewModelLocator.GeneralMain.PopulateSearchFilters(_filters);
@@ -54,7 +64,7 @@ namespace MALClient.XShared.ViewModels.Main
             _queryHandler = false;
         }
 
-        private async void SubmitQuery(string query)
+        public async void SubmitQuery(string query)
         {
             if (string.IsNullOrEmpty(query) || query == PrevQuery || query.Length < 2)
                 return;
@@ -152,7 +162,10 @@ namespace MALClient.XShared.ViewModels.Main
         public AnimeSearchItemViewModel CurrentlySelectedItem
         {
             get { return null; } //One way to VM
-            set { value?.NavigateDetails(); }
+            set
+            {
+                value?.NavigateDetails();
+            }
         }
 
         private bool _loading = false;
@@ -189,9 +202,16 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private readonly HashSet<string> _filters = new HashSet<string>();
-        private string _currrentFilter;
-        private bool _isFirstVisitGridVisible = true;
+        public bool DirectQueryInputVisibility
+        {
+            get { return _directQueryInputVisibility; }
+            set
+            {
+                _directQueryInputVisibility = value; 
+                RaisePropertyChanged(() => DirectQueryInputVisibility);
+            }
+        }
+
 
         #endregion
     }

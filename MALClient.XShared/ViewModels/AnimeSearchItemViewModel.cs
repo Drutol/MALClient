@@ -41,7 +41,7 @@ namespace MALClient.XShared.ViewModels
         public string GlobalScoreBind => GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2");
         public string Synopsis { get; set; }
         public string ImgUrl { get; set; }
-        public string WatchedEps => $"{(AnimeMode ? "Episodes" : "Chapters")} : {AllEpisodes}";
+        public string WatchedEps => $"{(AnimeMode ? "Episodes" : "Chapters")}: {(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
 
         public ICommand NavigateDetailsCommand => new RelayCommand(NavigateDetails);
 

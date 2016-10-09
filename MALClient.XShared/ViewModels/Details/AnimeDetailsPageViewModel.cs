@@ -318,26 +318,7 @@ namespace MALClient.XShared.ViewModels.Details
                 AddAnimeVisibility = false;
                 IsRemoveAnimeButtonEnabled = true;
                 IsAddAnimeButtonEnabled = false;
-                try
-                {
-                    _startDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.StartDate);
-                    StartDateValid = true;
-                }
-                catch (Exception)
-                {
-                    _startDateTimeOffset = DateTimeOffset.Now;
-                    StartDateValid = false;
-                }
-                try
-                {
-                    _endDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.EndDate);
-                    EndDateValid = true;
-                }
-                catch (Exception)
-                {
-                    _endDateTimeOffset = DateTimeOffset.Now;
-                    EndDateValid = false;
-                }
+                PopulateStartEndDates();
                 //tags
                 if (Settings.SelectedApiType == ApiType.Mal)
                 {
@@ -824,6 +805,9 @@ namespace MALClient.XShared.ViewModels.Details
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
             ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
+            PopulateStartEndDates();
+            RaisePropertyChanged(() => StartDateTimeOffset);
+            RaisePropertyChanged(() => EndDateTimeOffset);
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IncrementEpsCommand);
             RaisePropertyChanged(() => DecrementEpsCommand);
@@ -839,7 +823,7 @@ namespace MALClient.XShared.ViewModels.Details
             RaisePropertyChanged(() => DecrementEpsCommand);
         }
 
-        private async void RemoveAnime()
+        private void RemoveAnime()
         {
             if (_animeItemReference == null)
                 return;
@@ -945,6 +929,30 @@ namespace MALClient.XShared.ViewModels.Details
 
             //Launch UI updates without triggering inner update logic -> nothng to update
             UpdateAnimeReferenceUiBindings(Id);
+        }
+
+        private void PopulateStartEndDates()
+        {
+            try
+            {
+                _startDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.StartDate);
+                StartDateValid = true;
+            }
+            catch (Exception)
+            {
+                _startDateTimeOffset = DateTimeOffset.Now;
+                StartDateValid = false;
+            }
+            try
+            {
+                _endDateTimeOffset = DateTimeOffset.Parse(_animeItemReference.EndDate);
+                EndDateValid = true;
+            }
+            catch (Exception)
+            {
+                _endDateTimeOffset = DateTimeOffset.Now;
+                EndDateValid = false;
+            }
         }
 
         private void ExtractData(AnimeGeneralDetailsData data)

@@ -130,7 +130,7 @@ namespace MALClient.XShared.ViewModels
             new SettingsPageEntry
             {
                 Header = "Ads",
-                Subtitle = "Support me with ads on demand :)",
+                Subtitle = "Support me with ads on demand...",
                 Symbol = SettingsSymbolsEnum.SwitchApps,
                 PageType = SettingsPageIndex.Ads
             },
@@ -613,7 +613,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private bool _emptyCachedListVisiblity = false;
+        private bool _emptyCachedListVisiblity;
 
         public bool EmptyCachedListVisiblity
         {
@@ -625,7 +625,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private bool _removeAllCachedDataButtonVisibility = false;
+        private bool _removeAllCachedDataButtonVisibility;
 
         public bool RemoveAllCachedDataButtonVisibility
         {

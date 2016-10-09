@@ -41,7 +41,7 @@
             <TextBlock
                     Text="If you want to support me and you don't want to donate you can turn on the ads on demand :)"
                     FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" TextAlignment="Center"
-                    HorizontalAlignment="Center" Margin="5" />
+                    HorizontalAlignment="Center" Margin="10,5" />
             <MenuFlyoutSeparator Margin="0,5" />
             <TextBlock Text="How long should the ads be displayed? (per day)"
                        FontWeight="Medium"

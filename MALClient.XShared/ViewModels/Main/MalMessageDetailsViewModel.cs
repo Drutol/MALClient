@@ -154,106 +154,111 @@ namespace MALClient.XShared.ViewModels.Main
         private async void SendMessage()
         {
             IsSendButtonEnabled = false;
-            if (_prevArgs.WorkMode == MessageDetailsWorkMode.Message)
+            if (!string.IsNullOrEmpty(MessageText))
             {
-                if (_newMessage)
+                if (_prevArgs.WorkMode == MessageDetailsWorkMode.Message)
                 {
-                    if (await new SendMessageQuery().SendMessage(MessageSubject, MessageText, MessageTarget))
+                    if (_newMessage)
                     {
-                        try
+                        if (await new SendMessageQuery().SendMessage(MessageSubject, MessageText, MessageTarget))
                         {
-                            var message = new MalMessageModel();
-                            var id = await new MalMessagesQuery().GetFirstSentMessageId();
-                            message.Id = id;
-                            message = await new MalMessageDetailsQuery().GetMessageDetails(message);
-                            message.Target = MessageTarget;
-                            message.Sender = Credentials.UserName;
-                            message.IsRead = true;
-                            message.Date = DateTime.Now.ToString("d");
-                            message.Subject = MessageSubject;
-                            MessageThreads[message.ThreadId] = new List<MalMessageModel> {message};
-                            _prevMsg = message;
-                            _newMessage = false;
-                            NewMessageFieldsVisibility = false;
-                            ViewModelLocator.GeneralMain.CurrentOffStatus = $"{message.Sender} - {message.Subject}";
-                            MessageSet.Clear();
-                            MessageSet.AddRange(new[]
+                            try
                             {
-                                message
-                            });
-                            MessageText = "";
-                            MessageSubject = "";
-                            MessageTarget = "";
-                        }
-                        catch (Exception)
-                        {
-                            ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.", "Error");
+                                var message = new MalMessageModel();
+                                var id = await new MalMessagesQuery().GetFirstSentMessageId();
+                                message.Id = id;
+                                message = await new MalMessageDetailsQuery().GetMessageDetails(message);
+                                message.Target = MessageTarget;
+                                message.Sender = Credentials.UserName;
+                                message.IsRead = true;
+                                message.Date = DateTime.Now.ToString("d");
+                                message.Subject = MessageSubject;
+                                MessageThreads[message.ThreadId] = new List<MalMessageModel> {message};
+                                _prevMsg = message;
+                                _newMessage = false;
+                                NewMessageFieldsVisibility = false;
+                                ViewModelLocator.GeneralMain.CurrentOffStatus = $"{message.Sender} - {message.Subject}";
+                                MessageSet.Clear();
+                                MessageSet.AddRange(new[]
+                                {
+                                    message
+                                });
+                                MessageText = "";
+                                MessageSubject = "";
+                                MessageTarget = "";
+                            }
+                            catch (Exception)
+                            {
+                                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.",
+                                    "Error");
 
+                            }
                         }
+                        else
+                        {
+                            ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.",
+                                "Error");
+                        }
+                        IsSendButtonEnabled = true;
+                        return;
+                    }
+
+                    if (
+                        await
+                            new SendMessageQuery().SendMessage(_prevMsg.Subject, MessageText, _prevMsg.Target,
+                                _prevMsg.ThreadId,
+                                _prevMsg.ReplyId))
+                    {
+                        var message = new MalMessageModel
+                        {
+                            Subject = _prevMsg.Subject,
+                            Content = MessageText,
+                            Date = DateTime.Now.ToString("d"),
+                            Id = "0",
+                            Sender = Credentials.UserName,
+                            Target = _prevMsg.Target,
+                            ThreadId = _prevMsg.ThreadId,
+                            ReplyId = _prevMsg.ReplyId
+                        };
+                        if (MessageThreads.ContainsKey(_prevMsg.ThreadId))
+                        {
+                            MessageThreads[_prevMsg.ThreadId].Insert(0, message);
+                        }
+                        else
+                        {
+                            MessageThreads[_prevMsg.ThreadId] = new List<MalMessageModel> {_prevMsg, message};
+                        }
+                        MessageSet.AddRange(new[]
+                        {
+                            message
+                        });
+                        MessageText = "";
+                        MessageSubject = "";
+                        MessageTarget = "";
+                        RaisePropertyChanged(() => MessageText);
                     }
                     else
                     {
                         ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.", "Error");
                     }
-                    IsSendButtonEnabled = true;
-                    return;
                 }
-
-                if (
-                    await
-                        new SendMessageQuery().SendMessage(_prevMsg.Subject, MessageText, _prevMsg.Target,
-                            _prevMsg.ThreadId,
-                            _prevMsg.ReplyId))
+                else //comment
                 {
-                    var message = new MalMessageModel
+                    var comment = _prevArgs.Arg as MalComment;
+                    if (await ProfileCommentQueries.SendCommentReply(comment.ComToCom.Split('=').Last(), MessageText))
                     {
-                        Subject = _prevMsg.Subject,
-                        Content = MessageText,
-                        Date = DateTime.Now.ToString("d"),
-                        Id = "0",
-                        Sender = Credentials.UserName,
-                        Target = _prevMsg.Target,
-                        ThreadId = _prevMsg.ThreadId,
-                        ReplyId = _prevMsg.ReplyId
-                    };
-                    if (MessageThreads.ContainsKey(_prevMsg.ThreadId))
-                    {
-                        MessageThreads[_prevMsg.ThreadId].Insert(0, message);
-                    }
-                    else
-                    {
-                        MessageThreads[_prevMsg.ThreadId] = new List<MalMessageModel> {_prevMsg, message};
-                    }
-                    MessageSet.AddRange(new[]
-                    {
-                        message
-                    });
-                    MessageText = "";
-                    MessageSubject = "";
-                    MessageTarget = "";
-                    RaisePropertyChanged(() => MessageText);
-                }
-                else
-                {
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send this message.", "Error");
-                }
-            }
-            else //comment
-            {
-                var comment = _prevArgs.Arg as MalComment;
-                if (await ProfileCommentQueries.SendCommentReply(comment.ComToCom.Split('=').Last(), MessageText))
-                {
-                    MessageSet.AddRange(new[]
-                    {
-                        new MalMessageModel
+                        MessageSet.AddRange(new[]
                         {
-                            Content = MessageText,
-                            Sender = Credentials.UserName,
-                            Date = DateTime.Now.ToString("d")
-                        }
-                    });
-                    MessageText = "";
-                    RaisePropertyChanged(() => MessageText);
+                            new MalMessageModel
+                            {
+                                Content = MessageText,
+                                Sender = Credentials.UserName,
+                                Date = DateTime.Now.ToString("d")
+                            }
+                        });
+                        MessageText = "";
+                        RaisePropertyChanged(() => MessageText);
+                    }
                 }
             }
             IsSendButtonEnabled = true;

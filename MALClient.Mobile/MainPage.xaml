@@ -8,6 +8,7 @@
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:userControls="using:MALClient.Shared.UserControls"
     xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
+    xmlns:ui="using:Microsoft.Advertising.WinRT.UI"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
@@ -43,6 +44,7 @@
         <Storyboard x:Key="MediaElementFadeOutStoryboard">
             <FadeOutThemeAnimation TargetName="MediaElementGrid" />
         </Storyboard>
+        <xamlConverters:BottomStackMarginToFrameMarginWithAdConverter x:Key="BottomStackMarginToFrameMarginWithAdConverter" />
     </Page.Resources>
 
     <Page.DataContext>
@@ -178,7 +180,17 @@
             </SplitView.Pane>
             <SplitView.Content>
                 <Grid>
-                    <Frame x:Name="MainContent" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Frame  x:Name="MainContent" Margin="{Binding Source={StaticResource MobileLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter},ConverterParameter=True}"/>
+                        <Grid Background="{ThemeResource BrushDeepBackground}" Grid.Row="1" Width="320" Height="50" Margin="{Binding Source={StaticResource MobileLocator},Path=Hamburger.BottomStackPanelMargin}" Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ui:AdControl x:Name="AdControl" AdUnitId="315598" ApplicationId="98d3d081-e5b2-46ea-876d-f1d8176fb908" Height="50" Width="320" />
+                        </Grid>
+                    </Grid>
+
                     <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"

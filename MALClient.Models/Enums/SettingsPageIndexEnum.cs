@@ -11,6 +11,7 @@
         LogIn,
         Misc,
         Homepage,
-        Notifications
+        Notifications,
+        Ads
     }
 }

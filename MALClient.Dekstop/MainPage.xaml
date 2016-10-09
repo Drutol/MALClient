@@ -10,6 +10,7 @@
     xmlns:new="using:MALClient.UserControls.New"
     xmlns:attProp="using:MALClient.UserControls.AttachedProperties"
     xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
+    xmlns:ui="using:Microsoft.Advertising.WinRT.UI"
     x:Class="MALClient.MainPage"
     mc:Ignorable="d">
 
@@ -53,6 +54,7 @@
         <Storyboard x:Key="MediaElementFadeOutStoryboard">
             <FadeOutThemeAnimation TargetName="MediaElementGrid" />
         </Storyboard>
+        <xamlConverters1:BottomStackMarginToFrameMarginWithAdConverter x:Key="BottomStackMarginToFrameMarginWithAdConverter" />
     </Page.Resources>
 
     <Page.DataContext>
@@ -231,9 +233,18 @@
                     <ColumnDefinition x:Name="SplitterColumn" MaxWidth="16" Width="0" />
                     <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
-
-                <Frame Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MainContent"
-                       PointerPressed="MainContent_OnPointerPressed" />
+                <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid  Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Height="90" Width="728" Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin}">
+                        <!--<ui:AdControl AdUnitId="315597" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3"/>-->
+                        <ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True"/>
+                    </Grid>
+                    <Frame Grid.Row="1" Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter}}" x:Name="MainContent" PointerPressed="MainContent_OnPointerPressed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                </Grid>
+               
                 <toolkit:CustomGridSplitter x:Name="CustomGridSplitter"
                                             DraggingCompleted="CustomGridSplitter_OnDraggingCompleted"
                                             Grid.Column="1" IsTabStop="False"

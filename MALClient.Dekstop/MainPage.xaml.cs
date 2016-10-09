@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Input;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +18,7 @@ using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using Microsoft.Advertising.WinRT.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -27,6 +30,7 @@ namespace MALClient
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
         private double _prevOffContntWidth;
+        private Timer _timer;
 
         public MainPage()
         {
@@ -49,6 +53,8 @@ namespace MALClient
                 vm.MediaElementCollapsed += VmOnMediaElementCollapsed;
                 UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
                 DesktopViewModelLocator.Main.View = this;
+                StartAdsTimeMeasurements();
+                ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
             };
         }
 
@@ -57,6 +63,72 @@ namespace MALClient
             MediaElement.Stop();
         }
 
+        #region AdsTimer
+        private void SettingsOnOnAdsMinutesPerDayChanged()
+        {
+            if (Settings.AdsEnable)
+            {
+                var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+                _timer?.Dispose();
+                if (passed < Settings.AdsSecondsPerDay || Settings.AdsSecondsPerDay == 0)
+                {
+                    ViewModelLocator.GeneralMain.AdsContainerVisibility = true;              
+                    _timer = new Timer(AdTimerCallback, null, 0, 10000);
+                }
+                else
+                {
+                    ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+                }
+            }
+            else if (_timer != null && !Settings.AdsEnable)
+            {
+                ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+                _timer?.Dispose();
+                _timer = null;
+            }
+            else if (!Settings.AdsEnable)
+                ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+        }
+
+        private void StartAdsTimeMeasurements()
+        {
+            var day = ResourceLocator.ApplicationDataService["AdsCurrentDay"];
+            if (day != null)
+            {
+                if ((int)day != DateTime.Today.DayOfYear)
+                    ResourceLocator.ApplicationDataService["AdsTimeToday"] = 0;
+            }
+            ResourceLocator.ApplicationDataService["AdsCurrentDay"] = DateTime.Today.DayOfYear;
+            if (Settings.AdsEnable)
+            {
+                _timer = new Timer(AdTimerCallback, null, 0, 10000);
+                ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+            }
+            else
+            {
+                AdControl.Suspend();
+            }
+        }
+
+        private async void AdTimerCallback(object state)
+        {
+            var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+            passed += 10;
+            ResourceLocator.ApplicationDataService["AdsTimeToday"] = passed;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => AdControl.Resume());
+            if (!Settings.AdsEnable || (Settings.AdsSecondsPerDay != 0 && passed > Settings.AdsSecondsPerDay))
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => ViewModelLocator.GeneralMain.AdsContainerVisibility = false);
+                _timer?.Dispose();
+                _timer = null;
+            }
+        }
+
+
+
+        #endregion
 
         private void HidePinDialog()
         {
@@ -81,6 +153,13 @@ namespace MALClient
             else if (args.PropertyName == "OffContentVisibility")
             {
                 SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
+            }
+            else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
+            {
+                if(ViewModelLocator.GeneralMain.AdsContainerVisibility)
+                    AdControl.Resume();
+                else
+                    AdControl.Suspend();
             }
 
         }
@@ -216,5 +295,7 @@ namespace MALClient
             if (btn.IsChecked.GetValueOrDefault(false))
                 SearchInput.Focus(FocusState.Keyboard);
         }
+
+        
     }
 }

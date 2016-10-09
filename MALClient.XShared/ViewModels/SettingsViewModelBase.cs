@@ -129,6 +129,13 @@ namespace MALClient.XShared.ViewModels
             },
             new SettingsPageEntry
             {
+                Header = "Ads",
+                Subtitle = "Support me with ads on demand :)",
+                Symbol = SettingsSymbolsEnum.SwitchApps,
+                PageType = SettingsPageIndex.Ads
+            },
+            new SettingsPageEntry
+            {
                 Header = "Miscellaneous",
                 Subtitle = "Review popup settings...",
                 Symbol = SettingsSymbolsEnum.Placeholder,
@@ -651,6 +658,33 @@ namespace MALClient.XShared.ViewModels
             {
                 _isSyncFavsButtonEnabled = value;
                 RaisePropertyChanged(() => IsSyncFavsButtonEnabled);
+            }
+        }
+
+        #endregion
+
+        #region Ads
+
+        public event EmptyEventHander OnAdsMinutesPerDayChanged;
+
+        public bool AdsEnable
+        {
+            get { return Settings.AdsEnable; }
+            set
+            {
+                Settings.AdsEnable = value;
+                ViewModelLocator.GeneralHamburger.UpdateBottomMargin();
+                OnAdsMinutesPerDayChanged?.Invoke();
+            }
+        }
+
+        public int AdsMinutesPerDay
+        {
+            get { return Settings.AdsSecondsPerDay; }
+            set
+            {
+                Settings.AdsSecondsPerDay = value;
+                OnAdsMinutesPerDayChanged?.Invoke();
             }
         }
 

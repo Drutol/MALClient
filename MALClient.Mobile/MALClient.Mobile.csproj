@@ -160,6 +160,9 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsAdsPage.xaml.cs">
+      <DependentUpon>SettingsAdsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml.cs" />
     <Compile Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml.cs" />
@@ -310,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsAdsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -378,6 +385,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="XamlResources\FancyListFlyoutStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="XamlResources\ThemeDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -385,6 +397,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.AdMediator.Universal, Version=1.0">
+      <Name>Microsoft Advertising Universal SDK</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
+      <Name>Microsoft Advertising SDK for XAML</Name>
+    </SDKReference>
     <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
       <Name>Microsoft Store Engagement SDK</Name>
     </SDKReference>

@@ -594,5 +594,22 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
         }
         #endregion
+
+        #region Ads
+
+        public static bool AdsEnable
+        {
+            get { return (bool)(ApplicationDataService[nameof(AdsEnable)] ?? false); }
+            set { ApplicationDataService[nameof(AdsEnable)] = value; }
+        }
+
+        public static int AdsSecondsPerDay
+        {
+            get { return (int)(ApplicationDataService[nameof(AdsSecondsPerDay)] ?? 600); }
+            set { ApplicationDataService[nameof(AdsSecondsPerDay)] = value; }
+        }
+
+
+        #endregion
     }
 }

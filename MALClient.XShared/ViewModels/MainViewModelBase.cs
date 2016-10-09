@@ -256,6 +256,19 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        private bool _adsContainerVisibility;
+
+        public bool AdsContainerVisibility
+        {
+            get { return _adsContainerVisibility; }
+            set
+            {
+                _adsContainerVisibility = value;
+                RaisePropertyChanged(() => AdsContainerVisibility);
+                ViewModelLocator.GeneralHamburger.UpdateBottomMargin();
+            }
+        }
+
         private ICommand _reversePaneCommand;
 
         public ICommand ReversePaneCommand

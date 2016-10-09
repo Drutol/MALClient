@@ -68,13 +68,13 @@
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Background="Transparent" Margin="0,5,0,0">
-                <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding NavigateWallpapersPage}"              
+                <!--<Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding NavigateWallpapersPage}"              
                         Background="Transparent">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Wallpapers" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Pictures" />
-                </Button>
+                </Button>-->
                 <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding LoadVideosCommand}"
                         Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Background="Transparent">
@@ -278,7 +278,7 @@
                                     <StackPanel.Resources>
                                         <ResourceDictionary>
                                             <ResourceDictionary.MergedDictionaries>
-                                                <ResourceDictionary Source="ms-appx:///MALClient.Shared/XamlResources/FancyListFlyoutStyle.xaml"/>
+                                                <ResourceDictionary Source="/XamlResources/FancyListFlyoutStyle.xaml"/>
                                             </ResourceDictionary.MergedDictionaries>
                                         </ResourceDictionary>
                                     </StackPanel.Resources>

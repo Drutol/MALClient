@@ -10,6 +10,7 @@
         Manage,
         Contact,
         Placeholder,
-        Important
+        Important,
+        SwitchApps
     }
 }

@@ -24,6 +24,7 @@ namespace MALClient.XShared.ViewModels
         bool MangaSectionVisbility { get; set; }
         void SetActiveButton(TopAnimeType topType);
         void UpdatePinnedProfiles();
+        void UpdateBottomMargin();
     }
 
     public interface INavMgr

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -11,6 +14,7 @@ using MALClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Shared.ViewModels.Interfaces;
 using MALClient.ViewModels;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
@@ -23,6 +27,7 @@ namespace MALClient
     /// </summary>
     public sealed partial class MainPage : Page, IMainViewInteractions
     {
+        private Timer _timer;
 
         public MainPage()
         {
@@ -35,10 +40,88 @@ namespace MALClient
                 {
                     PinDialogStoryboard.Begin();
                 };
+                ViewModelLocator.GeneralMain.PropertyChanged += GeneralMainOnPropertyChanged;
                 UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
+                StartAdsTimeMeasurements();
+                ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
             };
             ViewModel.MainNavigationRequested += Navigate;
         }
+
+        private void GeneralMainOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
+            {
+                if (ViewModelLocator.GeneralMain.AdsContainerVisibility)
+                    AdControl.Resume();
+                else
+                    AdControl.Suspend();
+            }
+        }
+
+        #region AdsTimer
+        private void SettingsOnOnAdsMinutesPerDayChanged()
+        {
+            if (Settings.AdsEnable)
+            {
+                var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+                _timer?.Dispose();
+                if (passed < Settings.AdsSecondsPerDay || Settings.AdsSecondsPerDay == 0)
+                {
+                    ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+                    _timer = new Timer(AdTimerCallback, null, 0, 10000);
+                }
+                else
+                {
+                    ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+                }
+            }
+            else if (_timer != null && !Settings.AdsEnable)
+            {
+                ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+                _timer?.Dispose();
+                _timer = null;
+            }
+            else if (!Settings.AdsEnable)
+                ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+        }
+
+        private void StartAdsTimeMeasurements()
+        {
+            var day = ResourceLocator.ApplicationDataService["AdsCurrentDay"];
+            if (day != null)
+            {
+                if ((int)day != DateTime.Today.DayOfYear)
+                    ResourceLocator.ApplicationDataService["AdsTimeToday"] = 0;
+            }
+            ResourceLocator.ApplicationDataService["AdsCurrentDay"] = DateTime.Today.DayOfYear;
+            if (Settings.AdsEnable)
+            {
+                _timer = new Timer(AdTimerCallback, null, 0, 10000);
+                ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+            }
+            else
+            {
+                AdControl.Suspend();
+            }
+        }
+
+        private async void AdTimerCallback(object state)
+        {
+            var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+            passed += 10;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => AdControl.Resume());
+            ResourceLocator.ApplicationDataService["AdsTimeToday"] = passed;
+            if (!Settings.AdsEnable || (Settings.AdsSecondsPerDay != 0 && passed > Settings.AdsSecondsPerDay))
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => ViewModelLocator.GeneralMain.AdsContainerVisibility = false);
+                _timer?.Dispose();
+                _timer = null;
+            }
+        }
+        #endregion
 
         private void GeneralMainOnMediaElementCollapsed()
         {

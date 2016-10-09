@@ -1,0 +1,62 @@
+﻿<Page
+    x:Class="MALClient.Pages.Off.SettingsPages.SettingsAdsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Off.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:MALClient.XShared.ViewModels"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:SettingsViewModelBase}">
+
+    <Page.Resources>
+        <x:Int32 x:Key="Int15">900</x:Int32>
+        <x:Int32 x:Key="Int30">1800</x:Int32>
+        <x:Int32 x:Key="Int0">0</x:Int32>
+        <x:Int32 x:Key="Int5">300</x:Int32>
+        <x:Int32 x:Key="Int10">600</x:Int32>
+        <x:Int32 x:Key="Int20">1200</x:Int32>
+    </Page.Resources>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock Text="Enable ads"
+                       FontWeight="Medium"
+                       HorizontalAlignment="Center" Margin="0,5"
+                       TextWrapping="WrapWholeWords" TextAlignment="Center" />
+            <Grid HorizontalAlignment="Stretch">
+                <ToggleSwitch
+                    IsOn="{Binding AdsEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    OnContent="Enabled" OffContent="Disabled" HorizontalAlignment="Center" />
+            </Grid>
+            <TextBlock
+                    Text="If you want to support me and you don't want to donate you can turn on the ads on demand :)"
+                    FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" TextAlignment="Center"
+                    HorizontalAlignment="Center" Margin="5" />
+            <MenuFlyoutSeparator Margin="0,5" />
+            <TextBlock Text="How long should the ads be displayed? (per day)"
+                       FontWeight="Medium"
+                       HorizontalAlignment="Center" Margin="0,5"
+                       TextWrapping="WrapWholeWords" TextAlignment="Center" />
+            <ComboBox x:Name="LengthCombobox" SelectionChanged="LengthCombobox_OnSelectionChanged" HorizontalAlignment="Center">
+                <ComboBox.Items>
+                    <ComboBoxItem Content="Indefinitely" Tag="{StaticResource Int0}"/>
+                    <ComboBoxItem Content="5 minutes" Tag="{StaticResource Int5}"/>
+                    <ComboBoxItem Content="10 minutes" Tag="{StaticResource Int10}"/>
+                    <ComboBoxItem Content="15 minutes" Tag="{StaticResource Int15}"/>
+                    <ComboBoxItem Content="20 minutes" Tag="{StaticResource Int20}"/>
+                    <ComboBoxItem Content="30 minutes" Tag="{StaticResource Int30}"/>
+                </ComboBox.Items>
+            </ComboBox>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

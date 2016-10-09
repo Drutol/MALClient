@@ -218,6 +218,11 @@ namespace MALClient.ViewModels
             RaisePropertyChanged(() => PinnedProfiles);
         }
 
+        public void UpdateBottomMargin()
+        {
+            RaisePropertyChanged(() => BottomStackPanelMargin);
+        }
+
         private void ButtonClick(object o)
         {
             if (o == null)

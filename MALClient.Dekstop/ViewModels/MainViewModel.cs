@@ -136,7 +136,22 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageCharacterSearch)
             {
                 CurrentStatusSub = "";
-                DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
+                if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch)
+                {
+                    var arg = args as SearchPageNavigationArgs;
+                    if (Settings.ForceSearchIntoOffPage || CurrentMainPage == PageIndex.PageForumIndex ||
+                        CurrentMainPage == PageIndex.PageProfile)
+                    {
+                        arg.DisplayMode = SearchPageDisplayModes.Off;
+                        args = arg;
+                    }
+                    if ((args as SearchPageNavArgs).DisplayMode == SearchPageDisplayModes.Main)
+                        DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
+                }
+                else
+                {
+                    DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
+                }
                 currPage = index;
             }            
 
@@ -199,10 +214,9 @@ namespace MALClient.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                     var arg = args as SearchPageNavigationArgs;
-                    if (Settings.ForceSearchIntoOffPage)
+                    if (Settings.ForceSearchIntoOffPage || CurrentMainPage == PageIndex.PageForumIndex || CurrentMainPage == PageIndex.PageProfile)
                         arg.DisplayMode = SearchPageDisplayModes.Off;
-                    if (arg.DisplayMode == SearchPageDisplayModes.Off || CurrentMainPage == PageIndex.PageForumIndex ||
-                        CurrentMainPage == PageIndex.PageProfile)
+                    if (arg.DisplayMode == SearchPageDisplayModes.Off)
                     {
                         if (string.IsNullOrWhiteSpace(arg.Query))
                             arg.Query = CurrentSearchQuery;
@@ -220,10 +234,6 @@ namespace MALClient.ViewModels
                     {
                         if (CurrentOffPage == PageIndex.PageSearch)
                         {
-                            DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(CurrentMainPage ==
-                                                                                           PageIndex.PageMessanging ||
-                                                                                           CurrentMainPageKind ==
-                                                                                           PageIndex.PageAnimeList);
                             break; // we are already on the right
                         }
                         if (CurrentMainPage.Value != PageIndex.PageSearch &&

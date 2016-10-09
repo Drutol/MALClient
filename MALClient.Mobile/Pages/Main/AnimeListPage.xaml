@@ -26,7 +26,7 @@
             <CommandBar.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="ms-appx:///MALClient.Shared/XamlResources/FancyListFlyoutStyle.xaml"/>
+                        <ResourceDictionary Source="/XamlResources/FancyListFlyoutStyle.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </CommandBar.Resources>

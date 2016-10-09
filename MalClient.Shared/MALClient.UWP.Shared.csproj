@@ -194,6 +194,7 @@
     <Compile Include="XamlConverters\BoolToAnimeItemManipulationModesConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
+    <Compile Include="XamlConverters\BottomStackMarginToFrameMarginWithAdConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
@@ -291,11 +292,6 @@
     <Page Include="UserControls\StackedBarChartControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="XamlResources\FancyListFlyoutStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <ItemGroup>

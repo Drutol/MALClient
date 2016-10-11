@@ -6,6 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:derived="using:MALClient.Shared.UserControls.Derived"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=Wallpapers}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -18,17 +21,20 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Button Style="{StaticResource TextBlockButtonStyle}" MaxWidth="500" MaxHeight="500">
-                        <Image Stretch="Uniform">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding FileUrl}"/>
-                            </Image.Source>
-                        </Image>
+                        <controls:ImageEx Source="{Binding FileUrl}"  IsCacheEnabled="False" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:Blur x:Name="BlurBehavior"
+                                        Value="10"
+                                        Duration="3000"
+                                        Delay="0"/>
+                            </interactivity:Interaction.Behaviors>
+                        </controls:ImageEx>
                     </Button>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="Margin" Value="2"/>
                 </Style>
             </GridView.ItemContainerStyle>
         </GridView>

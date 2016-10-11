@@ -136,11 +136,13 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageCharacterSearch)
             {
                 CurrentStatusSub = "";
-                if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch)
+                if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
+                    ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
+                     CurrentOffPage == PageIndex.PageSearch))
                 {
                     var arg = args as SearchPageNavigationArgs;
                     if (Settings.ForceSearchIntoOffPage || CurrentMainPage == PageIndex.PageForumIndex ||
-                        CurrentMainPage == PageIndex.PageProfile)
+                        CurrentMainPage == PageIndex.PageProfile || CurrentOffPage == PageIndex.PageSearch)
                     {
                         arg.DisplayMode = SearchPageDisplayModes.Off;
                         args = arg;

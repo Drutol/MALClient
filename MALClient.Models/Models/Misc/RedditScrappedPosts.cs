@@ -13,6 +13,7 @@ namespace MALClient.Models.Models.Misc
         public string Title { get; set; }
         public string FileUrl { get; set; }
         public bool Nsfw { get; set; }
+        public int Upvotes { get; set; }
     }
 
     public class Facets

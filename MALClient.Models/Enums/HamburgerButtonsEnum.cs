@@ -21,5 +21,6 @@
         Forums,
         History,
         CharacterSearch,
+        Wallpapers
     }
 }

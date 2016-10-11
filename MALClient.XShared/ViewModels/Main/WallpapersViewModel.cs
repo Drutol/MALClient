@@ -56,11 +56,11 @@ namespace MALClient.XShared.ViewModels.Main
             _prevArgs = args;
 
             LoadingWallpapersVisibility = true;
-            
 
-            var wallpapers = await new AnimeWallpapersQuery(args.Query).GetWallpapers();
+
+            var wallpapers = await AnimeWallpapersQuery.GetAllWallpapers();
             if(wallpapers != null)
-                Wallpapers = new ObservableCollection<AnimeWallpaperData>(wallpapers);
+                Wallpapers = new ObservableCollection<AnimeWallpaperData>(wallpapers.Take(20));
 
             LoadingWallpapersVisibility = false;
             NoWallpapersNoticeVisibility = Wallpapers?.Any() ?? true;

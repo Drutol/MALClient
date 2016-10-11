@@ -288,6 +288,8 @@ namespace MALClient.XShared.Utils
                     return HamburgerButtons.Forums;
                 case PageIndex.PageCharacterSearch:
                     return HamburgerButtons.CharacterSearch;
+                    case PageIndex.PageWallpapers:
+                    return HamburgerButtons.Wallpapers;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

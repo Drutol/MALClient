@@ -267,6 +267,8 @@ namespace MALClient.ViewModels
                     return MalArticlesPageNavigationArgs.Articles;
                 case PageIndex.PageNews:
                     return MalArticlesPageNavigationArgs.News;
+                case PageIndex.PageWallpapers:
+                    return new WallpaperPageNavigationArgs();
                 default:
                     return null;
             }
@@ -348,6 +350,7 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["News"] = new SolidColorBrush(color);
             TxtForegroundBrushes["Forums"] = new SolidColorBrush(color);
             TxtForegroundBrushes["CharacterSearch"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["Wallpapers"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -366,6 +369,7 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["News"] = new Thickness(0);
             TxtBorderBrushThicknesses["Forums"] = new Thickness(0);
             TxtBorderBrushThicknesses["CharacterSearch"] = new Thickness(0);
+            TxtBorderBrushThicknesses["Wallpapers"] = new Thickness(0);
         }
 
         private void ResetTopCategoryButtons()

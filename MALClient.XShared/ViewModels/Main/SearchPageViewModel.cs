@@ -43,6 +43,10 @@ namespace MALClient.XShared.ViewModels.Main
                 ViewModelLocator.NavMgr.ResetOffBackNav();
                 DirectQueryInputVisibility = true;
             }
+            else
+            {
+                DirectQueryInputVisibility = false;
+            }
 
             if (!string.IsNullOrWhiteSpace(args.Query))
             {

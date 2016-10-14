@@ -157,6 +157,9 @@
     <Compile Include="Items\StaffItem.xaml.cs">
       <DependentUpon>StaffItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Items\WallpaperItem.xaml.cs">
+      <DependentUpon>WallpaperItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\ItemFlyoutService.cs" />
     <Compile Include="Managers\LiveTilesManager.cs" />
@@ -194,6 +197,7 @@
     <Compile Include="XamlConverters\BoolToAnimeItemManipulationModesConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
+    <Compile Include="XamlConverters\BoolToWallpaperBlurValueConverter.cs" />
     <Compile Include="XamlConverters\BottomStackMarginToFrameMarginWithAdConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
@@ -278,6 +282,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Items\StaffItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Items\WallpaperItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

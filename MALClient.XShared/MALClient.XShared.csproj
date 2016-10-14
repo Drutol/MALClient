@@ -116,6 +116,7 @@
     <Compile Include="ViewModels\Forums\ForumTopicEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IDimensionsProvider.cs" />
+    <Compile Include="ViewModels\Items\WallpaperItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModelBase.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
     <Compile Include="ViewModels\Main\CalendarPageViewModel.cs" />

@@ -131,9 +131,9 @@ namespace MALClient.ViewModels
                      index == PageIndex.PageNews ||
                      index == PageIndex.PageMessanging ||
                      index == PageIndex.PageForumIndex ||
-                     index == PageIndex.PageMessanging ||
                      index == PageIndex.PageHistory ||
-                     index == PageIndex.PageCharacterSearch)
+                     index == PageIndex.PageCharacterSearch ||
+                     index == PageIndex.PageWallpapers)
             {
                 CurrentStatusSub = "";
                 if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
@@ -148,7 +148,7 @@ namespace MALClient.ViewModels
                         args = arg;
                     }
                     if ((args as SearchPageNavArgs).DisplayMode == SearchPageDisplayModes.Main)
-                        DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
+                        DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
                 }
                 else
                 {

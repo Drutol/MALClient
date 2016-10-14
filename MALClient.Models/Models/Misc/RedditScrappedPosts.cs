@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MALClient.Models.Enums;
+
 // ReSharper disable InconsistentNaming
 
 namespace MALClient.Models.Models.Misc
@@ -14,6 +16,7 @@ namespace MALClient.Models.Models.Misc
         public string FileUrl { get; set; }
         public bool Nsfw { get; set; }
         public int Upvotes { get; set; }
+        public WallpaperSources Source { get; set; }
     }
 
     public class Facets

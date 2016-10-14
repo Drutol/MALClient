@@ -4,6 +4,7 @@
     "HockeySDK.UWP": "4.1.4",
     "HtmlAgilityPack": "1.4.9.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "Microsoft.Toolkit.Uwp.UI.Controls": "1.1.0",
     "MvvmLightLibs": "5.3.0",
     "Newtonsoft.Json": "9.0.1",
     "winrtxamltoolkit": "2.0.0"

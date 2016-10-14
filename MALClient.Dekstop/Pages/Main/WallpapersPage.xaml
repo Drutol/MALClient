@@ -9,8 +9,16 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:items="using:MALClient.Shared.Items"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=Wallpapers}">
 
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Previous page" Icon="Previous" Command="{Binding GoBackwardsCommand}" IsEnabled="{Binding IsGoBackwardsButtonEnabled}"/>
+            <AppBarButton Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView ItemsSource="{Binding Wallpapers}">
             <GridView.ItemsPanel>
@@ -20,16 +28,7 @@
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource TextBlockButtonStyle}" MaxWidth="500" MaxHeight="500">
-                        <controls:ImageEx Source="{Binding FileUrl}"  IsCacheEnabled="False" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <interactivity:Interaction.Behaviors>
-                                <behaviors:Blur x:Name="BlurBehavior"
-                                        Value="10"
-                                        Duration="3000"
-                                        Delay="0"/>
-                            </interactivity:Interaction.Behaviors>
-                        </controls:ImageEx>
-                    </Button>
+                    <items:WallpaperItem DataContext="{Binding}" MaxWidth="700" MaxHeight="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.ItemContainerStyle>

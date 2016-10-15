@@ -217,7 +217,7 @@
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                <TextBlock x:Name="TxtSearch" Text="Anime Search"
+                                <TextBlock x:Name="TxtSearch" Text="Search"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -489,7 +489,7 @@
                                     </Grid>
                                 </Grid>
                             </Button>
-                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            <!--<Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -517,7 +517,7 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
                                 </Grid>
-                            </Button>
+                            </Button>-->
                             <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
@@ -677,7 +677,7 @@
                                 </Grid>
                             </Button>
                         </Grid>
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                        <!--<Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -704,7 +704,7 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
                             </Grid>
-                        </Button>
+                        </Button>-->
                     </StackPanel>
                     <Grid VerticalAlignment="Stretch" Grid.Row="1" />
                     <StackPanel Grid.Row="2" Margin="{Binding BottomStackPanelMargin}" VerticalAlignment="Bottom">

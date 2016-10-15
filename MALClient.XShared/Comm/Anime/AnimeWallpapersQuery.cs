@@ -21,7 +21,7 @@ namespace MALClient.XShared.Comm.Anime
         private static readonly Dictionary<int,List<AnimeWallpaperData>> Cache = new Dictionary<int, List<AnimeWallpaperData>>();
         private static List<WallpaperSources> _previousSourceSet;
         private static int _itemsToPull;
-        private const int BaseItemsToPull = 4;
+        public static int BaseItemsToPull { get; set; }
 
         private static readonly Dictionary<string,List<string>> LastThings = new Dictionary<string, List<string>>(); //as reddit calls them "things"
 

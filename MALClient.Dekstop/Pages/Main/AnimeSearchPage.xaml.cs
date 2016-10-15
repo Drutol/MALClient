@@ -1,7 +1,10 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Shared.Items;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -14,11 +17,19 @@ namespace MALClient.Pages.Main
     /// </summary>
     public sealed partial class AnimeSearchPage : Page
     {
+        private bool _initialized;
         private SearchPageViewModel ViewModel => DataContext as SearchPageViewModel;
 
         public AnimeSearchPage()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            UpperNavBarPivot.SelectedIndex = ViewModel.PrevArgs.Anime ? 0 : 1;
+            _initialized = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,6 +53,25 @@ namespace MALClient.Pages.Main
         private void DirectInputOnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             ViewModel.SubmitQuery(DirectInput.Text);
+        }
+
+        private void UpperNavBarPivotOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_initialized)
+                return;
+
+            if (UpperNavBarPivot.SelectedIndex == 0)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch,new SearchPageNavigationArgs());
+            else if (UpperNavBarPivot.SelectedIndex == 1)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMangaSearch,
+                    new SearchPageNavigationArgs {Anime = false});
+            else
+            {
+                _initialized = false;
+                UpperNavBarPivot.SelectedIndex = ViewModel.PrevArgs.Anime ? 0 : 1;
+                _initialized = true;
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterSearch);
+            }
         }
     }
 }

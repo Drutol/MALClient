@@ -172,7 +172,7 @@
                 <SymbolIcon Symbol="Refresh" />
             </Button>
         </Grid>
-        <SplitView x:Name="MainSplitView" IsTabStop="False" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="220"
+        <SplitView x:Name="MainSplitView" IsTabStop="False" VerticalAlignment="Stretch" CompactPaneLength="0" OpenPaneLength="240"
                    IsPaneOpen="{x:Bind ViewModel.MenuPaneState, Mode=TwoWay}"
                    DisplayMode="CompactOverlay" Grid.Row="1">
             <SplitView.Pane>

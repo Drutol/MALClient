@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Items;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -31,20 +33,10 @@ namespace MALClient.Shared.Items
             this.InitializeComponent();
         }
 
-        private async void ImageOnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            if(ViewModel.IsBlurred)
-                await Image.Blur().StartAsync();
-        }
-
-        private void Image_OnImageExOpened(object sender, ImageExOpenedEventArgs e)
-        {
-
-        }
-
         private async void Bitmap_OnImageOpened(object sender, RoutedEventArgs e)
         {
             DescriptionGrid.MaxWidth = Image.ActualWidth;
+            BoundingGrid.MaxWidth = Image.ActualWidth;
             ViewModel.Resolution = $"{Bitmap.PixelWidth}x{Bitmap.PixelHeight}";
             ResolutionGrid.Visibility = Visibility.Visible;
             ImgLoading.Visibility = Visibility.Collapsed;
@@ -54,6 +46,8 @@ namespace MALClient.Shared.Items
 
         private void WallpaperOnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            if(ViewModelLocator.Mobile)
+                return;
             var grid = sender as FrameworkElement;
             FlyoutBase.GetAttachedFlyout(grid).ShowAt(grid);
         }
@@ -61,6 +55,27 @@ namespace MALClient.Shared.Items
         private void Bitmap_OnDownloadProgress(object sender, DownloadProgressEventArgs e)
         {
             DlProgress.Text = $"{e.Progress}%";
+        }
+
+        private void WallpaperOnHolding(object sender, HoldingRoutedEventArgs e)
+        {
+            var grid = sender as FrameworkElement;
+            FlyoutBase.GetAttachedFlyout(grid).ShowAt(ResolutionGrid);
+        }
+
+        private void FrameworkElement_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ViewModelLocator.Mobile)
+            {
+                DescriptionGrid.MaxWidth = Image.ActualWidth;
+                BoundingGrid.MaxWidth = Image.ActualWidth;
+            }
+        }
+
+        private async void UIElement_OnPointerPressed(object sender, PointerRoutedEventArgs args)
+        {
+            if (ViewModel.IsBlurred)
+                await Image.Blur().StartAsync();
         }
     }
 }

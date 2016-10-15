@@ -77,7 +77,7 @@ namespace MALClient.ViewModels
                 index = PageIndex.PageAnimeList;
 
             MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
-                                                                    index == PageIndex.PageMessanging);
+                                                                    index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
@@ -274,10 +274,16 @@ namespace MALClient.ViewModels
                     await Task.Delay(10);
                     View.SearchInputFocus(FocusState.Keyboard);
                     break;
+                case PageIndex.PageWallpapers:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = false;
+                    MainNavigationRequested?.Invoke(typeof(WallpapersPage),args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
             CurrentMainPage = index;
+            CurrentMainPageKind = index;
             RaisePropertyChanged(() => SearchToggleLock);
 
 

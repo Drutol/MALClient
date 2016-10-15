@@ -25,9 +25,18 @@ namespace MALClient.Pages.Main
     /// </summary>
     public sealed partial class CharacterSearchPage : Page
     {
+        private bool _initialized;
+
         public CharacterSearchPage()
         {
             this.InitializeComponent();
+            Loaded+= OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            UpperNavBarPivot.SelectedIndex = 2;
+            _initialized = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -46,6 +55,22 @@ namespace MALClient.Pages.Main
         private void CharacterItemOnClick(object sender, ItemClickEventArgs e)
         {
             ViewModelLocator.CharacterSearch.NavigateCharacterDetailsCommand.Execute(e.ClickedItem);
+        }
+
+        private void UpperNavBarPivotOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_initialized)
+                return;
+
+            if (UpperNavBarPivot.SelectedIndex == 0)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs());
+            else if (UpperNavBarPivot.SelectedIndex == 1)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMangaSearch, new SearchPageNavigationArgs { Anime = false });
+
+            _initialized = false;
+            UpperNavBarPivot.SelectedIndex = 2;
+            _initialized = true;
+
         }
     }
 }

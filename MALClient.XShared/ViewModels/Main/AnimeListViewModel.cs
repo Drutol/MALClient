@@ -1561,6 +1561,9 @@ namespace MALClient.XShared.ViewModels.Main
         {
             var page = ViewModelLocator.GeneralMain;
 
+            if(page.CurrentMainPageKind != PageIndex.PageAnimeList) //we are in async void domain so we somethimes have to skip this
+                return;
+
             if (WorkMode != AnimeListWorkModes.SeasonalAnime)
                 if (WorkMode == AnimeListWorkModes.TopAnime)
                     page.CurrentStatus = $"Top {TopAnimeWorkMode} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";

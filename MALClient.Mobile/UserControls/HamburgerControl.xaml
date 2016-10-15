@@ -55,7 +55,7 @@
                             <RowDefinition Height="*" MinHeight="20" />
                             <RowDefinition Height="Auto" MinHeight="120" />
                         </Grid.RowDefinitions>
-                        <Pivot Width="220" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
+                        <Pivot Width="240" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
                                 <Style TargetType="PivotHeaderItem"
                                        BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}">
@@ -76,318 +76,314 @@
                             </Pivot.HeaderTemplate>
                             <Pivot.Items>
                                 <PivotItem Header="Anime" x:Name="AnimePivot">
-                                    <Grid>
-                                        <StackPanel VerticalAlignment="Top">
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                    <StackPanel VerticalAlignment="Top">
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="0">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="45" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="45" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeList]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon HorizontalAlignment="Center" Symbol="List"
+                                                <SymbolIcon HorizontalAlignment="Center" Symbol="List"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtList , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtList" Text="Anime List"
+                                                <TextBlock x:Name="TxtList" Text="Anime List"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeList]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                    <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
+                                                <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
                                                                 Foreground="{Binding ElementName=TxtList , Path=Foreground}" >
-                                                            <SymbolIcon.RenderTransform>
-                                                                <RotateTransform Angle="90"/>
-                                                            </SymbolIcon.RenderTransform>
-                                                        </SymbolIcon>
-                                                        <Button.Flyout>
-                                                            <MenuFlyout Placement="Right">
-                                                                <MenuFlyoutItem Text="Watching" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="0"/>
-                                                                <MenuFlyoutItem Text="Completed" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="1"/>
-                                                                <MenuFlyoutItem Text="On hold" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="2"/>
-                                                                <MenuFlyoutItem Text="Dropped" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="3"/>
-                                                                <MenuFlyoutItem Text="Plan to watch" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="4"/>
-                                                                <MenuFlyoutItem Text="All" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="5"/>
-                                                            </MenuFlyout>
-                                                        </Button.Flyout>
-                                                    </Button>
-                                                </Grid>
-                                            </Button>
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                        <SymbolIcon.RenderTransform>
+                                                            <RotateTransform Angle="90"/>
+                                                        </SymbolIcon.RenderTransform>
+                                                    </SymbolIcon>
+                                                    <Button.Flyout>
+                                                        <MenuFlyout Placement="Right">
+                                                            <MenuFlyoutItem Text="Watching" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="0"/>
+                                                            <MenuFlyoutItem Text="Completed" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="1"/>
+                                                            <MenuFlyoutItem Text="On hold" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="2"/>
+                                                            <MenuFlyoutItem Text="Dropped" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="3"/>
+                                                            <MenuFlyoutItem Text="Plan to watch" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="4"/>
+                                                            <MenuFlyoutItem Text="All" Command="{Binding NavigateAnimeListCategoryCommand}" CommandParameter="5"/>
+                                                        </MenuFlyout>
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="3">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[AnimeSearch]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSearch , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtSearch" Text="Anime Search"
+                                                <TextBlock x:Name="TxtSearch" Text="Anime Search"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[AnimeSearch]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                </Grid>
-                                            </Button>
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="8">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Seasonal]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="SlideShow" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtSeasonal , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
+                                                <TextBlock x:Name="TxtSeasonal" Text="Seasonal Anime"
 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Seasonal]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                </Grid>
-                                            </Button>
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="7"
                                                     Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Recommendations]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="VideoChat" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="VideoChat" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtRecom , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtRecom" Text="Recommendations"
+                                                <TextBlock x:Name="TxtRecom" Text="Recommendations"
 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Recommendations]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                </Grid>
-                                            </Button>
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="11">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="45" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="45" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[TopAnime]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtTop" Text="Top Anime"
+                                                <TextBlock x:Name="TxtTop" Text="Top Anime"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopAnime]}"
                                                                HorizontalAlignment="Left" Margin="25,0,-40,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                    <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
+                                                <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
                                                                 Foreground="{Binding ElementName=TxtTop , Path=Foreground}" >
-                                                            <SymbolIcon.RenderTransform>
-                                                                <RotateTransform Angle="90"/>
-                                                            </SymbolIcon.RenderTransform>
-                                                        </SymbolIcon>
-                                                        <Button.Flyout>
-                                                            <MenuFlyout Placement="Right">
-                                                                <MenuFlyoutItem Text="General" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="0"/>
-                                                                <MenuFlyoutItem Text="Airing" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="1"/>
-                                                                <MenuFlyoutItem Text="Upcoming" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="2"/>
-                                                                <MenuFlyoutItem Text="TV Series" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="3"/>
-                                                                <MenuFlyoutItem Text="Movies" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="4"/>
-                                                                <MenuFlyoutItem Text="OVAs" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="5"/>
-                                                                <MenuFlyoutItem Text="Popular" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="6"/>
-                                                                <MenuFlyoutItem Text="Favourites" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="7"/>
-                                                            </MenuFlyout>
-                                                        </Button.Flyout>
-                                                    </Button>
-                                                    
-                                                </Grid>
-                                            </Button>
-                                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                        <SymbolIcon.RenderTransform>
+                                                            <RotateTransform Angle="90"/>
+                                                        </SymbolIcon.RenderTransform>
+                                                    </SymbolIcon>
+                                                    <Button.Flyout>
+                                                        <MenuFlyout Placement="Right">
+                                                            <MenuFlyoutItem Text="General" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="0"/>
+                                                            <MenuFlyoutItem Text="Airing" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="1"/>
+                                                            <MenuFlyoutItem Text="Upcoming" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="2"/>
+                                                            <MenuFlyoutItem Text="TV Series" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="3"/>
+                                                            <MenuFlyoutItem Text="Movies" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="4"/>
+                                                            <MenuFlyoutItem Text="OVAs" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="5"/>
+                                                            <MenuFlyoutItem Text="Popular" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="6"/>
+                                                            <MenuFlyoutItem Text="Favourites" Command="{Binding ButtonNavigationTopAnimeCommand}" CommandParameter="7"/>
+                                                        </MenuFlyout>
+                                                    </Button.Flyout>
+                                                </Button>
+
+                                            </Grid>
+                                        </Button>
+                                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="13">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Calendar]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="CalendarWeek" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="CalendarWeek" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtCalendar , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtCalendar" Text="Calendar"
+                                                <TextBlock x:Name="TxtCalendar" Text="Calendar"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Calendar]}"
                                                                HorizontalAlignment="Left" Grid.Column="1" Margin="25,0,0,0"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                </Grid>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
                                 </PivotItem>
                                 <PivotItem Header="Manga" Height="225">
-                                    <Grid>
-                                        <StackPanel VerticalAlignment="Top">
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                    <StackPanel VerticalAlignment="Top">
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="9">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="45" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="45" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[MangaList]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon HorizontalAlignment="Center" Symbol="Library"
+                                                <SymbolIcon HorizontalAlignment="Center" Symbol="Library"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtMangaList" Text="Manga List"
+                                                <TextBlock x:Name="TxtMangaList" Text="Manga List"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaList]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                    <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
+                                                <Button BorderThickness="0" Background="Transparent" Height="40" Width="40" Grid.Column="2" Padding="0" Margin="0,0,7,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <SymbolIcon Symbol="Remote" HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
                                                                 Foreground="{Binding ElementName=TxtMangaList , Path=Foreground}" >
-                                                            <SymbolIcon.RenderTransform>
-                                                                <RotateTransform Angle="90"/>
-                                                            </SymbolIcon.RenderTransform>
-                                                        </SymbolIcon>
-                                                        <Button.Flyout>
-                                                            <MenuFlyout Placement="Right">
-                                                                <MenuFlyoutItem Text="Reading" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="0"/>
-                                                                <MenuFlyoutItem Text="Completed" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="1"/>
-                                                                <MenuFlyoutItem Text="On hold" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="2"/>
-                                                                <MenuFlyoutItem Text="Dropped" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="3"/>
-                                                                <MenuFlyoutItem Text="Plan to read" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="4"/>
-                                                                <MenuFlyoutItem Text="All" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="5"/>
-                                                            </MenuFlyout>
-                                                        </Button.Flyout>
-                                                    </Button>
-                                                </Grid>
-                                            </Button>
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                        <SymbolIcon.RenderTransform>
+                                                            <RotateTransform Angle="90"/>
+                                                        </SymbolIcon.RenderTransform>
+                                                    </SymbolIcon>
+                                                    <Button.Flyout>
+                                                        <MenuFlyout Placement="Right">
+                                                            <MenuFlyoutItem Text="Reading" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="0"/>
+                                                            <MenuFlyoutItem Text="Completed" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="1"/>
+                                                            <MenuFlyoutItem Text="On hold" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="2"/>
+                                                            <MenuFlyoutItem Text="Dropped" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="3"/>
+                                                            <MenuFlyoutItem Text="Plan to read" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="4"/>
+                                                            <MenuFlyoutItem Text="All" Command="{Binding NavigateMangaListCategoryCommand}" CommandParameter="5"/>
+                                                        </MenuFlyout>
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="10"
                                                     Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[MangaSearch]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="Find" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtMangaSearch , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
+                                                <TextBlock x:Name="TxtMangaSearch" Text="Manga Search"
 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[MangaSearch]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                </Grid>
-                                            </Button>
-                                            <Button VerticalContentAlignment="Center" Background="Transparent"
+                                            </Grid>
+                                        </Button>
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="12">
-                                                <Grid Width="220" Height="45">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
                                                         BorderThickness="{Binding TxtBorderBrushThicknesses[TopManga]}"
                                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                         Grid.ColumnSpan="2" />
-                                                    <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
+                                                <SymbolIcon Symbol="OutlineStar" HorizontalAlignment="Center"
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtTopManga , Path=Foreground}" />
-                                                    <TextBlock x:Name="TxtTopManga" Text="Top Manga"
+                                                <TextBlock x:Name="TxtTopManga" Text="Top Manga"
 
                                                                Foreground="{Binding Path=TxtForegroundBrushes[TopManga]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
                                                                TextAlignment="Center" />
-                                                </Grid>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
                                 </PivotItem>
-                                <PivotItem Header="More" Height="225">
+                                <PivotItem Header="More" Height="270">
                                     <StackPanel VerticalAlignment="Top">
                                         <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="14">
-                                            <Grid Width="220" Height="45">
+                                            <Grid Width="240" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -412,7 +408,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="15">
-                                            <Grid Width="220" Height="45">
+                                            <Grid Width="240" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -439,7 +435,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="18">
-                                            <Grid Width="220" Height="45">
+                                            <Grid Width="240" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -465,7 +461,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="22">
-                                            <Grid Width="220" Height="45">
+                                            <Grid Width="240" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -480,6 +476,31 @@
                                                                 Foreground="{Binding ElementName=TxtCharacterSearch , Path=Foreground}" />
                                                 <TextBlock x:Name="TxtCharacterSearch" Text="Character Search"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[CharacterSearch]}"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center" />
+                                            </Grid>
+                                        </Button>                                        
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                    BorderThickness="0" 
+                                                    Command="{Binding ButtonNavigationCommand}"
+                                                    CommandParameter="23">
+                                            <Grid Width="240" Height="45">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
+                                                        BorderThickness="{Binding TxtBorderBrushThicknesses[Wallpapers]}"
+                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Grid.ColumnSpan="2" />
+                                                <SymbolIcon Symbol="Pictures" HorizontalAlignment="Center"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{Binding ElementName=TxtWallpapers , Path=Foreground}" />
+                                                <TextBlock x:Name="TxtWallpapers" Text="Images"
+                                                               Foreground="{Binding Path=TxtForegroundBrushes[Wallpapers]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"
@@ -502,7 +523,7 @@
                                         <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate"/>
                                     </MenuFlyout>
                                 </Button.Flyout>
-                                <Grid Width="220" Height="35">
+                                <Grid Width="240" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -529,7 +550,7 @@
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                 BorderThickness="0" Visibility="Visible"
                                 Click="OpenRepo">
-                                <Grid Height="35" Width="220">
+                                <Grid Height="35" Width="240">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -546,7 +567,7 @@
                                     BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
-                                <Grid Width="220" Height="35">
+                                <Grid Width="240" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -593,7 +614,7 @@
                                         </Grid>
                                     </Flyout>
                                 </FlyoutBase.AttachedFlyout>
-                                <Grid Width="220" Height="35">
+                                <Grid Width="240" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -640,7 +661,7 @@
                                     BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="2">
-                                <Grid Width="220" Height="35">
+                                <Grid Width="240" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />

@@ -10,11 +10,41 @@
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=CharacterSearch}">
 
     <Page.Resources>
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/XamlResources/DictionaryHamburger.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <GridView ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Pivot x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}" HorizontalAlignment="Stretch"
+                   SelectionChanged="UpperNavBarPivotOnSelectionChanged">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
+            </Pivot.Resources>
+            <Pivot.Items>
+                <PivotItem Header="Anime"/>
+                <PivotItem Header="Manga&amp;Novels"/>
+                <PivotItem Header="Characters"/>
+            </Pivot.Items>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding}" Margin="5,0" />
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate />
+            </Pivot.ItemTemplate>
+        </Pivot>
+        <GridView Grid.Row="1" ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Padding" Value="5"/>
@@ -28,7 +58,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
+        <StackPanel Grid.Row="1" Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
             <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">
                 <SymbolIcon.RenderTransform>
                     <ScaleTransform ScaleX="4" ScaleY="4"/>
@@ -36,11 +66,11 @@
             </SymbolIcon>
             <TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,40,0,0"/>
         </StackPanel>
-        <TextBlock Visibility="{Binding IsEmptyNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
+        <TextBlock Grid.Row="1" Visibility="{Binding IsEmptyNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
                    Text="No data received from MAL, try searching for something more specific. :("
                    TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
                    VerticalAlignment="Center" Foreground="#FFB9B9B9" />
-        <Grid Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
+        <Grid Grid.Row="1" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing HorizontalAlignment="Stretch" Width="100" Height="100"
                           VerticalAlignment="Stretch"

@@ -12,16 +12,44 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/XamlResources/DictionaryHamburger.xaml"></ResourceDictionary>
+                </ResourceDictionary.MergedDictionaries>
+                <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
+        </ResourceDictionary>
+
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid HorizontalAlignment="Stretch" Background="{StaticResource BrushAnimeItemInnerBackground}" Visibility="{Binding DirectQueryInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1,0">
+        <Pivot x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}" HorizontalAlignment="Stretch"
+                   SelectionChanged="UpperNavBarPivotOnSelectionChanged">
+            <Pivot.Resources>
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
+            </Pivot.Resources>
+            <Pivot.Items>
+                <PivotItem Header="Anime"/>
+                <PivotItem Header="Manga&amp;Novels"/>
+                <PivotItem Header="Characters"/>
+            </Pivot.Items>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding}" Margin="5,0" />
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate />
+            </Pivot.ItemTemplate>
+        </Pivot>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="{StaticResource BrushAnimeItemInnerBackground}" Visibility="{Binding DirectQueryInputVisibility,Converter={StaticResource BoolToVisibilityConverter}}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -44,7 +72,7 @@
                                 Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
             </Button>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
                       IsItemClickEnabled="True" ItemClick="Animes_OnItemClick"
                       Margin="0,5,-16,0" SelectionMode="Single"

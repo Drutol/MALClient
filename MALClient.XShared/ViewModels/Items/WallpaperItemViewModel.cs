@@ -13,7 +13,11 @@ namespace MALClient.XShared.ViewModels.Items
     public class WallpaperItemViewModel : ViewModelBase
     {
         private bool _isBlurred;
-        private ICommand _revealCommand;
+        private ICommand _copyLinkCommand;
+        private ICommand _openRedditCommand;
+        private ICommand _saveCommand;
+        private ICommand _saveAsCommand;
+        private ICommand _copyAndWaifuCommand;
         private string _resolution;
         public AnimeWallpaperData Data { get; set; }
 
@@ -46,7 +50,15 @@ namespace MALClient.XShared.ViewModels.Items
             }
         }
 
-        public ICommand RevealCommand => _revealCommand ?? (_revealCommand = new RelayCommand(() => IsBlurred = false));
+        public ICommand CopyLinkCommand => _copyLinkCommand ?? (_copyLinkCommand = new RelayCommand(() => ResourceLocator.ClipboardProvider.SetText(Data.FileUrl)));
+        public ICommand OpenRedditCommand => _openRedditCommand ?? (_openRedditCommand = new RelayCommand(() => ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(Data.RedditUrl))));
+        public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new RelayCommand(() => ResourceLocator.ImageDownloaderService.DownloadImageDefault(Data.FileUrl,string.Join(" ",Data.Title.Split(' ').Take(3)),false)));
+        public ICommand SaveAsCommand => _saveAsCommand ?? (_saveAsCommand = new RelayCommand(() => ResourceLocator.ImageDownloaderService.DownloadImage(Data.FileUrl, Data.Title, false)));
+        public ICommand CopyAndWaifuCommand => _copyAndWaifuCommand ?? (_copyAndWaifuCommand = new RelayCommand(() =>
+                                               {
+                                                   ResourceLocator.ClipboardProvider.SetText(Data.FileUrl);
+                                                   ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("http://waifu2x.booru.pics/"));
+                                               }));
 
     }
 }

@@ -8,7 +8,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:items="using:MALClient.XShared.ViewModels.Items"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:imgExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d"
     d:DesignHeight="300"
@@ -17,16 +17,33 @@
     <UserControl.Resources>
         <xamlConverters:BoolToWallpaperBlurValueConverter x:Key="BoolToWallpaperBlurValueConverter" />
     </UserControl.Resources>
-    <Grid Background="{StaticResource BrushAnimeItemInnerBackground}">
+    
+    <Grid Background="{StaticResource BrushAnimeItemInnerBackground}" RightTapped="WallpaperOnRightTapped" IsRightTapEnabled="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <controls:ImageEx Grid.Row="0" x:Name="Image" Tapped="ImageOnTapped"  ImageExOpened="Image_OnImageExOpened" IsCacheEnabled="False" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <controls:ImageEx.Source>
-                <BitmapImage x:Name="Bitmap" UriSource="{Binding Data.FileUrl}"/>
-            </controls:ImageEx.Source>
-        </controls:ImageEx>
+        <FlyoutBase.AttachedFlyout>
+            <MenuFlyout>
+                <MenuFlyoutItem Text="Save" Command="{Binding SaveCommand}"/>
+                <MenuFlyoutItem Text="Save as" Command="{Binding SaveAsCommand}"/>
+                <MenuFlyoutItem Text="Copy link and open waifu2x" Command="{Binding CopyAndWaifuCommand}"/>
+                <MenuFlyoutItem Text="Open on reddit" Command="{Binding OpenRedditCommand}"/>
+                <MenuFlyoutItem Text="Copy link" Command="{Binding CopyLinkCommand}"/>
+            </MenuFlyout>
+        </FlyoutBase.AttachedFlyout>
+        <Grid>
+            <Image imgExt:ImageExtensions.FadeInOnLoaded="True" Grid.Row="0" x:Name="Image" Tapped="ImageOnTapped" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Image.Source>
+                    <BitmapImage x:Name="Bitmap" UriSource="{Binding Data.FileUrl}" DownloadProgress="Bitmap_OnDownloadProgress" ImageOpened="Bitmap_OnImageOpened"/>
+                </Image.Source>
+            </Image>
+            <StackPanel x:Name="ImgLoading" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20">
+                <ProgressRing Width="25"  Height="25" Foreground="{ThemeResource BrushNoSearchResults}" IsActive="True"/>
+                <TextBlock x:Name="DlProgress" HorizontalAlignment="Center" Margin="0,5"/>
+            </StackPanel>
+            
+        </Grid>
         <Grid Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".75"/>

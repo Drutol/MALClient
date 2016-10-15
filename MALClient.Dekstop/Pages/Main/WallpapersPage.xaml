@@ -10,10 +10,28 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:items="using:MALClient.Shared.Items"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=Wallpapers}">
 
+    <Page.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
+            <AppBarButton Label="Sources" Icon="ClosePane">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <ToggleMenuFlyoutItem x:Name="SourceAnWp" Text="/r/AnimeWallpaper" Click="SourcesToggleButtonOnClick" Tag="0"/>
+                        <ToggleMenuFlyoutItem x:Name="SourceAww" Text="/r/Awwnime" Click="SourcesToggleButtonOnClick" Tag="1"/>
+                        <ToggleMenuFlyoutItem x:Name="SourcePixiv" Text="/r/Pixiv" Click="SourcesToggleButtonOnClick" Tag="2"/>
+                        <ToggleMenuFlyoutItem x:Name="SourceZr" Text="/r/ZettaiRyouiki" Click="SourcesToggleButtonOnClick" Tag="3"/>
+                        <ToggleMenuFlyoutItem x:Name="SourceMoescape" Text="/r/Moescape" Click="SourcesToggleButtonOnClick" Tag="4"/>
+                        <ToggleMenuFlyoutItem x:Name="SourceMoestash" Text="/r/Moestash" Click="SourcesToggleButtonOnClick" Tag="5"/>
+                        <ToggleMenuFlyoutItem x:Name="SourcePatchuu" Text="/r/Patchuu" Click="SourcesToggleButtonOnClick" Tag="6"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Label="Refresh" Icon="Refresh" Command="{Binding RefreshCommand}"/>
             <AppBarButton Label="Previous page" Icon="Previous" Command="{Binding GoBackwardsCommand}" IsEnabled="{Binding IsGoBackwardsButtonEnabled}"/>
             <AppBarButton Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}"/>
         </CommandBar>
@@ -37,5 +55,8 @@
                 </Style>
             </GridView.ItemContainerStyle>
         </GridView>
+        <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
+                      IsActive="True"
+                      Visibility="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Page>

@@ -471,7 +471,7 @@ namespace MALClient.XShared.ViewModels.Details
                            new RelayCommand<string>(
                                opt =>
                                {
-                                   ResourceLocator.ImageDownloaderService.DownloadImage(_imgUrl, Title);
+                                   ResourceLocator.ImageDownloaderService.DownloadImage(_imgUrl, Title,true);
                                }));
             }
         }

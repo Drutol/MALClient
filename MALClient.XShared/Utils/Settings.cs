@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
@@ -610,6 +612,24 @@ namespace MALClient.XShared.Utils
         }
 
 
+        #endregion
+
+        #region Wallpapers
+
+        public static List<WallpaperSources> EnabledWallpaperSources
+        {
+            get
+            {
+                var str = (string) (ApplicationDataService[nameof(EnabledWallpaperSources)] ?? "0;1;2;3;4;5;6");
+
+                return str.Split(new [] { ";" } ,StringSplitOptions.RemoveEmptyEntries).Select(source => (WallpaperSources) int.Parse(source)).ToList();
+            }
+            set
+            {
+                ApplicationDataService[nameof(EnabledWallpaperSources)] = string.Join(";",
+                    value.Select(source => ((int) source).ToString()));
+            }
+        }
         #endregion
     }
 }

@@ -23,6 +23,7 @@ namespace MALClient.XShared.ViewModels.Main
         private int _currentPage;
         private ICommand _goForwardCommand;
         private ICommand _goBackwardsCommand;
+        private ICommand _refreshCommand;
 
         public ObservableCollection<WallpaperItemViewModel> Wallpapers
         {
@@ -61,19 +62,30 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _currentPage = value;
                 RaisePropertyChanged(() => IsGoBackwardsButtonEnabled);
+                ViewModelLocator.GeneralMain.CurrentStatus = $"Images - Page {CurrentPage + 1}";
             }
         }
 
         public ICommand GoForwardCommand => _goForwardCommand ?? (_goForwardCommand = new RelayCommand(() =>
                                             {
+                                                if (LoadingWallpapersVisibility)
+                                                    return;
                                                 CurrentPage++;
                                                 LoadWallpapers();
                                             }));
 
         public ICommand GoBackwardsCommand => _goBackwardsCommand ?? (_goBackwardsCommand = new RelayCommand(() =>
                                               {
+                                                  if(LoadingWallpapersVisibility)
+                                                      return;
                                                   CurrentPage--;
                                                   LoadWallpapers();
+                                              }));
+
+        public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(() =>
+                                          {
+                                                  AnimeWallpapersQuery.Reset();
+                                                  Init(null);
                                               }));
 
 
@@ -81,17 +93,15 @@ namespace MALClient.XShared.ViewModels.Main
 
         public void Init(WallpaperPageNavigationArgs args)
         {
-            if(_prevArgs != null && string.Equals(_prevArgs.Query,args.Query,StringComparison.CurrentCultureIgnoreCase))
-                return;
-
-            _prevArgs = args;
-
             CurrentPage = 0;
             LoadWallpapers();
         }
 
         private async void LoadWallpapers()
         {
+            if(LoadingWallpapersVisibility)
+                return;
+
             LoadingWallpapersVisibility = true;
             Wallpapers?.Clear();
             var wallpapers = await AnimeWallpapersQuery.GetAllWallpapers(CurrentPage);

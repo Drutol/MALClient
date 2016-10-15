@@ -152,7 +152,7 @@ namespace MALClient.ViewModels
                 }
                 else
                 {
-                    DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging);
+                    DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
                 }
                 currPage = index;
             }            
@@ -379,7 +379,6 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageWallpapers:
                     HideSearchStuff();
-                    CurrentStatus = "Wallpapers";
                     MainNavigationRequested?.Invoke(typeof(WallpapersPage),args);
                     break;
                 default:

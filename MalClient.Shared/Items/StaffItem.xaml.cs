@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Models.Favourites;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -20,6 +23,8 @@ namespace MALClient.Shared.Items
 {
     public sealed partial class StaffItem : UserControl , IItemWithFlyout
     {
+        private FavouriteViewModel ViewModel => DataContext as FavouriteViewModel;
+
         public StaffItem()
         {
             this.InitializeComponent();

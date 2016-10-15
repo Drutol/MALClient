@@ -44,7 +44,7 @@ namespace MALClient.XShared.ViewModels.Details
                         entry =>
                         {
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                                new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null,null, _prevArgs) {Source = PageIndex.PageStaffDetails});
+                                new AnimeDetailsPageNavigationArgs(entry.Id, entry.Title, null,null, _prevArgs) {AnimeMode = entry.IsAnime,Source = PageIndex.PageStaffDetails});
                         }));
 
         public ICommand NavigateCharacterDetailsCommand

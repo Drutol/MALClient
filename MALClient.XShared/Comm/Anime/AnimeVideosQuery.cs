@@ -33,6 +33,9 @@ namespace MALClient.XShared.Comm.Anime
                 : await DataCache.RetrieveData<List<AnimeVideoData>>($"videos_{_id}", "AnimeDetails", 7) ??
                   new List<AnimeVideoData>();
 
+            if (output.Any())
+                return output;
+
             var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
                 return output;

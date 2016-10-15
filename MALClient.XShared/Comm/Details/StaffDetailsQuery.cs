@@ -144,7 +144,7 @@ namespace MALClient.XShared.Comm.Details
                                     show.ImgUrl = img.Substring(0, img.IndexOf('?'));
                                 }
                                 var link = tds[1].Descendants("a").First();
-                                show.IsAnime = true;
+                                show.IsAnime = !link.Attributes["href"].Value.Contains("/manga/");
                                 show.Id = int.Parse(link.Attributes["href"].Value.Split('/')[2]);
                                 show.Title = WebUtility.HtmlDecode(link.InnerText.Trim());
                                 show.Notes =

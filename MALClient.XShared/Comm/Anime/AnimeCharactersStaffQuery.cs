@@ -24,7 +24,9 @@ namespace MALClient.XShared.Comm.Anime
         public AnimeCharactersStaffQuery(int id, bool anime = true)
         {
             Request =
-                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/characters"));
+                WebRequest.Create(
+                    Uri.EscapeUriString(
+                        $"https://myanimelist.net/{(anime ? "anime" : "manga")}/{id}/whatever/characters"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
             _animeId = id;
@@ -38,7 +40,8 @@ namespace MALClient.XShared.Comm.Anime
 
             var output = force
                 ? new List<AnimeCharacter>()
-                : await DataCache.RetrieveData<List<AnimeCharacter>>($"staff_{_animeId}", "MangaDetails", 7) ?? new List<AnimeCharacter>();
+                : await DataCache.RetrieveData<List<AnimeCharacter>>($"staff_{_animeId}", "MangaDetails", 7) ??
+                  new List<AnimeCharacter>();
 
             var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
@@ -58,7 +61,7 @@ namespace MALClient.XShared.Comm.Anime
                         var current = new AnimeCharacter();
 
                         var imgs = table.Descendants("img").ToList();
-                        var infos = table.Descendants("td").ToList(); 
+                        var infos = table.Descendants("td").ToList();
 
                         //character
                         var img = imgs[0].Attributes["data-src"].Value;
@@ -72,12 +75,12 @@ namespace MALClient.XShared.Comm.Anime
                         current.ShowId = _animeId.ToString();
                         current.Name = WebUtility.HtmlDecode(imgs[0].Attributes["alt"].Value.Replace(",", ""));
                         current.Id = infos[0].ChildNodes[1].ChildNodes[0].Attributes["href"].Value.Split('/')[2];
-                        current.Notes = "";//malformed html here TODO: Check if fixed 
+                        current.Notes = ""; //malformed html here TODO: Check if fixed 
                         //table.Descendants("small").First().InnerText;
                         output.Add(current);
                     }
                     catch (Exception)
-                    {                       
+                    {
                         //
                     }
 
@@ -92,11 +95,12 @@ namespace MALClient.XShared.Comm.Anime
 
         public async Task<AnimeStaffData> GetCharStaffData(bool force = false)
         {
-            if(!_animeMode)
+            if (!_animeMode)
                 throw new InvalidOperationException("Umm you said it's going to be manga...");
             var output = force
                 ? new AnimeStaffData()
-                : await DataCache.RetrieveData<AnimeStaffData>($"staff_{_animeId}","AnimeDetails",7) ?? new AnimeStaffData();
+                : await DataCache.RetrieveData<AnimeStaffData>($"staff_{_animeId}", "AnimeDetails", 7) ??
+                  new AnimeStaffData();
             if (output.AnimeCharacterPairs.Count > 0 || output.AnimeStaff.Count > 0) return output;
 
             var raw = await GetRequestResponse(false);
@@ -130,20 +134,31 @@ namespace MALClient.XShared.Comm.Anime
 
                         current.AnimeCharacter.FromAnime = _animeMode;
                         current.AnimeCharacter.ShowId = _animeId.ToString();
-                        current.AnimeCharacter.Name = WebUtility.HtmlDecode(imgs[0].Attributes["alt"].Value.Replace(",", ""));
+                        current.AnimeCharacter.Name =
+                            WebUtility.HtmlDecode(imgs[0].Attributes["alt"].Value.Replace(",", ""));
                         current.AnimeCharacter.Id = infos[1].ChildNodes[1].Attributes["href"].Value.Split('/')[2];
                         current.AnimeCharacter.Notes = infos[1].ChildNodes[3].InnerText;
 
                         //voiceactor
-                        img = imgs[1].Attributes["data-src"].Value;
-                        if (!img.Contains("questionmark"))
+                        try
                         {
-                            img = img.Replace("/r/46x64", "");
-                            current.AnimeStaffPerson.ImgUrl = img.Substring(0, img.IndexOf('?'));
+                            img = imgs[1].Attributes["data-src"].Value;
+                            if (!img.Contains("questionmark"))
+                            {
+                                img = img.Replace("/r/46x64", "");
+                                current.AnimeStaffPerson.ImgUrl = img.Substring(0, img.IndexOf('?'));
+                            }
+                            current.AnimeStaffPerson.Name = WebUtility.HtmlDecode(imgs[1].Attributes["alt"].Value.Replace(",", ""));
+                            current.AnimeStaffPerson.Id = infos[3].ChildNodes[1].Attributes["href"].Value.Split('/')[2];
+                            current.AnimeStaffPerson.Notes = infos[3].ChildNodes[4].InnerText;
                         }
-                        current.AnimeStaffPerson.Name = WebUtility.HtmlDecode(imgs[1].Attributes["alt"].Value.Replace(",", ""));
-                        current.AnimeStaffPerson.Id = infos[3].ChildNodes[1].Attributes["href"].Value.Split('/')[2];
-                        current.AnimeStaffPerson.Notes = infos[3].ChildNodes[4].InnerText;
+                        catch (Exception)
+                        {
+                            //no voice actor
+                            current.AnimeStaffPerson.Name = "Unknown";
+                            current.AnimeStaffPerson.IsUnknown = true;
+                        }
+
 
                         output.AnimeCharacterPairs.Add(current);
                         if (i++ > 30)

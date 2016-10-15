@@ -497,6 +497,8 @@ namespace MALClient.XShared.ViewModels.Details
             => _navigateStaffDetailsCommand ?? (_navigateStaffDetailsCommand = new RelayCommand<AnimeStaffPerson>(
                 person =>
                 {
+                    if(person.IsUnknown)
+                        return;
                     ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails, new StaffDetailsNaviagtionArgs { Id = int.Parse(person.Id) });
                 }));

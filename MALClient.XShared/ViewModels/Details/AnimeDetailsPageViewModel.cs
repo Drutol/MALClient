@@ -463,7 +463,7 @@ namespace MALClient.XShared.ViewModels.Details
                     "4 - Bad",
                     "3 - Very Bad",
                     "2 - Horrible",
-                    "1 - Appaling"
+                    "1 - Appalling"
                 }
                 : new List<string>
                 {
@@ -476,7 +476,7 @@ namespace MALClient.XShared.ViewModels.Details
                     "2 - Bad",
                     "1.5 - Very Bad",
                     "1 - Horrible",
-                    "0.5 - Appaling"
+                    "0.5 - Appalling"
                 };
         }
 

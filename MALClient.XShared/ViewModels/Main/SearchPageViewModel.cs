@@ -38,6 +38,8 @@ namespace MALClient.XShared.ViewModels.Main
             _queryHandler = true;
             _currrentFilter = null;
             _animeSearch = args.Anime;
+            EmptyNoticeVisibility = false;
+            IsFirstVisitGridVisible = true;
             if (args.DisplayMode == SearchPageDisplayModes.Off)
             {
                 ViewModelLocator.NavMgr.ResetOffBackNav();

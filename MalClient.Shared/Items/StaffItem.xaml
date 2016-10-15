@@ -16,6 +16,9 @@
         <xamlConverters:IsFavouriteToSymbolConverter x:Key="IsFavouriteToSymbolConverter" />
     </UserControl.Resources>
     <Grid Height="325" HorizontalAlignment="Stretch" Background="{StaticResource BrushAnimeItemInnerBackground}">
+        <Grid.Resources>
+            <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="52" />
@@ -35,7 +38,7 @@
                              DecodePixelWidth="200" DecodePixelType="Logical" />
             </Image.Source>-->
         </Image>
-        <Grid Grid.Row="0" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Padding="0" Margin="0">
+        <Grid x:Name="FavGrid" Grid.Row="0" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" VerticalAlignment="Bottom" Padding="0" Margin="0">
             <ToggleButton 
                       Height="40" Width="40"
                       IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"

@@ -916,11 +916,10 @@
                                                                                     DecodePixelWidth="150" />
                                                                                 </Image.Source>-->
                                                                             </Image>
-                                                                            <Grid HorizontalAlignment="Right"
-                                                                                       VerticalAlignment="Bottom"
-                                                                                       Grid.Row="0" Background="{ThemeResource BrushFavouriteStarBackground}"
-                                                                                       Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                                                                                <new:FavButton DataContext="{Binding AnimeStaffPerson}"/>
+                                                                            <Grid VerticalAlignment="Bottom" Grid.Row="0" HorizontalAlignment="Right" Visibility="{Binding AnimeStaffPerson.Data,Converter={StaticResource FavouriteBaseToStaffPersonToIsUnknownVisibilityConverter}}">
+                                                                                <Grid Background="{ThemeResource BrushFavouriteStarBackground}"  Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                                    <new:FavButton DataContext="{Binding AnimeStaffPerson}"/>
+                                                                                </Grid>
                                                                             </Grid>
 
                                                                             <Grid Grid.Row="1" Padding="4"

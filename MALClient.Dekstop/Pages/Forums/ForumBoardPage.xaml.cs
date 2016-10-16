@@ -57,6 +57,9 @@ namespace MALClient.Pages.Forums
 
         private void TopicOnRightClick(object sender, RightTappedRoutedEventArgs e)
         {
+            if(ViewModel.PrevArgs.WorkMode == ForumBoardPageWorkModes.WatchedTopics || ViewModel.PrevArgs.WorkMode == ForumBoardPageWorkModes.UserSearch)
+                return;
+
             if ((e.OriginalSource as FrameworkElement).DataContext is ForumTopicEntryViewModel)
                 ItemFlyoutService.ShowForumTopicFlyout(e.OriginalSource as FrameworkElement);
             e.Handled = true;

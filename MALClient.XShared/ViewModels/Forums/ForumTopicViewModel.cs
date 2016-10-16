@@ -8,13 +8,18 @@ namespace MALClient.XShared.ViewModels.Forums
     {
         public event WebViewNavigationRequest WebViewTopicNavigationRequested;
         public event WebViewNavigationRequest WebViewNewTopicNavigationRequested;
+        public event WebViewNavigationRequest WebViewNewAnimeMangaTopicNavigationRequested;
 
         public void Init(ForumsTopicNavigationArgs args)
         {
             LoadingTopic = true;
             if (args.CreateNewTopic)
             {
-                WebViewNewTopicNavigationRequested?.Invoke(((int)args.SourceBoard).ToString(),false);
+                if (args.CreateNewAnimeTopic == null)
+                    WebViewNewTopicNavigationRequested?.Invoke(((int) args.SourceBoard).ToString(), false);
+                else
+                    WebViewNewAnimeMangaTopicNavigationRequested?.Invoke(
+                        $"{(args.CreateNewAnimeTopic == true ? "anime_id" : "manga_id")}={args.MediaId}", false);
             }
             else
             {

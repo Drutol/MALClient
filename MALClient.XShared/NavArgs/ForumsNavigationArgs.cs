@@ -92,6 +92,8 @@ namespace MALClient.XShared.NavArgs
     public class ForumsTopicNavigationArgs : ForumsNavigationArgs
     {
         public bool CreateNewTopic { get; set; }
+        public bool? CreateNewAnimeTopic { get; set; }
+        public int MediaId { get; set; }
         public string TopicId { get; set; }
         public ForumBoards? SourceBoard { get; set; }
         public bool Lastpost { get; set; }
@@ -116,5 +118,9 @@ namespace MALClient.XShared.NavArgs
         }
 
         public static ForumsTopicNavigationArgs NewTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic};
+
+        public static ForumsTopicNavigationArgs NewAnimeTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic,CreateNewAnimeTopic = true};
+
+        public static ForumsTopicNavigationArgs NewMangaTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic,CreateNewAnimeTopic = false};
     }
 }

@@ -513,7 +513,8 @@ namespace MALClient.XShared.ViewModels.Details
                     new RelayCommand(
                         () =>
                         {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
+                            if(ViewModelLocator.Mobile)
+                                ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                                 new ForumsBoardNavigationArgs(Id, Title, AnimeMode));
                         }));

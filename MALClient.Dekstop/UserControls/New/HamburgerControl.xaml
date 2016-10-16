@@ -112,6 +112,10 @@
 
     <Grid VerticalAlignment="Stretch">
         <Grid Background="{ThemeResource BrushHamburgerBackground}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Hidden" Width="250">
                 <Grid VerticalAlignment="Stretch">
                     <Grid.Resources>
@@ -124,8 +128,7 @@
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" MinHeight="200" />
-                        <RowDefinition Height="*" MinHeight="20" />
-                        <RowDefinition Height="Auto" MinHeight="120" />
+                        <RowDefinition Height="*" MinHeight="20"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -606,7 +609,7 @@
                                             <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
                                         </SymbolIcon.RenderTransform>
                                     </SymbolIcon>
-                                        <TextBlock x:Name="TxtNews" Text="News"
+                                    <TextBlock x:Name="TxtNews" Text="News"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[News]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -647,7 +650,7 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
                                 </Grid>
-                            </Button>                            
+                            </Button>
                             <Button Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
@@ -707,86 +710,96 @@
                         </Button>-->
                     </StackPanel>
                     <Grid VerticalAlignment="Stretch" Grid.Row="1" />
-                    <StackPanel Grid.Row="2" Margin="{Binding BottomStackPanelMargin}" VerticalAlignment="Bottom">
-                        <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="5,5,10,5" x:Name="BottomSeparator" />
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                </Grid>
+            </ScrollViewer>
+            <StackPanel Grid.Row="1" Margin="{Binding BottomStackPanelMargin}" VerticalAlignment="Bottom" Width="250">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                            <Setter Property="Padding" Value="1,0" />
+                        </Style>
+                        <Style TargetType="SymbolIcon">
+                            <Setter Property="Margin" Value="3,0,0,0" />
+                        </Style>
+                </StackPanel.Resources>
+                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="5,5,10,5" x:Name="BottomSeparator" />
+                <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited" Visibility="Visible">
-                            <Button.Flyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate" />
-                                    <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate" />
-                                    <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate" />
-                                    <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate" />
-                                </MenuFlyout>
-                            </Button.Flyout>
-                            <Grid Height="37">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate" />
+                            <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate" />
+                            <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate" />
+                            <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                    <Grid Height="37">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
                                            HorizontalAlignment="Center" Grid.Column="0" Margin="0,0,2,0"
                                            VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
                                            Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}">
-                                    <TextBlock.RenderTransform>
-                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                                    </TextBlock.RenderTransform>
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush x:Name="HearthSupport"
+                            <TextBlock.RenderTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                            </TextBlock.RenderTransform>
+                            <TextBlock.Foreground>
+                                <SolidColorBrush x:Name="HearthSupport"
                                                          Color="{StaticResource SystemAccentColor}" />
-                                    </TextBlock.Foreground>
-                                </TextBlock>
-                                <TextBlock Text="Support me!" FontSize="15" FontWeight="SemiLight"
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                        <TextBlock Text="Support me!" FontSize="15" FontWeight="SemiLight"
                                            HorizontalAlignment="Left"
                                            TextWrapping="WrapWholeWords"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                            </Grid>
-                        </Button>
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                    </Grid>
+                </Button>
+                <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited" Click="OpenRepo">
-                            <Grid Height="37">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" />
-                                <TextBlock Text="Feedback" HorizontalAlignment="Left"
+                    <Grid Height="37">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" />
+                        <TextBlock Text="Feedback" HorizontalAlignment="Left"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                        <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
                                         FontFamily="Segoe MDL2 Assets" FontSize="24" Width="40" Height="35" Background="Transparent" Content="&#xE939;"  Click="FeedbackButton_OnClick"
                                         Visibility="{Binding FeedbackHubButtonVisibility}"/>
-                            </Grid>
-                        </Button>
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                    </Grid>
+                </Button>
+                <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
-                            <Grid Height="37">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Border BorderThickness="{Binding TxtBorderBrushThicknesses[LogIn]}"
+                    <Grid Height="37">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border BorderThickness="{Binding TxtBorderBrushThicknesses[LogIn]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                         Grid.ColumnSpan="2" />
-                                <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
+                        <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                             VerticalAlignment="Center" Margin="0,0,2,0"
                                             Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Left"
+                        <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}" HorizontalAlignment="Left"
                                            Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                            </Grid>
-                        </Button>
-                        <Button x:Name="BtnProfile" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                    </Grid>
+                </Button>
+                <Button x:Name="BtnProfile" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -794,111 +807,109 @@
                                 Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="5">
-                            <FlyoutBase.AttachedFlyout>
-                                <Flyout>
-                                    <Grid>
-                                        <Grid.Resources>
-                                            <ResourceDictionary>
-                                                <ResourceDictionary.MergedDictionaries>
-                                                    <ResourceDictionary Source="/XamlResources/FancyListFlyoutStyle.xaml"/>
-                                                </ResourceDictionary.MergedDictionaries>
-                                            </ResourceDictionary>
-                                        </Grid.Resources>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
-                                        <ListView Grid.Row="1" Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </Grid>
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>
-                            <Grid Height="37">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="120" />
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0"
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <Grid>
+                                <Grid.Resources>
+                                    <ResourceDictionary>
+                                        <ResourceDictionary.MergedDictionaries>
+                                            <ResourceDictionary Source="/XamlResources/FancyListFlyoutStyle.xaml"/>
+                                        </ResourceDictionary.MergedDictionaries>
+                                    </ResourceDictionary>
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                <ListView Grid.Row="1" Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                    <Grid Height="37">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                <Ellipse Grid.Column="0"
+                        <Ellipse Grid.Column="0"
                                        Width="33"
                                        Height="33" Margin="1,1,0,1"
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
-                                    <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                             Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                                <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-120,0"
+                        <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-120,0"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                        <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="37">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="My recent topics"/>
-                                        </ToolTipService.ToolTip>
-                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Comment"
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="My recent topics"/>
+                                </ToolTipService.ToolTip>
+                                <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Comment"
                                                 Margin="0,0,1,0" />
-                                    </Button>                                    
-                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                            </Button>
+                            <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="19" Background="Transparent"
                                         Width="40" Height="37">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="History"/>
-                                        </ToolTipService.ToolTip>
-                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="History"/>
+                                </ToolTipService.ToolTip>
+                                <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,1,0" />
-                                    </Button>
-                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                            </Button>
+                            <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="16" Background="Transparent"
                                         Width="40" Height="37" >
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="Messaging"/>
-                                        </ToolTipService.ToolTip>
-                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Messaging"/>
+                                </ToolTipService.ToolTip>
+                                <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
                                                 Margin="0,0,1,0" />
-                                    </Button>                                    
-                                </StackPanel>
-                            </Grid>
-                        </Button>
-                        <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="2">
-                            <Grid Height="37">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="40" />
-                                </Grid.ColumnDefinitions>
-                                <Border BorderThickness="{Binding TxtBorderBrushThicknesses[Settings]}"
+                    <Grid Height="37">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
+                        <Border BorderThickness="{Binding TxtBorderBrushThicknesses[Settings]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                         Grid.ColumnSpan="2" />
-                                <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
+                        <SymbolIcon Symbol="Setting" HorizontalAlignment="Center" Grid.Column="0"
                                             Margin="0,0,2,0"
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
-                                <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Left"
+                        <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Left"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                            </Grid>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </ScrollViewer>
+                    </Grid>
+                </Button>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

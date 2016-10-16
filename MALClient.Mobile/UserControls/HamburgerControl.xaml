@@ -275,7 +275,7 @@
                                         </Button>
                                     </StackPanel>
                                 </PivotItem>
-                                <PivotItem Header="Manga" Height="225">
+                                <PivotItem Header="Manga" Height="225" VerticalContentAlignment="Top" VerticalAlignment="Top">
                                     <StackPanel VerticalAlignment="Top">
                                         <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"

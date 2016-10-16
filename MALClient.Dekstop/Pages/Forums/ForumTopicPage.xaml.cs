@@ -54,8 +54,17 @@ namespace MALClient.Pages.Forums
             await MalWebViewHttpContextInitializer.InitializeContextForWebViews(false);
             ViewModel.WebViewTopicNavigationRequested += ViewTopicModelOnWebViewTopicNavigationRequested;
             ViewModel.WebViewNewTopicNavigationRequested += ViewModelOnWebViewNewTopicNavigationRequested;
+            ViewModel.WebViewNewAnimeMangaTopicNavigationRequested += ViewModelOnWebViewNewAnimeMangaTopicNavigationRequested;
             Loaded -= OnLoaded;
             ViewModel.Init(_args);
+        }
+
+        private void ViewModelOnWebViewNewAnimeMangaTopicNavigationRequested(string content, bool b)
+        {
+            _baseUri = new Uri($"https://myanimelist.net/forum/?action=post&{content}");
+            _newTopic = true;
+            _navigatingRoot = true;
+            TopicWebView.Navigate(_baseUri);
         }
 
         private void ViewModelOnWebViewNewTopicNavigationRequested(string content, bool b)
@@ -97,7 +106,7 @@ namespace MALClient.Pages.Forums
             string fontColor = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black";
             string fontColorInverted = Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "black" : "white";
 
-            var zoom = 100*ActualWidth/1060;
+            var zoom = 100*ActualWidth/(_args.CreateNewTopic ? 800 : 1060);
             _prevSize = new Size(ActualWidth, ActualHeight);
             List<string> commands;
             if (_args.CreateNewTopic)
@@ -181,7 +190,7 @@ namespace MALClient.Pages.Forums
             _prevSize = e.NewSize;
             try
             {
-                await TopicWebView.InvokeScriptAsync("eval", new string[] { $"$(\"html\").css(\"zoom\", \"{Math.Floor(100 * ActualWidth / 1060)}%\");", });
+                await TopicWebView.InvokeScriptAsync("eval", new string[] { $"$(\"html\").css(\"zoom\", \"{Math.Floor(100 * ActualWidth / (_args.CreateNewTopic ? 800 : 1060))}%\");", });
             }
             catch (Exception)
             {
@@ -198,9 +207,9 @@ namespace MALClient.Pages.Forums
             {
                 return;
             }
-            if (Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist.net\/forum\/index.php\?topic_id=.*"))
+            if (Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist\.net\/forum\/index.php\?topic_id=.*"))
                 return;
-            if(Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist.net\/forum\/\?topicid=.*"))
+            if(Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist\.net\/forum\/\?topicid=.*"))
                 return;
             if (args.Uri.ToString().Contains("&show="))
                 return;

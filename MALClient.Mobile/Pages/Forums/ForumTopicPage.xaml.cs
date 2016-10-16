@@ -52,12 +52,23 @@ namespace MALClient.Pages.Forums
             await MalWebViewHttpContextInitializer.InitializeContextForWebViews(true);
             ViewModel.WebViewTopicNavigationRequested += ViewTopicModelOnWebViewTopicNavigationRequested;
             ViewModel.WebViewNewTopicNavigationRequested += ViewModelOnWebViewNewTopicNavigationRequested;
+            ViewModel.WebViewNewAnimeMangaTopicNavigationRequested +=
+                ViewModelOnWebViewNewAnimeMangaTopicNavigationRequested;
             ViewModel.Init(_args);
+        }
+
+        private void ViewModelOnWebViewNewAnimeMangaTopicNavigationRequested(string content, bool b)
+        {
+            _baseUri = new Uri($"https://myanimelist.net/forum/?action=post&{content}");
+            _newTopic = true;
+            _navigatingRoot = true;
+            TopicWebView.Navigate(_baseUri);
         }
 
         private void ViewModelOnWebViewNewTopicNavigationRequested(string content, bool b)
         {
             _baseUri = new Uri($"https://myanimelist.net/forum/?action=post&boardid={content}");
+            _newTopic = true;
             TopicWebView.Navigate(_baseUri);
         }
 
@@ -75,12 +86,6 @@ namespace MALClient.Pages.Forums
             _args = e.Parameter as ForumsTopicNavigationArgs;
             base.OnNavigatedTo(e);
         }
-
-        private async void TopicWebView_OnLoadCompleted(object sender, NavigationEventArgs e)
-        {
-
-        }
-
 
         private async void TopicWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
@@ -158,6 +163,7 @@ namespace MALClient.Pages.Forums
         }
 
         private Size _prevSize;
+        private bool _newTopic;
 
         private async void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -184,6 +190,11 @@ namespace MALClient.Pages.Forums
                 ViewModel.LoadingTopic = true;
                 return;
             }
+            if (_newTopic && Regex.IsMatch(args.Uri.ToString(), @"https:\/\/myanimelist\.net\/forum\/\?action=post&boardid=.*"))
+            {
+                TopicWebView.NavigationCompleted += TopicWebViewOnNavigationCompleted;
+                return;
+            }
             try
             {
                 if (args.Uri != null)
@@ -206,6 +217,13 @@ namespace MALClient.Pages.Forums
             {
                 args.Cancel = true;
             }
+        }
+
+        private void TopicWebViewOnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        {
+            TopicWebView.NavigationCompleted -= TopicWebViewOnNavigationCompleted;
+            ViewModelLocator.ForumsBoard.ReloadOnNextLoad();
+            ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
         }
 
         private void TopicWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)

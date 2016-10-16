@@ -32,13 +32,13 @@
                 <MenuFlyoutItem Text="Copy link" Command="{Binding CopyLinkCommand}"/>
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
-        <Grid SizeChanged="FrameworkElement_OnSizeChanged">
+        <Grid SizeChanged="FrameworkElement_OnSizeChanged" MinHeight="60">
             <Image imgExt:ImageExtensions.FadeInOnLoaded="True" Grid.Row="0" x:Name="Image" IsHoldingEnabled="True" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Image.Source>
-                    <BitmapImage x:Name="Bitmap" UriSource="{Binding Data.FileUrl}" DownloadProgress="Bitmap_OnDownloadProgress" ImageOpened="Bitmap_OnImageOpened"/>
+                    <BitmapImage x:Name="Bitmap" UriSource="{Binding Data.FileUrl}" DecodePixelType="Logical" DecodePixelHeight="720" DecodePixelWidth="1280" DownloadProgress="Bitmap_OnDownloadProgress" ImageOpened="Bitmap_OnImageOpened"/>
                 </Image.Source>
             </Image>
-            <StackPanel x:Name="ImgLoading" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30">
+            <StackPanel x:Name="ImgLoading" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ProgressRing Width="25"  Height="25" Foreground="{ThemeResource BrushNoSearchResults}" IsActive="True"/>
                 <TextBlock x:Name="DlProgress" HorizontalAlignment="Center" Margin="0,5"/>
             </StackPanel>

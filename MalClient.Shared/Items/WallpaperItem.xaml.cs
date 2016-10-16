@@ -35,13 +35,20 @@ namespace MALClient.Shared.Items
 
         private async void Bitmap_OnImageOpened(object sender, RoutedEventArgs e)
         {
-            DescriptionGrid.MaxWidth = Image.ActualWidth;
-            BoundingGrid.MaxWidth = Image.ActualWidth;
+            if (Image.ActualWidth > 0)
+            {
+                BoundingGrid.Width = Image.ActualWidth;
+                DescriptionGrid.Width = Image.ActualWidth;
+                DescriptionGrid.MinWidth = 0;
+                BoundingGrid.MinWidth = 0;
+            }
             ViewModel.Resolution = $"{Bitmap.PixelWidth}x{Bitmap.PixelHeight}";
             ResolutionGrid.Visibility = Visibility.Visible;
             ImgLoading.Visibility = Visibility.Collapsed;
             if (ViewModel.IsBlurred)
                 await Image.Blur(10, 0).StartAsync();
+            else
+                await Image.Blur(0, 0).StartAsync();
         }
 
         private void WallpaperOnRightTapped(object sender, RightTappedRoutedEventArgs e)

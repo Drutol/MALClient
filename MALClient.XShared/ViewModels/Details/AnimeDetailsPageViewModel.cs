@@ -44,6 +44,7 @@ namespace MALClient.XShared.ViewModels.Details
                 _animeMode = value;
                 RaisePropertyChanged(() => RewatchedLabel);
                 RaisePropertyChanged(() => RewatchingLabel);
+                RaisePropertyChanged(() => AnimeMode);
             }
         }
 

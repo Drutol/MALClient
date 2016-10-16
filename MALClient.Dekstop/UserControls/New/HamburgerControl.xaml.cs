@@ -155,6 +155,17 @@ namespace MALClient.UserControls.New
                 ViewModel.HamburgerWidthChanged(true);
                 MidSeparator.Width = BottomSeparator.Width = 250;
                 Mid2Separator.Width = BottomSeparator.Width = 250;
+
+                //double column
+                ButtonImages.SetValue(Grid.RowProperty, 0);
+                ButtonImages.SetValue(Grid.ColumnProperty, 1);
+                ButtonImages.SetValue(Grid.ColumnSpanProperty, 1);
+                ButtonForums.SetValue(Grid.ColumnSpanProperty, 1);
+
+                ButtonNews.SetValue(Grid.RowProperty, 0);
+                ButtonNews.SetValue(Grid.ColumnProperty, 1);
+                ButtonNews.SetValue(Grid.ColumnSpanProperty, 1);
+                ButtonArticles.SetValue(Grid.ColumnSpanProperty, 1);
             }
             else //closed
             {
@@ -179,6 +190,17 @@ namespace MALClient.UserControls.New
                     RotateBackMangaListFiltersStoryboard.Begin();
                     _mangaFiltersExpanded = false;
                 }
+
+                //double column
+                ButtonImages.SetValue(Grid.RowProperty, 1);
+                ButtonImages.SetValue(Grid.ColumnProperty, 0);
+                ButtonImages.SetValue(Grid.ColumnSpanProperty, 2);
+                ButtonForums.SetValue(Grid.ColumnSpanProperty,2);
+
+                ButtonNews.SetValue(Grid.RowProperty, 1);
+                ButtonNews.SetValue(Grid.ColumnProperty, 0);
+                ButtonNews.SetValue(Grid.ColumnSpanProperty, 2);
+                ButtonArticles.SetValue(Grid.ColumnSpanProperty, 2);
             }
         }
 

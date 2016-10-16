@@ -72,8 +72,9 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async void SubmitQuery(string query)
         {
-            if (string.IsNullOrEmpty(query) || query == PrevQuery || query.Length < 2)
-                return;
+            if(!IsFirstVisitGridVisible)
+                if (string.IsNullOrEmpty(query) || query == PrevQuery || query.Length < 2)
+                    return;
             IsFirstVisitGridVisible = false;
             PrevQuery = query;
             Loading = true;

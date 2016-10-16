@@ -156,7 +156,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <ToggleSwitch
                             IsOn="{Binding ForceSearchIntoOffPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            OnContent="Load" OffContent="Skip" HorizontalAlignment="Center" />
+                            OnContent="Force" OffContent="Standard" HorizontalAlignment="Center" />
                     </Grid>                    
                     <TextBlock Text="When choosing at random ensure winner to be selected."
                                FontWeight="Medium"

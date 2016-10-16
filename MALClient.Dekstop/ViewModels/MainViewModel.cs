@@ -104,57 +104,61 @@ namespace MALClient.ViewModels
                 RefreshButtonVisibility = false;
                 ResetSearchFilter();
                 SearchToggleLock = false;
-                CurrentStatusSub = "";
                 CurrentHintSet = null;
             }
 
-            if (index == PageIndex.PageSeasonal ||
-                index == PageIndex.PageMangaList ||
-                index == PageIndex.PageTopManga ||
-                index == PageIndex.PageTopAnime ||
-                index == PageIndex.PageAnimeList)
+            switch (index)
             {
-                if (index == PageIndex.PageSeasonal || index == PageIndex.PageTopAnime ||
-                    index == PageIndex.PageTopManga || index == PageIndex.PageMangaList)
-                    currPage = index; //used by hamburger's filters
-                else
-                    currPage = PageIndex.PageAnimeList;
-                DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
-                index = PageIndex.PageAnimeList;
-            }
-            else if (index == PageIndex.PageSearch ||
-                     index == PageIndex.PageRecomendations ||
-                     index == PageIndex.PageProfile ||
-                     index == PageIndex.PageMangaSearch ||
-                     index == PageIndex.PageCalendar ||
-                     index == PageIndex.PageArticles ||
-                     index == PageIndex.PageNews ||
-                     index == PageIndex.PageMessanging ||
-                     index == PageIndex.PageForumIndex ||
-                     index == PageIndex.PageHistory ||
-                     index == PageIndex.PageCharacterSearch ||
-                     index == PageIndex.PageWallpapers)
-            {
-                CurrentStatusSub = "";
-                if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
-                    ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
-                     CurrentOffPage == PageIndex.PageSearch))
-                {
-                    var arg = args as SearchPageNavigationArgs;
-                    if (Settings.ForceSearchIntoOffPage || CurrentMainPage == PageIndex.PageForumIndex ||
-                        CurrentMainPage == PageIndex.PageProfile || CurrentOffPage == PageIndex.PageSearch)
+                case PageIndex.PageSeasonal:
+                case PageIndex.PageMangaList:
+                case PageIndex.PageTopManga:
+                case PageIndex.PageTopAnime:
+                case PageIndex.PageAnimeList:
+                    if (index == PageIndex.PageSeasonal || index == PageIndex.PageTopAnime ||
+                        index == PageIndex.PageTopManga || index == PageIndex.PageMangaList)
+                        currPage = index; //used by hamburger's filters
+                    else
+                        currPage = PageIndex.PageAnimeList;
+                    DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
+                    index = PageIndex.PageAnimeList;
+                    break;
+                case PageIndex.PageSearch:
+                case PageIndex.PageRecomendations:
+                case PageIndex.PageProfile:
+                case PageIndex.PageMangaSearch:
+                case PageIndex.PageCalendar:
+                case PageIndex.PageArticles:
+                case PageIndex.PageNews:
+                case PageIndex.PageMessanging:
+                case PageIndex.PageForumIndex:
+                case PageIndex.PageHistory:
+                case PageIndex.PageCharacterSearch:
+                case PageIndex.PageWallpapers:
+
+                    if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
+                        ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
+                         CurrentOffPage == PageIndex.PageSearch))
                     {
-                        arg.DisplayMode = SearchPageDisplayModes.Off;
-                        args = arg;
+                        var arg = args as SearchPageNavigationArgs;
+                        if (Settings.ForceSearchIntoOffPage || CurrentMainPage == PageIndex.PageForumIndex ||
+                            CurrentMainPage == PageIndex.PageProfile || CurrentOffPage == PageIndex.PageSearch)
+                        {
+                            arg.DisplayMode = SearchPageDisplayModes.Off;
+                            args = arg;
+                        }
+                        if ((args as SearchPageNavArgs).DisplayMode == SearchPageDisplayModes.Main)
+                        {
+                            CurrentStatusSub = "";
+                            DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
+                        }
                     }
-                    if ((args as SearchPageNavArgs).DisplayMode == SearchPageDisplayModes.Main)
+                    else
+                    {
+                        CurrentStatusSub = "";
                         DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
-                }
-                else
-                {
-                    DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
-                }
-                currPage = index;
+                    }
+                    currPage = index;
+                    break;
             }            
 
 
@@ -220,6 +224,10 @@ namespace MALClient.ViewModels
                         arg.DisplayMode = SearchPageDisplayModes.Off;
                     if (arg.DisplayMode == SearchPageDisplayModes.Off)
                     {
+                        if (CurrentMainPage == PageIndex.PageSearch)
+                        {
+                            break; // we are already on the left
+                        }
                         if (string.IsNullOrWhiteSpace(arg.Query))
                             arg.Query = CurrentSearchQuery;
                         arg.DisplayMode = SearchPageDisplayModes.Off;
@@ -230,6 +238,7 @@ namespace MALClient.ViewModels
                         ViewModelLocator.AnimeDetails.Id = -1;
                         StatusFilterVisibilityLock = false;
                         CurrentOffStatus = "Search";
+                        IsCurrentStatusSelectable = false;
                         OffNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
                     }
                     else

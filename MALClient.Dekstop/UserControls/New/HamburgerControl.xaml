@@ -557,7 +557,11 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="ButtonArticles" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -576,7 +580,11 @@
                                     <SymbolIcon Symbol="PreviewLink" HorizontalAlignment="Center"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
-                                            Foreground="{Binding ElementName=TxtArticles , Path=Foreground}" />
+                                            Foreground="{Binding ElementName=TxtArticles , Path=Foreground}" >
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Articles"/>
+                                        </ToolTipService.ToolTip>
+                                    </SymbolIcon>
                                     <TextBlock x:Name="TxtArticles" Text="Articles"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Articles]}"
@@ -585,7 +593,7 @@
                                            TextAlignment="Center" />
                                 </Grid>
                             </Button>
-                            <Button Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            <Button x:Name="ButtonNews" Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -608,6 +616,10 @@
                                         <SymbolIcon.RenderTransform>
                                             <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
                                         </SymbolIcon.RenderTransform>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="News"/>
+                                        </ToolTipService.ToolTip>
                                     </SymbolIcon>
                                     <TextBlock x:Name="TxtNews" Text="News"
                                            FontWeight="Medium"
@@ -623,7 +635,11 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="ButtonForums" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -642,7 +658,11 @@
                                     <SymbolIcon Symbol="Comment" HorizontalAlignment="Center"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
-                                            Foreground="{Binding ElementName=TxtForums , Path=Foreground}" />
+                                            Foreground="{Binding ElementName=TxtForums , Path=Foreground}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Forums"/>
+                                        </ToolTipService.ToolTip>
+                                    </SymbolIcon>
                                     <TextBlock x:Name="TxtForums" Text="Forums"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Forums]}"
@@ -651,7 +671,7 @@
                                            TextAlignment="Center" />
                                 </Grid>
                             </Button>
-                            <Button Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                            <Button x:Name="ButtonImages" Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -670,7 +690,11 @@
                                     <SymbolIcon Symbol="Pictures" HorizontalAlignment="Center"
                                             Grid.Column="0" Margin="0,0,2,0"
                                             VerticalAlignment="Center"
-                                            Foreground="{Binding ElementName=TxtWallpapers , Path=Foreground}" />
+                                            Foreground="{Binding ElementName=TxtWallpapers , Path=Foreground}" >
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Images"/>
+                                        </ToolTipService.ToolTip>
+                                    </SymbolIcon>
                                     <TextBlock x:Name="TxtWallpapers" Text="Images"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Wallpapers]}"
@@ -768,7 +792,7 @@
                             <ColumnDefinition Width="60" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" />
+                        <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" Margin="0,0,0,4" />
                         <TextBlock Text="Feedback" HorizontalAlignment="Left"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                         <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 

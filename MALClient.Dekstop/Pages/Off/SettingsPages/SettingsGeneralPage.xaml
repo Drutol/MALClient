@@ -208,7 +208,6 @@
                                                   BorderBrush="LightGray" BorderThickness="0,1,0,1"
                                                   Background="{ThemeResource BrushRowAlternate2}" />
                             <ToggleMenuFlyoutItem x:Name="Sort6" Text="Last watched"
-                                                  IsEnabled="{Binding HumApiDependatedntSectionsEnabled}"
                                                   Click="SelectSortOrder"
                                                   BorderBrush="LightGray"
                                                   BorderThickness="0,1,0,1"

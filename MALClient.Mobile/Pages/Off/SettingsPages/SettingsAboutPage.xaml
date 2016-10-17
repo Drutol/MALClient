@@ -105,12 +105,14 @@
                                     <Setter Property="TextAlignment" Value="Left" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Text="12.09.2016 v5.0.29.0 &amp; v5.0.28.0" />
-                            <TextBlock Text="Added promotional videos." />
-                            <TextBlock Text="Squeezed search into off section when navigating from forum/profile. (desktop)" />
-                            <TextBlock Text="Fixed mobile forum posting bug." />
-                            <TextBlock Text="Added &quot;ads on demand&quot;, you can enable ads for certain period of time." />
-                            <TextBlock Text="A few visual upgrades and fixes." />
+                            <TextBlock Text="18.09.2016 v5.1.1.0 &amp; v5.1.0.0" />
+                            <TextBlock Text="Added wallpapers/images browser." />
+                            <TextBlock Text="Unified search pages into one." />
+                            <TextBlock Text="Refreshed hamburger a bit." />
+                            <TextBlock Text="Added sorting by last watched value." />
+                            <TextBlock Text="Fixed duplicating promotional videos issue." />
+                            <TextBlock Text="Updated splashscreen images." />
+                            <TextBlock Text="And as always tons of little changes here and there. ^^" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

@@ -58,7 +58,7 @@
                     <StackPanel.Background>
                         <SolidColorBrush Color="Black" Opacity=".6"/>
                     </StackPanel.Background>
-                    <Image Source="/Assets/SplashScreen.scale-200.png"  Width="310" Height="150"
+                    <Image Source="/Assets/Wide310x150Logo.scale-400.png"  Width="310" Height="150"
                    VerticalAlignment="Center" />
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                         MinWidth="200">

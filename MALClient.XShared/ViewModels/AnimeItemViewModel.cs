@@ -979,6 +979,7 @@ namespace MALClient.XShared.ViewModels
             RaisePropertyChanged(() => TopLeftInfoBind);
             RaisePropertyChanged(() => GlobalScoreBind);
             RaisePropertyChanged(() => Type);
+            RaisePropertyChanged(() => PureType);
         }
 
         #endregion

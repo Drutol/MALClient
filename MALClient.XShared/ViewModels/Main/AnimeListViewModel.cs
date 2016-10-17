@@ -500,6 +500,8 @@ namespace MALClient.XShared.ViewModels.Main
         /// <param name="option"></param>
         public void SetSortOrder(SortOptions? option)
         {
+            option = option ??
+             (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder);
             if (Settings.AutoDescendingSorting && option != null)
             {
                 switch (option)
@@ -517,7 +519,7 @@ namespace MALClient.XShared.ViewModels.Main
                         _sortDescending = true;
                         break;
                     case SortOptions.SortLastWatched:
-                        _sortDescending = false;
+                        _sortDescending = true;
                         break;
                     case SortOptions.SortStartDate:
                         _sortDescending = false;
@@ -535,9 +537,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 SortingSettingChanged?.Invoke(option.Value,_sortDescending);
             }
-
-            SortOption = option ??
-                         (WorkMode == AnimeListWorkModes.Manga ? Settings.MangaSortOrder : Settings.AnimeSortOrder);
+            SortOption = option.Value;
         }
 
         private void SetDefaults(int? statusOverride = null)
@@ -547,9 +547,10 @@ namespace MALClient.XShared.ViewModels.Main
                 SetDesiredStatus(null);
             else
                 StatusSelectorSelectedIndex = statusOverride.Value;
-            SortDescending = WorkMode == AnimeListWorkModes.Manga
-                ? Settings.IsMangaSortDescending
-                : Settings.IsSortDescending;
+            if (!Settings.AutoDescendingSorting)
+                SortDescending = WorkMode == AnimeListWorkModes.Manga
+                    ? Settings.IsMangaSortDescending
+                    : Settings.IsSortDescending;
         }
 
         private async void LoadMore()

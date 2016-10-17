@@ -169,7 +169,6 @@
                                                             Visibility="{Binding SortAirDayVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
                                                             Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding HumApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                                             CommandParameter="4" GroupName="SortOptionsPivotUpperItems" />
                         <derived:RadioToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
                                                             Command="{Binding SetSortModeCommand}"

@@ -129,8 +129,7 @@
                         <ToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing" Click="SelectSortMode"
                                                       Visibility="{Binding SortAirDayVisibility}" Style="{StaticResource SortBtnStyle}"/>
                         <ToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last watched"
-                                                      Click="SelectSortMode"
-                                                      Visibility="{Binding HumApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource SortBtnStyle}"/>
+                                                      Click="SelectSortMode"/>                    
                         <ToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
                                                              Click="SelectSortMode"
                                                              Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"

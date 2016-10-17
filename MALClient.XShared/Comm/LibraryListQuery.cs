@@ -95,7 +95,8 @@ namespace MALClient.XShared.Comm
                                     MyEndDate = item.Element("my_finish_date").Value,
                                     MyScore = Convert.ToInt32(item.Element("my_score").Value),
                                     Notes = item.Element("my_tags").Value,
-                                    IsRewatching = item.Element("my_rewatching").Value == "1"
+                                    IsRewatching = item.Element("my_rewatching").Value == "1",
+                                    LastWatched = Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
                                 });
                             }
                             break;
@@ -118,7 +119,8 @@ namespace MALClient.XShared.Comm
                                     MyVolumes = Convert.ToInt32(item.Element("my_read_volumes").Value),
                                     AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value),
                                     IsRewatching = item.Element("my_rereadingg").Value == "1",
-                                    Notes = item.Element("my_tags").Value
+                                    Notes = item.Element("my_tags").Value,
+                                    LastWatched = Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
                                 });
                             }
                             break;

@@ -630,6 +630,12 @@ namespace MALClient.XShared.Utils
                     value.Select(source => ((int) source).ToString()));
             }
         }
+
+        public static int WallpapersBaseAmount
+        {
+            get { return (int)(ApplicationDataService[nameof(WallpapersBaseAmount)] ?? (ViewModelLocator.Mobile ? 2 : 4)); }
+            set { ApplicationDataService[nameof(WallpapersBaseAmount)] = value; }
+        }
         #endregion
     }
 }

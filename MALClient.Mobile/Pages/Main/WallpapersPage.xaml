@@ -15,10 +15,14 @@
 
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:BoolInverterConverter x:Key="BoolInverterConverter" />
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="Sources" Icon="ClosePane">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Refresh" Icon="Refresh" Command="{Binding RefreshCommand}"/>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Label="Sources" Icon="ClosePane" x:Name="SourcesAppBarBtn">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <ToggleMenuFlyoutItem x:Name="SourceAnWp" Text="/r/AnimeWallpaper" Click="SourcesToggleButtonOnClick" Tag="0"/>
@@ -31,9 +35,18 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Label="Refresh" Icon="Refresh" Command="{Binding RefreshCommand}"/>
+            <AppBarButton Label="Amount of wallpapers" Icon="GoToStart">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <derived:RadioToggleMenuFlyoutItem x:Name="AmountMore" Text="More" Click="AmountOfWallpaperMenuFlyoutItemOnClick" GroupName="WallpapersAmountOf" Tag="6"/>
+                        <derived:RadioToggleMenuFlyoutItem x:Name="AmountStanard" Text="Standard" Click="AmountOfWallpaperMenuFlyoutItemOnClick" GroupName="WallpapersAmountOf" Tag="4"/>
+                        <derived:RadioToggleMenuFlyoutItem x:Name="AmountLess" Text="Less" Click="AmountOfWallpaperMenuFlyoutItemOnClick" GroupName="WallpapersAmountOf" Tag="2"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarSeparator/>
             <AppBarButton Label="Previous page" Icon="Previous" Command="{Binding GoBackwardsCommand}" IsEnabled="{Binding IsGoBackwardsButtonEnabled}"/>
-            <AppBarButton Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}"/>
+            <AppBarButton Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}" IsEnabled="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolInverterConverter}}"/>
         </CommandBar>
     </Page.BottomAppBar>
     
@@ -57,3 +70,4 @@
                       Visibility="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Page>
+

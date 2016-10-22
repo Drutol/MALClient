@@ -171,6 +171,7 @@
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimatedVisibilityExtension.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
+    <Compile Include="UserControls\AttachedProperties\MonitoredImageSourceExtension.cs" />
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>
@@ -194,6 +195,7 @@
     <Compile Include="XamlConverters\AnimeItemAirDayBoolToBrushConverter.cs" />
     <Compile Include="XamlConverters\AnimeItemIsThereAnyTextTopLeftToTitleMarginConverter.cs" />
     <Compile Include="XamlConverters\AreItemsSelectedInListViewConverter.cs" />
+    <Compile Include="XamlConverters\BoolInverterConverter.cs" />
     <Compile Include="XamlConverters\BoolToAnimeItemManipulationModesConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />

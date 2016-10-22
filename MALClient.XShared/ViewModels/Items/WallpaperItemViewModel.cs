@@ -50,6 +50,23 @@ namespace MALClient.XShared.ViewModels.Items
             }
         }
 
+        public string Created
+        {
+            get
+            {
+                var diff = DateTime.UtcNow - Data.DateTime;
+                if (diff.TotalDays > 7)
+                    return Data.DateTime.ToString("d");
+                if (diff.Days > 0)
+                    return $"{diff.Days} days ago";
+                if (diff.Hours > 0)
+                    return $"{diff.Hours} hours ago";
+                if (diff.Minutes > 0)
+                    return $"{diff.Minutes} minutes ago";
+                return "just now";
+            }
+        }
+
         public ICommand CopyLinkCommand => _copyLinkCommand ?? (_copyLinkCommand = new RelayCommand(() => ResourceLocator.ClipboardProvider.SetText(Data.FileUrl)));
         public ICommand OpenRedditCommand => _openRedditCommand ?? (_openRedditCommand = new RelayCommand(() => ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(Data.RedditUrl))));
         public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new RelayCommand(() => ResourceLocator.ImageDownloaderService.DownloadImageDefault(Data.FileUrl,string.Join(" ",Data.Title.Split(' ').Take(3)),false)));

@@ -22,6 +22,7 @@
         <xamlConverters:StringToFlatStringConverter x:Key="StringToFlatStringConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
         <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
+        <xamlConverters:FavouriteBaseToStaffPersonToIsUnknownVisibilityConverter x:Key="FavouriteBaseToStaffPersonToIsUnknownVisibilityConverter" />
     </Page.Resources>
 
     <Page.Transitions>

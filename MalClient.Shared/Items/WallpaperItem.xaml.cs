@@ -79,7 +79,7 @@ namespace MALClient.Shared.Items
             }
         }
 
-        private async void UIElement_OnPointerPressed(object sender, PointerRoutedEventArgs args)
+        private async void UIElement_OnTapped(object sender, TappedRoutedEventArgs args)
         {
             if (ViewModel.IsBlurred)
                 await Image.Blur().StartAsync();

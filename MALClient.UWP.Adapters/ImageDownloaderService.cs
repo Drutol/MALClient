@@ -44,7 +44,7 @@ namespace MALClient.UWP.Adapters
             {
                 var lib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
                 var folder = await lib.SaveFolder.CreateFolderAsync("MALCLient Images",CreationCollisionOption.OpenIfExists);
-                var file = await folder.CreateFileAsync(suggestedFilename + ".png");
+                var file = await folder.CreateFileAsync(UWPUtilities.SanitizeFileName(suggestedFilename) + ".png");
                 await Download(url, file,animeCover);
                 UWPUtilities.GiveStatusBarFeedback("File saved successfully.");
             }

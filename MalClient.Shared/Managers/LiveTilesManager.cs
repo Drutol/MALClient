@@ -182,8 +182,12 @@ namespace MALClient.XShared.Utils.Managers
                 if (action.Action == TileActions.OpenUrl)
                 if (!action.Param.Contains("http"))
                     action.Param = "http://" + action.Param;
-                var tile = new SecondaryTile(entry.Id.ToString(), "MALClient", string.Join(";",new string[] { action.Action.ToString(), action.Param}), imgUri,
+                var tile = new SecondaryTile(entry.Id.ToString(), 
+                    "MALClient", 
+                    string.Join(";", action.Action.ToString(), action.Param), 
+                    imgUri,
                     TileSize.Square150x150);
+
                 tile.WideLogo = wideImgUri;
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();

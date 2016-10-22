@@ -18,12 +18,24 @@ namespace MALClient.XShared.Comm.Anime
         private readonly string _subreddit;
         private readonly int _page;
         private readonly WallpaperSources _source;
+        private static int _baseItemsToPull = Settings.WallpapersBaseAmount;
+
         private static readonly Dictionary<int,List<AnimeWallpaperData>> Cache = new Dictionary<int, List<AnimeWallpaperData>>();
         private static List<WallpaperSources> _previousSourceSet;
         private static int _itemsToPull;
-        public static int BaseItemsToPull { get; set; }
+
+        public static int BaseItemsToPull
+        {
+            get { return _baseItemsToPull; }
+            set
+            {
+                _baseItemsToPull = value;
+                Reset();
+            }
+        }
 
         private static readonly Dictionary<string,List<string>> LastThings = new Dictionary<string, List<string>>(); //as reddit calls them "things"
+
 
         public static async Task<List<AnimeWallpaperData>> GetAllWallpapers(int page)
         {
@@ -35,8 +47,12 @@ namespace MALClient.XShared.Comm.Anime
                 Cache.Clear();
                 LastThings.Clear();
                 page = 0;
+                ViewModelLocator.Wallpapers.CurrentPage = 0;                           
+            }
+            if (page > LastThings.Count)
+            {
+                page = 0;
                 ViewModelLocator.Wallpapers.CurrentPage = 0;
-                            
             }
             _itemsToPull = BaseItemsToPull + (allSubsCount - currentSubs.Count);
             _previousSourceSet = currentSubs;
@@ -58,7 +74,7 @@ namespace MALClient.XShared.Comm.Anime
             {
                 output.AddRange(task.Result);
             }
-            output = output.OrderByDescending(data => data.Upvotes).ToList();
+            output = output.Distinct().OrderByDescending(data => data.DateTime).ToList();
             Cache.Add(page, output);
             return output;
         }
@@ -113,6 +129,7 @@ namespace MALClient.XShared.Comm.Anime
                         Upvotes = child.data.ups,
                         RedditUrl = "https://www.reddit.com" + child.data.permalink,
                         Source = _source,
+                        DateTime = Utilities.ConvertFromUnixTimestamp(child.data.created_utc)
                     }).ToList();
         }
     }

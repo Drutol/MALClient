@@ -94,6 +94,8 @@ namespace MALClient.XShared.Utils
             if (Regex.IsMatch(uri, "anime\\/\\d") || Regex.IsMatch(uri, "manga\\/\\d"))
             {
                 var link = uri.Substring(8).Split('/');
+                if (link.Length < 3) //we probably don't have name 
+                    return null;
                 var id = int.Parse(link[2]);
                 if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
                     id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();

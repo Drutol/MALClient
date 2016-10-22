@@ -49,7 +49,7 @@ namespace MALClient.Shared.ViewModels
 
 
 
-        private Visibility _urlInputVisibility = Visibility.Visible;
+        private Visibility _urlInputVisibility = Visibility.Collapsed;
 
         public Visibility UrlInputVisibility
         {
@@ -99,7 +99,7 @@ namespace MALClient.Shared.ViewModels
             }
         }
 
-        private int _selectedActionIndex = 0;
+        private int _selectedActionIndex = 2;
 
         public int SelectedActionIndex
         {
@@ -413,7 +413,8 @@ namespace MALClient.Shared.ViewModels
                         break;
                     default:
                         action.Action = TileActions.OpenDetails;
-                        action.Param = EntryData.Id + "|" + EntryData.Title;
+                        action.Param =
+                            $"https://myanimelist.net/{(EntryData.ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{EntryData.Id}/{EntryData.Title}";
                         break;
                 }
                 await LiveTilesManager.PinTile(EntryData, (SelectedImageOptionIndex == 0 ? new Uri($"ms-appdata:///temp/{_lastCroppedFileName}") : null), (SelectedImageOptionIndex == 0 ? new Uri($"ms-appdata:///temp/{_lastCroppedFileNameWide}") : null), PinSettings, action);

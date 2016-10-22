@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -77,15 +78,20 @@ namespace MALClient
             var launchArgs = e as LaunchActivatedEventArgs;
             if (!string.IsNullOrWhiteSpace(launchArgs?.Arguments))
             {
-                if (launchArgs.Arguments.Contains(";"))
+               
+                if (Regex.IsMatch(launchArgs.Arguments, @"[OpenUrl,OpenDetails];.*"))
                 {
                     var options = launchArgs.Arguments.Split(';');
                     if (options[0] == TileActions.OpenUrl.ToString())
                         LaunchUri(options[1]);
-                    else if (launchArgs.Arguments.Contains('|'))
+                    else if (launchArgs.Arguments.Contains('|')) //legacy
                     {
                         var detailArgs = options[1].Split('|');
                         navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    }
+                    else
+                    {
+                        fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(options[1]);
                     }
                 }
                 else

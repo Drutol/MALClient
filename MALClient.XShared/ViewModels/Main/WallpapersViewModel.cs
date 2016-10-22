@@ -25,11 +25,6 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _goBackwardsCommand;
         private ICommand _refreshCommand;
 
-        static WallpapersViewModel()
-        {
-            AnimeWallpapersQuery.BaseItemsToPull = ViewModelLocator.Mobile ? 2 : 4;
-        }
-
         public ObservableCollection<WallpaperItemViewModel> Wallpapers
         {
             get { return _wallpapers; }

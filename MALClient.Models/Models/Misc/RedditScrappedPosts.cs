@@ -16,7 +16,24 @@ namespace MALClient.Models.Models.Misc
         public string FileUrl { get; set; }
         public bool Nsfw { get; set; }
         public int Upvotes { get; set; }
+        public DateTime DateTime { get; set; }
         public WallpaperSources Source { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var img = obj as AnimeWallpaperData;
+            return img?.FileUrl == FileUrl;
+        }
+
+        protected bool Equals(AnimeWallpaperData other)
+        {
+            return string.Equals(FileUrl, other.FileUrl);
+        }
+
+        public override int GetHashCode()
+        {
+            return FileUrl?.GetHashCode() ?? 0;
+        }
     }
 
     public class Facets

@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:items="using:MALClient.XShared.ViewModels.Items"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:attProp="using:MALClient.Shared.UserControls.AttachedProperties"
     xmlns:imgExt="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     mc:Ignorable="d"
@@ -17,58 +17,74 @@
     <UserControl.Resources>
         <xamlConverters:BoolToWallpaperBlurValueConverter x:Key="BoolToWallpaperBlurValueConverter" />
     </UserControl.Resources>
-    
-    <Grid Background="{StaticResource BrushAnimeItemInnerBackground}" PointerPressed="UIElement_OnPointerPressed" RightTapped="WallpaperOnRightTapped" Holding="WallpaperOnHolding" IsRightTapEnabled="True">
+
+    <Grid Background="{StaticResource BrushAnimeItemInnerBackground}" Tapped="UIElement_OnTapped"
+          RightTapped="WallpaperOnRightTapped" Holding="WallpaperOnHolding" IsRightTapEnabled="True">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout>
-                <MenuFlyoutItem Text="Save" Command="{Binding SaveCommand}"/>
-                <MenuFlyoutItem Text="Save as" Command="{Binding SaveAsCommand}"/>
-                <MenuFlyoutItem Text="Copy link and open waifu2x" Command="{Binding CopyAndWaifuCommand}"/>
-                <MenuFlyoutItem Text="Open on reddit" Command="{Binding OpenRedditCommand}"/>
-                <MenuFlyoutItem Text="Copy link" Command="{Binding CopyLinkCommand}"/>
+                <MenuFlyoutItem Text="Save" Command="{Binding SaveCommand}" />
+                <MenuFlyoutItem Text="Save as" Command="{Binding SaveAsCommand}" />
+                <MenuFlyoutItem Text="Copy link and open waifu2x" Command="{Binding CopyAndWaifuCommand}" />
+                <MenuFlyoutItem Text="Open on reddit" Command="{Binding OpenRedditCommand}" />
+                <MenuFlyoutItem Text="Copy link" Command="{Binding CopyLinkCommand}" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
         <Grid SizeChanged="FrameworkElement_OnSizeChanged">
-            <Image imgExt:ImageExtensions.FadeInOnLoaded="True" Grid.Row="0" x:Name="Image" IsHoldingEnabled="True" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image imgExt:ImageExtensions.FadeInOnLoaded="True" Grid.Row="0" x:Name="Image" IsHoldingEnabled="True"
+                   Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" attProp:MonitoredImageSourceExtension.MonitoredSource="{Binding Data.FileUrl}">
                 <Image.Source>
-                    <BitmapImage x:Name="Bitmap" UriSource="{Binding Data.FileUrl}" DownloadProgress="Bitmap_OnDownloadProgress" ImageOpened="Bitmap_OnImageOpened"/>
+                    <BitmapImage x:Name="Bitmap" 
+                                 DownloadProgress="Bitmap_OnDownloadProgress" ImageOpened="Bitmap_OnImageOpened" />
                 </Image.Source>
             </Image>
             <StackPanel x:Name="ImgLoading" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20">
-                <ProgressRing Width="25"  Height="25" Foreground="{ThemeResource BrushNoSearchResults}" IsActive="True"/>
-                <TextBlock x:Name="DlProgress" HorizontalAlignment="Center" Margin="0,5"/>
+                <ProgressRing Width="25" Height="25" Foreground="{ThemeResource BrushNoSearchResults}" IsActive="True" />
+                <TextBlock x:Name="DlProgress" Text="Waiting..." HorizontalAlignment="Center" Margin="0,5" />
             </StackPanel>
             <Grid x:Name="BoundingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,0,0">
                 <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75"/>
+                        <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock  Margin="5" FontWeight="SemiLight">
-                /r/<Run Text="{Binding Data.Source}"/>
+                    <TextBlock Margin="5" FontWeight="SemiLight">
+                        /r/<Run Text="{Binding Data.Source}" />
                     </TextBlock>
                 </Grid>
-                <Grid x:Name="ResolutionGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="Collapsed">
+                <Grid x:Name="ResolutionGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                      Visibility="Collapsed">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75"/>
+                        <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock  Margin="5" FontWeight="SemiLight">
-               <Run Text="{Binding Resolution}"/>
+                    <TextBlock Margin="5" FontWeight="SemiLight">
+                        <Run Text="{Binding Resolution}" />
+                    </TextBlock>
+                </Grid>
+                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black" Opacity=".75" />
+                    </Grid.Background>
+                    <TextBlock Margin="5" FontWeight="SemiLight">
+                        <Run Text="{Binding Created}" />
                     </TextBlock>
                 </Grid>
             </Grid>
         </Grid>
 
-        <Grid x:Name="DescriptionGrid" Background="{StaticResource BrushAnimeItemBackground}" Width="{Binding ElementName=Image,Path=ActualWidth}" Padding="0,10" Grid.Row="1" MinWidth="300">
+        <Grid x:Name="DescriptionGrid" Background="{StaticResource BrushAnimeItemBackground}"
+              Width="{Binding ElementName=Image,Path=ActualWidth}" Padding="0,10" Grid.Row="1" MinWidth="300">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Data.Title}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="10,0"/>
-            <TextBlock Grid.Column="1" Text="{Binding Data.Upvotes}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0"/>
+            <TextBlock Text="{Binding Data.Title}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                       Margin="10,0" />
+            <TextBlock Grid.Column="1" Text="{Binding Data.Upvotes}"
+                       Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="Bold"
+                       VerticalAlignment="Center" Margin="10,0" />
         </Grid>
     </Grid>
 </UserControl>

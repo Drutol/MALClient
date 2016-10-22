@@ -11,10 +11,13 @@ namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeRecomendationsQuery : Query
     {
-        public AnimeRecomendationsQuery()
+        private readonly bool _anime;
+
+        public AnimeRecomendationsQuery(bool anime = true)
         {
+            _anime = anime;
             Request =
-                WebRequest.Create(Uri.EscapeUriString("https://myanimelist.net/recommendations.php?s=recentrecs&t=anime"));
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/recommendations.php?s=recentrecs&t={(anime ? "anime" : "manga")}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
@@ -33,7 +36,7 @@ namespace MALClient.XShared.Comm.Anime
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Recommendations:recommNode:class"]).Take(20);
+                            HtmlClassMgr.ClassDefs["#Recommendations:recommNode:class"]).Take(30);
                 //constant 20 recommendations
 
             foreach (var recomNode in recomNodes)
@@ -58,6 +61,7 @@ namespace MALClient.XShared.Comm.Anime
 
                         output.Add(new RecommendationData
                         {
+                            IsAnime = _anime,
                             DependentId = ids[0],
                             RecommendationId = ids[1],
                             DependentTitle = titles[0],

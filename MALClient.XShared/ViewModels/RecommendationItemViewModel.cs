@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
+using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
 
@@ -51,14 +52,14 @@ namespace MALClient.XShared.ViewModels
                 //Find for first
                 Data.AnimeDependentData =
                     await
-                        new AnimeGeneralDetailsQuery().GetAnimeDetails(false, Data.DependentId.ToString(), Data.DependentTitle, true,
+                        new AnimeGeneralDetailsQuery().GetAnimeDetails(false, Data.DependentId.ToString(), Data.DependentTitle, Data.IsAnime,
                             ApiType.Mal);
 
                 //Find for second
                 Data.AnimeRecommendationData =
                     await
                         new AnimeGeneralDetailsQuery().GetAnimeDetails(false, Data.RecommendationId.ToString(),
-                            Data.RecommendationTitle, true, ApiType.Mal);
+                            Data.RecommendationTitle, Data.IsAnime, ApiType.Mal);
 
                 //If for some reason we fail
                 if (Data.AnimeDependentData == null || Data.AnimeRecommendationData == null)
@@ -70,15 +71,24 @@ namespace MALClient.XShared.ViewModels
             }
 
             RaisePropertyChanged(() => Data);
+            IAnimeData myDepItem, myRecItem;
+            if (Data.IsAnime)
+            {
+                myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.DependentId);
+                myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.RecommendationId);
+            }
+            else
+            {
+                myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.DependentId,false);
+                myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.RecommendationId,false);
+            }
 
-            var myDepItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.DependentId);
-            var myRecItem = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(Data.RecommendationId);
 
-            DetailItems.Add(new Tuple<string, string, string, string, string>("Episodes:",
+            DetailItems.Add(new Tuple<string, string, string, string, string>($"{(Data.IsAnime ? "Episodes" : "Chapters")}:",
                 Data.AnimeDependentData.AllEpisodes != 0 ? Data.AnimeDependentData.AllEpisodes.ToString() : "?",
-                myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{Data.AnimeDependentData.AllEpisodes}",
+                myDepItem?.MyEpisodes == null ? "" : myDepItem.MyEpisodes + $"/{(Data.AnimeDependentData.AllEpisodes == 0 ? "?" : Data.AnimeDependentData.AllEpisodes.ToString())}",
                 Data.AnimeRecommendationData.AllEpisodes != 0 ? Data.AnimeRecommendationData.AllEpisodes.ToString() : "?",
-                myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{Data.AnimeRecommendationData.AllEpisodes}"));
+                myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{(Data.AnimeRecommendationData.AllEpisodes == 0 ? "?" : Data.AnimeRecommendationData.AllEpisodes.ToString())}"));
             DetailItems.Add(new Tuple<string, string, string, string, string>("Score:",
                 Data.AnimeDependentData.GlobalScore.ToString(),
                 myDepItem?.MyScore == null ? "" : (myDepItem.MyScore == 0 ? "N/A" : $"{myDepItem.MyScore}/10"),

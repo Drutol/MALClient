@@ -69,7 +69,7 @@ namespace MALClient.Shared.Items
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(ViewModel.Data.RecommendationId, ViewModel.Data.RecommendationTitle,
                        ViewModel.Data.AnimeRecommendationData, null,
-                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations, AnimeMode = ViewModel.Data.IsAnime});
         }
 
         private void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
@@ -80,7 +80,7 @@ namespace MALClient.Shared.Items
                 .Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(ViewModel.Data.DependentId, ViewModel.Data.DependentTitle,
                         ViewModel.Data.AnimeDependentData, null,
-                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations});
+                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations, AnimeMode = ViewModel.Data.IsAnime });
         }
     }
 }

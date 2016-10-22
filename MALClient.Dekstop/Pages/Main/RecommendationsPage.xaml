@@ -23,12 +23,14 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
+
         <Pivot x:Name="Pivot" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationItems}"
-               SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
+               SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading" Padding="0" Margin="0">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
                 <Style TargetType="PivotItem">
-                    <Setter Property="Margin" Value="2,0,2,0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0" />
                 </Style>
             </Pivot.Resources>
             <Pivot.HeaderTemplate>
@@ -44,6 +46,15 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
+        <Button Height="60" Width="40" Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
+            <Button.Flyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="Anime recommendations" Command="{Binding SwitchToAnimeCommand}"/>
+                    <MenuFlyoutItem Text="Manga recommendations" Command="{Binding SwitchToMangaCommand}"/>
+                </MenuFlyout>
+            </Button.Flyout>
+            <SymbolIcon Symbol="ReShare" VerticalAlignment="Center"/>
+        </Button>
         <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"
                       Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />

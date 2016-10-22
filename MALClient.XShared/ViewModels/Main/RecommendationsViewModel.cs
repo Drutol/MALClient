@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.Anime;
 
@@ -9,19 +11,20 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public class RecommendationsViewModel : ViewModelBase
     {
-        private bool _loading = true;
-
-        private int _pivotItemIndex;
-
-        public RecommendationsViewModel()
-        {
-            PopulateData();
-        }
-
         public class XPivotItem
         {
             public object Header { get; set; }
             public object Content { get; set; }
+        }
+
+        private bool _loading = true;
+
+        private int _pivotItemIndex;
+        private bool _animeMode = true;
+
+        public RecommendationsViewModel()
+        {
+            PopulateData();
         }
 
         public ObservableCollection<XPivotItem> RecommendationItems { get; } = new ObservableCollection<XPivotItem>();
@@ -47,16 +50,36 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        public bool AnimeMode
+        {
+            get { return _animeMode; }
+            set
+            {
+                if(_animeMode == value)
+                    return;
+
+                _animeMode = value;
+                PopulateData();             
+            }
+        }
+
+        public ICommand SwitchToAnimeCommand => new RelayCommand(() => AnimeMode = true);
+
+        public ICommand SwitchToMangaCommand => new RelayCommand(() => AnimeMode = false);
+
         public async void PopulateData()
         {
             Loading = true;
             var data = new List<RecommendationData>();
-            await Task.Run(async () => data = await new AnimeRecomendationsQuery().GetRecomendationsData());
+            ViewModelLocator.GeneralMain.CurrentStatus = AnimeMode ? "Anime Recommendations" : "Manga Recommendations";
+            await Task.Run(async () => data = await new AnimeRecomendationsQuery(AnimeMode).GetRecomendationsData());
+
             if (data == null)
             {
                 Loading = false;
                 return;
             }
+
             RecommendationItems.Clear();
             var i = 0;
             foreach (var item in data)

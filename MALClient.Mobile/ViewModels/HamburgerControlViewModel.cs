@@ -280,6 +280,7 @@ namespace MALClient.ViewModels
             TxtForegroundBrushes["Forums"] = new SolidColorBrush(color);
             TxtForegroundBrushes["CharacterSearch"] = new SolidColorBrush(color);
             TxtForegroundBrushes["Wallpapers"] = new SolidColorBrush(color);
+            TxtForegroundBrushes["PopularVideos"] = new SolidColorBrush(color);
 
             TxtBorderBrushThicknesses["AnimeList"] = new Thickness(0);
             TxtBorderBrushThicknesses["MangaList"] = new Thickness(0);
@@ -299,6 +300,7 @@ namespace MALClient.ViewModels
             TxtBorderBrushThicknesses["Forums"] = new Thickness(0);
             TxtBorderBrushThicknesses["CharacterSearch"] = new Thickness(0);
             TxtBorderBrushThicknesses["Wallpapers"] = new Thickness(0);
+            TxtBorderBrushThicknesses["PopularVideos"] = new Thickness(0);
         }
 
         public void SetActiveButton(HamburgerButtons val)

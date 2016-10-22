@@ -279,6 +279,11 @@ namespace MALClient.ViewModels
                     RefreshButtonVisibility = false;
                     MainNavigationRequested?.Invoke(typeof(WallpapersPage),args);
                     break;
+                case PageIndex.PagePopularVideos:
+                    HideSearchStuff();
+                    CurrentStatus = "Popular Videos";
+                    MainNavigationRequested?.Invoke(typeof(PopularVideosPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

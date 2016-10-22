@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="MALClient.Pages.Main.PopularVideosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ext="using:WinRTXamlToolkit.Controls.Extensions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=PopularVideos}">
+
+    <Page.Resources>
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+    <Grid Background="{ThemeResource BrushDeepBackground}" HorizontalAlignment="Stretch">
+        <GridView ItemsSource="{Binding Videos}" ItemClick="ListViewBase_OnItemClick" HorizontalAlignment="Center" Background="Transparent" IsItemClickEnabled="True">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Padding" Value="2" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid ItemWidth="225" ItemHeight="360" Orientation="Horizontal" Margin="0,0,10,0" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition FromVerticalOffset="100" />
+                    <AddDeleteThemeTransition />
+                    <ReorderThemeTransition />
+                    <RepositionThemeTransition />
+                </TransitionCollection>
+            </GridView.ItemContainerTransitions>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="300"/>
+                            <RowDefinition Height="60"/>
+                        </Grid.RowDefinitions>
+                        <Image ext:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Thumb}" Stretch="UniformToFill"/>
+                        <Grid Padding="3" Grid.Row="1" BorderThickness="0,1,0,0" Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <Button Style="{StaticResource TextBlockButtonStyle}" Padding="0" VerticalAlignment="Top" Click="BtnNavDetails" Foreground="{ThemeResource BrushText}">
+                                <TextBlock TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2">
+                                <Run Text="{Binding Name}" FontWeight="Bold" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>  -  <Run Text="{Binding AnimeTitle}"/>
+                                </TextBlock>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <ProgressRing IsActive="True" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"
+                      Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
+    </Grid>
+</Page>

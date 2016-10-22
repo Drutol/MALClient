@@ -13,7 +13,7 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ProgressRing IsActive="True" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <ProgressRing IsActive="True" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"
                       Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         <WebView x:Name="ArticleWebView" DOMContentLoaded="ArticleWebView_OnDOMContentLoaded"
                  NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark"

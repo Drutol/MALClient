@@ -132,6 +132,9 @@
     <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
       <DependentUpon>ForumTopicPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\PopularVideosPage.xaml.cs">
+      <DependentUpon>PopularVideosPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\WallpapersPage.xaml.cs">
       <DependentUpon>WallpapersPage.xaml</DependentUpon>
     </Compile>
@@ -290,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\PopularVideosPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -377,13 +377,13 @@
                                         </Button>
                                     </StackPanel>
                                 </PivotItem>
-                                <PivotItem Header="More" Height="270">
+                                <PivotItem Header="More">
                                     <StackPanel VerticalAlignment="Top">
                                         <Button VerticalContentAlignment="Center" Background="Transparent"
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="14">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="240" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -408,7 +408,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="15">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="240" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -435,7 +435,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="18">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="240" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -461,7 +461,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="22">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="240" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -486,7 +486,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="23">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="240" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -501,6 +501,31 @@
                                                                 Foreground="{Binding ElementName=TxtWallpapers , Path=Foreground}" />
                                                 <TextBlock x:Name="TxtWallpapers" Text="Images"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[Wallpapers]}"
+                                                               HorizontalAlignment="Left" Margin="25,0,0,0"
+                                                               Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center" />
+                                            </Grid>
+                                        </Button>                                        
+                                        <Button VerticalContentAlignment="Center" Background="Transparent"
+                                                    BorderThickness="0" 
+                                                    Command="{Binding ButtonNavigationCommand}"
+                                                    CommandParameter="24">
+                                            <Grid Width="240" Height="40">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border
+                                                        BorderThickness="{Binding TxtBorderBrushThicknesses[PopularVideos]}"
+                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                        Grid.ColumnSpan="2" />
+                                                <SymbolIcon Symbol="Video" HorizontalAlignment="Center"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{Binding ElementName=TxtPopVid , Path=Foreground}" />
+                                                <TextBlock x:Name="TxtPopVid" Text="Popular Videos"
+                                                               Foreground="{Binding Path=TxtForegroundBrushes[PopularVideos]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
                                                                VerticalAlignment="Center"

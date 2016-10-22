@@ -355,7 +355,8 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageArticles:
                 case PageIndex.PageForumIndex:
                 case PageIndex.PageStaffDetails:
-                case PageIndex.PageCharacterDetails:
+                case PageIndex.PageCharacterDetails: 
+                case PageIndex.PagePopularVideos: 
                     await FetchData(false, param.Source);
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
@@ -1261,7 +1262,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         #endregion
 
-        private async void OpenVideo(AnimeVideoData data)
+        public static async void OpenVideo(AnimeVideoData data)
         {
             try
             {
@@ -1276,7 +1277,6 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong with loading this video, probably google has messed again with their api again... yay!","Unable to load youtube video!");
             }
-
         }
     }
 }

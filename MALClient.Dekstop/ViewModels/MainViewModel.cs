@@ -136,6 +136,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageHistory:
                 case PageIndex.PageCharacterSearch:
                 case PageIndex.PageWallpapers:
+                case PageIndex.PagePopularVideos:
 
                     if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
                         ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
@@ -163,7 +164,6 @@ namespace MALClient.ViewModels
                     break;
             }            
 
-
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
                 SearchToggleStatus = (bool) _searchStateBeforeNavigatingToSearch;
@@ -172,6 +172,7 @@ namespace MALClient.ViewModels
                 else
                     HideSearchStuff();
             }
+
             switch (index)
             {
                 case PageIndex.PageAnimeList:
@@ -390,6 +391,11 @@ namespace MALClient.ViewModels
                 case PageIndex.PageWallpapers:
                     HideSearchStuff();
                     MainNavigationRequested?.Invoke(typeof(WallpapersPage),args);
+                    break;
+                case PageIndex.PagePopularVideos:
+                    HideSearchStuff();
+                    CurrentStatus = "Popular Videos";
+                    MainNavigationRequested?.Invoke(typeof(PopularVideosPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

@@ -21,6 +21,7 @@
         Forums,
         History,
         CharacterSearch,
-        Wallpapers
+        Wallpapers,
+        PopularVideos
     }
 }

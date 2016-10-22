@@ -110,6 +110,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\PopularVideosPage.xaml.cs">
+      <DependentUpon>PopularVideosPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\WallpapersPage.xaml.cs">
       <DependentUpon>WallpapersPage.xaml</DependentUpon>
     </Compile>
@@ -233,6 +236,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Main\PopularVideosPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

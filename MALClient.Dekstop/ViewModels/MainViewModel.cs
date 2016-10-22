@@ -22,6 +22,7 @@ using MALClient.Pages.Forums;
 using MALClient.Pages.Main;
 using MALClient.Pages.Messages;
 using MALClient.Pages.Off;
+using MALClient.Shared.Managers;
 using MALClient.Shared.ViewModels.Interfaces;
 using MALClient.UserControls;
 using MALClient.Utils.Managers;
@@ -32,6 +33,7 @@ using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 

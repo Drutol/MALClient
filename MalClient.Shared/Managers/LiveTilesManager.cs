@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -7,12 +8,15 @@ using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
-using MALClient.XShared.Comm;
+using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Comm.Articles;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 
-namespace MALClient.XShared.Utils.Managers
+namespace MALClient.Shared.Managers
 {
     public enum TileActions
     {
@@ -48,6 +52,8 @@ namespace MALClient.XShared.Utils.Managers
 
     public static class LiveTilesManager
     {
+        private const string NewsTileId = "TileNews";
+        private const string ArticlesTileId = "TileArticles";
         private static Dictionary<int,PinnedTileCache> _pinnedCache = new Dictionary<int, PinnedTileCache>();
 
         public static async void LoadTileCache()
@@ -103,14 +109,14 @@ namespace MALClient.XShared.Utils.Managers
 
         private static async void CheckTiles()
         {
+            #region RemoveImages
+
             var tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
             if (string.IsNullOrWhiteSpace(tiles))
                 return;
 
             bool removed = false;
             var newTiles = "";
-            //var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("PinnedTilesImages",
-            //    CreationCollisionOption.OpenIfExists);
             foreach (var tileId in tiles.Split(';'))
             {
                 if (!SecondaryTile.Exists(tileId))
@@ -148,9 +154,208 @@ namespace MALClient.XShared.Utils.Managers
             if (removed)
                 SavePinnedData();
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
+            #endregion
+
+
+            if (SecondaryTile.Exists(ArticlesTileId))
+                UpdateNewsTile(ArticlePageWorkMode.Articles);
+            if (SecondaryTile.Exists(NewsTileId))
+                UpdateNewsTile(ArticlePageWorkMode.News);
+
+
         }
 
-        public static async Task PinTile(IAnimeData entry, Uri imgUri, Uri wideImgUri,PinTileSettings settings,PinTileActionSetting action)
+        #region NewsTiles
+
+        public static async void PinNewsTile()
+        {
+            SecondaryTile tile = new SecondaryTile(NewsTileId, "News", "https://myanimelist.net/news",
+                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), TileSize.Square150x150);
+            tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
+            tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/Wide310x310Logo.scale-200.png");
+
+            if (await tile.RequestCreateAsync())
+                UpdateNewsTile(ArticlePageWorkMode.News);
+        }
+
+        public static async void PinArticlesTile()
+        {
+            SecondaryTile tile = new SecondaryTile(ArticlesTileId, "News", "https://myanimelist.net/featured",
+                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), TileSize.Square150x150);
+            tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
+            tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/Wide310x310Logo.scale-200.png");
+
+            if(await tile.RequestCreateAsync())
+                UpdateNewsTile(ArticlePageWorkMode.Articles);
+        }
+
+        private static async void UpdateNewsTile(ArticlePageWorkMode mode)
+        {
+            var news = await new MalArticlesIndexQuery(mode).GetArticlesIndex();
+
+            var updater = TileUpdateManager.CreateTileUpdaterForSecondaryTile(mode == ArticlePageWorkMode.Articles ? ArticlesTileId : NewsTileId);
+            updater.EnableNotificationQueue(true);
+            updater.Clear();
+            foreach (var malNewsUnitModel in news.Take(5))
+            {
+                var tileContent = new TileContent
+                {
+                    Visual = new TileVisual
+                    {
+                        TileMedium = GenerateTileBindingMedium(malNewsUnitModel),
+                        TileWide = GenerateTileBindingWide(malNewsUnitModel),
+                    }
+                };
+                if (!ViewModelLocator.Mobile)
+                    tileContent.Visual.TileLarge = GenerateTileBindingLarge(malNewsUnitModel);
+                updater.Update(new TileNotification(tileContent.GetXml()));
+            }
+        }
+
+        private static TileBinding GenerateTileBindingMedium(MalNewsUnitModel news)
+        {
+            return new TileBinding
+            {
+                Content = new TileBindingContentAdaptive()
+                {                  
+                    PeekImage = new TilePeekImage
+                    {
+                        Source = news.ImgUrl,
+                        HintCrop = TilePeekImageCrop.Default,
+                    },
+                    Children =
+                    {
+                        new AdaptiveText
+                        {
+                            Text = news.Title,
+                            HintWrap = true,
+                        }
+                    }
+                }
+            };
+        }
+
+        private static TileBinding GenerateTileBindingWide(MalNewsUnitModel news)
+        {
+            return new TileBinding
+            {
+                Content = new TileBindingContentAdaptive()
+                {                                  
+                    Children =
+                    {
+                        new AdaptiveGroup
+                        {
+                            Children =
+                            {
+                                new AdaptiveSubgroup
+                                {
+                                    HintWeight = 3,
+                                    Children =
+                                    {
+                                        new AdaptiveImage
+                                        {
+                                            Source = news.ImgUrl,
+                                            HintRemoveMargin = true,
+                                            HintAlign = AdaptiveImageAlign.Stretch,                                          
+                                        }
+                                    }
+                                },
+                                new AdaptiveSubgroup
+                                {
+                                    HintWeight = 7,
+
+                                    Children =
+                                    {
+                                        new AdaptiveText
+                                        {
+                                            Text = news.Title,
+                                            HintMaxLines = 2,
+                                            HintWrap = true,
+                                            HintStyle = AdaptiveTextStyle.Body,
+                                        },
+                                        new AdaptiveText
+                                        {
+                                            Text = news.Highlight,
+                                            HintMaxLines = 10,
+                                            HintWrap = true,
+                                            HintStyle = AdaptiveTextStyle.CaptionSubtle,
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+
+                    }
+                }
+            };
+        }
+
+        private static TileBinding GenerateTileBindingLarge(MalNewsUnitModel news)
+        {
+            return new TileBinding
+            {
+                Content = new TileBindingContentAdaptive()
+                {
+                    PeekImage = new TilePeekImage
+                    {
+                        Source = news.ImgUrl,
+                    },
+                    Children =
+                    {
+                        new AdaptiveGroup
+                        {
+                            Children =
+                            {
+                                new AdaptiveSubgroup
+                                {
+                                    HintWeight = 4,
+                                    Children =
+                                    {
+                                        new AdaptiveImage
+                                        {
+                                            Source = news.ImgUrl,
+                                            HintRemoveMargin = true,
+                                            HintAlign = AdaptiveImageAlign.Stretch,
+                                        }
+                                    }
+                                },
+                                new AdaptiveSubgroup
+                                {
+                                    HintWeight = 6,
+
+                                    Children =
+                                    {
+                                        new AdaptiveText
+                                        {
+                                            Text = news.Title,
+                                            HintMaxLines = 3,
+                                            HintWrap = true,                                          
+                                            HintStyle = AdaptiveTextStyle.Subtitle,
+                                        },
+                                        new AdaptiveText
+                                        {
+                                            Text = news.Highlight,
+                                            HintMaxLines = 12,
+                                            HintWrap = true,
+                                            HintStyle = AdaptiveTextStyle.BodySubtle,
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            };
+        }
+        #endregion
+
+
+
+        #region StandardTiles
+        public static async Task PinTile(IAnimeData entry, Uri imgUri, Uri wideImgUri, PinTileSettings settings, PinTileActionSetting action)
         {
             try
             {
@@ -180,20 +385,20 @@ namespace MALClient.XShared.Utils.Managers
                 }
                 //pin tile
                 if (action.Action == TileActions.OpenUrl)
-                if (!action.Param.Contains("http"))
-                    action.Param = "http://" + action.Param;
-                var tile = new SecondaryTile(entry.Id.ToString(), 
-                    "MALClient", 
-                    string.Join(";", action.Action.ToString(), action.Param), 
+                    if (!action.Param.Contains("http"))
+                        action.Param = "http://" + action.Param;
+                var tile = new SecondaryTile(entry.Id.ToString(),
+                    "MALClient",
+                    string.Join(";", action.Action.ToString(), action.Param),
                     imgUri,
                     TileSize.Square150x150);
 
                 tile.WideLogo = wideImgUri;
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();
-                RegisterTileCache(entry.Id,new PinnedTileCache {ImgUri = imgUri,WideImgUri = wideImgUri,Settings = settings});
-                if(settings.AnythingAtAll)
-                    UpdateTile(entry,imgUri,wideImgUri,settings);
+                RegisterTileCache(entry.Id, new PinnedTileCache { ImgUri = imgUri, WideImgUri = wideImgUri, Settings = settings });
+                if (settings.AnythingAtAll)
+                    UpdateTile(entry, imgUri, wideImgUri, settings);
                 ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.PinnedTile);
             }
             catch (Exception)
@@ -251,9 +456,13 @@ namespace MALClient.XShared.Utils.Managers
             if (_pinnedCache.ContainsKey(entry.Id))
             {
                 var cache = _pinnedCache[entry.Id];
-                UpdateTile(entry,cache.ImgUri,cache.WideImgUri,cache.Settings);
+                UpdateTile(entry, cache.ImgUri, cache.WideImgUri, cache.Settings);
             }
         }
+
+
+        #endregion
+
 
     }
 }

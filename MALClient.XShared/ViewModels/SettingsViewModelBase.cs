@@ -94,8 +94,8 @@ namespace MALClient.XShared.ViewModels
             },
             new SettingsPageEntry
             {
-                Header = "Articles",
-                Subtitle = "Article view settings.",
+                Header = "Articles&news",
+                Subtitle = "Article&news view settings and live tiles.",
                 Symbol = SettingsSymbolsEnum.PreviewLink,
                 PageType = SettingsPageIndex.Articles
             },

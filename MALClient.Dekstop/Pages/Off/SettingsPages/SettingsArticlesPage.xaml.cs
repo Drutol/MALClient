@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using MALClient.Shared.Managers;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -13,5 +15,16 @@ namespace MALClient.Pages.Off.SettingsPages
         {
             InitializeComponent();
         }
+
+        private void ButtonPinArticlesOnClick(object sender, RoutedEventArgs e)
+        {
+            LiveTilesManager.PinArticlesTile();
+        }
+
+        private void ButtonPinNewsOnClick(object sender, RoutedEventArgs e)
+        {
+            LiveTilesManager.PinNewsTile();
+        }
+
     }
 }

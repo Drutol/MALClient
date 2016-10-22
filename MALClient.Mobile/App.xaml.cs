@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -38,7 +39,7 @@ namespace MALClient
     /// </summary>
     sealed partial class App : Application
     {
-        private bool _initialized;
+        private static bool _initialized;
 
         /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
@@ -78,15 +79,20 @@ namespace MALClient
             var launchArgs = e as LaunchActivatedEventArgs;
             if (!string.IsNullOrWhiteSpace(launchArgs?.Arguments))
             {
-                if (launchArgs.Arguments.Contains(";"))
+
+                if (Regex.IsMatch(launchArgs.Arguments, @"[OpenUrl,OpenDetails];.*"))
                 {
                     var options = launchArgs.Arguments.Split(';');
                     if (options[0] == TileActions.OpenUrl.ToString())
                         LaunchUri(options[1]);
-                    else if (launchArgs.Arguments.Contains('|'))
+                    else if (launchArgs.Arguments.Contains('|')) //legacy
                     {
                         var detailArgs = options[1].Split('|');
                         navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    }
+                    else
+                    {
+                        fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(options[1]);
                     }
                 }
                 else

@@ -84,6 +84,14 @@ namespace MALClient.XShared.Utils
                     Arg = msg
                 });
             }
+            else if (uri == "https://myanimelist.net/news")
+            {
+                return new Tuple<PageIndex, object>(PageIndex.PageNews, null);
+            }
+            else if (uri == "https://myanimelist.net/featured")
+            {
+                return new Tuple<PageIndex, object>(PageIndex.PageArticles, null);
+            }
 
 
             /////////////////////////////////////////////////////Removed ? from the end

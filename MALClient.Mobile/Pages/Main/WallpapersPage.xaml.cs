@@ -90,13 +90,13 @@ namespace MALClient.Pages.Main
         {
             switch (Settings.WallpapersBaseAmount)
             {
-                case 2:
+                case 6:
                     AmountMore.IsChecked = true;
                     break;
                 case 4:
                     AmountStanard.IsChecked = true;
                     break;
-                case 6:
+                case 2:
                     AmountLess.IsChecked = true;
                     break;
             }

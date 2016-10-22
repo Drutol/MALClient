@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
+using MALClient.Shared.Managers;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;

@@ -643,7 +643,7 @@ namespace MALClient.XShared.Utils
             {
                 return await DataCacheService.RetrieveData<List<MalNewsUnitModel>>(mode == ArticlePageWorkMode.Articles
                     ? "mal_article_index.json"
-                    : "mal_news_index.json", "Articles", 4);
+                    : "mal_news_index.json", "Articles", 1);
             }
             catch (Exception)
             {

@@ -45,7 +45,7 @@
                 <ProgressRing Width="25" Height="25" Foreground="{ThemeResource BrushNoSearchResults}" IsActive="True" />
                 <TextBlock x:Name="DlProgress" Text="Waiting..." HorizontalAlignment="Center" Margin="0,5" />
             </StackPanel>
-            <Grid x:Name="BoundingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,0,0">
+            <Grid x:Name="BoundingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-1,0">
                 <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />

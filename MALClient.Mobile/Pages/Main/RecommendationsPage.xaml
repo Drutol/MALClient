@@ -41,6 +41,15 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
+        <Button Height="60" Width="40" Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
+            <Button.Flyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="Anime recommendations" Command="{Binding SwitchToAnimeCommand}"/>
+                    <MenuFlyoutItem Text="Manga recommendations" Command="{Binding SwitchToMangaCommand}"/>
+                </MenuFlyout>
+            </Button.Flyout>
+            <SymbolIcon Symbol="ReShare" VerticalAlignment="Center"/>
+        </Button>
         <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"
                       Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />

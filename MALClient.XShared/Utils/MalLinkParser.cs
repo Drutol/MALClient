@@ -8,6 +8,7 @@ using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels.Main;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Utils
@@ -86,11 +87,11 @@ namespace MALClient.XShared.Utils
             }
             else if (uri == "https://myanimelist.net/news")
             {
-                return new Tuple<PageIndex, object>(PageIndex.PageNews, null);
+                return new Tuple<PageIndex, object>(PageIndex.PageNews, MalArticlesPageNavigationArgs.News);
             }
             else if (uri == "https://myanimelist.net/featured")
             {
-                return new Tuple<PageIndex, object>(PageIndex.PageArticles, null);
+                return new Tuple<PageIndex, object>(PageIndex.PageArticles, MalArticlesPageNavigationArgs.Articles);
             }
 
 

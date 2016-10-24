@@ -97,10 +97,10 @@ namespace MALClient.XShared.ViewModels
 
         public ILibraryData EntryData { get; set; }
         private int _seasonalAllEps;
-        public string Title => EntryData?.Title ?? _seasonalData.Title;
-        public int Id => EntryData?.Id ?? _seasonalData.Id;
-        public int MalId => EntryData?.MalId ?? _seasonalData.Id;
-        public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData.ImgUrl;
+        public string Title => EntryData?.Title ?? _seasonalData?.Title;
+        public int Id => EntryData?.Id ?? _seasonalData?.Id ?? 0;
+        public int MalId => EntryData?.MalId ?? _seasonalData?.Id ?? 0;
+        public string ImgUrl => EntryData?.ImgUrl ?? _seasonalData?.ImgUrl;
 
         public bool IsRewatching
         {

@@ -408,7 +408,7 @@
                                             HorizontalAlignment="Stretch"
                                             Height="60"
                                             VerticalAlignment="Stretch" />
-                                        <ContentControl
+                                        <ContentControl Margin="40,0,0,0"
                                             x:Name="HeaderClipper"
                                             Height="60"
                                             Grid.Column="1"
@@ -432,18 +432,18 @@
                                                 </PivotHeaderPanel>
                                             </Grid>
                                         </ContentControl>
-                                        <Button
+                                        <Button 
                                             x:Name="PreviousButton"
                                             Grid.Column="1"
                                             Template="{StaticResource PreviousTemplate}"
                                             Width="20"
                                             Height="36"
                                             UseSystemFocusVisuals="False"
-                                            Margin="{ThemeResource PivotNavButtonMargin}"
+                                            Margin="40,0,0,0"                                           
                                             IsTabStop="False"
                                             IsEnabled="False"
                                             HorizontalAlignment="Left"
-                                            VerticalAlignment="Top"
+                                            VerticalAlignment="Center"
                                             Opacity="0"
                                             Background="Transparent" />
                                         <Button

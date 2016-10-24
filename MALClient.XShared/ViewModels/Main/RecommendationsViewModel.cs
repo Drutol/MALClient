@@ -17,7 +17,7 @@ namespace MALClient.XShared.ViewModels.Main
             public object Content { get; set; }
         }
 
-        private bool _loading = true;
+        private bool _loading;
 
         private int _pivotItemIndex;
         private bool _animeMode = true;

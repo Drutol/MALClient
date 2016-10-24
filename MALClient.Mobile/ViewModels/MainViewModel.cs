@@ -175,7 +175,6 @@ namespace MALClient.ViewModels
                     HideSearchStuff();
                     RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.Recommendations.PopulateData());
-                    CurrentStatus = "Recommendations";
                     MainNavigationRequested?.Invoke(typeof(RecommendationsPage), args);
                     break;
                 case PageIndex.PageCalendar:

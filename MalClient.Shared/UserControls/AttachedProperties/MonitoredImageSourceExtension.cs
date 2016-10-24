@@ -27,7 +27,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         {
             try
             {
-                await DownloadSemaphore.WaitAsync(TimeSpan.FromSeconds(15), _tokenSource.Token);
+                await DownloadSemaphore.WaitAsync(TimeSpan.FromSeconds(30), _tokenSource.Token);
             }
             catch (OperationCanceledException)
             {

@@ -22,11 +22,6 @@ namespace MALClient.XShared.ViewModels.Main
         private int _pivotItemIndex;
         private bool _animeMode = true;
 
-        public RecommendationsViewModel()
-        {
-            PopulateData();
-        }
-
         public ObservableCollection<XPivotItem> RecommendationItems { get; } = new ObservableCollection<XPivotItem>();
 
         public bool Loading
@@ -67,11 +62,16 @@ namespace MALClient.XShared.ViewModels.Main
 
         public ICommand SwitchToMangaCommand => new RelayCommand(() => AnimeMode = false);
 
+        private bool? _prevLoaded;
+
         public async void PopulateData()
         {
+            if(Loading || _prevLoaded == AnimeMode)
+                return;
             Loading = true;
             var data = new List<RecommendationData>();
             ViewModelLocator.GeneralMain.CurrentStatus = AnimeMode ? "Anime Recommendations" : "Manga Recommendations";
+            _prevLoaded = AnimeMode;
             await Task.Run(async () => data = await new AnimeRecomendationsQuery(AnimeMode).GetRecomendationsData());
 
             if (data == null)

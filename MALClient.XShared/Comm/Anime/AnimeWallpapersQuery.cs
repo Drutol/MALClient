@@ -74,7 +74,11 @@ namespace MALClient.XShared.Comm.Anime
             {
                 output.AddRange(task.Result);
             }
-            output = output.Distinct().OrderByDescending(data => data.DateTime).ToList();
+            output =
+                output.Where(data => !data.FileUrl.Contains(".gif"))
+                    .Distinct()
+                    .OrderByDescending(data => data.DateTime)
+                    .ToList();
             Cache.Add(page, output);
             return output;
         }

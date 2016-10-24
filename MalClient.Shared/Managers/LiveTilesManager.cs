@@ -180,7 +180,7 @@ namespace MALClient.Shared.Managers
 
         public static async void PinArticlesTile()
         {
-            SecondaryTile tile = new SecondaryTile(ArticlesTileId, "News", "https://myanimelist.net/featured",
+            SecondaryTile tile = new SecondaryTile(ArticlesTileId, "Articles", "https://myanimelist.net/featured",
                 new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), TileSize.Square150x150);
             tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
             tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/Wide310x310Logo.scale-200.png");

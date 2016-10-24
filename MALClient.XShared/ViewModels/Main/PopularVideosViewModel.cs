@@ -4,9 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.MalSpecific;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -34,6 +38,16 @@ namespace MALClient.XShared.ViewModels.Main
                 RaisePropertyChanged(() => Loading);
             }
         }
+
+        public ICommand NavDetailsCommand => new RelayCommand<AnimeVideoData>(item =>
+        {
+            if (ViewModelLocator.AnimeDetails.Id != item.AnimeId)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(item.AnimeId, item.AnimeTitle, null, null)
+                    {
+                        Source = PageIndex.PagePopularVideos
+                    });
+        });
 
         public double ItemWidth => AnimeItemViewModel.MaxWidth;
 

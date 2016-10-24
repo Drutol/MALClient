@@ -34,6 +34,7 @@ namespace MALClient.Pages.Main
                     (e.Parameter as RecommendationPageNavigationArgs).Index;
             ViewModelLocator.NavMgr.DeregisterBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            ViewModelLocator.Recommendations.PopulateData();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

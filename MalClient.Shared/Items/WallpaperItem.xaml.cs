@@ -42,13 +42,16 @@ namespace MALClient.Shared.Items
                 DescriptionGrid.MinWidth = 0;
                 BoundingGrid.MinWidth = 0;
             }
-            ViewModel.Resolution = $"{Bitmap.PixelWidth}x{Bitmap.PixelHeight}";
+            if (ViewModel != null)
+            {
+                ViewModel.Resolution = $"{Bitmap.PixelWidth}x{Bitmap.PixelHeight}";
+                if (ViewModel.IsBlurred)
+                    await Image.Blur(10, 0).StartAsync();
+                else
+                    await Image.Blur(0, 0).StartAsync();
+            }
             ResolutionGrid.Visibility = Visibility.Visible;
             ImgLoading.Visibility = Visibility.Collapsed;
-            if (ViewModel.IsBlurred)
-                await Image.Blur(10, 0).StartAsync();
-            else
-                await Image.Blur(0, 0).StartAsync();
         }
 
         private void WallpaperOnRightTapped(object sender, RightTappedRoutedEventArgs e)

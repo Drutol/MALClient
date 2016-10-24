@@ -43,11 +43,7 @@ namespace MALClient.Pages.Main
             var btn = sender as Button;
             var item = btn.DataContext as AnimeVideoData;
 
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                new AnimeDetailsPageNavigationArgs(item.AnimeId, item.AnimeTitle, null, null)
-                {
-                    Source = PageIndex.PagePopularVideos
-                });
+            ViewModelLocator.PopularVideos.NavDetailsCommand.Execute(item);
 
         }
 

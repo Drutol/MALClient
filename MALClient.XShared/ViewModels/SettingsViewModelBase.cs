@@ -99,13 +99,13 @@ namespace MALClient.XShared.ViewModels
                 Symbol = SettingsSymbolsEnum.PreviewLink,
                 PageType = SettingsPageIndex.Articles
             },
-            new SettingsPageEntry
-            {
-                Header = "News",
-                Subtitle = "News regarding app development, bugs etc.",
-                Symbol = SettingsSymbolsEnum.PostUpdate,
-                PageType = SettingsPageIndex.News
-            },
+            //new SettingsPageEntry
+            //{
+            //    Header = "News",
+            //    Subtitle = "News regarding app development, bugs etc.",
+            //    Symbol = SettingsSymbolsEnum.PostUpdate,
+            //    PageType = SettingsPageIndex.News
+            //},
             new SettingsPageEntry
             {
                 Header = "Notifications",

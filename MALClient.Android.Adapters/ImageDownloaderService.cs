@@ -40,5 +40,15 @@ namespace MALClient.Android.Adapters
             //    UWPUtilities.GiveStatusBarFeedback("Error. File didn't save properly.");
             //}
         }
+
+        public void DownloadImage(string url, string suggestedFilename, bool animeConver)
+        {
+            //
+        }
+
+        public void DownloadImageDefault(string url, string suggestedFilename, bool animeCover)
+        {
+            //
+        }
     }
 }

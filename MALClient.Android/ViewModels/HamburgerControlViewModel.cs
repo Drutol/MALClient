@@ -43,12 +43,18 @@ namespace MALClient.Android.ViewModels
         }
 
         public bool MangaSectionVisbility { get; set; }
+
         public void SetActiveButton(TopAnimeType topType)
         {
             
         }
 
         public void UpdatePinnedProfiles()
+        {
+            
+        }
+
+        public void UpdateBottomMargin()
         {
             
         }

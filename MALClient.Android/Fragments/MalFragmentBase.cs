@@ -49,7 +49,7 @@ namespace MALClient.Android.Fragments
 
         public sealed override void OnStop()
         {
-            _bindings.ForEach(pair => pair.Value.Detach());
+            _bindings?.ForEach(pair => pair.Value.Detach());
             _bindings = null;
             Cleanup();
             base.OnStop();

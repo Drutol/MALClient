@@ -1,98 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TabHost
-        android:id="@android:id/tabhost"
+    android:layout_height="match_parent" android:background="#e6e6e6">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
         <LinearLayout
-            android:id="@+id/tab"
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ToggleButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/LoginPageButtonMal"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
-                <RelativeLayout
-                    android:tag="tab0"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="MyAnimeList" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:tag="tab1"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="Hummingbird" />
-                </RelativeLayout>
-            </TabWidget>
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="20dp">
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="100dp"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username" />
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/UsernameInput" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Password" />
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:ems="10"
-                        android:id="@+id/PasswordInput" />
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center">
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sign In"
-                            android:id="@+id/SignInButton" />
-                        <ProgressBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:indeterminate="true"
-                            android:id="@+id/LoadingSpinner" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/tab2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" />
-            </FrameLayout>
+                android:textOn="MyAnimeList"
+                android:textOff="MyAnimeList" />
+            <ToggleButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/LoginPageButtonHum"
+                android:layout_height="wrap_content"
+                android:textOn="Hummingbird"
+                android:textOff="Hummingbird" />
         </LinearLayout>
-    </TabHost>
+        <RelativeLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tab1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username" />
+                <EditText
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/UsernameInput" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/PasswordInput" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sign In"
+                        android:id="@+id/SignInButton" />
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:id="@+id/LoadingSpinner" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

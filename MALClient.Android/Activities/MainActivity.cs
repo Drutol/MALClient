@@ -6,6 +6,7 @@ using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.Design.Widget;
+using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
@@ -20,28 +21,29 @@ namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient", MainLauncher = true, 
         Icon = "@drawable/icon", 
-        LaunchMode = LaunchMode.SingleTop,
-        Theme = "@style/Theme.AppCompat")]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
         private MainViewModel _viewModel;
-        private bool _addedNavHandlers;
+        private static bool _addedNavHandlers;
 
         private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
 
         protected override void OnCreate(Bundle bundle)
         {
+            RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.MainPage);
+            
             if (!_addedNavHandlers)
             {
+                SetContentView(Resource.Layout.MainPage);
                 _addedNavHandlers = true;
-
+                InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
-                NavView.NavigationItemSelected += NavViewOnNavigationItemSelected;
+                MainNavView.NavigationItemSelected += NavViewOnNavigationItemSelected;
 
                 ViewModel.Navigate(PageIndex.PageLogIn);
-
+     
             }
     
         }

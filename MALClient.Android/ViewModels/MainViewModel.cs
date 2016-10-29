@@ -43,6 +43,7 @@ namespace MALClient.Android.ViewModels
             switch (index)
             {
                 case PageIndex.PageAnimeList:
+                    MainNavigationRequested?.Invoke(AnimeListPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageAnimeDetails:
                     break;
@@ -92,6 +93,18 @@ namespace MALClient.Android.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
+        }
+
+        public override string CurrentOffStatus
+        {
+            get { return CurrentStatus; }
+            set { CurrentStatus = value; }
+        }
+
+        public override ICommand RefreshOffDataCommand
+        {
+            get { return RefreshDataCommand; }
+            set { RefreshDataCommand = value; }
         }
     }
 }

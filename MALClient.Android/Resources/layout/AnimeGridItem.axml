@@ -1,25 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" android:rowCount="3" android:columnCount="1"
-              android:rowOrderPreserved="true" android:weightSum="1">
-  <ImageView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:id="@+id/ShowCoverImage" android:layout_marginLeft="0dp"
-             android:layout_marginRight="0dp"
-             android:layout_alignParentStart="true" android:layout_alignParentTop="true"
-             android:layout_marginBottom="0dp" android:layout_row="1" android:layout_weight="0.99" />
-  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="70dp" android:layout_row="2" android:layout_column="0"
-                  android:background="#2d2d2d">
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/ShowTitle" android:layout_alignParentStart="true"
-              android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
-              android:layout_alignParentTop="true" android:textColor="#FFFFFF" />
-  </RelativeLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="200dp"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AnimeGridItemImage"
+            android:adjustViewBounds="true"
+            android:maxWidth="200dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AnimeGridItemToLeftInfo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/BrushOpaqueTextView"
+            android:text="Sun"
+            android:textColor="#ffffff"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/AnimeGridItemTopRightInfo"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/BrushOpaqueTextView">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/AnimeGridItemCurrentStatus"
+                android:text="W"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:textSize="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/AnimeGridItemWatchedStatus"
+                android:text="8/12"
+                android:textColor="#ffffff"
+                android:textSize="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/AnimeGridItemScore"
+                android:text="8/10"
+                android:layout_marginTop="5dp"
+                android:textStyle="italic"
+                android:textColor="#ffffff"
+                android:textSize="16dp" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/AnimeGridItemType"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@color/BrushOpaqueTextView"
+            android:text="TV"
+            android:textStyle="italic"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/BrushAnimeItemInnerBackground"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/AnimeGridItemTitle"
+            android:layout_height="wrap_content"
+            android:text="Shelter"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18dp"
+            android:ellipsize="end"
+            android:scrollHorizontally="false"
+            android:maxLines="2" />
+    </LinearLayout>
 </LinearLayout>

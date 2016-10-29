@@ -20,7 +20,7 @@ using Fragment = Android.Support.V4.App.Fragment;
 namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient", MainLauncher = true, 
-        Icon = "@drawable/icon", 
+        Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait,
         Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
@@ -58,11 +58,14 @@ namespace MALClient.Android.Activities
         private void NavViewOnNavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
         {
             e.MenuItem.SetChecked(true);
-
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             switch (e.MenuItem.ItemId)
             {
                 case Resource.Id.MainHamburgerBtnLogIn:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                    break;
+                case Resource.Id.MainHamburgerBtnAnimeList:
+                    ViewModel.Navigate(PageIndex.PageAnimeList,null);
                     break;
             }
 

@@ -9,8 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MALClient.Android.CollectionAdapters;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.Fragments
 {
@@ -22,8 +24,9 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(_prevArgs);
+            ViewModelLocator.AnimeList.Init(_prevArgs);         
         }
+
 
         public static AnimeListPageFragment BuildInstance(object args)
         {

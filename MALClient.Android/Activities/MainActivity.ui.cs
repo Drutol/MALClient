@@ -50,7 +50,5 @@ namespace MALClient.Android.Activities
 
         public NavigationView MainNavView => _mainNavView ?? (_mainNavView = FindViewById<NavigationView>(Resource.Id.MainNavView));
 
-
-
     }
 }

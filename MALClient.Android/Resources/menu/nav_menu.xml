@@ -3,20 +3,10 @@
 
   <group android:checkableBehavior="single">
     <item
-        android:id="@+id/nav_home_1"
-        android:title="Home 1" />
+        android:id="@+id/MainHamburgerBtnAnimeList"
+        android:title="Anime List"/>
     <item
         android:id="@+id/MainHamburgerBtnLogIn"
         android:title="Sign In" />
   </group>
-
-  <item android:title="Sub items">
-    <menu>
-      <item
-          android:title="Sub item 1" />
-      <item
-          android:title="Sub item 2" />
-    </menu>
-  </item>
-
 </menu>

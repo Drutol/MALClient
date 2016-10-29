@@ -10,8 +10,10 @@ using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Fragments;
+using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
@@ -40,6 +42,37 @@ namespace MALClient.Android.ViewModels
 
         public override void Navigate(PageIndex index, object args = null)
         {
+            SearchToggleLock = false;
+            CurrentStatusSub = "";
+            IsCurrentStatusSelectable = false;
+            if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Log in first in order to access this page.","");               
+                return;
+            }
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
+            ScrollToTopButtonVisibility = false;
+            RefreshButtonVisibility = false;
+
+            if (index == PageIndex.PageMangaList && args == null) // navigating from startup
+                args = AnimeListPageNavigationArgs.Manga;
+
+            if (index == PageIndex.PageSeasonal ||
+                index == PageIndex.PageMangaList ||
+                index == PageIndex.PageTopManga ||
+                index == PageIndex.PageTopAnime)
+                index = PageIndex.PageAnimeList;
+
+            
+
+            if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
+            {
+                SearchToggleStatus = (bool)_searchStateBeforeNavigatingToSearch;
+                if (SearchToggleStatus)
+                    ShowSearchStuff();
+                else
+                    HideSearchStuff();
+            }
             switch (index)
             {
                 case PageIndex.PageAnimeList:
@@ -93,6 +126,7 @@ namespace MALClient.Android.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
+            CurrentMainPageKind = index;
         }
 
         public override string CurrentOffStatus

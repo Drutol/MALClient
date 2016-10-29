@@ -19,6 +19,7 @@
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
             <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter" />
             <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+            <xamlConverters:BoolInverterConverter x:Key="BoolInverterConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -170,7 +171,7 @@
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                                     <Button Content="History" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateHistoryCommand}"
-                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}"/>
                                     <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}"
                                                   Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                         <SymbolIcon Foreground="White"

@@ -82,19 +82,16 @@ namespace MALClient.XShared.Comm.Details
                 if (image.Attributes.Contains("alt"))
                 {
                     output.ImgUrl = image.Attributes["src"].Value;
-                    output.Name = image.Attributes["alt"].Value.Trim();
                 }
-                else
-                {
-                    output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText).Trim();
-                }
+
+                output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText).Trim();
                 output.Content = output.SpoilerContent = "";
                 output.Content += WebUtility.HtmlDecode(leftColumn.LastChild.InnerText.Trim()) + "\n\n";
                 foreach (var node in columns[1].ChildNodes)
                 {
                     if (node.Name == "#text")
                         output.Content += WebUtility.HtmlDecode(node.InnerText.Trim());
-                    else if (node.Name == "br")
+                    else if (node.Name == "br" && !output.Content.EndsWith("\n\n"))
                         output.Content += "\n";
                     else if (node.Name == "div" && node.Attributes.Contains("class") && node.Attributes["class"].Value == "spoiler")
                         output.SpoilerContent += WebUtility.HtmlDecode(node.InnerText.Trim()) + "\n\n";

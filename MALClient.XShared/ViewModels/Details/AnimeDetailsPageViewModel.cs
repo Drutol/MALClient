@@ -567,6 +567,18 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => MyEndDate);
             }
 
+            //in case of series having one episode
+            if (AllEpisodes == 1 && prevStatus == (int)AnimeStatus.PlanToWatch && MyStatus == (int)AnimeStatus.Completed)
+                if (Settings.SetStartDateOnWatching &&
+                    (Settings.OverrideValidStartEndDate || _animeItemReference.StartDate == "0000-00-00"))
+                {
+                    _startDateTimeOffset = DateTimeOffset.Now;
+                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                    StartDateValid = true;
+                    RaisePropertyChanged(() => StartDateTimeOffset);
+                    RaisePropertyChanged(() => MyStartDate);
+                }
+
             if (MyStatus != (int) AnimeStatus.Completed)
             {
                 if (_animeItemReference.IsRewatching)

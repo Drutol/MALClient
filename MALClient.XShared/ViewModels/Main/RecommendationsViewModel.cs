@@ -66,11 +66,13 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async void PopulateData()
         {
-            if(Loading || _prevLoaded == AnimeMode)
+            ViewModelLocator.GeneralMain.CurrentStatus = AnimeMode ? "Anime Recommendations" : "Manga Recommendations";
+
+            if (Loading || _prevLoaded == AnimeMode)
                 return;
             Loading = true;
             var data = new List<RecommendationData>();
-            ViewModelLocator.GeneralMain.CurrentStatus = AnimeMode ? "Anime Recommendations" : "Manga Recommendations";
+
             _prevLoaded = AnimeMode;
             await Task.Run(async () => data = await new AnimeRecomendationsQuery(AnimeMode).GetRecomendationsData());
 

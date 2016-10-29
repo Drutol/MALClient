@@ -21,11 +21,11 @@ namespace MALClient.XShared.Comm.Forums
                 {
                     var client = await MalHttpContextProvider.GetHttpContextAsync();
 
-                    var resp = await client.GetAsync($"/forum/?action=search&u=&uloc=1&loc={scope}&q={query}");
+                    var resp = await client.GetAsync($"/forum/search?q={query}&u=&uloc=1&loc={scope}");
 
                     var doc = new HtmlDocument();
                     doc.LoadHtml(await resp.Content.ReadAsStringAsync());
-
+                    var s = await resp.Content.ReadAsStringAsync();
                     var topicContainer =
                         doc.DocumentNode.Descendants("table")
                             .First(
@@ -34,7 +34,7 @@ namespace MALClient.XShared.Comm.Forums
                     {
                         try
                         {
-                            output.ForumTopicEntries.Add(ForumBoardTopicsQuery.ParseHtmlToTopic(topicRow));
+                            output.ForumTopicEntries.Add(ParseTopicRow(topicRow));
                         }
                         catch (Exception)
                         {
@@ -42,7 +42,7 @@ namespace MALClient.XShared.Comm.Forums
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //
                 }
@@ -57,7 +57,7 @@ namespace MALClient.XShared.Comm.Forums
                 {
                     var client = await MalHttpContextProvider.GetHttpContextAsync();
 
-                    var resp = await client.GetAsync($"/forum/index.php?action=search&u={Credentials.UserName}&q=&uloc=1&loc=-1");
+                    var resp = await client.GetAsync($"/forum/search?u={Credentials.UserName}&q=&uloc=1&loc=-1");
 
                     var doc = new HtmlDocument();
                     doc.LoadHtml(await resp.Content.ReadAsStringAsync());
@@ -70,7 +70,7 @@ namespace MALClient.XShared.Comm.Forums
                     {
                         try
                         {
-                            output.ForumTopicEntries.Add(ForumBoardTopicsQuery.ParseHtmlToTopic(topicRow));
+                            output.ForumTopicEntries.Add(ParseTopicRow(topicRow));
                         }
                         catch (Exception)
                         {
@@ -106,7 +106,7 @@ namespace MALClient.XShared.Comm.Forums
                     {
                         try
                         {
-                            output.ForumTopicEntries.Add(ForumBoardTopicsQuery.ParseHtmlToTopic(topicRow,1));
+                            output.ForumTopicEntries.Add(ParseTopicRow(topicRow,1));
                         }
                         catch (Exception)
                         {
@@ -120,6 +120,40 @@ namespace MALClient.XShared.Comm.Forums
                 }
             return output;
 
+        }
+
+
+
+        private static ForumTopicEntry ParseTopicRow(HtmlNode topicRow,int tdOffset = 0)
+        {
+            var current = new ForumTopicEntry();
+            var tds = topicRow.Descendants("td").ToList();
+
+            current.Type = tds[1].ChildNodes[0].InnerText;
+
+            var titleLinks = tds[1].Descendants("a").ToList();
+            var titleLink = string.IsNullOrWhiteSpace(titleLinks[0].InnerText) ? titleLinks[1] : titleLinks[0];
+
+            current.Title = WebUtility.HtmlDecode(titleLink.InnerText);
+            var link = titleLink.Attributes["href"].Value;
+            if (link.Contains("&amp;goto="))
+            {
+                var pos = link.IndexOf("&amp;goto=");
+                link = link.Substring(0, pos);
+            }
+
+            current.Id = link.Split('=').Last();
+
+
+            var spans = tds[1].Descendants("span").Where(node => !string.IsNullOrEmpty(node.InnerText)).ToList();
+            current.Op = spans[1].InnerText;
+            current.Created = spans[2].InnerText;
+
+            current.Replies = tds[2 + tdOffset].InnerText;
+
+            current.LastPoster = tds[3 +tdOffset].Descendants("a").First().InnerText;
+            current.LastPostDate = tds[3 +tdOffset].ChildNodes.Last().InnerText.Trim();
+            return current;
         }
     }
 

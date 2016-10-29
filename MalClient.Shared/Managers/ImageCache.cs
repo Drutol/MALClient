@@ -125,7 +125,7 @@ namespace MALClient.Shared.Managers
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                return null;
+                return new BitmapImage(uri);
             }
             finally
             {

@@ -16,7 +16,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.Column="0" Stretch="UniformToFill"
+        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.Column="0" Stretch="Fill"
                HorizontalAlignment="Left"
                Width="125" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}"/>
         <Button Grid.Column="0" Margin="1,0,0,1"

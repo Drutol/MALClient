@@ -48,14 +48,10 @@ namespace MALClient.XShared.Comm.Details
                 var leftColumn = columns[0];
                 var image = leftColumn.Descendants("img").FirstOrDefault();
                 if (image != null && image.Attributes.Contains("alt"))
-                {
                     output.ImgUrl = image.Attributes["src"].Value;
-                    output.Name = image.Attributes["alt"].Value;
-                }
-                else
-                {
-                    output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
-                }
+
+                output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
+
                 bool recording = false;
                 var currentString = "";
                 int i = 0;

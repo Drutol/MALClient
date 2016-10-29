@@ -1104,6 +1104,11 @@ namespace MALClient.XShared.ViewModels
                      (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
+            //in case of series having one episode
+            if(AllEpisodes == 1 && myPrevStatus == (int)AnimeStatus.PlanToWatch && stat == AnimeStatus.Completed)
+                if(Settings.SetStartDateOnWatching && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
+                    StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+
             if (MyStatus != (int)AnimeStatus.Completed)
             {
                 if (IsRewatching)

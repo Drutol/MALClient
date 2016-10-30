@@ -3,8 +3,9 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
-  <GridView android:id="@+id/AnimeListPageGridView" 
-            android:layout_width="match_parent" 
-            android:layout_height="match_parent" 
-            android:numColumns="2"/>
+    <GridView android:id="@+id/AnimeListPageGridView"
+              android:layout_width="match_parent"
+              android:layout_gravity="center"
+              android:layout_height="match_parent"
+              android:numColumns="auto_fit"/>
 </LinearLayout>

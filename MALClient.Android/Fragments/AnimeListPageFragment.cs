@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -24,7 +25,7 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(_prevArgs);         
+            ViewModelLocator.AnimeList.Init(new AnimeListPageNavigationArgs(AnimeGenres.Action));         
         }
 
 

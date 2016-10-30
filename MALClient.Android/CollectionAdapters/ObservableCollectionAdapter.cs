@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using MALClient.Android.BindingInformation;
 
 namespace MALClient.Android.CollectionAdapters
 {
@@ -57,6 +58,7 @@ namespace MALClient.Android.CollectionAdapters
                     if (oldObservable != null)
                     {
                         oldObservable.PropertyChanged -= this.OnItemChanged;
+                        DetachOldView(this[position]);
                     }
                 }
             }
@@ -85,6 +87,11 @@ namespace MALClient.Android.CollectionAdapters
         {
         }
 
+        protected abstract void DetachOldView(T viewModel);
+
+        protected readonly Dictionary<int, BindingInfo<T>> Bindings =
+            new Dictionary<int, BindingInfo<T>> ();
+
         protected abstract void PrepareView(T item, View view);
 
         protected abstract long GetItemId(T item, int position);
@@ -94,6 +101,9 @@ namespace MALClient.Android.CollectionAdapters
             if (disposing)
             {
                 this.Items.CollectionChanged -= this.OnCollectionChanged;
+                foreach (var bindingInfo in Bindings)
+                    bindingInfo.Value.Detach();
+                
             }
 
             base.Dispose(disposing);

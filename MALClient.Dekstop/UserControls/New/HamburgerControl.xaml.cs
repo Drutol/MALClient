@@ -233,6 +233,8 @@ namespace MALClient.UserControls.New
 
         private void PinnedProfilesOnClick(object sender, ItemClickEventArgs e)
         {
+            if(ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageProfile)
+                ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                 new ProfilePageNavigationArgs {TargetUser = e.ClickedItem as string});
         }

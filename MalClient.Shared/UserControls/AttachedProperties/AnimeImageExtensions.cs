@@ -45,9 +45,9 @@ namespace MALClient.Shared.UserControls.AttachedProperties
                 if (pos != -1)
                 {
                     var uri = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));
-                    img.ImageFailed += async (sender, args) =>
+                    img.ImageFailed += (sender, args) =>
                     {
-                        img.Source = new BitmapImage(await ImageCache.GetFromCacheAsync(new Uri(source)));
+                        img.Source = new BitmapImage(new Uri(source));
                     };
                     img.Source = new BitmapImage(uri);
                 }

@@ -37,7 +37,8 @@ namespace MALClient.Shared.ViewModels
                 _generalVisibility = value;
                 if (value == Visibility.Visible)
                 {
-                    ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => GeneralVisibility = Visibility.Collapsed));
+                    if(ViewModelLocator.Mobile)
+                        ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => GeneralVisibility = Visibility.Collapsed));
                     ShowPinDialog?.Invoke();
                     RaisePropertyChanged(() => GeneralVisibility);
                 }

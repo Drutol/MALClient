@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -152,6 +154,35 @@ namespace MALClient.Pages.Off
         {
             ViewModel.OpenVideoCommand.Execute(e.ClickedItem);
             PromotionalVideosFlyout.Hide();
+        }
+
+        private void WatchedButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.AllEpisodes != 0)
+            {
+                var numbers = new List<int>();
+                int i = ViewModel.MyEpisodes, j = ViewModel.MyEpisodes - 1, k = 0;
+                for (; k < 10; i++, j--, k++)
+                {
+                    if (i <= ViewModel.AllEpisodes)
+                        numbers.Add(i);
+                    if (j >= 0)
+                        numbers.Add(j);
+                }
+                QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
+                QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodes.ToString();
+                QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
+                QuickSelectionGrid.Visibility = Visibility.Visible;
+            }
+            else
+                QuickSelectionGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void QuickSelectionGrid_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.WatchedEpsInput = e.ClickedItem as string;
+            ViewModel.ChangeWatchedCommand.Execute(null);
+            WatchedEpsFlyout.Hide();
         }
     }
 }

@@ -156,10 +156,15 @@ namespace MALClient.XShared.ViewModels.Main
             IsSendButtonEnabled = false;
             if (!string.IsNullOrEmpty(MessageText))
             {
-                if (_prevArgs.WorkMode == MessageDetailsWorkMode.Message)
+                if (_prevArgs == null || _prevArgs.WorkMode == MessageDetailsWorkMode.Message)
                 {
                     if (_newMessage)
                     {
+                        if (MessageSubject == null || MessageTarget == null)
+                        {
+                            IsSendButtonEnabled = true;
+                            return;
+                        }
                         if (await new SendMessageQuery().SendMessage(MessageSubject, MessageText, MessageTarget))
                         {
                             try

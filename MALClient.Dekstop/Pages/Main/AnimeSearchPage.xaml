@@ -118,7 +118,7 @@
         </Grid>
 
         <Grid Grid.Row="1" Grid.RowSpan="2" Background="{ThemeResource BrushLoadingNonOpaque}" HorizontalAlignment="Stretch" Visibility="{Binding GenreSelectionGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <GridView Margin="20" ItemsSource="{Binding AvailableSelectionChoices}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="SelectionGridViewOnClick">
+            <GridView ScrollViewer.VerticalScrollBarVisibility="Hidden"  Margin="20" ItemsSource="{Binding AvailableSelectionChoices}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="SelectionGridViewOnClick">
                 <GridView.ItemContainerTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />

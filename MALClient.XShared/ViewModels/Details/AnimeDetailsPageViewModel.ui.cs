@@ -23,7 +23,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public string MyEpisodesBind => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
 
-        private int MyEpisodes
+        public int MyEpisodes
         {
             get { return _animeItemReference?.MyEpisodes ?? 0; }
             set

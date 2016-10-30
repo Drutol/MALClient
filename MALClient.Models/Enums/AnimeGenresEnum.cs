@@ -21,7 +21,6 @@ namespace MALClient.Models.Enums
         Fantasy = 10,
         Game = 11,
         Harem = 35,
-        Hentai = 12,
         Historical = 13,
         Horror = 14,
         Josei = 43,

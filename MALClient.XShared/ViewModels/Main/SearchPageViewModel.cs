@@ -42,11 +42,11 @@ namespace MALClient.XShared.ViewModels.Main
 
                 if (args.ByGenre)
                 {
-                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>().ToList();
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>().OrderBy(val => val.ToString()).ToList();
                 }
                 else
                 {
-                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeStudios)).Cast<Enum>().ToList();
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeStudios)).Cast<Enum>().OrderBy(val => val.ToString()).ToList();
                 }
 
                 return;

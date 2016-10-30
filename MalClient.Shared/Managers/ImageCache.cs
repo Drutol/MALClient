@@ -12,11 +12,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Web.Http;
+using System.Net.Http;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
@@ -244,14 +245,16 @@ namespace MALClient.Shared.Managers
 
             using (content)
             {
-                using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+                using (var fileStream = await targetFile.OpenStreamForWriteAsync())
                 {
-                    await content.WriteToStreamAsync(fileStream);
+                    var bytes = await content.Content.ReadAsByteArrayAsync();
+                    await fileStream.WriteAsync(bytes, 0, bytes.Length);
+                    await fileStream.FlushAsync();
                 }
             }
         }
 
-        private static async Task<IHttpContent> GetHttpContentAsync(Uri uri)
+        private static async Task<HttpResponseMessage> GetHttpContentAsync(Uri uri)
         {
             if (uri == null)
             {
@@ -260,12 +263,11 @@ namespace MALClient.Shared.Managers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-                {
-                     response.EnsureSuccessStatusCode();
+                httpClient.Timeout = TimeSpan.FromSeconds(15);
+                var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);               
+                response.EnsureSuccessStatusCode();
+                return response;
 
-                    return response.Content;
-                }
             }
         }
     }

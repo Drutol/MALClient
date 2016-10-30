@@ -415,27 +415,47 @@
                         <Button FontWeight="Medium" Margin="2,1,1,1"
                                 BorderThickness="0,0,0,1.5" Background="Transparent"
                                 BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                VerticalAlignment="Center"
+                                VerticalAlignment="Center" Click="WatchedButtonOnClick"
                                 Content="{Binding MyEpisodesBind}">
                             <Button.Flyout>
                                 <Flyout x:Name="WatchedEpsFlyout">
                                     <StackPanel>
-                                        <TextBlock
-                                            Text="{Binding WatchedEpsLabel,Converter={StaticResource StringToFlatStringConverter}}"
-                                            HorizontalAlignment="Center"
-                                            FontWeight="SemiLight" />
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBox x:Name="TxtBoxWatchedEps" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
-                                                     Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                     KeyDown="SubmitWatchedEps" InputScope="TelephoneNumber" />
-                                            <Button Command="{Binding ChangeWatchedCommand}"
-                                                    Click="WatchedEpsButton_OnClick" Margin="2,0,0,0">
+                                        <TextBlock Text="{Binding UpdateEpsUpperLabel,Converter={StaticResource StringToFlatStringConverter}}" HorizontalAlignment="Center"
+                           FontWeight="SemiBold" Margin="0,0,0,5" />
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox x:Name="TxtBoxWatchedEps" BorderThickness="0" Height="30"
+                         Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         KeyDown="SubmitWatchedEps" InputScope="Number" />
+                                            <Button Grid.Column="1" Height="{Binding ElementName=TxtBoxWatchedEps,Path=ActualHeight}" BorderThickness="0" Background="{ThemeResource BrushAnimeItemInnerBackground}" Command="{Binding ChangeWatchedCommand,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2,0,0,0"
+                        Click="WatchedEpsButton_OnClick">
                                                 <SymbolIcon Symbol="Accept" />
                                             </Button>
-                                        </StackPanel>
-                                        <TextBlock Text="Wrong input!" FontWeight="SemiLight"
-                                                   HorizontalAlignment="Center"
-                                                   Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        </Grid>
+                                        <GridView ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center"  x:Name="QuickSelectionGrid" IsItemClickEnabled="True" Height="165" Width="170" ItemClick="QuickSelectionGrid_OnItemClick">
+                                            <GridView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </GridView.ItemsPanel>
+                                            <GridView.ItemContainerStyle>
+                                                <Style TargetType="GridViewItem">
+                                                    <Setter Property="Margin" Value="5"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="Background" Value="{ThemeResource BrushAnimeItemInnerBackground}"/>
+                                                </Style>
+                                            </GridView.ItemContainerStyle>
+                                            <GridView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Padding="5" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                        <TextBlock Text="{Binding}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridView.ItemTemplate>
+                                        </GridView>
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>
@@ -452,20 +472,17 @@
                             <Button.Flyout>
                                 <Flyout x:Name="ReadVolumesFlyout">
                                     <StackPanel>
-                                        <TextBlock Text="Read volumes:" HorizontalAlignment="Center"
-                                                   FontWeight="SemiLight" />
+                                        <TextBlock Text="Read volumes" HorizontalAlignment="Center"
+                                                   FontWeight="SemiBold" Margin="0,0,0,5" />
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBox x:Name="TxtReadVolumes" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
+                                            <TextBox x:Name="TxtReadVolumes" Height="30" BorderThickness="0" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
                                                      Text="{Binding ReadVolumesInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                      KeyDown="SubmitReadVolumes" />
-                                            <Button Command="{Binding ChangeVolumesCommand}"
-                                                    Click="ReadVolumesButton_OnClick" Margin="2,0,0,0">
+                                            <Button Command="{Binding ChangeVolumesCommand}" Height="{Binding ElementName=TxtReadVolumes,Path=ActualHeight}" Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderThickness="0"
+                                                    Click="ReadVolumesButton_OnClick">
                                                 <SymbolIcon Symbol="Accept" />
                                             </Button>
                                         </StackPanel>
-                                        <TextBlock Text="Wrong input!" FontWeight="SemiLight"
-                                                   HorizontalAlignment="Center"
-                                                   Visibility="{Binding WatchedEpsInputNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                     </StackPanel>
                                 </Flyout>
                             </Button.Flyout>

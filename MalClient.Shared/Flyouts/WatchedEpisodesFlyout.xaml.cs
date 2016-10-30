@@ -1,4 +1,6 @@
-﻿using Windows.System;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -10,6 +12,8 @@ namespace MALClient.Shared.Flyouts
 {
     public sealed partial class WatchedEpisodesFlyout : FlyoutPresenter
     {
+        AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;
+
         public WatchedEpisodesFlyout()
         {
             InitializeComponent();
@@ -19,6 +23,25 @@ namespace MALClient.Shared.Flyouts
         {
             DataContext = target.DataContext;
             WatchedEpsFlyout.ShowAt(target);
+            if (ViewModel.AllEpisodes != 0)
+            {
+                var numbers = new List<int>();
+                int i = ViewModel.MyEpisodes, j = ViewModel.MyEpisodes - 1, k=0;
+                for (; k < 10; i++ , j--, k++)
+                {
+                    if (i <= ViewModel.AllEpisodes)
+                        numbers.Add(i);
+                    if (j >= 0)
+                        numbers.Add(j);
+                }
+                QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
+                QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodes.ToString();
+                QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
+                QuickSelectionGrid.Visibility = Visibility.Visible;
+            }
+            else
+                QuickSelectionGrid.Visibility = Visibility.Collapsed;
+
         }
 
         private void TxtBoxWatchedEps_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -32,10 +55,20 @@ namespace MALClient.Shared.Flyouts
         private void WatchedEpsFlyout_OnClosed(object sender, object e)
         {
             DataContext = null;
+            QuickSelectionGrid.ItemsSource = null;
+            QuickSelectionGrid.Visibility = Visibility.Collapsed;
         }
 
         private void BtnSubmitOnClick(object sender, RoutedEventArgs e)
         {
+            ViewModel.OnFlyoutEpsKeyDown.Execute(null);
+            WatchedEpsFlyout.Hide();
+        }
+
+        private void QuickSelectionGrid_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.WatchedEpsInput = e.ClickedItem as string;
+            ViewModel.OnFlyoutEpsKeyDown.Execute(null);
             WatchedEpsFlyout.Hide();
         }
     }

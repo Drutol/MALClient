@@ -213,7 +213,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public int MalId { get; set; }
 
-        private int AllEpisodes
+        public int AllEpisodes
         {
             get { return _animeItemReference?.AllEpisodes ?? _allEpisodes; }
             set { _allEpisodes = value; }

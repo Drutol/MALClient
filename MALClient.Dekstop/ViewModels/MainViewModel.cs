@@ -70,10 +70,9 @@ namespace MALClient.ViewModels
             }
             _navigating = true;
             ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
-            
+           
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
-
             //prepare for some index mess
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;

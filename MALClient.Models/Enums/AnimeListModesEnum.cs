@@ -8,7 +8,9 @@ namespace MALClient.XShared.Utils.Enums
         SeasonalAnime,
         Manga,
         TopAnime,
-        TopManga
+        TopManga,
+        AnimeByGenre,
+        AnimeByStudio
     }
 
     public enum AnimeListDisplayModes

@@ -62,10 +62,21 @@ namespace MALClient.Pages.Main
             if (!_initialized)
                 return;
 
-            if (UpperNavBarPivot.SelectedIndex == 0)
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs());
-            else if (UpperNavBarPivot.SelectedIndex == 1)
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMangaSearch, new SearchPageNavigationArgs { Anime = false });
+            switch (UpperNavBarPivot.SelectedIndex)
+            {
+                case 0:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs());
+                    break;
+                case 1:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMangaSearch, new SearchPageNavigationArgs { Anime = false });
+                    break;
+                case 3:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs { ByGenre = true });
+                    break;
+                case 4:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs { ByStudio = true });
+                    break;
+            }
 
             _initialized = false;
             UpperNavBarPivot.SelectedIndex = 2;

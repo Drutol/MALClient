@@ -19,6 +19,8 @@ namespace MALClient.XShared.NavArgs
 
     public class SearchPageNavigationArgs : SearchPageNavArgs
     {
+        public bool ByGenre { get; set; }
+        public bool ByStudio { get; set; }
         public bool Anime { get; set; } = true;
         public string Query { get; set; }
     }

@@ -32,6 +32,8 @@
                 <PivotItem Header="Anime"/>
                 <PivotItem Header="Manga&amp;Novels"/>
                 <PivotItem Header="Characters"/>
+                <PivotItem Header="Genre"/>
+                <PivotItem Header="Studio"/>
             </Pivot.Items>
             <Pivot.HeaderTemplate>
                 <DataTemplate>

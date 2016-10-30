@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using GalaSoft.MvvmLight;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.Manga;
@@ -15,7 +16,7 @@ using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {
-
+    //this thing begs for refactor
 
     public class SearchPageViewModel : ViewModelBase
     {
@@ -31,6 +32,30 @@ namespace MALClient.XShared.ViewModels.Main
         public void Init(SearchPageNavigationArgs args)
         {
             PrevArgs = args;
+            if (args.ByGenre || args.ByStudio)
+            {
+                PrevQuery = null;
+                EmptyNoticeVisibility = false;
+                IsFirstVisitGridVisible = false;
+                GenreSelectionGridVisibility = true;
+                DirectQueryInputVisibility = false;
+
+                if (args.ByGenre)
+                {
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>().ToList();
+                }
+                else
+                {
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeStudios)).Cast<Enum>().ToList();
+                }
+
+                return;
+            }
+            else
+            {
+                GenreSelectionGridVisibility = false;
+            }
+
             if (_animeSearch != args.Anime)
                 PrevQuery = null;
             if(!_queryHandler)
@@ -191,6 +216,8 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         private bool _emptyNoticeVisibility = false;
+        private bool _genreSelectionGridVisibility;
+        private List<Enum> _availableSelectionChoices;
 
         public bool EmptyNoticeVisibility
         {
@@ -222,6 +249,25 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        public bool GenreSelectionGridVisibility
+        {
+            get { return _genreSelectionGridVisibility; }
+            set
+            {
+                _genreSelectionGridVisibility = value;
+                RaisePropertyChanged(() => GenreSelectionGridVisibility);
+            }
+        }
+
+        public List<Enum> AvailableSelectionChoices
+        {
+            get { return _availableSelectionChoices; }
+            set
+            {
+                _availableSelectionChoices = value;
+                RaisePropertyChanged(() => AvailableSelectionChoices);
+            }
+        }
 
         #endregion
     }

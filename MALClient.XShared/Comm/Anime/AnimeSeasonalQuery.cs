@@ -84,77 +84,10 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     try
                     {
-
-                        if (htmlNode.Attributes["class"]?.Value != HtmlClassMgr.ClassDefs["#Seasonal:entryNode:class"])
+                        var model = ParseFromHtml(htmlNode, i);
+                        if(model == null)
                             continue;
-
-                        var imageNode =
-                            htmlNode.FirstOfDescendantsWithClass("div", "image lazyload");
-                        var link = imageNode.ChildNodes.First(node => node.Name == "a").Attributes["href"].Value;
-                        var img = imageNode.Attributes["data-bg"].Value;
-                        var scoreTxt =
-                            htmlNode.Descendants("span")
-                                .First(
-                                    node =>
-                                        node.Attributes.Contains("class") &&
-                                        node.Attributes["class"].Value ==
-                                        HtmlClassMgr.ClassDefs["#Seasonal:entryNode:score:class"])
-                                .InnerText;
-                        var infoNode =
-                            htmlNode.Descendants("div")
-                                .First(
-                                    node =>
-                                        node.Attributes.Contains("class") &&
-                                        node.Attributes["class"].Value ==
-                                        HtmlClassMgr.ClassDefs["#Seasonal:entryNode:info:class"]);
-                        int day;
-                        string airStartDate = null;
-                        try
-                        {
-                            var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
-                            var dateObj = DateTime.Parse(date);
-                            day = (int) dateObj.DayOfWeek;
-                            airStartDate = dateObj.ToString("yyyy-MM-dd");
-                            day++;
-                        }
-                        catch (Exception)
-                        {
-                            day = -1;
-                        }
-
-                        float score;
-                        if (!float.TryParse(scoreTxt, out score))
-                            score = 0;
-                        output.Add(new SeasonalAnimeData
-                        {
-                            Title = WebUtility.HtmlDecode(imageNode.InnerText.Trim()),
-                            //there are some \n that we need to get rid of
-                            Id = int.Parse(link.Substring(8).Split('/')[2]), //extracted from anime link
-                            ImgUrl = img, // from image style attr it's between ( )
-                            Score = score, //0 for N/A
-                            Episodes =
-                                htmlNode.Descendants("div")
-                                    .First(
-                                        node =>
-                                            node.Attributes.Contains("class") &&
-                                            node.Attributes["class"].Value ==
-                                            HtmlClassMgr.ClassDefs["#Seasonal:entryNode:eps:class"])
-                                    .Descendants("a")
-                                    .First()
-                                    .InnerText.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0],
-                            Index = i,
-                            Genres = htmlNode.Descendants("div").First(node =>
-                                node.Attributes.Contains("class") &&
-                                node.Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#Seasonal:entryNode:genres:class"])
-                                .InnerText
-                                .Replace('\n', ';')
-                                .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
-                                .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())
-                                .ToList(),
-                            AirDay = day,
-                            AirStartDate = airStartDate
-                        });
+                        output.Add(model);
                         i++;
                     }
                     catch (Exception e)
@@ -173,6 +106,81 @@ namespace MALClient.XShared.Comm.Anime
 
             //We are done.
             return output;
+        }
+
+        public static SeasonalAnimeData ParseFromHtml(HtmlNode htmlNode,int index,bool parseDate = true)
+        {
+            if (htmlNode.Attributes["class"]?.Value != HtmlClassMgr.ClassDefs["#Seasonal:entryNode:class"])
+                return null;
+
+            var imageNode =
+                htmlNode.FirstOfDescendantsWithClass("div", "image lazyload");
+            var link = imageNode.ChildNodes.First(node => node.Name == "a").Attributes["href"].Value;
+            var img = imageNode.Attributes["data-bg"].Value;
+            var scoreTxt =
+                htmlNode.Descendants("span")
+                    .First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            HtmlClassMgr.ClassDefs["#Seasonal:entryNode:score:class"])
+                    .InnerText;
+            var infoNode =
+                htmlNode.Descendants("div")
+                    .First(
+                        node =>
+                            node.Attributes.Contains("class") &&
+                            node.Attributes["class"].Value ==
+                            HtmlClassMgr.ClassDefs["#Seasonal:entryNode:info:class"]);
+            int day = -1;
+            string airStartDate = null;
+            if(parseDate)
+                try
+                {
+                    var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
+                    var dateObj = DateTime.Parse(date);
+                    day = (int)dateObj.DayOfWeek;
+                    airStartDate = dateObj.ToString("yyyy-MM-dd");
+                    day++;
+                }
+                catch (Exception)
+                {
+                    day = -1;
+                }
+
+            float score;
+            if (!float.TryParse(scoreTxt, out score))
+                score = 0;
+            return new SeasonalAnimeData
+            {
+                Title = WebUtility.HtmlDecode(imageNode.InnerText.Trim()),
+                //there are some \n that we need to get rid of
+                Id = int.Parse(link.Substring(8).Split('/')[2]), //extracted from anime link
+                ImgUrl = img, // from image style attr it's between ( )
+                Score = score, //0 for N/A
+                Episodes =
+                    htmlNode.Descendants("div")
+                        .First(
+                            node =>
+                                node.Attributes.Contains("class") &&
+                                node.Attributes["class"].Value ==
+                                HtmlClassMgr.ClassDefs["#Seasonal:entryNode:eps:class"])
+                        .Descendants("a")
+                        .First()
+                        .InnerText.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0],
+                Index = index,
+                Genres = htmlNode.Descendants("div").First(node =>
+                        node.Attributes.Contains("class") &&
+                        node.Attributes["class"].Value ==
+                        HtmlClassMgr.ClassDefs["#Seasonal:entryNode:genres:class"])
+                    .InnerText
+                    .Replace('\n', ';')
+                    .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
+                    .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())
+                    .ToList(),
+                AirDay = day,
+                AirStartDate = airStartDate
+            };
         }
     }
 }

@@ -59,6 +59,9 @@ namespace MALClient.XShared.ViewModels.Main
         public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
 
+        public AnimeGenres Genre { get; set; }
+        public AnimeStudios Studio { get; set; }
+
         public IDimensionsProvider DimensionsProvider { get; set; }
 
         public bool Initializing
@@ -180,11 +183,21 @@ namespace MALClient.XShared.ViewModels.Main
                     TopAnimeWorkMode = args.TopWorkMode;
                     ViewModelLocator.GeneralHamburger.SetActiveButton(args.TopWorkMode);//we have to have it
                 }
+                else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
+                {
+                    Genre = args.Genre;
+                }
+                else if(WorkMode == AnimeListWorkModes.AnimeByStudio)
+                {
+                    Studio = args.Studio;
+                }
 
                 if (!string.IsNullOrEmpty(args.ListSource))
                     ListSource = args.ListSource;
                 else
                     ListSource = Credentials.UserName;
+
+
                 if (args.NavArgs) // Use args if we have any
                 {
                     SortDescending = SortDescending = args.Descending;
@@ -252,6 +265,8 @@ namespace MALClient.XShared.ViewModels.Main
                 case AnimeListWorkModes.SeasonalAnime:
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
+                case AnimeListWorkModes.AnimeByGenre:
+                case AnimeListWorkModes.AnimeByStudio:
                     Loading = true;
                     EmptyNoticeVisibility = false;
 
@@ -261,6 +276,7 @@ namespace MALClient.XShared.ViewModels.Main
 
                     ViewModelLocator.NavMgr.DeregisterBackNav();
                     ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+
 
                     if (!gotArgs)
                     {
@@ -285,7 +301,10 @@ namespace MALClient.XShared.ViewModels.Main
                     else
                     {
                         AppbarBtnPinTileVisibility = AppBtnSortingVisibility = true;
-                        AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                       // if(WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
+                        //    AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
+                        //else
+                            AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
                     }
                     break;
                 default:
@@ -359,6 +378,8 @@ namespace MALClient.XShared.ViewModels.Main
                         break;
                     case AnimeListWorkModes.SeasonalAnime:
                     case AnimeListWorkModes.TopAnime:
+                    case AnimeListWorkModes.AnimeByGenre:
+                    case AnimeListWorkModes.AnimeByStudio:
                         items = _allLoadedSeasonalAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
@@ -813,6 +834,18 @@ namespace MALClient.XShared.ViewModels.Main
                     await Task.Run(new Func<Task>(async () => topResponse = await new AnimeTopQuery(WorkMode == AnimeListWorkModes.TopAnime ? TopAnimeWorkMode : TopAnimeType.Manga, page).GetTopAnimeData(force)));
                     data.AddRange(topResponse ?? new List<TopAnimeData>());
                     break;
+                case AnimeListWorkModes.AnimeByGenre:
+                    var gResponse = new List<SeasonalAnimeData>();
+                    await Task.Run(new Func<Task>(async () => gResponse = await new AnimeGenreStudioQuery(Genre).GetSeasonalAnime()));
+                    data.AddRange(gResponse ?? new List<SeasonalAnimeData>());
+                    break;
+                case AnimeListWorkModes.AnimeByStudio:
+                    var sResponse = new List<SeasonalAnimeData>();
+                    await Task.Run(new Func<Task>(async () => sResponse = await new AnimeGenreStudioQuery(Studio).GetSeasonalAnime()));
+                    data.AddRange(sResponse ?? new List<SeasonalAnimeData>());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             //if we don't have any we cannot do anything I guess...
             if (data.Count == 0)
@@ -913,7 +946,9 @@ namespace MALClient.XShared.ViewModels.Main
         /// </summary>
         private async void ReloadList()
         {
-            if (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+            if (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime ||
+                WorkMode == AnimeListWorkModes.TopManga || WorkMode == AnimeListWorkModes.AnimeByGenre ||
+                WorkMode == AnimeListWorkModes.AnimeByStudio)
                 await FetchSeasonalData(true);
             else
                 await FetchData(true);
@@ -1570,12 +1605,18 @@ namespace MALClient.XShared.ViewModels.Main
                     page.CurrentStatus = $"Top {TopAnimeWorkMode} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.TopManga)
                     page.CurrentStatus = $"Top Manga - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                else if (WorkMode == AnimeListWorkModes.AnimeByStudio)
+                    page.CurrentStatus = $"Studio - {Studio.GetDescription()}";
+                else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
+                    page.CurrentStatus = $"Genre - {Genre.GetDescription()}";
                 else if (!string.IsNullOrWhiteSpace(ListSource))
                     page.CurrentStatus = $"{ListSource} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else
                     page.CurrentStatus = $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
             else
                 page.CurrentStatus = $"{CurrentSeason?.Name} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+
+
             if (WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga || WorkMode == AnimeListWorkModes.SeasonalAnime)
                 page.CurrentStatusSub = SortOption != SortOptions.SortWatched ? SortOption.GetDescription() : Sort3Label;
             else
@@ -1623,10 +1664,14 @@ namespace MALClient.XShared.ViewModels.Main
         private void SetDesiredStatus(int? value)
         {
             var setDisp = value == null;
-            if (value == null && (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga))
+            if (value == null &&
+                (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.AnimeByGenre ||
+                 WorkMode == AnimeListWorkModes.AnimeByStudio || WorkMode == AnimeListWorkModes.TopAnime ||
+                 WorkMode == AnimeListWorkModes.TopManga))
                 value = (int) AnimeStatus.AllOrAiring;
 
-            value = value ?? (WorkMode == AnimeListWorkModes.Manga ? Settings.DefaultMangaFilter : Settings.DefaultAnimeFilter);
+            value = value ??
+                    (WorkMode == AnimeListWorkModes.Manga ? Settings.DefaultMangaFilter : Settings.DefaultAnimeFilter);
             if (setDisp)
                 SetDisplayMode((AnimeStatus) value);
 

@@ -1,4 +1,5 @@
-﻿using MALClient.Models.Models.Anime;
+﻿using MALClient.Models.Enums;
+using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils.Enums;
 
@@ -18,6 +19,8 @@ namespace MALClient.XShared.NavArgs
         public SortOptions SortOption;
         public TopAnimeType TopWorkMode = TopAnimeType.General;
         public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
+        public AnimeGenres Genre;
+        public AnimeStudios Studio;
 
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc,
             AnimeListWorkModes seasonal, string source, AnimeSeason season, AnimeListDisplayModes dispMode)
@@ -40,6 +43,18 @@ namespace MALClient.XShared.NavArgs
         {
             WorkMode = workMode;
             StatusIndex = filterIndex;
+        }
+
+        public AnimeListPageNavigationArgs(AnimeStudios studio)
+        {
+            WorkMode = AnimeListWorkModes.AnimeByStudio;
+            Studio = studio;
+        }
+
+        public AnimeListPageNavigationArgs(AnimeGenres genre)
+        {
+            WorkMode = AnimeListWorkModes.AnimeByGenre;
+            Genre = genre;
         }
 
         public static AnimeListPageNavigationArgs Seasonal

@@ -35,8 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AdapterModels\VaultCredential.cs" />
+    <Compile Include="Enums\AnimeGenresEnum.cs" />
     <Compile Include="Enums\AnimeListModesEnum.cs" />
     <Compile Include="Enums\AnimeStatusEnum.cs" />
+    <Compile Include="Enums\AnimeStudiosEnum.cs" />
     <Compile Include="Enums\AnimeTypeEnum.cs" />
     <Compile Include="Enums\ApiTypeEnum.cs" />
     <Compile Include="Enums\ArticlePageEnums.cs" />

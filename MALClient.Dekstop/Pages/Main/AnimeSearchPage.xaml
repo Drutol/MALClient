@@ -18,6 +18,7 @@
                 </ResourceDictionary.MergedDictionaries>
                 <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
+            <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToDescriptionConverter" />
         </ResourceDictionary>
 
     </Page.Resources>
@@ -37,6 +38,8 @@
                 <PivotItem Header="Anime"/>
                 <PivotItem Header="Manga&amp;Novels"/>
                 <PivotItem Header="Characters"/>
+                <PivotItem Header="Genre"/>
+                <PivotItem Header="Studio"/>
             </Pivot.Items>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
@@ -112,6 +115,25 @@
             <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                           IsActive="True" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.RowSpan="2" Background="{ThemeResource BrushLoadingNonOpaque}" HorizontalAlignment="Stretch" Visibility="{Binding GenreSelectionGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+            <GridView Margin="20" ItemsSource="{Binding AvailableSelectionChoices}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="SelectionGridViewOnClick">
+                <GridView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <EntranceThemeTransition />
+                        <AddDeleteThemeTransition />
+                    </TransitionCollection>
+                </GridView.ItemContainerTransitions>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="150" Height="70" Padding="10">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" Foreground="{ThemeResource BrushText}" FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="20"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
         </Grid>
     </Grid>
 </Page>

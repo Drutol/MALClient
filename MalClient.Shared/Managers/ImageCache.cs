@@ -97,10 +97,10 @@ namespace MALClient.Shared.Managers
         /// </summary>
         /// <param name="uri">Uri of the image.</param>
         /// <returns>a BitmapImage</returns>
-        public static async Task<BitmapImage> GetFromCacheAsync(Uri uri)
+        public static async Task<Uri> GetFromCacheAsync(Uri uri)
         {
             if (!Settings.EnableImageCache)
-                return new BitmapImage(uri);
+                return uri;
 
             Task busy;
             string key = GetCacheFileName(uri);
@@ -125,7 +125,7 @@ namespace MALClient.Shared.Managers
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                return new BitmapImage(uri);
+                return uri;
             }
             finally
             {
@@ -138,7 +138,7 @@ namespace MALClient.Shared.Managers
                 }
             }
 
-            return CreateBitmapImage(key, uri);
+            return CreateBitmapImage(key);
         }
 
         /// <summary>
@@ -153,18 +153,9 @@ namespace MALClient.Shared.Managers
             return $"{uriHash}.jpg";
         }
 
-        private static BitmapImage CreateBitmapImage(string fileName, Uri fallbackUri = null)
+        private static Uri CreateBitmapImage(string fileName)
         {
-            BitmapImage img;
-            try
-            {
-                img = new BitmapImage(new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}"));
-            }
-            catch (Exception)
-            {
-                img = new BitmapImage(fallbackUri);
-            }
-            return img;
+            return new Uri($"ms-appdata:///temp/{CacheFolderName}/{fileName}");
         }
 
         private static async Task EnsureFileAsync(Uri uri)
@@ -271,7 +262,7 @@ namespace MALClient.Shared.Managers
             {
                 using (var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
                 {
-                    response.EnsureSuccessStatusCode();
+                     response.EnsureSuccessStatusCode();
 
                     return response.Content;
                 }

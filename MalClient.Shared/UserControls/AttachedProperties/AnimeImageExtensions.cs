@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -43,30 +44,23 @@ namespace MALClient.Shared.UserControls.AttachedProperties
                 var pos = source.IndexOf(".jpg");
                 if (pos != -1)
                 {
-                    img.ImageFailed += ImgOnImageFailed;
-                    img.Source = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));
+                    var uri = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));
+                    img.ImageFailed += async (sender, args) =>
+                    {
+                        img.Source = new BitmapImage(await ImageCache.GetFromCacheAsync(new Uri(source)));
+                    };
+                    img.Source = new BitmapImage(uri);
                 }
                 else if (!string.IsNullOrEmpty(source))
-                    img.Source = await ImageCache.GetFromCacheAsync(new Uri(source));
+                    img.Source = new BitmapImage(await ImageCache.GetFromCacheAsync(new Uri(source)));
                 else
                     img.Source = null;
             }
             else if (!string.IsNullOrEmpty(source))
-                img.Source = await ImageCache.GetFromCacheAsync(new Uri(source));
+                img.Source = new BitmapImage(await ImageCache.GetFromCacheAsync(new Uri(source)));
             else
                 img.Source = null;
 
-        }
-
-        private static async void ImgOnImageFailed(object sender, ExceptionRoutedEventArgs exceptionRoutedEventArgs)
-        {
-
-            var img = sender as Image;
-            img.ImageFailed -= ImgOnImageFailed;
-            var url = GetMalBaseImageSource(img);
-            if(!string.IsNullOrEmpty(url))
-                img.Source = await ImageCache.GetFromCacheAsync(new Uri(url));
-     
         }
 
         public static void SetMalBaseImageSource(UIElement element, string value)

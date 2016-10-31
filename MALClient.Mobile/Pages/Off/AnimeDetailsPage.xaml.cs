@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -100,35 +103,21 @@ namespace MALClient.Pages.Off
             ImageSaveFlyout.ShowAt(sender as FrameworkElement);
         }
 
-        //private void AlternateImage_OnImageOpened(object sender, RoutedEventArgs e)
-        //{
-        //    AlternateImgScrollViewer.ZoomToFactor((float) .5);
-        //    CurrentImgDimesnions.Text =
-        //        $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
-        //}
-
-        //private void MalImage_OnImageOpened(object sender, RoutedEventArgs e)
-        //{
-        //    StockImgScrollViewer.ZoomToFactor(Settings.SelectedApiType == ApiType.Mal ? 1 : 0.5f);
-        //    CurrentImgDimesnions.Text = $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
-        //}
-
-        //private void ImagePivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if ((sender as FlipView).SelectedIndex == 0 && ViewModel?.DetailImage != null)
-        //            CurrentImgDimesnions.Text =
-        //                $"{ViewModel.DetailImage.PixelWidth}x{ViewModel.DetailImage.PixelHeight}";
-        //        else if (ViewModel?.HummingbirdImage != null)
-        //            CurrentImgDimesnions.Text =
-        //                $"{ViewModel.HummingbirdImage.PixelWidth}x{ViewModel.HummingbirdImage.PixelHeight}";
-        //    }
-        //    catch (Exception)
-        //    {
-        //        //voodoo
-        //    }
-        //}
+        private TypeInfo _typeInfo;
+        //why? beacuse MSFT Bugged this after anniversary update
+        private void BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var typeInfo = _typeInfo ?? (_typeInfo = typeof(FrameworkElement).GetTypeInfo());
+                var prop = typeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, true);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
+        }
 
         private void StartDate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
@@ -163,6 +152,35 @@ namespace MALClient.Pages.Off
             ViewModel.OpenVideoCommand.Execute(e.ClickedItem);
             PromotionalVideosFlyout.Hide();
             MoreFlyout.Hide();
+        }
+
+        private void WatchedButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.AllEpisodes != 0)
+            {
+                var numbers = new List<int>();
+                int i = ViewModel.MyEpisodes, j = ViewModel.MyEpisodes - 1, k = 0;
+                for (; k < 10; i++, j--, k++)
+                {
+                    if (i <= ViewModel.AllEpisodes)
+                        numbers.Add(i);
+                    if (j >= 0)
+                        numbers.Add(j);
+                }
+                QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
+                QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodes.ToString();
+                QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
+                QuickSelectionGrid.Visibility = Visibility.Visible;
+            }
+            else
+                QuickSelectionGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void QuickSelectionGrid_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.WatchedEpsInput = e.ClickedItem as string;
+            ViewModel.ChangeWatchedCommand.Execute(null);
+            WatchedEpsFlyout.Hide();
         }
     }
 }

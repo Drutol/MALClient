@@ -1,5 +1,7 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -25,8 +27,42 @@ namespace MALClient.Pages.Main
         {
             ViewModelLocator.NavMgr.DeregisterBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
-            ViewModel.Init(e.Parameter as SearchPageNavigationArgs);
+            var param = e.Parameter as SearchPageNavigationArgs;
+            if (param != null)
+                Loaded += (sender, args) =>
+                {
+                    if (param.ByGenre)
+                        AnimeByGenreToggleButton.IsChecked = true;
+                    else if (param.ByStudio)
+                        AnimeByStudioToggleButton.IsChecked = true;
+                };
+            ViewModel.Init(param);
             base.OnNavigatedTo(e);
+        }
+
+        private void SelectionGridViewOnClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is AnimeGenres)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs((AnimeGenres)e.ClickedItem));
+            else
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs((AnimeStudios)e.ClickedItem));
+        }
+
+        private void ButtonByStudioBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(AnimeByStudioToggleButton.IsChecked == true)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs { ByStudio = true });
+            else
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs());
+        }
+
+        private void ButtonByGenreBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (AnimeByGenreToggleButton.IsChecked == true)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs { ByGenre = true });
+            else
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs());
+
         }
     }
 }

@@ -300,11 +300,16 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                     else
                     {
-                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = true;
-                       // if(WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
-                        //    AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
-                        //else
-                            AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+
+                        if (WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
+                        {
+                            AppbarBtnPinTileVisibility = false;
+                            AppBtnSortingVisibility = true;
+                        }
+                        else
+                            AppbarBtnPinTileVisibility = AppBtnSortingVisibility = true;
+
+                        AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
                     }
                     break;
                 default:

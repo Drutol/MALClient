@@ -70,14 +70,16 @@ namespace MALClient.ViewModels
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;
 
-            if (index == PageIndex.PageSeasonal ||
+            if (index == PageIndex.PageSeasonal || //index is always angry btw
                 index == PageIndex.PageMangaList ||
                 index == PageIndex.PageTopManga ||
                 index == PageIndex.PageTopAnime)
                 index = PageIndex.PageAnimeList;
 
-            MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList ||
-                                                                    index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
+            MobileViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageAnimeList || //and she likes to bit certain individual
+                                                                    index == PageIndex.PageMessanging || 
+                                                                    index == PageIndex.PageSearch || 
+                                                                    index == PageIndex.PageWallpapers);
 
             if (index == PageIndex.PageAnimeList && _searchStateBeforeNavigatingToSearch != null)
             {
@@ -89,7 +91,7 @@ namespace MALClient.ViewModels
             }
 
             ResetSearchFilter();
-            switch (index)
+            switch (index) //his head specifficaly
             {
                 case PageIndex.PageAnimeList:
                     if (MobileViewModelLocator.AnimeList.Initializing)
@@ -139,13 +141,23 @@ namespace MALClient.ViewModels
                 case PageIndex.PageMangaSearch:
                     if(CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
-                    SearchToggleLock = true;
-                    ShowSearchStuff();
-                    ToggleSearchStuff();
-                    if (string.IsNullOrWhiteSpace((args as SearchPageNavigationArgs).Query))
+
+                    var searchArg = args as SearchPageNavigationArgs;
+                    if (string.IsNullOrWhiteSpace(searchArg.Query))
                     {
-                        View.SearchInputFocus(FocusState.Keyboard);
-                        (args as SearchPageNavigationArgs).Query = CurrentSearchQuery;
+                        if (!searchArg.ByGenre && !searchArg.ByStudio)
+                        {
+                            View.SearchInputFocus(FocusState.Keyboard);
+                            SearchToggleLock = true;
+                            ShowSearchStuff();
+                            ToggleSearchStuff();
+                        }
+                        else
+                        {
+                            HideSearchStuff();
+                            CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
+                        }
+                        searchArg.Query = CurrentSearchQuery;
                     }
                     MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
                     break;

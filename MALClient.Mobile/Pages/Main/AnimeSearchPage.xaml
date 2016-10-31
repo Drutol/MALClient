@@ -11,7 +11,15 @@
 
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToDescriptionConverter" />
     </Page.Resources>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarToggleButton x:Name="AnimeByStudioToggleButton" Icon="OtherUser" Label="Anime by studio" Click="ButtonByStudioBase_OnClick"/>
+            <AppBarToggleButton x:Name="AnimeByGenreToggleButton" Icon="Admin" Label="Anime by genre" Click="ButtonByGenreBase_OnClick"/>
+        </CommandBar>
+    </Page.BottomAppBar>
     
     <Grid Background="{ThemeResource BrushDetailsBackground}">
         <Grid>
@@ -49,6 +57,25 @@
             <ProgressRing Margin="{Binding ElementName=Animes, Path=Margin}"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100" Height="100"
                           IsActive="True" Visibility="{Binding Loading}" />
+        </Grid>
+
+        <Grid Background="{ThemeResource BrushLoadingNonOpaque}" HorizontalAlignment="Stretch" Visibility="{Binding GenreSelectionGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+            <GridView ScrollViewer.VerticalScrollBarVisibility="Hidden"  Margin="20" ItemsSource="{Binding AvailableSelectionChoices}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="SelectionGridViewOnClick">
+                <GridView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <EntranceThemeTransition />
+                        <AddDeleteThemeTransition />
+                    </TransitionCollection>
+                </GridView.ItemContainerTransitions>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="120" Height="70" Padding="5">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" Foreground="{ThemeResource BrushText}" FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="18"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
         </Grid>
     </Grid>
 </Page>

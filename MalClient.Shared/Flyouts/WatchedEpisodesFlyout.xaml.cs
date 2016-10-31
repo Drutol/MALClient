@@ -26,16 +26,16 @@ namespace MALClient.Shared.Flyouts
             if (ViewModel.AllEpisodes != 0)
             {
                 var numbers = new List<int>();
-                int i = ViewModel.MyEpisodes, j = ViewModel.MyEpisodes - 1, k=0;
+                int i = ViewModel.MyEpisodesFocused, j = ViewModel.MyEpisodesFocused - 1, k=0;
                 for (; k < 10; i++ , j--, k++)
                 {
-                    if (i <= ViewModel.AllEpisodes)
+                    if (i <= ViewModel.AllEpisodesFocused)
                         numbers.Add(i);
                     if (j >= 0)
                         numbers.Add(j);
                 }
                 QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
-                QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodes.ToString();
+                QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodesFocused.ToString();
                 QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
                 QuickSelectionGrid.Visibility = Visibility.Visible;
             }

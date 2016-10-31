@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -43,6 +44,11 @@ namespace MALClient.Shared.Items
                 ViewModel.ChangeWatchedEps();
                 e.Handled = true;
             }
+        }
+
+        private void ButtonWatchedEpsOnClick(object sender, RoutedEventArgs e)
+        {
+            ItemFlyoutService.ShowWatchedEpisodesFlyout(sender as FrameworkElement);
         }
     }
 }

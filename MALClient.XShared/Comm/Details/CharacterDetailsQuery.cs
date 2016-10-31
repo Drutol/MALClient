@@ -84,7 +84,7 @@ namespace MALClient.XShared.Comm.Details
                     output.ImgUrl = image.Attributes["src"].Value;
                 }
 
-                output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText).Trim();
+                output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText).Trim().Replace("  "," "); //because mal tends to leave two spaces there and there's pretty hardcore guy on github who can spot such things... props ;d
                 output.Content = output.SpoilerContent = "";
                 output.Content += WebUtility.HtmlDecode(leftColumn.LastChild.InnerText.Trim()) + "\n\n";
                 foreach (var node in columns[1].ChildNodes)

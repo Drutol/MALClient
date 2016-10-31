@@ -69,13 +69,18 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 ViewModelLocator.NavMgr.ResetOffBackNav();
                 DirectQueryInputVisibility = true;
+                if (_queryHandler)
+                {
+                    ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= SubmitQuery;
+                    _queryHandler = false;
+                }
             }
             else
             {
                 DirectQueryInputVisibility = false;
             }
 
-            if (!string.IsNullOrWhiteSpace(args.Query))
+            if (!string.IsNullOrWhiteSpace(args.Query) && args.DisplayMode == SearchPageDisplayModes.Main)
             {
                 ViewModelLocator.GeneralMain.PopulateSearchFilters(_filters);
                 SubmitQuery(args.Query);

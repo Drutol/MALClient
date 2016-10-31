@@ -226,6 +226,11 @@ namespace MALClient.ViewModels
                         arg.DisplayMode = SearchPageDisplayModes.Off;
                     if (arg.DisplayMode == SearchPageDisplayModes.Off)
                     {
+                        if (CurrentMainPage == PageIndex.PageCharacterSearch)
+                        {
+                            ToggleSearchStuff();
+                            SearchToggleLock = true;
+                        }
                         if (CurrentMainPage == PageIndex.PageSearch)
                         {
                             break; // we are already on the left

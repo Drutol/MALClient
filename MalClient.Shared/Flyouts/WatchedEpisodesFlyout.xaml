@@ -23,12 +23,12 @@
                 <TextBox x:Name="TxtBoxWatchedEps" BorderThickness="0"
                          Text="{Binding WatchedEpsInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          KeyDown="TxtBoxWatchedEps_OnKeyDown" InputScope="Number" />
-                <Button Grid.Column="1" Height="{Binding ElementName=TxtBoxWatchedEps,Path=ActualHeight}" BorderThickness="0" Background="{ThemeResource BrushAnimeItemInnerBackground}" Command="{Binding ChangeWatchedCommand,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2,0,0,0"
+                <Button Grid.Column="1" Height="{Binding ElementName=TxtBoxWatchedEps,Path=ActualHeight}" BorderThickness="0" Background="{ThemeResource BrushAnimeItemInnerBackground}" Command="{Binding ChangeWatchedCommand}" Margin="2,0,0,0"
                         Click="BtnSubmitOnClick">
                     <SymbolIcon Symbol="Accept" />
                 </Button>
             </Grid>
-            <GridView ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center"  x:Name="QuickSelectionGrid" IsItemClickEnabled="True" Height="165" Width="170" ItemClick="QuickSelectionGrid_OnItemClick">
+            <GridView Margin="0,5,0,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center"  x:Name="QuickSelectionGrid" IsItemClickEnabled="True" MaxHeight="165" MaxWidth="170" ItemClick="QuickSelectionGrid_OnItemClick">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal"/>

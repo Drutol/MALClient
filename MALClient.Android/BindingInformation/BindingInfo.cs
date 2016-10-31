@@ -20,7 +20,7 @@ namespace MALClient.Android.CollectionAdapters
 
         protected abstract void InitBindings();
         protected abstract void InitOneTimeBindings();
-        protected Dictionary<int, Binding> Bindings { get; set; } = new Dictionary<int, Binding>();
+        protected Dictionary<int, List<Binding>> Bindings { get; set; } = new Dictionary<int, List<Binding>>();
 
         protected TViewModel ViewModel { get; private set; }
 
@@ -45,11 +45,11 @@ namespace MALClient.Android.CollectionAdapters
 
         protected virtual void DetachBindings()
         {
-            foreach (var binding in Bindings)
+            foreach (var binding in Bindings.SelectMany(pair => pair.Value))
             {
-                binding.Value?.Detach();
+                binding?.Detach();
             }
-            Bindings = new Dictionary<int, Binding>();
+            Bindings = new Dictionary<int, List<Binding>>();
         }
 
         public void Detach()

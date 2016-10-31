@@ -25,7 +25,7 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(new AnimeListPageNavigationArgs(AnimeGenres.Action));         
+            ViewModelLocator.AnimeList.Init(null);         
         }
 
 

@@ -56,6 +56,7 @@
               android:layout_height="wrap_content"
               android:id="@+id/AnimeGridItemScore"
               android:text="8/10"
+              android:layout_gravity="center_horizontal"
               android:layout_marginTop="5dp"
               android:textStyle="italic"
               android:textColor="#ffffff"

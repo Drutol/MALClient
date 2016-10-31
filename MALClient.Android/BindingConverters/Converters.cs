@@ -8,5 +8,10 @@ namespace MALClient.Android.BindingConverters
         {
             return arg ? ViewStates.Visible : ViewStates.Gone;
         }
+
+        public static ViewStates IsStringEmptyToVisibility(string arg)
+        {
+            return string.IsNullOrEmpty(arg) ? ViewStates.Gone : ViewStates.Visible;
+        }
     }
 }

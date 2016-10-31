@@ -18,6 +18,12 @@ namespace MALClient.Android.CollectionAdapters
         private bool _attached;
         private View _container;
 
+        protected abstract void InitBindings();
+        protected abstract void InitOneTimeBindings();
+        protected Dictionary<int, Binding> Bindings { get; set; } = new Dictionary<int, Binding>();
+
+        protected TViewModel ViewModel { get; private set; }
+
         public View Container
         {
             get { return _container; }
@@ -25,45 +31,30 @@ namespace MALClient.Android.CollectionAdapters
             {
                 Detach();
                 _container = value;
-                Attach();
                 InitBindings();
-                Setup();
+                InitOneTimeBindings();
             }
         }
 
-        public TViewModel ViewModel { get; protected set; }
-        protected Dictionary<int, Binding> Bindings { get; set; } = new Dictionary<int, Binding>();
-
-        public BindingInfo(View container, TViewModel viewModel)
+        protected BindingInfo(View container, TViewModel viewModel)
         {          
             ViewModel = viewModel;
             Container = container;
         }
 
 
-        protected abstract void InitBindings();
-        public abstract void DetachBindings();
-
-
-        protected virtual void Setup()
+        protected virtual void DetachBindings()
         {
-            
+            foreach (var binding in Bindings)
+            {
+                binding.Value?.Detach();
+            }
+            Bindings = new Dictionary<int, Binding>();
         }
 
-        private void Attach()
+        public void Detach()
         {
-            Container.ViewAttachedToWindow += ContainerOnViewAttachedToWindow;
-            Container.ViewDetachedFromWindow += ContainerOnViewDetachedFromWindow;
-        }
-
-        public virtual void Detach()
-        {
-            if(!_attached)
-                return;
-
             DetachBindings();
-            Container.ViewAttachedToWindow -= ContainerOnViewAttachedToWindow;
-            Container.ViewDetachedFromWindow -= ContainerOnViewDetachedFromWindow;
         }
 
         private void ContainerOnViewDetachedFromWindow(object sender, View.ViewDetachedFromWindowEventArgs e)

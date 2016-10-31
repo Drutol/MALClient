@@ -16,20 +16,20 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.CollectionAdapters
 {
-    public class AnimeListItemsAdapter : ObservableCollectionAdapter<AnimeItemViewModel>
+    public class AnimeListItemsAdapter : DeeplyObservableCollectionAdapter<AnimeItemViewModel>
     {
-        public AnimeListItemsAdapter(Activity context, int resource, ObservableCollection<AnimeItemViewModel> items)
-            : base(context, resource, items)
-        {
-            
-        }
+        public AnimeListItemsAdapter(Activity context, int layoutResource, ObservableCollection<AnimeItemViewModel> items)
+            : base(context, layoutResource, items) {}
 
-        //bindings per view model
+        protected override long GetItemId(AnimeItemViewModel item) => item.Id;
 
         protected override void DetachOldView(AnimeItemViewModel viewModel)
         {
-            if(Bindings.ContainsKey(viewModel.Id))
+            if (Bindings.ContainsKey(viewModel.Id))
+            {
                 Bindings[viewModel.Id].Detach();
+                Bindings.Remove(viewModel.Id);
+            }
         }
 
         protected override void PrepareView(AnimeItemViewModel item, View view)
@@ -39,11 +39,5 @@ namespace MALClient.Android.CollectionAdapters
             else
                 Bindings[item.Id].Container = view;
         }
-
-        protected override long GetItemId(AnimeItemViewModel item, int position)
-        {
-            return item.Id;
-        }
-
     }
 }

@@ -1906,7 +1906,7 @@ namespace MALClient.Android
 		{
 			
 			// aapt resource value: 0x7f06006c
-			public const int AnimeGridItemCurrentStatus = 2131099756;
+			public const int AnimeGridItemCurrentWatchingStatus = 2131099756;
 			
 			// aapt resource value: 0x7f060069
 			public const int AnimeGridItemImage = 2131099753;

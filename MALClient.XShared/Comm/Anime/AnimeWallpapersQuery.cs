@@ -124,7 +124,7 @@ namespace MALClient.XShared.Comm.Anime
                 data.data.children.Where(
                         child =>
                             Regex.IsMatch(child.data.url,
-                                @"(http:|https:)\/\/(i.imgur.com|cdn.awwni.me|i.redd.it)\/(?!a\/).*"))
+                                @"(http:|https:)\/\/(i.imgur.com|cdn.awwni.me|i.redd.it|i.reddituploads.com)\/(?!a\/).*"))
                     .Select(child => new AnimeWallpaperData
                     {
                         FileUrl = child.data.url,

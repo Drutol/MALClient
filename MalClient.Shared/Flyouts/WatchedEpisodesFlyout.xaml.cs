@@ -23,24 +23,20 @@ namespace MALClient.Shared.Flyouts
         {
             DataContext = target.DataContext;
             WatchedEpsFlyout.ShowAt(target);
-            if (ViewModel.AllEpisodes != 0)
+
+            var numbers = new List<int>();
+            int i = ViewModel.MyEpisodesFocused, j = ViewModel.MyEpisodesFocused - 1, k = 0;
+            for (; k < 10; i++ , j--, k++)
             {
-                var numbers = new List<int>();
-                int i = ViewModel.MyEpisodesFocused, j = ViewModel.MyEpisodesFocused - 1, k=0;
-                for (; k < 10; i++ , j--, k++)
-                {
-                    if (i <= ViewModel.AllEpisodesFocused)
-                        numbers.Add(i);
-                    if (j >= 0)
-                        numbers.Add(j);
-                }
-                QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
-                QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodesFocused.ToString();
-                QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
-                QuickSelectionGrid.Visibility = Visibility.Visible;
+                if (ViewModel.AllEpisodes == 0 || i <= ViewModel.AllEpisodesFocused)
+                    numbers.Add(i);
+                if (j >= 0)
+                    numbers.Add(j);
             }
-            else
-                QuickSelectionGrid.Visibility = Visibility.Collapsed;
+            QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
+            QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodesFocused.ToString();
+            QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
+
 
         }
 
@@ -56,7 +52,6 @@ namespace MALClient.Shared.Flyouts
         {
             DataContext = null;
             QuickSelectionGrid.ItemsSource = null;
-            QuickSelectionGrid.Visibility = Visibility.Collapsed;
         }
 
         private void BtnSubmitOnClick(object sender, RoutedEventArgs e)

@@ -70,7 +70,7 @@ namespace MALClient.XShared.Comm.Anime
                                 node.Attributes["class"].Value ==
                                 HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:descClass"])
                             .Descendants("div")
-                            .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
+                            .First().InnerText.Trim().Replace("&nbsp;", "").Replace("read more", ""));
                         var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
                         current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
                         var link = titleNode.Attributes["href"].Value.Split('/');

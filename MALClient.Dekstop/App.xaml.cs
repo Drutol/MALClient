@@ -162,6 +162,7 @@ namespace MALClient
             }
             else if (navArgs != null)
             {
+                ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
             }
@@ -196,6 +197,11 @@ namespace MALClient
             StoreLogoWorkaroundHacker.Hack();
             _initialized = true;
 
+        }
+
+        private void AnimeListOnInitialized()
+        {
+            throw new NotImplementedException();
         }
 
         private void NotificationTaskManagerOnOnNotificationTaskRequested()

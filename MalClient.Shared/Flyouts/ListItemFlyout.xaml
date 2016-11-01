@@ -10,39 +10,12 @@
     <FlyoutPresenter.Resources>
 
     </FlyoutPresenter.Resources>
-    <Flyout x:Name="FlyoutMore">
-        <Grid Padding="0">
-            <Grid.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Height" Value="35" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Margin" Value="1" />
-                </Style>
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <SymbolIcon Grid.Column="0" Grid.Row="0" Symbol="Copy" VerticalAlignment="Center" />
-            <Button Grid.Column="1" Grid.Row="0" Content="Copy url to clipboard" Click="FlyoutButtonPressed"
-                            Command="{Binding CopyLinkToClipboardCommand}" />
-
-            <SymbolIcon Grid.Column="0" Grid.Row="1" Symbol="World" VerticalAlignment="Center" />
-            <Button Grid.Column="1" Grid.Row="1" Content="Open in browser" Click="FlyoutButtonPressed" Command="{Binding OpenInMALCommand}" />
-
-            <MenuFlyoutSeparator Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" />
-
-            <SymbolIcon  Grid.Column="0" Grid.Row="3" Symbol="Pin" VerticalAlignment="Center" />
-            <Button Grid.Column="1" Grid.Row="3" Content="Pin to start" Click="FlyoutButtonPressed"
-                            Command="{Binding PinTileCustomCommand}" />
-        </Grid>
-    </Flyout>
+    <MenuFlyout x:Name="FlyoutMore">
+        <MenuFlyoutItem Text="Copy url to clipboard" Click="FlyoutButtonPressed"
+                        Command="{Binding CopyLinkToClipboardCommand}" />
+        <MenuFlyoutItem Text="Open in browser" Click="FlyoutButtonPressed"
+                        Command="{Binding OpenInMALCommand}" />
+        <MenuFlyoutItem Text="Pin to start" Click="FlyoutButtonPressed"
+                        Command="{Binding PinTileCustomCommand}" />
+    </MenuFlyout>
 </FlyoutPresenter>

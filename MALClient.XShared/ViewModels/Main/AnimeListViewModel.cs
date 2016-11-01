@@ -1682,9 +1682,9 @@ namespace MALClient.XShared.ViewModels.Main
 
             value = value == 6 || value == 7 ? value - 1 : value;
             value--;
-            Initializing = true;
+            _initializing = true;
             StatusSelectorSelectedIndex = (int) value;
-            Initializing = false;
+            _initializing = false;
         }
 
         #endregion

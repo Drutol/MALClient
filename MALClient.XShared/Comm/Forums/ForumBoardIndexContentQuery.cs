@@ -41,8 +41,8 @@ namespace MALClient.XShared.Comm.Forums
                         {
                             if (i == 5 || i == 6) //skip db midifiaction board
                                 continue;
-                            if(i == 9) //add one more because suggestions have one post
-                                list.Add(new ForumBoardEntryPeekPost());
+                            //if(i == 9) //add one more because suggestions have one post
+                            //    list.Add(new ForumBoardEntryPeekPost());
 
                             var current = new ForumBoardEntryPeekPost();
                             current.PostTime = WebUtility.HtmlDecode(post.FirstOfDescendantsWithClass("span", "date di-ib pt4 fs10 fn-grey4").InnerText.TrimEnd('»'));

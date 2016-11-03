@@ -1182,14 +1182,9 @@
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
                                                         <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding OPs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
-                                                            <ListView.Resources>
-                                                                <Style TargetType="TextBlock">
-                                                                    <Setter Property="IsTextSelectionEnabled" Value="True" />
-                                                                </Style>
-                                                            </ListView.Resources>
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"
                                                                FontWeight="SemiLight" TextTrimming="CharacterEllipsis" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
@@ -1199,14 +1194,9 @@
                                                VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="17"
                                                 Margin="0,5,0,5" />
                                                         <userControls:AlternatingListView ScrollViewer.VerticalScrollMode="Disabled" ItemsSource="{Binding EDs}" ItemContainerStyle="{StaticResource DetailsItemStyle}">
-                                                            <ListView.Resources>
-                                                                <Style TargetType="TextBlock">
-                                                                    <Setter Property="IsTextSelectionEnabled" Value="True" />
-                                                                </Style>
-                                                            </ListView.Resources>
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"
                                                                FontWeight="SemiLight" TextTrimming="CharacterEllipsis" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>

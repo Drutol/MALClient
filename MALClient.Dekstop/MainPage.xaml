@@ -158,7 +158,7 @@
                 </Button>
                 <TextBlock x:Name="CurrentOffStatus" Grid.Column="1" FontWeight="Bold"
                            Text="{Binding CurrentOffStatus}"
-                           TextTrimming="CharacterEllipsis" Margin="10,0,0,0"
+                           TextTrimming="CharacterEllipsis" Margin="10,0,0,0" TextWrapping="WrapWholeWords" MaxLines="2"
                            VerticalAlignment="Center" HorizontalAlignment="Stretch"
                            IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}" />
                 <Button IsTabStop="False" HorizontalAlignment="Right"

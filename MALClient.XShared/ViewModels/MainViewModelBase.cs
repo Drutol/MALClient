@@ -60,6 +60,11 @@ namespace MALClient.XShared.ViewModels
 
         #region Helpers
 
+        /// <summary>
+        /// This method is OLD, very very OLD. It's so OLD that it SHOULD die a few months ago.
+        /// I'm lazy.
+        /// </summary>
+        /// <returns></returns>
         public AnimeListPageNavigationArgs GetCurrentListOrderParams()
         {
             var page = ViewModelLocator.AnimeList;
@@ -71,7 +76,12 @@ namespace MALClient.XShared.ViewModels
                 page.ListSource,
                 page.CurrentSeason,
                 page.DisplayMode)
-            { ResetBackNav = page.ResetedNavBack };
+            {
+                ResetBackNav = page.ResetedNavBack,
+                Genre = page.Genre,
+                Studio = page.Studio,
+                TopWorkMode = page.TopAnimeWorkMode
+            };
         }
 
         protected void AnimeListOnInitializedLoadArgs()

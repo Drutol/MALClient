@@ -14,7 +14,7 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <GridView ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick">
+        <GridView ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick" HorizontalAlignment="Center">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Padding" Value="5"/>

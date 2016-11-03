@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,7 +20,7 @@ namespace MALClient.Shared.Flyouts
             InitializeComponent();
         }
 
-        public void ShowAt(FrameworkElement target)
+        public async void ShowAt(FrameworkElement target)
         {
             DataContext = target.DataContext;
             WatchedEpsFlyout.ShowAt(target);
@@ -34,6 +35,7 @@ namespace MALClient.Shared.Flyouts
                     numbers.Add(j);
             }
             QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
+            await Task.Delay(100);
             QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodesFocused.ToString();
             QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
 

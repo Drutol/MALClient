@@ -39,6 +39,7 @@ namespace MALClient
     sealed partial class App : Application
     {
         private bool _initialized;
+
         /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
         ///     executed, and as such is the logical equivalent of main() or WinMain().
@@ -48,7 +49,7 @@ namespace MALClient
             UWPViewModelLocator.RegisterDependencies();
             DesktopViewModelLocator.RegisterDependencies();
             ResourceLocator.TelemetryProvider.Init();
-            Current.RequestedTheme = (ApplicationTheme)Settings.SelectedTheme;
+            Current.RequestedTheme = (ApplicationTheme) Settings.SelectedTheme;
             InitializeComponent();
 
 
@@ -78,7 +79,7 @@ namespace MALClient
             var launchArgs = e as LaunchActivatedEventArgs;
             if (!string.IsNullOrWhiteSpace(launchArgs?.Arguments))
             {
-               
+
                 if (Regex.IsMatch(launchArgs.Arguments, @"[OpenUrl,OpenDetails];.*"))
                 {
                     var options = launchArgs.Arguments.Split(';');
@@ -152,7 +153,7 @@ namespace MALClient
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if(navArgs != null)
+                if (navArgs != null)
                     MainViewModelBase.InitDetails = navArgs;
                 else if (fullNavArgs != null)
                 {
@@ -190,7 +191,7 @@ namespace MALClient
                 tb.ButtonBackgroundColor =
                     tb.InactiveBackgroundColor =
                         tb.ButtonInactiveBackgroundColor =
-                            Settings.SelectedTheme == (int)ApplicationTheme.Dark
+                            Settings.SelectedTheme == (int) ApplicationTheme.Dark
                                 ? Color.FromArgb(255, 41, 41, 41)
                                 : Colors.White;
             ProcessUpdate();
@@ -211,17 +212,23 @@ namespace MALClient
 
         private async void ProcessUpdate()
         {
-            //if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
-            //    && (string)ApplicationData.Current.LocalSettings.Values["AppVersion"] != Utilities.GetAppVersion())
-            //{
-            //    var msg =
-            //        new MessageDialog(
-            //            "This build was supposed to bring ads... but I decided to add forums (beta) instead, rejoice! I don't want to add ads and I won't add them for now at least :)\n\nI'm also resetting review pop-up in order to get fresher opinions... Keep the feedback flowing!",
-            //            "About this update");
-            //    await msg.ShowAsync();
-            //    Settings.RatePopUpEnable = true;
-            //    Settings.RatePopUpStartupCounter = 0;
-            //}
+            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
+                && (string) ApplicationData.Current.LocalSettings.Values["AppVersion"] != UWPUtilities.GetAppVersion()
+                && !Settings.AdsEnable)
+            {
+                try
+                {
+                    var msg =
+                        new MessageDialog(
+                            "Probably not, but if you'd like to support my efforts and don't feel like donating you can enable ads for a certain period of time in settings. Thanks!",
+                            "Want some ads?");
+                    await msg.ShowAsync();
+                }
+                catch (Exception)
+                {
+                    //unauthorized
+                }
+            }
 
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }

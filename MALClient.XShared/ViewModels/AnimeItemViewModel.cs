@@ -342,7 +342,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public AnimeItemDisplayContext _animeItemDisplayContext;
+        private AnimeItemDisplayContext _animeItemDisplayContext;
 
         public AnimeItemDisplayContext AnimeItemDisplayContext
         {
@@ -945,7 +945,15 @@ namespace MALClient.XShared.ViewModels
 
         public void UpdateChapterData(int allEpisodes)
         {
-            _allEpisodes = allEpisodes;
+            if (Settings.MangaFocusVolumes)
+            {
+                _allVolumes = allEpisodes;
+            }
+            else
+            {
+                _allEpisodes = allEpisodes;
+            }
+            
         }
 
         private void AdjustIncrementButtonsVisibility()

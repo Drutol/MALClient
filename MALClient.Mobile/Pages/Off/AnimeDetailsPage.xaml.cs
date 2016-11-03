@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -154,7 +155,7 @@ namespace MALClient.Pages.Off
             MoreFlyout.Hide();
         }
 
-        private void WatchedButtonOnClick(object sender, RoutedEventArgs e)
+        private async void WatchedButtonOnClick(object sender, RoutedEventArgs e)
         {
             var numbers = new List<int>();
             int i = ViewModel.MyEpisodes, j = ViewModel.MyEpisodes - 1, k = 0;
@@ -166,6 +167,7 @@ namespace MALClient.Pages.Off
                     numbers.Add(j);
             }
             QuickSelectionGrid.ItemsSource = numbers.OrderBy(i1 => i1).Select(i1 => i1.ToString());
+            await Task.Delay(100);
             QuickSelectionGrid.SelectedItem = ViewModel.MyEpisodes.ToString();
             QuickSelectionGrid.ScrollIntoView(QuickSelectionGrid.SelectedItem);
         }

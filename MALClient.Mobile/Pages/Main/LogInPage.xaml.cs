@@ -23,11 +23,16 @@ namespace MALClient.Pages.Main
     /// </summary>
     public sealed partial class LogInPage : Page
     {
-        private bool _authenticating;
 
         public LogInPage()
         {
             InitializeComponent();
+            Loaded+= OnLoaded;
+
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             if (Settings.SelectedApiType == ApiType.Mal)
             {
                 MalLoginButton.IsChecked = true;

@@ -59,9 +59,13 @@ namespace MALClient.UWP.Adapters
             var http = new HttpClient();
             byte[] response = { };
             string betterUrl = url;
-            var pos = betterUrl.IndexOf(".jpg");
-            if (pos != -1)
-                betterUrl = betterUrl.Insert(pos, "l");
+            if(cover)
+            {
+                var pos = betterUrl.IndexOf(".jpg");
+                if (pos != -1)
+                    betterUrl = betterUrl.Insert(pos, "l");
+            }
+
             //get bytes
             try
             {

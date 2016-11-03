@@ -558,7 +558,7 @@
                                                 <StackPanel>
                                                     <TextBlock Text="{Binding UpdateEpsUpperLabel,Converter={StaticResource StringToFlatStringConverter}}" HorizontalAlignment="Center"
                            FontWeight="SemiBold" Margin="0,0,0,5" />
-                                                    <Grid HorizontalAlignment="Stretch">
+                                                    <Grid HorizontalAlignment="Stretch" Width="150" Margin="4,0,0,0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="Auto" />
@@ -571,7 +571,7 @@
                                                             <SymbolIcon Symbol="Accept" />
                                                         </Button>
                                                     </Grid>
-                                                    <GridView ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center"  x:Name="QuickSelectionGrid" IsItemClickEnabled="True" Height="165" Width="170" ItemClick="QuickSelectionGrid_OnItemClick">
+                                                    <GridView Margin="4,7,0,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Center"  x:Name="QuickSelectionGrid" IsItemClickEnabled="True" Height="165" Width="170" ItemClick="QuickSelectionGrid_OnItemClick">
                                                         <GridView.ItemsPanel>
                                                             <ItemsPanelTemplate>
                                                                 <WrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal"/>

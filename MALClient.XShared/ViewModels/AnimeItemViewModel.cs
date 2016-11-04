@@ -1212,25 +1212,26 @@ namespace MALClient.XShared.ViewModels
             {
                 if (MyEpisodes == to)
                     return;
-                if (!Settings.StatusPromptEnable)
+                Action updateAction = async () =>
                 {
-                    if (!Settings.StatusPromptProceedOnDisabled)
+                    var myPrevEps = MyEpisodes;
+                    MyEpisodes = to;
+                    var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+                    if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
+                        MyStatus = myPrevEps;
+
+                    AdjustIncrementButtonsVisibility();
+                };
+                if (!Settings.WatchedEpsPromptEnable)
+                {
+                    if (!Settings.WatchedEpsPromptProceedOnDisabled)
                         return;
 
-                    ChangeStatus(to);
+                    updateAction.Invoke();
                     return;
                 }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput($"From : {MyEpisodes}\nTo : {to}",
-                    $"Would you like to change watched {(ParentAbstraction.RepresentsAnime ? "episodes" : $"{(Settings.MangaFocusVolumes ? "volumes" : "chapters")}") } value?", "Yes", "No", async () =>
-                    {
-                        var myPrevEps = MyEpisodes;
-                        MyEpisodes = to;
-                        var response = await GetAppropriateUpdateQuery().GetRequestResponse();
-                        if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                            MyStatus = myPrevEps;
-
-                        AdjustIncrementButtonsVisibility();
-                    });
+                    $"Would you like to change watched {(ParentAbstraction.RepresentsAnime ? "episodes" : $"{(Settings.MangaFocusVolumes ? "volumes" : "chapters")}") } value?", "Yes", "No", updateAction);
             }
             catch (Exception)
             {

@@ -549,6 +549,7 @@ namespace MALClient.XShared.ViewModels
         }
 
         private int _mainContentColumnSpan = 1;
+        private bool _changelogVisibility;
 
         public int MainContentColumnSpan
         {
@@ -561,6 +562,20 @@ namespace MALClient.XShared.ViewModels
         }
 
         public ObservableCollection<string> SearchFilterOptions { get; } = new ObservableCollection<string>();
+
+        public bool ChangelogVisibility
+        {
+            get { return _changelogVisibility; }
+            set
+            {
+                _changelogVisibility = value;
+                RaisePropertyChanged(() => ChangelogVisibility);
+            }
+        }
+
+        public string ChangelogHeader => ResourceLocator.ChangelogProvider.DateWithVersion;
+
+        public List<string> ChangelogContent => ResourceLocator.ChangelogProvider.Changelog;
 
         #endregion
 
@@ -594,14 +609,36 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public static List<string> AnimeMediaTypeHints { get; } = new List<string>
+        {
+            "movie","ova","tv","special"
+        };
+
+        public static List<string> MangaMediaTypeHints { get; } = new List<string>
+        {
+            "novel","manga",
+        };
+
         private void SetSearchHints()
         {
             if (CurrentMainPageKind == PageIndex.PageAnimeList)
+            {
+                var vm = ViewModelLocator.AnimeList;
+                var potentialHints = vm.WorkMode == AnimeListWorkModes.Manga ||
+                                     vm.WorkMode == AnimeListWorkModes.TopManga
+                    ? MangaMediaTypeHints
+                    : AnimeMediaTypeHints;
+                if(SearchHints != null)
+                    potentialHints.AddRange(SearchHints);
                 CurrentHintSet =
-                    SearchHints?.Where(
-                        s => s.StartsWith(CurrentSearchQuery ?? "", StringComparison.CurrentCultureIgnoreCase))
-                        .Take(4)
+                    potentialHints.Where(
+                            s => s.StartsWith(CurrentSearchQuery ?? "", StringComparison.CurrentCultureIgnoreCase))
+                        .Take(5)
                         .ToList();
+            }
+
+            else
+                CurrentHintSet = new List<string>();
         }
 
         public async void SubmitSearchQueryWithDelayCheck()

@@ -48,6 +48,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private string _prevQuery = "";
         private int _prevAnimeStatus;
+        private bool _invalidatePreviousSearchResults;
 
 
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
@@ -356,7 +357,10 @@ namespace MALClient.XShared.ViewModels.Main
                 return;
             }
             if (!queryCondition)
+            {
                 _prevQuery = null;
+                _invalidatePreviousSearchResults = false;
+            }
 
             if(queryCondition && !_wasPreviousQuery)
                 SetDesiredStatus((int)AnimeStatus.AllOrAiring);
@@ -369,7 +373,7 @@ namespace MALClient.XShared.ViewModels.Main
             var status = GetDesiredStatus();
 
             IEnumerable<AnimeItemAbstraction> items;
-            if (queryCondition &&
+            if (queryCondition && !_invalidatePreviousSearchResults &&
                 _wasPreviousQuery &&
                 !string.IsNullOrEmpty(_prevQuery) &&
                 query.Length > _prevQuery.Length &&
@@ -408,10 +412,41 @@ namespace MALClient.XShared.ViewModels.Main
             if (queryCondition)
             {
                 query = query.ToLower();
-                if (ViewModelLocator.GeneralMain.SearchHints.Count > 0) //if there are any tags to begin with
-                    items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
-                else
-                    items = items.Where(item => item.Title.ToLower().Contains(query));
+                bool alreadyFiltered = false;
+                if (MainViewModelBase.AnimeMediaTypeHints.Contains(query))
+                {
+                    var type = 0;
+                    if (query == "tv")
+                        type = (int)AnimeType.TV;
+                    else if (query == "movie")
+                        type = (int)AnimeType.Movie;
+                    else if (query == "special")
+                        type = (int)AnimeType.Special;
+                    else if (query == "ova")
+                        type = (int)AnimeType.OVA;
+                    items = items.Where(item => item.Type == type);
+                    alreadyFiltered = true;
+                }
+                else if (MainViewModelBase.MangaMediaTypeHints.Contains(query))
+                {
+                    var type = 0;
+                    if (query == "manga")
+                        type = (int)MangaType.Manga;
+                    else if (query == "novel")
+                        type = (int)MangaType.Novel;
+                    items = items.Where(item => item.Type == type);
+                    alreadyFiltered = true;
+                }
+
+                _invalidatePreviousSearchResults = alreadyFiltered; //mangaa will not yield anything more manga
+                if (!alreadyFiltered)
+                {
+                    if (ViewModelLocator.GeneralMain.SearchHints.Count > 0) //if there are any tags to begin with
+                        items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
+                    else
+                        items = items.Where(item => item.Title.ToLower().Contains(query));
+                }
+
             }            
             if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                 items = items.OrderBy(item => item.Index);

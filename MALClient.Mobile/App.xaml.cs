@@ -20,6 +20,7 @@ using MALClient.Shared;
 using MALClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Shared.Managers;
+using MALClient.UWP.Adapters;
 using MALClient.UWP.BGTaskNotifications;
 using MALClient.ViewModels;
 using MALClient.XShared.Comm.Anime;
@@ -31,6 +32,7 @@ using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
+using DataCache = MALClient.XShared.Utils.DataCache;
 
 namespace MALClient
 {
@@ -196,24 +198,12 @@ namespace MALClient
             new NotificationsBackgroundTask().Run(null);
         }
 
-        private async void ProcessUpdate()
+        private void ProcessUpdate()
         {
             if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
-                && (string)ApplicationData.Current.LocalSettings.Values["AppVersion"] != UWPUtilities.GetAppVersion()
-                && !Settings.AdsEnable)
+                && (string)ApplicationData.Current.LocalSettings.Values["AppVersion"] != UWPUtilities.GetAppVersion())
             {
-                try
-                {
-                    var msg =
-                        new MessageDialog(
-                            "Probably not, but if you'd like to support my efforts and don't feel like donating you can enable ads for a certain period of time in settings. Thanks!",
-                            "Want some ads?");
-                    await msg.ShowAsync();
-                }
-                catch (Exception)
-                {
-                    //unauthorized
-                }
+                ChangeLogProvider.NewChangelog = true;
             }
 
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();

@@ -37,6 +37,7 @@
     <Compile Include="Credentials\IPasswordVault.cs" />
     <Compile Include="IApplicationDataService.cs" />
     <Compile Include="ICalendarExportProvider.cs" />
+    <Compile Include="IChangeLogProvider.cs" />
     <Compile Include="IClipboardProvider.cs" />
     <Compile Include="IDataCache.cs" />
     <Compile Include="IImageDownloaderService.cs" />

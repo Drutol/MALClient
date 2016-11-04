@@ -54,7 +54,16 @@
         <Storyboard x:Key="MediaElementFadeOutStoryboard">
             <FadeOutThemeAnimation TargetName="MediaElementGrid" />
         </Storyboard>
-        <xamlConverters1:BottomStackMarginToFrameMarginWithAdConverter x:Key="BottomStackMarginToFrameMarginWithAdConverter" />
+
+        <Storyboard x:Key="ChangelogFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="ChangelogGrid" />
+        </Storyboard>
+
+        <Storyboard x:Key="ChangelogFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="ChangelogGrid" />
+        </Storyboard>
+        <xamlConverters1:BottomStackMarginToFrameMarginWithAdConverter
+            x:Key="BottomStackMarginToFrameMarginWithAdConverter" />
     </Page.Resources>
 
     <Page.DataContext>
@@ -158,7 +167,8 @@
                 </Button>
                 <TextBlock x:Name="CurrentOffStatus" Grid.Column="1" FontWeight="Bold"
                            Text="{Binding CurrentOffStatus}"
-                           TextTrimming="CharacterEllipsis" Margin="10,0,0,0" TextWrapping="WrapWholeWords" MaxLines="2"
+                           TextTrimming="CharacterEllipsis" Margin="10,0,0,0" TextWrapping="WrapWholeWords"
+                           MaxLines="2"
                            VerticalAlignment="Center" HorizontalAlignment="Stretch"
                            IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}" />
                 <Button IsTabStop="False" HorizontalAlignment="Right"
@@ -179,13 +189,14 @@
                                 Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
                                 PlaceholderText="Search..." />
-                <Grid Grid.Column="1" Visibility="{Binding StatusFilterVisibilityLock,Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Button IsTabStop="False"  Background="Transparent" Height="48" Width="45"
-                        Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Grid.Column="1"
+                      Visibility="{Binding StatusFilterVisibilityLock,Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Button IsTabStop="False" Background="Transparent" Height="48" Width="45"
+                            Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <Button.Flyout>
                             <Flyout>
                                 <ListView ItemsSource="{Binding SearchFilterOptions}"
-                                      SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                          SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding}" />
@@ -195,7 +206,7 @@
                             </Flyout>
                         </Button.Flyout>
                         <SymbolIcon Symbol="Filter"
-                                Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
+                                    Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
                     </Button>
                 </Grid>
                 <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
@@ -218,7 +229,7 @@
             <Grid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/XamlResources/Controlstyles.xaml"/>
+                        <ResourceDictionary Source="/XamlResources/Controlstyles.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
@@ -235,16 +246,71 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Grid  Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Height="90" Width="728" Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin}">
+                    <Grid Background="{ThemeResource BrushDeepBackground}"
+                          Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                          Height="90" Width="728"
+                          Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin}">
                         <!--<ui:AdControl AdUnitId="315597" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3"/>-->
-                        <ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True"/>
+                        <ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728"
+                                      ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True" />
                     </Grid>
-                    <Frame Grid.Row="1" Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter}}" x:Name="MainContent" PointerPressed="MainContent_OnPointerPressed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <Grid Grid.Row="1">
+                        <!--Changelog-->
+                        <Frame
+                            Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter}}"
+                            x:Name="MainContent" PointerPressed="MainContent_OnPointerPressed"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        <Grid Visibility="Collapsed" x:Name="ChangelogGrid"
+                              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource ChangelogFadeOutStoryboard}"
+                              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource ChangelogFadeInStoryboard}"
+                              attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding ChangelogVisibility}"
+                              MinWidth="300" MaxWidth="600" HorizontalAlignment="Right" VerticalAlignment="Top"
+                              MaxHeight="600" BorderThickness="1"
+                              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                <TextBlock Text="New update! What's new?" FontWeight="Bold" Foreground="White"
+                                           HorizontalAlignment="Left" Margin="10,5" />
+                                <Button Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Right" Foreground="White"
+                                        Click="ButtonCloseChangelogOnClick">
+                                    <SymbolIcon Symbol="Cancel"/>
+                                </Button>
+                            </Grid>
+                            <Grid Padding="20" Grid.Row="1" Background="{ThemeResource BrushDeepBackground}">
+                                <StackPanel>
+                                    <TextBlock FontWeight="SemiBold" Text="{Binding ChangelogHeader}"
+                                               TextWrapping="WrapWholeWords" Margin="0,5" />
+                                    <MenuFlyoutSeparator Margin="-20,0,-20,5" Background="{ThemeResource BrushText}" />
+                                    <ItemsControl ItemsSource="{Binding ChangelogContent}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Ellipse Fill="{ThemeResource BrushText}" Width="3" Height="3"
+                                                             HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                             Margin="0,10,0,0" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding}"
+                                                               TextWrapping="WrapWholeWords" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
                 </Grid>
-               
+
                 <toolkit:CustomGridSplitter x:Name="CustomGridSplitter"
                                             DraggingCompleted="CustomGridSplitter_OnDraggingCompleted"
                                             Grid.Column="1" IsTabStop="False"
@@ -259,25 +325,31 @@
                        PointerPressed="OffContent_OnPointerPressed"
                        Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Margin="{Binding Source={StaticResource DesktopLocator} ,Path=Hamburger.BottomStackPanelMargin}" />
-                <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"
-                        attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" > 
+                <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                      attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}"
+                      Visibility="Collapsed"
+                      attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".9"/>
+                        <SolidColorBrush Color="Black" Opacity=".9" />
                     </Grid.Background>
-                    <Button HorizontalAlignment="Left" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top" Style="{StaticResource FancyButtonStyle}" Command="{Binding CopyMediaElementUrlCommand}">
+                    <Button HorizontalAlignment="Left" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top"
+                            Style="{StaticResource FancyButtonStyle}" Command="{Binding CopyMediaElementUrlCommand}">
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="Copy youtube link to clipboard."/>
+                            <ToolTip Content="Copy youtube link to clipboard." />
                         </ToolTipService.ToolTip>
-                        <SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button>                    
-                    <Button HorizontalAlignment="Right" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top" Style="{StaticResource FancyButtonStyle}" Command="{Binding HideMediaElementCommand}">
-                        <SymbolIcon Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
-                    <MediaElement x:Name="MediaElement" Source="{Binding MediaElementSource}" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50">
+                    <Button HorizontalAlignment="Right" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top"
+                            Style="{StaticResource FancyButtonStyle}" Command="{Binding HideMediaElementCommand}">
+                        <SymbolIcon Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                    <MediaElement x:Name="MediaElement" Source="{Binding MediaElementSource}"
+                                  AreTransportControlsEnabled="True" HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch" Margin="50">
                         <MediaElement.TransportControls>
-                            <MediaTransportControls IsFullWindowButtonVisible="False"/>
+                            <MediaTransportControls IsFullWindowButtonVisible="False" />
                         </MediaElement.TransportControls>
                     </MediaElement>
                 </Grid>

@@ -36,6 +36,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
+            SimpleIoc.Default.Register<IChangeLogProvider, ChangeLogProvider>();
 
             ViewModelLocator.Mobile = true;
         }

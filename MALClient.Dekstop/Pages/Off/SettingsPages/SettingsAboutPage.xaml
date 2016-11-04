@@ -96,25 +96,7 @@
                         <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19"
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <StackPanel HorizontalAlignment="Stretch">
-                            <StackPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Margin" Value="20,5,0,0" />
-                                    <Setter Property="TextWrapping" Value="WrapWholeWords" />
-                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                    <Setter Property="TextAlignment" Value="Left" />
-                                </Style>
-                            </StackPanel.Resources>
-                            <TextBlock Text="03.11.2016 v5.1.11.0 &amp; v5.1.10.0" />
-                            <TextBlock Text="Added anime by studio and genre." />
-                            <TextBlock Text="Fixed missing image issues." />
-                            <TextBlock Text="Tweaked watched episodes flyout with quick selection buttons." />
-                            <TextBlock Text="Calendar will now not display OVAs." />
-                            <TextBlock Text="Start date will properly set on 1 episode shows." />
-                            <TextBlock Text="More search page bugfixes." />
-                            <TextBlock Text="Fixed forum search." />
-                            <TextBlock Text="Opening app from live tile will now properly check whether this entry is on your list." />
-                        </StackPanel>
+                        <Button HorizontalAlignment="Center" FontSize="20" Style="{StaticResource TextBlockButtonStyle}" Content="See what's new!" Click="ShowChangelogButtonOnClick"></Button>
                     </StackPanel>
                 </Grid>
                 <MenuFlyoutSeparator Margin="0,5" />

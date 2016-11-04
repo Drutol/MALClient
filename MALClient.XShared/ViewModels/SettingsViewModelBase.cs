@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
@@ -447,10 +448,28 @@ namespace MALClient.XShared.ViewModels
             set { Settings.PullPeekPostsOnStartup = value; }
         }
 
-        public  bool ForceSearchIntoOffPage
+        public  bool WatchedEpsPromptEnable
         {
-            get { return Settings.ForceSearchIntoOffPage; }
-            set { Settings.ForceSearchIntoOffPage = value; }
+            get { return Settings.WatchedEpsPromptEnable; }
+            set { Settings.WatchedEpsPromptEnable = value; }
+        }
+
+        public  bool WatchedEpsPromptProceedOnDisabled
+        {
+            get { return Settings.WatchedEpsPromptProceedOnDisabled; }
+            set { Settings.WatchedEpsPromptProceedOnDisabled = value; }
+        }
+
+        public  bool StatusPromptEnable
+        {
+            get { return Settings.StatusPromptEnable; }
+            set { Settings.StatusPromptEnable = value; }
+        }
+
+        public  bool StatusPromptProceedOnDisabled
+        {
+            get { return Settings.StatusPromptProceedOnDisabled; }
+            set { Settings.StatusPromptProceedOnDisabled = value; }
         }
 
         public  bool MangaFocusVolumes
@@ -489,7 +508,6 @@ namespace MALClient.XShared.ViewModels
                 RaisePropertyChanged(() => CurrentNews);
             }
         }
-
 
         public bool MalApiDependatedntSectionsVisibility
             => Settings.SelectedApiType == ApiType.Mal;

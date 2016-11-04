@@ -32,6 +32,8 @@ namespace MALClient.XShared.ViewModels
 
         public static INotificationsTaskManager  NotificationsTaskManager  => SimpleIoc.Default.GetInstance<INotificationsTaskManager>();
 
+        public static IChangeLogProvider  ChangelogProvider  => SimpleIoc.Default.GetInstance<IChangeLogProvider>();
+
         #region UsedByBackgroundTask
 
         public static void RegisterPasswordVaultAdapter(IPasswordVault vault)

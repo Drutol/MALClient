@@ -12,8 +12,10 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Shared.UserControls;
+using MALClient.Shared.UserControls.AttachedProperties;
 using MALClient.Shared.ViewModels;
 using MALClient.Shared.ViewModels.Interfaces;
+using MALClient.UWP.Adapters;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -55,6 +57,7 @@ namespace MALClient
                 DesktopViewModelLocator.Main.View = this;
                 StartAdsTimeMeasurements();
                 ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
+                ViewModelLocator.GeneralMain.ChangelogVisibility = ChangeLogProvider.NewChangelog;
             };
         }
 
@@ -296,6 +299,10 @@ namespace MALClient
                 SearchInput.Focus(FocusState.Keyboard);
         }
 
-        
+
+        private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModelLocator.GeneralMain.ChangelogVisibility = false;
+        }
     }
 }

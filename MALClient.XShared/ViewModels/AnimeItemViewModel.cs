@@ -1134,7 +1134,7 @@ namespace MALClient.XShared.ViewModels
                 MyStatus = myPrevStatus;
 
             if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
-                await PromptForWatchedEpsChange(_allEpisodes);
+                 PromptForWatchedEpsChange(_allEpisodes);
 
             LoadingUpdate = false;
         }
@@ -1187,8 +1187,16 @@ namespace MALClient.XShared.ViewModels
             {
                 if (MyStatus == to)
                     return;
+                if (!Settings.StatusPromptEnable)
+                {
+                    if(!Settings.StatusPromptProceedOnDisabled)
+                        return;
+
+                    ChangeStatus(to);
+                    return;
+                }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
-                        $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to)}",
+                        $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to,!ParentAbstraction.RepresentsAnime)}",
                         "Would you like to change current status?","Yes","No",() => ChangeStatus(to));
             }
             catch (Exception)
@@ -1198,14 +1206,22 @@ namespace MALClient.XShared.ViewModels
 
         }
 
-        public async Task PromptForWatchedEpsChange(int to)
+        public void PromptForWatchedEpsChange(int to)
         {
             try
             {
                 if (MyEpisodes == to)
                     return;
+                if (!Settings.StatusPromptEnable)
+                {
+                    if (!Settings.StatusPromptProceedOnDisabled)
+                        return;
+
+                    ChangeStatus(to);
+                    return;
+                }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput($"From : {MyEpisodes}\nTo : {to}",
-                    "Would you like to change watched episodes value?", "Yes", "No", async () =>
+                    $"Would you like to change watched {(ParentAbstraction.RepresentsAnime ? "episodes" : $"{(Settings.MangaFocusVolumes ? "volumes" : "chapters")}") } value?", "Yes", "No", async () =>
                     {
                         var myPrevEps = MyEpisodes;
                         MyEpisodes = to;

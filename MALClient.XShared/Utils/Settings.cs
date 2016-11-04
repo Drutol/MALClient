@@ -637,5 +637,33 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(WallpapersBaseAmount)] = value; }
         }
         #endregion
+
+        #region PopUpsPrompts
+
+        public static bool WatchedEpsPromptEnable
+        {
+            get { return (bool)(ApplicationDataService[nameof(WatchedEpsPromptEnable)] ?? true); }
+            set { ApplicationDataService[nameof(WatchedEpsPromptEnable)] = value; }
+        }
+
+        public static bool WatchedEpsPromptProceedOnDisabled
+        {
+            get { return (bool)(ApplicationDataService[nameof(WatchedEpsPromptProceedOnDisabled)] ?? false); }
+            set { ApplicationDataService[nameof(WatchedEpsPromptProceedOnDisabled)] = value; }
+        }
+
+        public static bool StatusPromptEnable
+        {
+            get { return (bool)(ApplicationDataService[nameof(StatusPromptEnable)] ?? true); }
+            set { ApplicationDataService[nameof(StatusPromptEnable)] = value; }
+        }
+
+        public static bool StatusPromptProceedOnDisabled
+        {
+            get { return (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? false); }
+            set { ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] = value; }
+        }
+
+        #endregion
     }
 }

@@ -15,7 +15,10 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.Flyouts;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using Org.Zakariya.Flyoutmenu;
 
 namespace MALClient.Android.Fragments
 {
@@ -24,6 +27,15 @@ namespace MALClient.Android.Fragments
         protected override void InitBindings()
         {
             ViewModelLocator.AnimeList.PropertyChanged+= AnimeListOnPropertyChanged;
+
+            FilterFlyoutMenu.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
+            FilterFlyoutMenu.Adapter =
+                new FlyoutMenuView.ArrayAdapter(
+                    Enum.GetValues(typeof(AnimeStatus))
+                        .Cast<AnimeStatus>()
+                        .Select(status => new AnimeListFilterFlyoutItem(status))
+                        .ToList());
+
         }
 
         private async void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -39,6 +51,10 @@ namespace MALClient.Android.Fragments
         private GridView _animeListPageGridView;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
+
+        private FlyoutMenuView _filterFlyoutMenu;
+
+        public FlyoutMenuView FilterFlyoutMenu => _filterFlyoutMenu ?? (_filterFlyoutMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageFilterMenu));
 
     }
 }

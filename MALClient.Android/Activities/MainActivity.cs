@@ -15,6 +15,7 @@ using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
+using Org.Zakariya.Flyoutmenu;
 using Fragment = Android.Support.V4.App.Fragment;
 
 namespace MALClient.Android.Activities
@@ -42,8 +43,8 @@ namespace MALClient.Android.Activities
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
                 MainNavView.NavigationItemSelected += NavViewOnNavigationItemSelected;
 
+
                 ViewModel.Navigate(PageIndex.PageLogIn);
-     
             }
     
         }

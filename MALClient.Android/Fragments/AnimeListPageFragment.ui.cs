@@ -16,6 +16,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;
@@ -26,7 +27,8 @@ namespace MALClient.Android.Fragments
     {
         protected override void InitBindings()
         {
-            ViewModelLocator.AnimeList.PropertyChanged+= AnimeListOnPropertyChanged;
+            ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
+
 
             FilterFlyoutMenu.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
             FilterFlyoutMenu.Adapter =
@@ -36,6 +38,40 @@ namespace MALClient.Android.Fragments
                         .Select(status => new AnimeListFilterFlyoutItem(status))
                         .ToList());
 
+            FilterFlyoutMenu.SelectionListener = new MenuFlyoutSelectionListener(OnFilterMenuSelectionChanged);
+            FilterFlyoutMenu.SetSelectedMenuItemById(ViewModel.CurrentStatus);
+
+            SortFlyoutMenu.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
+            SortFlyoutMenu.Adapter =
+                new FlyoutMenuView.ArrayAdapter(
+                    Enum.GetValues(typeof(SortOptions))
+                        .Cast<SortOptions>()
+                        .Select(option => new AnimeListSortFlyoutItem(option))
+                        .ToList());
+
+            SortFlyoutMenu.SelectionListener = new MenuFlyoutSelectionListener(OnSortingMenuSelectionChanged);
+            SortFlyoutMenu.SetSelectedMenuItemById((int)ViewModel.SortOption);
+
+            //ViewModel.SortingSettingChanged += ViewModelOnSortingSettingChanged;
+        }
+
+        private void ViewModelOnSortingSettingChanged(SortOptions option, bool descencing)
+        {
+            SortFlyoutMenu.SetSelectedMenuItemById((int)option);
+        }
+
+        private void OnSortingMenuSelectionChanged(FlyoutMenuView.MenuItem menuItem)
+        {
+            var item = menuItem as AnimeListSortFlyoutItem;
+            ViewModel.SetSortOrder(item.SortOption);
+            ViewModel.RefreshList();
+        }
+
+        private void OnFilterMenuSelectionChanged(FlyoutMenuView.MenuItem menuItem)
+        {
+            var item = menuItem as AnimeListFilterFlyoutItem;
+            ViewModel.CurrentStatus = item.Status;
+            ViewModel.RefreshList();
         }
 
         private async void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -55,6 +91,10 @@ namespace MALClient.Android.Fragments
         private FlyoutMenuView _filterFlyoutMenu;
 
         public FlyoutMenuView FilterFlyoutMenu => _filterFlyoutMenu ?? (_filterFlyoutMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageFilterMenu));
+
+        private FlyoutMenuView _sortFlyoutMenu;
+
+        public FlyoutMenuView SortFlyoutMenu => _sortFlyoutMenu ?? (_sortFlyoutMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageSortMenu));
 
     }
 }

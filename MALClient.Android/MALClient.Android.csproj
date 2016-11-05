@@ -110,17 +110,22 @@
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
-    <Compile Include="Flyouts\AnimeListFilterFlyout.cs" />
+    <Compile Include="Flyouts\AnimeListFilterFlyoutItem.cs" />
+    <Compile Include="Flyouts\AnimeListSortFlyoutItem.cs" />
+    <Compile Include="Flyouts\TextBasedFlyoutBase.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
+    <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
+    <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\ResourceExtension.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>

@@ -1393,6 +1393,12 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f05006d
 			public const int AppBarHeight = 2131034221;
 			
+			// aapt resource value: 0x7f050070
+			public const int TextFlyoutItemHeight = 2131034224;
+			
+			// aapt resource value: 0x7f050071
+			public const int TextFlyoutItemWidth = 2131034225;
+			
 			// aapt resource value: 0x7f050010
 			public const int abc_action_bar_content_inset_material = 2131034128;
 			
@@ -2020,7 +2026,7 @@ namespace MALClient.Android
 			public const int AnimeListPageGridView = 2131099761;
 			
 			// aapt resource value: 0x7f060073
-			public const int AnimeListSortButton = 2131099763;
+			public const int AnimeListPageSortMenu = 2131099763;
 			
 			// aapt resource value: 0x7f060084
 			public const int DrawerLayout = 2131099780;

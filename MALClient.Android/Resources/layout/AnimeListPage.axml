@@ -23,19 +23,35 @@
               android:layout_height="@dimen/AppBarHeight"
               android:padding="8dp"
               app:fmButtonSize="@dimen/AppBarBtnWidth"
-              app:fmItemHeight="@dimen/AppBarHeight"
-              app:fmItemMargin="10dp"
+              app:fmItemHeight="@dimen/TextFlyoutItemHeight"
+              app:fmItemWidth="@dimen/TextFlyoutItemWidth"
+              app:fmItemMargin="5dp"
               app:fmButtonSrc="@drawable/icon_filter"
               app:fmButtonBackgroundColor="@color/BrushAppBars"
-              app:fmItemWidth="100dp"
+              app:fmMenuBackgroundColor="@color/BrushDeepBackground"
+              app:fmSelectedItemBackgroundColor="@color/BrushAnimeItemInnerBackground"
+              app:fmMenuElevation="2dp"
               app:fmDialogMode="true"
               app:fmMenuAnchor="top"
             />
-      <ImageButton android:layout_width="@dimen/AppBarBtnWidth"
-                   android:layout_height="@dimen/AppBarBtnHeight"
-                   android:background="@color/Transparent"
-                   android:src="@drawable/icon_sort"
-                   android:id="@+id/AnimeListSortButton"/>
+      <org.zakariya.flyoutmenu.FlyoutMenuView
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/AnimeListPageSortMenu"
+              android:layout_width="@dimen/AppBarBtnWidth"
+              android:layout_height="@dimen/AppBarHeight"
+              android:padding="8dp"
+              app:fmButtonSize="@dimen/AppBarBtnWidth"
+              app:fmItemHeight="@dimen/TextFlyoutItemHeight"
+              app:fmItemWidth="@dimen/TextFlyoutItemWidth"
+              app:fmItemMargin="5dp"
+              app:fmButtonSrc="@drawable/icon_sort"
+              app:fmSelectedItemBackgroundColor="@color/BrushAnimeItemInnerBackground"
+              app:fmButtonBackgroundColor="@color/BrushAppBars"
+              app:fmMenuBackgroundColor="@color/BrushDeepBackground"
+              app:fmMenuElevation="2dp"
+              app:fmDialogMode="true"
+              app:fmMenuAnchor="top"
+            />
     </LinearLayout>
   </RelativeLayout>
 </RelativeLayout>

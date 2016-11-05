@@ -25,10 +25,17 @@ namespace MALClient.Android.Activities
         Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
-        private MainViewModel _viewModel;
+        public static Activity CurrentContext { get; private set; }
+
         private static bool _addedNavHandlers;
 
+        private MainViewModel _viewModel;
         private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
+
+        public MainActivity()
+        {
+            CurrentContext = this;
+        }
 
         protected override void OnCreate(Bundle bundle)
         {

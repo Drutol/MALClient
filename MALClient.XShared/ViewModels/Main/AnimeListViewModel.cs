@@ -107,7 +107,12 @@ namespace MALClient.XShared.ViewModels.Main
 
 
         public bool AreThereItemsWaitingForLoad => _animeItemsSet.Count != 0;
-        public int CurrentStatus => GetDesiredStatus();
+
+        public int CurrentStatus
+        {
+            get { return GetDesiredStatus(); }
+            set { SetDesiredStatus(value); }
+        }
 
         public double ListItemGridWidth
         {

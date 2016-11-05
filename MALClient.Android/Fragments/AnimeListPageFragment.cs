@@ -21,13 +21,14 @@ namespace MALClient.Android.Fragments
     {
         private static AnimeListPageNavigationArgs _prevArgs;
 
+        private AnimeListViewModel ViewModel => ViewModelLocator.AnimeList;
+
         public override int LayoutResourceId => Resource.Layout.AnimeListPage;
 
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModelLocator.AnimeList.Init(null);         
         }
-
 
         public static AnimeListPageFragment BuildInstance(object args)
         {

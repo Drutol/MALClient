@@ -21,20 +21,20 @@ namespace MALClient.Android.Fragments
     {
         protected override void InitBindings()
         {
-            _bindings = new Dictionary<int, Binding>
+            Bindings = new Dictionary<int, List<Binding>>
             {
                 {
                     UsernameInput.Id,
-                    this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay)
+                    new List<Binding> { this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay)}
                 },
                 {
                     PasswordInput.Id,
-                    this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay)
+                    new List<Binding> { this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay)}
                 },
                 {
                     LoadingSpinner.Id,
-                    this.SetBinding(() => ViewModel.Authenticating, () => LoadingSpinner.Visibility, BindingMode.OneWay)
-                        .ConvertSourceToTarget(Converters.BoolToVisibility)
+                    new List<Binding> { this.SetBinding(() => ViewModel.Authenticating, () => LoadingSpinner.Visibility, BindingMode.OneWay)
+                        .ConvertSourceToTarget(Converters.BoolToVisibility)}
                 },
             };
             LoginPageButtonHum.Click += LoginPageButtonOnClick;

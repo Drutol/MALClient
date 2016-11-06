@@ -9,7 +9,7 @@
             android:layout_height="wrap_content">
         <FFImageLoading.Views.ImageViewAsync
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
+                android:layout_height="260dp"
                 android:id="@+id/AnimeGridItemImage"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY" />
@@ -76,19 +76,43 @@
                 android:text="TV"
                 android:textStyle="italic"
                 android:textColor="#ffffff" />
+        <RelativeLayout android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true">
+            <ImageButton android:layout_width="35dp"
+                         android:layout_height="35dp"
+                         android:background="@color/BrushOpaqueTextView"
+                         android:id="@+id/AnimeGridItemMoreButton"
+                         android:src="@drawable/icon_more"/>
+            <org.zakariya.flyoutmenu.FlyoutMenuView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/AnimeGridItemMoreFlyout"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:alpha="0"
+                    app:fmButtonSize="30dp"
+                    app:fmItemHeight="@dimen/TextFlyoutItemHeight"
+                    app:fmItemWidth="@dimen/TextFlyoutItemWideWidth"
+                    app:fmItemMargin="5dp"
+                    app:fmMenuBackgroundColor="@color/BrushDeepBackground"
+                    app:fmSelectedItemBackgroundColor="@color/BrushAnimeItemInnerBackground"
+                    app:fmMenuElevation="2dp"
+                    app:fmDialogMode="true"
+                    app:fmMenuAnchor="top"
+            />
+        </RelativeLayout>
+
     </RelativeLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:background="@color/BrushAnimeItemBackground"
-            android:layout_height="50dp">
+            android:layout_height="55dp">
         <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/AnimeGridItemTitle"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="5dp"
                 android:textSize="18dp"
                 android:textColor="@color/BrushText"
                 android:ellipsize="end"

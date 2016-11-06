@@ -12,11 +12,15 @@ using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Extensions;
 using FFImageLoading.Views;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.Flyouts;
 using MALClient.Android.Managers;
+using MALClient.Models.Enums.Enums;
 using MALClient.XShared.ViewModels;
+using Org.Zakariya.Flyoutmenu;
 
 namespace MALClient.Android.BindingInformation
 {
@@ -24,6 +28,16 @@ namespace MALClient.Android.BindingInformation
     {
         private bool _bindingsInitialized;
         private bool _oneTimeBindingsInitialized;
+        private bool _moreFlyoutMenuInitialized;
+
+        private static FlyoutMenuView.IAdapter _moreFlyoutAdapter;
+        private enum MoreFlyoutButtons
+        {
+            [EnumUtilities.Description("Copy link")]
+            CopyLink,
+            [EnumUtilities.Description("Open in browser")]
+            OpenInBrowser
+        }
 
         public AnimeItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel) {}
 
@@ -82,14 +96,35 @@ namespace MALClient.Android.BindingInformation
                     () => scoreView.Text));
         }
 
+        private void InitializeMoreFlyout()
+        {
+            if(_moreFlyoutMenuInitialized)
+                return;
+            _moreFlyoutMenuInitialized = true;
+
+            if (_moreFlyoutAdapter == null)
+                _moreFlyoutAdapter =
+                    new FlyoutMenuView.ArrayAdapter(
+                        new[] {MoreFlyoutButtons.CopyLink, MoreFlyoutButtons.OpenInBrowser}.Select(
+                            item => new TextFlyoutItem((int) item, item.GetDescription())).ToList());
+
+            AnimeGridItemMoreFlyout.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
+            AnimeGridItemMoreFlyout.Adapter = _moreFlyoutAdapter;
+
+            AnimeGridItemMoreFlyout.Visibility = ViewStates.Visible;
+        }
+
         protected override void InitOneTimeBindings()
         {
             if(_oneTimeBindingsInitialized)
                 return;
             _oneTimeBindingsInitialized = true;
 
+
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true,300).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).Into(img);
+
+            InitializeMoreFlyout();
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
         }
@@ -101,5 +136,13 @@ namespace MALClient.Android.BindingInformation
             _bindingsInitialized = false;
             _oneTimeBindingsInitialized = false;
         }
+
+        private ImageButton _animeGridItemMoreButton;
+        private FlyoutMenuView _animeGridItemMoreFlyout;
+
+        public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
+
+        public FlyoutMenuView AnimeGridItemMoreFlyout => _animeGridItemMoreFlyout ?? (_animeGridItemMoreFlyout = Container.FindViewById<FlyoutMenuView>(Resource.Id.AnimeGridItemMoreFlyout));
+
     }
 }

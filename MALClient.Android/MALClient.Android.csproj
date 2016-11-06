@@ -113,6 +113,7 @@
     <Compile Include="Flyouts\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\TextBasedFlyoutBase.cs" />
+    <Compile Include="Flyouts\TextFlyoutItem.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
@@ -222,6 +223,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_sort.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_more.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_reload.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

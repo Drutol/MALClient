@@ -14,6 +14,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -28,9 +29,6 @@ namespace MALClient.Android.Fragments
     {
         protected override void InitBindings()
         {
-            ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
-
-
             FilterFlyoutMenu.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
             FilterFlyoutMenu.Adapter =
                 new FlyoutMenuView.ArrayAdapter(
@@ -53,7 +51,15 @@ namespace MALClient.Android.Fragments
             SortFlyoutMenu.SelectionListener = new MenuFlyoutSelectionListener(OnSortingMenuSelectionChanged);
             SortFlyoutMenu.SetSelectedMenuItemById((int)ViewModel.SortOption);
 
-            //ViewModel.SortingSettingChanged += ViewModelOnSortingSettingChanged;
+            Bindings = new Dictionary<int, List<Binding>>();
+
+            Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
+            Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
+                this.SetBinding(() => ViewModel.Loading,
+                    () => AnimeListPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
+            AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
         }
 
         private void ViewModelOnSortingSettingChanged(SortOptions option, bool descencing)
@@ -83,19 +89,25 @@ namespace MALClient.Android.Fragments
                     AnimeListPageGridView.Adapter = new AnimeListItemsAdapter(Context as Activity, Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems);
             }
         }
+        private FlyoutMenuView _animeListPageFilterMenu;
+        private FlyoutMenuView _animeListPageSortMenu;
+        public FlyoutMenuView FilterFlyoutMenu => _animeListPageFilterMenu ?? (_animeListPageFilterMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageFilterMenu));
+        public FlyoutMenuView SortFlyoutMenu => _animeListPageSortMenu ?? (_animeListPageSortMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageSortMenu));
 
 
         private GridView _animeListPageGridView;
+        private ProgressBar _animeListPageLoadingSpinner;
+        private ImageButton _animeListPageReloadButton;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
 
-        private FlyoutMenuView _filterFlyoutMenu;
+        public ProgressBar AnimeListPageLoadingSpinner => _animeListPageLoadingSpinner ?? (_animeListPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeListPageLoadingSpinner));
 
-        public FlyoutMenuView FilterFlyoutMenu => _filterFlyoutMenu ?? (_filterFlyoutMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageFilterMenu));
+        public ImageButton AnimeListPageReloadButton => _animeListPageReloadButton ?? (_animeListPageReloadButton = FindViewById<ImageButton>(Resource.Id.AnimeListPageReloadButton));
 
-        private FlyoutMenuView _sortFlyoutMenu;
+        
 
-        public FlyoutMenuView SortFlyoutMenu => _sortFlyoutMenu ?? (_sortFlyoutMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageSortMenu));
+
 
     }
 }

@@ -30,17 +30,17 @@ namespace MALClient.Android.Flyouts
         protected TextBasedFlyoutBase(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) {}
 
 
-        protected TextBasedFlyoutBase(int p0,Color defaultColor) : base(p0)
+        protected TextBasedFlyoutBase(int p0,Color defaultColor = default(Color)) : base(p0)
         {
             TextPaint = new TextPaint
             {
-                TextSize = 24,
+                TextSize = 26,
                 TextAlign = Paint.Align.Center
             };
             TextPaint.AntiAlias = true;
             TextPaint.ElegantTextHeight = true;
             TextPaint.SetStyle(Paint.Style.Fill);
-            TextPaint.Color = defaultColor;
+            TextPaint.Color = defaultColor == default(Color) ? TextColorBase : defaultColor;
         }
 
         public override void OnDraw(Canvas canvas, RectF bounds, float degreeSelected)

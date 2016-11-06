@@ -19,7 +19,7 @@ namespace MALClient.Android.Fragments
     {
         protected View RootView { get; private set; }
 
-        protected Dictionary<int, Binding> _bindings;
+        protected Dictionary<int, List<Binding>> Bindings;
 
         protected abstract void Init(Bundle savedInstanceState);
 
@@ -49,8 +49,8 @@ namespace MALClient.Android.Fragments
 
         public sealed override void OnStop()
         {
-            _bindings?.ForEach(pair => pair.Value.Detach());
-            _bindings = null;
+            Bindings?.ForEach(pair => pair.Value.ForEach(binding => binding.Detach()));
+            Bindings = null;
             Cleanup();
             base.OnStop();
         }

@@ -7,4 +7,5 @@
   <dimen name="AppBarBtnHeight">50dp</dimen>
   <dimen name="TextFlyoutItemHeight">30dp</dimen>
   <dimen name="TextFlyoutItemWidth">100dp</dimen>
+  <dimen name="TextFlyoutItemWideWidth">150dp</dimen>
 </resources>

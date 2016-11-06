@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Daimajia.Swipe;
 using FFImageLoading;
 using FFImageLoading.Extensions;
 using FFImageLoading.Views;
@@ -17,10 +18,12 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
 using MALClient.Android.Managers;
 using MALClient.Models.Enums.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;
+using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.BindingInformation
 {
@@ -114,6 +117,36 @@ namespace MALClient.Android.BindingInformation
             AnimeGridItemMoreFlyout.Visibility = ViewStates.Visible;
         }
 
+        private bool? _swipePosition;
+
+        private void InitializeSwipeLayout()
+        {
+            var swipe = (SwipeLayout) Container;
+            swipe.SetShowMode(SwipeLayout.ShowMode.LayDown);
+
+            swipe.LeftSwipeEnabled = true;
+            swipe.RightSwipeEnabled = true;
+
+            swipe.AddDrag(SwipeLayout.DragEdge.Right, Container.FindViewById(Resource.Id.AnimeGridItemBackSurfaceAdd));
+            swipe.AddDrag(SwipeLayout.DragEdge.Left, Container.FindViewById(Resource.Id.AnimeGridItemBackSurfaceSubtract));
+           
+            swipe.OpenEvent += SwipeOnOpenEvent;
+
+        }
+
+        private async void SwipeOnOpenEvent(object sender, SwipeLayout.OpenEventArgs openEventArgs)
+        {
+            openEventArgs.P0.SwipeEnabled = false;
+            var edge = openEventArgs.P0.GetDragEdge();
+            if(edge == SwipeLayout.DragEdge.Right)
+                ViewModel.IncrementWatchedCommand.Execute(null);
+            else if(edge == SwipeLayout.DragEdge.Left)
+                ViewModel.DecrementWatchedCommand.Execute(null);
+            await Task.Delay(500);
+            openEventArgs.P0.Close();
+            openEventArgs.P0.SwipeEnabled = true;
+        }
+
         protected override void InitOneTimeBindings()
         {
             if(_oneTimeBindingsInitialized)
@@ -125,6 +158,7 @@ namespace MALClient.Android.BindingInformation
             ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).Into(img);
 
             InitializeMoreFlyout();
+            InitializeSwipeLayout();
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
         }

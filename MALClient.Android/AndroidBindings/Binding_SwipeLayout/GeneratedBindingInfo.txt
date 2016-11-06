@@ -1,0 +1,6 @@
+Binding for:
+com.daimajia.swipelayout:library:1.2.0@aar
+
+Dependencies:
+
+library-1.2.0.aar,    Path=C:\Users\dogie\.gradle\caches\modules-2\files-2.1\com.daimajia.swipelayout\library\1.2.0\44b3b8b1f9625bf4a697ab2b32a95da20ee7ddea\library-1.2.0.aar

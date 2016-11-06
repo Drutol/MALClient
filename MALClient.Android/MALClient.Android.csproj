@@ -122,6 +122,7 @@
     <Compile Include="Fragments\MalFragmentBase.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
+    <Compile Include="Listeners\SwipeLayoutListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -180,6 +181,10 @@
     <ProjectReference Include="AndroidBindings\Binding_FlyoutMenus\Binding_FlyoutMenus.csproj">
       <Project>{C383E3F2-C48F-47C4-8118-16DA79DD62AC}</Project>
       <Name>Binding_FlyoutMenus</Name>
+    </ProjectReference>
+    <ProjectReference Include="AndroidBindings\Binding_SwipeLayout\Binding_SwipeLayout.csproj">
+      <Project>{8381fc96-fa01-4c4e-af91-2da32d3681f9}</Project>
+      <Name>Binding_SwipeLayout</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

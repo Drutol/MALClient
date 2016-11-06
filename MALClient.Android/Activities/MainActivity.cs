@@ -10,6 +10,8 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Com.Daimajia.Swipe;
+using Com.Daimajia.Swipe.Implments;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;

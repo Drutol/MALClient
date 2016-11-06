@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;

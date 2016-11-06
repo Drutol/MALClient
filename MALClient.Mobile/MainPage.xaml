@@ -44,6 +44,14 @@
         <Storyboard x:Key="MediaElementFadeOutStoryboard">
             <FadeOutThemeAnimation TargetName="MediaElementGrid" />
         </Storyboard>
+
+        <Storyboard x:Key="ChangelogFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="ChangelogGrid" />
+        </Storyboard>
+
+        <Storyboard x:Key="ChangelogFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="ChangelogGrid" />
+        </Storyboard>
         <xamlConverters:BottomStackMarginToFrameMarginWithAdConverter x:Key="BottomStackMarginToFrameMarginWithAdConverter" />
     </Page.Resources>
 
@@ -179,22 +187,65 @@
                 <controls:HamburgerControl />
             </SplitView.Pane>
             <SplitView.Content>
-                <Grid>
-                    <Grid>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Frame  x:Name="MainContent" Margin="{Binding Source={StaticResource MobileLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter},ConverterParameter=True}"/>
-                        <Grid Background="{ThemeResource BrushDeepBackground}" Grid.Row="1" Width="320" Height="50" Margin="{Binding Source={StaticResource MobileLocator},Path=Hamburger.BottomStackPanelMargin}" Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                            <ui:AdControl x:Name="AdControl" AdUnitId="315598" ApplicationId="98d3d081-e5b2-46ea-876d-f1d8176fb908" Height="50" Width="320" />
+                    <Grid Grid.Row="0" VerticalAlignment="Stretch">
+                        <Frame  x:Name="MainContent" Margin="{Binding Source={StaticResource MobileLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter},ConverterParameter=True}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <Grid Visibility="Collapsed" x:Name="ChangelogGrid"
+                              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource ChangelogFadeOutStoryboard}"
+                              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource ChangelogFadeInStoryboard}"
+                              attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding ChangelogVisibility}"
+                              MinWidth="300" MaxWidth="600" HorizontalAlignment="Right" VerticalAlignment="Top"
+                              MaxHeight="600" BorderThickness="1" Tapped="ChangelogGrid_OnTapped"
+                              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                <TextBlock Text="New update! What's new?" FontWeight="Bold" Foreground="White"
+                                           HorizontalAlignment="Left" Margin="10,5" />
+                                <Button Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Right" Foreground="White"
+                                        Click="ButtonCloseChangelogOnClick">
+                                    <SymbolIcon Symbol="Cancel"/>
+                                </Button>
+                            </Grid>
+                            <Grid Padding="20" Grid.Row="1" Background="{ThemeResource BrushDeepBackground}">
+                                <StackPanel>
+                                    <TextBlock FontWeight="SemiBold" Text="{Binding ChangelogHeader}"
+                                               TextWrapping="WrapWholeWords" Margin="0,5" />
+                                    <MenuFlyoutSeparator Margin="-20,0,-20,5" Background="{ThemeResource BrushText}" />
+                                    <ItemsControl ItemsSource="{Binding ChangelogContent}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Ellipse Fill="{ThemeResource BrushText}" Width="3" Height="3"
+                                                             HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                             Margin="0,10,0,0" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding}"
+                                                               TextWrapping="WrapWholeWords" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </Grid>
-
-                    <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    <Grid Background="{ThemeResource BrushDeepBackground}" Grid.Row="1" Width="320" Height="50" Margin="{Binding Source={StaticResource MobileLocator},Path=Hamburger.BottomStackPanelMargin}" Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ui:AdControl x:Name="AdControl" AdUnitId="315598" ApplicationId="98d3d081-e5b2-46ea-876d-f1d8176fb908" Height="50" Width="320" />
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}" Visibility="Collapsed"
-                        attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" >
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" Background="{ThemeResource BrushMediaElementShadow}">
                         <Grid.Resources>
                             <ResourceDictionary>
                                 <ResourceDictionary.MergedDictionaries>
@@ -202,9 +253,6 @@
                                 </ResourceDictionary.MergedDictionaries>
                             </ResourceDictionary>
                         </Grid.Resources>
-                        <Grid.Background>
-                            <SolidColorBrush Color="Black" Opacity=".9"/>
-                        </Grid.Background>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>

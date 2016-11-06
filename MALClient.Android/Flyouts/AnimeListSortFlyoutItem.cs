@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MALClient.Models.Enums;
 using MALClient.Models.Enums.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;

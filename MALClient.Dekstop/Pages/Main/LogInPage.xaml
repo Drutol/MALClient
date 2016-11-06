@@ -39,7 +39,7 @@
         </Grid.RowDefinitions>
         <userControls:LockableToggleButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                        x:Name="MalLoginButton"  Command="{Binding FocusMalCommand}" Checked="MalLoginButton_OnChecked">
-            <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="200" />
+            <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" HorizontalAlignment="Stretch" MaxWidth="200" />
         </userControls:LockableToggleButton>
         <userControls:LockableToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Checked="HumLoginButton_OnChecked"
                                         x:Name="HumLoginButton" Command="{Binding FocusHumCommand}">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MALClient.Adapters;
+using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;

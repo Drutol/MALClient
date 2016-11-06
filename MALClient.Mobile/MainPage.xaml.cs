@@ -13,6 +13,7 @@ using MALClient.Shared.UserControls;
 using MALClient.Shared.ViewModels;
 using MALClient.Pages;
 using MALClient.Shared.ViewModels.Interfaces;
+using MALClient.UWP.Adapters;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -44,6 +45,7 @@ namespace MALClient
                 UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
                 StartAdsTimeMeasurements();
                 ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
+                ViewModelLocator.GeneralMain.ChangelogVisibility = ChangeLogProvider.NewChangelog || true;
             };
             ViewModel.MainNavigationRequested += Navigate;
         }
@@ -213,10 +215,20 @@ namespace MALClient
 
         private async void ToggleButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(10); // wait for it to appear.. nana, this is completly vaild approach... nananaa
+            await Task.Delay(100); // wait for it to appear.. nana, this is completly vaild approach... nananaa
             var btn = sender as LockableToggleButton;
             if (btn.IsChecked.GetValueOrDefault(false))
                 SearchInput.Focus(FocusState.Keyboard);
+        }
+
+        private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ChangelogVisibility = false;
+        }
+
+        private void ChangelogGrid_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.ChangelogVisibility = false;
         }
     }
 }

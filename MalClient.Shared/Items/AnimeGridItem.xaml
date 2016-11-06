@@ -174,9 +174,8 @@
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0"/>
+                    <TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0" Foreground="White"/>
                 </Grid>
-
             </StackPanel>
         </Grid>
     </Grid>

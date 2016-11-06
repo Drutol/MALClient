@@ -433,7 +433,7 @@ namespace MALClient.XShared.Utils
         public static HtmlNode FirstWithClass(this IEnumerable<HtmlNode> doc, string targettedClass)
         {
             return
-                doc.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+                doc.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass); //trim because mal like to leave stary spaces from time to time
         }
 
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlDocument doc, string descendants,
@@ -441,21 +441,21 @@ namespace MALClient.XShared.Utils
         {
             return
                 doc.DocumentNode.Descendants(descendants)
-                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
         }
 
         public static HtmlNode FirstOfDescendantsWithId(this HtmlDocument doc, string descendants, string targettedId)
         {
             return
                 doc.DocumentNode.Descendants(descendants)
-                    .First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value == targettedId);
+                    .First(node => node.Attributes.Contains("id") && node.Attributes["id"].Value.Trim() == targettedId);
         }
 
         public static HtmlNode FirstOfDescendantsWithClass(this HtmlNode doc, string descendants, string targettedClass)
         {
             return
                 doc.Descendants(descendants)
-                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
         }
 
         public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlDocument doc, string descendants,
@@ -463,7 +463,7 @@ namespace MALClient.XShared.Utils
         {
             return
                 doc.DocumentNode.Descendants(descendants)
-                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
         }
 
         public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlNode doc, string descendants,
@@ -471,7 +471,7 @@ namespace MALClient.XShared.Utils
         {
             return
                 doc.Descendants(descendants)
-                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == targettedClass);
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
         }
 
         public static void ForEach<T>(this IEnumerable<T> source,Action<T> action)

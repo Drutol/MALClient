@@ -72,7 +72,7 @@
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <TextBlock
-                            Text="I'm just freshman student working on this app in my free time if you would like to say 'thank you' you can do so by donating:"
+                            Text="I'm just sophomore student working on this app in my free time if you would like to say 'thank you' you can do so by donating"
                             HorizontalAlignment="Center" TextWrapping="WrapWholeWords" />
                         <Grid Margin="10" BorderBrush="LightGray" BorderThickness="2"
                               HorizontalAlignment="Center">

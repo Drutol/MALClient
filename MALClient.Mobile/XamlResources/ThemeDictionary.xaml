@@ -31,6 +31,8 @@
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="#555555" />
             <SolidColorBrush x:Key="BrushFavouriteStarBackground" Color="White" Opacity=".5"/>
             <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
+            <SolidColorBrush x:Key="BrushMediaElementShadow" Color="WhiteSmoke" Opacity=".9"/>
+            <SolidColorBrush x:Key="BrushLoadingAllShadow" Color="WhiteSmoke" Opacity=".9"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushText" Color="White" />
@@ -59,6 +61,8 @@
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="LightGray" />
             <SolidColorBrush x:Key="BrushFavouriteStarBackground" Color="Black" Opacity=".75"/>
             <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
+            <SolidColorBrush x:Key="BrushMediaElementShadow" Color="Black" Opacity=".9"/>
+            <SolidColorBrush x:Key="BrushLoadingAllShadow" Color="Black" Opacity=".7"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

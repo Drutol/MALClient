@@ -13,6 +13,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.Shared;
 using MALClient.Shared.ViewModels;
 using MALClient.Pages;

@@ -1210,15 +1210,15 @@ namespace MALClient.XShared.ViewModels
         {
             try
             {
-                if (MyEpisodes == to)
+                if (MyEpisodesFocused == to)
                     return;
                 Action updateAction = async () =>
                 {
-                    var myPrevEps = MyEpisodes;
-                    MyEpisodes = to;
+                    var myPrevEps = MyEpisodesFocused;
+                    MyEpisodesFocused = to;
                     var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                     if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
-                        MyStatus = myPrevEps;
+                        MyEpisodesFocused = myPrevEps;
 
                     AdjustIncrementButtonsVisibility();
                 };
@@ -1230,8 +1230,8 @@ namespace MALClient.XShared.ViewModels
                     updateAction.Invoke();
                     return;
                 }
-                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput($"From : {MyEpisodes}\nTo : {to}",
-                    $"Would you like to change watched {(ParentAbstraction.RepresentsAnime ? "episodes" : $"{(Settings.MangaFocusVolumes ? "volumes" : "chapters")}") } value?", "Yes", "No", updateAction);
+                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput($"From : {MyEpisodesFocused}\nTo : {to}",
+                    $"Would you like to change {(ParentAbstraction.RepresentsAnime ? "watched episodes" : $"{"read " +(Settings.MangaFocusVolumes ? "volumes" : "chapters")}") } value?", "Yes", "No", updateAction);
             }
             catch (Exception)
             {

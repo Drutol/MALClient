@@ -329,11 +329,8 @@
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                       attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}"
-                      Visibility="Collapsed"
+                      Visibility="Collapsed" Background="{ThemeResource BrushMediaElementShadow}"
                       attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}">
-                    <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".9" />
-                    </Grid.Background>
                     <Button HorizontalAlignment="Left" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top"
                             Style="{StaticResource FancyButtonStyle}" Command="{Binding CopyMediaElementUrlCommand}">
                         <ToolTipService.ToolTip>

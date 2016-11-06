@@ -11,7 +11,8 @@ namespace MALClient.XShared.Comm.Articles
     {
         private readonly string _title;
         private readonly MalNewsType _type;
-        public MalArticleQuery(string url,string title,MalNewsType type)
+
+        public MalArticleQuery(string url, string title, MalNewsType type)
         {
             _type = type;
             _title = title;
@@ -23,7 +24,7 @@ namespace MALClient.XShared.Comm.Articles
 
         public async Task<string> GetArticleHtml()
         {
-            var possibleData = await DataCache.RetrieveArticleContentData(_title,_type);
+            var possibleData = await DataCache.RetrieveArticleContentData(_title, _type);
             if (possibleData != null)
                 return possibleData;
             var raw = await GetRequestResponse();
@@ -31,8 +32,17 @@ namespace MALClient.XShared.Comm.Articles
                 return null;
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            var htmlData = doc.FirstOfDescendantsWithClass("div", "news-container").OuterHtml;
-            DataCache.SaveArticleContentData(_title,htmlData,_type);
+            string htmlData;
+            try
+            {
+                htmlData = doc.FirstOfDescendantsWithClass("div", "news-container").OuterHtml;
+                DataCache.SaveArticleContentData(_title, htmlData, _type);
+            }
+            catch (Exception)
+            {
+                htmlData = "Something went wrong";
+            }
+
             return htmlData;
         }
     }

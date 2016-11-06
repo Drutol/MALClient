@@ -5,6 +5,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -47,6 +48,11 @@ namespace MALClient.Pages.Off.SettingsPages
         private async void LaunchRepo(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient"));
+        }
+
+        private void ShowChangelogButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModelLocator.GeneralMain.ChangelogVisibility = true;
         }
     }
 }

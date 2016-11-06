@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using MALClient.Models.Enums;
 using MALClient.Shared;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;

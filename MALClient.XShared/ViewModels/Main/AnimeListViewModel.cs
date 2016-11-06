@@ -322,6 +322,7 @@ namespace MALClient.XShared.ViewModels.Main
                     throw new ArgumentOutOfRangeException();
             }
 
+            RaisePropertyChanged(() => LoadAllDetailsButtonVisiblity);
             SortingSettingChanged?.Invoke(SortOption, SortDescending);
             Initializing = false;
             UpdateUpperStatus();
@@ -1560,6 +1561,12 @@ namespace MALClient.XShared.ViewModels.Main
                 RaisePropertyChanged(() => SortAirDayVisibility);
             }
         }
+
+        public bool LoadAllDetailsButtonVisiblity
+            =>
+            Settings.SelectedApiType == ApiType.Mal && WorkMode != AnimeListWorkModes.Manga &&
+            WorkMode != AnimeListWorkModes.TopManga;
+
 
         private bool _goingCustomSeason;
 

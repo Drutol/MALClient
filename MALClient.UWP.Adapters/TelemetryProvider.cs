@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
 
 namespace MALClient.UWP.Adapters
@@ -16,9 +17,13 @@ namespace MALClient.UWP.Adapters
         {
 #if !DEBUG
             HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
-            {
-                Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
-            });
+                {
+                    Collectors =
+                        WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
+                })
+                .SetExceptionDescriptionLoader(
+                    exception =>
+                            $"MainPage: {ViewModelLocator.GeneralMain.CurrentMainPage.ToString()} {(!ViewModelLocator.Mobile ? $"OffPage: {ViewModelLocator.GeneralMain.CurrentOffPage.ToString()}" : "")}");
 #endif
         }
 

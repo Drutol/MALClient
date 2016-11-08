@@ -1043,7 +1043,7 @@ namespace MALClient.XShared.ViewModels
                 return;
             _decrementing = true;
             LoadingUpdate = true;
-            MyEpisodes--;
+            MyEpisodesFocused--;
             AdjustIncrementButtonsVisibility();
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)

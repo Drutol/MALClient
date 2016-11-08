@@ -53,7 +53,7 @@ namespace MALClient.Android.Activities
                 MainNavView.NavigationItemSelected += NavViewOnNavigationItemSelected;
 
 
-                ViewModel.Navigate(PageIndex.PageLogIn);
+                ViewModel.Navigate(PageIndex.PageAnimeList);
             }
     
         }

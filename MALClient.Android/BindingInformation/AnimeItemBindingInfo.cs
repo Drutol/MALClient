@@ -32,6 +32,7 @@ namespace MALClient.Android.BindingInformation
         private bool _bindingsInitialized;
         private bool _oneTimeBindingsInitialized;
         private bool _moreFlyoutMenuInitialized;
+        private bool _swipeLayoutInitialized;
 
         private static FlyoutMenuView.IAdapter _moreFlyoutAdapter;
         private enum MoreFlyoutButtons
@@ -41,6 +42,8 @@ namespace MALClient.Android.BindingInformation
             [EnumUtilities.Description("Open in browser")]
             OpenInBrowser
         }
+
+        private SwipeLayoutListener _swipeListener;
 
         public AnimeItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel) {}
 
@@ -105,6 +108,9 @@ namespace MALClient.Android.BindingInformation
                 return;
             _moreFlyoutMenuInitialized = true;
 
+            if(AnimeGridItemMoreFlyout.Adapter != null)
+                return;
+
             if (_moreFlyoutAdapter == null)
                 _moreFlyoutAdapter =
                     new FlyoutMenuView.ArrayAdapter(
@@ -117,35 +123,69 @@ namespace MALClient.Android.BindingInformation
             AnimeGridItemMoreFlyout.Visibility = ViewStates.Visible;
         }
 
-        private bool? _swipePosition;
+        #region Swipe
+
 
         private void InitializeSwipeLayout()
         {
-            var swipe = (SwipeLayout) Container;
-            swipe.SetShowMode(SwipeLayout.ShowMode.LayDown);
+            if (_swipeLayoutInitialized)
+                return;
+            _swipeLayoutInitialized = true;
 
-            swipe.LeftSwipeEnabled = true;
-            swipe.RightSwipeEnabled = true;
+            var swipe = (SwipeLayout)Container;
 
-            swipe.AddDrag(SwipeLayout.DragEdge.Right, Container.FindViewById(Resource.Id.AnimeGridItemBackSurfaceAdd));
-            swipe.AddDrag(SwipeLayout.DragEdge.Left, Container.FindViewById(Resource.Id.AnimeGridItemBackSurfaceSubtract));
-           
-            swipe.OpenEvent += SwipeOnOpenEvent;
+            //the view has been already set-up
+            if (swipe.SwipeListener == null)
+            {
 
+                swipe.SetShowMode(SwipeLayout.ShowMode.LayDown);
+
+                swipe.LeftSwipeEnabled = true;
+                swipe.RightSwipeEnabled = true;
+                swipe.ClickToClose = false;
+
+                _swipeListener = new SwipeLayoutListener();
+                swipe.SwipeListener = _swipeListener;
+
+                swipe.AddDrag(SwipeLayout.DragEdge.Right,
+                    Container.FindViewById(Resource.Id.AnimeGridItemBackSurfaceAdd));
+                swipe.AddDrag(SwipeLayout.DragEdge.Left,
+                    Container.FindViewById(Resource.Id.AnimeGridItemBackSurfaceSubtract));
+            }
+            else
+            {
+                _swipeListener = swipe.SwipeListener as SwipeLayoutListener;
+            }
+
+            _swipeListener.OnOpenAction = SwipeOnOpenEvent;
         }
 
-        private async void SwipeOnOpenEvent(object sender, SwipeLayout.OpenEventArgs openEventArgs)
+        private bool _swipeCooldown;
+
+        private async void SwipeOnOpenEvent(SwipeLayout sender)
         {
-            openEventArgs.P0.SwipeEnabled = false;
-            var edge = openEventArgs.P0.GetDragEdge();
-            if(edge == SwipeLayout.DragEdge.Right)
+            Debug.WriteLine($"Attempting swipe for {ViewModel.Title}");
+            if (_swipeCooldown)
+                return;
+            _swipeCooldown = true;
+            sender.LeftSwipeEnabled = true;
+            sender.RightSwipeEnabled = true;
+
+            var edge = sender.GetDragEdge();
+            if (edge == SwipeLayout.DragEdge.Right)
                 ViewModel.IncrementWatchedCommand.Execute(null);
-            else if(edge == SwipeLayout.DragEdge.Left)
+            else if (edge == SwipeLayout.DragEdge.Left)
                 ViewModel.DecrementWatchedCommand.Execute(null);
             await Task.Delay(500);
-            openEventArgs.P0.Close();
-            openEventArgs.P0.SwipeEnabled = true;
+
+            sender.Close();
+
+            sender.LeftSwipeEnabled = true;
+            sender.RightSwipeEnabled = true;
+            _swipeCooldown = false;
         }
+        #endregion
+
 
         protected override void InitOneTimeBindings()
         {
@@ -162,13 +202,13 @@ namespace MALClient.Android.BindingInformation
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
         }
-
-        protected override void DetachBindings()
+        
+        protected override void DetachInnerBindings()
         {
-            base.DetachBindings();
-
             _bindingsInitialized = false;
             _oneTimeBindingsInitialized = false;
+            _swipeLayoutInitialized = false;
+            _moreFlyoutMenuInitialized = false;
         }
 
         private ImageButton _animeGridItemMoreButton;

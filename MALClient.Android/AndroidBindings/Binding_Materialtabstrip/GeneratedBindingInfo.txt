@@ -1,0 +1,9 @@
+Binding for:
+com.jpardogo.materialtabstrip:library:1.1.1
+
+Dependencies:
+
+library-1.1.1.aar,    Path=C:\Users\dogie\.gradle\caches\modules-2\files-2.1\com.jpardogo.materialtabstrip\library\1.1.1\4fb0ac7e123c20740eed297f8272428fdd8a72cd\library-1.1.1.aar
+	support-annotations-24.2.0.jar,    Path=C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.0\support-annotations-24.2.0.jar
+	support-compat-24.2.0.aar,    Path=C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-compat\24.2.0\support-compat-24.2.0.aar
+	support-core-ui-24.2.0.aar,    Path=C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-core-ui\24.2.0\support-core-ui-24.2.0.aar

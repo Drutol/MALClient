@@ -182,6 +182,10 @@
       <Project>{C383E3F2-C48F-47C4-8118-16DA79DD62AC}</Project>
       <Name>Binding_FlyoutMenus</Name>
     </ProjectReference>
+    <ProjectReference Include="AndroidBindings\Binding_Materialtabstrip\Binding_Materialtabstrip.csproj">
+      <Project>{9710E4ED-5ECF-4B60-B679-6DADC59F6474}</Project>
+      <Name>Binding_Materialtabstrip</Name>
+    </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_SwipeLayout\Binding_SwipeLayout.csproj">
       <Project>{8381fc96-fa01-4c4e-af91-2da32d3681f9}</Project>
       <Name>Binding_SwipeLayout</Name>
@@ -234,6 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_reload.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_add.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_minus.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

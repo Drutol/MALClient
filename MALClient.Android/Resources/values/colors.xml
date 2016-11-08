@@ -54,7 +54,7 @@
   <color name="BrushNoSearchResults">#B9B9B9</color>
 
 
-
+  <color name="BrushFlyoutBackground">#2b2b2b</color>
   <color name="AccentColour">#ff8c00</color>
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>

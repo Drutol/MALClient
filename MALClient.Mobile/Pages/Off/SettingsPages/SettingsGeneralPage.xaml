@@ -409,6 +409,34 @@
             </StackPanel>
             <MenuFlyoutSeparator Margin="0,5" />
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
+                <TextBlock Margin="0,7" Text="Change status/watched prompts"
+                           TextWrapping="WrapWholeWords" FontWeight="Medium"
+                           HorizontalAlignment="Center" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <ToggleSwitch HorizontalAlignment="Center" Header="Status change prompt" OnContent="Enabled"
+                              OffContent="Disabled"
+                              IsOn="{Binding StatusPromptEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <ToggleSwitch HorizontalAlignment="Center" Header="Status prompt&#x0a;action when disabled" OnContent="Change"
+                              OffContent="Disabled"
+                              IsOn="{Binding StatusPromptProceedOnDisabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <ToggleSwitch HorizontalAlignment="Center" Header="Watched episodes prompt" OnContent="Enabled"
+                              OffContent="Disabled"
+                              IsOn="{Binding WatchedEpsPromptEnable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <ToggleSwitch HorizontalAlignment="Center" Header="Watched episodes prompt&#x0a;action when disabled" OnContent="Change"
+                              OffContent="Disabled"
+                              IsOn="{Binding WatchedEpsPromptProceedOnDisabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <MenuFlyoutSeparator Margin="0,5" />
+            <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                 <TextBlock Margin="0,7" Text="Hide selection flyouts after change:"
                                            TextWrapping="WrapWholeWords" FontWeight="Medium"
                                            HorizontalAlignment="Center" />

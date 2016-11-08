@@ -7,7 +7,7 @@
     <!-- Bottom View Start-->
     <LinearLayout
             android:id="@+id/AnimeGridItemBackSurfaceAdd"
-            android:layout_width="70dp"
+            android:layout_width="130dp"
             android:weightSum="2"
             android:orientation="horizontal"
             android:background="@color/AccentColour"
@@ -18,7 +18,7 @@
     </LinearLayout>
     <LinearLayout
             android:id="@+id/AnimeGridItemBackSurfaceSubtract"
-            android:layout_width="70dp"
+            android:layout_width="130dp"
             android:weightSum="2"
             android:orientation="horizontal"
             android:background="#546545"

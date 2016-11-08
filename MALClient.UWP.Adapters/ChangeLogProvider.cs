@@ -12,17 +12,16 @@ namespace MALClient.UWP.Adapters
     {
         public static bool NewChangelog { get; set; }
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 05.11.2016";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 08.11.2016";
 
         public List<string> Changelog => new List<string>
         {
-            "Added anime by studio and genre.",
-            "Fixed missing image issues.",
-            "Tweaked watched episodes flyout with quick selection buttons.",
-            "Calendar will now not display OVAs.",
-            "Start date will properly set on 1 episode shows.",
-            "More search page bugfixes.",
-            "Opening app from live tile will now properly check whether this entry is on your list.",
+            "Added this very popup, you will see it whenever the app updates itself. (you can find it in about page too!)",
+            "Added searching by anime/manga type (movie,ova etc.)",
+            "Added settings for episodes/status prompts.",
+            "Fixed a few issues with light theme.",
+            "Fixed news crashes.",
+            "Resolved a few things with volumes focusing.",
         };
 
     }

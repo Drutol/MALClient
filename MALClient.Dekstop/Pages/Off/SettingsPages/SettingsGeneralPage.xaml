@@ -516,7 +516,7 @@
             </StackPanel>            
             <MenuFlyoutSeparator Margin="0,5" />
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
-                <TextBlock Margin="0,7" Text="Expandable filters list default state:"
+                <TextBlock Margin="0,7" Text="Expandable filters list default states"
                            TextWrapping="WrapWholeWords" FontWeight="Medium"
                            HorizontalAlignment="Center" />
                 <ToggleSwitch HorizontalAlignment="Center" Header="Anime filters" OnContent="Expanded"

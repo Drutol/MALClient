@@ -1,0 +1,6 @@
+Binding for:
+com.orhanobut:dialogplus:1.11@aar
+
+Dependencies:
+
+dialogplus-1.11.aar,    Path=C:\Users\dogie\.gradle\caches\modules-2\files-2.1\com.orhanobut\dialogplus\1.11\87750e7f8a1d95028a42421b2d121dca3cfbe83c\dialogplus-1.11.aar

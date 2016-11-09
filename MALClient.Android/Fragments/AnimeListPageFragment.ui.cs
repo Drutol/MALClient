@@ -51,6 +51,7 @@ namespace MALClient.Android.Fragments
             SortFlyoutMenu.SelectionListener = new MenuFlyoutSelectionListener(OnSortingMenuSelectionChanged);
             SortFlyoutMenu.SetSelectedMenuItemById((int)ViewModel.SortOption);
 
+
             Bindings = new Dictionary<int, List<Binding>>();
 
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());

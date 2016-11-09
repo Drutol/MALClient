@@ -15,7 +15,6 @@ namespace MALClient.Android.CollectionAdapters
 {
     public abstract class BindingInfo<TViewModel>
     {
-        private bool _attached;
         private View _container;
 
         protected abstract void InitBindings();

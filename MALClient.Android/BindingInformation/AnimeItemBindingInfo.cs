@@ -10,17 +10,22 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Daimajia.Swipe;
+using Com.Orhanobut.Dialogplus;
 using FFImageLoading;
 using FFImageLoading.Extensions;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.DialogAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.Android.Listeners.DialogListeners;
 using MALClient.Android.Managers;
 using MALClient.Models.Enums.Enums;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;
 using Debug = System.Diagnostics.Debug;
@@ -40,7 +45,11 @@ namespace MALClient.Android.BindingInformation
             [EnumUtilities.Description("Copy link")]
             CopyLink,
             [EnumUtilities.Description("Open in browser")]
-            OpenInBrowser
+            OpenInBrowser,
+            [EnumUtilities.Description("Set status")]
+            SetStatus,
+            [EnumUtilities.Description("Set rating")]
+            SetRating,
         }
 
         private SwipeLayoutListener _swipeListener;
@@ -102,26 +111,72 @@ namespace MALClient.Android.BindingInformation
                     () => scoreView.Text));
         }
 
+        #region MoreFlyout
+
         private void InitializeMoreFlyout()
         {
-            if(_moreFlyoutMenuInitialized)
+            if (_moreFlyoutMenuInitialized)
                 return;
             _moreFlyoutMenuInitialized = true;
 
-            if(AnimeGridItemMoreFlyout.Adapter != null)
-                return;
+            if (AnimeGridItemMoreFlyout.Adapter == null)
+            {
+                if (_moreFlyoutAdapter == null)
+                    _moreFlyoutAdapter =
+                        new FlyoutMenuView.ArrayAdapter(
+                            Enum.GetValues(typeof(MoreFlyoutButtons)).Cast<MoreFlyoutButtons>().Select(
+                                item => new TextFlyoutItem((int)item, item.GetDescription())).ToList());
 
-            if (_moreFlyoutAdapter == null)
-                _moreFlyoutAdapter =
-                    new FlyoutMenuView.ArrayAdapter(
-                        new[] {MoreFlyoutButtons.CopyLink, MoreFlyoutButtons.OpenInBrowser}.Select(
-                            item => new TextFlyoutItem((int) item, item.GetDescription())).ToList());
+                AnimeGridItemMoreFlyout.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
+                AnimeGridItemMoreFlyout.Adapter = _moreFlyoutAdapter;
+            }
 
-            AnimeGridItemMoreFlyout.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
-            AnimeGridItemMoreFlyout.Adapter = _moreFlyoutAdapter;
-
-            AnimeGridItemMoreFlyout.Visibility = ViewStates.Visible;
+            AnimeGridItemMoreFlyout.SelectionListener = new MenuFlyoutSelectionListener(OnMoreFlyoutItemSelection);
         }
+
+        private void OnMoreFlyoutItemSelection(FlyoutMenuView.MenuItem menuItem)
+        {
+            switch ((MoreFlyoutButtons)menuItem.Id)
+            {
+                case MoreFlyoutButtons.CopyLink:
+                    break;
+                case MoreFlyoutButtons.OpenInBrowser:
+                    break;
+                case MoreFlyoutButtons.SetStatus:
+                    ShowStatusDialog();
+                    break;
+                case MoreFlyoutButtons.SetRating:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        #endregion
+
+        #region Dialogs
+
+        private void ShowStatusDialog()
+        {
+            var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
+            dialogBuilder.SetAdapter(new StatusDialogAdapter(MainActivity.CurrentContext,
+                !ViewModel.ParentAbstraction.RepresentsAnime,ViewModel.IsRewatching,ViewModel.MyStatus));
+            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetOnItemClickListener(new EnumDialogListener<AnimeStatus>
+            {
+                OnItemClickAction = (d, status) =>
+                {
+                    ViewModel.MyStatus = (int)status;
+                    d.Dismiss();
+                }
+            });
+
+            var dialog = dialogBuilder.Create();
+            dialog.Show();          
+        }
+
+        #endregion
+
 
         #region Swipe
 
@@ -195,7 +250,7 @@ namespace MALClient.Android.BindingInformation
 
 
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).BitmapOptimizations(true).Into(img);
 
             InitializeMoreFlyout();
             InitializeSwipeLayout();

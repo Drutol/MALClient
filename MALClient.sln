@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_SwipeLayout", "MALC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_Materialtabstrip", "MALClient.Android\AndroidBindings\Binding_Materialtabstrip\Binding_Materialtabstrip.csproj", "{9710E4ED-5ECF-4B60-B679-6DADC59F6474}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_Dialogplus", "MALClient.Android\AndroidBindings\Binding_Dialogplus\Binding_Dialogplus.csproj", "{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -648,6 +650,42 @@ Global
 		{9710E4ED-5ECF-4B60-B679-6DADC59F6474}.Release|x64.Build.0 = Release|Any CPU
 		{9710E4ED-5ECF-4B60-B679-6DADC59F6474}.Release|x86.ActiveCfg = Release|Any CPU
 		{9710E4ED-5ECF-4B60-B679-6DADC59F6474}.Release|x86.Build.0 = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|x64.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Debug|x86.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|ARM.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|iPhone.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|x64.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|x64.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|x86.ActiveCfg = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Native Debug|x86.Build.0 = Debug|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|ARM.Build.0 = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|iPhone.Build.0 = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|x64.ActiveCfg = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|x64.Build.0 = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|x86.ActiveCfg = Release|Any CPU
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -670,5 +708,6 @@ Global
 		{04723DEB-C28B-4466-85DA-7841EB7F2BC2} = {94F3C837-6CD7-4797-A537-915F53974ED8}
 		{8381FC96-FA01-4C4E-AF91-2DA32D3681F9} = {04723DEB-C28B-4466-85DA-7841EB7F2BC2}
 		{9710E4ED-5ECF-4B60-B679-6DADC59F6474} = {04723DEB-C28B-4466-85DA-7841EB7F2BC2}
+		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202} = {04723DEB-C28B-4466-85DA-7841EB7F2BC2}
 	EndGlobalSection
 EndGlobal

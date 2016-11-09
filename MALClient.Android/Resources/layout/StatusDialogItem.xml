@@ -1,0 +1,22 @@
+﻿<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="90dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+  <View android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/AccentColour"/>
+  <View android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_alignParentEnd="true"
+        android:background="@color/AccentColour"/>
+  <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/StatusDialogItemTextView"
+            android:textColor="@color/BrushText"
+            android:textSize="18sp"/>
+</RelativeLayout>

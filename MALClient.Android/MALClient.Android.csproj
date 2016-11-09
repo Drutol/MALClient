@@ -110,6 +110,7 @@
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
+    <Compile Include="DialogAdapters\StatusDialogAdapter.cs" />
     <Compile Include="Flyouts\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\TextBasedFlyoutBase.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
+    <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
+    <Compile Include="Utilities\AndroidUtilities.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
@@ -177,6 +180,10 @@
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
       <Name>MALClient.XShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="AndroidBindings\Binding_Dialogplus\Binding_Dialogplus.csproj">
+      <Project>{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}</Project>
+      <Name>Binding_Dialogplus</Name>
     </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_FlyoutMenus\Binding_FlyoutMenus.csproj">
       <Project>{C383E3F2-C48F-47C4-8118-16DA79DD62AC}</Project>
@@ -244,6 +251,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_minus.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\StatusDialogItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

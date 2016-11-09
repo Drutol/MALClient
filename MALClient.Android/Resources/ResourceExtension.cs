@@ -21,5 +21,11 @@ namespace MALClient.Android.Resources
 
         public static readonly int AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Resource.Color.AccentColour, null);
+
+        public static readonly int BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Resource.Color.BrushAnimeItemInnerBackground, null);
+
+        public static readonly int BrushSelectedDialogItem = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Resource.Color.BrushSelectedDialogItem, null);
     }
 }

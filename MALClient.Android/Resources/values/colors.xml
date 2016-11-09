@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <!--<color name="BrushText">#000000</color>
-    <color name="BrushTextInverted">#ffffff</color>
-    <color name="BrushDeepBackground">#E6E6E6</color>
-    <color name="BrushAppBars">#d3d3d3</color>
-    <color name="BrushPivotHeaderBackground">#E1E1E1</color>
-    <color name="BrushHamburgerBackground">#E6E6E6</color>
-    <color name="BrushHamburgerInnerBackground">#ffffff</color>
-    <color name="BrushAnimeItemBackground">#f5f5f5</color>
-    <color name="BrushAnimeItemInnerBackground">#E5E5E5</color>
-    <color name="BrushLoading">#E6E6E6</color>
-    <color name="BrushLoadingNonTransparent">#E6E6E6</color>
-    <color name="BrushLoadingNonOpaque">#efefef</color>
-    <color name="BrushRowAlternate1">#f5f5f5</color>
-    <color name="BrushRowAlternate2">#AAE6E6E6</color>
-    <color name="BrushDetailsGeneralBorder">#d3d3d3</color>
-    <color name="BrushDetailsRelatedBackground">#f5f5f5</color>
-    <color name="BrushDetailsBackground">#f0f0f0</color>
-    <color name="BrushDetailsUpperBackground">#d3d3d3</color>
-    <color name="BrushDetailsMoreButton">#E6E6E6</color>
-    <color name="BrushPivotInnerHeaderBarBackground">#e6e6e6</color>
-    <color name="BrushNewsBackground">#ffffff</color>
-    <color name="BrushPinTileDialogOverlay">#F0F0F0</color>
-    <color name="BrushPinTileDialogBackground">#a8a8a8</color>
-    <color name="BrushSettingsSubtitle">#555555</color>
-    <color name="BrushFavouriteStarBackground">#ffffff</color>
-    <color name="BrushNoSearchResults">#b9b9b9</color>-->
+      <color name="BrushTextInverted">#ffffff</color>
+      <color name="BrushDeepBackground">#E6E6E6</color>
+      <color name="BrushAppBars">#d3d3d3</color>
+      <color name="BrushPivotHeaderBackground">#E1E1E1</color>
+      <color name="BrushHamburgerBackground">#E6E6E6</color>
+      <color name="BrushHamburgerInnerBackground">#ffffff</color>
+      <color name="BrushAnimeItemBackground">#f5f5f5</color>
+      <color name="BrushAnimeItemInnerBackground">#E5E5E5</color>
+      <color name="BrushLoading">#E6E6E6</color>
+      <color name="BrushLoadingNonTransparent">#E6E6E6</color>
+      <color name="BrushLoadingNonOpaque">#efefef</color>
+      <color name="BrushRowAlternate1">#f5f5f5</color>
+      <color name="BrushRowAlternate2">#AAE6E6E6</color>
+      <color name="BrushDetailsGeneralBorder">#d3d3d3</color>
+      <color name="BrushDetailsRelatedBackground">#f5f5f5</color>
+      <color name="BrushDetailsBackground">#f0f0f0</color>
+      <color name="BrushDetailsUpperBackground">#d3d3d3</color>
+      <color name="BrushDetailsMoreButton">#E6E6E6</color>
+      <color name="BrushPivotInnerHeaderBarBackground">#e6e6e6</color>
+      <color name="BrushNewsBackground">#ffffff</color>
+      <color name="BrushPinTileDialogOverlay">#F0F0F0</color>
+      <color name="BrushPinTileDialogBackground">#a8a8a8</color>
+      <color name="BrushSettingsSubtitle">#555555</color>
+      <color name="BrushFavouriteStarBackground">#ffffff</color>
+      <color name="BrushNoSearchResults">#b9b9b9</color>-->
   <color name="BrushText">#ffffff </color>
   <color name="BrushTextInverted">#000000 </color>
   <color name="BrushDeepBackground">#0d0d0d </color>
@@ -54,8 +54,10 @@
   <color name="BrushNoSearchResults">#B9B9B9</color>
 
 
-  <color name="BrushFlyoutBackground">#2b2b2b</color>
+
   <color name="AccentColour">#ff8c00</color>
+  <color name="BrushFlyoutBackground">#2b2b2b</color>
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>
+  <color name="BrushSelectedDialogItem">#1d1d1d</color>
 </resources>

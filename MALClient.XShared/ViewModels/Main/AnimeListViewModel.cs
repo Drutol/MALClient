@@ -1817,6 +1817,8 @@ namespace MALClient.XShared.ViewModels.Main
         public ICommand LoadAllItemsDetailsCommand
             => _loadAllItemsDetailsCommand ?? (_loadAllItemsDetailsCommand = new RelayCommand(LoadAllItemsDetails));
 
+        public bool IsMangaWorkMode => WorkMode == AnimeListWorkModes.Manga || WorkMode == AnimeListWorkModes.TopManga;
+
         private bool _cancelLoadingAllItems;
 
         private async void LoadAllItemsDetails()

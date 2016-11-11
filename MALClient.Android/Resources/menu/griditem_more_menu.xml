@@ -1,0 +1,18 @@
+﻿<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+  <group android:menuCategory="container">
+    <item
+        android:id="@+id/AnimeGridItemMoreFlyoutCopyLink"
+        android:title="Copy link"/>
+    <item
+        android:id="@+id/AnimeGridItemMoreFlyoutOpenBrowser"
+        android:title="Open in browser"/>
+  </group>
+  <group android:menuCategory="container">
+    <item
+        android:id="@+id/AnimeGridItemMoreFlyoutSetStatus"
+        android:title="Set status"/>
+    <item
+        android:id="@+id/AnimeGridItemMoreFlyoutSetScore"
+        android:title="Set score"/>
+  </group>
+</menu>

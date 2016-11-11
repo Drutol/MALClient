@@ -1,6 +1,7 @@
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                 android:layout_height="315dp"
                                 android:layout_width="160dp"
+                                android:padding="2dp"
                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                 app:leftEdgeSwipeOffset="-30dp" app:rightEdgeSwipeOffset="-30dp">
 
@@ -11,11 +12,12 @@
                   android:orientation="horizontal"
                   android:background="@color/AccentColour"
                   android:layout_height="match_parent"
-                  android:gravity="right" android:layout_gravity="right">
+                  android:translationX="-4dp">
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:orientation="vertical">
+                  android:orientation="vertical"
+                  android:translationX="50dp">
       <ImageView android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:src="@drawable/icon_add"
@@ -28,11 +30,12 @@
     </LinearLayout>
   </RelativeLayout>
   <RelativeLayout
-                  android:id="@+id/AnimeGridItemBackSurfaceSubtract"
-                  android:layout_width="100dp"
-                  android:orientation="horizontal"
-                  android:background="@color/BrushFlyoutBackground"
-                  android:layout_height="match_parent">
+      android:id="@+id/AnimeGridItemBackSurfaceSubtract"
+      android:layout_width="100dp"
+      android:orientation="horizontal"
+      android:background="@color/BrushFlyoutBackground"
+      android:layout_height="match_parent"
+      android:translationX="2dp">
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
@@ -130,29 +133,12 @@
                       android:layout_height="wrap_content"
                       android:layout_alignParentBottom="true"
                       android:layout_alignParentLeft="true">
-        <ImageButton android:layout_width="35dp"
-                     android:layout_height="35dp"
+        <ImageButton android:layout_width="40dp"
+                     android:layout_height="40dp"
                      android:background="@color/BrushOpaqueTextView"
                      android:id="@+id/AnimeGridItemMoreButton"
                      android:src="@drawable/icon_more"/>
-        <org.zakariya.flyoutmenu.FlyoutMenuView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/AnimeGridItemMoreFlyout"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:alpha="0"
-            app:fmButtonSize="30dp"
-            app:fmItemHeight="@dimen/TextFlyoutItemHeight"
-            app:fmItemWidth="@dimen/TextFlyoutItemWideWidth"
-            app:fmItemMargin="5dp"
-            app:fmMenuBackgroundColor="@color/BrushFlyoutBackground"
-            app:fmSelectedItemBackgroundColor="@color/BrushAnimeItemInnerBackground"
-            app:fmMenuElevation="2dp"
-            app:fmDialogMode="true"
-            app:fmMenuAnchor="top"
-        />
       </RelativeLayout>
-
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"

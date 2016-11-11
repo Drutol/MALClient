@@ -1,0 +1,29 @@
+﻿<resources>
+  <style name="Theme.MALClient" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="droppyPopupStyle">@style/DarkDroppyPopup</item>
+    <item name="droppyMenuStyle">@style/DarkDroppyMenu</item>
+    <item name="droppyMenuItemStyle">@style/DarkDroppyItem</item>
+    <item name="droppyMenuItemTitleStyle">@style/DarkDroppyItemTitle</item>
+    <item name="droppyMenuItemIconStyle">@style/DarkDroppyItemIcon</item>
+  </style>
+
+  <!-- Your custom styles go here -->
+  <style name="DarkDroppyPopup" parent="Droppy.DroppyPopup">
+    <item name="android:background">@color/BrushFlyoutBackground</item>
+  </style>
+  <style name="DarkDroppyMenu" parent="Droppy.DroppyMenu">
+    <item name="android:background">@color/BrushFlyoutBackground</item>
+  </style>
+  <style name="DarkDroppySeparator" parent="Droppy.DroppyMenuSeparator">
+    <item name="android:background">#e6e6e6</item>
+  </style>
+  <style name="DarkDroppyItem" parent="Droppy.DroppyMenuItem">
+    <item name="android:background">@color/BrushFlyoutBackground</item>
+  </style>
+  <style name="DarkDroppyItemTitle" parent="Droppy.DroppyMenuItemTitle">
+    <!-- Your Custom style attributes go here -->
+  </style>
+  <style name="DarkDroppyItemIcon" parent="Droppy.DroppyMenuItemIcon">
+    <!-- Your Custom style attributes go here -->
+  </style>
+</resources>

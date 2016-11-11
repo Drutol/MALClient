@@ -111,10 +111,11 @@
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="DialogAdapters\StatusDialogAdapter.cs" />
-    <Compile Include="Flyouts\AnimeListFilterFlyoutItem.cs" />
-    <Compile Include="Flyouts\AnimeListSortFlyoutItem.cs" />
-    <Compile Include="Flyouts\TextBasedFlyoutBase.cs" />
-    <Compile Include="Flyouts\TextFlyoutItem.cs" />
+    <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
+    <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
+    <Compile Include="Flyouts\DroppyFlyoutBuilder.cs" />
+    <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
+    <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
+    <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
@@ -138,20 +140,20 @@
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\AnimeGridItem.axml">
+    <AndroidResource Include="Resources\layout\AnimeGridItem.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\LogInPage.axml">
+    <AndroidResource Include="Resources\layout\LogInPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\nav_header.axml" />
-    <AndroidResource Include="Resources\layout\toolbar.axml" />
-    <AndroidResource Include="Resources\layout\AnimeListPage.axml">
+    <AndroidResource Include="Resources\layout\nav_header.xml" />
+    <AndroidResource Include="Resources\layout\toolbar.xml" />
+    <AndroidResource Include="Resources\layout\AnimeListPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\MainPage.axml">
+    <AndroidResource Include="Resources\layout\MainPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -184,6 +186,10 @@
     <ProjectReference Include="AndroidBindings\Binding_Dialogplus\Binding_Dialogplus.csproj">
       <Project>{A49593A3-1A91-4F2B-BA57-FE3E9DE20202}</Project>
       <Name>Binding_Dialogplus</Name>
+    </ProjectReference>
+    <ProjectReference Include="AndroidBindings\Binding_Droppy\Binding_Droppy.csproj">
+      <Project>{ADFA8AA9-1743-46F8-852A-1AB69DF0B431}</Project>
+      <Name>Binding_Droppy</Name>
     </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_FlyoutMenus\Binding_FlyoutMenus.csproj">
       <Project>{C383E3F2-C48F-47C4-8118-16DA79DD62AC}</Project>
@@ -254,6 +260,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\StatusDialogItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\griditem_more_menu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

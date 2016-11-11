@@ -1,0 +1,6 @@
+Binding for:
+com.shehabic.droppy:Droppy:0.5.1@aar
+
+Dependencies:
+
+Droppy-0.5.1.aar,    Path=C:\Users\dogie\.gradle\caches\modules-2\files-2.1\com.shehabic.droppy\Droppy\0.5.1\5bae7e6f160f5c9d1e8735f57b7740de2b37b22d\Droppy-0.5.1.aar

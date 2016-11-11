@@ -13,7 +13,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Shehabic.Droppy;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
@@ -27,29 +30,15 @@ namespace MALClient.Android.Fragments
 {
     public partial class AnimeListPageFragment : MalFragmentBase
     {
+        private DroppyMenuPopup _sortingMenu;
+        private DroppyMenuPopup _filterMenu;
+
         protected override void InitBindings()
         {
-            FilterFlyoutMenu.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
-            FilterFlyoutMenu.Adapter =
-                new FlyoutMenuView.ArrayAdapter(
-                    Enum.GetValues(typeof(AnimeStatus))
-                        .Cast<AnimeStatus>()
-                        .Select(status => new AnimeListFilterFlyoutItem(status))
-                        .ToList());
 
-            FilterFlyoutMenu.SelectionListener = new MenuFlyoutSelectionListener(OnFilterMenuSelectionChanged);
-            FilterFlyoutMenu.SetSelectedMenuItemById(ViewModel.CurrentStatus);
 
-            SortFlyoutMenu.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
-            SortFlyoutMenu.Adapter =
-                new FlyoutMenuView.ArrayAdapter(
-                    Enum.GetValues(typeof(SortOptions))
-                        .Cast<SortOptions>()
-                        .Select(option => new AnimeListSortFlyoutItem(option))
-                        .ToList());
 
-            SortFlyoutMenu.SelectionListener = new MenuFlyoutSelectionListener(OnSortingMenuSelectionChanged);
-            SortFlyoutMenu.SetSelectedMenuItemById((int)ViewModel.SortOption);
+
 
 
             Bindings = new Dictionary<int, List<Binding>>();
@@ -61,25 +50,40 @@ namespace MALClient.Android.Fragments
 
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
             AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
+            AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
+            AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
         }
 
-        private void ViewModelOnSortingSettingChanged(SortOptions option, bool descencing)
+        private void ShowSortMenu()
         {
-            SortFlyoutMenu.SetSelectedMenuItemById((int)option);
+            _sortingMenu = DroppyFlyoutBuilder.BuildForAnimeSortingSelection(MainActivity.CurrentContext,
+                AnimeListPageSortMenu,
+                OnSortingMenuSelectionChanged, ViewModel.SortOption);
+            _sortingMenu.Show();
         }
 
-        private void OnSortingMenuSelectionChanged(FlyoutMenuView.MenuItem menuItem)
+        private void ShowFilterMenu()
         {
-            var item = menuItem as AnimeListSortFlyoutItem;
-            ViewModel.SetSortOrder(item.SortOption);
+            _filterMenu = DroppyFlyoutBuilder.BuildForAnimeStatusSelection(MainActivity.CurrentContext,
+                AnimeListPageFilterMenu,
+                OnFilterMenuSelectionChanged, (AnimeStatus) ViewModel.CurrentStatus,ViewModel.IsMangaWorkMode);
+            _filterMenu.Show();
+        }
+
+        private void OnSortingMenuSelectionChanged(SortOptions option)
+        {
+            ViewModel.SetSortOrder(option);
             ViewModel.RefreshList();
+            _sortingMenu.Dismiss(true);
+            _sortingMenu = null;
         }
 
-        private void OnFilterMenuSelectionChanged(FlyoutMenuView.MenuItem menuItem)
+        private void OnFilterMenuSelectionChanged(AnimeStatus status)
         {
-            var item = menuItem as AnimeListFilterFlyoutItem;
-            ViewModel.CurrentStatus = item.Status;
+            ViewModel.CurrentStatus = (int)status;
             ViewModel.RefreshList();
+            _filterMenu.Dismiss(true);
+            _filterMenu = null;
         }
 
         private async void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -90,15 +94,12 @@ namespace MALClient.Android.Fragments
                     AnimeListPageGridView.Adapter = new AnimeListItemsAdapter(Context as Activity, Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems);
             }
         }
-        private FlyoutMenuView _animeListPageFilterMenu;
-        private FlyoutMenuView _animeListPageSortMenu;
-        public FlyoutMenuView FilterFlyoutMenu => _animeListPageFilterMenu ?? (_animeListPageFilterMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageFilterMenu));
-        public FlyoutMenuView SortFlyoutMenu => _animeListPageSortMenu ?? (_animeListPageSortMenu = FindViewById<FlyoutMenuView>(Resource.Id.AnimeListPageSortMenu));
-
 
         private GridView _animeListPageGridView;
         private ProgressBar _animeListPageLoadingSpinner;
         private ImageButton _animeListPageReloadButton;
+        private ImageButton _animeListPageFilterMenu;
+        private ImageButton _animeListPageSortMenu;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
 
@@ -106,7 +107,13 @@ namespace MALClient.Android.Fragments
 
         public ImageButton AnimeListPageReloadButton => _animeListPageReloadButton ?? (_animeListPageReloadButton = FindViewById<ImageButton>(Resource.Id.AnimeListPageReloadButton));
 
-        
+        public ImageButton AnimeListPageFilterMenu => _animeListPageFilterMenu ?? (_animeListPageFilterMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageFilterMenu));
+
+        public ImageButton AnimeListPageSortMenu => _animeListPageSortMenu ?? (_animeListPageSortMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageSortMenu));
+
+
+
+
 
 
 

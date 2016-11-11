@@ -27,5 +27,8 @@ namespace MALClient.Android.Resources
 
         public static readonly int BrushSelectedDialogItem = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Resource.Color.BrushSelectedDialogItem, null);
+
+        public static readonly int BrushFlyoutBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Resource.Color.BrushFlyoutBackground, null);
     }
 }

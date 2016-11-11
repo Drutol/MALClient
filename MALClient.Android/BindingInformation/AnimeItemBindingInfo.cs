@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Daimajia.Swipe;
 using Com.Orhanobut.Dialogplus;
+using Com.Shehabic.Droppy;
 using FFImageLoading;
 using FFImageLoading.Extensions;
 using FFImageLoading.Views;
@@ -29,6 +30,7 @@ using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;
 using Debug = System.Diagnostics.Debug;
+using Object = Java.Lang.Object;
 
 namespace MALClient.Android.BindingInformation
 {
@@ -39,19 +41,7 @@ namespace MALClient.Android.BindingInformation
         private bool _moreFlyoutMenuInitialized;
         private bool _swipeLayoutInitialized;
 
-        private static FlyoutMenuView.IAdapter _moreFlyoutAdapter;
-        private enum MoreFlyoutButtons
-        {
-            [EnumUtilities.Description("Copy link")]
-            CopyLink,
-            [EnumUtilities.Description("Open in browser")]
-            OpenInBrowser,
-            [EnumUtilities.Description("Set status")]
-            SetStatus,
-            [EnumUtilities.Description("Set rating")]
-            SetRating,
-        }
-
+        private DroppyMenuPopup _menu;
         private SwipeLayoutListener _swipeListener;
 
         public AnimeItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel) {}
@@ -109,9 +99,44 @@ namespace MALClient.Android.BindingInformation
                     () => ViewModel.MyScoreBindShort,
                     scoreView,
                     () => scoreView.Text));
+
+            AnimeGridItemMoreButton.Click += AnimeGridItemMoreButtonOnClick;
         }
 
         #region MoreFlyout
+
+        private void AnimeGridItemMoreButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            //var menu = new PopupMenu(MainActivity.CurrentContext,sender as View);
+            //menu.MenuInflater.Inflate(Resource.Menu.griditem_more_menu,menu.Menu);
+            //menu.MenuItemClick += MenuOnMenuItemClick;
+            //menu.Show();
+            _menu = DroppyFlyoutBuilder.BuildForAnimeGridItem(MainActivity.CurrentContext, AnimeGridItemMoreButton,
+                ViewModel,
+                MenuOnMenuItemClick);
+            _menu.Show();
+        }
+
+        private void MenuOnMenuItemClick(AnimeGridItemMoreFlyoutButtons btn)
+        {
+            switch (btn)
+            {
+                case AnimeGridItemMoreFlyoutButtons.CopyLink:
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.OpenInBrowser:
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.SetStatus:
+                    ShowStatusDialog();
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.SetRating:
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.SetWatched:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(btn), btn, null);
+            }
+            _menu.Dismiss(true);
+        }
 
         private void InitializeMoreFlyout()
         {
@@ -119,37 +144,19 @@ namespace MALClient.Android.BindingInformation
                 return;
             _moreFlyoutMenuInitialized = true;
 
-            if (AnimeGridItemMoreFlyout.Adapter == null)
-            {
-                if (_moreFlyoutAdapter == null)
-                    _moreFlyoutAdapter =
-                        new FlyoutMenuView.ArrayAdapter(
-                            Enum.GetValues(typeof(MoreFlyoutButtons)).Cast<MoreFlyoutButtons>().Select(
-                                item => new TextFlyoutItem((int)item, item.GetDescription())).ToList());
+            //if (AnimeGridItemMoreFlyout.Adapter == null)
+            //{
+            //    if (_moreFlyoutAdapter == null)
+            //        _moreFlyoutAdapter =
+            //            new FlyoutMenuView.ArrayAdapter(
+            //                Enum.GetValues(typeof(MoreFlyoutButtons)).Cast<MoreFlyoutButtons>().Select(
+            //                    item => new TextFlyoutItem((int)item, item.GetDescription())).ToList());
 
-                AnimeGridItemMoreFlyout.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
-                AnimeGridItemMoreFlyout.Adapter = _moreFlyoutAdapter;
-            }
+            //    AnimeGridItemMoreFlyout.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
+            //    AnimeGridItemMoreFlyout.Adapter = _moreFlyoutAdapter;
+            //}
 
-            AnimeGridItemMoreFlyout.SelectionListener = new MenuFlyoutSelectionListener(OnMoreFlyoutItemSelection);
-        }
-
-        private void OnMoreFlyoutItemSelection(FlyoutMenuView.MenuItem menuItem)
-        {
-            switch ((MoreFlyoutButtons)menuItem.Id)
-            {
-                case MoreFlyoutButtons.CopyLink:
-                    break;
-                case MoreFlyoutButtons.OpenInBrowser:
-                    break;
-                case MoreFlyoutButtons.SetStatus:
-                    ShowStatusDialog();
-                    break;
-                case MoreFlyoutButtons.SetRating:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            //AnimeGridItemMoreFlyout.SelectionListener = new MenuFlyoutSelectionListener(OnMoreFlyoutItemSelection);
         }
 
         #endregion
@@ -176,7 +183,6 @@ namespace MALClient.Android.BindingInformation
         }
 
         #endregion
-
 
         #region Swipe
 
@@ -252,7 +258,7 @@ namespace MALClient.Android.BindingInformation
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
             ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).BitmapOptimizations(true).Into(img);
 
-            InitializeMoreFlyout();
+            //InitializeMoreFlyout();
             InitializeSwipeLayout();
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
@@ -260,6 +266,9 @@ namespace MALClient.Android.BindingInformation
         
         protected override void DetachInnerBindings()
         {
+            if(_animeGridItemMoreButton != null)
+                AnimeGridItemMoreButton.Click -= AnimeGridItemMoreButtonOnClick;
+
             _bindingsInitialized = false;
             _oneTimeBindingsInitialized = false;
             _swipeLayoutInitialized = false;
@@ -267,11 +276,11 @@ namespace MALClient.Android.BindingInformation
         }
 
         private ImageButton _animeGridItemMoreButton;
-        private FlyoutMenuView _animeGridItemMoreFlyout;
+
 
         public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
 
-        public FlyoutMenuView AnimeGridItemMoreFlyout => _animeGridItemMoreFlyout ?? (_animeGridItemMoreFlyout = Container.FindViewById<FlyoutMenuView>(Resource.Id.AnimeGridItemMoreFlyout));
+        
 
     }
 }

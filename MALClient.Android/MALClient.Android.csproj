@@ -103,14 +103,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\MainActivity.ui.cs" />
+    <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
     <Compile Include="BindingInformation\AnimeItemBindingInfo.cs" />
-    <Compile Include="CollectionAdapters\AnimeListItemsAdapter.cs" />
+    <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
-    <Compile Include="CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
+    <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
-    <Compile Include="DialogAdapters\StatusDialogAdapter.cs" />
+    <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\DroppyFlyoutBuilder.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
+    <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageGeneralTabFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
@@ -283,6 +285,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\inc_dec_btn_backgroud.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeDetailsPageGeneralTab.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

@@ -8,14 +8,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/BrushDetailsUpperBackground"
                 android:orientation="horizontal">
-    <ImageView android:layout_width="@dimen/ShowImageWidthSmall"
+    <FFImageLoading.Views.ImageViewAsync android:layout_width="@dimen/ShowImageWidthSmall"
                android:layout_height="@dimen/ShowImageHeightSmall"
                android:scaleType="fitXY"
                 android:id="@+id/AnimeDetailsPageShowCoverImage"/>
     <LinearLayout android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:layout_gravity="center_vertical">
       <LinearLayout android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -33,13 +34,16 @@
                    android:layout_height="wrap_content"
                    android:id="@+id/AnimeDetailsPageWatchedLabel"
                    android:minHeight="25dp"
+                   android:maxWidth="60dp"
+                   android:textAlignment="textStart"
                    android:layout_marginTop="5dp"
-                   android:text="Watched"
+                   android:text="Watched episodes"
                    android:textColor="@color/BrushText" android:gravity="center"/>
         <TextView  android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:id="@+id/AnimeDetailsPageReadVolumesLabel"
                    android:minHeight="25dp"
+                   android:visibility="gone"
                    android:layout_marginTop="5dp"
                    android:text="Volumes"
                    android:textColor="@color/BrushText" android:gravity="center"/>
@@ -50,6 +54,7 @@
                 android:background="@drawable/border_accent_underline"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"
+                android:textAllCaps="false"
                 android:text="8/10"
                 android:textColor="@color/BrushText"/>
         <Button android:layout_width="wrap_content" android:minWidth="40dp"
@@ -65,7 +70,7 @@
                 android:background="@drawable/border_accent_underline"
                 android:layout_height="25dp"
                 android:textAllCaps="false"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="5/23"
                 android:textColor="@color/BrushText"/>
         <Button android:layout_width="wrap_content" android:minWidth="40dp"
@@ -75,6 +80,7 @@
                 android:textAllCaps="false"
                 android:layout_marginTop="5dp"
                 android:text="4/44"
+                android:visibility="gone"
                 android:textColor="@color/BrushText"/>
       </LinearLayout>
 
@@ -108,13 +114,18 @@
         <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                      android:background="@color/Transparent"
                      android:id="@+id/AnimeDetailsPageMoreButton"
-                     android:src="@drawable/icon_more_vertical" android:scaleY="1.5" android:scaleX="1.5"/>
+                     android:src="@drawable/icon_more_vertical" android:scaleY="1.2" android:scaleX="1.2"/>
 
       </LinearLayout>
     </RelativeLayout>
   </LinearLayout>
+  <com.astuetz.PagerSlidingTabStrip
+      android:id="@+id/AnimeDetailsPageTabStrip"
+      android:layout_width="match_parent"
+      android:layout_height="25dp"
+      android:textColorPrimary="@color/AccentColour"
+      android:background="@color/BrushPivotHeaderBackground"/>
   <android.support.v4.view.ViewPager
-      xmlns:android="http://schemas.android.com/apk/res/android"
       android:id="@+id/AnimeDetailsPagePivot"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

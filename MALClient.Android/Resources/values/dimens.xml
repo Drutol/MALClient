@@ -10,5 +10,5 @@
   <dimen name="TextFlyoutItemWideWidth">150dp</dimen>
   <dimen name="ShowImageWidthSmall">110dp</dimen>
   <dimen name="ShowImageHeightSmall">140dp</dimen>
-  <dimen name="IncrementDecrementButtonWidth">32dp</dimen>
+  <dimen name="IncrementDecrementButtonWidth">30dp</dimen>
 </resources>

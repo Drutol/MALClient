@@ -10,12 +10,14 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
+using Com.Astuetz;
+using FFImageLoading.Views;
 
 namespace MALClient.Android.Fragments
 {
     public partial class AnimeDetailsPageFragment
     {
-        private ImageView _animeDetailsPageShowCoverImage;
+        private ImageViewAsync _animeDetailsPageShowCoverImage;
         private TextView _animeDetailsPageWatchedLabel;
         private TextView _animeDetailsPageReadVolumesLabel;
         private Button _animeDetailsPageScoreButton;
@@ -26,9 +28,10 @@ namespace MALClient.Android.Fragments
         private ImageButton _animeDetailsPageDecrementButton;
         private ImageButton _animeDetailsPageFavouriteButton;
         private ImageButton _animeDetailsPageMoreButton;
+        private PagerSlidingTabStrip _animeDetailsPageTabStrip;
         private ViewPager _animeDetailsPagePivot;
 
-        public ImageView AnimeDetailsPageShowCoverImage => _animeDetailsPageShowCoverImage ?? (_animeDetailsPageShowCoverImage = FindViewById<ImageView>(Resource.Id.AnimeDetailsPageShowCoverImage));
+        public ImageViewAsync AnimeDetailsPageShowCoverImage => _animeDetailsPageShowCoverImage ?? (_animeDetailsPageShowCoverImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeDetailsPageShowCoverImage));
 
         public TextView AnimeDetailsPageWatchedLabel => _animeDetailsPageWatchedLabel ?? (_animeDetailsPageWatchedLabel = FindViewById<TextView>(Resource.Id.AnimeDetailsPageWatchedLabel));
 
@@ -50,7 +53,10 @@ namespace MALClient.Android.Fragments
 
         public ImageButton AnimeDetailsPageMoreButton => _animeDetailsPageMoreButton ?? (_animeDetailsPageMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageMoreButton));
 
+        public PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
+
         public ViewPager AnimeDetailsPagePivot => _animeDetailsPagePivot ?? (_animeDetailsPagePivot = FindViewById<ViewPager>(Resource.Id.AnimeDetailsPagePivot));
+
 
 
     }

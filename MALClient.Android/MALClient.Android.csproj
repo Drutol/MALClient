@@ -116,6 +116,8 @@
     <Compile Include="Flyouts\DroppyFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
+    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs" />
+    <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
@@ -266,6 +268,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\styles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeDetailsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\border_accent_underline.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_favourite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_more_vertical.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\inc_dec_btn_backgroud.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

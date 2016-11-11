@@ -58,10 +58,16 @@ namespace MALClient.Android.Activities
     
         }
 
+        public override void OnBackPressed()
+        {
+            ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
+        }
+
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.MainContentFrame, fragment)
+                .SetCustomAnimations(Resource.Animation.abc_popup_enter, Resource.Animation.abc_fade_out)
                 .Commit();
         }
 

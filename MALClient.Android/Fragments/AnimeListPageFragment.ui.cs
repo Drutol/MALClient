@@ -35,12 +35,6 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-
-
-
-
-
-
             Bindings = new Dictionary<int, List<Binding>>();
 
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
@@ -52,6 +46,13 @@ namespace MALClient.Android.Fragments
             AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
             AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
             AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
+            AnimeListPageGridView.ItemClick += AnimeListPageGridViewOnItemClick;
+        }
+
+        private void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
+        {
+            var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
+            adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
         }
 
         private void ShowSortMenu()

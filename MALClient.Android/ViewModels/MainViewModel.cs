@@ -79,6 +79,7 @@ namespace MALClient.Android.ViewModels
                     MainNavigationRequested?.Invoke(AnimeListPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageAnimeDetails:
+                    MainNavigationRequested?.Invoke(AnimeDetailsPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageSettings:
                     break;

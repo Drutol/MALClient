@@ -18,6 +18,7 @@ using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -227,7 +228,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
 
-        //public event EventHandler OnInitialized; 
+        public event EmptyEventHander BasicDataLoaded; 
 
         public async void Init(AnimeDetailsPageNavigationArgs param)
         {
@@ -943,6 +944,8 @@ namespace MALClient.XShared.ViewModels.Details
 
             //Launch UI updates without triggering inner update logic -> nothng to update
             UpdateAnimeReferenceUiBindings(Id);
+
+            BasicDataLoaded?.Invoke();
         }
 
         private void PopulateStartEndDates()
@@ -1038,6 +1041,7 @@ namespace MALClient.XShared.ViewModels.Details
                 LoadRecommendations(true);
         }
 
+        public event EmptyEventHander OnDetailsLoaded;
         public async void LoadDetails(bool force = false)
         {
             if (LoadingDetails || (_loadedDetails && !force && Initialized))
@@ -1121,6 +1125,7 @@ namespace MALClient.XShared.ViewModels.Details
                 EDs.Add(ed);
             RaisePropertyChanged(() => AnimeMode);
             LoadingDetails = false;
+            OnDetailsLoaded?.Invoke();
         }
 
         public async void LoadReviews(bool force = false)

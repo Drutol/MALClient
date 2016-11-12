@@ -30,5 +30,11 @@ namespace MALClient.Android.Resources
 
         public static readonly int BrushFlyoutBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Resource.Color.BrushFlyoutBackground, null);
+
+        public static readonly int BrushRowAlternate1 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Resource.Color.BrushRowAlternate1, null);
+
+        public static readonly int BrushRowAlternate2 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Resource.Color.BrushRowAlternate2, null);
     }
 }

@@ -19,18 +19,13 @@ namespace MALClient.Android.Fragments
     {
         protected View RootView { get; private set; }
 
-        protected Dictionary<int, List<Binding>> Bindings;
+        protected Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
 
         protected abstract void Init(Bundle savedInstanceState);
 
         protected abstract void InitBindings();
 
         public abstract int LayoutResourceId { get; }
-
-        protected virtual void Cleanup()
-        {
-
-        }
 
         protected T FindViewById<T>(int id) where T : View => RootView.FindViewById<T>(id);
 
@@ -42,7 +37,8 @@ namespace MALClient.Android.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            RootView = inflater.Inflate(LayoutResourceId, container, false);
+            if (RootView == null)
+                RootView = inflater.Inflate(LayoutResourceId, container, false);
             InitBindings();
             return RootView;
         }
@@ -53,6 +49,11 @@ namespace MALClient.Android.Fragments
             Bindings = null;
             Cleanup();
             base.OnStop();
+        }
+
+        protected virtual void Cleanup()
+        {
+
         }
     }
 }

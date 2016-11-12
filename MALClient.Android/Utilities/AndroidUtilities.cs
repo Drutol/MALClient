@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Hardware.Display;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -50,6 +51,14 @@ namespace MALClient.Android
                     viewModel.PropertyChanged -= data.Item3;
                     RegisteredActions.Remove(viewModel);
                 }
+            }
+        }
+
+        public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter)
+        {
+            for (int i = 0; i < adapter.Count; i++)
+            {
+                layout.AddView(adapter.GetView(i,null,layout));
             }
         }
     }

@@ -18,9 +18,9 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
+using MALClient.Android.Adapters.DialogAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
-using MALClient.Android.DialogAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
@@ -38,7 +38,6 @@ namespace MALClient.Android.BindingInformation
     {
         private bool _bindingsInitialized;
         private bool _oneTimeBindingsInitialized;
-        private bool _moreFlyoutMenuInitialized;
         private bool _swipeLayoutInitialized;
 
         private DroppyMenuPopup _menu;
@@ -131,32 +130,12 @@ namespace MALClient.Android.BindingInformation
                 case AnimeGridItemMoreFlyoutButtons.SetRating:
                     break;
                 case AnimeGridItemMoreFlyoutButtons.SetWatched:
+                    ShowWatchedDialog();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(btn), btn, null);
             }
             _menu.Dismiss(true);
-        }
-
-        private void InitializeMoreFlyout()
-        {
-            if (_moreFlyoutMenuInitialized)
-                return;
-            _moreFlyoutMenuInitialized = true;
-
-            //if (AnimeGridItemMoreFlyout.Adapter == null)
-            //{
-            //    if (_moreFlyoutAdapter == null)
-            //        _moreFlyoutAdapter =
-            //            new FlyoutMenuView.ArrayAdapter(
-            //                Enum.GetValues(typeof(MoreFlyoutButtons)).Cast<MoreFlyoutButtons>().Select(
-            //                    item => new TextFlyoutItem((int)item, item.GetDescription())).ToList());
-
-            //    AnimeGridItemMoreFlyout.Layout = new FlyoutMenuView.GridLayout(1, FlyoutMenuView.GridLayout.Unspecified);
-            //    AnimeGridItemMoreFlyout.Adapter = _moreFlyoutAdapter;
-            //}
-
-            //AnimeGridItemMoreFlyout.SelectionListener = new MenuFlyoutSelectionListener(OnMoreFlyoutItemSelection);
         }
 
         #endregion
@@ -180,6 +159,48 @@ namespace MALClient.Android.BindingInformation
 
             var dialog = dialogBuilder.Create();
             dialog.Show();          
+        }
+
+        private List<Binding> _watchedDialogBindings = new List<Binding>();
+        private DialogPlus _watchedDialog;
+        private void ShowWatchedDialog()
+        {
+            var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
+            dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeItemWatchedDialog));
+            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupWatchedDialog));
+            _watchedDialog = dialogBuilder.Create();
+            var view = _watchedDialog.HolderView;
+
+            var input = view.FindViewById<EditText>(Resource.Id.AnimeItemWatchedDialogTextInput);
+            _watchedDialogBindings.Add(new Binding<string,string>(ViewModel,() => ViewModel.WatchedEpsInput,input, () => input.Text, BindingMode.TwoWay));
+            view.FindViewById<ImageButton>(Resource.Id.AnimeItemWatchedDialogAcceptButton).SetCommand("Click",new RelayCommand(
+                () =>
+                {
+                    ViewModel.OnFlyoutEpsKeyDown.Execute(null);
+                    CleanupWatchedDialog();
+                }));
+            var grid = view.FindViewById<GridView>(Resource.Id.AnimeItemWatchedDialogEpisodesGridView);
+            grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext,ViewModel.MyEpisodesFocused,ViewModel.AllEpisodesFocused);
+            grid.ItemClick += GridOnItemClick;
+            view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text = ViewModel.WatchedEpsLabel;
+
+            _watchedDialog.Show();
+        }
+
+        private void GridOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
+        {
+            ViewModel.WatchedEpsInput = itemClickEventArgs.Id.ToString();
+            ViewModel.OnFlyoutEpsKeyDown.Execute(null);
+            CleanupWatchedDialog();
+        }
+
+        private void CleanupWatchedDialog()
+        {            
+            _watchedDialogBindings.ForEach(binding => binding.Detach());
+            _watchedDialogBindings = new List<Binding>();
+            _watchedDialog?.Dismiss();
+            _watchedDialog = null;
         }
 
         #endregion
@@ -272,7 +293,6 @@ namespace MALClient.Android.BindingInformation
             _bindingsInitialized = false;
             _oneTimeBindingsInitialized = false;
             _swipeLayoutInitialized = false;
-            _moreFlyoutMenuInitialized = false;
         }
 
         private ImageButton _animeGridItemMoreButton;

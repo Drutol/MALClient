@@ -1,22 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Resources;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
-using Object = Java.Lang.Object;
 
-namespace MALClient.Android.DialogAdapters
+namespace MALClient.Android.Adapters.DialogAdapters
 {
     public class StatusDialogAdapter : BaseAdapter<AnimeStatus>
     {
@@ -40,9 +33,9 @@ namespace MALClient.Android.DialogAdapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.StatusDialogItem, null);
+            var view = convertView ?? _context.LayoutInflater.Inflate(Android.Resource.Layout.StatusDialogItem, null);
 
-            var txt = view.FindViewById<TextView>(Resource.Id.StatusDialogItemTextView);
+            var txt = view.FindViewById<TextView>(Android.Resource.Id.StatusDialogItemTextView);
             txt.Text = Utilities.StatusToString((int) Items[position], _manga, _rewatching);
             view.SetBackgroundColor((int) Items[position] == _currentStatus
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)

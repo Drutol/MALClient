@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="Activities\MainActivity.ui.cs" />
     <Compile Include="Adapters\CollectionAdapters\AlternatingListCollectionAdapter.cs" />
+    <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
     <Compile Include="BindingInformation\AnimeItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
+    <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
@@ -311,6 +313,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AnimeDetailsPageDetailsTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeItemWatchedDialog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_ok.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

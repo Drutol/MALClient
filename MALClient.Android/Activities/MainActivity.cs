@@ -24,7 +24,7 @@ namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient", MainLauncher = true, 
         Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait,
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
+        Theme = "@style/Theme.AppCompat.NoActionBar")]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
         public static Activity CurrentContext { get; private set; }

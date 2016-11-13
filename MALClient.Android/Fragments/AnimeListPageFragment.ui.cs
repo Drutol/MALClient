@@ -49,8 +49,9 @@ namespace MALClient.Android.Fragments
             AnimeListPageGridView.ItemClick += AnimeListPageGridViewOnItemClick;
         }
 
-        private void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
+        private async void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
+            await Task.Delay(200); //let's behold this ripple effect
             var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
             adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
         }

@@ -2,6 +2,7 @@
                                 android:layout_height="315dp"
                                 android:layout_width="160dp"
                                 android:padding="2dp"
+                                style="@style/SelectableItemForeground"
                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                 app:leftEdgeSwipeOffset="-30dp" app:rightEdgeSwipeOffset="-30dp">
 

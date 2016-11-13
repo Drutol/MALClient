@@ -5,4 +5,13 @@
     <item name="android:layout_margin">5dp</item>
   </style>
 
+  <style name="SelectableItemForeground">
+    <item name="android:theme">@style/SelectableItemTheme</item>
+    <item name="android:foreground">?attr/selectableItemBackground</item>
+  </style>
+
+  <style name="SelectableItemTheme">
+    <item name="colorControlHighlight">@color/OpaqueAccentColour</item>
+  </style>
+
 </resources>

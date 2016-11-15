@@ -240,52 +240,31 @@ namespace MALClient.Shared.Managers
             return new TileBinding
             {
                 Content = new TileBindingContentAdaptive()
-                {                                  
+                {
+                    BackgroundImage = new TileBackgroundImage
+                    {
+                        HintOverlay = 50,
+                        Source = news.ImgUrl,
+                    },
+
                     Children =
                     {
-                        new AdaptiveGroup
+
+
+                        new AdaptiveText
                         {
-                            Children =
-                            {
-                                new AdaptiveSubgroup
-                                {
-                                    HintWeight = 3,
-                                    Children =
-                                    {
-                                        new AdaptiveImage
-                                        {
-                                            Source = news.ImgUrl,
-                                            HintRemoveMargin = true,
-                                            HintAlign = AdaptiveImageAlign.Stretch,                                          
-                                        }
-                                    }
-                                },
-                                new AdaptiveSubgroup
-                                {
-                                    HintWeight = 7,
-
-                                    Children =
-                                    {
-                                        new AdaptiveText
-                                        {
-                                            Text = news.Title,
-                                            HintMaxLines = 2,
-                                            HintWrap = true,
-                                            HintStyle = AdaptiveTextStyle.Body,
-                                        },
-                                        new AdaptiveText
-                                        {
-                                            Text = news.Highlight,
-                                            HintMaxLines = 10,
-                                            HintWrap = true,
-                                            HintStyle = AdaptiveTextStyle.CaptionSubtle,
-                                        }
-                                    }
-                                }
-                                
-                            }
+                            Text = news.Title,
+                            HintMaxLines = 2,
+                            HintWrap = true,
+                            HintStyle = AdaptiveTextStyle.Body,
+                        },
+                        new AdaptiveText
+                        {
+                            Text = news.Highlight,
+                            HintMaxLines = 10,
+                            HintWrap = true,
+                            HintStyle = AdaptiveTextStyle.CaptionSubtle,
                         }
-
                     }
                 }
             };
@@ -301,55 +280,36 @@ namespace MALClient.Shared.Managers
                     {
                         Source = news.ImgUrl,
                     },
+                    BackgroundImage = new TileBackgroundImage
+                    {
+                        Source = news.ImgUrl,
+                        HintOverlay = 50,
+                    },
                     Children =
                     {
-                        new AdaptiveGroup
+
+
+                        new AdaptiveText
                         {
-                            Children =
-                            {
-                                new AdaptiveSubgroup
-                                {
-                                    HintWeight = 4,
-                                    Children =
-                                    {
-                                        new AdaptiveImage
-                                        {
-                                            Source = news.ImgUrl,
-                                            HintRemoveMargin = true,
-                                            HintAlign = AdaptiveImageAlign.Stretch,
-                                        }
-                                    }
-                                },
-                                new AdaptiveSubgroup
-                                {
-                                    HintWeight = 6,
-
-                                    Children =
-                                    {
-                                        new AdaptiveText
-                                        {
-                                            Text = news.Title,
-                                            HintMaxLines = 3,
-                                            HintWrap = true,                                          
-                                            HintStyle = AdaptiveTextStyle.Subtitle,
-                                        },
-                                        new AdaptiveText
-                                        {
-                                            Text = news.Highlight,
-                                            HintMaxLines = 12,
-                                            HintWrap = true,
-                                            HintStyle = AdaptiveTextStyle.BodySubtle,
-                                        }
-                                    }
-                                }
-
-                            }
+                            Text = news.Title,
+                            HintMaxLines = 3,
+                            HintWrap = true,
+                            HintStyle = AdaptiveTextStyle.Subtitle,
+                        },
+                        new AdaptiveText
+                        {
+                            Text = news.Highlight,
+                            HintMaxLines = 12,
+                            HintWrap = true,
+                            HintStyle = AdaptiveTextStyle.BodySubtle,
                         }
+
 
                     }
                 }
             };
         }
+
         #endregion
 
 

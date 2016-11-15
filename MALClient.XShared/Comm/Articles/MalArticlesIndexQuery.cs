@@ -32,7 +32,7 @@ namespace MALClient.XShared.Comm.Articles
                 if (_cachedData.ContainsKey(_mode))
                     return _cachedData[_mode];
                 var possibleData = await DataCache.RetrieveArticleIndexData(_mode);
-                if (possibleData != null)
+                if (possibleData != null && possibleData.Count > 0)
                     return possibleData;
             }
             var output = new List<MalNewsUnitModel>();

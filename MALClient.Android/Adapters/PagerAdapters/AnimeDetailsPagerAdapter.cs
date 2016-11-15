@@ -35,6 +35,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
         private AnimeDetailsPageGeneralTabFragment _generalFragment;
         private AnimeDetailsPageDetailsTabFragment _detailsFragment;
         private AnimeDetailsPageReviewsTabFragment _reviewsFragment;
+        private AnimeDetailsPageRecomsTabFragment _recomsFragment;
 
         public override Fragment GetItem(int position)
         {
@@ -47,7 +48,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
                 case 2:
                     return _reviewsFragment ?? (_reviewsFragment = AnimeDetailsPageReviewsTabFragment.Instance);
                 case 3:
-                    return AnimeDetailsPageGeneralTabFragment.Instance;//_generalFragment ?? (_generalFragment = AnimeDetailsPageGeneralTabFragment.Instance);
+                    return _recomsFragment ?? (_recomsFragment = AnimeDetailsPageRecomsTabFragment.Instance);
                 case 4:
                     return AnimeDetailsPageGeneralTabFragment.Instance;//_generalFragment ?? (_generalFragment = AnimeDetailsPageGeneralTabFragment.Instance);
             }
@@ -94,7 +95,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
                     ViewModelLocator.AnimeDetails.LoadReviews();
                     break;
                 case 3:
-                    txt.Text = "Recoms";
+                    ViewModelLocator.AnimeDetails.LoadRecommendations();
                     break;
                 case 4:
                     txt.Text = "Related";

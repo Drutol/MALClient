@@ -36,7 +36,7 @@ namespace MALClient.Android.Adapters.DialogAdapters
             var view = convertView ?? _context.LayoutInflater.Inflate(Android.Resource.Layout.StatusDialogItem, null);
 
             var txt = view.FindViewById<TextView>(Android.Resource.Id.StatusDialogItemTextView);
-            txt.Text = Utilities.StatusToString((int) Items[position], _manga, _rewatching);
+            txt.Text = MALClient.XShared.Utils.Utilities.StatusToString((int) Items[position], _manga, _rewatching);
             view.SetBackgroundColor((int) Items[position] == _currentStatus
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);

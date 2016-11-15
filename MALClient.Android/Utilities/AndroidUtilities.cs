@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MALClient.Android;
 
 namespace MALClient.Android
 {
@@ -60,6 +61,11 @@ namespace MALClient.Android
             {
                 layout.AddView(adapter.GetView(i,null,layout));
             }
+        }
+
+        public static TObj Unwrap<TObj>(this Java.Lang.Object obj) where TObj : class
+        {
+            return (obj as JavaObjectWrapper<TObj>).Instance;
         }
     }
 }

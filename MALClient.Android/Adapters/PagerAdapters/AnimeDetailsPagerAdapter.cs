@@ -36,6 +36,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
         private AnimeDetailsPageDetailsTabFragment _detailsFragment;
         private AnimeDetailsPageReviewsTabFragment _reviewsFragment;
         private AnimeDetailsPageRecomsTabFragment _recomsFragment;
+        private AnimeDetailsPageRelatedTabFragment _relatedFragment;
 
         public override Fragment GetItem(int position)
         {
@@ -50,7 +51,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
                 case 3:
                     return _recomsFragment ?? (_recomsFragment = AnimeDetailsPageRecomsTabFragment.Instance);
                 case 4:
-                    return AnimeDetailsPageGeneralTabFragment.Instance;//_generalFragment ?? (_generalFragment = AnimeDetailsPageGeneralTabFragment.Instance);
+                    return _relatedFragment ?? (_relatedFragment = AnimeDetailsPageRelatedTabFragment.Instance);
             }
             throw new Exception("Emm we've run out of fragments?");
         }
@@ -98,7 +99,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
                     ViewModelLocator.AnimeDetails.LoadRecommendations();
                     break;
                 case 4:
-                    txt.Text = "Related";
+                    ViewModelLocator.AnimeDetails.LoadRelatedAnime();
                     break;
             }
         }

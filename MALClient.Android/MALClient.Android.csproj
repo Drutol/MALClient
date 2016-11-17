@@ -69,6 +69,9 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <HintPath>..\..\..\..\..\.nuget\packages\Microsoft.VisualBasic\10.0.1\ref\netcore50\Microsoft.VisualBasic.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -104,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Activities\MainActivity.ui.cs" />
     <Compile Include="Adapters\CollectionAdapters\AlternatingListCollectionAdapter.cs" />
+    <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
     <Compile Include="BindingInformation\AnimeItemBindingInfo.cs" />
@@ -135,6 +139,7 @@
     <Compile Include="Fragments\MalFragmentBase.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
+    <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />

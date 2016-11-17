@@ -129,6 +129,7 @@ namespace MALClient.Android.BindingInformation
                     ShowStatusDialog();
                     break;
                 case AnimeGridItemMoreFlyoutButtons.SetRating:
+                    ShowRatingDialog();
                     break;
                 case AnimeGridItemMoreFlyoutButtons.SetWatched:
                     ShowWatchedDialog();
@@ -138,6 +139,8 @@ namespace MALClient.Android.BindingInformation
             }
             _menu.Dismiss(true);
         }
+
+
 
         #endregion
 
@@ -150,6 +153,10 @@ namespace MALClient.Android.BindingInformation
         private void ShowWatchedDialog()
         {
             AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+        }
+        private void ShowRatingDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
         }
         #endregion
 

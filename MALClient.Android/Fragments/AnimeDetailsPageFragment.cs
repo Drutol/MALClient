@@ -84,7 +84,7 @@ namespace MALClient.Android.Fragments
 
         private void AnimeDetailsPageScoreButtonOnClick(object sender, EventArgs eventArgs)
         {
-            
+            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel.AnimeItemReference);
         }
 
         private void AnimeDetailsPageStatusButtonOnClick(object sender, EventArgs eventArgs)

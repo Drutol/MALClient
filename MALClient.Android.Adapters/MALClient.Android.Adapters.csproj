@@ -71,16 +71,11 @@
     <Compile Include="MessageDialogProvider.cs" />
     <Compile Include="NotificationTaskManagerAdapter.cs" />
     <Compile Include="PasswordVaultProvider.cs" />
-    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TelemetryProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\AboutResources.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">

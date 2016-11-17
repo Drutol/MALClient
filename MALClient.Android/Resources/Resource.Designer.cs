@@ -26,8 +26,6 @@ namespace MALClient.Android
 		
 		public static void UpdateIdValues()
 		{
-			global::MALClient.Android.Adapters.Resource.String.ApplicationName = global::MALClient.Android.Resource.String.ApplicationName;
-			global::MALClient.Android.Adapters.Resource.String.Hello = global::MALClient.Android.Resource.String.Hello;
 		}
 		
 		public partial class Animation

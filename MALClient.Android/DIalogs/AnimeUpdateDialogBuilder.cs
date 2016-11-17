@@ -35,7 +35,7 @@ namespace MALClient.Android.DIalogs
                 OnItemClickAction = (d, status) =>
                 {
                     model.MyStatus = (int)status;
-                    d.Dismiss();
+                    CleanupStatusDialog();
                 }
             });
             dialogBuilder.SetOnDismissListener(
@@ -102,6 +102,35 @@ namespace MALClient.Android.DIalogs
             _watchedDialog?.Dismiss();
             _watchedDialog = null;
             _watchedDialogContext = null;
+        }
+
+
+        private static DialogPlus _scoreDialog;
+        public static void BuildScoreDialog(IAnimeData model)
+        {
+            var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
+            dialogBuilder.SetAdapter(new ScoreDialogAdapter(MainActivity.CurrentContext,
+                AnimeItemViewModel.ScoreFlyoutChoices,(int)model.MyScore));
+            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetOnItemClickListener(new IntegerDialogListener()
+            {
+                OnItemClickAction = (d, score) =>
+                {
+                    model.MyScore = score;
+                    CleanupScoreDialog();
+                }
+            });
+            dialogBuilder.SetOnDismissListener(
+                new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupScoreDialog));
+            _scoreDialog = dialogBuilder.Create();
+            _scoreDialog.Show();
+        }
+
+        private static void CleanupScoreDialog()
+        {
+            _scoreDialog?.Dismiss();
+            _scoreDialog = null;
         }
     }
 }

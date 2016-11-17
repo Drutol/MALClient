@@ -60,7 +60,6 @@ namespace MALClient.Android.Flyouts
             var holder = new RelativeLayout(context) {LayoutParameters = ParamRelativeLayout};
             holder.SetBackgroundColor(new Color(background.Value));
 
-
             var txt = new TextView(context) {LayoutParameters = ParamTextView};
             txt.SetTextColor(new Color(foreground.Value));
             txt.Text = text;

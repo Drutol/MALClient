@@ -137,7 +137,7 @@ namespace MALClient.UWP.Adapters
                 var data = await FileIO.ReadTextAsync(file);
                 var tuple =
                     JsonConvert.DeserializeObject<Tuple<DateTime, T>>(data);
-                return expiration > 1
+                return expiration >= 1
                     ? CheckForOldData(tuple.Item1, expiration) ? tuple.Item2 : default(T)
                     : tuple.Item2;
             }

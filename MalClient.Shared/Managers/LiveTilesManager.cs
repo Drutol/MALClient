@@ -54,7 +54,7 @@ namespace MALClient.Shared.Managers
     {
         private const string NewsTileId = "TileNews";
         private const string ArticlesTileId = "TileArticles";
-        private static Dictionary<int,PinnedTileCache> _pinnedCache = new Dictionary<int, PinnedTileCache>();
+        private static Dictionary<int, PinnedTileCache> _pinnedCache = new Dictionary<int, PinnedTileCache>();
 
         public static async void LoadTileCache()
         {
@@ -63,7 +63,7 @@ namespace MALClient.Shared.Managers
                 var file = await ApplicationData.Current.LocalFolder.GetFileAsync("pinned_tiles.json");
                 var data = await FileIO.ReadTextAsync(file);
                 _pinnedCache = JsonConvert.DeserializeObject<Dictionary<int, PinnedTileCache>>(data) ??
-                                     new Dictionary<int, PinnedTileCache>();
+                               new Dictionary<int, PinnedTileCache>();
             }
             catch (Exception)
             {
@@ -89,7 +89,7 @@ namespace MALClient.Shared.Managers
             }
         }
 
-        private static void RegisterTileCache(int id,PinnedTileCache cache)
+        private static void RegisterTileCache(int id, PinnedTileCache cache)
         {
             if (_pinnedCache.ContainsKey(id))
                 _pinnedCache[id] = cache;
@@ -100,7 +100,7 @@ namespace MALClient.Shared.Managers
 
         private static void RegisterTile(string id)
         {
-            var tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
+            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
             if (string.IsNullOrWhiteSpace(tiles))
                 tiles = "";
             tiles += id + ";";
@@ -111,7 +111,7 @@ namespace MALClient.Shared.Managers
         {
             #region RemoveImages
 
-            var tiles = (string)ApplicationData.Current.LocalSettings.Values["tiles"];
+            var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
             if (string.IsNullOrWhiteSpace(tiles))
                 return;
 
@@ -154,13 +154,14 @@ namespace MALClient.Shared.Managers
             if (removed)
                 SavePinnedData();
             ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
+
             #endregion
 
 
             if (SecondaryTile.Exists(ArticlesTileId))
-                UpdateNewsTile(ArticlePageWorkMode.Articles);
+            UpdateNewsTile(ArticlePageWorkMode.Articles);
             if (SecondaryTile.Exists(NewsTileId))
-                UpdateNewsTile(ArticlePageWorkMode.News);
+            UpdateNewsTile(ArticlePageWorkMode.News);
 
 
         }
@@ -185,31 +186,38 @@ namespace MALClient.Shared.Managers
             tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
             tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/Wide310x310Logo.scale-200.png");
 
-            if(await tile.RequestCreateAsync())
+            if (await tile.RequestCreateAsync())
                 UpdateNewsTile(ArticlePageWorkMode.Articles);
         }
 
         private static async void UpdateNewsTile(ArticlePageWorkMode mode)
         {
             var news = await new MalArticlesIndexQuery(mode).GetArticlesIndex();
-
-            var updater = TileUpdateManager.CreateTileUpdaterForSecondaryTile(mode == ArticlePageWorkMode.Articles ? ArticlesTileId : NewsTileId);
-            updater.EnableNotificationQueue(true);
-            updater.Clear();
-            foreach (var malNewsUnitModel in news.Take(5))
+            try
             {
-                var tileContent = new TileContent
+                var updater = TileUpdateManager.CreateTileUpdaterForSecondaryTile(mode == ArticlePageWorkMode.Articles ? ArticlesTileId : NewsTileId);
+                updater.EnableNotificationQueue(true);
+                updater.Clear();
+                foreach (var malNewsUnitModel in news.Take(5))
                 {
-                    Visual = new TileVisual
+                    var tileContent = new TileContent
                     {
-                        TileMedium = GenerateTileBindingMedium(malNewsUnitModel),
-                        TileWide = GenerateTileBindingWide(malNewsUnitModel),
-                    }
-                };
-                if (!ViewModelLocator.Mobile)
-                    tileContent.Visual.TileLarge = GenerateTileBindingLarge(malNewsUnitModel);
-                updater.Update(new TileNotification(tileContent.GetXml()));
+                        Visual = new TileVisual
+                        {
+                            TileMedium = GenerateTileBindingMedium(malNewsUnitModel),
+                            TileWide = GenerateTileBindingWide(malNewsUnitModel),
+                        }
+                    };
+                    if (!ViewModelLocator.Mobile)
+                        tileContent.Visual.TileLarge = GenerateTileBindingLarge(malNewsUnitModel);
+                    updater.Update(new TileNotification(tileContent.GetXml()));
+                }
             }
+            catch (Exception)
+            {
+                //can carsh due to unknown reasons
+            }
+
         }
 
         private static TileBinding GenerateTileBindingMedium(MalNewsUnitModel news)

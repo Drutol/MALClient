@@ -12,7 +12,7 @@ namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeSearchQuery : Query
     {
-        public AnimeSearchQuery(string query,ApiType? apiOverride = null)
+        public AnimeSearchQuery(string query, ApiType? apiOverride = null)
         {
             var targettedApi = apiOverride ?? CurrentApiType;
             switch (targettedApi)
@@ -46,13 +46,21 @@ namespace MALClient.XShared.Comm.Anime
             switch (CurrentApiType)
             {
                 case ApiType.Mal:
-                    var parsed = XElement.Parse(raw.Replace("&","")); //due to unparasable stuff returned by mal
-                    foreach (var element in parsed.Elements("entry"))
+                    try
                     {
-                        var item = new AnimeGeneralDetailsData();
-                        item.ParseXElement(element, true);
-                        output.Add(item);
+                        var parsed = XElement.Parse(raw.Replace("&", "")); //due to unparasable stuff returned by mal
+                        foreach (var element in parsed.Elements("entry"))
+                        {
+                            var item = new AnimeGeneralDetailsData();
+                            item.ParseXElement(element, true);
+                            output.Add(item);
+                        }
                     }
+                    catch (Exception)
+                    {
+                        //mal can throw html in synopisis and xml cannot do much
+                    }
+
                     break;
                 case ApiType.Hummingbird:
                     dynamic jsonObj = JsonConvert.DeserializeObject(raw);

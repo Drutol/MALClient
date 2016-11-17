@@ -569,7 +569,7 @@ namespace MALClient.XShared.ViewModels
             _resetSeenNotificationsCommand ??
             (_resetSeenNotificationsCommand = new RelayCommand(() =>
             {
-                ResourceLocator.ApplicationDataService[RoamingDataTypes.ReadNotifications] = string.Empty;
+                ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] = string.Empty;
             }));
 
         private bool _isCallNotificationsButtonEnabled = true;

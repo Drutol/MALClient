@@ -145,19 +145,19 @@ namespace MALClient.ViewModels
                     var searchArg = args as SearchPageNavigationArgs;
                     if (string.IsNullOrWhiteSpace(searchArg.Query))
                     {
-                        if (!searchArg.ByGenre && !searchArg.ByStudio)
-                        {
-                            View.SearchInputFocus(FocusState.Keyboard);
-                            SearchToggleLock = true;
-                            ShowSearchStuff();
-                            ToggleSearchStuff();
-                        }
-                        else
-                        {
-                            HideSearchStuff();
-                            CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
-                        }
                         searchArg.Query = CurrentSearchQuery;
+                    }
+                    if (!searchArg.ByGenre && !searchArg.ByStudio)
+                    {
+                        View.SearchInputFocus(FocusState.Keyboard);
+                        SearchToggleLock = true;
+                        ShowSearchStuff();
+                        ToggleSearchStuff();
+                    }
+                    else
+                    {
+                        HideSearchStuff();
+                        CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
                     }
                     MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
                     break;

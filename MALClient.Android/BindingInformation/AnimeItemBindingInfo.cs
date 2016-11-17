@@ -21,6 +21,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.Adapters.DialogAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
@@ -144,65 +145,12 @@ namespace MALClient.Android.BindingInformation
 
         private void ShowStatusDialog()
         {
-            var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
-            dialogBuilder.SetAdapter(new StatusDialogAdapter(MainActivity.CurrentContext,
-                !ViewModel.ParentAbstraction.RepresentsAnime,ViewModel.IsRewatching,ViewModel.MyStatus));
-            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
-            dialogBuilder.SetOnItemClickListener(new EnumDialogListener<AnimeStatus>
-            {
-                OnItemClickAction = (d, status) =>
-                {
-                    ViewModel.MyStatus = (int)status;
-                    d.Dismiss();
-                }
-            });
-
-            var dialog = dialogBuilder.Create();
-            dialog.Show();          
+            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel,ViewModel.ParentAbstraction.RepresentsAnime);        
         }
-
-        private List<Binding> _watchedDialogBindings = new List<Binding>();
-        private DialogPlus _watchedDialog;
         private void ShowWatchedDialog()
         {
-            var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
-            dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeItemWatchedDialog));
-            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
-            dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupWatchedDialog));
-            _watchedDialog = dialogBuilder.Create();
-            var view = _watchedDialog.HolderView;
-
-            var input = view.FindViewById<EditText>(Resource.Id.AnimeItemWatchedDialogTextInput);
-            _watchedDialogBindings.Add(new Binding<string,string>(ViewModel,() => ViewModel.WatchedEpsInput,input, () => input.Text, BindingMode.TwoWay));
-            view.FindViewById<ImageButton>(Resource.Id.AnimeItemWatchedDialogAcceptButton).SetCommand("Click",new RelayCommand(
-                () =>
-                {
-                    ViewModel.OnFlyoutEpsKeyDown.Execute(null);
-                    CleanupWatchedDialog();
-                }));
-            var grid = view.FindViewById<GridView>(Resource.Id.AnimeItemWatchedDialogEpisodesGridView);
-            grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext,ViewModel.MyEpisodesFocused,ViewModel.AllEpisodesFocused);
-            grid.ItemClick += GridOnItemClick;
-            view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text = ViewModel.WatchedEpsLabel;
-
-            _watchedDialog.Show();
+            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
         }
-
-        private void GridOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
-        {
-            ViewModel.WatchedEpsInput = itemClickEventArgs.Id.ToString();
-            ViewModel.OnFlyoutEpsKeyDown.Execute(null);
-            CleanupWatchedDialog();
-        }
-
-        private void CleanupWatchedDialog()
-        {            
-            _watchedDialogBindings.ForEach(binding => binding.Detach());
-            _watchedDialogBindings = new List<Binding>();
-            _watchedDialog?.Dismiss();
-            _watchedDialog = null;
-        }
-
         #endregion
 
         #region Swipe

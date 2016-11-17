@@ -114,6 +114,7 @@
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
+    <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\DroppyFlyoutBuilder.cs" />

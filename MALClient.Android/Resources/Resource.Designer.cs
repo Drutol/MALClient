@@ -1173,6 +1173,9 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b004e
 			public const int BrushAppBars = 2131427406;
 			
+			// aapt resource value: 0x7f0b0066
+			public const int BrushButtonPressed = 2131427430;
+			
 			// aapt resource value: 0x7f0b004d
 			public const int BrushDeepBackground = 2131427405;
 			
@@ -1194,8 +1197,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b0063
 			public const int BrushFavouriteStarBackground = 2131427427;
 			
-			// aapt resource value: 0x7f0b0067
-			public const int BrushFlyoutBackground = 2131427431;
+			// aapt resource value: 0x7f0b0068
+			public const int BrushFlyoutBackground = 2131427432;
 			
 			// aapt resource value: 0x7f0b0050
 			public const int BrushHamburgerBackground = 2131427408;
@@ -1218,8 +1221,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b0064
 			public const int BrushNoSearchResults = 2131427428;
 			
-			// aapt resource value: 0x7f0b0069
-			public const int BrushOpaqueTextView = 2131427433;
+			// aapt resource value: 0x7f0b006a
+			public const int BrushOpaqueTextView = 2131427434;
 			
 			// aapt resource value: 0x7f0b0061
 			public const int BrushPinTileDialogBackground = 2131427425;
@@ -1239,8 +1242,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b0058
 			public const int BrushRowAlternate2 = 2131427416;
 			
-			// aapt resource value: 0x7f0b006a
-			public const int BrushSelectedDialogItem = 2131427434;
+			// aapt resource value: 0x7f0b006b
+			public const int BrushSelectedDialogItem = 2131427435;
 			
 			// aapt resource value: 0x7f0b0062
 			public const int BrushSettingsSubtitle = 2131427426;
@@ -1251,35 +1254,35 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b004c
 			public const int BrushTextInverted = 2131427404;
 			
-			// aapt resource value: 0x7f0b0066
-			public const int OpaqueAccentColour = 2131427430;
+			// aapt resource value: 0x7f0b0067
+			public const int OpaqueAccentColour = 2131427431;
 			
-			// aapt resource value: 0x7f0b0068
-			public const int Transparent = 2131427432;
-			
-			// aapt resource value: 0x7f0b006b
-			public const int abc_background_cache_hint_selector_material_dark = 2131427435;
+			// aapt resource value: 0x7f0b0069
+			public const int Transparent = 2131427433;
 			
 			// aapt resource value: 0x7f0b006c
-			public const int abc_background_cache_hint_selector_material_light = 2131427436;
+			public const int abc_background_cache_hint_selector_material_dark = 2131427436;
+			
+			// aapt resource value: 0x7f0b006d
+			public const int abc_background_cache_hint_selector_material_light = 2131427437;
 			
 			// aapt resource value: 0x7f0b0000
 			public const int abc_input_method_navigation_guard = 2131427328;
 			
-			// aapt resource value: 0x7f0b006d
-			public const int abc_primary_text_disable_only_material_dark = 2131427437;
-			
 			// aapt resource value: 0x7f0b006e
-			public const int abc_primary_text_disable_only_material_light = 2131427438;
+			public const int abc_primary_text_disable_only_material_dark = 2131427438;
 			
 			// aapt resource value: 0x7f0b006f
-			public const int abc_primary_text_material_dark = 2131427439;
+			public const int abc_primary_text_disable_only_material_light = 2131427439;
 			
 			// aapt resource value: 0x7f0b0070
-			public const int abc_primary_text_material_light = 2131427440;
+			public const int abc_primary_text_material_dark = 2131427440;
 			
 			// aapt resource value: 0x7f0b0071
-			public const int abc_search_url_text = 2131427441;
+			public const int abc_primary_text_material_light = 2131427441;
+			
+			// aapt resource value: 0x7f0b0072
+			public const int abc_search_url_text = 2131427442;
 			
 			// aapt resource value: 0x7f0b0001
 			public const int abc_search_url_text_normal = 2131427329;
@@ -1290,11 +1293,11 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b0003
 			public const int abc_search_url_text_selected = 2131427331;
 			
-			// aapt resource value: 0x7f0b0072
-			public const int abc_secondary_text_material_dark = 2131427442;
-			
 			// aapt resource value: 0x7f0b0073
-			public const int abc_secondary_text_material_light = 2131427443;
+			public const int abc_secondary_text_material_dark = 2131427443;
+			
+			// aapt resource value: 0x7f0b0074
+			public const int abc_secondary_text_material_light = 2131427444;
 			
 			// aapt resource value: 0x7f0b0004
 			public const int accent_material_dark = 2131427332;
@@ -1503,11 +1506,11 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0b0037
 			public const int switch_thumb_disabled_material_light = 2131427383;
 			
-			// aapt resource value: 0x7f0b0074
-			public const int switch_thumb_material_dark = 2131427444;
-			
 			// aapt resource value: 0x7f0b0075
-			public const int switch_thumb_material_light = 2131427445;
+			public const int switch_thumb_material_dark = 2131427445;
+			
+			// aapt resource value: 0x7f0b0076
+			public const int switch_thumb_material_light = 2131427446;
 			
 			// aapt resource value: 0x7f0b0038
 			public const int switch_thumb_normal_material_dark = 2131427384;
@@ -2202,76 +2205,82 @@ namespace MALClient.Android
 			public const int border_accent_underline = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int bt_bg_popupmenu = 2130837583;
-			
-			// aapt resource value: 0x7f020064
-			public const int default_menu_item_background = 2130837604;
-			
-			// aapt resource value: 0x7f020065
-			public const int default_menu_separator_background = 2130837605;
-			
-			// aapt resource value: 0x7f020066
-			public const int default_popup_background = 2130837606;
+			public const int border_accent_underline_pressed = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int design_fab_background = 2130837584;
+			public const int bt_bg_popupmenu = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int design_snackbar_background = 2130837585;
+			public const int button_underline_background_style = 2130837585;
+			
+			// aapt resource value: 0x7f020066
+			public const int default_menu_item_background = 2130837606;
+			
+			// aapt resource value: 0x7f020067
+			public const int default_menu_separator_background = 2130837607;
+			
+			// aapt resource value: 0x7f020068
+			public const int default_popup_background = 2130837608;
 			
 			// aapt resource value: 0x7f020052
-			public const int droppy_list_item_normal = 2130837586;
+			public const int design_fab_background = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int droppy_list_item_pressed = 2130837587;
+			public const int design_snackbar_background = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int droppy_list_item_selector = 2130837588;
+			public const int droppy_list_item_normal = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int droppy_separator_background = 2130837589;
+			public const int droppy_list_item_pressed = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int Icon = 2130837590;
+			public const int droppy_list_item_selector = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int icon_add = 2130837591;
+			public const int droppy_separator_background = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int icon_favourite = 2130837592;
+			public const int Icon = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int icon_filter = 2130837593;
+			public const int icon_add = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int icon_hamburger = 2130837594;
+			public const int icon_favourite = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int icon_minus = 2130837595;
+			public const int icon_filter = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int icon_more = 2130837596;
+			public const int icon_hamburger = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int icon_more_vertical = 2130837597;
+			public const int icon_minus = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int icon_ok = 2130837598;
+			public const int icon_more = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int icon_reload = 2130837599;
+			public const int icon_more_vertical = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int icon_sort = 2130837600;
+			public const int icon_ok = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int inc_dec_btn_backgroud = 2130837601;
-			
-			// aapt resource value: 0x7f020063
-			public const int notification_template_icon_bg = 2130837603;
+			public const int icon_reload = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int psts_background_tab = 2130837602;
+			public const int icon_sort = 2130837602;
+			
+			// aapt resource value: 0x7f020063
+			public const int inc_dec_btn_backgroud = 2130837603;
+			
+			// aapt resource value: 0x7f020065
+			public const int notification_template_icon_bg = 2130837605;
+			
+			// aapt resource value: 0x7f020064
+			public const int psts_background_tab = 2130837604;
 			
 			static Drawable()
 			{

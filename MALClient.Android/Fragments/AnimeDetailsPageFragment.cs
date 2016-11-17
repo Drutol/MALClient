@@ -14,6 +14,7 @@ using FFImageLoading;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters.PagerAdapters;
+using MALClient.Android.DIalogs;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -33,6 +34,7 @@ namespace MALClient.Android.Fragments
                 () => ImageService.Instance.LoadUrl(ViewModel.DetailImage, TimeSpan.FromDays(7))
                     .FadeAnimation(true, true)
                     .Into(AnimeDetailsPageShowCoverImage));
+            ViewModel.RegisterOneTimeOnPropertyChangedAction(nameof(ViewModel.AnimeMode), SetupForAnimeMode);
             ViewModel.Init(_navArgs);
         }
 
@@ -41,7 +43,6 @@ namespace MALClient.Android.Fragments
             AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
            
-
             Bindings = new Dictionary<int, List<Binding>>();
 
             Bindings.Add(AnimeDetailsPageScoreButton.Id, new List<Binding>());
@@ -58,13 +59,41 @@ namespace MALClient.Android.Fragments
             Bindings[AnimeDetailsPageWatchedButton.Id].Add(
                 this.SetBinding(() => ViewModel.MyEpisodesBind,
                     () => AnimeDetailsPageWatchedButton.Text));
-
             //OneTime
 
             AnimeDetailsPageWatchedLabel.Text = ViewModel.WatchedEpsLabel;
 
-            ////////
+            Bindings.Add(AnimeDetailsPageReadVolumesButton.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageReadVolumesButton.Id].Add(
+                this.SetBinding(() => ViewModel.MyVolumesBind,
+                    () => AnimeDetailsPageReadVolumesButton.Text));
+            //
 
+            //Events
+            AnimeDetailsPageStatusButton.Click += AnimeDetailsPageStatusButtonOnClick;
+            AnimeDetailsPageScoreButton.Click += AnimeDetailsPageScoreButtonOnClick;
+            AnimeDetailsPageWatchedButton.Click += AnimeDetailsPageWatchedButtonOnClick;
+
+
+        }
+
+        private void AnimeDetailsPageWatchedButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel.AnimeItemReference as AnimeItemViewModel);
+        }
+
+        private void AnimeDetailsPageScoreButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            
+        }
+
+        private void AnimeDetailsPageStatusButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel.AnimeItemReference,ViewModel.AnimeMode);
+        }
+
+        private void SetupForAnimeMode()
+        {
             if (ViewModel.AnimeMode)
             {
                 AnimeDetailsPageReadVolumesButton.Visibility =
@@ -74,13 +103,14 @@ namespace MALClient.Android.Fragments
             {
                 AnimeDetailsPageReadVolumesButton.Visibility =
                     AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Visible;
-
-                Bindings.Add(AnimeDetailsPageReadVolumesButton.Id, new List<Binding>());
-                Bindings[AnimeDetailsPageReadVolumesButton.Id].Add(
-                    this.SetBinding(() => ViewModel.MyVolumesBind,
-                        () => AnimeDetailsPageReadVolumesButton.Text));
-
             }
+        }
+
+        protected override void Cleanup()
+        {
+            AnimeDetailsPageStatusButton.Click -= AnimeDetailsPageStatusButtonOnClick;
+            AnimeDetailsPageScoreButton.Click -= AnimeDetailsPageScoreButtonOnClick;
+            AnimeDetailsPageWatchedButton.Click -= AnimeDetailsPageWatchedButtonOnClick;
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPage;

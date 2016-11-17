@@ -36,6 +36,7 @@ namespace MALClient.XShared.ViewModels.Details
         private int _allVolumes;
         private string _alternateImgUrl;
         private IAnimeData _animeItemReference; //our connection with everything
+        public IAnimeData AnimeItemReference => _animeItemReference;
 
         public bool AnimeMode
         {

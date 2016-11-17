@@ -29,29 +29,42 @@ namespace MALClient.Android
             return propertyInfo == null ? default(T) : (T)propertyInfo.GetValue(obj, null);
         }
 
-        private static readonly Dictionary<INotifyPropertyChanged, Tuple<string, Action, PropertyChangedEventHandler>> RegisteredActions =
-            new Dictionary<INotifyPropertyChanged, Tuple<string, Action, PropertyChangedEventHandler>>();
+        private static readonly Dictionary<INotifyPropertyChanged, Tuple<List<Tuple<string, Action>>, PropertyChangedEventHandler>> RegisteredActions =
+            new Dictionary<INotifyPropertyChanged, Tuple<List<Tuple<string, Action>>, PropertyChangedEventHandler>>();
 
         public static void RegisterOneTimeOnPropertyChangedAction(this INotifyPropertyChanged viewModel, string property, Action action)
         {
-            var dlgt = new PropertyChangedEventHandler(OnPropertyChangedHandler);
-            RegisteredActions.Add(viewModel, new Tuple<string, Action, PropertyChangedEventHandler>(property, action, dlgt));
-            viewModel.PropertyChanged += dlgt;
+            if (!RegisteredActions.ContainsKey(viewModel))
+            {
+                var dlgt = new PropertyChangedEventHandler(OnPropertyChangedHandler);
+                RegisteredActions.Add(viewModel,new Tuple<List<Tuple<string, Action>>, PropertyChangedEventHandler>(new List<Tuple<string, Action>>(),dlgt ));
+                viewModel.PropertyChanged += dlgt;
+            }
+            RegisteredActions[viewModel].Item1.Add(new Tuple<string, Action>(property,action));        
         }
         private static void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             var viewModel = sender as INotifyPropertyChanged;
             if (viewModel == null)
                 return;
-            Tuple<string, Action, PropertyChangedEventHandler> data;
+            Tuple<List<Tuple<string, Action>>, PropertyChangedEventHandler> data;
             if (RegisteredActions.TryGetValue(viewModel, out data))
             {
-                if (propertyChangedEventArgs.PropertyName == data.Item1)
+                List<Tuple<string, Action>> removed = new List<Tuple<string, Action>>();
+                foreach (var tuple in data.Item1)
                 {
-                    data.Item2.Invoke();
-                    viewModel.PropertyChanged -= data.Item3;
-                    RegisteredActions.Remove(viewModel);
+                    if (propertyChangedEventArgs.PropertyName == tuple.Item1)
+                    {
+                        tuple.Item2.Invoke();                        
+                        removed.Add(tuple);
+                    }
                 }
+                foreach (var tuple in removed)
+                {
+                    RegisteredActions[viewModel].Item1.Remove(tuple);
+                }
+                if(!RegisteredActions[viewModel].Item1.Any())
+                    viewModel.PropertyChanged -= data.Item2;
             }
         }
 

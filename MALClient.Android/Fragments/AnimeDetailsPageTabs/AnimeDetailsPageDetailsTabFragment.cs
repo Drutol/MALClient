@@ -40,8 +40,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             AnimeDetailsPageDetailsTabStatsList.SetAdapter(new DetailsAdapter(_activity, ViewModel.Stats, true));
             AnimeDetailsPageDetailsTabOPsList.SetAdapter(new GenresAdapter(_activity, ViewModel.OPs, true));
             AnimeDetailsPageDetailsTabEDsList.SetAdapter(new GenresAdapter(_activity, ViewModel.EDs, true));
-
-
         }
 
         protected override void InitBindings()

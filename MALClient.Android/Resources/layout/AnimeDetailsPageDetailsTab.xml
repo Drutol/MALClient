@@ -1,24 +1,29 @@
-﻿<ScrollView android:layout_height="match_parent" android:layout_width="match_parent" android:background="@color/BrushDetailsBackground" xmlns:android="http://schemas.android.com/apk/res/android">
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" android:orientation="vertical">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Genres" android:layout_gravity="center_horizontal"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:weightSum="2" android:orientation="horizontal">
-      <LinearLayout android:orientation="vertical" android:layout_marginEnd="2dp" android:id="@+id/AnimeDetailsPageDetailsTabLeftGenresList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"/>
-      <LinearLayout android:orientation="vertical" android:layout_marginStart="2dp" android:id="@+id/AnimeDetailsPageDetailsTabRightGenresList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"/>
+﻿<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+  <ScrollView android:layout_height="match_parent" android:layout_width="match_parent" android:background="@color/BrushDetailsBackground" xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Genres" android:layout_gravity="center_horizontal"/>
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:weightSum="2" android:orientation="horizontal">
+        <LinearLayout android:orientation="vertical" android:layout_marginEnd="2dp" android:id="@+id/AnimeDetailsPageDetailsTabLeftGenresList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"/>
+        <LinearLayout android:orientation="vertical" android:layout_marginStart="2dp" android:id="@+id/AnimeDetailsPageDetailsTabRightGenresList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"/>
+      </LinearLayout>
+
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Information" android:layout_gravity="center_horizontal"/>
+      <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabInformationList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+      <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Statistics" android:layout_gravity="center_horizontal"/>
+      <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabStatsList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+      <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Opening themes" android:layout_gravity="center_horizontal"/>
+      <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabOPsList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Ending themes" android:layout_gravity="center_horizontal"/>
+      <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabEDsList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
     </LinearLayout>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Information" android:layout_gravity="center_horizontal"/>
-    <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabInformationList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-    <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Statistics" android:layout_gravity="center_horizontal"/>
-    <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabStatsList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-    <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Opening themes" android:layout_gravity="center_horizontal"/>
-    <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabOPsList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Ending themes" android:layout_gravity="center_horizontal"/>
-    <LinearLayout android:orientation="vertical" android:id="@+id/AnimeDetailsPageDetailsTabEDsList" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-  </LinearLayout>
-</ScrollView>
+  </ScrollView>
+  <RelativeLayout android:id="@+id/AnimeDetailsPageDetailsTabLoadingOverlay" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/BrushLoading">
+    <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="@color/AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
+  </RelativeLayout>
+</RelativeLayout>

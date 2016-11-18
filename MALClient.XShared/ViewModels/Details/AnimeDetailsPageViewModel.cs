@@ -539,9 +539,13 @@ namespace MALClient.XShared.ViewModels.Details
         {
             LoadingUpdate = true;
             var prevStatus = MyStatus;
-            MyStatus = Utilities.StatusToInt(status as string);
+            var stat = status as string;
+            if (stat != null)
+                MyStatus = Utilities.StatusToInt(stat);
+            else
+                MyStatus = (int) status;
 
-            if (Settings.SetStartDateOnWatching && (string) status == "Watching" &&
+            if (Settings.SetStartDateOnWatching && MyStatus == (int)AnimeStatus.Watching &&
                 (Settings.OverrideValidStartEndDate || !StartDateValid))
             {
                 _startDateTimeOffset = DateTimeOffset.Now;
@@ -550,7 +554,7 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => StartDateTimeOffset);
                 RaisePropertyChanged(() => MyStartDate);
             }
-            else if (Settings.SetEndDateOnDropped && (string) status == "Dropped" &&
+            else if (Settings.SetEndDateOnDropped && MyStatus == (int)AnimeStatus.Dropped &&
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
             {
                 _endDateTimeOffset = DateTimeOffset.Now;
@@ -559,7 +563,7 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => EndDateTimeOffset);
                 RaisePropertyChanged(() => MyEndDate);
             }
-            else if (Settings.SetEndDateOnCompleted && (string) status == "Completed" &&
+            else if (Settings.SetEndDateOnCompleted && MyStatus == (int)AnimeStatus.Completed &&
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
             {
                 _endDateTimeOffset = DateTimeOffset.Now;

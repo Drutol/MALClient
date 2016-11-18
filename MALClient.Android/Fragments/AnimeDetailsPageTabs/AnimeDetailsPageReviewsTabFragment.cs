@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -14,6 +15,7 @@ using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
@@ -43,6 +45,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         protected override void InitBindings()
         {
             AnimeDetailsPageReviewsTabsList.Adapter = ViewModel.Reviews.GetAdapter(GetTemplateDelegate);
+
+            Bindings.Add(LoadingOverlay.Id, new List<Binding>());
+            Bindings[LoadingOverlay.Id].Add(
+                this.SetBinding(() => ViewModel.LoadingReviews,
+                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            
         }
 
 
@@ -115,8 +123,11 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private ListView _animeDetailsPageReviewsTabsList;
 
         public ListView AnimeDetailsPageReviewsTabsList => _animeDetailsPageReviewsTabsList ?? (_animeDetailsPageReviewsTabsList = FindViewById<ListView>(Resource.Id.AnimeDetailsPageReviewsTabsList));
-        
 
+
+
+        private RelativeLayout _loadingOverlay;
+        public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageReviewsTabLoadingOverlay));
         #endregion
 
     }

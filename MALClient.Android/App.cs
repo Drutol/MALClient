@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
+using FFImageLoading.Config;
 using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
@@ -27,7 +28,10 @@ namespace MALClient.Android
 
         public override void OnCreate()
         {
-            ImageService.Instance.Config.FadeAnimationEnabled = true;
+            ImageService.Instance.Initialize(new Configuration
+            {
+                FadeAnimationForCachedImages = true
+            });
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             Credentials.Init();

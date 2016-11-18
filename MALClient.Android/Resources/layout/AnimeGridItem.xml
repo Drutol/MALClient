@@ -2,7 +2,7 @@
                                 android:layout_height="315dp"
                                 android:layout_width="160dp"
                                 android:padding="2dp"
-                                style="@style/SelectableItemForeground"
+                                android:foreground="?android:selectableItemBackground"
                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                 app:leftEdgeSwipeOffset="-30dp" app:rightEdgeSwipeOffset="-30dp">
 
@@ -137,7 +137,10 @@
         <ImageButton android:layout_width="40dp"
                      android:layout_height="40dp"
                      android:background="@color/BrushOpaqueTextView"
+                     android:foreground="?android:selectableItemBackground"
                      android:id="@+id/AnimeGridItemMoreButton"
+                     android:clickable="true"
+                     android:focusable="true"
                      android:src="@drawable/icon_more"/>
       </RelativeLayout>
     </RelativeLayout>

@@ -8,10 +8,13 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content.Res;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Shehabic.Droppy;
 using Com.Shehabic.Droppy.Animations;
+using MALClient.Android.Activities;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
@@ -57,18 +60,26 @@ namespace MALClient.Android.Flyouts
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
 
+            var top = new FrameLayout(context);
+
+            top.SetBackgroundColor(new Color(background.Value));
             var holder = new RelativeLayout(context) {LayoutParameters = ParamRelativeLayout};
-            holder.SetBackgroundColor(new Color(background.Value));
+
+            holder.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
+
+            holder.Clickable = true;
+            holder.Focusable = true;
 
             var txt = new TextView(context) {LayoutParameters = ParamTextView};
             txt.SetTextColor(new Color(foreground.Value));
             txt.Text = text;
 
             holder.AddView(txt);
+            top.AddView(holder);
 
             holder.Click += (sender, args) => callback.Invoke(id);
 
-            return holder;
+            return top;
         }
 
         public static DroppyMenuPopup BuildForAnimeGridItem(Context context,View parent,AnimeItemViewModel viewModel,Action<AnimeGridItemMoreFlyoutButtons> callback)

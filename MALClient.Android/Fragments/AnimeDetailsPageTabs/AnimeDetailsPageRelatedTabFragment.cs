@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
+using MALClient.Android.BindingConverters;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -39,6 +40,11 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             _adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
             _list.Adapter = _adapter;
             _list.ItemClick += ListOnItemClick;
+
+            Bindings.Add(LoadingOverlay.Id, new List<Binding>());
+            Bindings[LoadingOverlay.Id].Add(
+                this.SetBinding(() => ViewModel.LoadingRelated,
+                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
         private void ListOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
@@ -70,5 +76,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         public static AnimeDetailsPageRelatedTabFragment Instance  => new AnimeDetailsPageRelatedTabFragment();
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageRelatedTab;
+
+        #region Views
+
+        private RelativeLayout _loadingOverlay;
+        public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageRelatedTabLoadingOverlay));
+
+        #endregion
     }
 }

@@ -17,6 +17,9 @@ namespace MALClient.Android.Fragments
 {
     public partial class AnimeDetailsPageFragment
     {
+        private RelativeLayout _animeDetailsPageLoadingOverlay;
+        public RelativeLayout AnimeDetailsPageLoadingOverlay => _animeDetailsPageLoadingOverlay ?? (_animeDetailsPageLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageLoadingOverlay));
+
         private ImageViewAsync _animeDetailsPageShowCoverImage;
         private TextView _animeDetailsPageWatchedLabel;
         private TextView _animeDetailsPageReadVolumesLabel;
@@ -56,7 +59,6 @@ namespace MALClient.Android.Fragments
         public PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
 
         public ViewPager AnimeDetailsPagePivot => _animeDetailsPagePivot ?? (_animeDetailsPagePivot = FindViewById<ViewPager>(Resource.Id.AnimeDetailsPagePivot));
-
 
 
     }

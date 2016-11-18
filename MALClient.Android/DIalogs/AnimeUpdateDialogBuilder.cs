@@ -24,7 +24,7 @@ namespace MALClient.Android.DIalogs
     public static class AnimeUpdateDialogBuilder
     {
         private static DialogPlus _statusDialog;
-        public static void BuildStatusDialog(IAnimeData model,bool anime)
+        public static void BuildStatusDialog(IAnimeData model,bool anime,Action<AnimeStatus> action = null)
         {
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetAdapter(new StatusDialogAdapter(MainActivity.CurrentContext,
@@ -34,7 +34,10 @@ namespace MALClient.Android.DIalogs
             {
                 OnItemClickAction = (d, status) =>
                 {
-                    model.MyStatus = (int)status;
+                    if(action == null)
+                        model.MyStatus = (int)status;
+                    else
+                        action.Invoke(status);
                     CleanupStatusDialog();
                 }
             });
@@ -54,10 +57,12 @@ namespace MALClient.Android.DIalogs
         private static List<Binding> _watchedDialogBindings = new List<Binding>();
         private static DialogPlus _watchedDialog;
         private static AnimeItemViewModel _watchedDialogContext;
+        private static Action<AnimeItemViewModel,string> _watchedDialogAction;
 
-        public static void BuildWatchedDialog(AnimeItemViewModel ViewModel)
+        public static void BuildWatchedDialog(AnimeItemViewModel ViewModel,Action<AnimeItemViewModel, string> action = null,bool volumes = false)
         {
             _watchedDialogContext = ViewModel;
+            _watchedDialogAction = action;
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeItemWatchedDialog));
             dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
@@ -68,30 +73,55 @@ namespace MALClient.Android.DIalogs
             _watchedDialog = dialogBuilder.Create();
             var view = _watchedDialog.HolderView;
 
-            var input = view.FindViewById<EditText>(Resource.Id.AnimeItemWatchedDialogTextInput);
-            _watchedDialogBindings.Add(new Binding<string, string>(ViewModel, () => ViewModel.WatchedEpsInput, input,
-                () => input.Text, BindingMode.TwoWay));
+
             view.FindViewById<ImageButton>(Resource.Id.AnimeItemWatchedDialogAcceptButton)
                 .SetCommand("Click", new RelayCommand(
                     () =>
                     {
-                        ViewModel.OnFlyoutEpsKeyDown.Execute(null);
+                        if (!volumes)
+                            ViewModel.OnFlyoutEpsKeyDown.Execute(null);
+                        else
+                            action.Invoke(_watchedDialogContext, _watchedDialog.HolderView.FindViewById<TextView>(
+                                Resource.Id.AnimeItemWatchedDialogTextInput).Text);
                         CleanupWatchedDialog();
                     }));
-            var grid = view.FindViewById<GridView>(Resource.Id.AnimeItemWatchedDialogEpisodesGridView);
-            grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, ViewModel.MyEpisodesFocused,
-                ViewModel.AllEpisodesFocused);
-            grid.ItemClick += GridOnItemClick;
-            view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text =
-                ViewModel.WatchedEpsLabel;
 
+            var grid = view.FindViewById<GridView>(Resource.Id.AnimeItemWatchedDialogEpisodesGridView);
+            if (volumes)
+            {
+
+                grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, ViewModel.MyVolumes,
+                    ViewModel.AllVolumes);
+                view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text = "Read volumes";
+            }
+            else
+            {
+                var input = view.FindViewById<EditText>(Resource.Id.AnimeItemWatchedDialogTextInput);
+                _watchedDialogBindings.Add(new Binding<string, string>(ViewModel, () => ViewModel.WatchedEpsInput, input,
+                    () => input.Text, BindingMode.TwoWay));
+                grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, ViewModel.MyEpisodesFocused,
+                    ViewModel.AllEpisodesFocused);
+                view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text =
+                    ViewModel.WatchedEpsLabel;
+            }
+
+            grid.ItemClick += GridOnItemClick;
             _watchedDialog.Show();
         }
 
         private static void GridOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            _watchedDialogContext.WatchedEpsInput = itemClickEventArgs.Id.ToString();
-            _watchedDialogContext.OnFlyoutEpsKeyDown.Execute(null);
+            if (_watchedDialogAction == null)
+            {
+                _watchedDialogContext.WatchedEpsInput = itemClickEventArgs.Id.ToString();
+                _watchedDialogContext.OnFlyoutEpsKeyDown.Execute(null);
+            }
+            else
+            {
+                _watchedDialogAction.Invoke(_watchedDialogContext,itemClickEventArgs.Id.ToString());
+            }
+
+
             CleanupWatchedDialog();
         }
 
@@ -102,11 +132,12 @@ namespace MALClient.Android.DIalogs
             _watchedDialog?.Dismiss();
             _watchedDialog = null;
             _watchedDialogContext = null;
+            _watchedDialogAction = null;
         }
 
 
         private static DialogPlus _scoreDialog;
-        public static void BuildScoreDialog(IAnimeData model)
+        public static void BuildScoreDialog(IAnimeData model,Action<int> action = null)
         {
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetAdapter(new ScoreDialogAdapter(MainActivity.CurrentContext,
@@ -116,7 +147,10 @@ namespace MALClient.Android.DIalogs
             {
                 OnItemClickAction = (d, score) =>
                 {
-                    model.MyScore = score;
+                    if(action == null)
+                        model.MyScore = score;
+                    else
+                        action.Invoke(score);
                     CleanupScoreDialog();
                 }
             });

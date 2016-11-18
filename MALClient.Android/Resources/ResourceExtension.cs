@@ -9,6 +9,7 @@ using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Content.Res;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
@@ -40,5 +41,21 @@ namespace MALClient.Android.Resources
 
         public static readonly string FontSizeLight =
             MainActivity.CurrentContext.Resources.GetString(Resource.String.font_family_light);
+
+        private static int? _selectableItemBackground;
+
+        public static int SelectableItemBackground
+        {
+            get
+            {
+                if (_selectableItemBackground.HasValue)
+                    return _selectableItemBackground.Value;
+                TypedValue outValue = new TypedValue();
+                MainActivity.CurrentContext.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, outValue, true);
+                _selectableItemBackground = outValue.ResourceId;
+                return _selectableItemBackground.Value;
+            }
+        }
+
     }
 }

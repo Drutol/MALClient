@@ -46,7 +46,7 @@ namespace MALClient.Android.Fragments
         public sealed override void OnStop()
         {
             Bindings?.ForEach(pair => pair.Value.ForEach(binding => binding.Detach()));
-            Bindings = null;
+            Bindings = new Dictionary<int, List<Binding>>();
             Cleanup();
             base.OnStop();
         }

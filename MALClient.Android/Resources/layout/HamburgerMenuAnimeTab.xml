@@ -1,0 +1,30 @@
+﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+      <LinearLayout android:id="@+id/HamburgerMenuAnimeListButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="?android:selectableItemBackground">
+            <ImageView android:layout_width="wrap_content" android:layout_marginRight="5dp" android:layout_height="wrap_content" android:src="@drawable/icon_list"/>
+            <TextView android:layout_width="wrap_content" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Anime list" android:layout_gravity="center"/>
+      </LinearLayout>
+      <LinearLayout android:layout_marginTop="@dimen/HamburgerMenuItemSpacing" android:id="@+id/HamburgerMenuAnimeSearchButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="?android:selectableItemBackground">
+            <ImageView android:layout_width="wrap_content" android:layout_marginRight="5dp" android:layout_height="wrap_content" android:src="@drawable/icon_search"/>
+            <TextView android:layout_width="wrap_content" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Anime search" android:layout_gravity="center"/>
+      </LinearLayout>
+      <LinearLayout android:layout_marginTop="@dimen/HamburgerMenuItemSpacing" android:id="@+id/HamburgerMenuSeasonalAnimeButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="?android:selectableItemBackground">
+            <ImageView android:layout_width="wrap_content" android:layout_marginRight="5dp" android:layout_height="wrap_content" android:src="@drawable/icon_seasonal"/>
+            <TextView android:layout_width="wrap_content" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Seasonal anime" android:layout_gravity="center"/>
+      </LinearLayout>
+      <LinearLayout android:layout_marginTop="@dimen/HamburgerMenuItemSpacing" android:id="@+id/HamburgerMenuRecomsButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="?android:selectableItemBackground">
+            <ImageView android:layout_width="wrap_content" android:layout_marginRight="5dp" android:layout_height="wrap_content" android:src="@drawable/icon_recom"/>
+            <TextView android:layout_width="wrap_content" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Recommendations" android:layout_gravity="center"/>
+      </LinearLayout>
+      <LinearLayout android:layout_marginTop="@dimen/HamburgerMenuItemSpacing" android:id="@+id/HamburgerMenuTopAnimeButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="?android:selectableItemBackground">
+            <ImageView android:layout_width="wrap_content" android:layout_marginRight="5dp" android:layout_height="wrap_content" android:src="@drawable/icon_fav_outline"/>
+            <TextView android:layout_width="wrap_content" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Top anime" android:layout_gravity="center"/>
+      </LinearLayout>
+      <LinearLayout android:layout_marginTop="@dimen/HamburgerMenuItemSpacing" android:id="@+id/HamburgerMenuCalendarButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:background="?android:selectableItemBackground">
+            <ImageView android:layout_width="wrap_content" android:layout_marginRight="5dp"  android:layout_height="wrap_content" android:src="@drawable/icon_calendar"/>
+            <TextView android:layout_width="wrap_content" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Calendar" android:layout_gravity="center"/>
+      </LinearLayout>
+</LinearLayout>

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.Design.Widget;
+using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
@@ -13,6 +15,7 @@ using Android.Widget;
 using Com.Daimajia.Swipe;
 using Com.Daimajia.Swipe.Implments;
 using GalaSoft.MvvmLight.Ioc;
+using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -50,12 +53,31 @@ namespace MALClient.Android.Activities
                 _addedNavHandlers = true;
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
-                MainNavView.NavigationItemSelected += NavViewOnNavigationItemSelected;
+
+                HamburgerMenuPivot.Adapter = new HamburgerMenuPagerAdapter(SupportFragmentManager);
+                HamburgerMenuTabStrip.SetViewPager(HamburgerMenuPivot);
+                HamburgerMenuPivot.PageScrollStateChanged += HamburgerMenuPivotOnPageScrollStateChanged;
+                
+
 
 
                 ViewModel.Navigate(PageIndex.PageAnimeList);
             }
     
+        }
+
+        private async void HamburgerMenuPivotOnPageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs pageScrollStateChangedEventArgs)
+        {
+            if (HamburgerMenuPivot.CurrentItem == 0)
+            {
+                await Task.Delay(100);
+                HamburgerMenuPivot.SetCurrentItem(3,true);
+            }
+            else if (HamburgerMenuPivot.CurrentItem == 4)
+            {
+                await Task.Delay(100);
+                HamburgerMenuPivot.SetCurrentItem(1,true);
+            }
         }
 
         public override void OnBackPressed()

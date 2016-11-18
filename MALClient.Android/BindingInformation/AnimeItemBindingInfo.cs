@@ -232,7 +232,7 @@ namespace MALClient.Android.BindingInformation
 
 
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).BitmapOptimizations(true).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).Into(img);
 
             //InitializeMoreFlyout();
             InitializeSwipeLayout();

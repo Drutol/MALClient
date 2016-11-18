@@ -13,4 +13,5 @@
   <dimen name="ShowImageWidthMedium">130dp</dimen>
   <dimen name="ShowImageHeightMedium">175dp</dimen>
   <dimen name="IncrementDecrementButtonWidth">30dp</dimen>
+  <dimen name="HamburgerMenuItemSpacing">10dp</dimen>
 </resources>

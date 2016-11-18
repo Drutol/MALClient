@@ -30,7 +30,8 @@ namespace MALClient.Android
         {
             ImageService.Instance.Initialize(new Configuration
             {
-                FadeAnimationForCachedImages = true
+                FadeAnimationEnabled = true,
+                FadeAnimationForCachedImages = true,
             });
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();

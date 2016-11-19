@@ -13,5 +13,4 @@
   <style name="SelectableItemTheme">
     <item name="colorControlHighlight">@color/OpaqueAccentColour</item>
   </style>
-
 </resources>

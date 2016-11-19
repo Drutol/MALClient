@@ -1,12 +1,36 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single" android:menuCategory="container" android:id="@+id/HamburgerMenuUpperSection">
 
-  <group android:checkableBehavior="single">
     <item
-        android:id="@+id/MainHamburgerBtnAnimeList"
-        android:title="Anime List"/>
+        android:id="@+id/HamburgerMenuAnimeListButton"
+        android:title="Anime List"
+        android:icon="@drawable/icon_list"/>
     <item
-        android:id="@+id/MainHamburgerBtnLogIn"
-        android:title="Sign In" />
+        android:id="@+id/HamburgerMenuAnimeSearchButton"
+        android:title="Search"
+        android:icon="@drawable/icon_search"/>
+    <item
+        android:id="@+id/HamburgerMenuSeasonalAnimeButton"
+        android:title="Seasonal anime"
+        android:icon="@drawable/icon_seasonal"/>
+    <item
+        android:id="@+id/HamburgerMenuRecomsButton"
+        android:title="Recommendations"
+        android:icon="@drawable/icon_recom"/>
+    <item
+        android:id="@+id/HamburgerMenuTopAnimeButton"
+        android:title="Top anime"
+        android:icon="@drawable/icon_fav_outline">
+      <menu>
+        <group>
+          <item android:title="General"/>
+        </group>
+      </menu>
+    </item>
+    <item
+        android:id="@+id/HamburgerMenuCalendarButton"
+        android:title="Recommendations"
+        android:icon="@drawable/icon_calendar"/>
   </group>
 </menu>

@@ -45,6 +45,14 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AndroidIconics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AndroidIconics.Xamarin.Droid.2.7.0.1\lib\MonoAndroid403\AndroidIconics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FastAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastAdapter.Xamarin.Droid.1.6.0.2\lib\MonoAndroid403\FastAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FFImageLoading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
       <Private>True</Private>
@@ -67,6 +75,14 @@
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19037, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\monoandroid1\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDrawer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDrawer.Xamarin.Droid.5.3.6.2\lib\MonoAndroid403\MaterialDrawer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Materialize, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materialize.Xamarin.Droid.0.9.0.2\lib\MonoAndroid403\Materialize.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -114,7 +130,6 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
-    <Compile Include="Adapters\PagerAdapters\HamburgerMenuPagerAdapter.cs" />
     <Compile Include="BindingInformation\AnimeItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
@@ -138,9 +153,6 @@
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageReviewsTabFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
-    <Compile Include="Fragments\HamburgerMenuTabs\HamburgerMenuAnimeTab.cs" />
-    <Compile Include="Fragments\HamburgerMenuTabs\HamburgerMenuMangaTab.cs" />
-    <Compile Include="Fragments\HamburgerMenuTabs\HamburgerMenuMoreTab.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs" />
@@ -235,7 +247,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\nav_menu.xml" />
+    <AndroidResource Include="Resources\menu\nav_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_hamburger.xml" />
@@ -374,14 +388,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\progress.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\HamburgerMenu.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\HamburgerMenuAnimeTab.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_account.xml" />

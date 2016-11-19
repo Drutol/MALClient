@@ -14,13 +14,13 @@ using Android.Views;
 using Android.Widget;
 using Com.Daimajia.Swipe;
 using Com.Daimajia.Swipe.Implments;
+using Com.Mikepenz.Materialdrawer;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
-using Org.Zakariya.Flyoutmenu;
 using Fragment = Android.Support.V4.App.Fragment;
 
 namespace MALClient.Android.Activities
@@ -54,30 +54,16 @@ namespace MALClient.Android.Activities
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
 
-                HamburgerMenuPivot.Adapter = new HamburgerMenuPagerAdapter(SupportFragmentManager);
-                HamburgerMenuTabStrip.SetViewPager(HamburgerMenuPivot);
-                HamburgerMenuPivot.PageScrollStateChanged += HamburgerMenuPivotOnPageScrollStateChanged;
+                //HamburgerMenuPivot.Adapter = new HamburgerMenuPagerAdapter(SupportFragmentManager);
+                //HamburgerMenuTabStrip.SetViewPager(HamburgerMenuPivot);
+                //HamburgerMenuPivot.PageScrollStateChanged += HamburgerMenuPivotOnPageScrollStateChanged;
                 
 
-
+                
 
                 ViewModel.Navigate(PageIndex.PageAnimeList);
             }
     
-        }
-
-        private async void HamburgerMenuPivotOnPageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs pageScrollStateChangedEventArgs)
-        {
-            if (HamburgerMenuPivot.CurrentItem == 0)
-            {
-                await Task.Delay(100);
-                HamburgerMenuPivot.SetCurrentItem(3,true);
-            }
-            else if (HamburgerMenuPivot.CurrentItem == 4)
-            {
-                await Task.Delay(100);
-                HamburgerMenuPivot.SetCurrentItem(1,true);
-            }
         }
 
         public override void OnBackPressed()
@@ -93,22 +79,22 @@ namespace MALClient.Android.Activities
                 .Commit();
         }
 
-        private void NavViewOnNavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
-        {
-            e.MenuItem.SetChecked(true);
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            switch (e.MenuItem.ItemId)
-            {
-                case Resource.Id.MainHamburgerBtnLogIn:
-                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    break;
-                case Resource.Id.MainHamburgerBtnAnimeList:
-                    ViewModel.Navigate(PageIndex.PageAnimeList,null);
-                    break;
-            }
+        //private void NavViewOnNavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
+        //{
+        //    e.MenuItem.SetChecked(true);
+        //    ViewModelLocator.NavMgr.ResetMainBackNav();
+        //    switch (e.MenuItem.ItemId)
+        //    {
+        //        case Resource.Id.MainHamburgerBtnLogIn:
+        //            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+        //            break;
+        //        case Resource.Id.MainHamburgerBtnAnimeList:
+        //            ViewModel.Navigate(PageIndex.PageAnimeList,null);
+        //            break;
+        //    }
 
-            DrawerLayout.CloseDrawers();
-        }
+        //    DrawerLayout.CloseDrawers();
+        //}
 
         public double ActualWidth => 800;
         public double ActualHeight => 1200;

@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Database;
 using Android.Graphics;
 using Android.OS;
+using Android.Provider;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
@@ -21,6 +24,8 @@ using Com.Mikepenz.Materialdrawer.Model.Interfaces;
 using FFImageLoading;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
+using Java.Lang;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.XShared.Comm.Anime;
@@ -29,23 +34,96 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using Object = Java.Lang.Object;
+using SimpleCursorAdapter = Android.Support.V4.Widget.SimpleCursorAdapter;
+using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace MALClient.Android.Activities
 {
     public partial class MainActivity
     {
+        private SimpleCursorAdapter _searchSuggestionAdapter;
         private Drawer _drawer;
-        private Dictionary<int, Binding> _bindings;
+        private Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
 
         private void InitBindings()
         {
-            _bindings = new Dictionary<int, Binding>
-            {
-                {Resource.Id.MainPageCurrentStatus, this.SetBinding(() => ViewModel.CurrentStatus,() => MainPageCurrentStatus.Text)}
-            };
+            Bindings.Add(MainPageCurrentStatus.Id, new List<Binding>());
+            Bindings[MainPageCurrentStatus.Id].Add(
+                this.SetBinding(() => ViewModel.CurrentStatus,
+                    () => MainPageCurrentStatus.Text));
+
+            Bindings.Add(MainPageSearchToggleButton.Id, new List<Binding>());
+            Bindings[MainPageSearchToggleButton.Id].Add(
+                this.SetBinding(() => ViewModel.SearchToggleVisibility,
+                    () => MainPageSearchToggleButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(MainPageSearchView.Id, new List<Binding>());
+            Bindings[MainPageSearchView.Id].Add(
+                this.SetBinding(() => ViewModel.SearchInputVisibility,
+                    () => MainPageSearchView.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            ViewModel.SearchInputVisibility = true;
+            _searchSuggestionAdapter = new SimpleCursorAdapter(this as Context, Resource.Layout.StatusDialogItem,
+                null, new string[] {"hint"}, new int[]
+                {
+                    Resource.Id.StatusDialogItemTextView
+                });
+            MainPageSearchView.SuggestionsAdapter = _searchSuggestionAdapter;
+            MainPageSearchView.QueryTextChange += MainPageSearchViewOnQueryTextChange;
+            MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
+
+            ViewModel.SearchToggleStatus = true;
             MainPageHamburgerButton.Click +=  MainPageHamburgerButtonOnClick;      
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             BuildDrawer();     
             _drawer.OnDrawerItemClickListener = new HamburgerItemClickListener(OnHamburgerItemClick); 
+        }
+
+        private void MainPageSearchToggleButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.SearchToggleStatus = !ViewModel.SearchToggleStatus;
+        }
+
+        private void MainPageSearchViewOnQueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs queryTextSubmitEventArgs)
+        {
+            ViewModel.OnSearchInputSubmit();
+        }
+
+        private void MainPageSearchViewOnQueryTextChange(object sender, SearchView.QueryTextChangeEventArgs queryTextChangeEventArgs)
+        {
+            ViewModel.CurrentSearchQuery = queryTextChangeEventArgs.NewText;
+            queryTextChangeEventArgs.Handled = true;
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ViewModel.SearchToggleStatus):
+                    if(ViewModel.SearchToggleStatus)
+                        MainPageSearchView.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
+                    else
+                        MainPageSearchView.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
+                    break;
+                case nameof(ViewModel.SearchToggleLock):
+
+                    break;
+                case nameof(ViewModel.CurrentHintSet):
+                    UpdateSearchSuggestions();
+                    break;
+            }
+        }
+
+        private void UpdateSearchSuggestions()
+        {
+            var matrix = new MatrixCursor(new string[] {BaseColumns.Id,"hint"});
+            int i = 0;
+            foreach (var hint in ViewModel.CurrentHintSet)
+            {
+                matrix.AddRow(new Object[] {i,hint});
+            }
+            _searchSuggestionAdapter.ChangeCursor(matrix);
         }
 
         private void OnHamburgerItemClick(View view, int i, IDrawerItem arg3)
@@ -57,199 +135,35 @@ namespace MALClient.Android.Activities
             _drawer.SetSelection(arg3, false);
         }
 
-        private object GetAppropriateArgsForPage(PageIndex page)
-        {
-            switch (page)
-            {
-                case PageIndex.PageSeasonal:
-                    return AnimeListPageNavigationArgs.Seasonal;
-                case PageIndex.PageMangaList:
-                    return AnimeListPageNavigationArgs.Manga;
-                case PageIndex.PageMangaSearch:
-                    return new SearchPageNavigationArgs { Anime = false };
-                case PageIndex.PageSearch:
-                    return new SearchPageNavigationArgs();
-                case PageIndex.PageTopAnime:
-                    return AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General);
-                case PageIndex.PageTopManga:
-                    return AnimeListPageNavigationArgs.TopManga;
-                case PageIndex.PageArticles:
-                    return MalArticlesPageNavigationArgs.Articles;
-                case PageIndex.PageNews:
-                    return MalArticlesPageNavigationArgs.News;
-                case PageIndex.PageProfile:
-                    return new ProfilePageNavigationArgs { TargetUser = Credentials.UserName };
-                case PageIndex.PageWallpapers:
-                    return new WallpaperPageNavigationArgs();
-                default:
-                    return null;
-            }
-        }
+
 
         private void MainPageHamburgerButtonOnClick(object sender, EventArgs eventArgs)
         {
             _drawer.OpenDrawer();
         }
 
-        private PrimaryDrawerItem GetBasePrimaryItem()
-        {
-            var btn = new PrimaryDrawerItem();
-            btn.WithIconTintingEnabled(true);
-            btn.WithTextColorRes(Resource.Color.BrushText);
-            btn.WithIconColorRes(Resource.Color.BrushNoSearchResults);
-            btn.WithSelectedColorRes(Resource.Color.BrushAnimeItemBackground);
-            btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-            btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
-            return btn;
-        }
-
-        private SecondaryDrawerItem GetBaseSecondaryItem()
-        {
-            var btn = new SecondaryDrawerItem();
-            btn.WithIconTintingEnabled(true);
-            btn.WithTextColorRes(Resource.Color.BrushText);
-            btn.WithIconColorRes(Resource.Color.BrushNoSearchResults);
-            btn.WithSelectedColorRes(Resource.Color.BrushAnimeItemBackground);
-            btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-            btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
-            return btn;
-        }
-
-        private async void BuildDrawer()
-        {
-            var builder = new DrawerBuilder().WithActivity(this);
-            builder.WithSliderBackgroundColorRes(Resource.Color.BrushHamburgerBackground);
-            builder.WithStickyFooterShadow(true);
 
 
-            var animeButton = GetBasePrimaryItem();
-            animeButton.WithName("Anime list");
-            animeButton.WithIdentifier((int) PageIndex.PageAnimeList);
-            animeButton.WithIcon(Resource.Drawable.icon_list);
-
-            var searchButton = GetBasePrimaryItem();
-            searchButton.WithName("Anime search");
-            searchButton.WithIdentifier((int)PageIndex.PageSearch);
-            searchButton.WithIcon(Resource.Drawable.icon_search);
-
-            var seasonalButton = GetBasePrimaryItem();
-            seasonalButton.WithName("Seasonal anime");
-            seasonalButton.WithIdentifier((int)PageIndex.PageSeasonal);
-            seasonalButton.WithIcon(Resource.Drawable.icon_seasonal);
-
-            var recomButton = GetBasePrimaryItem();
-            recomButton.WithName("Recommendations");
-            recomButton.WithIdentifier((int)PageIndex.PageRecomendations);
-            recomButton.WithIcon(Resource.Drawable.icon_recom);
-
-            var topAnimeButton = GetBasePrimaryItem();
-            topAnimeButton.WithName("Top anime");
-            topAnimeButton.WithIdentifier((int)PageIndex.PageTopAnime);
-            topAnimeButton.WithIcon(Resource.Drawable.icon_fav_outline);
-
-            var calendarButton = GetBasePrimaryItem();
-            calendarButton.WithName("Calendar");
-            calendarButton.WithIdentifier((int)PageIndex.PageCalendar);
-            calendarButton.WithIcon(Resource.Drawable.icon_calendar);
-
-            //
-
-            var mangaListButton = GetBaseSecondaryItem();
-            mangaListButton.WithName("Manga list");
-            mangaListButton.WithIdentifier((int) PageIndex.PageMangaList);
-            mangaListButton.WithIcon(Resource.Drawable.icon_books);
-
-            var mangaSearchButton = GetBaseSecondaryItem();
-            mangaSearchButton.WithName("Manga search");
-            mangaSearchButton.WithIdentifier((int)PageIndex.PageMangaSearch);
-            mangaSearchButton.WithIcon(Resource.Drawable.icon_search);
-
-            var topMangaButton = GetBaseSecondaryItem();
-            topMangaButton.WithName("Top manga");
-            topMangaButton.WithIdentifier((int)PageIndex.PageTopManga);
-            topMangaButton.WithIcon(Resource.Drawable.icon_fav_outline);
-
-            //
-
-            IDrawerItem accountButton;
-            if (Credentials.Authenticated)
-            {
-                var btn = new ProfileDrawerItem();
-                btn.WithName("Account");
-                btn.WithTextColorRes(Resource.Color.BrushText);
-                btn.WithSelectedColorRes(Resource.Color.BrushAnimeItemBackground);
-                btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-                btn.WithIdentifier((int) PageIndex.PageProfile);
-                btn.WithIcon(Resource.Drawable.icon_account);
-                accountButton = btn;
-            }
-            else
-            {
-                var btn = GetBaseSecondaryItem();
-                btn.WithName("Sign in");
-                btn.WithIdentifier((int) PageIndex.PageLogIn);
-                btn.WithIcon(Resource.Drawable.icon_login);
-                accountButton = btn;
-            }
-
-            var settingsButton = GetBaseSecondaryItem();
-            settingsButton.WithName("Settings & more");
-            settingsButton.WithIdentifier((int)PageIndex.PageSettings);
-            settingsButton.WithIcon(Resource.Drawable.icon_settings);
-
-
-            
-            builder.AddStickyDrawerItems(accountButton, settingsButton);
-
-
-            //
-
-            var mangaSubHeader = new SectionDrawerItem();
-            mangaSubHeader.WithName("Manga");
-            mangaSubHeader.WithDivider(true);
-            mangaSubHeader.WithTextColorRes(Resource.Color.BrushText);
-
-            builder.WithDrawerItems(new List<IDrawerItem>()
-            {
-                animeButton,
-                searchButton,
-                seasonalButton,
-                recomButton,
-                topAnimeButton,
-                calendarButton,
-                mangaSubHeader,//
-                mangaListButton,
-                mangaSearchButton,
-                topMangaButton,
-            });
-
-            _drawer = builder.Build();
-            _drawer.StickyFooter.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
-
-            if (Credentials.Authenticated)
-            {
-                var bmp = await ImageService.Instance.LoadUrl(
-                        $"https://myanimelist.cdn-dena.com/images/userimages/4952914.jpg")
-                    .AsBitmapDrawableAsync();
-                var btn = accountButton as ProfileDrawerItem;
-                btn.WithIcon(bmp);
-                _drawer.UpdateStickyFooterItem(btn);
-            }
-        }
-
-
-        private TextView _mainPageCurrentStatus;
-        private FrameLayout _mainContentFrame;
 
         private ImageButton _mainPageHamburgerButton;
+        private TextView _mainPageCurrentStatus;
+        private SearchView _mainPageSearchView;
+        private ImageButton _mainPageSearchToggleButton;
+        private FrameLayout _mainContentFrame;
 
         public ImageButton MainPageHamburgerButton => _mainPageHamburgerButton ?? (_mainPageHamburgerButton = FindViewById<ImageButton>(Resource.Id.MainPageHamburgerButton));
 
         public TextView MainPageCurrentStatus => _mainPageCurrentStatus ?? (_mainPageCurrentStatus = FindViewById<TextView>(Resource.Id.MainPageCurrentStatus));
 
+        public SearchView MainPageSearchView => _mainPageSearchView ?? (_mainPageSearchView = FindViewById<SearchView>(Resource.Id.MainPageSearchView));
+
+        public ImageButton MainPageSearchToggleButton => _mainPageSearchToggleButton ?? (_mainPageSearchToggleButton = FindViewById<ImageButton>(Resource.Id.MainPageSearchToggleButton));
+
         public FrameLayout MainContentFrame => _mainContentFrame ?? (_mainContentFrame = FindViewById<FrameLayout>(Resource.Id.MainContentFrame));
 
-       
+
+
+
 
 
     }

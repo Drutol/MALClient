@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.Design.Widget;
@@ -17,6 +18,7 @@ using Com.Daimajia.Swipe.Implments;
 using Com.Mikepenz.Materialdrawer;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Android.Adapters.PagerAdapters;
+using MALClient.Android.Fragments;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -26,8 +28,8 @@ using Fragment = Android.Support.V4.App.Fragment;
 namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient", MainLauncher = true, 
-        Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait,
-        Theme = "@style/Theme.AppCompat.NoActionBar")]
+        Icon = "@drawable/icon", /*ScreenOrientation = ScreenOrientation.Portrait,*/
+        Theme = "@style/Theme.AppCompat.NoActionBar",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
         public static Activity CurrentContext { get; private set; }
@@ -35,6 +37,7 @@ namespace MALClient.Android.Activities
         private static bool _addedNavHandlers;
 
         private MainViewModel _viewModel;
+        private MalFragmentBase _lastPage;
         private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
 
         public MainActivity()
@@ -66,6 +69,11 @@ namespace MALClient.Android.Activities
     
         }
 
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            base.OnConfigurationChanged(newConfig);
+        }
+
         public override void OnBackPressed()
         {
             ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
@@ -73,6 +81,7 @@ namespace MALClient.Android.Activities
 
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
+            _lastPage = fragment as MalFragmentBase;
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.MainContentFrame, fragment)
                 .SetCustomAnimations(Resource.Animation.abc_popup_enter, Resource.Animation.abc_fade_out)

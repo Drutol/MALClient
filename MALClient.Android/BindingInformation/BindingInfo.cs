@@ -29,8 +29,10 @@ namespace MALClient.Android.CollectionAdapters
             get { return _container; }
             set
             {
+                
                 Detach();
                 _container = value;
+
                 InitOneTimeBindings();
                 InitBindings();
             }

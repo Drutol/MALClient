@@ -50,15 +50,12 @@ namespace MALClient.Android.Fragments
             AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
             AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
             AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
+
             AnimeListPageGridView.ItemClick += AnimeListPageGridViewOnItemClick;
+            AnimeListPageListView.ItemClick += AnimeListPageGridViewOnItemClick;
         }
 
-        private async void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
-        {
-            await Task.Delay(100); //let's behold this ripple effect
-            var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
-            adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
-        }
+
 
         private void ShowSortMenu()
         {

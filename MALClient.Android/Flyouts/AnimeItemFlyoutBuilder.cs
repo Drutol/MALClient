@@ -17,7 +17,7 @@ namespace MALClient.Android.Flyouts
     public static class AnimeItemFlyoutBuilder
     {
 
-        public static DroppyMenuPopup BuildForAnimeGridItem(Context context, View parent, AnimeItemViewModel viewModel, Action<AnimeGridItemMoreFlyoutButtons> callback)
+        public static DroppyMenuPopup BuildForAnimeItem(Context context, View parent, AnimeItemViewModel viewModel, Action<AnimeGridItemMoreFlyoutButtons> callback,bool forceSmall = false)
         {
             AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(300, 75);
 
@@ -29,7 +29,7 @@ namespace MALClient.Android.Flyouts
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy to clipboard", listener, 0)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 1)));
-            if (viewModel.Auth)
+            if (!forceSmall && viewModel.Auth)
             {
                 droppyBuilder.AddSeparator();
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Set status", listener, 2)));

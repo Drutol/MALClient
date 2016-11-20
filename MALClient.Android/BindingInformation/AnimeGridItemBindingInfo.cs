@@ -107,7 +107,7 @@ namespace MALClient.Android.BindingInformation
 
         private void AnimeGridItemMoreButtonOnClick(object sender, EventArgs eventArgs)
         {
-            _menu = AnimeItemFlyoutBuilder.BuildForAnimeGridItem(MainActivity.CurrentContext, AnimeGridItemMoreButton,
+            _menu = AnimeItemFlyoutBuilder.BuildForAnimeItem(MainActivity.CurrentContext, AnimeGridItemMoreButton,
                 ViewModel,
                 MenuOnMenuItemClick);
             _menu.Show();

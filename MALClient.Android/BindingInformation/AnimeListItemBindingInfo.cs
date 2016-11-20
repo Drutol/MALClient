@@ -9,16 +9,24 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Shehabic.Droppy;
 using FFImageLoading;
 using FFImageLoading.Views;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Android.CollectionAdapters;
 using MALClient.XShared.ViewModels;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Activities;
+using MALClient.Android.BindingConverters;
+using MALClient.Android.DIalogs;
+using MALClient.Android.Flyouts;
 
 namespace MALClient.Android.BindingInformation
 {
     class AnimeListItemBindingInfo : BindingInfo<AnimeItemViewModel>
     {
+        private DroppyMenuPopup _menu;
+
         public AnimeListItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel)
         {
         }
@@ -46,8 +54,72 @@ namespace MALClient.Android.BindingInformation
                 AnimeListItemStatusButton,
                 () => AnimeListItemStatusButton.Text));
 
+            Bindings.Add(AnimeListItemIncButton.Id, new List<Binding>());
+            Bindings[AnimeListItemIncButton.Id].Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.IncrementEpsVisibility,
+                AnimeListItemIncButton,
+                () => AnimeListItemIncButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            Bindings.Add(AnimeListItemDecButton.Id, new List<Binding>());
+            Bindings[AnimeListItemDecButton.Id].Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.DecrementEpsVisibility,
+                AnimeListItemDecButton,
+                () => AnimeListItemDecButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(AnimeListItemStatusScoreSection.Id, new List<Binding>());
+            Bindings[AnimeListItemStatusScoreSection.Id].Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.Auth,
+                AnimeListItemStatusScoreSection,
+                () => AnimeListItemStatusScoreSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+
+
+            AnimeListItemMoreButton.Click += AnimeListItemMoreButtonOnClick;
+            AnimeListItemWatchedButton.SetCommand("Click",new RelayCommand(ShowWatchedDialog));
+            AnimeListItemStatusButton.SetCommand("Click",new RelayCommand(ShowStatusDialog));
+            AnimeListItemScoreButton.SetCommand("Click",new RelayCommand(ShowRatingDialog));
+
+            AnimeListItemIncButton.SetCommand("Click",ViewModel.IncrementWatchedCommand);
+            AnimeListItemDecButton.SetCommand("Click",ViewModel.DecrementWatchedCommand);
         }
+
+        private void AnimeListItemMoreButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            _menu = AnimeItemFlyoutBuilder.BuildForAnimeItem(MainActivity.CurrentContext, AnimeListItemMoreButton, null,
+                OnMoreFlyoutSelection, true);
+            _menu.Show();
+        }
+
+        private void OnMoreFlyoutSelection(AnimeGridItemMoreFlyoutButtons animeGridItemMoreFlyoutButtons)
+        {
+            switch (animeGridItemMoreFlyoutButtons)
+            {
+                case AnimeGridItemMoreFlyoutButtons.CopyLink:
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.OpenInBrowser:
+                    break;           
+            }
+            _menu.Dismiss(true);
+        }
+
+        #region Dialogs
+
+        private void ShowStatusDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+        }
+        private void ShowWatchedDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+        }
+        private void ShowRatingDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+        }
+        #endregion
 
         protected override void InitOneTimeBindings()
         {
@@ -58,7 +130,8 @@ namespace MALClient.Android.BindingInformation
 
         protected override void DetachInnerBindings()
         {
-            
+            if (_animeListItemMoreButton != null)
+                _animeListItemMoreButton.Click -= AnimeListItemMoreButtonOnClick;
         }
 
         #region Views
@@ -76,6 +149,7 @@ namespace MALClient.Android.BindingInformation
         private ImageButton _animeListItemIncButton;
         private ImageButton _animeListItemDecButton;
         private LinearLayout _animeListItemIncDecSection;
+
 
         public ImageViewAsync AnimeListItemImage => _animeListItemImage ?? (_animeListItemImage = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeListItemImage));
 

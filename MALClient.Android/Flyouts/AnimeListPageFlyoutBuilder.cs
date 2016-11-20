@@ -34,12 +34,12 @@ namespace MALClient.Android.Flyouts
         SetWatched
     }
 
-    public static class DroppyFlyoutBuilder
+    public static class AnimeListPageFlyoutBuilder
     {
-        private static readonly RelativeLayout.LayoutParams ParamTextView;
-        private static ViewGroup.LayoutParams ParamRelativeLayout;
+        public static RelativeLayout.LayoutParams ParamTextView { get; }
+        public static ViewGroup.LayoutParams ParamRelativeLayout { get; set; }
 
-        static DroppyFlyoutBuilder()
+        static AnimeListPageFlyoutBuilder()
         {
             ParamTextView = new RelativeLayout.LayoutParams(-1,-2); //wrap content
             ParamTextView.AddRule(LayoutRules.AlignParentLeft);
@@ -47,7 +47,7 @@ namespace MALClient.Android.Flyouts
             ParamTextView.LeftMargin = 10;
         }
 
-        private static void InjectAnimation(DroppyMenuPopup.Builder builder)
+        public static void InjectAnimation(DroppyMenuPopup.Builder builder)
         {
             builder.SetPopupAnimation(new DroppyFadeInAnimation());
             builder.TriggerOnAnchorClick(false);
@@ -55,7 +55,7 @@ namespace MALClient.Android.Flyouts
             builder.SetYOffset(5);
         }
 
-        private static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null)
+        public static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null)
         {
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
@@ -82,28 +82,7 @@ namespace MALClient.Android.Flyouts
             return top;
         }
 
-        public static DroppyMenuPopup BuildForAnimeGridItem(Context context,View parent,AnimeItemViewModel viewModel,Action<AnimeGridItemMoreFlyoutButtons> callback)
-        {
-            ParamRelativeLayout = new ViewGroup.LayoutParams(300, 75);
-
-            var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
-            InjectAnimation(droppyBuilder);
-
-
-            var listener = new Action<int>(i => callback.Invoke((AnimeGridItemMoreFlyoutButtons) i));
-
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(BuildItem(context, "Copy to clipboard",listener,0)));
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(BuildItem(context, "Open in browser", listener, 1)));
-            if (viewModel.Auth)
-            {
-                droppyBuilder.AddSeparator();
-                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(BuildItem(context, "Set status", listener, 2)));
-                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(BuildItem(context, "Set score", listener, 3)));
-                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(BuildItem(context,"Set watched", listener, 4)));
-            }
-                   
-            return droppyBuilder.Build();
-        }
+        
 
         public static DroppyMenuPopup BuildForAnimeStatusSelection(Context context, View parent,
             Action<AnimeStatus> callback,AnimeStatus currentStatus,bool manga)
@@ -153,5 +132,30 @@ namespace MALClient.Android.Flyouts
 
             return droppyBuilder.Build();
         }
-    }
+
+        public static DroppyMenuPopup BuildForAnimeListDisplayModeSelection(Context context, View parent,IEnumerable<Tuple<AnimeListDisplayModes,string>> items,
+            Action<AnimeListDisplayModes> callback, AnimeListDisplayModes currentMode)
+        {
+            ParamRelativeLayout = new ViewGroup.LayoutParams(300, 70);
+
+            var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
+            InjectAnimation(droppyBuilder);
+
+
+            var listener = new Action<int>(i => callback.Invoke((AnimeListDisplayModes)i));
+
+            foreach (var item in items)
+            {
+                if (item.Item1 == currentMode)
+                    droppyBuilder.AddMenuItem(
+                        new DroppyMenuCustomItem(BuildItem(context, item.Item2, listener, (int)item.Item1,
+                            ResourceExtension.BrushSelectedDialogItem, ResourceExtension.AccentColour)));
+                else //highlighted
+                    droppyBuilder.AddMenuItem(
+                        new DroppyMenuCustomItem(BuildItem(context, item.Item2, listener, (int)item.Item1)));
+            }
+
+            return droppyBuilder.Build();
+        }
+    }    
 }

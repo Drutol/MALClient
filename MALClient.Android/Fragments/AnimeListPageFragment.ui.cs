@@ -17,7 +17,9 @@ using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
+using MALClient.Android.Adapters.CollectionAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -32,6 +34,7 @@ namespace MALClient.Android.Fragments
     {
         private DroppyMenuPopup _sortingMenu;
         private DroppyMenuPopup _filterMenu;
+        private DroppyMenuPopup _displayMenu;
 
         protected override void InitBindings()
         {
@@ -46,19 +49,20 @@ namespace MALClient.Android.Fragments
             AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
             AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
             AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
+            AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
             AnimeListPageGridView.ItemClick += AnimeListPageGridViewOnItemClick;
         }
 
         private async void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            await Task.Delay(200); //let's behold this ripple effect
+            await Task.Delay(100); //let's behold this ripple effect
             var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
             adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
         }
 
         private void ShowSortMenu()
         {
-            _sortingMenu = DroppyFlyoutBuilder.BuildForAnimeSortingSelection(MainActivity.CurrentContext,
+            _sortingMenu = AnimeListPageFlyoutBuilder.BuildForAnimeSortingSelection(MainActivity.CurrentContext,
                 AnimeListPageSortMenu,
                 OnSortingMenuSelectionChanged, ViewModel.SortOption);
             _sortingMenu.Show();
@@ -66,10 +70,24 @@ namespace MALClient.Android.Fragments
 
         private void ShowFilterMenu()
         {
-            _filterMenu = DroppyFlyoutBuilder.BuildForAnimeStatusSelection(MainActivity.CurrentContext,
+            _filterMenu = AnimeListPageFlyoutBuilder.BuildForAnimeStatusSelection(MainActivity.CurrentContext,
                 AnimeListPageFilterMenu,
                 OnFilterMenuSelectionChanged, (AnimeStatus) ViewModel.CurrentStatus,ViewModel.IsMangaWorkMode);
             _filterMenu.Show();
+        }
+
+        private void ShowDisplayMenu()
+        {
+            _displayMenu = AnimeListPageFlyoutBuilder.BuildForAnimeListDisplayModeSelection(MainActivity.CurrentContext,
+                AnimeListPageDisplayMenu, ViewModel.DisplayModes, OnDisplayModeSelectionChanged, ViewModel.DisplayMode);
+            _displayMenu.Show();
+        }
+
+        private void OnDisplayModeSelectionChanged(AnimeListDisplayModes animeListDisplayModes)
+        {
+            ViewModel.CurrentlySelectedDisplayMode = new Tuple<AnimeListDisplayModes, string>(animeListDisplayModes,"");
+            _displayMenu.Dismiss(true);
+            _displayMenu = null;
         }
 
         private void OnSortingMenuSelectionChanged(SortOptions option)
@@ -88,30 +106,93 @@ namespace MALClient.Android.Fragments
             _filterMenu = null;
         }
 
-        private async void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeGridItems))
             {
-                if(ViewModelLocator.AnimeList.AnimeGridItems != null)
-                    AnimeListPageGridView.Adapter = new AnimeListItemsAdapter(Context as Activity, Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems);
+                if (ViewModelLocator.AnimeList.AnimeGridItems != null)
+                {
+                    AnimeListPageGridView.Adapter = new AnimeListItemsAdapter(Context as Activity,
+                        Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems,(model, view) => new AnimeGridItemBindingInfo(view,model));
+
+                    AnimeListPageListView.Adapter = null;
+                    AnimeListPageCompactListView.Adapter = null;
+                }
+            }
+            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeListItems))
+            {
+                if (ViewModelLocator.AnimeList.AnimeListItems != null)
+                {
+                    AnimeListPageListView.Adapter = new AnimeListItemsAdapter(Context as Activity,
+                        Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,(model, view) => new AnimeListItemBindingInfo(view,model));
+
+                    AnimeListPageGridView.Adapter = null;
+                    AnimeListPageCompactListView.Adapter = null;
+                }
+            }
+            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeCompactItems))
+            {
+                if (ViewModelLocator.AnimeList.AnimeCompactItems != null)
+                {
+                    //AnimeListPageCompactListView.Adapter = new AnimeListItemsAdapter(Context as Activity,
+                    //    Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeCompactItems);
+
+                    AnimeListPageListView.Adapter = null;
+                    AnimeListPageGridView.Adapter = null;
+                }
+            }
+            else if(propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplayMode))
+            {
+                switch (ViewModel.DisplayMode)
+                {
+                    case AnimeListDisplayModes.IndefiniteList:
+                        AnimeListPageListView.Visibility = ViewStates.Visible;
+
+                        AnimeListPageGridView.Visibility = ViewStates.Gone;
+                        AnimeListPageCompactListView.Visibility = ViewStates.Gone;
+                        break;
+                    case AnimeListDisplayModes.IndefiniteGrid:
+                        AnimeListPageGridView.Visibility = ViewStates.Visible;
+
+                        AnimeListPageListView.Visibility = ViewStates.Gone;
+                        AnimeListPageCompactListView.Visibility = ViewStates.Gone;
+                        break;
+                    case AnimeListDisplayModes.IndefiniteCompactList:
+                        AnimeListPageCompactListView.Visibility = ViewStates.Visible;
+
+                        AnimeListPageListView.Visibility = ViewStates.Gone;
+                        AnimeListPageGridView.Visibility = ViewStates.Gone;
+                        break;
+                }
             }
         }
 
         private GridView _animeListPageGridView;
+        private ListView _animeListPageListView;
+        private ListView _animeListPageCompactListView;
         private ProgressBar _animeListPageLoadingSpinner;
         private ImageButton _animeListPageReloadButton;
+        private ImageButton _animeListPageDisplayMenu;
         private ImageButton _animeListPageFilterMenu;
         private ImageButton _animeListPageSortMenu;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
 
+        public ListView AnimeListPageListView => _animeListPageListView ?? (_animeListPageListView = FindViewById<ListView>(Resource.Id.AnimeListPageListView));
+
+        public ListView AnimeListPageCompactListView => _animeListPageCompactListView ?? (_animeListPageCompactListView = FindViewById<ListView>(Resource.Id.AnimeListPageCompactListView));
+
         public ProgressBar AnimeListPageLoadingSpinner => _animeListPageLoadingSpinner ?? (_animeListPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeListPageLoadingSpinner));
 
         public ImageButton AnimeListPageReloadButton => _animeListPageReloadButton ?? (_animeListPageReloadButton = FindViewById<ImageButton>(Resource.Id.AnimeListPageReloadButton));
 
+        public ImageButton AnimeListPageDisplayMenu => _animeListPageDisplayMenu ?? (_animeListPageDisplayMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageDisplayMenu));
+
         public ImageButton AnimeListPageFilterMenu => _animeListPageFilterMenu ?? (_animeListPageFilterMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageFilterMenu));
 
         public ImageButton AnimeListPageSortMenu => _animeListPageSortMenu ?? (_animeListPageSortMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageSortMenu));
+
+
 
 
 

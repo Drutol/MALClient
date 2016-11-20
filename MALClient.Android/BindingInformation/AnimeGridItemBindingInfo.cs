@@ -35,7 +35,7 @@ using Object = Java.Lang.Object;
 
 namespace MALClient.Android.BindingInformation
 {
-    public class AnimeItemBindingInfo : BindingInfo<AnimeItemViewModel>
+    public class AnimeGridItemBindingInfo : BindingInfo<AnimeItemViewModel>
     {
         private bool _bindingsInitialized;
         private bool _oneTimeBindingsInitialized;
@@ -44,7 +44,7 @@ namespace MALClient.Android.BindingInformation
         private DroppyMenuPopup _menu;
         private SwipeLayoutListener _swipeListener;
 
-        public AnimeItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel) {}
+        public AnimeGridItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel) {}
 
         protected override void InitBindings()
         {
@@ -107,11 +107,7 @@ namespace MALClient.Android.BindingInformation
 
         private void AnimeGridItemMoreButtonOnClick(object sender, EventArgs eventArgs)
         {
-            //var menu = new PopupMenu(MainActivity.CurrentContext,sender as View);
-            //menu.MenuInflater.Inflate(Resource.Menu.griditem_more_menu,menu.Menu);
-            //menu.MenuItemClick += MenuOnMenuItemClick;
-            //menu.Show();
-            _menu = DroppyFlyoutBuilder.BuildForAnimeGridItem(MainActivity.CurrentContext, AnimeGridItemMoreButton,
+            _menu = AnimeItemFlyoutBuilder.BuildForAnimeGridItem(MainActivity.CurrentContext, AnimeGridItemMoreButton,
                 ViewModel,
                 MenuOnMenuItemClick);
             _menu.Show();
@@ -232,7 +228,7 @@ namespace MALClient.Android.BindingInformation
 
 
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl, TimeSpan.FromDays(7)).FadeAnimation(true,true).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(true,true).Into(img);
 
             //InitializeMoreFlyout();
             InitializeSwipeLayout();

@@ -28,11 +28,12 @@ namespace MALClient.Android
 
         public override void OnCreate()
         {
-            ImageService.Instance.Initialize(new Configuration
-            {
-                FadeAnimationEnabled = true,
-                FadeAnimationForCachedImages = true,
-            });
+            //ImageService.Instance.Initialize(new Configuration
+            //{
+            //    FadeAnimationEnabled = true,
+            //    FadeAnimationForCachedImages = true,
+            //    FadeAnimationDuration = 200,
+            //});
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             Credentials.Init();

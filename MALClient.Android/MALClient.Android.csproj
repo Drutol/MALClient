@@ -18,7 +18,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -130,8 +130,9 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
-    <Compile Include="BindingInformation\AnimeItemBindingInfo.cs" />
+    <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
+    <Compile Include="BindingInformation\AnimeListItemBindingInfo.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
@@ -139,9 +140,10 @@
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
+    <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
-    <Compile Include="Flyouts\DroppyFlyoutBuilder.cs" />
+    <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs" />
@@ -419,6 +421,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_login.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_eye.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeListItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

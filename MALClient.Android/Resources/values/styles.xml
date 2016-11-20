@@ -13,4 +13,15 @@
   <style name="SelectableItemTheme">
     <item name="colorControlHighlight">@color/OpaqueAccentColour</item>
   </style>
+
+  <style name="AccentColourButtonStyle">
+    <item name="android:background">@color/AccentColourDark</item>
+    <item name="android:fontFamily">@string/font_family_light</item>
+    <item name="android:textColor">#fff</item>
+    <item name="android:textSize">@dimen/FontSizeSmall</item>
+    <item name="android:padding">5dp</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:minWidth">20dp</item>
+    <item name="android:minHeight">20dp</item>
+  </style>
 </resources>

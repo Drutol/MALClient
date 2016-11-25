@@ -14,6 +14,7 @@ using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
@@ -43,6 +44,7 @@ namespace MALClient.Android.Activities
     public partial class MainActivity
     {
         private SimpleCursorAdapter _searchSuggestionAdapter;
+        private View _searchFrame;
         private Drawer _drawer;
         private Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
 
@@ -53,31 +55,67 @@ namespace MALClient.Android.Activities
                 this.SetBinding(() => ViewModel.CurrentStatus,
                     () => MainPageCurrentStatus.Text));
 
-            Bindings.Add(MainPageSearchToggleButton.Id, new List<Binding>());
-            Bindings[MainPageSearchToggleButton.Id].Add(
-                this.SetBinding(() => ViewModel.SearchToggleVisibility,
-                    () => MainPageSearchToggleButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            Bindings.Add(MainPageRefreshButton.Id, new List<Binding>());
+            Bindings[MainPageRefreshButton.Id].Add(
+                this.SetBinding(() => ViewModel.RefreshButtonVisibility,
+                    () => MainPageRefreshButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             Bindings.Add(MainPageSearchView.Id, new List<Binding>());
             Bindings[MainPageSearchView.Id].Add(
                 this.SetBinding(() => ViewModel.SearchInputVisibility,
                     () => MainPageSearchView.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);
+           
+            //MainPageSearchView.LayoutChange += MainPageSearchViewOnLayoutChange;
+
+            //var padding = (int)(11*Resources.DisplayMetrics.Density);
+            //searchBtn.SetScaleType(ImageView.ScaleType.FitEnd);
+            //searchBtn.SetPadding(padding, padding, padding, padding);
+            var observer = _searchFrame.ViewTreeObserver;
+            observer.GlobalLayout += (sender, args) =>
+            {
+                MainPageCurrentStatus.Visibility = Converters.VisibilityInverterConverter(_searchFrame.Visibility);
+                var param = MainPageSearchView.LayoutParameters as LinearLayout.LayoutParams;
+                if (_searchFrame.Visibility == ViewStates.Visible)
+                {
+                    param.Width = ActionBar.LayoutParams.WrapContent;
+                    param.Weight = 1;
+                }
+                else
+                {
+                    param.Width = (int)DimensionsHelper.DpToPx(50);
+                    param.Weight = 0;
+                }
+            };
+                    
 
             ViewModel.SearchInputVisibility = true;
-            _searchSuggestionAdapter = new SimpleCursorAdapter(this as Context, Resource.Layout.StatusDialogItem,
+            _searchSuggestionAdapter = new SimpleCursorAdapter(this, Resource.Layout.SuggestionItem,
                 null, new string[] {"hint"}, new int[]
                 {
-                    Resource.Id.StatusDialogItemTextView
+                    Resource.Id.SuggestionItemTextView
                 });
+
+
             MainPageSearchView.SuggestionsAdapter = _searchSuggestionAdapter;
             MainPageSearchView.QueryTextChange += MainPageSearchViewOnQueryTextChange;
             MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
+            MainPageSearchView.SuggestionClick += MainPageSearchViewOnSuggestionClick;
+            MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
+            MainPageSearchView.Visibility = ViewStates.Visible;
+
 
             ViewModel.SearchToggleStatus = true;
             MainPageHamburgerButton.Click +=  MainPageHamburgerButtonOnClick;      
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             BuildDrawer();     
             _drawer.OnDrawerItemClickListener = new HamburgerItemClickListener(OnHamburgerItemClick); 
+        }
+
+        private void MainPageSearchViewOnSuggestionClick(object sender, SearchView.SuggestionClickEventArgs suggestionClickEventArgs)
+        {
+            MainPageSearchView.SetQuery(ViewModel.CurrentHintSet[suggestionClickEventArgs.Position],true);
+            MainPageSearchView.ClearFocus();
         }
 
         private void MainPageSearchToggleButtonOnClick(object sender, EventArgs eventArgs)
@@ -88,6 +126,7 @@ namespace MALClient.Android.Activities
         private void MainPageSearchViewOnQueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs queryTextSubmitEventArgs)
         {
             ViewModel.OnSearchInputSubmit();
+            MainPageSearchView.ClearFocus();
         }
 
         private void MainPageSearchViewOnQueryTextChange(object sender, SearchView.QueryTextChangeEventArgs queryTextChangeEventArgs)
@@ -119,7 +158,7 @@ namespace MALClient.Android.Activities
         {
             var matrix = new MatrixCursor(new string[] {BaseColumns.Id,"hint"});
             int i = 0;
-            foreach (var hint in ViewModel.CurrentHintSet)
+            foreach (var hint in ViewModel.CurrentHintSet.Where(s => s != MainPageSearchView.Query))
             {
                 matrix.AddRow(new Object[] {i,hint});
             }
@@ -142,13 +181,10 @@ namespace MALClient.Android.Activities
             _drawer.OpenDrawer();
         }
 
-
-
-
         private ImageButton _mainPageHamburgerButton;
         private TextView _mainPageCurrentStatus;
         private SearchView _mainPageSearchView;
-        private ImageButton _mainPageSearchToggleButton;
+        private ImageButton _mainPageRefreshButton;
         private FrameLayout _mainContentFrame;
 
         public ImageButton MainPageHamburgerButton => _mainPageHamburgerButton ?? (_mainPageHamburgerButton = FindViewById<ImageButton>(Resource.Id.MainPageHamburgerButton));
@@ -157,14 +193,8 @@ namespace MALClient.Android.Activities
 
         public SearchView MainPageSearchView => _mainPageSearchView ?? (_mainPageSearchView = FindViewById<SearchView>(Resource.Id.MainPageSearchView));
 
-        public ImageButton MainPageSearchToggleButton => _mainPageSearchToggleButton ?? (_mainPageSearchToggleButton = FindViewById<ImageButton>(Resource.Id.MainPageSearchToggleButton));
+        public ImageButton MainPageRefreshButton => _mainPageRefreshButton ?? (_mainPageRefreshButton = FindViewById<ImageButton>(Resource.Id.MainPageRefreshButton));
 
         public FrameLayout MainContentFrame => _mainContentFrame ?? (_mainContentFrame = FindViewById<FrameLayout>(Resource.Id.MainContentFrame));
-
-
-
-
-
-
     }
 }

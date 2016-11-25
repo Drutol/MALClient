@@ -3754,17 +3754,17 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0600b0
 			public const int AnimeGridItemMoreButton = 2131099824;
 			
-			// aapt resource value: 0x7f06011f
-			public const int AnimeGridItemMoreFlyoutCopyLink = 2131099935;
-			
 			// aapt resource value: 0x7f060120
-			public const int AnimeGridItemMoreFlyoutOpenBrowser = 2131099936;
-			
-			// aapt resource value: 0x7f060122
-			public const int AnimeGridItemMoreFlyoutSetScore = 2131099938;
+			public const int AnimeGridItemMoreFlyoutCopyLink = 2131099936;
 			
 			// aapt resource value: 0x7f060121
-			public const int AnimeGridItemMoreFlyoutSetStatus = 2131099937;
+			public const int AnimeGridItemMoreFlyoutOpenBrowser = 2131099937;
+			
+			// aapt resource value: 0x7f060123
+			public const int AnimeGridItemMoreFlyoutSetScore = 2131099939;
+			
+			// aapt resource value: 0x7f060122
+			public const int AnimeGridItemMoreFlyoutSetStatus = 2131099938;
 			
 			// aapt resource value: 0x7f0600ae
 			public const int AnimeGridItemScore = 2131099822;
@@ -3904,26 +3904,26 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0600e8
 			public const int GenreItemTextView = 2131099880;
 			
-			// aapt resource value: 0x7f060124
-			public const int HamburgerMenuAnimeListButton = 2131099940;
-			
 			// aapt resource value: 0x7f060125
-			public const int HamburgerMenuAnimeSearchButton = 2131099941;
-			
-			// aapt resource value: 0x7f060129
-			public const int HamburgerMenuCalendarButton = 2131099945;
-			
-			// aapt resource value: 0x7f060127
-			public const int HamburgerMenuRecomsButton = 2131099943;
+			public const int HamburgerMenuAnimeListButton = 2131099941;
 			
 			// aapt resource value: 0x7f060126
-			public const int HamburgerMenuSeasonalAnimeButton = 2131099942;
+			public const int HamburgerMenuAnimeSearchButton = 2131099942;
+			
+			// aapt resource value: 0x7f06012a
+			public const int HamburgerMenuCalendarButton = 2131099946;
 			
 			// aapt resource value: 0x7f060128
-			public const int HamburgerMenuTopAnimeButton = 2131099944;
+			public const int HamburgerMenuRecomsButton = 2131099944;
 			
-			// aapt resource value: 0x7f060123
-			public const int HamburgerMenuUpperSection = 2131099939;
+			// aapt resource value: 0x7f060127
+			public const int HamburgerMenuSeasonalAnimeButton = 2131099943;
+			
+			// aapt resource value: 0x7f060129
+			public const int HamburgerMenuTopAnimeButton = 2131099945;
+			
+			// aapt resource value: 0x7f060124
+			public const int HamburgerMenuUpperSection = 2131099940;
 			
 			// aapt resource value: 0x7f0600ef
 			public const int LoadingSpinner = 2131099887;
@@ -3944,7 +3944,7 @@ namespace MALClient.Android
 			public const int MainPageHamburgerButton = 2131099888;
 			
 			// aapt resource value: 0x7f0600f3
-			public const int MainPageSearchToggleButton = 2131099891;
+			public const int MainPageRefreshButton = 2131099891;
 			
 			// aapt resource value: 0x7f0600f2
 			public const int MainPageSearchView = 2131099890;
@@ -3957,6 +3957,9 @@ namespace MALClient.Android
 			
 			// aapt resource value: 0x7f06011d
 			public const int StatusDialogItemTextView = 2131099933;
+			
+			// aapt resource value: 0x7f06011e
+			public const int SuggestionItemTextView = 2131099934;
 			
 			// aapt resource value: 0x7f0600ec
 			public const int UsernameInput = 2131099884;
@@ -4498,8 +4501,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f060062
 			public const int title_template = 2131099746;
 			
-			// aapt resource value: 0x7f06011e
-			public const int toolbar = 2131099934;
+			// aapt resource value: 0x7f06011f
+			public const int toolbar = 2131099935;
 			
 			// aapt resource value: 0x7f060048
 			public const int top = 2131099720;
@@ -4855,10 +4858,13 @@ namespace MALClient.Android
 			public const int StatusDialogItem = 2130903132;
 			
 			// aapt resource value: 0x7f03005d
-			public const int support_simple_spinner_dropdown_item = 2130903133;
+			public const int SuggestionItem = 2130903133;
 			
 			// aapt resource value: 0x7f03005e
-			public const int toolbar = 2130903134;
+			public const int support_simple_spinner_dropdown_item = 2130903134;
+			
+			// aapt resource value: 0x7f03005f
+			public const int toolbar = 2130903135;
 			
 			static Layout()
 			{

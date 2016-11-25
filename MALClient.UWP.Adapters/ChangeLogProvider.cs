@@ -12,16 +12,13 @@ namespace MALClient.UWP.Adapters
     {
         public static bool NewChangelog { get; set; }
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 08.11.2016";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 24.11.2016";
 
         public List<string> Changelog => new List<string>
         {
-            "Added this very popup, you will see it whenever the app updates itself. (you can find it in about page too!)",
-            "Added searching by anime/manga type (movie,ova etc.)",
-            "Added settings for episodes/status prompts.",
-            "Fixed a few issues with light theme.",
-            "Fixed news crashes.",
-            "Resolved a few things with volumes focusing.",
+            "Fixed a few search issues.",
+            "Fixed articles&news live tiles + tweaked their look.",
+            "Aside from changelog: if you are wondering why development speed dropped, I'm working on android version right now and it takes majority of my time right now, but I'll still continue this version once android catches up."
         };
 
     }

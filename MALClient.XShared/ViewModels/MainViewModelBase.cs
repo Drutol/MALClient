@@ -250,7 +250,7 @@ namespace MALClient.XShared.ViewModels
 
         private string _currentSearchQuery;
 
-        public string CurrentSearchQuery
+        public string  CurrentSearchQuery
         {
             get { return SearchToggleStatus ? _currentSearchQuery : ""; }
             set

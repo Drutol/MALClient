@@ -62,10 +62,32 @@ namespace MALClient.Android.Activities
 
             Bindings.Add(MainPageSearchView.Id, new List<Binding>());
             Bindings[MainPageSearchView.Id].Add(
-                this.SetBinding(() => ViewModel.SearchInputVisibility,
+                this.SetBinding(() => ViewModel.SearchToggleVisibility,
                     () => MainPageSearchView.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            Bindings[MainPageSearchView.Id].Add(
+                this.SetBinding(() => ViewModel.SearchInputVisibility).WhenSourceChanges(() =>
+                {
+                    MainPageSearchView.Iconified = !ViewModel.SearchInputVisibility;
+                    MainPageSearchView.ClearFocus();
+                }));
+
             _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);
-           
+            
+            Bindings[MainPageSearchView.Id].Add(this.SetBinding(() => ViewModel.SearchToggleLock).WhenSourceChanges(
+                () =>
+                {
+                    if (ViewModel.SearchToggleLock)
+                    {
+                        MainPageSearchView.FindViewById(Resource.Id.search_close_btn).Alpha = 0;
+                        MainPageSearchView.FindViewById(Resource.Id.search_close_btn).Clickable = false;
+                    }
+                    else
+                    {
+                        MainPageSearchView.FindViewById(Resource.Id.search_close_btn).Alpha = 1;
+                        MainPageSearchView.FindViewById(Resource.Id.search_close_btn).Clickable = true;
+                    }
+                }));
+
             //MainPageSearchView.LayoutChange += MainPageSearchViewOnLayoutChange;
 
             //var padding = (int)(11*Resources.DisplayMetrics.Density);
@@ -88,8 +110,6 @@ namespace MALClient.Android.Activities
                 }
             };
                     
-
-            ViewModel.SearchInputVisibility = true;
             _searchSuggestionAdapter = new SimpleCursorAdapter(this, Resource.Layout.SuggestionItem,
                 null, new string[] {"hint"}, new int[]
                 {
@@ -105,7 +125,6 @@ namespace MALClient.Android.Activities
             MainPageSearchView.Visibility = ViewStates.Visible;
 
 
-            ViewModel.SearchToggleStatus = true;
             MainPageHamburgerButton.Click +=  MainPageHamburgerButtonOnClick;      
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             BuildDrawer();     

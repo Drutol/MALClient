@@ -9,13 +9,17 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
 using MALClient.Models.Enums;
+using MALClient.Models.Models;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.ViewModels
 {
@@ -42,6 +46,8 @@ namespace MALClient.Android.ViewModels
 
         public override void Navigate(PageIndex index, object args = null)
         {
+            PageIndex originalIndex = index;
+            var wasOnSearchPage = SearchToggleLock;
             SearchToggleLock = false;
             CurrentStatusSub = "";
             IsCurrentStatusSelectable = false;
@@ -73,61 +79,214 @@ namespace MALClient.Android.ViewModels
                 else
                     HideSearchStuff();
             }
+          
             switch (index)
             {
                 case PageIndex.PageAnimeList:
-                    MainNavigationRequested?.Invoke(AnimeListPageFragment.BuildInstance(args));
+                    if (ViewModelLocator.AnimeList.Initializing)
+                    {
+                        if (!_subscribed)
+                        {
+                            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+                            _subscribed = true;
+                        }
+                        _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
+                        return;
+                    }
+                    //ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                    ShowSearchStuff();
+                    if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
+                        (wasOnSearchPage || _wasOnDetailsFromSearch))
+                    {
+                        CurrentSearchQuery = "";
+                        _wasOnDetailsFromSearch = false;
+                        UnToggleSearchStuff();
+                    }
+                    if (CurrentMainPage == PageIndex.PageAnimeList)
+                        ViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
+                    else
+                        MainNavigationRequested?.Invoke(AnimeListPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageAnimeDetails:
-                    MainNavigationRequested?.Invoke(AnimeDetailsPageFragment.BuildInstance(args));
+                    HideSearchStuff();
+                    var detail = ViewModelLocator.AnimeDetails;
+                    detail.DetailImage = null;
+                    detail.LeftDetailsRow.Clear();
+                    detail.RightDetailsRow.Clear();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
+                    _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
+                    //from search , details are passed instead of being downloaded once more
+                    if (CurrentMainPage == PageIndex.PageAnimeDetails)
+                        ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
+                    else
+                        MainNavigationRequested?.Invoke(AnimeDetailsPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageSettings:
+                    //HideSearchStuff();
+                    //MainNavigationRequested?.Invoke(typeof(SettingsPage));
                     break;
                 case PageIndex.PageSearch:
+                case PageIndex.PageMangaSearch:
+                    //if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
+                    //    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+
+                    //var searchArg = args as SearchPageNavigationArgs;
+                    //if (string.IsNullOrWhiteSpace(searchArg.Query))
+                    //{
+                    //    searchArg.Query = CurrentSearchQuery;
+                    //}
+                    //if (!searchArg.ByGenre && !searchArg.ByStudio)
+                    //{
+                    //    //View.SearchInputFocus(FocusState.Keyboard);
+                    //    SearchToggleLock = true;
+                    //    ShowSearchStuff();
+                    //    ToggleSearchStuff();
+                    //}
+                    //else
+                    //{
+                    //    HideSearchStuff();
+                    //    CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
+                    //}
+                    //MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
                     break;
                 case PageIndex.PageLogIn:
+                    HideSearchStuff();
                     MainNavigationRequested?.Invoke(LogInPageFragment.Instance);
                     break;
                 case PageIndex.PageProfile:
-                    break;
-                case PageIndex.PageAbout:
+                    //HideSearchStuff();
+                    //RefreshButtonVisibility = true;
+                    //if (Settings.SelectedApiType == ApiType.Mal)
+                    //    RefreshDataCommand =
+                    //        new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                    //else
+                    //    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
+                    //if (Settings.SelectedApiType == ApiType.Mal)
+                    //{
+                    //    if (CurrentMainPage == PageIndex.PageProfile)
+                    //        ViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
+                    //    else
+                    //        MainNavigationRequested?.Invoke(typeof(ProfilePage), args);
+                    //}
+                    //else
+                    //    MainNavigationRequested?.Invoke(typeof(HummingbirdProfilePage), args);
                     break;
                 case PageIndex.PageRecomendations:
-                    break;
-                case PageIndex.PageSeasonal:
-                    break;
-                case PageIndex.PageMangaList:
-                    break;
-                case PageIndex.PageMangaSearch:
-                    break;
-                case PageIndex.PageTopAnime:
-                    break;
-                case PageIndex.PageTopManga:
+                    //HideSearchStuff();
+                    //MainNavigationRequested?.Invoke(typeof(RecommendationsPage), args);
                     break;
                 case PageIndex.PageCalendar:
+                    //HideSearchStuff();
+                    //CurrentStatus = "Calendar";
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.CalendarPage.Init(true); });
+                    //MainNavigationRequested?.Invoke(typeof(CalendarPage), args);
                     break;
                 case PageIndex.PageArticles:
-                    break;
                 case PageIndex.PageNews:
+                    //HideSearchStuff();
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
+                    //if (CurrentMainPage == PageIndex.PageArticles)
+                    //    ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
+                    //else
+                    //    MainNavigationRequested?.Invoke(typeof(MalArticlesPage), args);
                     break;
                 case PageIndex.PageMessanging:
+                    //HideSearchStuff();
+                    //CurrentStatus = $"{Credentials.UserName} - Messages";
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
+                    //MainNavigationRequested?.Invoke(typeof(MalMessagingPage), args);
                     break;
                 case PageIndex.PageMessageDetails:
+                    //var msgModel = args as MalMessageDetailsNavArgs;
+                    //CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
+                    //    ? (msgModel.Arg != null
+                    //        ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
+                    //        : "New Message")
+                    //    : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
+                    //MainNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
                 case PageIndex.PageForumIndex:
+                    //HideSearchStuff();
+                    //CurrentStatus = "Forums";
+                    //if (args == null || (args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
+                    //{
+                    //    RefreshButtonVisibility = true;
+                    //    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
+                    //}
+                    //else
+                    //{
+                    //    var navArgs = args as ForumsNavigationArgs;
+                    //    if (navArgs?.Page == ForumsPageIndex.PageBoard)
+                    //    {
+                    //        RefreshButtonVisibility = true;
+                    //        RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsBoard.Reload(); });
+                    //    }
+                    //}
+                    //if (CurrentMainPage == PageIndex.PageForumIndex)
+                    //    ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
+                    //else
+                    //    MainNavigationRequested?.Invoke(typeof(ForumsMainPage), args);
                     break;
                 case PageIndex.PageHistory:
+                    //HideSearchStuff();
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null, true); });
+                    //CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
+                    //MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 case PageIndex.PageCharacterDetails:
+                    //HideSearchStuff();
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
+                    //OffContentVisibility = true;
+
+                    //if (CurrentOffPage == PageIndex.PageCharacterDetails)
+                    //    ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
+                    //else
+                    //    MainNavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
                     break;
                 case PageIndex.PageStaffDetails:
+                    //HideSearchStuff();
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
+                    //OffContentVisibility = true;
+
+                    //if (CurrentOffPage == PageIndex.PageStaffDetails)
+                    //    ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
+                    //else
+                    //    MainNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
                     break;
                 case PageIndex.PageCharacterSearch:
+                    //if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
+                    //    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+                    //ShowSearchStuff();
+                    //ToggleSearchStuff();
+
+                    //SearchToggleLock = true;
+
+                    //MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
+                    //View.SearchInputFocus(FocusState.Keyboard);
+                    break;
+                case PageIndex.PageWallpapers:
+                    //HideSearchStuff();
+                    //RefreshButtonVisibility = false;
+                    //MainNavigationRequested?.Invoke(typeof(WallpapersPage), args);
+                    break;
+                case PageIndex.PagePopularVideos:
+                    //HideSearchStuff();
+                    //CurrentStatus = "Popular Videos";
+                    //MainNavigationRequested?.Invoke(typeof(PopularVideosPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
+            CurrentMainPage = index;
             CurrentMainPageKind = index;
+            RaisePropertyChanged(() => SearchToggleLock);
         }
 
         public override string CurrentOffStatus

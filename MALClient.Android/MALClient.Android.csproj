@@ -157,6 +157,7 @@
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageReviewsTabFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
+    <Compile Include="Fragments\AnimeSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs" />
@@ -436,6 +437,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SuggestionItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeSearchItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeSearchPage.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

@@ -128,27 +128,27 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    //if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
-                    //    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
+                    if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
+                        _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
 
-                    //var searchArg = args as SearchPageNavigationArgs;
-                    //if (string.IsNullOrWhiteSpace(searchArg.Query))
-                    //{
-                    //    searchArg.Query = CurrentSearchQuery;
-                    //}
-                    //if (!searchArg.ByGenre && !searchArg.ByStudio)
-                    //{
-                    //    //View.SearchInputFocus(FocusState.Keyboard);
-                    //    SearchToggleLock = true;
-                    //    ShowSearchStuff();
-                    //    ToggleSearchStuff();
-                    //}
-                    //else
-                    //{
-                    //    HideSearchStuff();
-                    //    CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
-                    //}
-                    //MainNavigationRequested?.Invoke(typeof(AnimeSearchPage), args);
+                    var searchArg = args as SearchPageNavigationArgs;
+                    if (string.IsNullOrWhiteSpace(searchArg.Query))
+                    {
+                        searchArg.Query = CurrentSearchQuery;
+                    }
+                    if (!searchArg.ByGenre && !searchArg.ByStudio)
+                    {
+                        //View.SearchInputFocus(FocusState.Keyboard);
+                        SearchToggleLock = true;
+                        ShowSearchStuff();
+                        ToggleSearchStuff();
+                    }
+                    else
+                    {
+                        HideSearchStuff();
+                        CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
+                    }
+                    MainNavigationRequested?.Invoke(AnimeSearchPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();

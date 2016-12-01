@@ -3754,17 +3754,17 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0600b0
 			public const int AnimeGridItemMoreButton = 2131099824;
 			
-			// aapt resource value: 0x7f060129
-			public const int AnimeGridItemMoreFlyoutCopyLink = 2131099945;
-			
-			// aapt resource value: 0x7f06012a
-			public const int AnimeGridItemMoreFlyoutOpenBrowser = 2131099946;
+			// aapt resource value: 0x7f06012b
+			public const int AnimeGridItemMoreFlyoutCopyLink = 2131099947;
 			
 			// aapt resource value: 0x7f06012c
-			public const int AnimeGridItemMoreFlyoutSetScore = 2131099948;
+			public const int AnimeGridItemMoreFlyoutOpenBrowser = 2131099948;
 			
-			// aapt resource value: 0x7f06012b
-			public const int AnimeGridItemMoreFlyoutSetStatus = 2131099947;
+			// aapt resource value: 0x7f06012e
+			public const int AnimeGridItemMoreFlyoutSetScore = 2131099950;
+			
+			// aapt resource value: 0x7f06012d
+			public const int AnimeGridItemMoreFlyoutSetStatus = 2131099949;
 			
 			// aapt resource value: 0x7f0600ae
 			public const int AnimeGridItemScore = 2131099822;
@@ -3931,26 +3931,26 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0600f1
 			public const int GenreItemTextView = 2131099889;
 			
-			// aapt resource value: 0x7f06012e
-			public const int HamburgerMenuAnimeListButton = 2131099950;
-			
-			// aapt resource value: 0x7f06012f
-			public const int HamburgerMenuAnimeSearchButton = 2131099951;
-			
-			// aapt resource value: 0x7f060133
-			public const int HamburgerMenuCalendarButton = 2131099955;
+			// aapt resource value: 0x7f060130
+			public const int HamburgerMenuAnimeListButton = 2131099952;
 			
 			// aapt resource value: 0x7f060131
-			public const int HamburgerMenuRecomsButton = 2131099953;
+			public const int HamburgerMenuAnimeSearchButton = 2131099953;
 			
-			// aapt resource value: 0x7f060130
-			public const int HamburgerMenuSeasonalAnimeButton = 2131099952;
+			// aapt resource value: 0x7f060135
+			public const int HamburgerMenuCalendarButton = 2131099957;
+			
+			// aapt resource value: 0x7f060133
+			public const int HamburgerMenuRecomsButton = 2131099955;
 			
 			// aapt resource value: 0x7f060132
-			public const int HamburgerMenuTopAnimeButton = 2131099954;
+			public const int HamburgerMenuSeasonalAnimeButton = 2131099954;
 			
-			// aapt resource value: 0x7f06012d
-			public const int HamburgerMenuUpperSection = 2131099949;
+			// aapt resource value: 0x7f060134
+			public const int HamburgerMenuTopAnimeButton = 2131099956;
+			
+			// aapt resource value: 0x7f06012f
+			public const int HamburgerMenuUpperSection = 2131099951;
 			
 			// aapt resource value: 0x7f0600f8
 			public const int LoadingSpinner = 2131099896;
@@ -3979,14 +3979,20 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0600f6
 			public const int PasswordInput = 2131099894;
 			
+			// aapt resource value: 0x7f060126
+			public const int SearchPageTabStrip = 2131099942;
+			
+			// aapt resource value: 0x7f060127
+			public const int SearchPageViewPager = 2131099943;
+			
 			// aapt resource value: 0x7f0600f7
 			public const int SignInButton = 2131099895;
 			
-			// aapt resource value: 0x7f060126
-			public const int StatusDialogItemTextView = 2131099942;
+			// aapt resource value: 0x7f060128
+			public const int StatusDialogItemTextView = 2131099944;
 			
-			// aapt resource value: 0x7f060127
-			public const int SuggestionItemTextView = 2131099943;
+			// aapt resource value: 0x7f060129
+			public const int SuggestionItemTextView = 2131099945;
 			
 			// aapt resource value: 0x7f0600f5
 			public const int UsernameInput = 2131099893;
@@ -4528,8 +4534,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f060062
 			public const int title_template = 2131099746;
 			
-			// aapt resource value: 0x7f060128
-			public const int toolbar = 2131099944;
+			// aapt resource value: 0x7f06012a
+			public const int toolbar = 2131099946;
 			
 			// aapt resource value: 0x7f060048
 			public const int top = 2131099720;
@@ -4879,25 +4885,28 @@ namespace MALClient.Android
 			public const int psts_tab = 2130903130;
 			
 			// aapt resource value: 0x7f03005b
-			public const int select_dialog_item_material = 2130903131;
+			public const int SearchPage = 2130903131;
 			
 			// aapt resource value: 0x7f03005c
-			public const int select_dialog_multichoice_material = 2130903132;
+			public const int select_dialog_item_material = 2130903132;
 			
 			// aapt resource value: 0x7f03005d
-			public const int select_dialog_singlechoice_material = 2130903133;
+			public const int select_dialog_multichoice_material = 2130903133;
 			
 			// aapt resource value: 0x7f03005e
-			public const int StatusDialogItem = 2130903134;
+			public const int select_dialog_singlechoice_material = 2130903134;
 			
 			// aapt resource value: 0x7f03005f
-			public const int SuggestionItem = 2130903135;
+			public const int StatusDialogItem = 2130903135;
 			
 			// aapt resource value: 0x7f030060
-			public const int support_simple_spinner_dropdown_item = 2130903136;
+			public const int SuggestionItem = 2130903136;
 			
 			// aapt resource value: 0x7f030061
-			public const int toolbar = 2130903137;
+			public const int support_simple_spinner_dropdown_item = 2130903137;
+			
+			// aapt resource value: 0x7f030062
+			public const int toolbar = 2130903138;
 			
 			static Layout()
 			{

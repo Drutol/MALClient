@@ -22,6 +22,11 @@ namespace MALClient.Android.Fragments
 {
     public class AnimeSearchPageFragment : MalFragmentBase
     {
+        private AnimeSearchPageFragment(bool initBindings) : base(initBindings)
+        {
+            
+        }
+
         private SearchPageViewModel ViewModel;
         private static SearchPageNavigationArgs _prevArgs;
 
@@ -81,10 +86,10 @@ namespace MALClient.Android.Fragments
         public ProgressBar AnimeSearchPageLoadingSpinner => _animeSearchPageLoadingSpinner ?? (_animeSearchPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeSearchPageLoadingSpinner));
 
         #endregion
-        public static AnimeSearchPageFragment BuildInstance(object args)
+        public static AnimeSearchPageFragment BuildInstance(object args,bool initBindings = true)
         {
             _prevArgs = args as SearchPageNavigationArgs;
-            return new AnimeSearchPageFragment();
+            return new AnimeSearchPageFragment(initBindings);
         }
     }
 }

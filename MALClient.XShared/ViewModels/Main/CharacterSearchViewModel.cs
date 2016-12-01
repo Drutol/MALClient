@@ -77,7 +77,7 @@ namespace MALClient.XShared.ViewModels.Main
                                 new CharacterDetailsNavigationArgs { Id = int.Parse(entry.Data.Id) });
                         }));
 
-        public void Init(SearchPageNavArgs args)
+        public void Init(SearchPageNavArgsBase args)
         {
             if (!Loading && (FoundCharacters == null || !FoundCharacters.Any()))
             {

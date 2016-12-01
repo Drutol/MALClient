@@ -42,7 +42,7 @@ namespace MALClient.Pages.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.CharacterSearch.Init(e.Parameter as SearchPageNavArgs);
+            ViewModelLocator.CharacterSearch.Init(e.Parameter as SearchPageNavArgsBase);
             base.OnNavigatedTo(e);
         }
 

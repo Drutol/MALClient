@@ -148,7 +148,7 @@ namespace MALClient.ViewModels
                             arg.DisplayMode = SearchPageDisplayModes.Off;
                             args = arg;
                         }
-                        if ((args as SearchPageNavArgs).DisplayMode == SearchPageDisplayModes.Main)
+                        if ((args as SearchPageNavArgsBase).DisplayMode == SearchPageDisplayModes.Main)
                         {
                             CurrentStatusSub = "";
                             DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);

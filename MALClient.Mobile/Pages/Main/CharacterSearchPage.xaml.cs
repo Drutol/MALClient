@@ -34,7 +34,7 @@ namespace MALClient.Pages.Main
         {
             ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-            ViewModelLocator.CharacterSearch.Init(e.Parameter as SearchPageNavArgs);
+            ViewModelLocator.CharacterSearch.Init(e.Parameter as SearchPageNavArgsBase);
             base.OnNavigatedTo(e);
         }
 

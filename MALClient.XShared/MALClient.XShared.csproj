@@ -90,7 +90,7 @@
     <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
-    <Compile Include="NavArgs\SearchPageNavArgs.cs" />
+    <Compile Include="NavArgs\SearchPageNavArgsBase.cs" />
     <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="NavArgs\WallpaperPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

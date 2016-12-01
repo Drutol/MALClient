@@ -79,7 +79,7 @@ namespace MALClient.Utils.Managers
             if (page == PageIndex.PageAnimeDetails || page == PageIndex.PageCharacterDetails ||
                 page == PageIndex.PageStaffDetails ||
                 ((page == PageIndex.PageSearch || page == PageIndex.PageMangaSearch) &&
-                 (args as SearchPageNavArgs)?.DisplayMode == SearchPageDisplayModes.Off))
+                 (args as SearchPageNavArgsBase)?.DisplayMode == SearchPageDisplayModes.Off))
             {
                 _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;

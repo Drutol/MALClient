@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
+using MALClient.Android.Fragments.SearchFragments;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
@@ -148,7 +149,7 @@ namespace MALClient.Android.ViewModels
                         HideSearchStuff();
                         CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
                     }
-                    MainNavigationRequested?.Invoke(AnimeSearchPageFragment.BuildInstance(args));
+                    MainNavigationRequested?.Invoke(SearchPageFragment.BuildInstance(args as SearchPageNavigationArgs));
                     break;
                 case PageIndex.PageLogIn:
                     HideSearchStuff();

@@ -158,12 +158,12 @@ namespace MALClient.Android.Activities
         {
             switch (e.PropertyName)
             {
-                case nameof(ViewModel.SearchToggleStatus):
-                    if(ViewModel.SearchToggleStatus)
-                        MainPageSearchView.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
-                    else
-                        MainPageSearchView.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
-                    break;
+                //case nameof(ViewModel.SearchToggleStatus):
+                //    if(ViewModel.SearchToggleStatus)
+                //        MainPageSearchView.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
+                //    else
+                //        MainPageSearchView.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
+                //    break;
                 case nameof(ViewModel.SearchToggleLock):
 
                     break;

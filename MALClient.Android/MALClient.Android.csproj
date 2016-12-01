@@ -131,6 +131,7 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
@@ -148,20 +149,27 @@
     <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
-    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
+    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs">
+      <DependentUpon>AnimeDetailsPageFragment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageDetailsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageGeneralTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageRecomsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageRelatedTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageReviewsTabFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
-    <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
-    <Compile Include="Fragments\AnimeSearchPageFragment.cs" />
+    <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
+      <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\LogInPageFragment.ui.cs">
+      <DependentUpon>LogInPageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\SearchFragments\AnimeSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
+    <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
@@ -443,6 +451,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AnimeSearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SearchPage.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

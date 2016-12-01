@@ -12,12 +12,12 @@ namespace MALClient.XShared.NavArgs
         Off
     }
 
-    public class SearchPageNavArgs
+    public class SearchPageNavArgsBase
     {
         public SearchPageDisplayModes DisplayMode { get; set; }
     }
 
-    public class SearchPageNavigationArgs : SearchPageNavArgs
+    public class SearchPageNavigationArgs : SearchPageNavArgsBase
     {
         public bool ByGenre { get; set; }
         public bool ByStudio { get; set; }

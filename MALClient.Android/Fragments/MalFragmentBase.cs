@@ -71,7 +71,6 @@ namespace MALClient.Android.Fragments
                 InitBindings();
         }
 
-
         protected virtual void Cleanup()
         {
 

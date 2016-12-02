@@ -136,12 +136,15 @@
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
     <Compile Include="BindingInformation\AnimeListItemBindingInfo.cs" />
+    <Compile Include="BindingInformation\BindingExtension.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
+    <Compile Include="BindingInformation\StaticBindingInfo.cs" />
+    <Compile Include="BindingInformation\StaticBindings\CharacterItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
@@ -162,6 +165,7 @@
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
       <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fragments\CharacterSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs">
       <DependentUpon>LogInPageFragment.cs</DependentUpon>
     </Compile>
@@ -186,6 +190,7 @@
     <Compile Include="Utilities\AndroidUtilities.cs" />
     <Compile Include="Utilities\DimensionsHelper.cs" />
     <Compile Include="Utilities\JavaObjectWrapper.cs" />
+    <Compile Include="Utilities\GridViewColumnHelper.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
@@ -454,6 +459,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CharacterSearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CharacterItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.XShared.Comm.Search;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
@@ -13,22 +14,13 @@ namespace MALClient.XShared.ViewModels.Main
     public class CharacterSearchViewModel : ViewModelBase
     {
         private bool _queryHandler;
-        private ObservableCollection<FavouriteViewModel> _foundCharacters;
         private bool _loading;
         private bool _isEmptyNoticeVisible;
         private ICommand _navigateCharacterDetailsCommand;
         private bool _isFirstVisitGridVisible = true;
         private string _prevQuery;
 
-        public ObservableCollection<FavouriteViewModel> FoundCharacters
-        {
-            get { return _foundCharacters; }
-            set
-            {
-                _foundCharacters = value;
-                RaisePropertyChanged(() => FoundCharacters);
-            }
-        }
+        public SmartObservableCollection<FavouriteViewModel> FoundCharacters { get; } = new SmartObservableCollection<FavouriteViewModel>();
 
         public bool Loading
         {
@@ -79,7 +71,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public void Init(SearchPageNavArgsBase args)
         {
-            if (!Loading && (FoundCharacters == null || !FoundCharacters.Any()))
+            if (!Loading && !FoundCharacters.Any())
             {
                 IsFirstVisitGridVisible = true;
                 IsEmptyNoticeVisible = false;
@@ -104,7 +96,7 @@ namespace MALClient.XShared.ViewModels.Main
             IsFirstVisitGridVisible = false;
             if (query.Length <= 2)
             {
-                FoundCharacters?.Clear();
+                FoundCharacters.Clear();
                 IsEmptyNoticeVisible = false;
                 IsFirstVisitGridVisible = true;
                 return;
@@ -112,16 +104,13 @@ namespace MALClient.XShared.ViewModels.Main
 
             _prevQuery = query;
 
-            FoundCharacters?.Clear();
+            FoundCharacters.Clear();
             Loading = true;
 
             try
             {
-                FoundCharacters =
-                    new ObservableCollection<FavouriteViewModel>(
-                        (await new CharactersSearchQuery(query).GetSearchResults()).Select(
+                FoundCharacters.AddRange((await new CharactersSearchQuery(query).GetSearchResults()).Select(
                             character => new FavouriteViewModel(character)));
-
                 IsEmptyNoticeVisible = !FoundCharacters.Any();
             }
             catch (Exception)

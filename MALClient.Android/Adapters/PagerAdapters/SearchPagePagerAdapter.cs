@@ -32,6 +32,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
         {
             _animeSearchPageFragment = AnimeSearchPageFragment.BuildInstance(args);
             _mangaSearchPageFragment = AnimeSearchPageFragment.BuildInstance(new SearchPageNavigationArgs(),false);
+            _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase());
         }
 
         public override int Count => 5;
@@ -40,6 +41,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
 
         private readonly AnimeSearchPageFragment _animeSearchPageFragment;
         private readonly AnimeSearchPageFragment _mangaSearchPageFragment;
+        private readonly CharacterSearchPageFragment _characterSearchPageFragment;
 
         public View GetCustomTabView(ViewGroup p0, int p1)
         {
@@ -77,13 +79,14 @@ namespace MALClient.Android.Adapters.PagerAdapters
             {
                 case 0:
                     _currentFragment = _animeSearchPageFragment;
-                    ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs());
+                    ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { Query = ViewModelLocator.GeneralMain.CurrentSearchQuery });
                     break;
                 case 1:
                     _currentFragment = _mangaSearchPageFragment;
-                    ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs {Anime = false});
+                    ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs {Anime = false , Query = ViewModelLocator.GeneralMain.CurrentSearchQuery});
                     break;
                 case 2:
+                    _currentFragment = _characterSearchPageFragment;
                     ViewModelLocator.CharacterSearch.Init(new SearchPageNavArgsBase());
                     break;
                 case 3:
@@ -108,12 +111,10 @@ namespace MALClient.Android.Adapters.PagerAdapters
             {
                 case 0:
                     return _animeSearchPageFragment;
-                    break;
                 case 1:
                     return  _mangaSearchPageFragment;
-                    break;
                 case 2:
-                    return new Fragment();
+                    return _characterSearchPageFragment;
                 case 3:
                     return new Fragment();
                 case 4:

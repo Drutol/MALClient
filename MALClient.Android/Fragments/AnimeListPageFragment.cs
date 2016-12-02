@@ -10,9 +10,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MALClient.Android;
 using MALClient.Android.Adapters.CollectionAdapters;
 using MALClient.Android.CollectionAdapters;
-
+using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -25,6 +26,8 @@ namespace MALClient.Android.Fragments
         private static AnimeListPageNavigationArgs _prevArgs;
 
         private AnimeListViewModel ViewModel => ViewModelLocator.AnimeList;
+        private GridViewColumnHelper _gridVievColumnHelper;
+
 
         public override int LayoutResourceId => Resource.Layout.AnimeListPage;
 
@@ -38,13 +41,13 @@ namespace MALClient.Android.Fragments
             await Task.Delay(100); //let's behold this ripple effect
             var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
             adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
+
+            _gridVievColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            var width = newConfig.ScreenWidthDp/DimensionsHelper.PxToDp(2.1f);
-            width = width > 200 ? 200 : width;
-            AnimeListPageGridView.SetColumnWidth((int)width);
+            _gridVievColumnHelper.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);
         }
 

@@ -84,6 +84,13 @@ namespace MALClient.Android.BindingInformation
 
             AnimeListItemIncButton.SetCommand("Click",ViewModel.IncrementWatchedCommand);
             AnimeListItemDecButton.SetCommand("Click",ViewModel.DecrementWatchedCommand);
+
+            Container.Click += ContainerOnClick;
+        }
+
+        private void ContainerOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavigateDetailsCommand.Execute(null);
         }
 
         private void AnimeListItemMoreButtonOnClick(object sender, EventArgs eventArgs)
@@ -130,8 +137,11 @@ namespace MALClient.Android.BindingInformation
 
         protected override void DetachInnerBindings()
         {
-            if (_animeListItemMoreButton != null)
+            if (Bindings.Any())
+            {
                 _animeListItemMoreButton.Click -= AnimeListItemMoreButtonOnClick;
+                Container.Click -= ContainerOnClick;
+            }
         }
 
         #region Views

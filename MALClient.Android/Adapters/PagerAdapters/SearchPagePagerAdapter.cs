@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using MALClient.Android.Fragments;
+using MALClient.Android.Fragments.SearchFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -30,8 +31,9 @@ namespace MALClient.Android.Adapters.PagerAdapters
 
         public SearchPagePagerAdapter(FragmentManager fm, SearchPageNavigationArgs args) : base(fm)
         {
-            _animeSearchPageFragment = AnimeSearchPageFragment.BuildInstance(args);
-            _mangaSearchPageFragment = AnimeSearchPageFragment.BuildInstance(new SearchPageNavigationArgs(),false);
+            ViewModelLocator.SearchPage.Init(args);
+            _animeSearchPageFragment = AnimeSearchPageFragment.BuildInstance();
+            _mangaSearchPageFragment = AnimeSearchPageFragment.BuildInstance(false);
             _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase());
         }
 

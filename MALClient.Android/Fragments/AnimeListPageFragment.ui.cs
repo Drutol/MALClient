@@ -38,7 +38,7 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-            Bindings = new Dictionary<int, List<Binding>>();
+            _gridVievColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
 
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
             Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
@@ -52,7 +52,6 @@ namespace MALClient.Android.Fragments
             AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
 
             AnimeListPageGridView.ItemClick += AnimeListPageGridViewOnItemClick;
-            AnimeListPageListView.ItemClick += AnimeListPageGridViewOnItemClick;
         }
 
 

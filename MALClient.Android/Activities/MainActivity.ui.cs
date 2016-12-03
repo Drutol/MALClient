@@ -46,7 +46,7 @@ namespace MALClient.Android.Activities
         private SimpleCursorAdapter _searchSuggestionAdapter;
         private View _searchFrame;
         private Drawer _drawer;
-        private Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
+        private readonly Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
 
         private void InitBindings()
         {
@@ -68,6 +68,8 @@ namespace MALClient.Android.Activities
                 this.SetBinding(() => ViewModel.SearchInputVisibility).WhenSourceChanges(() =>
                 {
                     MainPageSearchView.Iconified = !ViewModel.SearchInputVisibility;
+                    if(ViewModel.SearchInputVisibility)
+                        MainPageSearchView.SetQuery(ViewModel.CurrentSearchQuery,false);
                     MainPageSearchView.ClearFocus();
                 }));
 
@@ -150,6 +152,8 @@ namespace MALClient.Android.Activities
 
         private void MainPageSearchViewOnQueryTextChange(object sender, SearchView.QueryTextChangeEventArgs queryTextChangeEventArgs)
         {
+            if(!ViewModel.SearchInputVisibility)
+                return;
             ViewModel.CurrentSearchQuery = queryTextChangeEventArgs.NewText;
             queryTextChangeEventArgs.Handled = true;
         }
@@ -191,6 +195,7 @@ namespace MALClient.Android.Activities
             var page = (PageIndex) arg3.Identifier;
             ViewModelLocator.GeneralMain.Navigate(page, GetAppropriateArgsForPage(page));
             _drawer.SetSelection(arg3, false);
+            _drawer.CloseDrawer();
         }
 
 

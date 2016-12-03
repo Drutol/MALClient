@@ -38,11 +38,9 @@ namespace MALClient.Android.Fragments
 
         private async void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            await Task.Delay(100); //let's behold this ripple effect
+            await Task.Delay(75); //let's behold this ripple effect
             var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
             adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
-
-            _gridVievColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

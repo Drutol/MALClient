@@ -1,19 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="170dp"
+             android:clickable="true"
+             android:focusable="true"
+             android:foreground="?android:selectableItemBackground">
+<LinearLayout
               android:layout_width="match_parent"
-              android:layout_height="170dp"
+              android:layout_height="match_parent"
               android:orientation="horizontal"
               android:layout_marginBottom="5dp"
-              android:foreground="?android:selectableItemBackground"
+
               android:background="@drawable/anime_list_item_background"
               android:paddingStart="5dp">
   <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
     <FFImageLoading.Views.ImageViewAsync
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="170dp"
         android:id="@+id/AnimeSearchItemImage"
         android:adjustViewBounds="true"
-        android:scaleType="fitStart" />
+        android:scaleType="fitXY" />
     <ImageButton android:layout_width="35dp"
                  android:layout_height="35dp"
                  android:layout_alignParentBottom="true"
@@ -24,19 +30,8 @@
                  android:focusable="true"
                  android:src="@drawable/icon_more"/>
   </RelativeLayout>
-  <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-      <TextView android:id="@+id/AnimeSearchItemTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter" android:maxLines="3" android:ellipsize="end" android:textColor="@color/BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
-      <TextView android:id="@+id/AnimeSearchItemDescription"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@string/font_family_light"
-                android:textSize="@dimen/FontSizeMedium"
-                android:text="Desc."
-                android:ellipsize="end"
-                android:textColor="@color/BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
-    </LinearLayout>
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="50dp" android:layout_alignParentBottom="true">
+  <RelativeLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+    <RelativeLayout android:id="@+id/AnimeSearchItemBtmSection" android:layout_width="match_parent" android:layout_height="40dp" android:layout_alignParentBottom="true" android:layout_marginStart="3dp">
       <LinearLayout android:layout_width="wrap_content" android:layout_marginTop="15dp" android:layout_height="match_parent" android:orientation="horizontal">
         <TextView android:id="@+id/AnimeSearchItemType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:background="@drawable/border_accent_underline" android:text="OVA"/>
         <TextView android:id="@+id/AnimeSearchItemEpisodes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10dp" android:layout_gravity="center_vertical" android:background="@drawable/border_accent_underline" android:text="Episodes: 3"/>
@@ -46,6 +41,18 @@
         <TextView android:id="@+id/AnimeSearchItemGlobalScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7.87" android:textColor="@color/BrushText" android:textSize="14sp" android:textStyle="bold" android:layout_centerInParent="true"/>
       </RelativeLayout>
     </RelativeLayout>
-
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:layout_above="@id/AnimeSearchItemBtmSection">
+      <TextView android:id="@+id/AnimeSearchItemTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter" android:maxLines="3" android:ellipsize="end" android:textColor="@color/BrushText" android:layout_marginTop="3dp" android:layout_marginStart="3dp"/>
+      <TextView android:id="@+id/AnimeSearchItemDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@string/font_family_light"
+                android:textSize="@dimen/FontSizeNormal"
+                android:text="Desc."
+                android:ellipsize="end"
+                android:maxLines="6"
+                android:textColor="@color/BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
+    </LinearLayout>
   </RelativeLayout>
 </LinearLayout>
+</FrameLayout>

@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -18,35 +14,35 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.SearchFragments
 {
     public class AnimeSearchPageFragment : MalFragmentBase
     {
         private AnimeSearchPageFragment(bool initBindings) : base(initBindings)
         {
-            
+
         }
 
         private SearchPageViewModel ViewModel;
-        private static SearchPageNavigationArgs _prevArgs;
+        private SearchPageNavigationArgs _prevArgs;
+
 
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.SearchPage;
-            ViewModel.Init(_prevArgs);
         }
 
         protected override void InitBindings()
         {
+
+
             AnimeSearchPageList.Adapter = ViewModel.AnimeSearchItemViewModels.GetAdapter(GetTemplateDelegate);
             AnimeSearchPageList.ItemClick += AnimeSearchPageListOnItemClick;
-
 
             Bindings.Add(AnimeSearchPageLoadingSpinner.Id, new List<Binding>());
             Bindings[AnimeSearchPageLoadingSpinner.Id].Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => AnimeSearchPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-
         }
 
         private void AnimeSearchPageListOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
@@ -57,8 +53,13 @@ namespace MALClient.Android.Fragments
 
         private View GetTemplateDelegate(int i, AnimeSearchItemViewModel animeSearchItemViewModel, View convertView)
         {
-            var view = convertView ??
-                       MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeSearchItem,null);
+
+            var view = convertView;
+            if (view == null)
+            {
+                view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeSearchItem,null);
+                view.Click += ViewOnClick;
+            }
 
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemTitle).Text = animeSearchItemViewModel.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemType).Text = animeSearchItemViewModel.Type;
@@ -70,6 +71,11 @@ namespace MALClient.Android.Fragments
             view.Tag = animeSearchItemViewModel.Wrap();
 
             return view;
+        }
+
+        private void ViewOnClick(object sender, EventArgs eventArgs)
+        {
+            (sender as View).Tag.Unwrap<AnimeSearchItemViewModel>().NavigateDetailsCommand.Execute(null);
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeSearchPage;
@@ -86,9 +92,8 @@ namespace MALClient.Android.Fragments
         public ProgressBar AnimeSearchPageLoadingSpinner => _animeSearchPageLoadingSpinner ?? (_animeSearchPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeSearchPageLoadingSpinner));
 
         #endregion
-        public static AnimeSearchPageFragment BuildInstance(object args,bool initBindings = true)
+        public static AnimeSearchPageFragment BuildInstance(bool initBindings = true)
         {
-            _prevArgs = args as SearchPageNavigationArgs;
             return new AnimeSearchPageFragment(initBindings);
         }
     }

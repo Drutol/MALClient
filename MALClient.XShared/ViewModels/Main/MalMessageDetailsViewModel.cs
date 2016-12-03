@@ -65,7 +65,7 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 _isSendButtonEnabled = value;
-                SendingMessageSpinnerVisibility = value ? false : true;
+                SendingMessageSpinnerVisibility = !value;
                 RaisePropertyChanged(() => IsSendButtonEnabled);
             }
         }
@@ -89,7 +89,7 @@ namespace MALClient.XShared.ViewModels.Main
             MessageSet.CollectionChanged += (a, e) => RaisePropertyChanged(() => MessageSet);
         }
 
-        public async void Init(MalMessageDetailsNavArgs args)
+        public async void Init(MalMessageDetailsNavArgs args,bool force = false)
         {
             if (args.WorkMode == MessageDetailsWorkMode.Message)
             {
@@ -104,7 +104,7 @@ namespace MALClient.XShared.ViewModels.Main
                 NewMessageFieldsVisibility = false;
                 _newMessage = false;
 
-                if (_prevMsg?.Id == arg.Id)
+                if (!force &&_prevMsg?.Id == arg.Id)
                     return;
                 _prevMsg = arg;
                 MessageSet.Clear();
@@ -125,7 +125,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 NewMessageFieldsVisibility = false;
                 var arg = args.Arg as MalComment;
-                if(arg.ComToCom == (_prevArgs?.Arg as MalComment)?.ComToCom)
+                if(!force && arg.ComToCom == (_prevArgs?.Arg as MalComment)?.ComToCom)
                     return;
                 _prevMsg = null;
                 LoadingVisibility = true;
@@ -137,6 +137,11 @@ namespace MALClient.XShared.ViewModels.Main
             }
             _prevArgs = args;
             LoadingVisibility = false;
+        }
+
+        public void RefreshData()
+        {
+            Init(_prevArgs,true);
         }
 
         //private async void FetchHistory()
@@ -252,16 +257,17 @@ namespace MALClient.XShared.ViewModels.Main
                     var comment = _prevArgs.Arg as MalComment;
                     if (await ProfileCommentQueries.SendCommentReply(comment.ComToCom.Split('=').Last(), MessageText))
                     {
-                        MessageSet.AddRange(new[]
-                        {
+                        MessageSet.Add(
+                        
                             new MalMessageModel
                             {
                                 Content = MessageText,
                                 Sender = Credentials.UserName,
                                 Date = DateTime.Now.ToString("d")
                             }
-                        });
+                        );
                         MessageText = "";
+                        RaisePropertyChanged(()=> MessageSet);
                         RaisePropertyChanged(() => MessageText);
                     }
                 }

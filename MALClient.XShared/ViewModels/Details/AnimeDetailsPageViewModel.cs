@@ -566,6 +566,14 @@ namespace MALClient.XShared.ViewModels.Details
             else if (Settings.SetEndDateOnCompleted && MyStatus == (int)AnimeStatus.Completed &&
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
             {
+                if (prevStatus == (int) AnimeStatus.PlanToWatch) //we have just insta completed the series
+                {
+                    _startDateTimeOffset = DateTimeOffset.Now;
+                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                    StartDateValid = true;
+                    RaisePropertyChanged(() => StartDateTimeOffset);
+                    RaisePropertyChanged(() => MyStartDate);
+                }
                 _endDateTimeOffset = DateTimeOffset.Now;
                 _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
                 EndDateValid = true;

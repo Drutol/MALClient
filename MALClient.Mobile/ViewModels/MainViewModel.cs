@@ -213,6 +213,8 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PageMessageDetails:
                     var msgModel = args as MalMessageDetailsNavArgs;
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalMessageDetails.RefreshData());
                     CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
                         ? (msgModel.Arg != null
                             ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"

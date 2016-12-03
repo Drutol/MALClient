@@ -57,7 +57,9 @@ namespace MALClient.XShared.ViewModels.Items
                 var diff = DateTime.UtcNow - Data.DateTime;
                 if (diff.TotalDays > 7)
                     return Data.DateTime.ToString("d");
-                if (diff.Days > 0)
+                if (diff.Days == 1)
+                    return $"{diff.Days} day ago";
+                if (diff.Days > 1)
                     return $"{diff.Days} days ago";
                 if (diff.Hours > 0)
                     return $"{diff.Hours} hours ago";

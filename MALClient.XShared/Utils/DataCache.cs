@@ -607,7 +607,7 @@ namespace MALClient.XShared.Utils
             {
                 return
                     await
-                        DataCacheService.RetrieveData<ProfileData>($"mal_profile_details_{user}.json", "ProfileData", 7);
+                        DataCacheService.RetrieveData<ProfileData>($"mal_profile_details_{user}.json", "ProfileData", 1);
             }
             catch (Exception)
             {

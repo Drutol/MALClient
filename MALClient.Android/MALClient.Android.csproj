@@ -173,6 +173,7 @@
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
+    <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
     <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
@@ -466,6 +467,12 @@
       <Visible>False</Visible>
       <Version>24.2.1.0</Version>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeTypeSearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeSearchTypeItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

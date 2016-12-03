@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="70dp"
+             android:clickable="true"
+             android:focusable="true"
+             android:foreground="?android:selectableItemBackground">
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="10dp"
+      android:layout_margin="10dp">
+    <TextView android:id="@+id/AnimeSearchTypeItemTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" android:layout_centerInParent="true" android:textColor="@color/BrushText"/>
+    </RelativeLayout>
+</FrameLayout>

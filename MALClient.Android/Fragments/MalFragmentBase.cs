@@ -67,7 +67,7 @@ namespace MALClient.Android.Fragments
 
         public void ReattachBindings()
         {
-            if(!Bindings.Any())
+            if(!Bindings.Any() && RootView != null)
                 InitBindings();
         }
 

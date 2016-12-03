@@ -30,7 +30,7 @@ namespace MALClient.Android.Fragments
         private CharacterSearchViewModel ViewModel;
         private GridViewColumnHelper _gridViewColumnHelper;
 
-        private CharacterSearchPageFragment()
+        private CharacterSearchPageFragment(bool initBindings) : base(initBindings)
         {
             
         }
@@ -82,10 +82,10 @@ namespace MALClient.Android.Fragments
 
         #endregion
 
-        public static CharacterSearchPageFragment BuildInstance(SearchPageNavArgsBase args)
+        public static CharacterSearchPageFragment BuildInstance(SearchPageNavArgsBase args,bool initBindings = false)
         {
             _prevArgs = args;
-            return new CharacterSearchPageFragment();
+            return new CharacterSearchPageFragment(initBindings);
         }
     }
 }

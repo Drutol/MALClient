@@ -27,8 +27,11 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void InitBindings()
         {
-            SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager,_args);
+            int start;
+            SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager,_args,out start);
             SearchPageTabStrip.SetViewPager(SearchPageViewPager);
+
+            SearchPageViewPager.SetCurrentItem(start,false);
         }
 
         protected override void Init(Bundle savedInstanceState)

@@ -33,7 +33,7 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(null);         
+            ViewModelLocator.AnimeList.Init(_prevArgs);         
         }
 
         private async void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)

@@ -178,11 +178,11 @@ namespace MALClient.Android.ViewModels
                     //MainNavigationRequested?.Invoke(typeof(RecommendationsPage), args);
                     break;
                 case PageIndex.PageCalendar:
-                    //HideSearchStuff();
-                    //CurrentStatus = "Calendar";
-                    //RefreshButtonVisibility = true;
-                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.CalendarPage.Init(true); });
-                    //MainNavigationRequested?.Invoke(typeof(CalendarPage), args);
+                    HideSearchStuff();
+                    CurrentStatus = "Calendar";
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.CalendarPage.Init(true); });
+                    MainNavigationRequested?.Invoke(CalendarPageFragment.Instance);
                     break;
                 case PageIndex.PageArticles:
                 case PageIndex.PageNews:

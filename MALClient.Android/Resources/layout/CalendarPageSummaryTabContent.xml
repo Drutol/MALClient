@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/BrushDeepBackground">
+  <TextView android:id="@+id/CalendarPageSummaryTabContentHeader" android:layout_width="match_parent"
+            android:layout_marginStart="25dp" android:textAlignment="center" android:layout_marginEnd="25dp"
+            android:layout_height="wrap_content" android:text="Tuesday" android:textSize="@dimen/FontSizeBig"
+            android:background="@drawable/border_accent_underline" android:layout_gravity="center_horizontal"
+            android:textColor="@color/BrushText" />
+  <GridView
+    android:id="@+id/CalendarPageSummaryTabContentList"
+    android:layout_width="match_parent"
+    android:layout_gravity="top"
+    android:layout_height="match_parent"
+    android:choiceMode="singleChoice"
+    android:stretchMode="columnWidth"
+    android:numColumns="auto_fit"
+    android:dividerHeight="5dp"
+    android:divider="@color/Transparent" />
+</LinearLayout>

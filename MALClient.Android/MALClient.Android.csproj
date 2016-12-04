@@ -131,6 +131,7 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
@@ -165,6 +166,13 @@
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
       <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.cs" />
+    <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.ui.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CalendarPageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
+    <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
     <Compile Include="Fragments\CharacterSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs">
       <DependentUpon>LogInPageFragment.cs</DependentUpon>
@@ -196,7 +204,6 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
@@ -473,6 +480,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AnimeSearchTypeItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarPageSummaryTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalenarPageTabContent.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarPageSummaryTabContent.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

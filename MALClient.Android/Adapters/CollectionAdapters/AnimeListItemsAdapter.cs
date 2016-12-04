@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Android.App;
 using Android.Views;
@@ -13,7 +14,7 @@ namespace MALClient.Android.Adapters.CollectionAdapters
 
 
         public AnimeListItemsAdapter(Activity context, int layoutResource,
-            ObservableCollection<AnimeItemViewModel> items, Func<AnimeItemViewModel,View, BindingInfo<AnimeItemViewModel>> factory)
+            IList<AnimeItemViewModel> items, Func<AnimeItemViewModel,View, BindingInfo<AnimeItemViewModel>> factory)
             : base(context, layoutResource, items)
         {
             _factory = factory;

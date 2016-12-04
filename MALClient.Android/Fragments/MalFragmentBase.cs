@@ -29,9 +29,9 @@ namespace MALClient.Android.Fragments
 
         protected Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
 
-        protected abstract void InitBindings();
-
         protected abstract void Init(Bundle savedInstanceState);
+
+        protected abstract void InitBindings();
 
         public abstract int LayoutResourceId { get; }
 

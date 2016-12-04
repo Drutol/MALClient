@@ -110,6 +110,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\CalendarPage.xaml.cs">
+      <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Main\MalArticlesPage.xaml.cs">
+      <DependentUpon>MalArticlesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\PopularVideosPage.xaml.cs">
       <DependentUpon>PopularVideosPage.xaml</DependentUpon>
     </Compile>
@@ -148,11 +154,9 @@
     <Compile Include="Pages\Main\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main\CalendarPage.xaml.cs" />
     <Compile Include="Pages\Main\HummingbirdProfilePage.xaml.cs">
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main\MalArticlesPage.xaml.cs" />
     <Compile Include="Pages\Main\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>

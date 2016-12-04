@@ -14,11 +14,11 @@ namespace MALClient.Android.CollectionAdapters
 {
     public abstract class DeeplyObservableCollectionAdapter<T> : BaseAdapter<T>
     {
-        private ObservableCollection<T> Items { get; }
+        private IList<T> Items { get; }
         private int LayoutResource { get; }
         private Activity Context { get; }
         private Dictionary<View, T> InitializedViews { get; } = new Dictionary<View, T>();
-
+        private bool isObservable;
         protected abstract void DetachOldView(T viewModel);
 
         protected abstract void PrepareView(T item, View view);
@@ -32,12 +32,17 @@ namespace MALClient.Android.CollectionAdapters
 
         public override int Count => this.Items.Count;
 
-        protected DeeplyObservableCollectionAdapter(Activity context, int layoutResource, ObservableCollection<T> items)
+        protected DeeplyObservableCollectionAdapter(Activity context, int layoutResource, IList<T> items)
         {
             Context = context;
             LayoutResource = layoutResource;
             Items = items;
-            Items.CollectionChanged += OnCollectionChanged;
+            var observable = items as ObservableCollection<T>;
+            if (observable != null)
+            {
+                isObservable = true;
+                observable.CollectionChanged += OnCollectionChanged;
+            }
             NotifyDataSetChanged();
         }
 
@@ -76,9 +81,10 @@ namespace MALClient.Android.CollectionAdapters
         {
             if (disposing)
             {
-                Items.CollectionChanged -= OnCollectionChanged;
+                if (isObservable)
+                    (Items as ObservableCollection<T>).CollectionChanged -= OnCollectionChanged;
                 foreach (var bindingInfo in Bindings)
-                    bindingInfo.Value.Detach();              
+                    bindingInfo.Value.Detach();
             }
 
             base.Dispose(disposing);

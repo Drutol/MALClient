@@ -1,9 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Android.App;
+using Java.IO;
+using Java.Nio;
 using MALClient.Adapters;
 using Newtonsoft.Json;
+using File = Java.IO.File;
 
 namespace MALClient.Android.Adapters
 {
@@ -13,39 +17,58 @@ namespace MALClient.Android.Adapters
         {
             try
             {
-                await Task.Run(() =>
+                await Task.Run( async () =>
                 {
-                    targetFolder = string.IsNullOrEmpty(targetFolder) ? Application.Context.FilesDir.Path : Path.Combine(Application.Context.FilesDir.Path, targetFolder);
-                    var filepath = Path.Combine(targetFolder, filename);
-
+                    targetFolder = string.IsNullOrEmpty(targetFolder) ? Application.Context.GetExternalFilesDir(null).Path : Path.Combine(Application.Context.GetExternalFilesDir(null).Path, targetFolder);
+                    var file = new File(Path.Combine(targetFolder, filename));
+                    if (!file.ParentFile.Exists())
+                        file.ParentFile.Mkdir();
+                    file.CreateNewFile();
                     var json = JsonConvert.SerializeObject(new Tuple<DateTime, T>(DateTime.UtcNow, data));
-                    File.WriteAllText(filepath, json);
+                    using (FileWriter writer = new FileWriter(file))
+                    {
+                        await writer.WriteAsync(json);
+                        writer.Close();
+                    }                    
                 });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //
             }
         }
 
-        public async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration)
+        public async Task<T> RetrieveData<T>(string filename, string originFolder, int expiration) 
         {
             try
             {
-                originFolder = string.IsNullOrEmpty(originFolder) ? Application.Context.FilesDir.Path : Path.Combine(Application.Context.FilesDir.Path,originFolder);
-                var filepath = Path.Combine(originFolder, filename);
-                if (!File.Exists(filepath))
+                originFolder = string.IsNullOrEmpty(originFolder) ? Application.Context.GetExternalFilesDir(null).Path : Path.Combine(Application.Context.GetExternalFilesDir(null).Path, originFolder);
+                var file = new File(Path.Combine(originFolder, filename));
+                StringBuilder text = new StringBuilder();
+
+                try
+                {
+                    using (BufferedReader br = new BufferedReader(new FileReader(file)))
+                    {
+                        string line;
+                        while ((line = await br.ReadLineAsync()) != null)
+                        {
+                            text.Append(line);
+                        }
+                    }
+                }
+                catch (Exception e)
                 {
                     return default(T);
                 }
-                var data = File.ReadAllText(filepath);
 
-                var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, T>>(data);
+
+                var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, T>>(text.ToString());
                 
                 return tuple.Item2;
                
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return default(T);
             }

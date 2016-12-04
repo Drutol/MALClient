@@ -54,6 +54,11 @@ namespace MALClient.Android.Fragments
                 CalendarPageViewPager.Adapter = new CalendarPagerAdapter(FragmentManager, ViewModel.CalendarData);
                 CalendarPageTabStrip.SetViewPager(CalendarPageViewPager);
             }));
+
+            Bindings.Add(CalendarPageContentGrid.Id, new List<Binding>());
+            Bindings[CalendarPageContentGrid.Id].Add(
+                this.SetBinding(() => ViewModel.CalendarVisibility,
+                    () => CalendarPageContentGrid.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
         public override int LayoutResourceId => Resource.Layout.CalendarPage;

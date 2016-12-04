@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
@@ -46,6 +47,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
         public View GetCustomTabView(ViewGroup p0, int p1)
         {
             var header = new LinearLayout(p0.Context);
+            header.Orientation = Orientation.Vertical;
             var model = _pages[p1];
             var parameter = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,
@@ -60,16 +62,20 @@ namespace MALClient.Android.Adapters.PagerAdapters
             viewBottom.SetTextColor(new Color(ResourceExtension.BrushText));
             if (model is CalendarSummaryPivotPage)
             {
-                var img = new ImageView(p0.Context) {LayoutParameters = parameter};
+                var img = new ImageView(p0.Context) {LayoutParameters = new LinearLayout.LayoutParams(-2,-2) {Gravity = GravityFlags.Center} };
+                img.ScaleX = .7f;
+                img.ScaleY = .7f;
                 img.SetImageDrawable(p0.Context.Resources.GetDrawable(Resource.Drawable.icon_list));
                 viewUpper = img;
-                viewBottom.Text = model.Header; //"Summary"
+                viewBottom.Text = "Summary";
+                (viewBottom.LayoutParameters as LinearLayout.LayoutParams).SetMargins(0,4,0,0);
             }
             else
             {
                 var txt = new TextView(p0.Context) { LayoutParameters = parameter };
                 txt.Text = model.Header;
                 txt.SetTextColor(new Color(ResourceExtension.BrushText));
+                txt.SetTextSize(ComplexUnitType.Sp, 18);
                 viewBottom.Text = model.Sub;
                 viewUpper = txt;
             }

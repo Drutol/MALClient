@@ -11,25 +11,45 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
+using MALClient.XShared.Utils;
 
 namespace MALClient.Android
 {
     public class GridViewColumnHelper
     {
-        private readonly GridView _view;
-        private static readonly int TwoHundred = DimensionsHelper.DpToPx(200);
+        private readonly List<GridView> _grids;
+        private static readonly int TwoHundred = 200;
 
         public GridViewColumnHelper(GridView view)
         {
-            _view = view;
+            _grids = new List<GridView> {view};
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
+        }
+
+        public GridViewColumnHelper()
+        {
+            _grids = new List<GridView>();
+        }
+
+        public void RegisterGrid(GridView view)
+        {
+            _grids.Add(view);
+            view.SetNumColumns(GetColumns(MainActivity.CurrentContext.Resources.Configuration));
+        }
+
+        private int GetColumns(Configuration newConfig)
+        {
+            var width = newConfig.ScreenWidthDp;
+            //width = width > 200 ? 200 : width;
+            var columns = (int)(width / DimensionsHelper.PxToDp(260));
+            columns = columns < 2 ? 2 : columns;
+            return columns;
         }
 
         public void OnConfigurationChanged(Configuration newConfig)
         {
-            var width = newConfig.ScreenWidthDp / DimensionsHelper.PxToDp(2.1f);
-            width = width > TwoHundred ? TwoHundred : width;
-            _view.SetColumnWidth((int)width);
+            var columns = GetColumns(newConfig);
+            _grids.ForEach(grid => grid.SetNumColumns(columns));
         }
     }
 }

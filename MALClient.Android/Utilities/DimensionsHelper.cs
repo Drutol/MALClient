@@ -18,12 +18,12 @@ namespace MALClient.Android
     {
         public static int DpToPx(float dp)
         {
-            return (int) (dp* MainActivity.CurrentContext.Resources.DisplayMetrics.Density);
+            return (int) (dp* (MainActivity.CurrentContext.Resources.DisplayMetrics.Density + .5f));
         }
 
         public static float PxToDp(float px)
         {
-            return (px / MainActivity.CurrentContext.Resources.DisplayMetrics.Density);
+            return px / MainActivity.CurrentContext.Resources.DisplayMetrics.Density;
         }
     }
 }

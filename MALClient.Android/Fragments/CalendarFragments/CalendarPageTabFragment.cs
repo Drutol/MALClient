@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -20,6 +21,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
     public class CalendarPageTabFragment : MalFragmentBase
     {
         private readonly List<AnimeItemViewModel> _items;
+        private GridViewColumnHelper _gridViewColumnHelper;
 
         public CalendarPageTabFragment(List<AnimeItemViewModel> items)
         {
@@ -34,7 +36,14 @@ namespace MALClient.Android.Fragments.CalendarFragments
         protected override void InitBindings()
         {
             CalendarPageTabContentList.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
-                Resource.Layout.AnimeGridItem,_items,(model, view) => new AnimeGridItemBindingInfo(view,model));
+                Resource.Layout.AnimeGridItem,_items,(model, view) => new AnimeGridItemBindingInfo(view,model,false));
+            _gridViewColumnHelper = new GridViewColumnHelper(CalendarPageTabContentList);
+        }
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
+            base.OnConfigurationChanged(newConfig);
         }
 
         public override int LayoutResourceId => Resource.Layout.CalenarPageTabContent;

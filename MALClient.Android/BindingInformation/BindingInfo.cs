@@ -17,6 +17,7 @@ namespace MALClient.Android.CollectionAdapters
     {
         private View _container;
 
+        private bool _initialized;
         protected abstract void InitBindings();
         protected abstract void InitOneTimeBindings();
         protected abstract void DetachInnerBindings();
@@ -32,9 +33,8 @@ namespace MALClient.Android.CollectionAdapters
                 
                 Detach();
                 _container = value;
-
-                InitOneTimeBindings();
-                InitBindings();
+                if(_initialized)
+                    PrepareContainer();
             }
         }
 
@@ -42,8 +42,14 @@ namespace MALClient.Android.CollectionAdapters
         {          
             ViewModel = viewModel;
             Container = container;
+            _initialized = true;
         }
 
+        protected void PrepareContainer()
+        {
+            InitOneTimeBindings();
+            InitBindings();
+        }
 
         private void DetachBaseBindings()
         {

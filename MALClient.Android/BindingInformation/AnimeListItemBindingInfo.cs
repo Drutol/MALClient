@@ -29,6 +29,7 @@ namespace MALClient.Android.BindingInformation
 
         public AnimeListItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel)
         {
+            PrepareContainer();
         }
 
         protected override void InitBindings()

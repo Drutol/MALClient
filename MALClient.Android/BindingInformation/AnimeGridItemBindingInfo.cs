@@ -44,7 +44,14 @@ namespace MALClient.Android.BindingInformation
         private DroppyMenuPopup _menu;
         private SwipeLayoutListener _swipeListener;
 
-        public AnimeGridItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel) {}
+        public bool AllowSwipeInGivenContext { get; set; }
+
+        public AnimeGridItemBindingInfo(View container, AnimeItemViewModel viewModel, bool allowSwipe = true)
+            : base(container, viewModel)
+        {
+            AllowSwipeInGivenContext = allowSwipe;
+            PrepareContainer();
+        }
 
         protected override void InitBindings()
         {
@@ -166,7 +173,7 @@ namespace MALClient.Android.BindingInformation
             _swipeLayoutInitialized = true;
 
             var swipe = (SwipeLayout)Container;
-
+            swipe.SwipeEnabled = true;
             //the view has been already set-up
             if (swipe.SwipeListener == null)
             {
@@ -193,6 +200,14 @@ namespace MALClient.Android.BindingInformation
             _swipeListener.OnOpenAction = SwipeOnOpenEvent;
         }
 
+        private void DisableSwipe()
+        {
+            var swipe = (SwipeLayout)Container;
+            swipe.SwipeEnabled = false;
+            swipe.LeftSwipeEnabled = false;
+            swipe.RightSwipeEnabled = false;
+        }
+
         private bool _swipeCooldown;
 
         private async void SwipeOnOpenEvent(SwipeLayout sender)
@@ -201,8 +216,6 @@ namespace MALClient.Android.BindingInformation
             if (_swipeCooldown)
                 return;
             _swipeCooldown = true;
-            sender.LeftSwipeEnabled = true;
-            sender.RightSwipeEnabled = true;
 
             var edge = sender.GetDragEdge();
             if (edge == SwipeLayout.DragEdge.Right)
@@ -213,8 +226,6 @@ namespace MALClient.Android.BindingInformation
 
             sender.Close();
 
-            sender.LeftSwipeEnabled = true;
-            sender.RightSwipeEnabled = true;
             _swipeCooldown = false;
         }
         #endregion
@@ -228,9 +239,13 @@ namespace MALClient.Android.BindingInformation
 
 
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl,null).FadeAnimation(true,true).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl,TimeSpan.Zero).FadeAnimation(true,true).Into(img);
 
-            InitializeSwipeLayout();
+            if(AllowSwipeInGivenContext)
+                InitializeSwipeLayout();
+            else
+                DisableSwipe();
+
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
         }

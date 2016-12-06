@@ -178,7 +178,7 @@ namespace MALClient
             if (_initialized)
                 return;
             Credentials.Init();
-            NotificationTaskManager.StartNotificationTask(false);
+            NotificationTaskManager.StartNotificationTask(BgTasks.Notifications,false);
             NotificationTaskManager.OnNotificationTaskRequested += NotificationTaskManagerOnOnNotificationTaskRequested;
             ImageCache.PerformScheduledCacheCleanup();
             HtmlClassMgr.Init();
@@ -194,9 +194,10 @@ namespace MALClient
             _initialized = true;
         }
 
-        private void NotificationTaskManagerOnOnNotificationTaskRequested()
+        private void NotificationTaskManagerOnOnNotificationTaskRequested(BgTasks task)
         {
-            new NotificationsBackgroundTask().Run(null);
+            if (task == BgTasks.Notifications)
+                new NotificationsBackgroundTask().Run(null);
         }
 
         private void ProcessUpdate()

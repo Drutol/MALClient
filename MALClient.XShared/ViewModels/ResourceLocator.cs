@@ -50,6 +50,11 @@ namespace MALClient.XShared.ViewModels
         {
             SimpleIoc.Default.Register<IMessageDialogProvider>(() => msgDialog);
         }
+
+        public static void RegisterDataCacheAdapter(IDataCache dataCache)
+        {
+            SimpleIoc.Default.Register<IDataCache>(() => dataCache);
+        }
         #endregion
 
     }

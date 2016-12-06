@@ -30,4 +30,6 @@ namespace MALClient.XShared.Delegates
     public delegate void SearchDelayedQuerySubmitted(string query);
 
     public delegate void SettingsNavigationRequest(SettingsPageIndex page);
+
+    public delegate void BackgroundTaskCall(BgTasks task);
 }

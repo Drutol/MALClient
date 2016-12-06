@@ -477,6 +477,10 @@
       <Project>{7087a044-1675-413b-86c3-a0005c87b0b5}</Project>
       <Name>MALClient.UWP.Adapters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MALClient.UWP.BGTaskLiveTilesNotifications\MALClient.UWP.BGTaskLiveTilesNotifications.csproj">
+      <Project>{22c7343b-fef3-45b2-91c3-79ef25c0cac5}</Project>
+      <Name>MALClient.UWP.BGTaskLiveTilesNotifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MALClient.UWP.BGTaskNotifications\MALClient.UWP.BGTaskNotifications.csproj">
       <Project>{cb57338d-9a51-4cbc-b0bb-3d579c2588fd}</Project>
       <Name>MALClient.UWP.BGTaskNotifications</Name>

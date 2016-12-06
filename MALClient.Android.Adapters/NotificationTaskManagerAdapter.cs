@@ -10,22 +10,23 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MALClient.Adapters;
+using MALClient.Models.Enums;
 
 namespace MALClient.Android.Adapters
 {
     public class NotificationTaskManagerAdapter : INotificationsTaskManager
     {
-        public void StartTask()
-        {
-           // throw new NotImplementedException();
-        }
-
-        public void StopTask()
+        public void StartTask(BgTasks task)
         {
             //throw new NotImplementedException();
         }
 
-        public void CallTask()
+        public void StopTask(BgTasks task)
+        {
+           // throw new NotImplementedException();
+        }
+
+        public void CallTask(BgTasks task)
         {
             //throw new NotImplementedException();
         }

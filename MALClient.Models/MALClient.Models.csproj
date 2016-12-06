@@ -42,6 +42,7 @@
     <Compile Include="Enums\AnimeTypeEnum.cs" />
     <Compile Include="Enums\ApiTypeEnum.cs" />
     <Compile Include="Enums\ArticlePageEnums.cs" />
+    <Compile Include="Enums\BgTasksEnum.cs" />
     <Compile Include="Enums\EnumUtilities.cs" />
     <Compile Include="Enums\FavouriteType.cs" />
     <Compile Include="Enums\FontAwesomeIconsEnum.cs" />

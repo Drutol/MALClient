@@ -5015,11 +5015,11 @@ namespace MALClient.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f070051
-			public const int ApplicationName = 2131165265;
+			// aapt resource value: 0x7f070032
+			public const int ApplicationName = 2131165234;
 			
-			// aapt resource value: 0x7f070050
-			public const int Hello = 2131165264;
+			// aapt resource value: 0x7f070031
+			public const int Hello = 2131165233;
 			
 			// aapt resource value: 0x7f070000
 			public const int abc_action_bar_home_description = 2131165184;
@@ -5078,8 +5078,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070012
 			public const int abc_toolbar_collapse_description = 2131165202;
 			
-			// aapt resource value: 0x7f07003d
-			public const int app_name = 2131165245;
+			// aapt resource value: 0x7f07003f
+			public const int app_name = 2131165247;
 			
 			// aapt resource value: 0x7f070014
 			public const int appbar_scrolling_view_behavior = 2131165204;
@@ -5090,11 +5090,11 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070016
 			public const int character_counter_pattern = 2131165206;
 			
-			// aapt resource value: 0x7f07003e
-			public const int define_AndroidIconics = 2131165246;
+			// aapt resource value: 0x7f070040
+			public const int define_AndroidIconics = 2131165248;
 			
-			// aapt resource value: 0x7f070031
-			public const int define_fastadapter = 2131165233;
+			// aapt resource value: 0x7f070033
+			public const int define_fastadapter = 2131165235;
 			
 			// aapt resource value: 0x7f070023
 			public const int define_materialdrawer = 2131165219;
@@ -5102,89 +5102,89 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070017
 			public const int define_materialize = 2131165207;
 			
-			// aapt resource value: 0x7f07004e
-			public const int font_family_black = 2131165262;
-			
-			// aapt resource value: 0x7f07004d
-			public const int font_family_condensed = 2131165261;
-			
-			// aapt resource value: 0x7f07004a
-			public const int font_family_light = 2131165258;
-			
-			// aapt resource value: 0x7f07004b
-			public const int font_family_medium = 2131165259;
-			
-			// aapt resource value: 0x7f07004c
-			public const int font_family_regular = 2131165260;
+			// aapt resource value: 0x7f070050
+			public const int font_family_black = 2131165264;
 			
 			// aapt resource value: 0x7f07004f
-			public const int font_family_thin = 2131165263;
+			public const int font_family_condensed = 2131165263;
 			
-			// aapt resource value: 0x7f07003f
-			public const int library_AndroidIconics_author = 2131165247;
+			// aapt resource value: 0x7f07004c
+			public const int font_family_light = 2131165260;
 			
-			// aapt resource value: 0x7f070040
-			public const int library_AndroidIconics_authorWebsite = 2131165248;
+			// aapt resource value: 0x7f07004d
+			public const int font_family_medium = 2131165261;
+			
+			// aapt resource value: 0x7f07004e
+			public const int font_family_regular = 2131165262;
+			
+			// aapt resource value: 0x7f070051
+			public const int font_family_thin = 2131165265;
 			
 			// aapt resource value: 0x7f070041
-			public const int library_AndroidIconics_isOpenSource = 2131165249;
+			public const int library_AndroidIconics_author = 2131165249;
 			
 			// aapt resource value: 0x7f070042
-			public const int library_AndroidIconics_libraryDescription = 2131165250;
+			public const int library_AndroidIconics_authorWebsite = 2131165250;
 			
 			// aapt resource value: 0x7f070043
-			public const int library_AndroidIconics_libraryName = 2131165251;
+			public const int library_AndroidIconics_isOpenSource = 2131165251;
 			
 			// aapt resource value: 0x7f070044
-			public const int library_AndroidIconics_libraryVersion = 2131165252;
+			public const int library_AndroidIconics_libraryDescription = 2131165252;
 			
 			// aapt resource value: 0x7f070045
-			public const int library_AndroidIconics_libraryWebsite = 2131165253;
+			public const int library_AndroidIconics_libraryName = 2131165253;
 			
 			// aapt resource value: 0x7f070046
-			public const int library_AndroidIconics_licenseId = 2131165254;
+			public const int library_AndroidIconics_libraryVersion = 2131165254;
 			
 			// aapt resource value: 0x7f070047
-			public const int library_AndroidIconics_owner = 2131165255;
+			public const int library_AndroidIconics_libraryWebsite = 2131165255;
 			
 			// aapt resource value: 0x7f070048
-			public const int library_AndroidIconics_repositoryLink = 2131165256;
+			public const int library_AndroidIconics_licenseId = 2131165256;
 			
 			// aapt resource value: 0x7f070049
-			public const int library_AndroidIconics_year = 2131165257;
+			public const int library_AndroidIconics_owner = 2131165257;
 			
-			// aapt resource value: 0x7f070032
-			public const int library_fastadapter_author = 2131165234;
+			// aapt resource value: 0x7f07004a
+			public const int library_AndroidIconics_repositoryLink = 2131165258;
 			
-			// aapt resource value: 0x7f070033
-			public const int library_fastadapter_authorWebsite = 2131165235;
+			// aapt resource value: 0x7f07004b
+			public const int library_AndroidIconics_year = 2131165259;
 			
 			// aapt resource value: 0x7f070034
-			public const int library_fastadapter_isOpenSource = 2131165236;
+			public const int library_fastadapter_author = 2131165236;
 			
 			// aapt resource value: 0x7f070035
-			public const int library_fastadapter_libraryDescription = 2131165237;
+			public const int library_fastadapter_authorWebsite = 2131165237;
 			
 			// aapt resource value: 0x7f070036
-			public const int library_fastadapter_libraryName = 2131165238;
+			public const int library_fastadapter_isOpenSource = 2131165238;
 			
 			// aapt resource value: 0x7f070037
-			public const int library_fastadapter_libraryVersion = 2131165239;
+			public const int library_fastadapter_libraryDescription = 2131165239;
 			
 			// aapt resource value: 0x7f070038
-			public const int library_fastadapter_libraryWebsite = 2131165240;
+			public const int library_fastadapter_libraryName = 2131165240;
 			
 			// aapt resource value: 0x7f070039
-			public const int library_fastadapter_licenseId = 2131165241;
+			public const int library_fastadapter_libraryVersion = 2131165241;
 			
 			// aapt resource value: 0x7f07003a
-			public const int library_fastadapter_owner = 2131165242;
+			public const int library_fastadapter_libraryWebsite = 2131165242;
 			
 			// aapt resource value: 0x7f07003b
-			public const int library_fastadapter_repositoryLink = 2131165243;
+			public const int library_fastadapter_licenseId = 2131165243;
 			
 			// aapt resource value: 0x7f07003c
-			public const int library_fastadapter_year = 2131165244;
+			public const int library_fastadapter_owner = 2131165244;
+			
+			// aapt resource value: 0x7f07003d
+			public const int library_fastadapter_repositoryLink = 2131165245;
+			
+			// aapt resource value: 0x7f07003e
+			public const int library_fastadapter_year = 2131165246;
 			
 			// aapt resource value: 0x7f070024
 			public const int library_materialdrawer_author = 2131165220;

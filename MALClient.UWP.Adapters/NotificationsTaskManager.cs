@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Adapters;
+using MALClient.Models.Enums;
 using MALClient.Shared.Managers;
 using MALClient.XShared.Delegates;
 
@@ -12,21 +13,19 @@ namespace MALClient.UWP.Adapters
 {
     public class NotificationTaskManagerAdapter : INotificationsTaskManager
     {
-        
-
-        public void StartTask()
+        public void StartTask(BgTasks task)
         {
-            NotificationTaskManager.StartNotificationTask();
+            NotificationTaskManager.StartNotificationTask(task);
         }
 
-        public void StopTask()
+        public void StopTask(BgTasks task)
         {
-            NotificationTaskManager.StopNotificationTask();
+            NotificationTaskManager.StopTask(task);
         }
 
-        public void CallTask()
+        public void CallTask(BgTasks task)
         {
-            NotificationTaskManager.CallBackgroundTask();
+            NotificationTaskManager.CallBackgroundTask(task);
         }
     }
 }

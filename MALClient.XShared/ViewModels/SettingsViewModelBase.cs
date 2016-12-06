@@ -556,7 +556,7 @@ namespace MALClient.XShared.ViewModels
             _callBackgroundTaskCommand ??
             (_callBackgroundTaskCommand = new RelayCommand(async () =>
             {
-                ResourceLocator.NotificationsTaskManager.CallTask();
+                ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications);
                 IsCallNotificationsButtonEnabled = false;
                 await Task.Delay(60000);
                 IsCallNotificationsButtonEnabled = true;
@@ -591,9 +591,9 @@ namespace MALClient.XShared.ViewModels
             {
                 Settings.EnableNotifications = value;
                 if(value)
-                    ResourceLocator.NotificationsTaskManager.StartTask();
+                    ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
                 else
-                    ResourceLocator.NotificationsTaskManager.StopTask();                 
+                    ResourceLocator.NotificationsTaskManager.StopTask(BgTasks.Notifications);                 
             }
         }
 
@@ -610,7 +610,7 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 Settings.EnabledNotificationTypes = value;
-                ResourceLocator.NotificationsTaskManager.StartTask();
+                ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
             }
         }
 

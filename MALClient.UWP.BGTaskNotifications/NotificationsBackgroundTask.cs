@@ -41,13 +41,21 @@ namespace MALClient.UWP.BGTaskNotifications
             //    return;
             //}
 
-            if (taskInstance != null) //we are already running -> started on demand
+            try
             {
-                ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
-                ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
-                ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
-                Credentials.Init();
+                if (taskInstance != null) //we are already running -> started on demand
+                {
+                    ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
+                    ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
+                    ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
+                    Credentials.Init();
+                }
             }
+            catch (Exception)
+            {
+               //may be already registered... voodoo I guess
+            }
+
 
             List<MalNotification> notifications = new List<MalNotification>();
 

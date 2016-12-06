@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_Droppy", "MALClient
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_FlowTextView", "MALClient.Android\AndroidBindings\Binding_FlowTextView\Binding_FlowTextView.csproj", "{23600F27-28CC-43B2-B9FE-F53F1F91C66B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.BGTaskLiveTilesNotifications", "MALClient.UWP.BGTaskLiveTilesNotifications\MALClient.UWP.BGTaskLiveTilesNotifications.csproj", "{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -764,6 +766,42 @@ Global
 		{23600F27-28CC-43B2-B9FE-F53F1F91C66B}.Release|x64.Build.0 = Release|Any CPU
 		{23600F27-28CC-43B2-B9FE-F53F1F91C66B}.Release|x86.ActiveCfg = Release|Any CPU
 		{23600F27-28CC-43B2-B9FE-F53F1F91C66B}.Release|x86.Build.0 = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|ARM.ActiveCfg = Debug|ARM
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|ARM.Build.0 = Debug|ARM
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|x64.ActiveCfg = Debug|x64
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|x64.Build.0 = Debug|x64
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|x86.ActiveCfg = Debug|x86
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Debug|x86.Build.0 = Debug|x86
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|ARM.ActiveCfg = Debug|ARM
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|ARM.Build.0 = Debug|ARM
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|iPhone.Build.0 = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|x64.ActiveCfg = Debug|x64
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|x64.Build.0 = Debug|x64
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|x86.ActiveCfg = Debug|x86
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Native Debug|x86.Build.0 = Debug|x86
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|ARM.ActiveCfg = Release|ARM
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|ARM.Build.0 = Release|ARM
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|iPhone.Build.0 = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|x64.ActiveCfg = Release|x64
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|x64.Build.0 = Release|x64
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|x86.ActiveCfg = Release|x86
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -789,5 +827,6 @@ Global
 		{A49593A3-1A91-4F2B-BA57-FE3E9DE20202} = {04723DEB-C28B-4466-85DA-7841EB7F2BC2}
 		{ADFA8AA9-1743-46F8-852A-1AB69DF0B431} = {04723DEB-C28B-4466-85DA-7841EB7F2BC2}
 		{23600F27-28CC-43B2-B9FE-F53F1F91C66B} = {04723DEB-C28B-4466-85DA-7841EB7F2BC2}
+		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5} = {54301918-C485-4F4F-B82D-8F7ECAA6477B}
 	EndGlobalSection
 EndGlobal

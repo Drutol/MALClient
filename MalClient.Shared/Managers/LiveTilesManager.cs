@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -112,61 +113,98 @@ namespace MALClient.Shared.Managers
             #region RemoveImages
 
             var tiles = (string) ApplicationData.Current.LocalSettings.Values["tiles"];
-            if (string.IsNullOrWhiteSpace(tiles))
-                return;
-
-            bool removed = false;
-            var newTiles = "";
-            foreach (var tileId in tiles.Split(';'))
+            if (!string.IsNullOrWhiteSpace(tiles))
             {
-                if (!SecondaryTile.Exists(tileId))
+                bool removed = false;
+                var newTiles = "";
+                foreach (var tileId in tiles.Split(';'))
                 {
-                    try
+                    if (!SecondaryTile.Exists(tileId))
                     {
-                        int id = int.Parse(tileId);
-                        if (_pinnedCache.ContainsKey(id))
+                        try
                         {
-                            var cache = _pinnedCache[id];
-                            if (cache.ImgUri.Equals(cache.WideImgUri)) //the same image
-                                await (await StorageFile.GetFileFromApplicationUriAsync(cache.ImgUri)).DeleteAsync(
-                                    StorageDeleteOption.PermanentDelete);
-                            else //2 images
+                            int id = int.Parse(tileId);
+                            if (_pinnedCache.ContainsKey(id))
                             {
-                                await (await StorageFile.GetFileFromApplicationUriAsync(cache.ImgUri)).DeleteAsync(
-                                    StorageDeleteOption.PermanentDelete);
-                                await (await StorageFile.GetFileFromApplicationUriAsync(cache.WideImgUri)).DeleteAsync(
-                                    StorageDeleteOption.PermanentDelete);
+                                var cache = _pinnedCache[id];
+                                if (cache.ImgUri.Equals(cache.WideImgUri)) //the same image
+                                    await (await StorageFile.GetFileFromApplicationUriAsync(cache.ImgUri)).DeleteAsync(
+                                        StorageDeleteOption.PermanentDelete);
+                                else //2 images
+                                {
+                                    await (await StorageFile.GetFileFromApplicationUriAsync(cache.ImgUri)).DeleteAsync(
+                                        StorageDeleteOption.PermanentDelete);
+                                    await
+                                        (await StorageFile.GetFileFromApplicationUriAsync(cache.WideImgUri)).DeleteAsync
+                                        (
+                                            StorageDeleteOption.PermanentDelete);
+                                }
+                                removed = true;
+                                _pinnedCache.Remove(id);
                             }
-                            removed = true;
-                            _pinnedCache.Remove(id);
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
                         }
                     }
-                    catch (Exception)
+                    else
                     {
-                        // ignored
+                        newTiles += tileId + ";";
                     }
                 }
-                else
-                {
-                    newTiles += tileId + ";";
-                }
+                if (removed)
+                    SavePinnedData();
+                ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
             }
-            if (removed)
-                SavePinnedData();
-            ApplicationData.Current.LocalSettings.Values["tiles"] = newTiles;
 
             #endregion
 
+            UpdateNewsTiles();
+        }
 
+        private static void UpdateNewsTiles()
+        {
             if (SecondaryTile.Exists(ArticlesTileId))
-            UpdateNewsTile(ArticlePageWorkMode.Articles);
+            {
+                UpdateNewsTile(ArticlePageWorkMode.Articles);
+            }
             if (SecondaryTile.Exists(NewsTileId))
-            UpdateNewsTile(ArticlePageWorkMode.News);
-
-
+            {
+                UpdateNewsTile(ArticlePageWorkMode.News);
+            }
         }
 
         #region NewsTiles
+
+        private static SemaphoreSlim _tileUpdateSemaphore;
+        public static async Task UpdateNewsTilesAsync()
+        {
+            _tileUpdateSemaphore = new SemaphoreSlim(2);
+            var tilesToUpdate = new List<ArticlePageWorkMode>();
+            if (SecondaryTile.Exists(ArticlesTileId))
+            {
+                await _tileUpdateSemaphore.WaitAsync(1);
+                tilesToUpdate.Add(ArticlePageWorkMode.Articles);
+            }
+            if (SecondaryTile.Exists(NewsTileId))
+            {
+                await _tileUpdateSemaphore.WaitAsync(1);
+                tilesToUpdate.Add(ArticlePageWorkMode.News);
+            }
+
+            if (!tilesToUpdate.Any())
+                NotificationTaskManager.StopTask(BgTasks.Tiles);
+            else
+            {
+                tilesToUpdate.ForEach(UpdateNewsTile);
+                for (int i = 0; i < tilesToUpdate.Count; i++)
+                {
+                    await _tileUpdateSemaphore.WaitAsync();
+                }
+            }
+            _tileUpdateSemaphore = null;
+        }
 
         public static async void PinNewsTile()
         {
@@ -177,6 +215,8 @@ namespace MALClient.Shared.Managers
 
             if (await tile.RequestCreateAsync())
                 UpdateNewsTile(ArticlePageWorkMode.News);
+
+            NotificationTaskManager.StartNotificationTask(BgTasks.Tiles, false);
         }
 
         public static async void PinArticlesTile()
@@ -188,6 +228,8 @@ namespace MALClient.Shared.Managers
 
             if (await tile.RequestCreateAsync())
                 UpdateNewsTile(ArticlePageWorkMode.Articles);
+
+            NotificationTaskManager.StartNotificationTask(BgTasks.Tiles, false);
         }
 
         private static async void UpdateNewsTile(ArticlePageWorkMode mode)
@@ -217,7 +259,7 @@ namespace MALClient.Shared.Managers
             {
                 //can carsh due to unknown reasons
             }
-
+            _tileUpdateSemaphore?.Release();
         }
 
         private static TileBinding GenerateTileBindingMedium(MalNewsUnitModel news)

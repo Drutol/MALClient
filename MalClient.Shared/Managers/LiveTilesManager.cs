@@ -216,7 +216,6 @@ namespace MALClient.Shared.Managers
             if (await tile.RequestCreateAsync())
                 UpdateNewsTile(ArticlePageWorkMode.News);
 
-            NotificationTaskManager.StartNotificationTask(BgTasks.Tiles, false);
         }
 
         public static async void PinArticlesTile()
@@ -229,7 +228,6 @@ namespace MALClient.Shared.Managers
             if (await tile.RequestCreateAsync())
                 UpdateNewsTile(ArticlePageWorkMode.Articles);
 
-            NotificationTaskManager.StartNotificationTask(BgTasks.Tiles, false);
         }
 
         private static async void UpdateNewsTile(ArticlePageWorkMode mode)
@@ -260,6 +258,7 @@ namespace MALClient.Shared.Managers
                 //can carsh due to unknown reasons
             }
             _tileUpdateSemaphore?.Release();
+            NotificationTaskManager.StartNotificationTask(BgTasks.Tiles, false);
         }
 
         private static TileBinding GenerateTileBindingMedium(MalNewsUnitModel news)

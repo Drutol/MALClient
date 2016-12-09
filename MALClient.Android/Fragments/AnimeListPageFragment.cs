@@ -36,11 +36,12 @@ namespace MALClient.Android.Fragments
             ViewModelLocator.AnimeList.Init(_prevArgs);         
         }
 
-        private async void AnimeListPageGridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
+        private async void AnimeListPageGridViewOnItemClick(AnimeItemViewModel model)
         {
             await Task.Delay(75); //let's behold this ripple effect
-            var adapter = AnimeListPageGridView.Adapter as AnimeListItemsAdapter;
-            adapter[itemClickEventArgs.Position].NavigateDetailsCommand.Execute(null);
+            var args = ViewModelLocator.GeneralMain.GetCurrentListOrderParams();
+            args.SelectedItemIndex = ViewModel.AnimeItems.IndexOf(model);
+            model.NavigateDetails(null, args);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

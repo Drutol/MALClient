@@ -702,6 +702,8 @@ namespace MALClient.XShared.ViewModels.Main
 
         private int GetGridItemsToLoad()
         {
+            if (DimensionsProvider?.ActualHeight < 0 && DimensionsProvider?.ActualWidth < 0)
+                return int.MaxValue; //load all
             var width = DimensionsProvider?.ActualWidth ?? 1920;
             var height = DimensionsProvider?.ActualHeight ?? 1080;
             if (width == 0 || height == 0)

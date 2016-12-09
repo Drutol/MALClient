@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-
+using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.OS;
@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.XShared.Utils;
-using Android.Support.V4.App;
+
 
 namespace MALClient.Android.Fragments
 {

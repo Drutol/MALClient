@@ -8,15 +8,15 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
+using Android.Support.V13.App;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using MALClient.Android.Fragments.AnimeDetailsPageTabs;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
-using Fragment = Android.Support.V4.App.Fragment;
-using FragmentManager = Android.Support.V4.App.FragmentManager;
+using Fragment = Android.App.Fragment;
+using FragmentManager = Android.App.FragmentManager;
 
 namespace MALClient.Android.Adapters.PagerAdapters
 {

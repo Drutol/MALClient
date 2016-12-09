@@ -27,6 +27,8 @@ namespace MALClient.Android.BindingInformation
     {
         private DroppyMenuPopup _menu;
 
+        public Action<AnimeItemViewModel> OnItemClickAction { get; set; }
+
         public AnimeListItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel)
         {
             PrepareContainer();
@@ -91,8 +93,12 @@ namespace MALClient.Android.BindingInformation
 
         private void ContainerOnClick(object sender, EventArgs eventArgs)
         {
-            ViewModel.NavigateDetailsCommand.Execute(null);
+            if (OnItemClickAction != null)
+                OnItemClickAction.Invoke(ViewModel);
+            else
+                ViewModel.NavigateDetailsCommand.Execute(null);
         }
+
 
         private void AnimeListItemMoreButtonOnClick(object sender, EventArgs eventArgs)
         {

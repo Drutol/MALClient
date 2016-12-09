@@ -40,11 +40,14 @@ namespace MALClient.Android.BindingInformation
         private bool _bindingsInitialized;
         private bool _oneTimeBindingsInitialized;
         private bool _swipeLayoutInitialized;
+        private bool _clickHandlerAdded;
 
         private DroppyMenuPopup _menu;
         private SwipeLayoutListener _swipeListener;
 
         public bool AllowSwipeInGivenContext { get; set; }
+
+        public Action<AnimeItemViewModel> OnItemClickAction { get; set; }
 
         public AnimeGridItemBindingInfo(View container, AnimeItemViewModel viewModel, bool allowSwipe = true)
             : base(container, viewModel)
@@ -108,6 +111,15 @@ namespace MALClient.Android.BindingInformation
                     () => scoreView.Text));
 
             AnimeGridItemMoreButton.Click += AnimeGridItemMoreButtonOnClick;
+
+        }
+
+        private void ContainerOnClick()
+        {
+            if (OnItemClickAction != null)
+                OnItemClickAction.Invoke(ViewModel);
+            else
+                ViewModel.NavigateDetailsCommand.Execute(null);
         }
 
         #region MoreFlyout
@@ -245,6 +257,8 @@ namespace MALClient.Android.BindingInformation
                 InitializeSwipeLayout();
             else
                 DisableSwipe();
+     
+            Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
@@ -252,8 +266,11 @@ namespace MALClient.Android.BindingInformation
         
         protected override void DetachInnerBindings()
         {
-            if(_animeGridItemMoreButton != null)
+            if (Bindings.Any())
+            {
                 AnimeGridItemMoreButton.Click -= AnimeGridItemMoreButtonOnClick;
+                Container.SetOnClickListener(null);
+            }
 
             _bindingsInitialized = false;
             _oneTimeBindingsInitialized = false;
@@ -261,7 +278,6 @@ namespace MALClient.Android.BindingInformation
         }
 
         private ImageButton _animeGridItemMoreButton;
-
 
         public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
 

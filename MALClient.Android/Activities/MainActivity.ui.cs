@@ -73,6 +73,11 @@ namespace MALClient.Android.Activities
                     MainPageSearchView.ClearFocus();
                 }));
 
+            Bindings.Add(MainPageCurrentSatusSubtitle.Id, new List<Binding>());
+            Bindings[MainPageCurrentSatusSubtitle.Id].Add(
+                this.SetBinding(() => ViewModel.CurrentStatusSub,
+                    () => MainPageCurrentSatusSubtitle.Text));
+
             _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);
             
             Bindings[MainPageSearchView.Id].Add(this.SetBinding(() => ViewModel.SearchToggleLock).WhenSourceChanges(
@@ -207,6 +212,7 @@ namespace MALClient.Android.Activities
 
         private ImageButton _mainPageHamburgerButton;
         private TextView _mainPageCurrentStatus;
+        private TextView _mainPageCurrentSatusSubtitle;
         private SearchView _mainPageSearchView;
         private ImageButton _mainPageRefreshButton;
         private FrameLayout _mainContentFrame;
@@ -215,10 +221,14 @@ namespace MALClient.Android.Activities
 
         public TextView MainPageCurrentStatus => _mainPageCurrentStatus ?? (_mainPageCurrentStatus = FindViewById<TextView>(Resource.Id.MainPageCurrentStatus));
 
+        public TextView MainPageCurrentSatusSubtitle => _mainPageCurrentSatusSubtitle ?? (_mainPageCurrentSatusSubtitle = FindViewById<TextView>(Resource.Id.MainPageCurrentSatusSubtitle));
+
         public SearchView MainPageSearchView => _mainPageSearchView ?? (_mainPageSearchView = FindViewById<SearchView>(Resource.Id.MainPageSearchView));
 
         public ImageButton MainPageRefreshButton => _mainPageRefreshButton ?? (_mainPageRefreshButton = FindViewById<ImageButton>(Resource.Id.MainPageRefreshButton));
 
         public FrameLayout MainContentFrame => _mainContentFrame ?? (_mainContentFrame = FindViewById<FrameLayout>(Resource.Id.MainContentFrame));
+
+
     }
 }

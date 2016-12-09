@@ -125,8 +125,6 @@
         android:id="@+id/AnimeDetailsPageTabStrip"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:pstsPaddingMiddle="true"
         android:textColorPrimary="@color/AccentColour"
         android:background="@color/BrushPivotHeaderBackground"/>
     <android.support.v4.view.ViewPager

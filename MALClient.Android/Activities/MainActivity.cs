@@ -23,7 +23,6 @@ using MALClient.Android.ViewModels;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
-using Fragment = Android.Support.V4.App.Fragment;
 
 namespace MALClient.Android.Activities
 {
@@ -57,13 +56,7 @@ namespace MALClient.Android.Activities
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
 
-                //HamburgerMenuPivot.Adapter = new HamburgerMenuPagerAdapter(SupportFragmentManager);
-                //HamburgerMenuTabStrip.SetViewPager(HamburgerMenuPivot);
-                //HamburgerMenuPivot.PageScrollStateChanged += HamburgerMenuPivotOnPageScrollStateChanged;
-                
-
-                
-
+                ViewModelLocator.AnimeList.DimensionsProvider = this;
                 ViewModel.Navigate(PageIndex.PageAnimeList);
             }
     
@@ -82,10 +75,13 @@ namespace MALClient.Android.Activities
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
             _lastPage = fragment as MalFragmentBase;
-            SupportFragmentManager.BeginTransaction()
-                .Replace(Resource.Id.MainContentFrame, fragment)
-                .SetCustomAnimations(Resource.Animation.abc_popup_enter, Resource.Animation.abc_fade_out)
-                .Commit();
+            var trans = FragmentManager.BeginTransaction();
+            trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
+                Resource.Animator.animation_fade_out,
+                Resource.Animator.animation_slide_btm,
+                Resource.Animator.animation_fade_out);
+            trans.Replace(Resource.Id.MainContentFrame, fragment);
+            trans.Commit();
         }
 
         //private void NavViewOnNavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
@@ -105,8 +101,8 @@ namespace MALClient.Android.Activities
         //    DrawerLayout.CloseDrawers();
         //}
 
-        public double ActualWidth => 800;
-        public double ActualHeight => 1200;
+        public double ActualWidth => -1;
+        public double ActualHeight => -1;
     }
 }
 

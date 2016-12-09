@@ -12,7 +12,6 @@ namespace MALClient.Android.Adapters.CollectionAdapters
     {
         private readonly Func<AnimeItemViewModel, View, BindingInfo<AnimeItemViewModel>> _factory;
 
-
         public AnimeListItemsAdapter(Activity context, int layoutResource,
             IList<AnimeItemViewModel> items, Func<AnimeItemViewModel,View, BindingInfo<AnimeItemViewModel>> factory)
             : base(context, layoutResource, items)

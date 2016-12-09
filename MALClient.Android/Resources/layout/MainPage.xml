@@ -6,43 +6,58 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/AppBarHeight"
-        android:orientation="horizontal"
-        android:background="@color/BrushAppBars">
-      <ImageButton
-          android:src="@drawable/icon_hamburger"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:id="@+id/MainPageHamburgerButton"
-          android:background="?android:selectableItemBackground" />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/AppBarHeight"
+      android:orientation="horizontal"
+      android:background="@color/BrushAppBars">
+    <ImageButton
+        android:src="@drawable/icon_hamburger"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/MainPageHamburgerButton"
+        android:background="?android:selectableItemBackground" />
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:orientation="horizontal">
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:textStyle="normal"
           android:textSize="15sp"
-          android:layout_weight="1"
           android:text="MALClientTestAcc - Watching"
           android:textColor="@color/BrushText"
           android:layout_gravity="center_vertical"
           android:id="@+id/MainPageCurrentStatus"
           android:layout_margin="5dp" />
-      <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:layout_gravity="end"
-                                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                                            app:showAsAction="collapseActionView|always"
-                                            android:minWidth="@dimen/AppBarBtnWidth"
-                                            android:iconifiedByDefault="false"
-                                            android:searchIcon="@null"/>
-      <ImageButton android:id="@+id/MainPageRefreshButton"
-                   android:layout_width="50dp"
-                   android:layout_height="match_parent"
-                   android:background="?android:selectableItemBackground"
-                   android:src="@drawable/icon_reload"/>
+      <TextView
+          android:id="@+id/MainPageCurrentSatusSubtitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textStyle="normal"
+          android:textSize="12sp"
+          android:text="Score"
+          android:textColor="@color/BrushNoSearchResults"
+          android:layout_gravity="center_vertical"
+          android:layout_margin="5dp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"
+                                          android:layout_width="wrap_content"
+                                          android:layout_height="match_parent"
+                                          android:layout_weight="1"
+                                          android:layout_gravity="end"
+                                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                                          app:showAsAction="collapseActionView|always"
+                                          android:minWidth="@dimen/AppBarBtnWidth"
+                                          android:iconifiedByDefault="false"
+                                          android:searchIcon="@null"/>
+    <ImageButton android:id="@+id/MainPageRefreshButton"
+                 android:layout_width="50dp"
+                 android:layout_height="match_parent"
+                 android:background="?android:selectableItemBackground"
+                 android:src="@drawable/icon_reload"/>
   </LinearLayout>
   <FrameLayout
       android:id="@+id/MainContentFrame"

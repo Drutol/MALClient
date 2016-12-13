@@ -26,7 +26,8 @@ namespace MALClient.Android.Fragments
         private static AnimeListPageNavigationArgs _prevArgs;
 
         private AnimeListViewModel ViewModel => ViewModelLocator.AnimeList;
-        private GridViewColumnHelper _gridVievColumnHelper;
+        private GridViewColumnHelper _gridViewColumnHelper;
+        private AnimeListItemsAdapter _animeListItemsAdapter;
 
 
         public override int LayoutResourceId => Resource.Layout.AnimeListPage;
@@ -46,7 +47,11 @@ namespace MALClient.Android.Fragments
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            _gridVievColumnHelper.OnConfigurationChanged(newConfig);
+            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
+            if (AnimeListPageGridView.NumColumns == 2)
+                _animeListItemsAdapter?.OnConfigurationChanged(newConfig);
+            else
+                _animeListItemsAdapter?.ResetConfiguration();
             base.OnConfigurationChanged(newConfig);
         }
 

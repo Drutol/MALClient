@@ -9,6 +9,7 @@
       android:layout_gravity="top"
       android:layout_height="match_parent"
       android:numColumns="auto_fit"
+      android:gravity="center"
       android:layout_marginBottom="@dimen/AppBarHeight"
       android:choiceMode="singleChoice"/>
   <ListView

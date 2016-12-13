@@ -107,11 +107,13 @@ namespace MALClient.Android.Activities
                 var param = MainPageSearchView.LayoutParameters as LinearLayout.LayoutParams;
                 if (_searchFrame.Visibility == ViewStates.Visible)
                 {
-                    param.Width = ActionBar.LayoutParams.WrapContent;
+                    ViewModel.SearchToggleStatus = true;
+                    param.Width = ViewGroup.LayoutParams.WrapContent;
                     param.Weight = 1;
                 }
                 else
                 {
+                    ViewModel.SearchToggleStatus = false;
                     param.Width = (int)DimensionsHelper.DpToPx(50);
                     param.Weight = 0;
                 }
@@ -142,11 +144,6 @@ namespace MALClient.Android.Activities
         {
             MainPageSearchView.SetQuery(ViewModel.CurrentHintSet[suggestionClickEventArgs.Position],true);
             MainPageSearchView.ClearFocus();
-        }
-
-        private void MainPageSearchToggleButtonOnClick(object sender, EventArgs eventArgs)
-        {
-            ViewModel.SearchToggleStatus = !ViewModel.SearchToggleStatus;
         }
 
         private void MainPageSearchViewOnQueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs queryTextSubmitEventArgs)

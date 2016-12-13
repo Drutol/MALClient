@@ -38,7 +38,7 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-            _gridVievColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
+            _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
 
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
             Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
@@ -106,13 +106,14 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModelLocator.AnimeList.AnimeGridItems != null)
                 {
-                    AnimeListPageGridView.Adapter = new AnimeListItemsAdapter(Activity,
+                    _animeListItemsAdapter = new AnimeListItemsAdapter(Activity,
                         Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems,
                         (model, view) =>
                             new AnimeGridItemBindingInfo(view, model)
                             {
                                 OnItemClickAction = AnimeListPageGridViewOnItemClick
-                            });
+                            },AnimeListPageGridView.NumColumns);
+                    AnimeListPageGridView.Adapter = _animeListItemsAdapter;
                     if (_prevArgs != null)
                     {
                         var pos = _prevArgs.SelectedItemIndex;
@@ -130,11 +131,12 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModelLocator.AnimeList.AnimeListItems != null)
                 {
-                    AnimeListPageListView.Adapter = new AnimeListItemsAdapter(Activity,
+                    _animeListItemsAdapter = new AnimeListItemsAdapter(Activity,
                         Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,(model, view) => new AnimeListItemBindingInfo(view,model)
                         {
                             OnItemClickAction = AnimeListPageGridViewOnItemClick
-                        });
+                        },1);
+                    AnimeListPageListView.Adapter = _animeListItemsAdapter;
                     if (_prevArgs != null)
                     {
                         AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);

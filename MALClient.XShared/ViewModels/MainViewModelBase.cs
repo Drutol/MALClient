@@ -131,6 +131,8 @@ namespace MALClient.XShared.ViewModels
             get { return _searchToggleStatus; }
             set
             {
+                if(_searchToggleStatus == value)
+                    return;
                 _searchToggleStatus = value;
                 RaisePropertyChanged(() => SearchToggleStatus);
                 ReverseSearchInput();

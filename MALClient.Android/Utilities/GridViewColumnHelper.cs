@@ -18,7 +18,6 @@ namespace MALClient.Android
     public class GridViewColumnHelper
     {
         private readonly List<GridView> _grids;
-        private static readonly int TwoHundred = 200;
 
         public GridViewColumnHelper(GridView view)
         {
@@ -41,7 +40,7 @@ namespace MALClient.Android
         {
             var width = newConfig.ScreenWidthDp;
             //width = width > 200 ? 200 : width;
-            var columns = (int)(width / DimensionsHelper.PxToDp(260));
+            var columns = (int)(width / DimensionsHelper.PxToDp(300));
             columns = columns < 2 ? 2 : columns;
             return columns;
         }
@@ -49,7 +48,10 @@ namespace MALClient.Android
         public void OnConfigurationChanged(Configuration newConfig)
         {
             var columns = GetColumns(newConfig);
-            _grids.ForEach(grid => grid.SetNumColumns(columns));
+            _grids.ForEach(grid =>
+            {
+                grid.SetNumColumns(columns);
+            });
         }
     }
 }

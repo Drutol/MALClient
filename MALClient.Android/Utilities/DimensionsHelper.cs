@@ -18,7 +18,7 @@ namespace MALClient.Android
     {
         public static int DpToPx(float dp)
         {
-            return (int) (dp* (MainActivity.CurrentContext.Resources.DisplayMetrics.Density + .5f));
+            return (int) (dp* (MainActivity.CurrentContext.Resources.DisplayMetrics.Density));
         }
 
         public static float PxToDp(float px)

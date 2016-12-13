@@ -31,7 +31,7 @@
             <Button x:Name="PinArticles" Content="Pin articles live tile" Click="ButtonPinArticlesOnClick" HorizontalAlignment="Center" Margin="0,5"/>
             <Button Content="Pin news live tile" Click="ButtonPinNewsOnClick" HorizontalAlignment="Center" Margin="0,5" Width="{Binding ElementName=PinArticles,Path=ActualWidth}"/>
             <TextBlock
-                    Text="Tiles are updated once a day on app startup."
+                    Text="Tiles are every 12 hours from background."
                     FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" TextAlignment="Center"
                     HorizontalAlignment="Center" Margin="5" />
         </StackPanel>

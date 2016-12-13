@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -17,6 +18,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,6 +29,8 @@ namespace MALClient.Pages.Main
     /// </summary>
     public sealed partial class PopularVideosPage : Page
     {
+        private PopularVideosViewModel ViewModel => ViewModelLocator.PopularVideos;
+
         public PopularVideosPage()
         {
             this.InitializeComponent();
@@ -47,9 +51,12 @@ namespace MALClient.Pages.Main
 
         }
 
-        private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        private async void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            AnimeDetailsPageViewModel.OpenVideo(e.ClickedItem as AnimeVideoData);
+            ViewModel.Loading = true;
+            await Task.Delay(1);
+            await AnimeDetailsPageViewModel.OpenVideo(e.ClickedItem as AnimeVideoData);
+            ViewModel.Loading = false;
         }
     }
 }

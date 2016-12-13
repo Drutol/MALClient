@@ -655,7 +655,13 @@ namespace MALClient.XShared.ViewModels.Details
         private ICommand _openVideoCommand;
 
         public ICommand OpenVideoCommand
-            => _openVideoCommand ?? (_openVideoCommand = new RelayCommand<AnimeVideoData>(OpenVideo));
+            => _openVideoCommand ?? (_openVideoCommand = new RelayCommand<AnimeVideoData>(async data =>
+               {
+                   LoadingVideosVisibility = true;
+                   await Task.Delay(1);
+                   await OpenVideo(data);
+                   LoadingVideosVisibility = false;
+               }));
 
         private ICommand _navigateWallpapersPage;
 

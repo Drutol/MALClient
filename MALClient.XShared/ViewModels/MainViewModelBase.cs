@@ -186,6 +186,12 @@ namespace MALClient.XShared.ViewModels
                 {
                     MediaElementSource = null;
                     MediaElementCollapsed?.Invoke();
+                    if(ViewModelLocator.Mobile)
+                        ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
+                }
+                else if(ViewModelLocator.Mobile)
+                {
+                    ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => MediaElementVisibility = false));
                 }
                 RaisePropertyChanged(() => MediaElementVisibility);
             }

@@ -169,21 +169,39 @@
     <Compile Include="Pages\Off\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml.cs">
+      <DependentUpon>SettingsAboutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsAdsPage.xaml.cs">
       <DependentUpon>SettingsAdsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs" />
-    <Compile Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml.cs" />
-    <Compile Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml.cs" />
-    <Compile Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml.cs" />
-    <Compile Include="Pages\Off\SettingsPages\SettingsHomePage.xaml.cs" />
-    <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs" />
-    <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs">
+      <DependentUpon>SettingsArticlesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml.cs">
+      <DependentUpon>SettingsCachingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml.cs">
+      <DependentUpon>SettingsCalendarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml.cs">
+      <DependentUpon>SettingsGeneralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsHomePage.xaml.cs">
+      <DependentUpon>SettingsHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml.cs">
+      <DependentUpon>SettingsMiscPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs">
+      <DependentUpon>SettingsNewsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml.cs">
       <DependentUpon>SettingsNotificationsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs" />
+    <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs">
+      <DependentUpon>SettingsSlidersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
       <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
     </Compile>

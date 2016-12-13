@@ -1292,7 +1292,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         #endregion
 
-        public static async void OpenVideo(AnimeVideoData data)
+        public static async Task OpenVideo(AnimeVideoData data)
         {
             try
             {

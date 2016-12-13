@@ -23,7 +23,7 @@
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
             <DataTemplate x:Key="DayPageTemplate">
                 <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped" Padding="0"
-                          ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}">
+                          ItemClick="ItemsViewBase_OnItemClick" ItemsSource="{Binding Items}" HorizontalAlignment="Center">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch"

@@ -39,8 +39,7 @@ namespace MALClient.Android
         private int GetColumns(Configuration newConfig)
         {
             var width = newConfig.ScreenWidthDp;
-            //width = width > 200 ? 200 : width;
-            var columns = (int)(width / DimensionsHelper.PxToDp(300));
+            var columns = (int)(width / DimensionsHelper.PxToDp(DimensionsHelper.DpToPx(190)));
             columns = columns < 2 ? 2 : columns;
             return columns;
         }
@@ -49,8 +48,9 @@ namespace MALClient.Android
         {
             grid.SetNumColumns(columns);
             var param = grid.LayoutParameters;
-                param.Width = DimensionsHelper.DpToPx(200) * grid.NumColumns;
-
+            param.Width = DimensionsHelper.DpToPx(200) * columns;
+            if (param.Width < 0)
+                param.Width = ViewGroup.LayoutParams.MatchParent;
 
             grid.LayoutParameters = param;
         }

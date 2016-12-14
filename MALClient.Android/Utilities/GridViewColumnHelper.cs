@@ -33,7 +33,7 @@ namespace MALClient.Android
         public void RegisterGrid(GridView view)
         {
             _grids.Add(view);
-            view.SetNumColumns(GetColumns(MainActivity.CurrentContext.Resources.Configuration));
+            UpdateGrid(view,GetColumns(MainActivity.CurrentContext.Resources.Configuration));
         }
 
         private int GetColumns(Configuration newConfig)
@@ -45,12 +45,22 @@ namespace MALClient.Android
             return columns;
         }
 
+        private void UpdateGrid(GridView grid,int columns)
+        {
+            grid.SetNumColumns(columns);
+            var param = grid.LayoutParameters;
+                param.Width = DimensionsHelper.DpToPx(200) * grid.NumColumns;
+
+
+            grid.LayoutParameters = param;
+        }
+
         public void OnConfigurationChanged(Configuration newConfig)
         {
             var columns = GetColumns(newConfig);
             _grids.ForEach(grid =>
             {
-                grid.SetNumColumns(columns);
+                UpdateGrid(grid,columns);
             });
         }
     }

@@ -28,13 +28,13 @@ namespace MALClient.Android.Adapters.CollectionAdapters
 
         public void OnConfigurationChanged(Configuration newConfiguration)
         {
-            foreach (var bindingInfo in Bindings)
-            {
-                var param = bindingInfo.Value.Container.LayoutParameters;
-                bool overflow = false;
-                param.Width = GetItemLayoutParams(ref overflow,newConfiguration.ScreenWidthDp).Width;
-                bindingInfo.Value.Container.LayoutParameters = param;
-            }
+            //foreach (var bindingInfo in Bindings)
+            //{
+            //    var param = bindingInfo.Value.Container.LayoutParameters;
+            //    bool overflow = false;
+            //    param.Width = GetItemLayoutParams(ref overflow,newConfiguration.ScreenWidthDp).Width;
+            //    bindingInfo.Value.Container.LayoutParameters = param;
+            //}
         }
 
         protected override long GetItemId(AnimeItemViewModel item) => item.Id;
@@ -51,10 +51,10 @@ namespace MALClient.Android.Adapters.CollectionAdapters
         protected override void PrepareView(AnimeItemViewModel item, View view)
         {
 
-            bool overflow = false;
-            var param = GetItemLayoutParams(ref overflow);
-            if (overflow || _numOfColumns > 2)
-                view.LayoutParameters = param;
+            //bool overflow = false;
+            //var param = GetItemLayoutParams(ref overflow);
+            //if (overflow || _numOfColumns > 2)
+            //    view.LayoutParameters = param;
 
             if (!Bindings.ContainsKey(item.Id))
                 Bindings.Add(item.Id,_factory.Invoke(item,view));
@@ -80,13 +80,13 @@ namespace MALClient.Android.Adapters.CollectionAdapters
 
         public void ResetConfiguration()
         {
-            foreach (var bindingInfo in Bindings)
-            {
-                var param = bindingInfo.Value.Container.LayoutParameters;
-                param.Width = ViewGroup.LayoutParams.WrapContent;
-                param.Height = ViewGroup.LayoutParams.WrapContent;
-                bindingInfo.Value.Container.LayoutParameters = param;
-            }
+            //foreach (var bindingInfo in Bindings)
+            //{
+            //    var param = bindingInfo.Value.Container.LayoutParameters;
+            //    param.Width = ViewGroup.LayoutParams.WrapContent;
+            //    param.Height = ViewGroup.LayoutParams.WrapContent;
+            //    bindingInfo.Value.Container.LayoutParameters = param;
+            //}
         }
     }
 }

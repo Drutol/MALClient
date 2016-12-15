@@ -444,22 +444,6 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        private int _currentlySelectedImagePivotIndex;
-
-        public int CurrentlySelectedImagePivotIndex
-        {
-            get { return _currentlySelectedImagePivotIndex; }
-            set
-            {
-                if (Settings.SelectedApiType == ApiType.Hummingbird)
-                    return;
-                _currentlySelectedImagePivotIndex = value;
-                if (value == 1 && HummingbirdImage == null)
-                    LoadHummingbirdCoverImageMobile();
-                RaisePropertyChanged(() => CurrentlySelectedImagePivotIndex);
-            }
-        }
-
         private ICommand _saveImageCommand;
 
         public ICommand SaveImageCommand
@@ -479,7 +463,7 @@ namespace MALClient.XShared.ViewModels.Details
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand
-            => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus));
+            => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<AnimeStatus>(ChangeStatus));
 
         private ICommand _navigateCharacterDetailsCommand;
 
@@ -601,19 +585,13 @@ namespace MALClient.XShared.ViewModels.Details
 
         private ICommand _navigateDetailsCommand;
 
-        public ICommand NavigateDetailsCommand
-        {
-            get
-            {
-                return _navigateDetailsCommand ?? (_navigateDetailsCommand =
-                    new RelayCommand<IDetailsPageArgs>(args => NavigateDetails(args)));
-            }
-        }
+        public ICommand NavigateDetailsCommand => _navigateDetailsCommand ?? (_navigateDetailsCommand =
+                                                      new RelayCommand<IDetailsPageArgs>(NavigateDetails));
 
         private ICommand _changeScoreCommand;
 
         public ICommand ChangeScoreCommand
-            => _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<object>(ChangeScore));
+            => _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<string>(str => ChangeScore(int.Parse(str))));
 
         private ICommand _changeWatchedCommand;
 
@@ -637,10 +615,6 @@ namespace MALClient.XShared.ViewModels.Details
         private ICommand _openInMalCommand;
 
         public ICommand OpenInMalCommand => _openInMalCommand ?? (_openInMalCommand = new RelayCommand(OpenMalPage));
-
-        private ICommand _openInAnnCommand;
-
-        public ICommand OpenInAnnCommand => _openInAnnCommand ?? (_openInAnnCommand = new RelayCommand(OpenAnnPage));
 
         private ICommand _loadCharactersCommand;
 
@@ -671,7 +645,7 @@ namespace MALClient.XShared.ViewModels.Details
                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageWallpapers,new WallpaperPageNavigationArgs {Query = _animeItemReference.Title});
                }));
 
-        public ICommand _setRewatchingCountCommand;
+        private ICommand _setRewatchingCountCommand;
 
         public ICommand SetRewatchingCountCommand
             => _setRewatchingCountCommand ?? (_setRewatchingCountCommand = new RelayCommand<int>(ChangeRewatchingCount));
@@ -719,21 +693,6 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => HummingbirdImage);
             }
         }
-
-        //private bool _imageOverlayVisibility = false;
-
-        //public bool ImageOverlayVisibility
-        //{
-        //    get { return _imageOverlayVisibility; }
-        //    set
-        //    {
-        //        _imageOverlayVisibility = value;
-        //        if (value == true)
-        //            ViewModelLocator.NavMgr.RegisterOneTimeOverride(
-        //                new RelayCommand(() => ImageOverlayVisibility = false));
-        //        RaisePropertyChanged(() => ImageOverlayVisibility);
-        //    }
-        //}
 
         private bool _noEpisodesDataVisibility;
 
@@ -990,9 +949,6 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => IsRemoveAnimeButtonEnabled);
             }
         }
-
-
-
 
         public List<int> RewatchedOptions { get; } = new List<int> {0,1,2,3,4,5,6,7,8,9};
 

@@ -30,8 +30,10 @@ namespace MALClient.XShared.ViewModels
     public class AnimeItemViewModel : ViewModelBase, IAnimeData, IAnimeListItem
     {
         public const string InvalidStartEndDate = "0000-00-00";
-        public readonly AnimeItemAbstraction ParentAbstraction;
-        private float _globalScore;
+        public static double MaxWidth { get; set; }
+        public static List<string> ScoreFlyoutChoices { get; set; }
+
+        public AnimeItemAbstraction ParentAbstraction { get; }
         private bool _seasonalState;
 
         static AnimeItemViewModel()
@@ -39,18 +41,10 @@ namespace MALClient.XShared.ViewModels
             UpdateScoreFlyoutChoices();
         }
 
-        //
-        public string ImgUrl { get; set; }
-        //prop field pairs
+        public int Id { get; private set; }
+        public string ImgUrl { get; private set; }
 
-        public static double MaxWidth { get; set; }
-
-        public static List<string> ScoreFlyoutChoices { get; set; }
-
-        public bool AllowDetailsNavigation { get; set; } = true; //Disabled when draggig grid item
-
-        //state fields
-        public int Id { get; set; }
+        public bool AllowDetailsNavigation { private get; set; } = true; //Disabled when draggig grid item
 
         public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
         {
@@ -85,13 +79,6 @@ namespace MALClient.XShared.ViewModels
                 _seasonalState = true;
             }
             RaisePropertyChanged(() => MyEpisodesBind);
-        }
-
-        public void SignalBackToList()
-        {
-            _seasonalState = false;
-            RaisePropertyChanged(() => MyEpisodesBind);
-            RaisePropertyChanged(() => TopLeftInfoBind);
         }
 
         private async void AddThisToMyList()
@@ -155,6 +142,7 @@ namespace MALClient.XShared.ViewModels
             await Task.Delay(10);
             RaisePropertyChanged(() => MyStatusBindShort);
             RaisePropertyChanged(() => MyStatusBind);
+
             if (ViewModelLocator.AnimeDetails.Id == Id)
                 ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
         }
@@ -743,51 +731,27 @@ namespace MALClient.XShared.ViewModels
 
         private ICommand _onFlyoutEpsKeyDown;
 
-        public ICommand OnFlyoutEpsKeyDown
-        {
-            get { return _onFlyoutEpsKeyDown ?? (_onFlyoutEpsKeyDown = new RelayCommand(ChangeWatchedEps)); }
-        }
+        public ICommand OnFlyoutEpsKeyDown => _onFlyoutEpsKeyDown ?? (_onFlyoutEpsKeyDown = new RelayCommand(ChangeWatchedEps));
 
         private ICommand _changeStatusCommand;
 
-        public ICommand ChangeStatusCommand
-        {
-            get { return _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<object>(ChangeStatus)); }
-        }
+        public ICommand ChangeStatusCommand => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(ChangeStatus));
 
         private ICommand _changeScoreCommand;
 
-        public ICommand ChangeScoreCommand
-        {
-            get { return _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<object>(ChangeScore)); }
-        }
+        public ICommand ChangeScoreCommand => _changeScoreCommand ?? (_changeScoreCommand = new RelayCommand<object>(ChangeScore));
 
         private ICommand _changeWatchedCommand;
 
-        public ICommand ChangeWatchedCommand
-        {
-            get { return _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps)); }
-        }
+        public ICommand ChangeWatchedCommand => _changeWatchedCommand ?? (_changeWatchedCommand = new RelayCommand(ChangeWatchedEps));
 
         private ICommand _incrementWatchedCommand;
 
-        public ICommand IncrementWatchedCommand
-        {
-            get
-            {
-                return _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(IncrementWatchedEp));
-            }
-        }
+        public ICommand IncrementWatchedCommand => _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(IncrementWatchedEp));
 
         private ICommand _decrementWatchedCommand;
 
-        public ICommand DecrementWatchedCommand
-        {
-            get
-            {
-                return _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(DecrementWatchedEp));
-            }
-        }
+        public ICommand DecrementWatchedCommand => _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(DecrementWatchedEp));
 
         private ICommand _addAnimeCommand;
 
@@ -1091,25 +1055,25 @@ namespace MALClient.XShared.ViewModels
 
         #endregion
 
-        private void ChangeStatus(object status)
+        private void ChangeStatus(string status)
         {
-            ChangeStatus(Utilities.StatusToInt(status as string));
+            ChangeStatus((AnimeStatus)Utilities.StatusToInt(status));
         }
 
-        private async void ChangeStatus(int status)
+        private async void ChangeStatus(AnimeStatus status)
         {
             LoadingUpdate = true;
             var myPrevStatus = MyStatus;
-            MyStatus = (AnimeStatus)status;
-            AnimeStatus stat = (AnimeStatus) status;
-            if (Settings.SetStartDateOnWatching && stat == AnimeStatus.Watching&&
-                (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
+            MyStatus = status;
+            var stat =  status;
+            if (Settings.SetStartDateOnWatching && stat == AnimeStatus.Watching &&
+                (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == AnimeItemViewModel.InvalidStartEndDate))
                 StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
             else if (Settings.SetEndDateOnDropped && stat == AnimeStatus.Dropped &&
-                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
+                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == AnimeItemViewModel.InvalidStartEndDate))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
             else if (Settings.SetEndDateOnCompleted &&  stat == AnimeStatus.Completed &&
-                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == "0000-00-00"))
+                     (Settings.OverrideValidStartEndDate || ParentAbstraction.MyEndDate == AnimeItemViewModel.InvalidStartEndDate))
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             //in case of series having one episode
@@ -1117,14 +1081,11 @@ namespace MALClient.XShared.ViewModels
                 if(Settings.SetStartDateOnWatching && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
                     StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
-            if (MyStatus != AnimeStatus.Completed)
+            if (IsRewatching)
             {
-                if (IsRewatching)
-                {
-                    if (AllEpisodes != 0)
-                        MyEpisodes = AllEpisodes;
-                    IsRewatching = false;
-                }
+                if (AllEpisodes != 0 && MyStatus == AnimeStatus.Completed)
+                    MyEpisodes = AllEpisodes;
+                IsRewatching = false;
             }
 
             ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);

@@ -107,7 +107,7 @@ namespace MALClient.Android.Fragments
         {
             AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel.AnimeItemReference, i =>
             {
-                ViewModel.ChangeScoreCommand.Execute(i.ToString());
+                ViewModel.ChangeScoreCommand.Execute(i);
             });
         }
 

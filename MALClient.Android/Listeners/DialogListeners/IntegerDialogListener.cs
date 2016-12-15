@@ -15,11 +15,11 @@ namespace MALClient.Android.Listeners.DialogListeners
 {
     public class IntegerDialogListener : Java.Lang.Object , IOnItemClickListener
     {
-        public Action<DialogPlus, int> OnItemClickAction { get; set; }
+        public Action<DialogPlus, float> OnItemClickAction { get; set; }
 
         public void OnItemClick(DialogPlus p0, Java.Lang.Object p1, View p2, int p3)
         {
-            OnItemClickAction.Invoke(p0,(int)p2.Tag);
+            OnItemClickAction.Invoke(p0,(float)p2.Tag);
         }
     }
 }

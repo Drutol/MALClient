@@ -385,7 +385,6 @@ namespace MALClient.XShared.ViewModels.Details
             PrevArgs.Source = PageIndex.PageAnimeDetails;
             Initialized = true;
             DetailsPivotSelectedIndex = param.SourceTabIndex;
-            //param.SourceTab == DetailsPageTabs.General  ? 0 : _animeMode ? (int)param.SourceTab : (int)param.SourceTab - 1;
         }
 
         private void OpenMalPage()
@@ -400,11 +399,6 @@ namespace MALClient.XShared.ViewModels.Details
                 _systemControlsLauncherService.LaunchUri(
                     new Uri($"https://hummingbird.me/{(AnimeMode ? "anime" : "manga")}/{Id}"));
             }
-        }
-
-        private void OpenAnnPage()
-        {
-            _systemControlsLauncherService.LaunchUri(new Uri(SourceLink));
         }
 
         private async void NavigateDetails(IDetailsPageArgs args)
@@ -535,15 +529,11 @@ namespace MALClient.XShared.ViewModels.Details
             LoadingUpdate = false;
         }
 
-        private async void ChangeStatus(object status)
+        private async void ChangeStatus(AnimeStatus status)
         {
             LoadingUpdate = true;
             var prevStatus = MyStatus;
-            var stat = status as string;
-            if (stat != null)
-                MyStatus = (AnimeStatus)Utilities.StatusToInt(stat);
-            else
-                MyStatus = (AnimeStatus)status;
+            MyStatus = status;
 
             if (Settings.SetStartDateOnWatching && MyStatus == AnimeStatus.Watching &&
                 (Settings.OverrideValidStartEndDate || !StartDateValid))
@@ -618,24 +608,22 @@ namespace MALClient.XShared.ViewModels.Details
                     ((AnimeItemViewModel) _animeItemReference).PromptForWatchedEpsChange(AllEpisodes);
                     RaisePropertyChanged(() => MyEpisodesBind);
                 }
-
-
             LoadingUpdate = false;
         }
 
-        private async void ChangeScore(object score)
+        private async void ChangeScore(float score)
         {
             LoadingUpdate = true;
             var prevScore = MyScore;
             if (Settings.SelectedApiType == ApiType.Hummingbird)
             {
-                MyScore = (float) Convert.ToDouble(score as string)/2;
+                MyScore = score/2;
                 if (MyScore == prevScore)
                     MyScore = 0;
             }
             else
             {
-                MyScore = Convert.ToInt32(score as string);
+                MyScore = score;
             }
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
@@ -677,7 +665,7 @@ namespace MALClient.XShared.ViewModels.Details
             LoadingUpdate = false;
         }
 
-        private async void ChangeWatchedEps()
+        private async void ChangeWatchedEps() //change from input
         {
             LoadingUpdate = true;
             int eps;

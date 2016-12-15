@@ -137,11 +137,11 @@ namespace MALClient.Android.DIalogs
 
 
         private static DialogPlus _scoreDialog;
-        public static void BuildScoreDialog(IAnimeData model,Action<int> action = null)
+        public static void BuildScoreDialog(IAnimeData model,Action<float> action = null)
         {
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetAdapter(new ScoreDialogAdapter(MainActivity.CurrentContext,
-                AnimeItemViewModel.ScoreFlyoutChoices,(int)model.MyScore));
+                AnimeItemViewModel.ScoreFlyoutChoices,model.MyScore));
             dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
             dialogBuilder.SetOnItemClickListener(new IntegerDialogListener()
             {

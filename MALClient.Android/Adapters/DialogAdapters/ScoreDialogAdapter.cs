@@ -13,6 +13,8 @@ using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.Android.Adapters.DialogAdapters
@@ -21,14 +23,14 @@ namespace MALClient.Android.Adapters.DialogAdapters
     {
         private readonly Activity _context;
         private readonly List<string> _desciptions;
-        private readonly int _currentScore;
+        private readonly float _currentScore;
 
 
 
-        public ScoreDialogAdapter(Activity context,IEnumerable<string> desciptions ,int currentScore)
+        public ScoreDialogAdapter(Activity context,IEnumerable<string> desciptions ,float currentScore)
         {
             _context = context;
-            _currentScore = currentScore;
+            _currentScore = Settings.SelectedApiType == ApiType.Hummingbird ? currentScore*2 : currentScore;
             _desciptions = desciptions.ToList();
             _desciptions.Add("0 - Unranked");
             _desciptions.Reverse();
@@ -42,7 +44,7 @@ namespace MALClient.Android.Adapters.DialogAdapters
             var view = convertView ?? _context.LayoutInflater.Inflate(Android.Resource.Layout.StatusDialogItem, null);
 
             var txt = view.FindViewById<TextView>(Resource.Id.StatusDialogItemTextView);
-            txt.Text = _desciptions[position];
+            txt.Text = _desciptions[position];          
             view.SetBackgroundColor(position == _currentScore
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);        

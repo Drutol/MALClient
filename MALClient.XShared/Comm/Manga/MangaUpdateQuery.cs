@@ -32,7 +32,7 @@ namespace MALClient.XShared.Comm.Manga
 
         public MangaUpdateQuery(IAnimeData item)
             : this(
-                item.Id, item.MyEpisodes, item.MyStatus, (int) item.MyScore, item.MyVolumes, item.StartDate,
+                item.Id, item.MyEpisodes, (int)item.MyStatus, (int) item.MyScore, item.MyVolumes, item.StartDate,
                 item.EndDate,item.Notes,item.IsRewatching)
         {
         }

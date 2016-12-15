@@ -142,7 +142,7 @@ namespace MALClient.XShared.ViewModels
             _seasonalState = false;
             SetAuthStatus(true);
             MyScore = 0;
-            MyStatus = 6;
+            MyStatus = AnimeStatus.PlanToWatch;
             MyEpisodes = 0;
             if (Settings.SetStartDateOnListAdd)
                 ParentAbstraction.MyStartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
@@ -249,7 +249,7 @@ namespace MALClient.XShared.ViewModels
             AllowItemManipulation = false;
             Title = data.Title;
             MyScore = 0;
-            MyStatus = (int) AnimeStatus.AllOrAiring;
+            MyStatus = AnimeStatus.AllOrAiring;
             GlobalScore = data.Score;
             int.TryParse(data.Episodes, out _allEpisodes);
             Airing = ParentAbstraction.AirDay >= 0;
@@ -428,10 +428,10 @@ namespace MALClient.XShared.ViewModels
                     : ((MangaType) ParentAbstraction.Type).ToString();
 
 
-        public string MyStatusBind => Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
-        public string MyStatusBindShort => Utilities.StatusToShortString(MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
+        public string MyStatusBind => Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
+        public string MyStatusBindShort => Utilities.StatusToShortString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
 
-        public int MyStatus
+        public AnimeStatus MyStatus
         {
             get { return ParentAbstraction.MyStatus; }
             set
@@ -1012,11 +1012,11 @@ namespace MALClient.XShared.ViewModels
             _incrementing = true;
             LoadingUpdate = true;
             var trigCompleted = true;
-            if (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
-                MyStatus == (int) AnimeStatus.OnHold)
+            if (MyStatus ==  AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
+                MyStatus ==  AnimeStatus.OnHold)
             {
                 trigCompleted = AllEpisodes > 1;
-                PromptForStatusChange(AllEpisodes == 1 ? (int) AnimeStatus.Completed : (int) AnimeStatus.Watching);
+                PromptForStatusChange(AllEpisodes == 1 ? AnimeStatus.Completed :  AnimeStatus.Watching);
             }
 
             MyEpisodesFocused++;
@@ -1031,7 +1031,7 @@ namespace MALClient.XShared.ViewModels
             ParentAbstraction.LastWatched = DateTime.Now;
 
             if (trigCompleted && MyEpisodes == AllEpisodesFocused && AllEpisodesFocused != 0)
-                PromptForStatusChange((int) AnimeStatus.Completed);
+                PromptForStatusChange( AnimeStatus.Completed);
 
             LoadingUpdate = false;
             _incrementing = false;
@@ -1075,7 +1075,7 @@ namespace MALClient.XShared.ViewModels
                     MyEpisodesFocused = prevWatched;
 
                 if (MyEpisodesFocused == _allEpisodes && _allEpisodes != 0)
-                    PromptForStatusChange((int) AnimeStatus.Completed);
+                    PromptForStatusChange(AnimeStatus.Completed);
 
                 AdjustIncrementButtonsVisibility();
                 ParentAbstraction.LastWatched = DateTime.Now;
@@ -1100,7 +1100,7 @@ namespace MALClient.XShared.ViewModels
         {
             LoadingUpdate = true;
             var myPrevStatus = MyStatus;
-            MyStatus = status;
+            MyStatus = (AnimeStatus)status;
             AnimeStatus stat = (AnimeStatus) status;
             if (Settings.SetStartDateOnWatching && stat == AnimeStatus.Watching&&
                 (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
@@ -1113,11 +1113,11 @@ namespace MALClient.XShared.ViewModels
                 EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
             //in case of series having one episode
-            if(AllEpisodes == 1 && myPrevStatus == (int)AnimeStatus.PlanToWatch && stat == AnimeStatus.Completed)
+            if(AllEpisodes == 1 && myPrevStatus == AnimeStatus.PlanToWatch && stat == AnimeStatus.Completed)
                 if(Settings.SetStartDateOnWatching && (Settings.OverrideValidStartEndDate || ParentAbstraction.MyStartDate == "0000-00-00"))
                     StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
 
-            if (MyStatus != (int)AnimeStatus.Completed)
+            if (MyStatus != AnimeStatus.Completed)
             {
                 if (IsRewatching)
                 {
@@ -1133,7 +1133,7 @@ namespace MALClient.XShared.ViewModels
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = myPrevStatus;
 
-            if (MyStatus == (int) AnimeStatus.Completed && _allEpisodes != 0)
+            if (MyStatus == AnimeStatus.Completed && _allEpisodes != 0)
                  PromptForWatchedEpsChange(_allEpisodes);
 
             LoadingUpdate = false;
@@ -1181,7 +1181,7 @@ namespace MALClient.XShared.ViewModels
 
         #region Prompts
 
-        public void PromptForStatusChange(int to)
+        public void PromptForStatusChange(AnimeStatus to)
         {
             try
             {
@@ -1196,7 +1196,7 @@ namespace MALClient.XShared.ViewModels
                     return;
                 }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
-                        $"From : {Utilities.StatusToString(MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString(to,!ParentAbstraction.RepresentsAnime)}",
+                        $"From : {Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString((int)to,!ParentAbstraction.RepresentsAnime)}",
                         "Would you like to change current status?","Yes","No",() => ChangeStatus(to));
             }
             catch (Exception)

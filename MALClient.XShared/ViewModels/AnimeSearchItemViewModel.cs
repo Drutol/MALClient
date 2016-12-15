@@ -36,7 +36,7 @@ namespace MALClient.XShared.ViewModels
         //They must be here because reasons (interface reasons)
         public int MyEpisodes { get; set; }
         public float MyScore { get; set; }
-        public int MyStatus { get; set; }
+        public AnimeStatus MyStatus { get; set; }
 
         public string GlobalScoreBind => GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2");
         public string Synopsis { get; set; }

@@ -47,7 +47,7 @@ namespace MALClient.XShared.ViewModels.Main
         private string _prevListSource;
 
         private string _prevQuery = "";
-        private int _prevAnimeStatus;
+        private AnimeStatus _prevAnimeStatus;
         private bool _invalidatePreviousSearchResults;
 
 
@@ -110,7 +110,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public int CurrentStatus
         {
-            get { return GetDesiredStatus(); }
+            get { return (int)GetDesiredStatus(); }
             set { SetDesiredStatus(value); }
         }
 
@@ -371,7 +371,7 @@ namespace MALClient.XShared.ViewModels.Main
             if(queryCondition && !_wasPreviousQuery)
                 SetDesiredStatus((int)AnimeStatus.AllOrAiring);
             else if(!queryCondition && _wasPreviousQuery)
-                SetDesiredStatus(_prevAnimeStatus);
+                SetDesiredStatus((int)_prevAnimeStatus);
 
             _wasPreviousQuery = queryCondition;
 
@@ -410,7 +410,7 @@ namespace MALClient.XShared.ViewModels.Main
                 _prevQuery = query;
             _animeItemsSet.Clear();
 
-            items = items.Where(item => status == 7 || item.MyStatus == status || (item.IsRewatching && status == 1));
+            items = items.Where(item => status == AnimeStatus.AllOrAiring || item.MyStatus == status || (item.IsRewatching && status == AnimeStatus.Watching));
 
             if(!queryCondition)
                 _prevAnimeStatus = status;
@@ -1352,7 +1352,7 @@ namespace MALClient.XShared.ViewModels.Main
                 _statusSelectorSelectedIndex = value;
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 ViewModelLocator.GeneralHamburger.UpdateAnimeFiltersSelectedIndex();
-                if (GetDesiredStatus() != (int) AnimeStatus.AllOrAiring)
+                if (GetDesiredStatus() !=  AnimeStatus.AllOrAiring)
                     LoadMoreFooterVisibility = false;
                 else if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                 {
@@ -1656,19 +1656,19 @@ namespace MALClient.XShared.ViewModels.Main
 
             if (WorkMode != AnimeListWorkModes.SeasonalAnime)
                 if (WorkMode == AnimeListWorkModes.TopAnime)
-                    page.CurrentStatus = $"Top {TopAnimeWorkMode} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                    page.CurrentStatus = $"Top {TopAnimeWorkMode} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.TopManga)
-                    page.CurrentStatus = $"Top Manga - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                    page.CurrentStatus = $"Top Manga - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByStudio)
                     page.CurrentStatus = $"Studio - {Studio.GetDescription()}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
                     page.CurrentStatus = $"Genre - {Genre.GetDescription()}";
                 else if (!string.IsNullOrWhiteSpace(ListSource))
-                    page.CurrentStatus = $"{ListSource} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                    page.CurrentStatus = $"{ListSource} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else
                     page.CurrentStatus = $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
             else
-                page.CurrentStatus = $"{CurrentSeason?.Name} - {Utilities.StatusToString(GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                page.CurrentStatus = $"{CurrentSeason?.Name} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
 
 
             if (WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga || WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
@@ -1677,11 +1677,11 @@ namespace MALClient.XShared.ViewModels.Main
                 page.CurrentStatusSub = "";
         }
 
-        public int GetDesiredStatus()
+        public AnimeStatus GetDesiredStatus()
         {
             var value = StatusSelectorSelectedIndex;
             value++;
-            return value == 0 ? 1 : value == 5 || value == 6 ? value + 1 : value;
+            return (AnimeStatus)(value == 0 ? 1 : value == 5 || value == 6 ? value + 1 : value);
         }
 
         private void SetDisplayMode(AnimeStatus val)

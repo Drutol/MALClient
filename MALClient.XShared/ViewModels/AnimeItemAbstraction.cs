@@ -166,9 +166,9 @@ namespace MALClient.XShared.ViewModels
             set { EntryData.MyScore = value; }
         }
 
-        public int MyStatus
+        public AnimeStatus MyStatus
         {
-            get { return (int) (EntryData?.MyStatus ?? AnimeStatus.AllOrAiring); }
+            get { return EntryData?.MyStatus ?? AnimeStatus.AllOrAiring; }
             set { EntryData.MyStatus = (AnimeStatus) value; }
         }
 

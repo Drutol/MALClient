@@ -1,4 +1,6 @@
-﻿namespace MALClient.Models.Models.Library
+﻿using MALClient.XShared.Utils.Enums;
+
+namespace MALClient.Models.Models.Library
 {
     public interface IAnimeData
     {
@@ -6,7 +8,7 @@
         float MyScore { get; set; }
         int MyEpisodes { get; set; }
         string Title { get; }
-        int MyStatus { get; set; }
+        AnimeStatus MyStatus { get; set; }
         float GlobalScore { get; set; }
         int AllEpisodes { get; }
         string StartDate { get; set; }

@@ -40,7 +40,7 @@ namespace MALClient.XShared.Comm.Anime
         }
 
         public AnimeUpdateQuery(IAnimeData item)
-            : this(item.Id, item.MyEpisodes, item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes,item.IsRewatching)
+            : this(item.Id, item.MyEpisodes, (int)item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes,item.IsRewatching)
         {
             try
             {

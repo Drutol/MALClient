@@ -35,7 +35,7 @@ namespace MALClient.Android.DIalogs
                 OnItemClickAction = (d, status) =>
                 {
                     if(action == null)
-                        model.MyStatus = (int)status;
+                        model.MyStatus = status;
                     else
                         action.Invoke(status);
                     CleanupStatusDialog();

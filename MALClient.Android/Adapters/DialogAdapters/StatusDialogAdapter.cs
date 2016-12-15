@@ -16,12 +16,12 @@ namespace MALClient.Android.Adapters.DialogAdapters
         private readonly Activity _context;
         private readonly bool _manga;
         private readonly bool _rewatching;
-        private readonly int _currentStatus;
+        private readonly AnimeStatus _currentStatus;
 
         private static readonly List<AnimeStatus> Items =
             Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Take(5).ToList();
 
-        public StatusDialogAdapter(Activity context,bool manga,bool rewatching,int currentStatus)
+        public StatusDialogAdapter(Activity context,bool manga,bool rewatching,AnimeStatus currentStatus)
         {
             _context = context;
             _manga = manga;
@@ -37,7 +37,7 @@ namespace MALClient.Android.Adapters.DialogAdapters
 
             var txt = view.FindViewById<TextView>(Android.Resource.Id.StatusDialogItemTextView);
             txt.Text = MALClient.XShared.Utils.Utilities.StatusToString((int) Items[position], _manga, _rewatching);
-            view.SetBackgroundColor((int) Items[position] == _currentStatus
+            view.SetBackgroundColor(Items[position] == _currentStatus
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);
             view.LayoutParameters = new ViewGroup.LayoutParams(-1,80);

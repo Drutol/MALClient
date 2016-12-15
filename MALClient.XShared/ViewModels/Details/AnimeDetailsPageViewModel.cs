@@ -541,11 +541,11 @@ namespace MALClient.XShared.ViewModels.Details
             var prevStatus = MyStatus;
             var stat = status as string;
             if (stat != null)
-                MyStatus = Utilities.StatusToInt(stat);
+                MyStatus = (AnimeStatus)Utilities.StatusToInt(stat);
             else
-                MyStatus = (int) status;
+                MyStatus = (AnimeStatus)status;
 
-            if (Settings.SetStartDateOnWatching && MyStatus == (int)AnimeStatus.Watching &&
+            if (Settings.SetStartDateOnWatching && MyStatus == AnimeStatus.Watching &&
                 (Settings.OverrideValidStartEndDate || !StartDateValid))
             {
                 _startDateTimeOffset = DateTimeOffset.Now;
@@ -554,7 +554,7 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => StartDateTimeOffset);
                 RaisePropertyChanged(() => MyStartDate);
             }
-            else if (Settings.SetEndDateOnDropped && MyStatus == (int)AnimeStatus.Dropped &&
+            else if (Settings.SetEndDateOnDropped && MyStatus == AnimeStatus.Dropped &&
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
             {
                 _endDateTimeOffset = DateTimeOffset.Now;
@@ -563,10 +563,10 @@ namespace MALClient.XShared.ViewModels.Details
                 RaisePropertyChanged(() => EndDateTimeOffset);
                 RaisePropertyChanged(() => MyEndDate);
             }
-            else if (Settings.SetEndDateOnCompleted && MyStatus == (int)AnimeStatus.Completed &&
+            else if (Settings.SetEndDateOnCompleted && MyStatus == AnimeStatus.Completed &&
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
             {
-                if (prevStatus == (int) AnimeStatus.PlanToWatch) //we have just insta completed the series
+                if (prevStatus == AnimeStatus.PlanToWatch) //we have just insta completed the series
                 {
                     _startDateTimeOffset = DateTimeOffset.Now;
                     _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
@@ -582,7 +582,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
 
             //in case of series having one episode
-            if (AllEpisodes == 1 && prevStatus == (int)AnimeStatus.PlanToWatch && MyStatus == (int)AnimeStatus.Completed)
+            if (AllEpisodes == 1 && prevStatus == AnimeStatus.PlanToWatch && MyStatus == AnimeStatus.Completed)
                 if (Settings.SetStartDateOnWatching &&
                     (Settings.OverrideValidStartEndDate || _animeItemReference.StartDate == "0000-00-00"))
                 {
@@ -593,14 +593,19 @@ namespace MALClient.XShared.ViewModels.Details
                     RaisePropertyChanged(() => MyStartDate);
                 }
 
-            if (MyStatus != (int) AnimeStatus.Completed)
+            if (_animeItemReference.IsRewatching)
             {
-                if (_animeItemReference.IsRewatching)
-                {
-                    if (_animeItemReference.AllEpisodes != 0)
-                        MyEpisodes = _animeItemReference.AllEpisodes;
-                    IsRewatching = false;
-                }
+                if (_animeItemReference.AllEpisodes != 0)
+                    MyEpisodes = _animeItemReference.AllEpisodes;
+                _animeItemReference.IsRewatching = false;
+                RaisePropertyChanged(() => IsRewatching);
+                RaisePropertyChanged(() => MyStatusBind);
+            }
+
+            if (_animeItemReference.IsRewatching)
+            {
+                if (_animeItemReference.MyStatus == AnimeStatus.Completed && _animeItemReference.AllEpisodes != 0)
+                    _animeItemReference.MyEpisodes = _animeItemReference.AllEpisodes;
             }
 
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
@@ -608,7 +613,7 @@ namespace MALClient.XShared.ViewModels.Details
                 MyStatus = prevStatus;
 
             if (_animeItemReference is AnimeItemViewModel)
-                if (MyStatus == (int) AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
+                if (MyStatus == AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
                 {
                     ((AnimeItemViewModel) _animeItemReference).PromptForWatchedEpsChange(AllEpisodes);
                     RaisePropertyChanged(() => MyEpisodesBind);
@@ -695,16 +700,16 @@ namespace MALClient.XShared.ViewModels.Details
                 if (reference != null)
                 {
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
-                        (MyStatus == (int) AnimeStatus.PlanToWatch || MyStatus == (int) AnimeStatus.Dropped ||
-                         MyStatus == (int) AnimeStatus.OnHold))
+                        (MyStatus == AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
+                         MyStatus == AnimeStatus.OnHold))
                     {
-                        reference.PromptForStatusChange((int) AnimeStatus.Watching);
+                        reference.PromptForStatusChange(AnimeStatus.Watching);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     else if (MyEpisodes == AllEpisodes && AllEpisodes != 0)
                     {
 
-                        reference.PromptForStatusChange((int) AnimeStatus.Completed);
+                        reference.PromptForStatusChange(AnimeStatus.Completed);
                         RaisePropertyChanged(() => MyStatusBind);
                     }
                     if (Settings.SelectedApiType == ApiType.Hummingbird)
@@ -826,7 +831,7 @@ namespace MALClient.XShared.ViewModels.Details
             _animeItemReference = animeItem.ViewModel;
 
             MyScore = 0;
-            MyStatus = 6;
+            MyStatus = AnimeStatus.PlanToWatch;
             MyEpisodes = 0;
             RaisePropertyChanged(() => GlobalScore); //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))

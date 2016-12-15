@@ -168,8 +168,8 @@ namespace MALClient.XShared.ViewModels.Main
                 var abstraction in
                 ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
                     abstraction => abstraction.Type == (int)AnimeType.TV &&(
-                        (Settings.CalendarIncludePlanned && abstraction.MyStatus == (int) AnimeStatus.PlanToWatch) ||
-                        (Settings.CalendarIncludeWatching && abstraction.MyStatus == (int) AnimeStatus.Watching))))
+                        (Settings.CalendarIncludePlanned && abstraction.MyStatus ==  AnimeStatus.PlanToWatch) ||
+                        (Settings.CalendarIncludeWatching && abstraction.MyStatus == AnimeStatus.Watching))))
             {
                 try
                 {

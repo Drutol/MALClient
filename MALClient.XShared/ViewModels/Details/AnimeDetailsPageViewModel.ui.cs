@@ -33,11 +33,11 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        public string MyStatusBind => Utilities.StatusToString(MyStatus, !AnimeMode, IsRewatching);
+        public string MyStatusBind => Utilities.StatusToString((int)MyStatus, !AnimeMode, IsRewatching);
 
-        private int MyStatus
+        private AnimeStatus MyStatus
         {
-            get { return _animeItemReference?.MyStatus ?? (int)AnimeStatus.AllOrAiring; }
+            get { return _animeItemReference?.MyStatus ?? AnimeStatus.AllOrAiring; }
             set
             {
                 _animeItemReference.MyStatus = value;
@@ -821,7 +821,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        public bool IsRewatchingButtonVisibility => _animeItemReference?.MyStatus == (int) AnimeStatus.Completed;
+        public bool IsRewatchingButtonVisibility => _animeItemReference?.MyStatus == AnimeStatus.Completed;
 
         private bool _isRewatchingButtonEnabled = true;
 

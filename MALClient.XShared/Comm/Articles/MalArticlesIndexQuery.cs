@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.MalSpecific;
@@ -16,11 +17,15 @@ namespace MALClient.XShared.Comm.Articles
 
         private static Dictionary<ArticlePageWorkMode, List<MalNewsUnitModel>> _cachedData =
             new Dictionary<ArticlePageWorkMode, List<MalNewsUnitModel>>();
+
         public MalArticlesIndexQuery(ArticlePageWorkMode mode)
         {
             _mode = mode;
             Request =
-                WebRequest.Create(Uri.EscapeUriString(mode == ArticlePageWorkMode.Articles ? "https://myanimelist.net/featured" : "https://myanimelist.net/news"));
+                WebRequest.Create(
+                    Uri.EscapeUriString(mode == ArticlePageWorkMode.Articles
+                        ? "https://myanimelist.net/featured"
+                        : "https://myanimelist.net/news"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
@@ -44,6 +49,35 @@ namespace MALClient.XShared.Comm.Articles
             switch (_mode)
             {
                 case ArticlePageWorkMode.Articles:
+                    foreach (var featuredNewsUnit in doc.WhereOfDescendantsWithClass("div", "featured-pickup-unit"))
+                    {
+                        try
+                        {
+                            var current = new MalNewsUnitModel();
+                            var img = featuredNewsUnit.Descendants("a").First();
+                            var imgUrl = img.Attributes["data-bg"].Value;
+                            if (!imgUrl.Contains("questionmark"))
+                            {
+                                imgUrl = Regex.Replace(imgUrl, @"\/r\/\d+x\d+", "");
+                                current.ImgUrl = imgUrl.Substring(0, imgUrl.IndexOf('?'));
+                            }
+                            current.Url = img.Attributes["href"].Value;
+                            current.Highlight = WebUtility.HtmlDecode(featuredNewsUnit.Descendants("p").First().InnerText.Trim());
+                            current.Title = WebUtility.HtmlDecode(img.InnerText.Trim());
+
+                            var infoDiv = featuredNewsUnit.FirstOfDescendantsWithClass("div", "information");
+                            var infoDivsParagraphs = infoDiv.Descendants("p").ToList();
+                            current.Author = WebUtility.HtmlDecode(infoDivsParagraphs[0].InnerText.Trim());
+                            current.Views = WebUtility.HtmlDecode(infoDivsParagraphs[1].InnerText.Trim());
+                            current.Tags = "New";
+
+                            output.Add(current);
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
                     foreach (var newsUnit in doc.WhereOfDescendantsWithClass("div", "news-unit clearfix"))
                     {
                         try
@@ -60,14 +94,16 @@ namespace MALClient.XShared.Comm.Articles
                                 //html here is messy, there may be change here soon
                             }
                             var contentDivs = newsUnit.Descendants("div").ToList();
-                            current.Title = WebUtility.HtmlDecode(contentDivs[0].Descendants("p").First().InnerText.Trim());
+                            current.Title =
+                                WebUtility.HtmlDecode(contentDivs[0].Descendants("p").First().InnerText.Trim());
                             current.Highlight = WebUtility.HtmlDecode(contentDivs[1].InnerText.Trim());
                             var infos = contentDivs[2].Descendants("p").ToList();
                             current.Author = infos[0].InnerText.Trim();
                             current.Views = infos[1].InnerText.Trim();
                             try
                             {
-                                current.Tags = string.Join(", ", contentDivs[3].Descendants("a").Select(node => node.InnerText.Trim()));
+                                current.Tags = string.Join(", ",
+                                    contentDivs[3].Descendants("a").Select(node => node.InnerText.Trim()));
                             }
                             catch (Exception)
                             {
@@ -81,6 +117,7 @@ namespace MALClient.XShared.Comm.Articles
                             //hatml
                         }
                     }
+
                     break;
                 case ArticlePageWorkMode.News:
                     foreach (var newsUnit in doc.WhereOfDescendantsWithClass("div", "news-unit clearfix rect"))

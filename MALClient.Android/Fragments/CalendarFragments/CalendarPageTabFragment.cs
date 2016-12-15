@@ -37,8 +37,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
         {
             _gridViewColumnHelper = new GridViewColumnHelper(CalendarPageTabContentList);
             CalendarPageTabContentList.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
-                Resource.Layout.AnimeGridItem, _items, (model, view) => new AnimeGridItemBindingInfo(view, model, false),
-                CalendarPageTabContentList.NumColumns);
+                Resource.Layout.AnimeGridItem, _items, (model, view) => new AnimeGridItemBindingInfo(view, model, false));
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

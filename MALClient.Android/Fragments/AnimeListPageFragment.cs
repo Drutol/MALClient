@@ -48,10 +48,6 @@ namespace MALClient.Android.Fragments
         public override void OnConfigurationChanged(Configuration newConfig)
         {
             _gridViewColumnHelper.OnConfigurationChanged(newConfig);
-            if (AnimeListPageGridView.NumColumns == 2)
-                _animeListItemsAdapter?.OnConfigurationChanged(newConfig);
-            else
-                _animeListItemsAdapter?.ResetConfiguration();
             base.OnConfigurationChanged(newConfig);
         }
 

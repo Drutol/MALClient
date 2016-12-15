@@ -17,8 +17,8 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -107,10 +107,6 @@
       <HintPath>..\packages\Xamarin.Android.Support.Design.23.4.0.1\lib\MonoAndroid43\Xamarin.Android.Support.Design.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v13, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Android.Support.v13.22.2.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v13.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.Android.Support.v4.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
       <Private>True</Private>
@@ -135,21 +131,16 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
-    <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
-    <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
     <Compile Include="BindingInformation\AnimeListItemBindingInfo.cs" />
-    <Compile Include="BindingInformation\BindingExtension.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
-    <Compile Include="BindingInformation\StaticBindingInfo.cs" />
-    <Compile Include="BindingInformation\StaticBindings\CharacterItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
@@ -157,36 +148,19 @@
     <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
+    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
-    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs">
-      <DependentUpon>AnimeDetailsPageFragment.cs</DependentUpon>
-    </Compile>
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageDetailsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageGeneralTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageRecomsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageRelatedTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageReviewsTabFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
-    <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
-      <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.cs" />
-    <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.ui.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>CalendarPageFragment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
-    <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
-    <Compile Include="Fragments\CharacterSearchPageFragment.cs" />
-    <Compile Include="Fragments\LogInPageFragment.ui.cs">
-      <DependentUpon>LogInPageFragment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Fragments\SearchFragments\AnimeSearchPageFragment.cs" />
+    <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
-    <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
-    <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
@@ -203,7 +177,6 @@
     <Compile Include="Utilities\AndroidUtilities.cs" />
     <Compile Include="Utilities\DimensionsHelper.cs" />
     <Compile Include="Utilities\JavaObjectWrapper.cs" />
-    <Compile Include="Utilities\GridViewColumnHelper.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
@@ -286,6 +259,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_hamburger.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportdesign">
+      <Visible>False</Visible>
+      <Version>23.4.0.1</Version>
+    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\icon\" />
@@ -454,54 +433,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\anime_list_item_background.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\SuggestionItem.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeSearchItem.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeSearchPage.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\SearchPage.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CharacterSearchPage.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CharacterItem.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeTypeSearchPage.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeSearchTypeItem.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CalendarPage.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CalendarPageSummaryTab.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CalenarPageTabContent.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\CalendarPageSummaryTabContent.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\animator\animation_slide_btm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\animator\animation_fade_out.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="xamandroidsupportdesign">
-      <Visible>False</Visible>
-      <Version>23.4.0.1</Version>
-    </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

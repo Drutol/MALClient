@@ -38,8 +38,6 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-            _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
-
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
             Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
                 this.SetBinding(() => ViewModel.Loading,
@@ -112,8 +110,9 @@ namespace MALClient.Android.Fragments
                             new AnimeGridItemBindingInfo(view, model)
                             {
                                 OnItemClickAction = AnimeListPageGridViewOnItemClick
-                            },AnimeListPageGridView.NumColumns);
+                            });
                     AnimeListPageGridView.Adapter = _animeListItemsAdapter;
+                    _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
                     if (_prevArgs != null)
                     {
                         var pos = _prevArgs.SelectedItemIndex;
@@ -135,7 +134,7 @@ namespace MALClient.Android.Fragments
                         Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,(model, view) => new AnimeListItemBindingInfo(view,model)
                         {
                             OnItemClickAction = AnimeListPageGridViewOnItemClick
-                        },1);
+                        });
                     AnimeListPageListView.Adapter = _animeListItemsAdapter;
                     if (_prevArgs != null)
                     {

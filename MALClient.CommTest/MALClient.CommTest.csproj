@@ -119,7 +119,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MalClient.Shared\MALClient.Shared.csproj">
+    <ProjectReference Include="..\MalClient.Shared\MALClient.UWP.Shared.csproj">
       <Project>{fbd14ec9-e60e-4155-bd43-210f3096ca5a}</Project>
       <Name>MALClient.Shared</Name>
     </ProjectReference>

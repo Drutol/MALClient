@@ -21,7 +21,7 @@
             <RowDefinition MaxHeight="400" Height="Auto" />
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-            <ListView ItemsSource="{Binding MessageSet,Converter={StaticResource MessageEntryToViewModelConverter}}" SelectionMode="None">
+            <ListView x:Name="ListView" ItemsSource="{Binding MessageSet,Converter={StaticResource MessageEntryToViewModelConverter}}" SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="5" CornerRadius="{Binding CornerRadius}"

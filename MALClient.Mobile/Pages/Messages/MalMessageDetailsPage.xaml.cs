@@ -1,10 +1,14 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.ViewModels;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -21,6 +25,16 @@ namespace MALClient.Pages.Messages
         {
             InitializeComponent();
             Loaded += (sender, args) => ViewModel.Init(_lastArgs);
+            ViewModelLocator.MalMessageDetails.PropertyChanged += MalMessageDetailsOnPropertyChanged;
+        }
+
+        private async void MalMessageDetailsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.MalMessageDetails.MessageSet))
+            {
+                await Task.Delay(50);
+                ListView.ScrollToBottom();
+            }
         }
 
         private MalMessageDetailsViewModel ViewModel => DataContext as MalMessageDetailsViewModel;

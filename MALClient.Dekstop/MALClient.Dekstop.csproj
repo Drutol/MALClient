@@ -138,8 +138,12 @@
     <Compile Include="Pages\Main\WallpapersPage.xaml.cs">
       <DependentUpon>WallpapersPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Messages\MalMessageDetailsPage.xaml.cs" />
-    <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs" />
+    <Compile Include="Pages\Messages\MalMessageDetailsPage.xaml.cs">
+      <DependentUpon>MalMessageDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs">
+      <DependentUpon>MalMessagingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Off\AnimeDetailsPage.xaml.cs">
       <DependentUpon>AnimeDetailsPage.xaml</DependentUpon>
     </Compile>

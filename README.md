@@ -1,4 +1,6 @@
 # MALClient
+
+[![Join the chat at https://gitter.im/MALClient/Lobby](https://badges.gitter.im/MALClient/Lobby.svg)](https://gitter.im/MALClient/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows10 devices and android version is now in the works. It also supports Hummingbird with list managing.
 
 

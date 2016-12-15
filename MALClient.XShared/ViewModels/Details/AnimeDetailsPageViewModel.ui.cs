@@ -463,7 +463,7 @@ namespace MALClient.XShared.ViewModels.Details
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand
-            => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<AnimeStatus>(ChangeStatus));
+            => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(s => ChangeStatus((AnimeStatus)Utilities.StatusToInt(s))));
 
         private ICommand _navigateCharacterDetailsCommand;
 

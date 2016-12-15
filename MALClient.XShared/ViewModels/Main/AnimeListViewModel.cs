@@ -105,7 +105,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         public ObservableCollection<AnimeSeason> SeasonSelection { get; } = new ObservableCollection<AnimeSeason>();
 
-
         public bool AreThereItemsWaitingForLoad => _animeItemsSet.Count != 0;
 
         public int CurrentStatus

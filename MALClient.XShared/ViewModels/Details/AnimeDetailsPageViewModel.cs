@@ -1079,6 +1079,32 @@ namespace MALClient.XShared.ViewModels.Details
                 i++;
             }
 
+            //Umm... K-ON is NOT music anime
+            if (_animeItemReference.Id == 5680 || _animeItemReference.Id == 7791 || _animeItemReference.Id == 9617)
+            {
+                bool truthHadBeenTold = false;
+                for (int j = 0; j < LeftGenres.Count; j++)
+                {
+                    if (LeftGenres[j].Trim() == "Music")
+                    {
+                        LeftGenres[j] = "Certainly NOT Music Anime...";
+                        truthHadBeenTold = true;
+                        break;
+                    }
+                }
+                if (!truthHadBeenTold)
+                {
+                    for (int j = 0; j < RightGenres.Count; j++)
+                    {
+                        if (RightGenres[j].Trim() == "Music")
+                        {
+                            RightGenres[j] = "Certainly NOT Music Anime...";
+                            break;
+                        }
+                    }
+                }
+            }
+
             foreach (var info in data.Information)
             {
                 var infoString = info;

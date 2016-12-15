@@ -258,9 +258,18 @@ namespace MALClient.ViewModels
                             CurrentMainPage.Value != PageIndex.PageMangaSearch &&
                             CurrentMainPage.Value != PageIndex.PageCharacterSearch)
                             _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
-                        SearchToggleLock = true;
-                        ShowSearchStuff();
-                        ToggleSearchStuff();
+                        if (arg.ByGenre || arg.ByStudio)
+                        {
+                            CurrentStatus = $"Select {(arg.ByGenre ? "Genre" : "Studio")}";
+                            HideSearchStuff();
+                        }
+                        else
+                        {
+                            SearchToggleLock = true;
+                            ShowSearchStuff();
+                            ToggleSearchStuff();
+                        }
+
                         StatusFilterVisibilityLock = true;
                         if (string.IsNullOrWhiteSpace(arg.Query))
                             arg.Query = CurrentSearchQuery;

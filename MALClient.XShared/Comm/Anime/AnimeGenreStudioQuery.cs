@@ -14,37 +14,40 @@ namespace MALClient.XShared.Comm.Anime
     public class AnimeGenreStudioQuery : Query
     {
         private readonly AnimeStudios _studio;
+        private readonly int _page;
         private readonly AnimeGenres _genre;
         private readonly bool _genreMode;
 
-        public AnimeGenreStudioQuery(AnimeGenres genre)
+        public AnimeGenreStudioQuery(AnimeGenres genre,int page = 1)
         {
             _genre = genre;
+            _page = page;
             _genreMode = true;
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"https://myanimelist.net/anime/genre/{(int) genre}"));
+                    Uri.EscapeUriString($"https://myanimelist.net/anime/genre/{(int) genre}?page={page}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
 
-        public AnimeGenreStudioQuery(AnimeStudios studio)
+        public AnimeGenreStudioQuery(AnimeStudios studio,int page = 1)
         {
             _studio = studio;
+            _page = page;
             Request =
                 WebRequest.Create(
-                    Uri.EscapeUriString($"https://myanimelist.net/anime/producer/{(int) studio}"));
+                    Uri.EscapeUriString($"https://myanimelist.net/anime/producer/{(int) studio}?page={page}"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
 
-        public async Task<List<SeasonalAnimeData>> GetSeasonalAnime()
+        public async Task<List<SeasonalAnimeData>> GetAnime()
         {
 
             var output =
                 await
                     DataCache.RetrieveData<List<SeasonalAnimeData>>(
-                        _genreMode ? $"genre_{_genre}" : $"studio_{_studio}",
+                        _genreMode ? $"genre_{_genre}_{_page}" : $"studio_{_studio}_{_page}",
                         _genreMode ? "AnimesByGenre" : "AnimesByStudio", 7) ??
                 new List<SeasonalAnimeData>();
             if (output.Count > 0)
@@ -74,9 +77,9 @@ namespace MALClient.XShared.Comm.Anime
             }
 
             if(_genreMode)
-                DataCache.SaveData(output, $"genre_{_genre}", "AnimesByGenre");
+                DataCache.SaveData(output, $"genre_{_genre}_page{_page}", "AnimesByGenre");
             else
-                DataCache.SaveData(output, $"studio_{_studio}", "AnimesByStudio");
+                DataCache.SaveData(output, $"studio_{_studio}_page{_page}", "AnimesByStudio");
 
             return output;
         }

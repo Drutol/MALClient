@@ -10,12 +10,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Shehabic.Droppy;
 using FFImageLoading;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.DIalogs;
+using MALClient.Android.Flyouts;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -26,6 +28,7 @@ namespace MALClient.Android.Fragments
     {
         private static AnimeDetailsPageNavigationArgs _navArgs;
         private AnimeDetailsPageViewModel ViewModel;
+        private DroppyMenuPopup _menu;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -77,6 +80,42 @@ namespace MALClient.Android.Fragments
             Bindings[AnimeDetailsPageLoadingOverlay.Id].Add(
                 this.SetBinding(() => ViewModel.LoadingGlobal,
                     () => AnimeDetailsPageLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(AnimeDetailsPageAddSection.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageAddSection.Id].Add(
+                this.SetBinding(() => ViewModel.AddAnimeVisibility,
+                    () => AnimeDetailsPageAddSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(AnimeDetailsPageIncrementButton.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageIncrementButton.Id].Add(
+                this.SetBinding(() => ViewModel.IsIncrementButtonEnabled,
+                    () => AnimeDetailsPageIncrementButton.Enabled));
+
+            Bindings.Add(AnimeDetailsPageDecrementButton.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageDecrementButton.Id].Add(
+                this.SetBinding(() => ViewModel.IsDecrementButtonEnabled,
+                    () => AnimeDetailsPageDecrementButton.Enabled));
+
+            Bindings.Add(AnimeDetailsPageUpdateSection.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageUpdateSection.Id].Add(
+                this.SetBinding(() => ViewModel.AddAnimeVisibility,
+                    () => AnimeDetailsPageUpdateSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
+
+            Bindings.Add(AnimeDetailsPageIncDecSection.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageIncDecSection.Id].Add(
+                this.SetBinding(() => ViewModel.AddAnimeVisibility,
+                    () => AnimeDetailsPageIncDecSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
+
+            AnimeDetailsPageIncrementButton.SetCommand("Click",ViewModel.IncrementEpsCommand);
+            AnimeDetailsPageDecrementButton.SetCommand("Click",ViewModel.DecrementEpsCommand);
+            AnimeDetailsPageMoreButton.Click +=
+                (sender, args) =>
+                {
+                   _menu = AnimeDetailsPageMoreFlyoutBuilder.BuildForAnimeDetailsPage(Activity, AnimeDetailsPageMoreButton,
+                        ViewModel);
+                   _menu.Show();
+                };
+            AnimeDetailsPageAddButton.SetCommand("Click",ViewModel.AddAnimeCommand);
             //OneTime
 
             AnimeDetailsPageWatchedLabel.Text = ViewModel.WatchedEpsLabel;

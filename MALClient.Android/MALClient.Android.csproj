@@ -151,6 +151,7 @@
     <Compile Include="BindingInformation\StaticBindingInfo.cs" />
     <Compile Include="BindingInformation\StaticBindings\CharacterItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
+    <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />

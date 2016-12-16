@@ -8,6 +8,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -29,6 +30,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private AnimeDetailsPageViewModel ViewModel;
         private ObservableAdapter<DirectRecommendationData> _adapter;
         private ListView _list;
+        private static float _pixelSize;
+
+        static AnimeDetailsPageRecomsTabFragment()
+        {
+            _pixelSize = 14 * MainActivity.CurrentContext.Resources.DisplayMetrics.ScaledDensity;
+        }
 
         private AnimeDetailsPageRecomsTabFragment()
         {
@@ -69,7 +76,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                 txt = view.FindViewById<FlowTextView>(Resource.Id.AnimeRecomItemRecomContent);
                 txt.TextColor = ResourceExtension.BrushText;
                 txt.SetTypeface(Typeface.Create(Typeface.Default, TypefaceStyle.Normal));     
-                txt.SetTextSize(28f);         
+                txt.SetTextSize(_pixelSize);         
             }
 
             view.Tag = new JavaObjectWrapper<DirectRecommendationData>(animeReviewData);
@@ -103,6 +110,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         #region Views
 
         private RelativeLayout _loadingOverlay;
+
         public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageRecomTabLoadingOverlay));
 
 

@@ -109,13 +109,12 @@ namespace MALClient.Android.BindingInformation
                     () => ViewModel.MyScoreBindShort,
                     scoreView,
                     () => scoreView.Text));
-
-            AnimeGridItemMoreButton.Click += AnimeGridItemMoreButtonOnClick;
-
         }
 
         private void ContainerOnClick()
         {
+            if(_swipeListener.IsSwiping)
+                return;
             if (OnItemClickAction != null)
                 OnItemClickAction.Invoke(ViewModel);
             else
@@ -124,7 +123,7 @@ namespace MALClient.Android.BindingInformation
 
         #region MoreFlyout
 
-        private void AnimeGridItemMoreButtonOnClick(object sender, EventArgs eventArgs)
+        private void AnimeGridItemMoreButtonOnClick()
         {
             _menu = AnimeItemFlyoutBuilder.BuildForAnimeItem(MainActivity.CurrentContext, AnimeGridItemMoreButton,
                 ViewModel,
@@ -259,6 +258,7 @@ namespace MALClient.Android.BindingInformation
                 DisableSwipe();
      
             Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+            AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => AnimeGridItemMoreButtonOnClick()));
 
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
@@ -268,7 +268,7 @@ namespace MALClient.Android.BindingInformation
         {
             if (Bindings.Any())
             {
-                AnimeGridItemMoreButton.Click -= AnimeGridItemMoreButtonOnClick;
+                AnimeGridItemMoreButton.SetOnClickListener(null);
                 Container.SetOnClickListener(null);
             }
 

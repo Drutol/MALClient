@@ -652,7 +652,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         private ICommand _copyToClipboardCommand;
 
-        public object CopyToClipboardCommand
+        public ICommand CopyToClipboardCommand
         {
             get
             {

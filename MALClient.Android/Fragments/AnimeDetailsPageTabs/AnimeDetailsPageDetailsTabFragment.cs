@@ -107,11 +107,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         public LinearLayout AnimeDetailsPageDetailsTabEDsList => _animeDetailsPageDetailsTabEDsList ?? (_animeDetailsPageDetailsTabEDsList = FindViewById<LinearLayout>(Resource.Id.AnimeDetailsPageDetailsTabEDsList));
 
-
-
-
-
         private RelativeLayout _loadingOverlay;
+
         public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageDetailsTabLoadingOverlay));
 
         #endregion

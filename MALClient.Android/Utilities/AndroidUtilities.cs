@@ -78,7 +78,7 @@ namespace MALClient.Android
 
         public static TObj Unwrap<TObj>(this Java.Lang.Object obj) where TObj : class
         {
-            return (obj as JavaObjectWrapper<TObj>).Instance;
+            return (obj as JavaObjectWrapper<TObj>)?.Instance;
         }
 
         public static JavaObjectWrapper<TObj> Wrap<TObj>(this TObj obj) where TObj : class

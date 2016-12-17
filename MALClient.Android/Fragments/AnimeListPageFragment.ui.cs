@@ -23,10 +23,12 @@ using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;
+using static MALClient.Android.Flyouts.AnimeListPageFlyoutBuilder;
 
 namespace MALClient.Android.Fragments
 {
@@ -35,6 +37,7 @@ namespace MALClient.Android.Fragments
         private DroppyMenuPopup _sortingMenu;
         private DroppyMenuPopup _filterMenu;
         private DroppyMenuPopup _displayMenu;
+        private DroppyMenuPopup _seasonMenu;
 
         protected override void InitBindings()
         {
@@ -43,14 +46,56 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.Loading,
                     () => AnimeListPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            Bindings.Add(AnimeListPageSeasonMenu.Id, new List<Binding>());
+            Bindings[AnimeListPageSeasonMenu.Id].Add(
+                this.SetBinding(() => ViewModel.AppbarBtnPinTileVisibility,
+                    () => AnimeListPageSeasonMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
             AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
             AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
             AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
             AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
+            AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
         }
 
+        private void ShowSeasonMenu()
+        {
+            _seasonMenu = AnimeListPageFlyoutBuilder.BuildForAnimeSeasonSelection(Activity, AnimeListPageSeasonMenu,
+                SelectSeason, ViewModel);
+            _seasonMenu.Show();
+            var spinnerYear = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupYearComboBox);
+            var spinnerSeason = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
+            spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
+            {
+                var view = arg3 ?? BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                view.Tag = s.Wrap();
 
+                return view;
+            });
+            spinnerYear.ItemSelected += (sender, args) =>
+            {
+                ViewModel.CurrentlySelectedCustomSeasonYear = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
+            };
+            spinnerSeason.Adapter = ViewModel.SeasonSeasons.GetAdapter((i, s, arg3) =>
+            {
+                var view = arg3 ?? BuildBaseItem(Activity, s,ResourceExtension.BrushAnimeItemInnerBackground,null,false);
+                view.Tag = s.Wrap();
+
+                return view;
+            });
+            spinnerSeason.ItemSelected += (sender, args) =>
+            {
+                ViewModel.CurrentlySelectedCustomSeasonSeason = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
+            };
+            _seasonMenu.MenuView.FindViewById(Resource.Id.SeasonSelectionPopupAcceptButton).SetCommand("Click",ViewModel.GoToCustomSeasonCommand);
+
+        }
+
+        private void SelectSeason(int season)
+        {
+            ViewModel.CurrentSeason = ViewModel.SeasonSelection[season];
+        }
 
         private void ShowSortMenu()
         {
@@ -188,6 +233,7 @@ namespace MALClient.Android.Fragments
         private ProgressBar _animeListPageLoadingSpinner;
         private ImageButton _animeListPageReloadButton;
         private ImageButton _animeListPageDisplayMenu;
+        private ImageButton _animeListPageSeasonMenu;
         private ImageButton _animeListPageFilterMenu;
         private ImageButton _animeListPageSortMenu;
 
@@ -203,17 +249,10 @@ namespace MALClient.Android.Fragments
 
         public ImageButton AnimeListPageDisplayMenu => _animeListPageDisplayMenu ?? (_animeListPageDisplayMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageDisplayMenu));
 
+        public ImageButton AnimeListPageSeasonMenu => _animeListPageSeasonMenu ?? (_animeListPageSeasonMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageSeasonMenu));
+
         public ImageButton AnimeListPageFilterMenu => _animeListPageFilterMenu ?? (_animeListPageFilterMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageFilterMenu));
 
         public ImageButton AnimeListPageSortMenu => _animeListPageSortMenu ?? (_animeListPageSortMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageSortMenu));
-
-
-
-
-
-
-
-
-
     }
 }

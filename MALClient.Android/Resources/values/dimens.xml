@@ -2,9 +2,9 @@
   <!-- Default screen margins, per the Android Design guidelines. -->
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
-  <dimen name="AppBarHeight">50dp</dimen>
-  <dimen name="AppBarBtnWidth">50dp</dimen>
-  <dimen name="AppBarBtnHeight">50dp</dimen>
+  <dimen name="AppBarHeight">50sp</dimen>
+  <dimen name="AppBarBtnWidth">50sp</dimen>
+  <dimen name="AppBarBtnHeight">50sp</dimen>
   <dimen name="TextFlyoutItemHeight">30dp</dimen>
   <dimen name="TextFlyoutItemWidth">100dp</dimen>
   <dimen name="TextFlyoutItemWideWidth">150dp</dimen>

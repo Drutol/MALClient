@@ -22,6 +22,7 @@ using MALClient.Models.Enums.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.Flyouts
 {
@@ -57,33 +58,51 @@ namespace MALClient.Android.Flyouts
 
         public static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null)
         {
+            var holder = BuildBaseItem(context, text,background,foreground);
+
+            holder.Click += (sender, args) => callback.Invoke(id);
+
+            return holder;
+        }
+
+        public static View BuildItem<T>(Context context,string text, T tag, Action<T> callback, int? background = null, int? foreground = null) where T : class
+        {
+            var holder = BuildBaseItem(context, text, background, foreground);
+            holder.Tag = tag.Wrap();
+            holder.Click += (sender, args) => callback.Invoke((sender as View).Tag.Unwrap<T>());
+            return holder;
+        }
+
+        public static View BuildBaseItem(Context context, string text,int? background = null, int? foreground = null, bool clickable = true)
+        {
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
 
             var top = new FrameLayout(context);
 
             top.SetBackgroundColor(new Color(background.Value));
-            var holder = new RelativeLayout(context) {LayoutParameters = ParamRelativeLayout};
+            var holder = new RelativeLayout(context) { LayoutParameters = ParamRelativeLayout };
 
             holder.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
 
-            holder.Clickable = true;
-            holder.Focusable = true;
+            if (clickable)
+            {
+                holder.Clickable = true;
+                holder.Focusable = true;
+            }
 
-            var txt = new TextView(context) {LayoutParameters = ParamTextView};
+
+            var txt = new TextView(context) { LayoutParameters = ParamTextView };
             txt.SetTextColor(new Color(foreground.Value));
             txt.Text = text;
 
             holder.AddView(txt);
             top.AddView(holder);
 
-            holder.Click += (sender, args) => callback.Invoke(id);
-
             return top;
         }
 
-        
-
+       
         public static DroppyMenuPopup BuildForAnimeStatusSelection(Context context, View parent,
             Action<AnimeStatus> callback,AnimeStatus currentStatus,bool manga)
         {
@@ -154,6 +173,26 @@ namespace MALClient.Android.Flyouts
                     droppyBuilder.AddMenuItem(
                         new DroppyMenuCustomItem(BuildItem(context, item.Item2, listener, (int)item.Item1)));
             }
+
+            return droppyBuilder.Build();
+        }
+
+        public static DroppyMenuPopup BuildForAnimeSeasonSelection(Context context, View parent,Action<int> callback,
+            AnimeListViewModel viewModel)
+        {
+            ParamRelativeLayout = new ViewGroup.LayoutParams(300, 70);
+
+            var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
+            InjectAnimation(droppyBuilder);
+
+            var listener = new Action<int>(callback.Invoke);
+
+            int index = 0;
+            foreach (var season in viewModel.SeasonSelection)
+            {
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(BuildItem(context, season.Name, listener, index++)));
+            }
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(Resource.Layout.SeasonSelectionPopup));
 
             return droppyBuilder.Build();
         }

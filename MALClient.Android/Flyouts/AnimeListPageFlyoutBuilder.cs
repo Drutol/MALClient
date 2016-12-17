@@ -60,7 +60,10 @@ namespace MALClient.Android.Flyouts
         {
             var holder = BuildBaseItem(context, text,background,foreground);
 
-            holder.Click += (sender, args) => callback.Invoke(id);
+            holder.Click += (sender, args) =>
+            {
+                callback.Invoke(id);
+            };
 
             return holder;
         }
@@ -87,8 +90,8 @@ namespace MALClient.Android.Flyouts
 
             if (clickable)
             {
-                holder.Clickable = true;
-                holder.Focusable = true;
+                top.Clickable = true;
+                top.Focusable = true;
             }
 
 

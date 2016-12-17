@@ -9,7 +9,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
+using MALClient.Android.DIalogs;
 using MALClient.XShared.ViewModels.Details;
 
 namespace MALClient.Android.Flyouts
@@ -33,6 +35,7 @@ namespace MALClient.Android.Flyouts
                     case 1:
                         break;
                     case 2:
+                        AnimeUpdateDialogBuilder.BuildTagDialog(viewModel);
                         break;
                     case 3:
                         viewModel.CopyToClipboardCommand.Execute(null);

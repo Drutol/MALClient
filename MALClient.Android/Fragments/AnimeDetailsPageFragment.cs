@@ -116,6 +116,7 @@ namespace MALClient.Android.Fragments
                    _menu.Show();
                 };
             AnimeDetailsPageAddButton.SetCommand("Click",ViewModel.AddAnimeCommand);
+            
             //OneTime
 
             AnimeDetailsPageWatchedLabel.Text = ViewModel.WatchedEpsLabel;

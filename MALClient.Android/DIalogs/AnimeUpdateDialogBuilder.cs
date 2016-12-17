@@ -16,8 +16,10 @@ using MALClient.Android.Activities;
 using MALClient.Android.Adapters.DialogAdapters;
 using MALClient.Android.Listeners.DialogListeners;
 using MALClient.Models.Models.Library;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Details;
 
 namespace MALClient.Android.DIalogs
 {
@@ -50,6 +52,7 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupStatusDialog()
         {
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
             _statusDialog?.Dismiss();
             _statusDialog = null;
         }
@@ -127,6 +130,7 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupWatchedDialog()
         {
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
             _watchedDialogBindings.ForEach(binding => binding.Detach());
             _watchedDialogBindings = new List<Binding>();
             _watchedDialog?.Dismiss();
@@ -163,7 +167,67 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupScoreDialog()
         {
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
             _scoreDialog?.Dismiss();
+            _scoreDialog = null;
+        }
+
+        private static AnimeDetailsPageViewModel _tagsDialogContext;
+        private static DialogPlus _tagsDialog;
+        private static List<Binding> _tagsDialogBindings;
+        public static void BuildTagDialog(AnimeDetailsPageViewModel viewModel)
+        {
+            _tagsDialogBindings = new List<Binding>();
+            _tagsDialogContext = viewModel;
+            var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
+            dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeTagsDialog));
+            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupTagsDialog));
+            dialogBuilder.SetGravity((int) GravityFlags.Top);
+            dialogBuilder.SetOnDismissListener(
+                new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupTagsDialog));
+            _tagsDialog = dialogBuilder.Create();
+            var view = _tagsDialog.HolderView;
+
+            view.FindViewById<ListView>(Resource.Id.AnimeTagsDialogList).Adapter =
+                viewModel.MyTags.GetAdapter(GetTagItem);
+            var editBox = view.FindViewById<EditText>(Resource.Id.AnimeTagsDialogEditBox);
+
+            _tagsDialogBindings.Add(new Binding<string, string>(
+                viewModel,
+                () => viewModel.NewTagInput,
+                editBox,
+                () => editBox.Text,BindingMode.TwoWay));
+
+            view.FindViewById<ImageButton>(Resource.Id.AnimeTagsDialogAddTagButton).SetCommand("Click",viewModel.AddTagCommand);
+
+            _tagsDialog.Show();
+        }
+
+        private static View GetTagItem(int i, string s, View convertView)
+        {
+            var view = convertView;
+            if (view == null)
+            {
+                view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeTagsDialogListItem, null);
+                view.FindViewById<ImageButton>(Resource.Id.AnimeTagsDialogListItemDeleteButton).Click +=
+                    (sender, args) =>
+                    {
+                        _tagsDialogContext.RemoveTagCommand.Execute((sender as View).Tag.Unwrap<string>());
+                    };
+
+            }
+            view.FindViewById<ImageButton>(Resource.Id.AnimeTagsDialogListItemDeleteButton).Tag = s.Wrap();
+            view.FindViewById<TextView>(Resource.Id.AnimeTagsDialogListItemTag).Text = s;
+            return view;
+        }
+
+        private static void CleanupTagsDialog()
+        {
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
+            _tagsDialogBindings.ForEach(binding => binding.Detach());
+            _tagsDialog?.Dismiss();
             _scoreDialog = null;
         }
     }

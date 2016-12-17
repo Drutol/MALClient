@@ -21,7 +21,7 @@ using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 
-namespace MALClient.Android.DIalogs
+namespace MALClient.Android.Dialogs
 {
     public static class AnimeUpdateDialogBuilder
     {

@@ -21,7 +21,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.Adapters.DialogAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
-using MALClient.Android.DIalogs;
+using MALClient.Android.Dialogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
@@ -109,6 +109,31 @@ namespace MALClient.Android.BindingInformation
                     () => ViewModel.MyScoreBindShort,
                     scoreView,
                     () => scoreView.Text));
+
+            var topRight = Container.FindViewById<LinearLayout>(Resource.Id.AnimeGridItemTopRightInfo);
+            Bindings.Add(topRight.Id, new List<Binding>());
+            Bindings[topRight.Id].Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.Auth,
+                topRight,
+                () => topRight.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            var addButon = Container.FindViewById<FrameLayout>(Resource.Id.AnimeGridItemAddToListButton);
+            Bindings.Add(addButon.Id, new List<Binding>());
+            Bindings[addButon.Id].Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.AddToListVisibility,
+                addButon,
+                () => addButon.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            addButon.SetCommand("Click",ViewModel.AddAnimeCommand);
+
+            var tagButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemTagsButton);
+            Bindings.Add(tagButton.Id, new List<Binding>());
+            Bindings[tagButton.Id].Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.TagsControlVisibility,
+                tagButton,
+                () => tagButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
         private void ContainerOnClick()
@@ -252,7 +277,7 @@ namespace MALClient.Android.BindingInformation
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
             ImageService.Instance.LoadUrl(ViewModel.ImgUrl,TimeSpan.Zero).FadeAnimation(true,true).Into(img);
 
-            if(AllowSwipeInGivenContext)
+            if(AllowSwipeInGivenContext && ViewModel.Auth)
                 InitializeSwipeLayout();
             else
                 DisableSwipe();

@@ -18,7 +18,7 @@ using MALClient.XShared.ViewModels;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
-using MALClient.Android.DIalogs;
+using MALClient.Android.Dialogs;
 using MALClient.Android.Flyouts;
 
 namespace MALClient.Android.BindingInformation

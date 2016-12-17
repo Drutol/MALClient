@@ -16,7 +16,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
-using MALClient.Android.DIalogs;
+using MALClient.Android.Dialogs;
 using MALClient.Android.Flyouts;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;

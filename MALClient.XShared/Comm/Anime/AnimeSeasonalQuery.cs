@@ -78,6 +78,19 @@ namespace MALClient.XShared.Comm.Anime
 
                 //Get anime data
                 var nodes = mainNode.ChildNodes.Where(node => node.Name == "div").Take(Settings.SeasonalToPull);
+                try
+                {
+                    //add movies if any
+                    nodes =
+                        nodes.Concat(
+                            doc.FirstOfDescendantsWithClass("div",
+                                    "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-3 clearfix")
+                                .ChildNodes.Where(node => node.Name == "div"));
+                }
+                catch (Exception e)
+                {
+                    //no movies or corrupt html
+                }
 
                 var i = 0;
                 foreach (var htmlNode in nodes)

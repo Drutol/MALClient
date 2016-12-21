@@ -22,6 +22,7 @@
         <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="AnyTextToVisibilityConverter" />
         <xamlConverters:FavouriteBaseToStaffPersonToIsUnknownVisibilityConverter
             x:Key="FavouriteBaseToStaffPersonToIsUnknownVisibilityConverter" />
+        <xamlConverters:StringRemoverConverter x:Key="StringRemoverConverter" />
     </Page.Resources>
 
     <Page.Transitions>
@@ -1209,11 +1210,12 @@
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="0,0,0,10 " />
                                         </Style>
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid>
+                                            <Grid BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="5,0,0,0" PointerEntered="ReviewItemOnPointerEntered" PointerExited="ReviewItemOnPointerExited">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
@@ -1223,9 +1225,8 @@
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="105" />
                                                     </Grid.ColumnDefinitions>
-                                                    <StackPanel
-                                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                        Padding="5,0,0,0" Margin="0,5" BorderThickness="5,0,0,0"
+                                                    <StackPanel                                                    
+                                                        Padding="5,0,0,0" Margin="0,5" 
                                                         HorizontalAlignment="Stretch">
                                                         <StackPanel Orientation="Horizontal">
                                                             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
@@ -1241,22 +1242,27 @@
                                                                 <TextBlock Text="{Binding Date}" FontWeight="SemiLight" />
                                                             </StackPanel>
                                                         </StackPanel>
-                                                        <TextBlock Text="{Binding OverallRating}" FontSize="15"
-                                                                   FontWeight="SemiLight" />
                                                         <TextBlock Text="{Binding EpisodesSeen}" FontWeight="SemiLight" />
                                                         <TextBlock Text="{Binding HelpfulCount}" FontWeight="SemiLight" />
                                                     </StackPanel>
-                                                    <ItemsControl Grid.Column="1" ItemsSource="{Binding Score}">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <TextBlock FontWeight="SemiLight"
+                                                    <StackPanel Grid.Column="1" Margin="0,5">
+                                                        <Border HorizontalAlignment="Left" BorderThickness="0,0,0,1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                                                            <TextBlock Text="{Binding OverallRating,Converter={StaticResource StringRemoverConverter},ConverterParameter=Rating}"
+                                                                   FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <ItemsControl ItemsSource="{Binding Score}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock FontWeight="SemiLight"
                                                                                Text="{Binding Field}" />
-                                                                    <TextBlock Margin="5,0" Text="{Binding Score}" />
-                                                                </StackPanel>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
+                                                                        <TextBlock Margin="5,0" Text="{Binding Score}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+
                                                 </Grid>
                                                 <Grid Grid.Row="1"
                                                       Visibility="{Binding ElementName=ExpandReviewButton,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}">

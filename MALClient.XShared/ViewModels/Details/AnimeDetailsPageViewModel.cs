@@ -1080,7 +1080,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
 
             //Umm... K-ON is NOT music anime
-            if (_animeItemReference.Id == 5680 || _animeItemReference.Id == 7791 || _animeItemReference.Id == 9617)
+            if (Id == 5680 || Id == 7791 || Id == 9617)
             {
                 bool truthHadBeenTold = false;
                 for (int j = 0; j < LeftGenres.Count; j++)

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
@@ -177,6 +179,21 @@ namespace MALClient.Pages.Off
             ViewModel.WatchedEpsInput = e.ClickedItem as string;
             ViewModel.ChangeWatchedCommand.Execute(null);
             WatchedEpsFlyout.Hide();
+        }
+
+        private static readonly Brush _b2 =
+            new SolidColorBrush(Application.Current.RequestedTheme == ApplicationTheme.Dark
+                ? Color.FromArgb(200, 50, 50, 50)
+                : Color.FromArgb(200, 190, 190, 190));
+
+        private void ReviewItemOnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            (sender as Grid).Background = _b2;
+        }
+
+        private void ReviewItemOnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            (sender as Grid).Background = new SolidColorBrush(Colors.Transparent);
         }
     }
 }

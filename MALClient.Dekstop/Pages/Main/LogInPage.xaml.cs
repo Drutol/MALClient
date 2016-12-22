@@ -24,16 +24,16 @@ namespace MALClient.Pages.Main
         public LogInPage()
         {
             InitializeComponent();
-            if (Settings.SelectedApiType == ApiType.Mal)
-            {
-                MalLoginButton.IsChecked = true;
-                MalLoginButton_OnChecked(null, null);
-            }
-            else
-            {
-                HumLoginButton.IsChecked = true;
-                HumLoginButton_OnChecked(null,null);
-            }
+            //if (Settings.SelectedApiType == ApiType.Mal)
+            //{
+            //    MalLoginButton.IsChecked = true;
+            //    MalLoginButton_OnChecked(null, null);
+            //}
+            //else
+            //{
+            //    HumLoginButton.IsChecked = true;
+            //    HumLoginButton_OnChecked(null,null);
+            //}
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -73,18 +73,18 @@ namespace MALClient.Pages.Main
             }
         }
 
-        private void HumLoginButton_OnChecked(object sender, RoutedEventArgs e)
-        {
-            HumLoginButton.LockToggle = true;
-            MalLoginButton.LockToggle = false;
-            MalLoginButton.IsChecked = false;
-        }
+        //private void HumLoginButton_OnChecked(object sender, RoutedEventArgs e)
+        //{
+        //    HumLoginButton.LockToggle = true;
+        //    MalLoginButton.LockToggle = false;
+        //    MalLoginButton.IsChecked = false;
+        //}
 
-        private void MalLoginButton_OnChecked(object sender, RoutedEventArgs e)
-        {
-            MalLoginButton.LockToggle = true;
-            HumLoginButton.LockToggle = false;
-            HumLoginButton.IsChecked = false;
-        }
+        //private void MalLoginButton_OnChecked(object sender, RoutedEventArgs e)
+        //{
+        //    MalLoginButton.LockToggle = true;
+        //    HumLoginButton.LockToggle = false;
+        //    HumLoginButton.IsChecked = false;
+        //}
     }
 }

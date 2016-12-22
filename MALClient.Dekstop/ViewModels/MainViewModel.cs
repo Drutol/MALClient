@@ -260,7 +260,7 @@ namespace MALClient.ViewModels
                             _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
                         if (arg.ByGenre || arg.ByStudio)
                         {
-                            CurrentStatus = $"Select {(arg.ByGenre ? "Genre" : "Studio")}";
+                            CurrentStatus = $"Anime by {(arg.ByGenre ? "Genre" : "Studio")}";
                             HideSearchStuff();
                         }
                         else

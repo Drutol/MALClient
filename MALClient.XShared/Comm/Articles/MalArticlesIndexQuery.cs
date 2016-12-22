@@ -64,7 +64,8 @@ namespace MALClient.XShared.Comm.Articles
                             current.Url = img.Attributes["href"].Value;
                             current.Highlight = WebUtility.HtmlDecode(featuredNewsUnit.Descendants("p").First().InnerText.Trim());
                             current.Title = WebUtility.HtmlDecode(img.InnerText.Trim());
-
+                            if(current.Title.ToLower().Contains("giveaway")) // emm I'll pass on these
+                                continue;
                             var infoDiv = featuredNewsUnit.FirstOfDescendantsWithClass("div", "information");
                             var infoDivsParagraphs = infoDiv.Descendants("p").ToList();
                             current.Author = WebUtility.HtmlDecode(infoDivsParagraphs[0].InnerText.Trim());

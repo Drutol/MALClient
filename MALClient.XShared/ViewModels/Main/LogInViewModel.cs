@@ -112,7 +112,7 @@ namespace MALClient.XShared.ViewModels.Main
             ViewModelLocator.GeneralMain
                 .CurrentOffStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
 
-            CurrentApiType = Settings.SelectedApiType;
+            CurrentApiType = ApiType.Mal;//Settings.SelectedApiType;
             LogOutButtonVisibility = Credentials.Authenticated;
         }
 

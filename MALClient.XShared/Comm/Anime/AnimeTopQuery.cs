@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
@@ -97,9 +98,13 @@ namespace MALClient.XShared.Comm.Anime
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
-                    var img = item.Descendants("img").First().Attributes["data-src"].Value.Split('/');
-                    int imgCount = img.Length;
-                    var imgurl = img[imgCount - 2] + "/" + img[imgCount - 1];
+                    //var img = item.Descendants("img").First().Attributes["data-src"].Value.Split('/');
+                    var img = item.Descendants("img").First().Attributes["srcset"].Value;
+                    img = img.Split(',').Last();
+                    img = img.Substring(0, img.Length - 3);
+                    var imgParts = img.Split('/');
+                    int imgCount = imgParts.Length;
+                    var imgurl = imgParts[imgCount - 2] + "/" + imgParts[imgCount - 1];
                     var pos = imgurl.IndexOf('?');
                     if (pos != -1)
                         imgurl = imgurl.Substring(0, pos);

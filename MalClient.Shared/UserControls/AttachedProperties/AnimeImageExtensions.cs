@@ -42,6 +42,8 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             if (Settings.PullHigherQualityImages && Settings.SelectedApiType != ApiType.Hummingbird && !GetForceStandardImage(d))
             {
                 var pos = source.IndexOf(".jpg");
+                if (pos == -1)
+                    pos = source.IndexOf(".webp");
                 if (pos != -1)
                 {
                     var uri = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));

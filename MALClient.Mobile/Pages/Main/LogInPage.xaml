@@ -34,11 +34,7 @@
                 <ColumnDefinition Width=".5*" />
                 <ColumnDefinition Width=".5*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <userControls:LockableToggleButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            <!--<userControls:LockableToggleButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                        x:Name="MalLoginButton"  Command="{Binding FocusMalCommand}" Checked="MalLoginButton_OnChecked">
                 <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" Width="185" />
             </userControls:LockableToggleButton>
@@ -48,8 +44,8 @@
                     <Image Source="/Assets/hummingbird150x150.scale-200.png" />
                     <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="19" />
                 </StackPanel>
-            </userControls:LockableToggleButton>
-            <Grid Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
+            </userControls:LockableToggleButton>-->
+            <Grid Grid.ColumnSpan="2" Grid.Column="0" Margin="0,10,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />

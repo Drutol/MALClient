@@ -18,8 +18,8 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>MALClient_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <AppxBundle>Always</AppxBundle>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxBundle>Never</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VsBuilds\</AppxPackageDir>
     <PackageCertificateThumbprint>87205DEB851A1C5CC6CE7E65C7C282B812C6EE97</PackageCertificateThumbprint>
@@ -248,6 +248,7 @@
     <Content Include="Assets\Square44x44Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\StoreLogoAsset.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />

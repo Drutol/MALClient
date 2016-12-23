@@ -241,6 +241,7 @@
     <Content Include="Assets\Square44x44Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\StoreLogoAsset.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />

@@ -127,9 +127,9 @@ namespace MALClient.XShared.Comm.Anime
                 return null;
 
             var imageNode =
-                htmlNode.FirstOfDescendantsWithClass("div", "image lazyload");
+                htmlNode.FirstOfDescendantsWithClass("div", "image");
             var link = imageNode.ChildNodes.First(node => node.Name == "a").Attributes["href"].Value;
-            var img = imageNode.Attributes["data-bg"].Value;
+            var img = imageNode.Attributes["style"].Value.Split(new[] {'(',')'})[1];
             var scoreTxt =
                 htmlNode.Descendants("span")
                     .First(

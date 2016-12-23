@@ -103,6 +103,10 @@ namespace MALClient
                     fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(launchArgs.Arguments);
                 }
             }
+            else if (e is ProtocolActivatedEventArgs)
+            {
+                fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl("https:" + (e as ProtocolActivatedEventArgs).Uri.AbsolutePath);
+            }
             else
             {
                 var activationArgs = e as ToastNotificationActivatedEventArgs;

@@ -942,7 +942,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 if (AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
                     await FetchData(false, AnimeListWorkModes.Anime);
-                if (WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio && page > 1)
+                if ((WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio) && page > 1)
                 {
                     target = _allLoadedSeasonalAnimeItems;
                 }

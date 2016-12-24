@@ -46,6 +46,7 @@ namespace MALClient.Android.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
+            SetTheme(Resource.Style.Theme_MALClient_Light);
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(bundle);
             

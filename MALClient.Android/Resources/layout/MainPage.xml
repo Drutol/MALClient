@@ -10,7 +10,7 @@
       android:layout_width="match_parent"
       android:layout_height="@dimen/AppBarHeight"
       android:orientation="horizontal"
-      android:background="@color/BrushAppBars">
+      android:background="?BrushAppBars">
     <ImageButton
         android:src="@drawable/icon_hamburger"
         android:layout_width="50dp"
@@ -27,7 +27,7 @@
           android:textStyle="normal"
           android:textSize="15sp"
           android:text="MALClientTestAcc - Watching"
-          android:textColor="@color/BrushText"
+          android:textColor="?BrushText"
           android:layout_gravity="center_vertical"
           android:id="@+id/MainPageCurrentStatus"
           android:layout_margin="5dp" />
@@ -38,7 +38,7 @@
           android:textStyle="normal"
           android:textSize="12sp"
           android:text="Score"
-          android:textColor="@color/BrushNoSearchResults"
+          android:textColor="?BrushNoSearchResults"
           android:layout_gravity="center_vertical"
           android:layout_margin="5dp" />
     </LinearLayout>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <declare-styleable name="AppTheme" >
+    <attr name="BrushText" format="reference"/>
+    <attr name="BrushTextInverted" format="reference"/>
+    <attr name="BrushDeepBackground" format="reference"/>
+    <attr name="BrushAppBars" format="reference"/>
+    <attr name="BrushPivotHeaderBackground" format="reference"/>
+    <attr name="BrushHamburgerBackground" format="reference"/>
+    <attr name="BrushAnimeItemBackground" format="reference"/>
+    <attr name="BrushHamburgerInnerBackground" format="reference"/>
+    <attr name="BrushAnimeItemInnerBackground" format="reference"/>
+    <attr name="BrushLoading" format="reference"/>
+    <attr name="BrushLoadingNonTransparent" format="reference"/>
+    <attr name="BrushLoadingNonOpaque" format="reference"/>
+    <attr name="BrushRowAlternate1" format="reference"/>
+    <attr name="BrushRowAlternate2" format="reference"/>
+    <attr name="BrushDetailsGeneralBorder" format="reference"/>
+    <attr name="BrushDetailsRelatedBackground" format="reference"/>
+    <attr name="BrushDetailsBackground" format="reference"/>
+    <attr name="BrushDetailsUpperBackground" format="reference"/>
+    <attr name="BrushDetailsMoreButton" format="reference"/>
+    <attr name="BrushPivotInnerHeaderBarBackground" format="reference"/>
+    <attr name="BrushNewsBackground" format="reference"/>
+    <attr name="BrushPinTileDialogOverlay" format="reference"/>
+    <attr name="BrushPinTileDialogBackground" format="reference"/>
+    <attr name="BrushSettingsSubtitle" format="reference"/>
+    <attr name="BrushFavouriteStarBackground" format="reference"/>
+    <attr name="BrushNoSearchResults" format="reference"/>
+  </declare-styleable>
+</resources>

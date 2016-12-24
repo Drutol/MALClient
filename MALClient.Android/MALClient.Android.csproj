@@ -136,6 +136,7 @@
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
@@ -182,6 +183,8 @@
     <Compile Include="Fragments\LogInPageFragment.ui.cs">
       <DependentUpon>LogInPageFragment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fragments\RecommendationsFragments\RecommendationItemFragment.cs" />
+    <Compile Include="Fragments\RecommendationsPageFragment.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
@@ -521,6 +524,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\attrs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_swap.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RecommendationsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RecommendationItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RecommendationItemDetailItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

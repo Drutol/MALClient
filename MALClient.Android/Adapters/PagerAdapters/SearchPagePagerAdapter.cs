@@ -80,7 +80,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
         private readonly AnimeTypeSearchFragment _genresSearchPageFragment;
 
 
-        public  void TabSelected(View p0)
+        public void TabSelected(View p0)
         {
             var txt = p0 as TextView;
             txt.Alpha = 1f;

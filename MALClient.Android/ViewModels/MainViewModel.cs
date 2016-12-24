@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
+using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Fragments.SearchFragments;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
@@ -175,8 +176,8 @@ namespace MALClient.Android.ViewModels
                     //    MainNavigationRequested?.Invoke(typeof(HummingbirdProfilePage), args);
                     break;
                 case PageIndex.PageRecomendations:
-                    //HideSearchStuff();
-                    //MainNavigationRequested?.Invoke(typeof(RecommendationsPage), args);
+                    HideSearchStuff();
+                    MainNavigationRequested?.Invoke(RecommendationsPageFragment.Instance);
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();

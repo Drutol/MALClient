@@ -38,11 +38,11 @@
       </LinearLayout>
       <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_alignParentRight="true">
         <ImageView android:layout_width="wrap_content" android:minWidth="30dp" android:minHeight="30dp" android:layout_height="wrap_content" android:src="@drawable/icon_favourite" android:alpha=".3" android:layout_centerInParent="true"/>
-        <TextView android:id="@+id/AnimeSearchItemGlobalScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7.87" android:textColor="@color/BrushText" android:textSize="14sp" android:textStyle="bold" android:layout_centerInParent="true"/>
+        <TextView android:id="@+id/AnimeSearchItemGlobalScore" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7.87" android:textColor="?BrushText" android:textSize="14sp" android:textStyle="bold" android:layout_centerInParent="true"/>
       </RelativeLayout>
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:layout_above="@id/AnimeSearchItemBtmSection">
-      <TextView android:id="@+id/AnimeSearchItemTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter" android:maxLines="3" android:ellipsize="end" android:textColor="@color/BrushText" android:layout_marginTop="3dp" android:layout_marginStart="3dp"/>
+      <TextView android:id="@+id/AnimeSearchItemTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter" android:maxLines="3" android:ellipsize="end" android:textColor="?BrushText" android:layout_marginTop="3dp" android:layout_marginStart="3dp"/>
       <TextView android:id="@+id/AnimeSearchItemDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -51,7 +51,7 @@
                 android:text="Desc."
                 android:ellipsize="end"
                 android:maxLines="6"
-                android:textColor="@color/BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
+                android:textColor="?BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
     </LinearLayout>
   </RelativeLayout>
 </LinearLayout>

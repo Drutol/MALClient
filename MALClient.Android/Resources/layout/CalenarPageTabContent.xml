@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@color/BrushDeepBackground">
+                android:background="?BrushDeepBackground">
   <GridView
       android:id="@+id/CalendarPageTabContentList"
       android:layout_width="match_parent"

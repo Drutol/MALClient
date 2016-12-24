@@ -3,7 +3,7 @@
   <item android:bottom="-4dp" android:top="-4dp">
     <shape>
       <solid android:color="@android:color/transparent" />
-      <stroke android:width="2dp" android:color="@color/AccentColour" />
+      <stroke android:width="2dp" android:color="?AccentColour" />
     </shape>
   </item>
 </layer-list>

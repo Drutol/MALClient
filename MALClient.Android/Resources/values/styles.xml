@@ -11,11 +11,11 @@
   </style>
 
   <style name="SelectableItemTheme">
-    <item name="colorControlHighlight">@color/OpaqueAccentColour</item>
+    <item name="colorControlHighlight">?OpaqueAccentColour</item>
   </style>
 
   <style name="AccentColourButtonStyle">
-    <item name="android:background">@color/AccentColourDark</item>
+    <item name="android:background">?AccentColourDark</item>
     <item name="android:fontFamily">@string/font_family_light</item>
     <item name="android:textColor">#fff</item>
     <item name="android:textSize">@dimen/FontSizeSmall</item>
@@ -26,10 +26,18 @@
   </style>
 
   <style name="Theme.MALClient.Dark" parent="Theme.AppCompat.NoActionBar">
+    <item name="AccentColour" format="reference">@color/AccentColour</item>
+    <item name="AccentColourDark" format="reference">@color/AccentColourDark</item>
+    <item name="OpaqueAccentColour" format="reference">@color/OpaqueAccentColour</item>
+
+    <item name="android:colorEdgeEffect">#e6e6e6</item>
+
     <item name="BrushText">@color/DarkBrushText</item>
     <item name="BrushTextInverted">@color/DarkBrushTextInverted </item>
     <item name="BrushDeepBackground">@color/DarkBrushDeepBackground </item>
     <item name="BrushAppBars">@color/DarkBrushAppBars</item>
+    <item name="BrushAppBarUpper">@color/DarkBrushAppBarUpper</item>
+    <item name="BrushAppBarText">@color/DarkBrushAppBarText</item>
     <item name="BrushPivotHeaderBackground">@color/DarkBrushPivotHeaderBackground</item>
     <item name="BrushHamburgerBackground">@color/DarkBrushHamburgerBackground</item>
     <item name="BrushAnimeItemBackground">@color/DarkBrushAnimeItemBackground</item>
@@ -52,13 +60,24 @@
     <item name="BrushSettingsSubtitle">@color/DarkBrushSettingsSubtitle</item>
     <item name="BrushFavouriteStarBackground">@color/DarkBrushFavouriteStarBackground</item>
     <item name="BrushNoSearchResults">@color/DarkBrushNoSearchResults</item>
+    <item name="BrushButtonPressed">@color/DarkBrushButtonPressed</item>
+    <item name="BrushFlyoutBackground">@color/DarkBrushFlyoutBackground</item>
+    <item name="BrushSelectedDialogItem">@color/DarkBrushSelectedDialogItem</item>
   </style>
 
-  <style name="Theme.MALClient.Light" parent="Theme.AppCompat.NoActionBar">
+  <style name="Theme.MALClient.Light" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="AccentColour" format="reference">@color/AccentColour</item>
+    <item name="AccentColourDark" format="reference">@color/AccentColourDark</item>
+    <item name="OpaqueAccentColour" format="reference">@color/OpaqueAccentColour</item>
+
+    <item name="android:colorEdgeEffect">#2d2d2d</item>
+
     <item name="BrushText">@color/LightBrushText</item>
     <item name="BrushTextInverted">@color/LightBrushTextInverted</item>
     <item name="BrushDeepBackground">@color/LightBrushDeepBackground</item>
     <item name="BrushAppBars">@color/LightBrushAppBars</item>
+    <item name="BrushAppBarUpper">@color/LightBrushAppBarUpper</item>
+    <item name="BrushAppBarText">@color/LightBrushAppBarText</item>
     <item name="BrushPivotHeaderBackground">@color/LightBrushPivotHeaderBackground</item>
     <item name="BrushHamburgerBackground">@color/LightBrushHamburgerBackground</item>
     <item name="BrushAnimeItemBackground">@color/LightBrushAnimeItemBackground</item>
@@ -81,5 +100,8 @@
     <item name="BrushSettingsSubtitle">@color/LightBrushSettingsSubtitle</item>
     <item name="BrushFavouriteStarBackground">@color/LightBrushFavouriteStarBackground</item>
     <item name="BrushNoSearchResults">@color/LightBrushNoSearchResults</item>
+    <item name="BrushButtonPressed">@color/LightBrushButtonPressed</item>
+    <item name="BrushFlyoutBackground">@color/LightBrushFlyoutBackground</item>
+    <item name="BrushSelectedDialogItem">@color/LightBrushSelectedDialogItem</item>
   </style>
 </resources>

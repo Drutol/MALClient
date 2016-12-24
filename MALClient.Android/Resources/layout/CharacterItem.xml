@@ -15,7 +15,7 @@
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/BrushAnimeItemBackground"
+        android:background="?BrushAnimeItemBackground"
         android:layout_height="55dp" android:orientation="vertical" android:padding="4dp">
       <TextView
           android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
           android:layout_height="wrap_content"
           android:textSize="18dp"
           android:text="sdfsdfsdfsdfdsfds"
-          android:textColor="@color/BrushText"
+          android:textColor="?BrushText"
           android:ellipsize="end"
           android:scrollHorizontally="false"
           android:maxLines="1" />
@@ -36,7 +36,7 @@
           android:textStyle="italic"
           android:fontFamily="@string/font_family_light"
           android:text="(fdsfdsfdsfsdfs)"
-          android:textColor="@color/BrushText"
+          android:textColor="?BrushText"
           android:ellipsize="end"
           android:scrollHorizontally="false"
           android:maxLines="1"/>

@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters.DialogAdapters;
 using MALClient.Android.Listeners.DialogListeners;
+using MALClient.Android.Resources;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -31,7 +32,7 @@ namespace MALClient.Android.Dialogs
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetAdapter(new StatusDialogAdapter(MainActivity.CurrentContext,
                 !anime, model.IsRewatching, model.MyStatus));
-            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
             dialogBuilder.SetOnItemClickListener(new EnumDialogListener<AnimeStatus>
             {
                 OnItemClickAction = (d, status) =>
@@ -68,7 +69,7 @@ namespace MALClient.Android.Dialogs
             _watchedDialogAction = action;
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeItemWatchedDialog));
-            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
             dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupWatchedDialog));
             dialogBuilder.SetOnDismissListener(
                 new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
@@ -146,7 +147,7 @@ namespace MALClient.Android.Dialogs
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetAdapter(new ScoreDialogAdapter(MainActivity.CurrentContext,
                 AnimeItemViewModel.ScoreFlyoutChoices,model.MyScore));
-            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
             dialogBuilder.SetOnItemClickListener(new IntegerDialogListener()
             {
                 OnItemClickAction = (d, score) =>
@@ -181,7 +182,7 @@ namespace MALClient.Android.Dialogs
             _tagsDialogContext = viewModel;
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeTagsDialog));
-            dialogBuilder.SetContentBackgroundResource(Resource.Color.BrushFlyoutBackground);
+            dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
             dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupTagsDialog));
             dialogBuilder.SetGravity((int) GravityFlags.Top);
             dialogBuilder.SetOnDismissListener(

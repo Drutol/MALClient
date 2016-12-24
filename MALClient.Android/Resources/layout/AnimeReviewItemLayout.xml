@@ -12,23 +12,23 @@
         <FFImageLoading.Views.ImageViewAsync android:layout_width="35dp" android:layout_height="50dp" android:scaleType="fitXY"
                                              android:id="@+id/AnimeReviewItemLayoutAvatarImage"/>
         <LinearLayout android:layout_width="wrap_content" android:layout_gravity="center" android:orientation="vertical" android:layout_height="wrap_content" android:layout_marginStart="10dp">
-          <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_medium" android:layout_height="wrap_content" android:text="Author" android:textColor="@color/BrushText"
+          <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_medium" android:layout_height="wrap_content" android:text="Author" android:textColor="?BrushText"
                     android:id="@+id/AnimeReviewItemLayoutAuthor"/>
-          <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:text="Yesteday blaldfg" android:textColor="@color/BrushText"
+          <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:text="Yesteday blaldfg" android:textColor="?BrushText"
                     android:id="@+id/AnimeReviewItemLayoutDate"/>
         </LinearLayout>
       </LinearLayout>
-      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Overall: 9"
+      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Overall: 9"
                 android:id="@+id/AnimeReviewItemLayoutOverallScore"/>
-      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="9 of 20 eps seen"
+      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="9 of 20 eps seen"
                 android:id="@+id/AnimeReviewItemLayoutEpsSeen"/>
-      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="12 found this helpful"
+      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="12 found this helpful"
                 android:id="@+id/AnimeReviewItemLayoutHelpfulCount"/>
     </LinearLayout>
 
     <LinearLayout android:id="@+id/AnimeReviewItemLayoutMarksList" android:layout_width="100dp" android:layout_marginTop="5dp" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:orientation="vertical" android:gravity="start"/>
   </RelativeLayout>
 
-  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:text="Lorem" android:textColor="@color/BrushText"
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:text="Lorem" android:textColor="?BrushText"
             android:id="@+id/AnimeReviewItemLayoutReviewContent"/>
 </LinearLayout>

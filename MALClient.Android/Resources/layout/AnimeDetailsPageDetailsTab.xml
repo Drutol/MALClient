@@ -1,5 +1,5 @@
 ﻿<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
-  <ScrollView android:layout_height="match_parent" android:layout_width="match_parent" android:background="@color/BrushDetailsBackground" xmlns:android="http://schemas.android.com/apk/res/android">
+  <ScrollView android:layout_height="match_parent" android:layout_width="match_parent" android:background="?BrushDetailsBackground" xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:orientation="vertical">
@@ -23,7 +23,7 @@
 
     </LinearLayout>
   </ScrollView>
-  <RelativeLayout android:id="@+id/AnimeDetailsPageDetailsTabLoadingOverlay" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/BrushLoading">
-    <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="@color/AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
+  <RelativeLayout android:id="@+id/AnimeDetailsPageDetailsTabLoadingOverlay" android:layout_width="match_parent" android:layout_height="match_parent" android:background="?BrushLoading">
+    <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
   </RelativeLayout>
 </RelativeLayout>

@@ -31,7 +31,7 @@
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
       <!-- TopLeft -->
-      <TextView android:id="@+id/AnimeListItemTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter" android:layout_marginEnd="40dp" android:maxLines="3" android:ellipsize="end" android:textColor="@color/BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
+      <TextView android:id="@+id/AnimeListItemTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter" android:layout_marginEnd="40dp" android:maxLines="3" android:ellipsize="end" android:textColor="?BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp"/>
       <!-- TopRight -->
       <LinearLayout android:layout_width="40dp" android:layout_height="wrap_content" android:orientation="vertical" android:layout_alignParentEnd="true">
         <TextView
@@ -52,7 +52,7 @@
       <!-- BottomRight -->
       <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:orientation="vertical">
         <LinearLayout android:layout_alignParentEnd="true" android:id="@+id/AnimeListItemBtmRightSectionTop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="5dp">
-          <TextView android:id="@+id/AnimeListItemTypeTextView" android:textSize="@dimen/FontSizeSmall" android:layout_gravity="bottom" android:layout_marginRight="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="Tv" android:textColor="@color/BrushText" android:textStyle="italic"/>
+          <TextView android:id="@+id/AnimeListItemTypeTextView" android:textSize="@dimen/FontSizeSmall" android:layout_gravity="bottom" android:layout_marginRight="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="Tv" android:textColor="?BrushText" android:textStyle="italic"/>
           <Button android:layout_width="wrap_content" android:minWidth="40dp"
                   android:id="@+id/AnimeListItemWatchedButton"
                   android:background="@drawable/button_underline_background_style"
@@ -63,7 +63,7 @@
                   android:fontFamily="@string/font_family_light"
                   android:layout_marginTop="10dp"
                   android:text="Watched : 5/23"
-                  android:textColor="@color/BrushText"/>
+                  android:textColor="?BrushText"/>
         </LinearLayout>
         <LinearLayout android:id="@+id/AnimeListItemStatusScoreSection" android:layout_alignParentEnd="true" android:layout_below="@id/AnimeListItemBtmRightSectionTop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
           <Button android:id="@+id/AnimeListItemStatusButton" android:layout_width="0dp" android:layout_height="wrap_content" style="@style/AccentColourButtonStyle" android:text="Watching" android:layout_weight="1"/>

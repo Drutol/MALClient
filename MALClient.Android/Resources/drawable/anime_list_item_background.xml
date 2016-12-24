@@ -3,7 +3,7 @@
   <item android:bottom="-7dp" android:right="-7dp" android:top="-7dp">
     <shape>
       <solid android:color="?BrushAnimeItemBackground" />
-      <stroke android:width="4dp" android:color="@color/AccentColour" />
+      <stroke android:width="4dp" android:color="?AccentColour" />
     </shape>
   </item>
 </layer-list>

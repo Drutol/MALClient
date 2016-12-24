@@ -6,6 +6,8 @@
     <attr name="BrushTextInverted" format="reference"/>
     <attr name="BrushDeepBackground" format="reference"/>
     <attr name="BrushAppBars" format="reference"/>
+    <attr name="BrushAppBarUpper" format="reference"/>
+    <attr name="BrushAppBarText" format="reference"/>
     <attr name="BrushPivotHeaderBackground" format="reference"/>
     <attr name="BrushHamburgerBackground" format="reference"/>
     <attr name="BrushAnimeItemBackground" format="reference"/>
@@ -28,5 +30,11 @@
     <attr name="BrushSettingsSubtitle" format="reference"/>
     <attr name="BrushFavouriteStarBackground" format="reference"/>
     <attr name="BrushNoSearchResults" format="reference"/>
+    <attr name="BrushButtonPressed" format="reference"/>
+    <attr name="BrushFlyoutBackground" format="reference"/>
+    <attr name="BrushSelectedDialogItem" format="reference"/>
+    <attr name="AccentColour" format="reference"/>
+    <attr name="AccentColourDark" format="reference"/>
+    <attr name="OpaqueAccentColour" format="reference"/>
   </declare-styleable>
 </resources>

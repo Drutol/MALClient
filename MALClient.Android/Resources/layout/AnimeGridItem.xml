@@ -12,7 +12,7 @@
                       android:id="@+id/AnimeGridItemBackSurfaceAdd"
                       android:layout_width="100dp"
                       android:orientation="horizontal"
-                      android:background="@color/AccentColour"
+                      android:background="?AccentColour"
                       android:layout_height="match_parent"
                       android:translationX="-4dp">
             <LinearLayout android:layout_width="match_parent"
@@ -28,14 +28,14 @@
                             android:layout_height="wrap_content"
                             android:text="Increment"
                             android:layout_gravity="center_horizontal"
-                            android:textColor="@color/BrushText"/>
+                            android:textColor="?BrushText"/>
             </LinearLayout>
       </RelativeLayout>
       <RelativeLayout
           android:id="@+id/AnimeGridItemBackSurfaceSubtract"
           android:layout_width="100dp"
           android:orientation="horizontal"
-          android:background="@color/BrushFlyoutBackground"
+          android:background="?BrushFlyoutBackground"
           android:layout_height="match_parent"
           android:translationX="2dp">
             <LinearLayout android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:text="Decrement"
                             android:layout_gravity="center_horizontal"
-                            android:textColor="@color/BrushText"/>
+                            android:textColor="?BrushText"/>
             </LinearLayout>
       </RelativeLayout>
       <!-- Bottom View End-->
@@ -147,7 +147,7 @@
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/BrushAnimeItemBackground"
+                android:background="?BrushAnimeItemBackground"
                 android:layout_height="55dp" android:orientation="horizontal">
                   <TextView
                       android:layout_width="0dp"
@@ -156,7 +156,7 @@
                       android:layout_height="wrap_content"
                       android:layout_margin="5dp"
                       android:textSize="18sp"
-                      android:textColor="@color/BrushText"
+                      android:textColor="?BrushText"
                       android:ellipsize="end"
                       android:scrollHorizontally="false"
                       android:maxLines="2" />

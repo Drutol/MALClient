@@ -8,7 +8,7 @@
             <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                   <LinearLayout android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/BrushDetailsUpperBackground"
+                                android:background="?BrushDetailsUpperBackground"
                                 android:orientation="horizontal">
                         <FFImageLoading.Views.ImageViewAsync android:layout_width="@dimen/ShowImageWidthSmall"
                                                              android:layout_height="@dimen/ShowImageHeightSmall"
@@ -27,12 +27,12 @@
                                                android:layout_height="25dp"
                                                android:layout_marginTop="5dp"
                                                android:text="Score"
-                                               android:textColor="@color/BrushText" android:gravity="center"/>
+                                               android:textColor="?BrushText" android:gravity="center"/>
                                     <TextView  android:layout_width="wrap_content"
                                                android:layout_height="25dp"
                                                android:layout_marginTop="5dp"
                                                android:text="Status"
-                                               android:textColor="@color/BrushText" android:gravity="center"/>
+                                               android:textColor="?BrushText" android:gravity="center"/>
                                     <TextView  android:layout_width="wrap_content"
                                                android:layout_height="wrap_content"
                                                android:id="@+id/AnimeDetailsPageWatchedLabel"
@@ -41,7 +41,7 @@
                                                android:textAlignment="textStart"
                                                android:layout_marginTop="5dp"
                                                android:text="Watched episodes"
-                                               android:textColor="@color/BrushText" android:gravity="center"/>
+                                               android:textColor="?BrushText" android:gravity="center"/>
                                     <TextView  android:layout_width="wrap_content"
                                                android:layout_height="wrap_content"
                                                android:id="@+id/AnimeDetailsPageReadVolumesLabel"
@@ -49,7 +49,7 @@
                                                android:visibility="gone"
                                                android:layout_marginTop="5dp"
                                                android:text="Volumes"
-                                               android:textColor="@color/BrushText" android:gravity="center"/>
+                                               android:textColor="?BrushText" android:gravity="center"/>
                               </LinearLayout>
                               <LinearLayout android:layout_marginLeft="20dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
                                     <Button android:layout_width="wrap_content" android:minWidth="40dp"
@@ -60,7 +60,7 @@
                                             android:textAllCaps="false"
                                             android:clickable="true"
                                             android:text="8/10"
-                                            android:textColor="@color/BrushText"/>
+                                            android:textColor="?BrushText"/>
                                     <Button android:layout_width="wrap_content" android:minWidth="40dp"
                                             android:id="@+id/AnimeDetailsPageStatusButton"
                                             android:background="@drawable/button_underline_background_style"
@@ -68,7 +68,7 @@
                                             android:textAllCaps="false"
                                             android:layout_marginTop="5dp"
                                             android:text="Watching"
-                                            android:textColor="@color/BrushText"/>
+                                            android:textColor="?BrushText"/>
                                     <Button android:layout_width="wrap_content" android:minWidth="40dp"
                                             android:id="@+id/AnimeDetailsPageWatchedButton"
                                             android:background="@drawable/button_underline_background_style"
@@ -76,7 +76,7 @@
                                             android:textAllCaps="false"
                                             android:layout_marginTop="10dp"
                                             android:text="5/23"
-                                            android:textColor="@color/BrushText"/>
+                                            android:textColor="?BrushText"/>
                                     <Button android:layout_width="wrap_content" android:minWidth="40dp"
                                             android:id="@+id/AnimeDetailsPageReadVolumesButton"
                                             android:background="@drawable/button_underline_background_style"
@@ -85,7 +85,7 @@
                                             android:layout_marginTop="5dp"
                                             android:text="4/44"
                                             android:visibility="gone"
-                                            android:textColor="@color/BrushText"/>
+                                            android:textColor="?BrushText"/>
                               </LinearLayout>
 
                         </LinearLayout>
@@ -135,7 +135,7 @@
                   </LinearLayout>
                   <LinearLayout android:layout_marginStart="130dp" android:layout_marginEnd="20dp" android:id="@+id/AnimeDetailsPageAddSection"  android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_centerVertical="true">
                         <TextView android:layout_gravity="center_horizontal"
-                                  android:textColor="@color/AccentColour"
+                                  android:textColor="?AccentColour"
                                   android:fontFamily="@string/font_family_light"
                                   android:layout_marginBottom="10dp"
                                   android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                                                android:scaleType="fitXY"/>
                                     <TextView android:layout_width="wrap_content"
                                               android:text="Add to my list"
-                                              android:textColor="@color/BrushText"
+                                              android:textColor="?BrushText"
                                               android:layout_height="wrap_content"
                                               android:fontFamily="@string/font_family_light" />
                               </LinearLayout>
@@ -173,15 +173,15 @@
                 android:id="@+id/AnimeDetailsPageTabStrip"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:textColorPrimary="@color/AccentColour"
-                android:background="@color/BrushPivotHeaderBackground"/>
+                android:textColorPrimary="?AccentColour"
+                android:background="?BrushPivotHeaderBackground"/>
             <android.support.v4.view.ViewPager
                 android:id="@+id/AnimeDetailsPagePivot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/BrushDetailsBackground"/>
+                android:background="?BrushDetailsBackground"/>
       </LinearLayout>
-      <RelativeLayout android:visibility="gone" android:id="@+id/AnimeDetailsPageLoadingOverlay" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/BrushLoading">
-            <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="@color/AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
+      <RelativeLayout android:visibility="gone" android:id="@+id/AnimeDetailsPageLoadingOverlay" android:layout_width="match_parent" android:layout_height="match_parent" android:background="?BrushLoading">
+            <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
       </RelativeLayout>
 </RelativeLayout>

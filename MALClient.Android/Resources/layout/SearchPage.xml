@@ -10,11 +10,11 @@
     android:layout_height="25dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:pstsPaddingMiddle="true"
-    android:textColorPrimary="@color/AccentColour"
-    android:background="@color/BrushPivotHeaderBackground" />
+    android:textColorPrimary="?AccentColour"
+    android:background="?BrushPivotHeaderBackground" />
   <android.support.v4.view.ViewPager
     android:id="@+id/SearchPageViewPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BrushDetailsBackground" />
+    android:background="?BrushDetailsBackground" />
 </LinearLayout>

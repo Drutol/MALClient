@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-android:background="@color/BrushDeepBackground">
+android:background="?BrushDeepBackground">
   <LinearLayout android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_height="match_parent"
@@ -14,13 +14,13 @@ android:background="@color/BrushDeepBackground">
         android:layout_height="55dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:pstsPaddingMiddle="true"
-        android:textColorPrimary="@color/AccentColour"
-        android:background="@color/BrushPivotHeaderBackground"/>
+        android:textColorPrimary="?AccentColour"
+        android:background="?BrushPivotHeaderBackground"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/CalendarPageViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/BrushDetailsBackground"/>
+        android:background="?BrushDetailsBackground"/>
   </LinearLayout>
 
   <LinearLayout android:layout_width="match_parent"
@@ -38,7 +38,7 @@ android:background="@color/BrushDeepBackground">
               android:layout_height="wrap_content"
               android:text="Building calendar, please wait..."
               android:layout_gravity="center"
-              android:textColor="@color/BrushText"
+              android:textColor="?BrushText"
               android:fontFamily="@string/font_family_light"
               android:textSize="@dimen/FontSizeMedium"/>
   </LinearLayout>

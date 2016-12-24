@@ -1,7 +1,7 @@
 ﻿<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/BrushDetailsGeneralBorder">
+            android:background="?BrushDetailsGeneralBorder">
   <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
@@ -10,41 +10,41 @@
       <LinearLayout  android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1" android:layout_marginEnd="2dp">
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="@color/BrushRowAlternate1">
+                        android:background="?BrushRowAlternate1">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_left"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Episodes"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="23"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Episodes"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="23"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentEpisodes"/>
           </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="@color/BrushRowAlternate2">
+                        android:background="?BrushRowAlternate2">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_left"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Score"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="8.65"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Score"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="8.65"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentScore"/>
           </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="@color/BrushRowAlternate1">
+                        android:background="?BrushRowAlternate1">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_left"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Start"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="8-09-2016"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Start"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="8-09-2016"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentStart"/>
           </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="@color/BrushRowAlternate2">
+                        android:background="?BrushRowAlternate2">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_left"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="My start"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="8-09-2016"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="My start"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="8-09-2016"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyStart"/>
           </RelativeLayout>
         </RelativeLayout>
@@ -52,48 +52,48 @@
       <LinearLayout android:layout_width="0dp" android:orientation="vertical" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="2dp">
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="@color/BrushRowAlternate1">
+                        android:background="?BrushRowAlternate1">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_right"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Type"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="TV"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Type"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="TV"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentType"/>
           </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="@color/BrushRowAlternate2">
+                        android:background="?BrushRowAlternate2">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_right"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Status"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Currently Airing"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Status"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Currently Airing"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentStatus"/>
           </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="@color/BrushRowAlternate1">
+                        android:background="?BrushRowAlternate1">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_right"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="End"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="\?"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="End"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="\?"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentEnd"/>
           </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="@color/BrushRowAlternate2">
+                        android:background="?BrushRowAlternate2">
           <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/border_accent_right"/>
           <RelativeLayout android:paddingStart="5dp" android:paddingEnd="5dp" android:layout_centerInParent="true" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="My end"/>
-            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/BrushText" android:text="Not set"
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light" android:layout_alignParentStart="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="My end"/>
+            <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Not set"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyEnd"/>
           </RelativeLayout>
         </RelativeLayout>
       </LinearLayout>
     </LinearLayout>
-    <TextView android:layout_width="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Synopsis" android:textColor="@color/BrushText" android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeNormal" android:text="Lorem" android:textColor="@color/BrushText" android:paddingStart="10dp" android:paddingEnd="10dp"
+    <TextView android:layout_width="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_height="wrap_content" android:text="Synopsis" android:textColor="?BrushText" android:layout_gravity="center_horizontal" android:layout_margin="5dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeNormal" android:text="Lorem" android:textColor="?BrushText" android:paddingStart="10dp" android:paddingEnd="10dp"
               android:id="@+id/AnimeDetailsPageGeneralTabFragmentSynopsis"/>
   </LinearLayout>
 </ScrollView>

@@ -6,8 +6,8 @@
               android:paddingTop="2dp" android:paddingBottom="2dp"
               android:padding="10dp">
       <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
-        <TextView android:id="@+id/AnimeRecomItemShowTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gintama" android:textColor="@color/BrushText" android:textSize="@dimen/FontSizeBig"/>
-            <TextView android:id="@+id/AnimeRecomItemShowType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Anime" android:textColor="@color/AccentColour" android:fontFamily="@string/font_family_light" android:textStyle="italic"/>
+        <TextView android:id="@+id/AnimeRecomItemShowTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gintama" android:textColor="?BrushText" android:textSize="@dimen/FontSizeBig"/>
+            <TextView android:id="@+id/AnimeRecomItemShowType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Anime" android:textColor="?AccentColour" android:fontFamily="@string/font_family_light" android:textStyle="italic"/>
       </LinearLayout>
       <uk.co.deanwild.flowtextview.FlowTextView android:id="@+id/AnimeRecomItemRecomContent" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
             <FFImageLoading.Views.ImageViewAsync android:foreground="?android:selectableItemBackground" android:background="@color/Transparent" android:layout_marginRight="5dp" android:layout_marginBottom="5dp" android:id="@+id/AnimeRecomItemImage" android:layout_width="@dimen/ShowImageWidthMedium" android:layout_height="@dimen/ShowImageHeightMedium" android:scaleType="fitXY" />

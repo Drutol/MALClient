@@ -129,83 +129,107 @@ namespace MALClient.Android
 		public partial class Attribute
 		{
 			
-			// aapt resource value: 0x7f010174
-			public const int BrushAnimeItemBackground = 2130772340;
+			// aapt resource value: 0x7f01018d
+			public const int AccentColour = 2130772365;
+			
+			// aapt resource value: 0x7f01018e
+			public const int AccentColourDark = 2130772366;
 			
 			// aapt resource value: 0x7f010176
-			public const int BrushAnimeItemInnerBackground = 2130772342;
+			public const int BrushAnimeItemBackground = 2130772342;
+			
+			// aapt resource value: 0x7f010178
+			public const int BrushAnimeItemInnerBackground = 2130772344;
+			
+			// aapt resource value: 0x7f010173
+			public const int BrushAppBarText = 2130772339;
+			
+			// aapt resource value: 0x7f010172
+			public const int BrushAppBarUpper = 2130772338;
 			
 			// aapt resource value: 0x7f010171
 			public const int BrushAppBars = 2130772337;
 			
+			// aapt resource value: 0x7f01018a
+			public const int BrushButtonPressed = 2130772362;
+			
 			// aapt resource value: 0x7f010170
 			public const int BrushDeepBackground = 2130772336;
 			
-			// aapt resource value: 0x7f01017e
-			public const int BrushDetailsBackground = 2130772350;
-			
-			// aapt resource value: 0x7f01017c
-			public const int BrushDetailsGeneralBorder = 2130772348;
-			
 			// aapt resource value: 0x7f010180
-			public const int BrushDetailsMoreButton = 2130772352;
+			public const int BrushDetailsBackground = 2130772352;
 			
-			// aapt resource value: 0x7f01017d
-			public const int BrushDetailsRelatedBackground = 2130772349;
-			
-			// aapt resource value: 0x7f01017f
-			public const int BrushDetailsUpperBackground = 2130772351;
-			
-			// aapt resource value: 0x7f010186
-			public const int BrushFavouriteStarBackground = 2130772358;
-			
-			// aapt resource value: 0x7f010173
-			public const int BrushHamburgerBackground = 2130772339;
-			
-			// aapt resource value: 0x7f010175
-			public const int BrushHamburgerInnerBackground = 2130772341;
-			
-			// aapt resource value: 0x7f010177
-			public const int BrushLoading = 2130772343;
-			
-			// aapt resource value: 0x7f010179
-			public const int BrushLoadingNonOpaque = 2130772345;
-			
-			// aapt resource value: 0x7f010178
-			public const int BrushLoadingNonTransparent = 2130772344;
+			// aapt resource value: 0x7f01017e
+			public const int BrushDetailsGeneralBorder = 2130772350;
 			
 			// aapt resource value: 0x7f010182
-			public const int BrushNewsBackground = 2130772354;
+			public const int BrushDetailsMoreButton = 2130772354;
 			
-			// aapt resource value: 0x7f010187
-			public const int BrushNoSearchResults = 2130772359;
-			
-			// aapt resource value: 0x7f010184
-			public const int BrushPinTileDialogBackground = 2130772356;
-			
-			// aapt resource value: 0x7f010183
-			public const int BrushPinTileDialogOverlay = 2130772355;
-			
-			// aapt resource value: 0x7f010172
-			public const int BrushPivotHeaderBackground = 2130772338;
+			// aapt resource value: 0x7f01017f
+			public const int BrushDetailsRelatedBackground = 2130772351;
 			
 			// aapt resource value: 0x7f010181
-			public const int BrushPivotInnerHeaderBarBackground = 2130772353;
+			public const int BrushDetailsUpperBackground = 2130772353;
 			
-			// aapt resource value: 0x7f01017a
-			public const int BrushRowAlternate1 = 2130772346;
+			// aapt resource value: 0x7f010188
+			public const int BrushFavouriteStarBackground = 2130772360;
+			
+			// aapt resource value: 0x7f01018b
+			public const int BrushFlyoutBackground = 2130772363;
+			
+			// aapt resource value: 0x7f010175
+			public const int BrushHamburgerBackground = 2130772341;
+			
+			// aapt resource value: 0x7f010177
+			public const int BrushHamburgerInnerBackground = 2130772343;
+			
+			// aapt resource value: 0x7f010179
+			public const int BrushLoading = 2130772345;
 			
 			// aapt resource value: 0x7f01017b
-			public const int BrushRowAlternate2 = 2130772347;
+			public const int BrushLoadingNonOpaque = 2130772347;
+			
+			// aapt resource value: 0x7f01017a
+			public const int BrushLoadingNonTransparent = 2130772346;
+			
+			// aapt resource value: 0x7f010184
+			public const int BrushNewsBackground = 2130772356;
+			
+			// aapt resource value: 0x7f010189
+			public const int BrushNoSearchResults = 2130772361;
+			
+			// aapt resource value: 0x7f010186
+			public const int BrushPinTileDialogBackground = 2130772358;
 			
 			// aapt resource value: 0x7f010185
-			public const int BrushSettingsSubtitle = 2130772357;
+			public const int BrushPinTileDialogOverlay = 2130772357;
+			
+			// aapt resource value: 0x7f010174
+			public const int BrushPivotHeaderBackground = 2130772340;
+			
+			// aapt resource value: 0x7f010183
+			public const int BrushPivotInnerHeaderBarBackground = 2130772355;
+			
+			// aapt resource value: 0x7f01017c
+			public const int BrushRowAlternate1 = 2130772348;
+			
+			// aapt resource value: 0x7f01017d
+			public const int BrushRowAlternate2 = 2130772349;
+			
+			// aapt resource value: 0x7f01018c
+			public const int BrushSelectedDialogItem = 2130772364;
+			
+			// aapt resource value: 0x7f010187
+			public const int BrushSettingsSubtitle = 2130772359;
 			
 			// aapt resource value: 0x7f01016e
 			public const int BrushText = 2130772334;
 			
 			// aapt resource value: 0x7f01016f
 			public const int BrushTextInverted = 2130772335;
+			
+			// aapt resource value: 0x7f01018f
+			public const int OpaqueAccentColour = 2130772367;
 			
 			// aapt resource value: 0x7f01003f
 			public const int actionBarDivider = 2130772031;
@@ -1358,251 +1382,194 @@ namespace MALClient.Android
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0c01d2
-			public const int AccentColour = 2131493330;
-			
-			// aapt resource value: 0x7f0c01d3
-			public const int AccentColourDark = 2131493331;
-			
-			// aapt resource value: 0x7f0c01a4
-			public const int BrushAnimeItemBackground = 2131493284;
-			
-			// aapt resource value: 0x7f0c01a6
-			public const int BrushAnimeItemInnerBackground = 2131493286;
-			
-			// aapt resource value: 0x7f0c01a1
-			public const int BrushAppBars = 2131493281;
-			
-			// aapt resource value: 0x7f0c01d4
-			public const int BrushButtonPressed = 2131493332;
-			
-			// aapt resource value: 0x7f0c01a0
-			public const int BrushDeepBackground = 2131493280;
-			
-			// aapt resource value: 0x7f0c01ae
-			public const int BrushDetailsBackground = 2131493294;
-			
-			// aapt resource value: 0x7f0c01ac
-			public const int BrushDetailsGeneralBorder = 2131493292;
-			
-			// aapt resource value: 0x7f0c01b0
-			public const int BrushDetailsMoreButton = 2131493296;
-			
-			// aapt resource value: 0x7f0c01ad
-			public const int BrushDetailsRelatedBackground = 2131493293;
-			
-			// aapt resource value: 0x7f0c01af
-			public const int BrushDetailsUpperBackground = 2131493295;
-			
-			// aapt resource value: 0x7f0c01b6
-			public const int BrushFavouriteStarBackground = 2131493302;
-			
-			// aapt resource value: 0x7f0c01d6
-			public const int BrushFlyoutBackground = 2131493334;
-			
-			// aapt resource value: 0x7f0c01a3
-			public const int BrushHamburgerBackground = 2131493283;
-			
-			// aapt resource value: 0x7f0c01a5
-			public const int BrushHamburgerInnerBackground = 2131493285;
-			
-			// aapt resource value: 0x7f0c01a7
-			public const int BrushLoading = 2131493287;
-			
-			// aapt resource value: 0x7f0c01a9
-			public const int BrushLoadingNonOpaque = 2131493289;
-			
-			// aapt resource value: 0x7f0c01a8
-			public const int BrushLoadingNonTransparent = 2131493288;
-			
-			// aapt resource value: 0x7f0c01b2
-			public const int BrushNewsBackground = 2131493298;
-			
-			// aapt resource value: 0x7f0c01b7
-			public const int BrushNoSearchResults = 2131493303;
-			
-			// aapt resource value: 0x7f0c01d8
-			public const int BrushOpaqueTextView = 2131493336;
-			
-			// aapt resource value: 0x7f0c01b4
-			public const int BrushPinTileDialogBackground = 2131493300;
-			
-			// aapt resource value: 0x7f0c01b3
-			public const int BrushPinTileDialogOverlay = 2131493299;
-			
-			// aapt resource value: 0x7f0c01a2
-			public const int BrushPivotHeaderBackground = 2131493282;
-			
-			// aapt resource value: 0x7f0c01b1
-			public const int BrushPivotInnerHeaderBarBackground = 2131493297;
-			
-			// aapt resource value: 0x7f0c01aa
-			public const int BrushRowAlternate1 = 2131493290;
-			
-			// aapt resource value: 0x7f0c01ab
-			public const int BrushRowAlternate2 = 2131493291;
-			
-			// aapt resource value: 0x7f0c01d9
-			public const int BrushSelectedDialogItem = 2131493337;
-			
-			// aapt resource value: 0x7f0c01b5
-			public const int BrushSettingsSubtitle = 2131493301;
-			
-			// aapt resource value: 0x7f0c019e
-			public const int BrushText = 2131493278;
-			
-			// aapt resource value: 0x7f0c019f
-			public const int BrushTextInverted = 2131493279;
-			
-			// aapt resource value: 0x7f0c01be
-			public const int DarkBrushAnimeItemBackground = 2131493310;
-			
-			// aapt resource value: 0x7f0c01c0
-			public const int DarkBrushAnimeItemInnerBackground = 2131493312;
-			
-			// aapt resource value: 0x7f0c01bb
-			public const int DarkBrushAppBars = 2131493307;
-			
-			// aapt resource value: 0x7f0c01ba
-			public const int DarkBrushDeepBackground = 2131493306;
-			
-			// aapt resource value: 0x7f0c01c8
-			public const int DarkBrushDetailsBackground = 2131493320;
-			
-			// aapt resource value: 0x7f0c01c6
-			public const int DarkBrushDetailsGeneralBorder = 2131493318;
-			
-			// aapt resource value: 0x7f0c01ca
-			public const int DarkBrushDetailsMoreButton = 2131493322;
-			
-			// aapt resource value: 0x7f0c01c7
-			public const int DarkBrushDetailsRelatedBackground = 2131493319;
-			
-			// aapt resource value: 0x7f0c01c9
-			public const int DarkBrushDetailsUpperBackground = 2131493321;
-			
-			// aapt resource value: 0x7f0c01d0
-			public const int DarkBrushFavouriteStarBackground = 2131493328;
+			// aapt resource value: 0x7f0c01bc
+			public const int AccentColour = 2131493308;
 			
 			// aapt resource value: 0x7f0c01bd
-			public const int DarkBrushHamburgerBackground = 2131493309;
+			public const int AccentColourDark = 2131493309;
+			
+			// aapt resource value: 0x7f0c01c6
+			public const int BrushOpaqueTextView = 2131493318;
+			
+			// aapt resource value: 0x7f0c01a8
+			public const int DarkBrushAnimeItemBackground = 2131493288;
+			
+			// aapt resource value: 0x7f0c01aa
+			public const int DarkBrushAnimeItemInnerBackground = 2131493290;
+			
+			// aapt resource value: 0x7f0c01a5
+			public const int DarkBrushAppBarText = 2131493285;
+			
+			// aapt resource value: 0x7f0c01a4
+			public const int DarkBrushAppBarUpper = 2131493284;
+			
+			// aapt resource value: 0x7f0c01a3
+			public const int DarkBrushAppBars = 2131493283;
 			
 			// aapt resource value: 0x7f0c01bf
-			public const int DarkBrushHamburgerInnerBackground = 2131493311;
+			public const int DarkBrushButtonPressed = 2131493311;
 			
-			// aapt resource value: 0x7f0c01c1
-			public const int DarkBrushLoading = 2131493313;
+			// aapt resource value: 0x7f0c01a2
+			public const int DarkBrushDeepBackground = 2131493282;
 			
-			// aapt resource value: 0x7f0c01c3
-			public const int DarkBrushLoadingNonOpaque = 2131493315;
+			// aapt resource value: 0x7f0c01b2
+			public const int DarkBrushDetailsBackground = 2131493298;
 			
-			// aapt resource value: 0x7f0c01c2
-			public const int DarkBrushLoadingNonTransparent = 2131493314;
+			// aapt resource value: 0x7f0c01b0
+			public const int DarkBrushDetailsGeneralBorder = 2131493296;
 			
-			// aapt resource value: 0x7f0c01cc
-			public const int DarkBrushNewsBackground = 2131493324;
+			// aapt resource value: 0x7f0c01b4
+			public const int DarkBrushDetailsMoreButton = 2131493300;
 			
-			// aapt resource value: 0x7f0c01d1
-			public const int DarkBrushNoSearchResults = 2131493329;
+			// aapt resource value: 0x7f0c01b1
+			public const int DarkBrushDetailsRelatedBackground = 2131493297;
 			
-			// aapt resource value: 0x7f0c01ce
-			public const int DarkBrushPinTileDialogBackground = 2131493326;
+			// aapt resource value: 0x7f0c01b3
+			public const int DarkBrushDetailsUpperBackground = 2131493299;
 			
-			// aapt resource value: 0x7f0c01cd
-			public const int DarkBrushPinTileDialogOverlay = 2131493325;
+			// aapt resource value: 0x7f0c01ba
+			public const int DarkBrushFavouriteStarBackground = 2131493306;
 			
-			// aapt resource value: 0x7f0c01bc
-			public const int DarkBrushPivotHeaderBackground = 2131493308;
+			// aapt resource value: 0x7f0c01c0
+			public const int DarkBrushFlyoutBackground = 2131493312;
 			
-			// aapt resource value: 0x7f0c01cb
-			public const int DarkBrushPivotInnerHeaderBarBackground = 2131493323;
+			// aapt resource value: 0x7f0c01a7
+			public const int DarkBrushHamburgerBackground = 2131493287;
 			
-			// aapt resource value: 0x7f0c01c4
-			public const int DarkBrushRowAlternate1 = 2131493316;
+			// aapt resource value: 0x7f0c01a9
+			public const int DarkBrushHamburgerInnerBackground = 2131493289;
 			
-			// aapt resource value: 0x7f0c01c5
-			public const int DarkBrushRowAlternate2 = 2131493317;
+			// aapt resource value: 0x7f0c01ab
+			public const int DarkBrushLoading = 2131493291;
 			
-			// aapt resource value: 0x7f0c01cf
-			public const int DarkBrushSettingsSubtitle = 2131493327;
+			// aapt resource value: 0x7f0c01ad
+			public const int DarkBrushLoadingNonOpaque = 2131493293;
+			
+			// aapt resource value: 0x7f0c01ac
+			public const int DarkBrushLoadingNonTransparent = 2131493292;
+			
+			// aapt resource value: 0x7f0c01b6
+			public const int DarkBrushNewsBackground = 2131493302;
+			
+			// aapt resource value: 0x7f0c01bb
+			public const int DarkBrushNoSearchResults = 2131493307;
 			
 			// aapt resource value: 0x7f0c01b8
-			public const int DarkBrushText = 2131493304;
+			public const int DarkBrushPinTileDialogBackground = 2131493304;
+			
+			// aapt resource value: 0x7f0c01b7
+			public const int DarkBrushPinTileDialogOverlay = 2131493303;
+			
+			// aapt resource value: 0x7f0c01a6
+			public const int DarkBrushPivotHeaderBackground = 2131493286;
+			
+			// aapt resource value: 0x7f0c01b5
+			public const int DarkBrushPivotInnerHeaderBarBackground = 2131493301;
+			
+			// aapt resource value: 0x7f0c01ae
+			public const int DarkBrushRowAlternate1 = 2131493294;
+			
+			// aapt resource value: 0x7f0c01af
+			public const int DarkBrushRowAlternate2 = 2131493295;
+			
+			// aapt resource value: 0x7f0c01c1
+			public const int DarkBrushSelectedDialogItem = 2131493313;
 			
 			// aapt resource value: 0x7f0c01b9
-			public const int DarkBrushTextInverted = 2131493305;
+			public const int DarkBrushSettingsSubtitle = 2131493305;
 			
-			// aapt resource value: 0x7f0c018b
-			public const int LightBrushAnimeItemBackground = 2131493259;
+			// aapt resource value: 0x7f0c01a0
+			public const int DarkBrushText = 2131493280;
 			
-			// aapt resource value: 0x7f0c018c
-			public const int LightBrushAnimeItemInnerBackground = 2131493260;
+			// aapt resource value: 0x7f0c01a1
+			public const int DarkBrushTextInverted = 2131493281;
+			
+			// aapt resource value: 0x7f0c018d
+			public const int LightBrushAnimeItemBackground = 2131493261;
+			
+			// aapt resource value: 0x7f0c018e
+			public const int LightBrushAnimeItemInnerBackground = 2131493262;
+			
+			// aapt resource value: 0x7f0c0188
+			public const int LightBrushAppBarText = 2131493256;
+			
+			// aapt resource value: 0x7f0c0189
+			public const int LightBrushAppBarUpper = 2131493257;
 			
 			// aapt resource value: 0x7f0c0187
 			public const int LightBrushAppBars = 2131493255;
 			
+			// aapt resource value: 0x7f0c01c2
+			public const int LightBrushButtonPressed = 2131493314;
+			
 			// aapt resource value: 0x7f0c0186
 			public const int LightBrushDeepBackground = 2131493254;
 			
-			// aapt resource value: 0x7f0c0194
-			public const int LightBrushDetailsBackground = 2131493268;
-			
-			// aapt resource value: 0x7f0c0192
-			public const int LightBrushDetailsGeneralBorder = 2131493266;
-			
 			// aapt resource value: 0x7f0c0196
-			public const int LightBrushDetailsMoreButton = 2131493270;
+			public const int LightBrushDetailsBackground = 2131493270;
 			
-			// aapt resource value: 0x7f0c0193
-			public const int LightBrushDetailsRelatedBackground = 2131493267;
-			
-			// aapt resource value: 0x7f0c0195
-			public const int LightBrushDetailsUpperBackground = 2131493269;
-			
-			// aapt resource value: 0x7f0c019c
-			public const int LightBrushFavouriteStarBackground = 2131493276;
-			
-			// aapt resource value: 0x7f0c0189
-			public const int LightBrushHamburgerBackground = 2131493257;
-			
-			// aapt resource value: 0x7f0c018a
-			public const int LightBrushHamburgerInnerBackground = 2131493258;
-			
-			// aapt resource value: 0x7f0c018d
-			public const int LightBrushLoading = 2131493261;
-			
-			// aapt resource value: 0x7f0c018f
-			public const int LightBrushLoadingNonOpaque = 2131493263;
-			
-			// aapt resource value: 0x7f0c018e
-			public const int LightBrushLoadingNonTransparent = 2131493262;
+			// aapt resource value: 0x7f0c0194
+			public const int LightBrushDetailsGeneralBorder = 2131493268;
 			
 			// aapt resource value: 0x7f0c0198
-			public const int LightBrushNewsBackground = 2131493272;
+			public const int LightBrushDetailsMoreButton = 2131493272;
 			
-			// aapt resource value: 0x7f0c019d
-			public const int LightBrushNoSearchResults = 2131493277;
-			
-			// aapt resource value: 0x7f0c019a
-			public const int LightBrushPinTileDialogBackground = 2131493274;
-			
-			// aapt resource value: 0x7f0c0199
-			public const int LightBrushPinTileDialogOverlay = 2131493273;
-			
-			// aapt resource value: 0x7f0c0188
-			public const int LightBrushPivotHeaderBackground = 2131493256;
+			// aapt resource value: 0x7f0c0195
+			public const int LightBrushDetailsRelatedBackground = 2131493269;
 			
 			// aapt resource value: 0x7f0c0197
-			public const int LightBrushPivotInnerHeaderBarBackground = 2131493271;
+			public const int LightBrushDetailsUpperBackground = 2131493271;
 			
-			// aapt resource value: 0x7f0c0190
-			public const int LightBrushRowAlternate1 = 2131493264;
+			// aapt resource value: 0x7f0c019e
+			public const int LightBrushFavouriteStarBackground = 2131493278;
+			
+			// aapt resource value: 0x7f0c01c3
+			public const int LightBrushFlyoutBackground = 2131493315;
+			
+			// aapt resource value: 0x7f0c018b
+			public const int LightBrushHamburgerBackground = 2131493259;
+			
+			// aapt resource value: 0x7f0c018c
+			public const int LightBrushHamburgerInnerBackground = 2131493260;
+			
+			// aapt resource value: 0x7f0c018f
+			public const int LightBrushLoading = 2131493263;
 			
 			// aapt resource value: 0x7f0c0191
-			public const int LightBrushRowAlternate2 = 2131493265;
+			public const int LightBrushLoadingNonOpaque = 2131493265;
+			
+			// aapt resource value: 0x7f0c0190
+			public const int LightBrushLoadingNonTransparent = 2131493264;
+			
+			// aapt resource value: 0x7f0c019a
+			public const int LightBrushNewsBackground = 2131493274;
+			
+			// aapt resource value: 0x7f0c019f
+			public const int LightBrushNoSearchResults = 2131493279;
+			
+			// aapt resource value: 0x7f0c019c
+			public const int LightBrushPinTileDialogBackground = 2131493276;
 			
 			// aapt resource value: 0x7f0c019b
-			public const int LightBrushSettingsSubtitle = 2131493275;
+			public const int LightBrushPinTileDialogOverlay = 2131493275;
+			
+			// aapt resource value: 0x7f0c018a
+			public const int LightBrushPivotHeaderBackground = 2131493258;
+			
+			// aapt resource value: 0x7f0c0199
+			public const int LightBrushPivotInnerHeaderBarBackground = 2131493273;
+			
+			// aapt resource value: 0x7f0c0192
+			public const int LightBrushRowAlternate1 = 2131493266;
+			
+			// aapt resource value: 0x7f0c0193
+			public const int LightBrushRowAlternate2 = 2131493267;
+			
+			// aapt resource value: 0x7f0c01c4
+			public const int LightBrushSelectedDialogItem = 2131493316;
+			
+			// aapt resource value: 0x7f0c019d
+			public const int LightBrushSettingsSubtitle = 2131493277;
 			
 			// aapt resource value: 0x7f0c0184
 			public const int LightBrushText = 2131493252;
@@ -1610,35 +1577,35 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0c0185
 			public const int LightBrushTextInverted = 2131493253;
 			
-			// aapt resource value: 0x7f0c01d5
-			public const int OpaqueAccentColour = 2131493333;
+			// aapt resource value: 0x7f0c01be
+			public const int OpaqueAccentColour = 2131493310;
 			
-			// aapt resource value: 0x7f0c01d7
-			public const int Transparent = 2131493335;
+			// aapt resource value: 0x7f0c01c5
+			public const int Transparent = 2131493317;
 			
-			// aapt resource value: 0x7f0c01da
-			public const int abc_background_cache_hint_selector_material_dark = 2131493338;
+			// aapt resource value: 0x7f0c01c7
+			public const int abc_background_cache_hint_selector_material_dark = 2131493319;
 			
-			// aapt resource value: 0x7f0c01db
-			public const int abc_background_cache_hint_selector_material_light = 2131493339;
+			// aapt resource value: 0x7f0c01c8
+			public const int abc_background_cache_hint_selector_material_light = 2131493320;
 			
 			// aapt resource value: 0x7f0c0000
 			public const int abc_input_method_navigation_guard = 2131492864;
 			
-			// aapt resource value: 0x7f0c01dc
-			public const int abc_primary_text_disable_only_material_dark = 2131493340;
+			// aapt resource value: 0x7f0c01c9
+			public const int abc_primary_text_disable_only_material_dark = 2131493321;
 			
-			// aapt resource value: 0x7f0c01dd
-			public const int abc_primary_text_disable_only_material_light = 2131493341;
+			// aapt resource value: 0x7f0c01ca
+			public const int abc_primary_text_disable_only_material_light = 2131493322;
 			
-			// aapt resource value: 0x7f0c01de
-			public const int abc_primary_text_material_dark = 2131493342;
+			// aapt resource value: 0x7f0c01cb
+			public const int abc_primary_text_material_dark = 2131493323;
 			
-			// aapt resource value: 0x7f0c01df
-			public const int abc_primary_text_material_light = 2131493343;
+			// aapt resource value: 0x7f0c01cc
+			public const int abc_primary_text_material_light = 2131493324;
 			
-			// aapt resource value: 0x7f0c01e0
-			public const int abc_search_url_text = 2131493344;
+			// aapt resource value: 0x7f0c01cd
+			public const int abc_search_url_text = 2131493325;
 			
 			// aapt resource value: 0x7f0c0001
 			public const int abc_search_url_text_normal = 2131492865;
@@ -1649,11 +1616,11 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0c0003
 			public const int abc_search_url_text_selected = 2131492867;
 			
-			// aapt resource value: 0x7f0c01e1
-			public const int abc_secondary_text_material_dark = 2131493345;
+			// aapt resource value: 0x7f0c01ce
+			public const int abc_secondary_text_material_dark = 2131493326;
 			
-			// aapt resource value: 0x7f0c01e2
-			public const int abc_secondary_text_material_light = 2131493346;
+			// aapt resource value: 0x7f0c01cf
+			public const int abc_secondary_text_material_light = 2131493327;
 			
 			// aapt resource value: 0x7f0c0044
 			public const int accent = 2131492932;
@@ -2801,11 +2768,11 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0c0037
 			public const int switch_thumb_disabled_material_light = 2131492919;
 			
-			// aapt resource value: 0x7f0c01e3
-			public const int switch_thumb_material_dark = 2131493347;
+			// aapt resource value: 0x7f0c01d0
+			public const int switch_thumb_material_dark = 2131493328;
 			
-			// aapt resource value: 0x7f0c01e4
-			public const int switch_thumb_material_light = 2131493348;
+			// aapt resource value: 0x7f0c01d1
+			public const int switch_thumb_material_light = 2131493329;
 			
 			// aapt resource value: 0x7f0c0038
 			public const int switch_thumb_normal_material_dark = 2131492920;
@@ -7515,85 +7482,117 @@ namespace MALClient.Android
 					2130772356,
 					2130772357,
 					2130772358,
-					2130772359};
+					2130772359,
+					2130772360,
+					2130772361,
+					2130772362,
+					2130772363,
+					2130772364,
+					2130772365,
+					2130772366,
+					2130772367};
 			
-			// aapt resource value: 6
-			public const int AppTheme_BrushAnimeItemBackground = 6;
+			// aapt resource value: 31
+			public const int AppTheme_AccentColour = 31;
+			
+			// aapt resource value: 32
+			public const int AppTheme_AccentColourDark = 32;
 			
 			// aapt resource value: 8
-			public const int AppTheme_BrushAnimeItemInnerBackground = 8;
+			public const int AppTheme_BrushAnimeItemBackground = 8;
+			
+			// aapt resource value: 10
+			public const int AppTheme_BrushAnimeItemInnerBackground = 10;
+			
+			// aapt resource value: 5
+			public const int AppTheme_BrushAppBarText = 5;
+			
+			// aapt resource value: 4
+			public const int AppTheme_BrushAppBarUpper = 4;
 			
 			// aapt resource value: 3
 			public const int AppTheme_BrushAppBars = 3;
 			
+			// aapt resource value: 28
+			public const int AppTheme_BrushButtonPressed = 28;
+			
 			// aapt resource value: 2
 			public const int AppTheme_BrushDeepBackground = 2;
 			
-			// aapt resource value: 16
-			public const int AppTheme_BrushDetailsBackground = 16;
-			
-			// aapt resource value: 14
-			public const int AppTheme_BrushDetailsGeneralBorder = 14;
-			
 			// aapt resource value: 18
-			public const int AppTheme_BrushDetailsMoreButton = 18;
+			public const int AppTheme_BrushDetailsBackground = 18;
 			
-			// aapt resource value: 15
-			public const int AppTheme_BrushDetailsRelatedBackground = 15;
-			
-			// aapt resource value: 17
-			public const int AppTheme_BrushDetailsUpperBackground = 17;
-			
-			// aapt resource value: 24
-			public const int AppTheme_BrushFavouriteStarBackground = 24;
-			
-			// aapt resource value: 5
-			public const int AppTheme_BrushHamburgerBackground = 5;
-			
-			// aapt resource value: 7
-			public const int AppTheme_BrushHamburgerInnerBackground = 7;
-			
-			// aapt resource value: 9
-			public const int AppTheme_BrushLoading = 9;
-			
-			// aapt resource value: 11
-			public const int AppTheme_BrushLoadingNonOpaque = 11;
-			
-			// aapt resource value: 10
-			public const int AppTheme_BrushLoadingNonTransparent = 10;
+			// aapt resource value: 16
+			public const int AppTheme_BrushDetailsGeneralBorder = 16;
 			
 			// aapt resource value: 20
-			public const int AppTheme_BrushNewsBackground = 20;
+			public const int AppTheme_BrushDetailsMoreButton = 20;
 			
-			// aapt resource value: 25
-			public const int AppTheme_BrushNoSearchResults = 25;
-			
-			// aapt resource value: 22
-			public const int AppTheme_BrushPinTileDialogBackground = 22;
-			
-			// aapt resource value: 21
-			public const int AppTheme_BrushPinTileDialogOverlay = 21;
-			
-			// aapt resource value: 4
-			public const int AppTheme_BrushPivotHeaderBackground = 4;
+			// aapt resource value: 17
+			public const int AppTheme_BrushDetailsRelatedBackground = 17;
 			
 			// aapt resource value: 19
-			public const int AppTheme_BrushPivotInnerHeaderBarBackground = 19;
+			public const int AppTheme_BrushDetailsUpperBackground = 19;
 			
-			// aapt resource value: 12
-			public const int AppTheme_BrushRowAlternate1 = 12;
+			// aapt resource value: 26
+			public const int AppTheme_BrushFavouriteStarBackground = 26;
+			
+			// aapt resource value: 29
+			public const int AppTheme_BrushFlyoutBackground = 29;
+			
+			// aapt resource value: 7
+			public const int AppTheme_BrushHamburgerBackground = 7;
+			
+			// aapt resource value: 9
+			public const int AppTheme_BrushHamburgerInnerBackground = 9;
+			
+			// aapt resource value: 11
+			public const int AppTheme_BrushLoading = 11;
 			
 			// aapt resource value: 13
-			public const int AppTheme_BrushRowAlternate2 = 13;
+			public const int AppTheme_BrushLoadingNonOpaque = 13;
+			
+			// aapt resource value: 12
+			public const int AppTheme_BrushLoadingNonTransparent = 12;
+			
+			// aapt resource value: 22
+			public const int AppTheme_BrushNewsBackground = 22;
+			
+			// aapt resource value: 27
+			public const int AppTheme_BrushNoSearchResults = 27;
+			
+			// aapt resource value: 24
+			public const int AppTheme_BrushPinTileDialogBackground = 24;
 			
 			// aapt resource value: 23
-			public const int AppTheme_BrushSettingsSubtitle = 23;
+			public const int AppTheme_BrushPinTileDialogOverlay = 23;
+			
+			// aapt resource value: 6
+			public const int AppTheme_BrushPivotHeaderBackground = 6;
+			
+			// aapt resource value: 21
+			public const int AppTheme_BrushPivotInnerHeaderBarBackground = 21;
+			
+			// aapt resource value: 14
+			public const int AppTheme_BrushRowAlternate1 = 14;
+			
+			// aapt resource value: 15
+			public const int AppTheme_BrushRowAlternate2 = 15;
+			
+			// aapt resource value: 30
+			public const int AppTheme_BrushSelectedDialogItem = 30;
+			
+			// aapt resource value: 25
+			public const int AppTheme_BrushSettingsSubtitle = 25;
 			
 			// aapt resource value: 0
 			public const int AppTheme_BrushText = 0;
 			
 			// aapt resource value: 1
 			public const int AppTheme_BrushTextInverted = 1;
+			
+			// aapt resource value: 33
+			public const int AppTheme_OpaqueAccentColour = 33;
 			
 			public static int[] BezelImageView = new int[] {
 					2130772252,

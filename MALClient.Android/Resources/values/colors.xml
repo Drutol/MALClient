@@ -6,6 +6,8 @@
   <color name="LightBrushTextInverted">#ffffff</color>
   <color name="LightBrushDeepBackground">#E6E6E6</color>
   <color name="LightBrushAppBars">#d3d3d3</color>
+  <color name="LightBrushAppBarText">#ffffff</color>
+  <color name="LightBrushAppBarUpper">#ff8c00</color>
   <color name="LightBrushPivotHeaderBackground">#E1E1E1</color>
   <color name="LightBrushHamburgerBackground">#E6E6E6</color>
   <color name="LightBrushHamburgerInnerBackground">#ffffff</color>
@@ -29,7 +31,7 @@
   <color name="LightBrushFavouriteStarBackground">#ffffff</color>
   <color name="LightBrushNoSearchResults">#b9b9b9</color>
 
-  <color name="BrushText">#ffffff </color>
+  <!--<color name="BrushText">#ffffff </color>
   <color name="BrushTextInverted">#000000 </color>
   <color name="BrushDeepBackground">#0d0d0d </color>
   <color name="BrushAppBars">#151515</color>
@@ -54,12 +56,14 @@
   <color name="BrushPinTileDialogBackground">#303030</color>
   <color name="BrushSettingsSubtitle">#d3d3d3 </color>
   <color name="BrushFavouriteStarBackground">#bd000000</color>
-  <color name="BrushNoSearchResults">#B9B9B9</color>
+  <color name="BrushNoSearchResults">#B9B9B9</color>-->
   
   <color name="DarkBrushText">#ffffff </color>
   <color name="DarkBrushTextInverted">#000000 </color>
   <color name="DarkBrushDeepBackground">#0d0d0d </color>
   <color name="DarkBrushAppBars">#151515</color>
+  <color name="DarkBrushAppBarUpper">#151515</color>
+  <color name="DarkBrushAppBarText">#ffffff</color>
   <color name="DarkBrushPivotHeaderBackground">#202020</color>
   <color name="DarkBrushHamburgerBackground">#1a1a1a</color>
   <color name="DarkBrushAnimeItemBackground">#2a2c2a</color>
@@ -86,12 +90,19 @@
 
   <color name="AccentColour">#ff8c00</color>
   <color name="AccentColourDark">#cc7000</color>
-  <color name="BrushButtonPressed">#50e0e0e0</color>
   <color name="OpaqueAccentColour">#7fff8c00</color>
-  <color name="BrushFlyoutBackground">#2b2b2b</color>
+  
+  <color name="DarkBrushButtonPressed">#50e0e0e0</color>
+  <color name="DarkBrushFlyoutBackground">#2b2b2b</color>
+  <color name="DarkBrushSelectedDialogItem">#1d1d1d</color>
+  
+  <color name="LightBrushButtonPressed">#50e0e0e0</color>
+  <color name="LightBrushFlyoutBackground">#f2f2f2</color>
+  <color name="LightBrushSelectedDialogItem">#fff</color>
+  
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>
-  <color name="BrushSelectedDialogItem">#1d1d1d</color>
+
 
 
 </resources>

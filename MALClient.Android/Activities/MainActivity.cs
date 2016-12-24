@@ -20,6 +20,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.Fragments;
 using MALClient.Android.ViewModels;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
@@ -46,6 +47,7 @@ namespace MALClient.Android.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
+            Settings.SelectedTheme = 0;
             SetTheme(Resource.Style.Theme_MALClient_Light);
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(bundle);

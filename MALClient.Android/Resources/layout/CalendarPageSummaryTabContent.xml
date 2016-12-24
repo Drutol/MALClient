@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@color/BrushDeepBackground">
+              android:background="?BrushDeepBackground">
   <TextView android:id="@+id/CalendarPageSummaryTabContentHeader"
             android:layout_width="match_parent"
             android:layout_marginStart="25dp"
@@ -14,7 +14,7 @@
             android:background="@drawable/border_accent_underline"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:textColor="@color/BrushText"
+            android:textColor="?BrushText"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"/>
   <GridView

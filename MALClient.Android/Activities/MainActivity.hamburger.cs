@@ -58,9 +58,9 @@ namespace MALClient.Android.Activities
         {
             var btn = new PrimaryDrawerItem();
             btn.WithIconTintingEnabled(true);
-            btn.WithTextColorRes(Resource.Color.BrushText);
-            btn.WithIconColorRes(Resource.Color.BrushNoSearchResults);
-            btn.WithSelectedColorRes(Resource.Color.BrushAnimeItemBackground);
+            btn.WithTextColorRes(ResourceExtension.BrushTextRes);
+            btn.WithIconColorRes(ResourceExtension.BrushNoSearchResultsRes);
+            btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
             btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
             btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
             return btn;
@@ -70,9 +70,9 @@ namespace MALClient.Android.Activities
         {
             var btn = new SecondaryDrawerItem();
             btn.WithIconTintingEnabled(true);
-            btn.WithTextColorRes(Resource.Color.BrushText);
-            btn.WithIconColorRes(Resource.Color.BrushNoSearchResults);
-            btn.WithSelectedColorRes(Resource.Color.BrushAnimeItemBackground);
+            btn.WithTextColorRes(ResourceExtension.BrushTextRes);
+            btn.WithIconColorRes(ResourceExtension.BrushNoSearchResultsRes);
+            btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
             btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
             btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
             return btn;
@@ -81,7 +81,7 @@ namespace MALClient.Android.Activities
         private async void BuildDrawer()
         {
             var builder = new DrawerBuilder().WithActivity(this);
-            builder.WithSliderBackgroundColorRes(Resource.Color.BrushHamburgerBackground);
+            builder.WithSliderBackgroundColorRes(ResourceExtension.BrushHamburgerBackgroundRes);
             builder.WithStickyFooterShadow(true);
 
 
@@ -139,8 +139,8 @@ namespace MALClient.Android.Activities
             {
                 var btn = new ProfileDrawerItem();
                 btn.WithName("Account");
-                btn.WithTextColorRes(Resource.Color.BrushText);
-                btn.WithSelectedColorRes(Resource.Color.BrushAnimeItemBackground);
+                btn.WithTextColorRes(ResourceExtension.BrushTextRes);
+                btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
                 btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
                 btn.WithIdentifier((int)PageIndex.PageProfile);
                 btn.WithIcon(Resource.Drawable.icon_account);
@@ -170,7 +170,7 @@ namespace MALClient.Android.Activities
             var mangaSubHeader = new SectionDrawerItem();
             mangaSubHeader.WithName("Manga");
             mangaSubHeader.WithDivider(true);
-            mangaSubHeader.WithTextColorRes(Resource.Color.BrushText);
+            mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
             builder.WithDrawerItems(new List<IDrawerItem>()
             {

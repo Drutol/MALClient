@@ -2,5 +2,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-  <TextView  android:fontFamily="@string/font_family_light"  android:background="@drawable/border_accent_rightleft"  android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:padding="3dp"  android:id="@+id/GenreItemTextView" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:textAlignment="center" android:textSize="@dimen/FontSizeNormal" android:textColor="@color/BrushText" android:text="Adventure" android:layout_centerInParent="true"/>
+  <TextView  android:fontFamily="@string/font_family_light"  android:background="@drawable/border_accent_rightleft"  android:layout_marginTop="2dp" android:layout_marginBottom="2dp" android:padding="3dp"  android:id="@+id/GenreItemTextView" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:textAlignment="center" android:textSize="@dimen/FontSizeNormal" android:textColor="?BrushText" android:text="Adventure" android:layout_centerInParent="true"/>
 </RelativeLayout>

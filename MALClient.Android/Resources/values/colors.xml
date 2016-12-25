@@ -8,7 +8,7 @@
   <color name="LightBrushAppBars">#d3d3d3</color>
   <color name="LightBrushAppBarText">#ffffff</color>
   <color name="LightBrushAppBarUpper">#ff8c00</color>
-  <color name="LightBrushPivotHeaderBackground">#E1E1E1</color>
+  <color name="LightBrushPivotHeaderBackground">#DADADA</color>
   <color name="LightBrushHamburgerBackground">#E6E6E6</color>
   <color name="LightBrushHamburgerInnerBackground">#ffffff</color>
   <color name="LightBrushAnimeItemBackground">#f5f5f5</color>
@@ -30,33 +30,6 @@
   <color name="LightBrushSettingsSubtitle">#555555</color>
   <color name="LightBrushFavouriteStarBackground">#ffffff</color>
   <color name="LightBrushNoSearchResults">#b9b9b9</color>
-
-  <!--<color name="BrushText">#ffffff </color>
-  <color name="BrushTextInverted">#000000 </color>
-  <color name="BrushDeepBackground">#0d0d0d </color>
-  <color name="BrushAppBars">#151515</color>
-  <color name="BrushPivotHeaderBackground">#202020</color>
-  <color name="BrushHamburgerBackground">#1a1a1a</color>
-  <color name="BrushAnimeItemBackground">#2a2c2a</color>
-  <color name="BrushHamburgerInnerBackground">#000000</color>
-  <color name="BrushAnimeItemInnerBackground">#212121</color>
-  <color name="BrushLoading">#bd2a2c2a</color>
-  <color name="BrushLoadingNonTransparent">#7f2a2c2a</color>
-  <color name="BrushLoadingNonOpaque">#0a0a0a</color>
-  <color name="BrushRowAlternate1">#AA2a2c2a</color>
-  <color name="BrushRowAlternate2">#111111</color>
-  <color name="BrushDetailsGeneralBorder">#151515</color>
-  <color name="BrushDetailsRelatedBackground">#1E1E1E</color>
-  <color name="BrushDetailsBackground">#0d0d0d</color>
-  <color name="BrushDetailsUpperBackground">#1a1a1a</color>
-  <color name="BrushDetailsMoreButton">#404040</color>
-  <color name="BrushPivotInnerHeaderBarBackground">#252525</color>
-  <color name="BrushNewsBackground">#bd2f2f2f</color>
-  <color name="BrushPinTileDialogOverlay">#bd2a2c2a</color>
-  <color name="BrushPinTileDialogBackground">#303030</color>
-  <color name="BrushSettingsSubtitle">#d3d3d3 </color>
-  <color name="BrushFavouriteStarBackground">#bd000000</color>
-  <color name="BrushNoSearchResults">#B9B9B9</color>-->
   
   <color name="DarkBrushText">#ffffff </color>
   <color name="DarkBrushTextInverted">#000000 </color>

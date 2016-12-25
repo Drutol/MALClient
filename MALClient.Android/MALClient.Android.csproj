@@ -159,6 +159,7 @@
     <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
+    <Compile Include="Flyouts\RecommendationsFlyoutBuilder.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs">
       <DependentUpon>AnimeDetailsPageFragment.cs</DependentUpon>

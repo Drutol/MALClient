@@ -11,9 +11,12 @@ using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
+using Com.Shehabic.Droppy;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Flyouts;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -23,6 +26,7 @@ namespace MALClient.Android.Fragments
     public class RecommendationsPageFragment : MalFragmentBase
     {
         private readonly RecommendationPageNavigationArgs _args;
+        private DroppyMenuPopup _menu;
         private RecommendationsViewModel ViewModel;
 
         public RecommendationsPageFragment(RecommendationPageNavigationArgs args)
@@ -58,6 +62,19 @@ namespace MALClient.Android.Fragments
             Bindings[RecommendationsPageLoading.Id].Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => RecommendationsPageLoading.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            RecommendationsPageTypeChangeButton.SetCommand("Click",new RelayCommand(OnTypeChangeButtonClick));
+        }
+
+        private void OnTypeChangeButtonClick()
+        {
+            _menu = RecommendationsFlyoutBuilder.BuildForRecommendationsPage(Activity, RecommendationsPageTypeChangeButton,
+                ViewModel, i =>
+               {
+                   ViewModel.AnimeMode = i == 0;
+                   _menu.Dismiss(true);
+               });
+            _menu.Show();
         }
 
         public override int LayoutResourceId => Resource.Layout.RecommendationsPage;
@@ -68,6 +85,7 @@ namespace MALClient.Android.Fragments
         private PagerSlidingTabStrip _recommendationsPageTabStrip;
         private ViewPager _recommendationsPagePivot;
         private RelativeLayout _recommendationsPageLoading;
+
 
         public ImageButton RecommendationsPageTypeChangeButton => _recommendationsPageTypeChangeButton ?? (_recommendationsPageTypeChangeButton = FindViewById<ImageButton>(Resource.Id.RecommendationsPageTypeChangeButton));
 

@@ -32,8 +32,6 @@
 
     <item name="android:colorEdgeEffect">#e6e6e6</item>
 
-    <item name="android:progressBarStyle">@style/AccentProgressRing</item>
-
     <item name="BrushText">@color/DarkBrushText</item>
     <item name="BrushTextInverted">@color/DarkBrushTextInverted </item>
     <item name="BrushDeepBackground">@color/DarkBrushDeepBackground </item>
@@ -74,7 +72,6 @@
 
     <item name="android:colorEdgeEffect">#2d2d2d</item>
 
-    <item name="android:progressBarStyle">@style/AccentProgressRing</item>
 
     <item name="BrushText">@color/LightBrushText</item>
     <item name="BrushTextInverted">@color/LightBrushTextInverted</item>
@@ -115,8 +112,4 @@
     <item name="android:background">?android:attr/listDivider</item>
   </style>
 
-  <style name="AccentProgressRing">
-    <item name="android:indeterminateTint">?AccentColour</item>
-    <item name="android:indeterminateTintMode">src_in</item>
-  </style>
 </resources>

@@ -155,7 +155,7 @@ namespace MALClient.Android.Fragments
         {
             AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel.AnimeItemReference,ViewModel.AnimeMode, status =>
             {
-                ViewModel.ChangeStatusCommand.Execute((int)status);
+                ViewModel.ChangeStatus(status);
             });
         }
 

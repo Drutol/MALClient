@@ -529,7 +529,7 @@ namespace MALClient.XShared.ViewModels.Details
             LoadingUpdate = false;
         }
 
-        private async void ChangeStatus(AnimeStatus status)
+        public async void ChangeStatus(AnimeStatus status)
         {
             LoadingUpdate = true;
             var prevStatus = MyStatus;

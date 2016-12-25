@@ -5629,9 +5629,6 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0a018f
 			public const int AccentColourButtonStyle = 2131362191;
 			
-			// aapt resource value: 0x7f0a0193
-			public const int AccentProgressRing = 2131362195;
-			
 			// aapt resource value: 0x7f0a007d
 			public const int AlertDialog_AppCompat = 2131361917;
 			
